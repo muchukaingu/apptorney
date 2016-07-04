@@ -1,0 +1,32 @@
+{
+  "name": "court",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "nameForPlaintiff": {
+      "type": "string",
+      "required": true
+    },
+    "nameForDefendant": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "cases":{
+      "type":"hasMany",
+      "model":"case",
+      "foreignKey":""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

@@ -1,0 +1,261 @@
+<div id="addCaseModal" class="modal fade" style="z-index:2000;" ng-controller = "CasesController">
+  <div class="modal-dialog" style="width:65%;padding-left: 2%;padding-right: 2%;">
+    <div class="modal-content" style="margin-top: 8%">
+      <div class="modal-header" style="margin-bottom:20px">
+          <button type="button" id="closeModal" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+
+        <h4 style="font-weight: 100;"><span id="CustomerHeading">&nbsp&nbspAdd Case</span></h4>
+        <p id="WelcomeMessage" style="margin-left:8px; margin-top:-10px">
+          Please ensure that you fill in all the mandatory sections in the form.
+        </p>
+      </div>
+
+      <div class="modal-body" style="margin-bottom: none; padding-top: 0px; border-bottom:none">
+
+        <!-- Start Form-->
+
+        <form id ="applicationForm" name="form" class="css-form" ng-submit="saveApplication()" novalidate>
+                  <div class="row">
+
+
+                    <div class="col-xs-12 col-md-5 form-group">
+                      <input id="name" name="name" type="text" class="form-control" ng-model="case.name" ng-minlength=2 ng-focus required placeholder="Name of Case"/>
+                      <div class="text-danger" ng-show="form.$submitted && form.name.$invalid || form.name.$dirty && form.name.$invalid && !form.name.$focused">
+
+                        <span ng-show="form.name.$error.required">Name of Case is required</span>
+                        <span ng-show="form.name.$error.minlength">Name of Case is required to be at least 2 characters long</span>
+
+                      </div>
+                    </div>
+
+                    <div class="col-xs-12 col-md-5 form-group">
+                      <input id="coram" name="coram" type="text" class="form-control" ng-model="case.coram"  ng-minlength=2 ng-focus required placeholder="Coram"/>
+                      <div class="text-danger" ng-show="form.$submitted && form.coram.$invalid ||form.coram.$dirty && form.coram.$invalid && !form.coram.$focused">
+
+                        <span ng-show="form.coram.$error.required">Coram is required</span>
+                        <span ng-show="form.coram.$error.minlength">Coram is required to be at least 2 characters long</span>
+
+                      </div>
+                    </div>
+
+
+
+
+                    <div class="col-xs-12 col-md-2 form-group">
+                      <input id="caseNumber" name="caseNumber" type="text" class="form-control" ng-model="case.caseNumber" ng-minlength=2 ng-focus placeholder="Case Number"/>
+                      <div class="text-danger" ng-show="form.$submitted && form.caseNumber.$invalid || form.caseNumber.$dirty && form.caseNumber.$invalid && !form.caseNumber.$focused">
+                        <span><i class="fa fa-exclamation-circle"></i></span>
+                        <span ng-show="form.caseNumber.$error.required">Case Number is required</span>
+                        <span ng-show="form.caseNumber.$error.minlength">Case Number is required to be at least 2 characters long</span>
+
+                      </div>
+                    </div>
+                  </div>
+                    <div class="row">
+
+
+                    <div class="col-xs-12 col-md-6 form-group">
+                        <textarea id="summaryOfFacts" name="summaryOfFacts" type="text" style="height: 90px" min-word-count="2"  class="form-control" ng-model="case.summaryOfFacts"  ng-minlength=2 required ng-focus placeholder="Summary of Facts"/>
+                        <div class="text-danger" ng-show="form.$submitted && form.summaryOfFacts.$invalid || form.summaryOfFacts.$dirty && form.summaryOfFacts.$invalid && !form.summaryOfFacts.$focused">
+
+                        <span ng-show="form.summaryOfFacts.$error.required">Summary of Facts is required</span>
+                        <span ng-show="form.summaryOfFacts.$error.minlength">Summary of Facts is required to be at least 2 characters long</span>
+
+                      </div>
+                    </div>
+
+                    <div class="col-xs-12 col-md-6 form-group">
+                        <textarea id="summaryOfRuling" name="summaryOfRuling" type="text" style="height: 90px" min-word-count="2" class="form-control" ng-model="case.summaryOfRuling" ng-minlength=2 required ng-focus placeholder="Summary of Ruling"/>
+                        <div class="text-danger" ng-show="form.$submitted && form.summaryOfRuling.$invalid || form.summaryOfRuling.$dirty && form.summaryOfRuling.$invalid && !form.summaryOfRuling.$focused">
+
+                        <span ng-show="form.summaryOfRuling.$error.required">Summary of Ruling is required</span>
+                        <span ng-show="form.summaryOfRuling.$error.minlength">Summary of Ruling is required to be at least 2 characters long</span>
+
+                      </div>
+                    </div>
+
+                    <div class="col-xs-12 form-group">
+                      <input id="workReferredTo" type="workReferredTo" class="form-control" ng-model="case.workReferredTo" name="workReferredTo" ng-focus placeholder="Work Referred To"/>
+                      <div class="text-danger" ng-show="form.$submitted && form.workReferredTo.$invalid || form.workReferredTo.$dirty && form.workReferredTo.$invalid && !form.workReferredTo.$focused">
+
+                        <span ng-show="form.workReferredTo.$error.required">Work Referred To is required</span>
+                        <span ng-show="form.workReferredTo.$error.minlength">Work Referred To is required to be at least 2 characters long</span>
+
+                      </div>
+                    </div>
+
+                    <div class="col-xs-12 form-group">
+                        <textarea ng-model="case.judgement" id="judgement" name="judgement" type="text" style="height: 90px" min-word-count="2" max-word-count="100" class="form-control" ng-minlength=2 required ng-focus placeholder="Judgement"/>
+                        <div class="text-danger" ng-show="form.$submitted && form.judgement.$invalid || form.judgement.$dirty && form.judgement.$invalid && !form.judgement.$focused">
+
+                        <span ng-show="form.judgement.$error.required">Judgement is required</span>
+                        <span ng-show="form.judgement.$error.minlength">Judgement is required to be at least 2 characters long</span>
+
+                      </div>
+                    </div>
+
+                    <div class="col-xs-4 form-group">
+                      <span id="sectionHeading" style="margin-bottom:20px">Area of Law</span>
+                      <select id="areaOfLaw" ui-select2="{minimumInputLength: 2, width: 'resolve'}" ng-model="case.areaOfLaw"  onchange="showCustomerDetails()" style="font-weight: 700; width:100%; position: relative; vertical-align: middle; background-color: white" class="ng-pristine ng-valid select2-offscreen" tabindex="-1" title="Area of Law" placeholder = "Area of Law" >
+                          <option>
+                            xxx
+                          </option>
+                          <option>
+                            yyy
+                          </option>
+                          <option>
+                            zzz
+                          </option>
+                      </select>
+                    </div>
+
+                    <div class="col-xs-4 form-group">
+                      <span id="sectionHeading" style="margin-bottom:20px">Court</span>
+                      <select id="court" ui-select2="{minimumInputLength: 2, width: 'resolve'}" ng-model="case.court"  onchange="showCustomerDetails()" style="font-weight: 700; width:100%; position: relative; vertical-align: middle; background-color: white" class="ng-pristine ng-valid select2-offscreen" tabindex="-1" title="" >
+
+                      </select>
+                    </div>
+
+                    <div class="col-xs-4 form-group">
+                      <span id="sectionHeading" style="margin-bottom:20px">Legislation</span>
+                      <select id="legislation" ui-select2="{minimumInputLength: 2, width: 'resolve'}" ng-model="case.legislation"  onchange="showCustomerDetails()" style="font-weight: 700; width:100%; position: relative; vertical-align: middle; background-color: white" class="ng-pristine ng-valid select2-offscreen" tabindex="-1" title="" >
+
+                      </select>
+                    </div>
+                  </div>
+
+
+
+
+
+
+                        <div class="row">
+                          <div style="background-color:#f3f3f3; margin-left:-10px; margin-right:-10px; margin-bottom:20px; padding-left: 20px; padding-top:10px; padding-bottom:10px">Citation Details</div>
+
+
+                    <div class="col-xs-3 form-group">
+                      <input id="citation-number" type="text" class="form-control " ng-model="citation.number" name="citation-number" ng-minlength = 10 ng-focus placeholder="Citation Number" />
+                      <div class="alert alert-danger" ng-show="form.$submitted && form.contactNumber.$invalid || form.contactNumber.$dirty && form.contactNumber.$invalid && !form.contactNumberNumber.$focused">
+
+                        <span ng-show="form.citation-number.$error.required">Citation Number is required</span>
+                        <span ng-show="form.citation-number.$error.minlength">Citation Number is required to be at least 2 characters long.</span>
+
+                      </div>
+                    </div>
+
+                     <div class="col-xs-3 form-group">
+                      <input id="citation-year" type="text" class="form-control " ng-model="citation.year" name="citation-year" ng-minlength = 2 optional ng-focus placeholder="Citation Year" />
+                      <div class="text-danger" ng-show="form.$submitted && form.citation-year.$invalid || form.citation-year.$dirty && form.citation-year.$invalid && !form.citation-year.$focused">
+
+                        <span ng-show="form.citation-year.$error.required">Citation Year is required.</span>
+                        <span ng-show="form.citation-year.$error.minlength">Citation Year is required to be at least 2 characters long.</span>
+                      </div>
+                    </div>
+
+
+                   <div class="col-xs-3 form-group">
+                    <input id="citation-code" name="citation-code" type="text" class="form-control " ng-model="citation.code"  ng-minlength = 2 optional ng-focus placeholder="Citation Code" />
+                    <div class="alert alert-danger" ng-show="form.$submitted && form.citation-code.$invalid || form.citation-code.$dirty && form.citation-code.$invalid && !form.citation-code.$focused">
+
+
+                      <span ng-show="form.citation-code.$error.required">Citation Code is required.</span>
+                      <span ng-show="form.citation-code.$error.minlength">Citation Year is required to be at least 2 characters long.</span>
+
+                    </div>
+                  </div>
+
+                  <div class="col-xs-3 form-group">
+                   <input id="citation-page-number" name="citation-page-number" type="text" class="form-control " ng-model="citation.pageNumber"  ng-minlength = 10 optional ng-focus placeholder="Citation Page Number" />
+                   <div class="text-danger" ng-show="form.$submitted && form.citation-page-number.$invalid || form.citation-page-number.$dirty && form.citation-page-number.$invalid && !form.citation-page-number.$focused">
+
+
+                     <span ng-show="form.citation-page-number.$error.required">Citation Page Number is required.</span>
+                     <span ng-show="form.citation-page-number.$error.minlength">Citation Page Number is required to be at least 2 characters long.</span>
+                   </div>
+                 </div>
+
+
+
+                 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                          <div class="row">
+                            <div style="background-color:#f3f3f3; margin-left:-10px; margin-right:-10px; margin-bottom:20px; margin-top:10px; padding-left: 20px; padding-top:10px; padding-bottom:10px; ">Appearances</div>
+                            <div class="col-xs-12 form-group">
+
+                              <select class="form-control">
+                                  <option>Select Name Pairs for Plaintiff &amp; Defendants</option>
+                                  <option>Plaintiff</option>
+                                  <option>Petitioner</option>
+                                  <option>Complainant</option>
+                                  <option>Applicant</option>
+
+                              </select>
+
+                            </div>
+
+
+                          </div>
+
+                          <div class="row">
+                            <div class="col-xs-6" style="border:1px dashed #d3d3d3; border-radius:5px; height:200px; text-align: center; color:#d3d3d3; padding-top:75px; width:48%; margin-left:12px">
+                                <a><i style="font-size:2em; position:absolute; top:20px; right:20px" class="fa fa-plus"></i></a>
+                                <span style="font-size:1.5em; font-weight:100">Plaintiffs</span>
+                            </div>
+
+                            <div class="col-xs-6" style="border:1px dashed #d3d3d3; border-radius:5px; height:200px; text-align: center; color:#d3d3d3; padding-top:75px; width:48%; margin-left:20px">
+                                <a><i style="font-size:2em; position:absolute; top:20px; right:20px" class="fa fa-plus"></i></a>
+                                <span style="font-size:1.5em; font-weight:100">Defendants</span>
+                            </div>
+                          </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          <!-- <input type="button" class="btn btn-default" ng-click="reset(form)" value="Reset" /> -->
+
+
+
+
+        </form>  <!--End Form-->
+
+
+     <!--  </div>  -->
+
+  </div>
+  <div class="modal-footer" style="">
+    <div class="row">
+      <div class = "form-group col-xs-3 col-xs-offset-9">
+
+        <button id="submit" type="submit" class="btn btn-primary-alt btn-block btn-md" style="">Save Case</button>
+
+      </div>
+    </div>
+
+   </div>
+</div>
+</div>

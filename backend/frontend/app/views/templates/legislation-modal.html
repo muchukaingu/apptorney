@@ -1,0 +1,203 @@
+<div id="addLegislationModal" class="modal fade" style="z-index:3000; background-color:rgba(0, 0, 0, 0.5);">
+  <div class="modal-dialog" style="width:60%;padding-left: 2%;padding-right: 2%; ">
+    <div class="modal-content" style="margin-top: 8%">
+      <div class="modal-header" style="margin-bottom:20px">
+          <button type="button" id="closeModal" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+
+        <h4 style="font-weight: 100;"><span id="CustomerHeading">&nbsp&nbspAdd Legislation</span></h4>
+        <p id="WelcomeMessage" style="margin-left:8px; margin-top:-10px">
+          Please ensure that you fill in all the mandatory sections (marked with an asterix, *) in the form.
+        </p>
+      </div>
+
+      <div class="modal-body" style="margin-bottom: none; padding-top: 0px; border-bottom:none">
+
+        <!-- Start Form-->
+
+              <form id ="applicationForm" name="form" class="css-form" ng-submit="saveApplication()" novalidate>
+                  <div class="row">
+
+
+
+                    <div class="col-xs-12 col-md-6 form-group">
+                      <div class="btn-group" data-dropdown style="width:100%">
+              		      <button type="button" class="btn btn-default-alt dropdown-toggle alt-border" id="typeSelector" style="width:100%; text-align:left">
+              		        <span ng-if="!selected">Select Legislation Type - Act, SI, Schedule or Add *</span><span ng-if="selected">Legislation Type:&nbsp;{{selectedType}}</span>  &nbsp;
+              		        <i class="fa fa-caret-down pull-right"></i>
+              		      </button>
+              		      <ul class="dropdown-menu" role="menu" style="text-align: left; left:0; right:0">
+              		         <li ng-repeat="type in legislationTypes"><a class="dropdown-toggle" ng-click="typeSelected(type)">{{type.name}}</a></li>
+                           <li><a a class="dropdown-toggle" data-toggle="modal" data-target="#addLegislationTypeModal"><i class="fa fa-plus"></i>&nbsp;Add Legislation Type</a></li>
+              		      </ul>
+              		    </div>
+                    </div>
+
+                    <div class="col-xs-12 col-md-6 form-group">
+                      <input id="legislation-number" name="legislation-number" type="text" class="form-control" ng-model="legislation.legislationNumber" ng-minlength=2 ng-focus required placeholder="Legislation Number *"/>
+                      <div class="text-danger" ng-show="form.$submitted && form.legislation-number.$invalid || form.legislation-number.$dirty && form.legislation-number.$invalid && !form.legislation-number.$focused">
+
+                        <span ng-show="form.legislation-number.$error.required">Legislation Number is required</span>
+                        <span ng-show="form.legislation-number.$error.minlength">Legislation Number is required to be at least 2 characters long</span>
+
+                      </div>
+                    </div>
+
+
+
+
+                  </div>
+                  <div class="row">
+
+
+
+                    <div class="col-xs-12 col-md-12 form-group">
+                      <input id="legislation-name" name="legislation-name" type="text" class="form-control" ng-model="legislation.legislationName" ng-minlength=2 ng-focus required placeholder="Name *"/>
+                      <div class="text-danger" ng-show="form.$submitted && form.legislation-name.$invalid || form.legislation-name.$dirty && form.legislation-name.$invalid && !form.legislation-name.$focused">
+
+                        <span ng-show="form.legislation-name.$error.required">Name of Legislation is required</span>
+                        <span ng-show="form.legislation-name.$error.minlength">Name of Legislation is required to be at least 2 characters long</span>
+
+                      </div>
+                    </div>
+
+
+                    <div class="col-xs-12 col-md-12 form-group">
+                        <textarea id="preamble" name="preamble" type="text" style="height: 90px" min-word-count="2"  class="form-control" ng-model="legislation.preamble"  ng-minlength=2 required ng-focus placeholder="Preamble *"/>
+                        <div class="text-danger" ng-show="form.$submitted && form.preamble.$invalid || form.preamble.$dirty && form.preamble.$invalid && !form.preamble.$focused">
+
+                        <span ng-show="form.preamble.$error.required">Preamble is required</span>
+                        <span ng-show="form.preamble.$error.minlength">Preamble is required to be at least 2 characters long</span>
+
+                      </div>
+                    </div>
+
+
+
+                  </div>
+
+                  <div class="row">
+
+
+
+
+                    <div class="col-xs-12 col-md-6 form-group">
+                      <input id="dateOfAssent" name="dateOfAssent" type="text" class="form-control" ng-model="legislation.dateOfAssent" ng-minlength=2 ng-focus required placeholder="Date of Assent (dd-mm-yyyy) *"/>
+                      <div class="text-danger" ng-show="form.$submitted && form.dateOfAssent.$invalid || form.dateOfAssent.$dirty && form.dateOfAssent.$invalid && !form.dateOfAssent.$focused">
+
+                        <span ng-show="form.dateOfAssent.$error.required">Date of Assent is required</span>
+                        <span ng-show="form.dateOfAssent.$error.minlength">Date of Assent is required to be at least 2 characters long</span>
+
+                      </div>
+                    </div>
+
+
+
+                    <div class="col-xs-12 col-md-3 form-group">
+                      <input id="year" name="year" type="number" class="form-control" ng-model="legislation.year" ng-minlength=2 ng-focus required placeholder="Year *"/>
+                      <div class="text-danger" ng-show="form.$submitted && form.year.$invalid || form.year.$dirty && form.year.$invalid && !form.year.$focused">
+
+                        <span ng-show="form.year.$error.required">Year is required</span>
+                        <span ng-show="form.year.$error.minlength">Year is required to be at least 2 characters long</span>
+
+                      </div>
+                    </div>
+
+                    <div class="col-xs-12 col-md-3 form-group">
+                      <input id="amendment-year" name="amendment-year" type="number" class="form-control" ng-model="legislation.yearOfAmendment" ng-minlength=2 ng-focus required placeholder="Year of Ammendment"/>
+                      <div class="text-danger" ng-show="form.$submitted && form.amendment-year.$invalid || form.amendment-year.$dirty && form.amendment-year.$invalid && !form.amendment-year.$focused">
+
+                        <span ng-show="form.amendment-year.$error.required">Year of Ammendment is required</span>
+                        <span ng-show="form.amendment-year.$error.minlength">Year of Ammendment is required to be at least 2 characters long</span>
+
+                      </div>
+                    </div>
+
+
+
+
+                  </div>
+
+                  <div class="row">
+                    <div class="col-xs-12 col-md-4 form-group">
+                      <input id="enactment" name="enactment" type="text" class="form-control" ng-model="legislation.enactment" ng-minlength=2 ng-focus required placeholder="Enactment *"/>
+                      <div class="text-danger" ng-show="form.$submitted && form.enactment.$invalid || form.enactment.$dirty && form.enactment.$invalid && !form.enactment.$focused">
+
+                        <span ng-show="form.enactment.$error.required">Enactment is required</span>
+                        <span ng-show="form.enactment.$error.minlength">Enactment is required to be at least 2 characters long</span>
+
+                      </div>
+                    </div>
+
+                    <div class="col-xs-12 col-md-4 form-group">
+                      <input id="volumeNumber" name="volumeNumber" type="text" class="form-control" ng-model="legislation.volumeNumber" ng-minlength=2 ng-focus required placeholder="Volume Number"/>
+                      <div class="text-danger" ng-show="form.$submitted && form.volumeNumber.$invalid || form.volumeNumber.$dirty && form.volumeNumber.$invalid && !form.volumeNumber.$focused">
+
+                        <span ng-show="form.volumeNumber.$error.required">Volume Number is required</span>
+                        <span ng-show="form.volumeNumber.$error.minlength">Volume Number is required to be at least 2 characters long</span>
+
+                      </div>
+                    </div>
+
+
+                    <div class="col-xs-12 col-md-4 form-group">
+                      <input id="chapter-number" name="chapter-number" type="text" class="form-control" ng-model="legislation.chapterNumber" ng-minlength=2 ng-focus required placeholder="Chapter Number"/>
+                      <div class="text-danger" ng-show="form.$submitted && form.chapter-number.$invalid || form.chapter-number.$dirty && form.chapter-number.$invalid && !form.chapter-number.$focused">
+
+                        <span ng-show="form.chapter-number.$error.required">Chapter Number is required</span>
+                        <span ng-show="form.chapter-number.$error.minlength">Chapter Number is required to be at least 2 characters long</span>
+
+                      </div>
+                    </div>
+
+
+
+
+                  </div>
+
+
+
+
+                  <div class="row">
+
+                    <div class="col-xs-12" ng-style = "{'text-align':(legislationParts.length == 0)?'center':'left'}" style="border:1px dashed #d3d3d3; border-radius:5px; height:auto; color:#d3d3d3; padding-top:20px; padding-bottom:20px; width:97%; margin-left:12px">
+                        <a ng-click="addLegislationPart()"><i style="font-size:2em; position:absolute; top:20px; right:20px; z-index:10000" class="fa fa-plus"></i></a>
+                        <br/>
+                        <div class="col-xs-12" ng-repeat="part in legislationParts" style="margin-top:5px">
+                            <ng-include src="'templates/legislation-part-form.html'"></ng-include>
+
+                        </div>
+                        <span ng-show="legislationParts.length == 0" style="font-size:1.5em; font-weight:100">Add Legislation Parts</span>
+
+                    </div>
+
+
+
+                  </div>
+
+
+
+
+
+
+
+                  <div class = "form-group">
+
+
+
+                    <div id="submitAppMsg" class="pull-left" style="font-size: larger; position: relative; top: 5px"></div>
+                  </div>
+
+            </form>
+
+   </div>
+   <div class="modal-footer" style="">
+      <button id="submit" ng-click="saveLegislation()" type="submit" class="btn btn-primary-alt pull-right"  style="width:120px">Save Legislation</button>
+
+    </div>
+ </div>
+</div>
+<ng-include src="'templates/legislation-part-modal.html'"></ng-include>
+</div>
+
+
+<ng-include src="'templates/legislation-type-modal.html'"></ng-include>

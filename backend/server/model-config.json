@@ -1,0 +1,95 @@
+{
+  "_meta": {
+    "sources": [
+      "loopback/common/models",
+      "loopback/server/models",
+      "../common/models",
+      "./models"
+    ],
+    "mixins": [
+      "loopback/common/mixins",
+      "loopback/server/mixins",
+      "../common/mixins",
+      "./mixins"
+    ]
+  },
+  "User": {
+    "dataSource": "apptorney"
+  },
+  "AccessToken": {
+    "dataSource": "apptorney",
+    "public": false
+  },
+  "ACL": {
+    "dataSource": "apptorney",
+    "public": false
+  },
+  "RoleMapping": {
+    "dataSource": "apptorney",
+    "public": false
+  },
+  "Role": {
+    "dataSource": "apptorney",
+    "public": false
+  },
+  "advocate": {
+    "dataSource": "apptorney",
+    "public": true
+  },
+  "areaOfLaw": {
+    "dataSource": "apptorney",
+    "public": true
+  },
+  "case": {
+    "dataSource": "apptorney",
+    "public": true
+  },
+  "citationDescriptions": {
+    "dataSource": "apptorney",
+    "public": true
+  },
+  "citation": {
+    "dataSource": "apptorney",
+    "public": true
+  },
+  "courtDivision": {
+    "dataSource": "apptorney",
+    "public": true
+  },
+  "court": {
+    "dataSource": "apptorney",
+    "public": true
+  },
+  "enactment": {
+    "dataSource": "apptorney",
+    "public": true
+  },
+  "lawFirm": {
+    "dataSource": "apptorney",
+    "public": true
+  },
+  "legislationPart": {
+    "dataSource": "apptorney",
+    "public": true
+  },
+  "partType": {
+    "dataSource": "apptorney",
+    "public": true
+  },
+  "legislation": {
+    "dataSource": "apptorney",
+    "public": true
+  },
+  "legislationType": {
+    "dataSource": "apptorney",
+    "public": true
+  },
+  "work": {
+    "dataSource": "apptorney",
+    "public": true
+  },
+  "appearance": {
+    "dataSource": "apptorney",
+    "public": true
+  }
+}

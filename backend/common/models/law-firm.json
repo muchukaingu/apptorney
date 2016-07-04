@@ -1,0 +1,36 @@
+{
+  "name": "lawFirm",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "physicalAddress": {
+      "type": "string",
+      "required": true
+    },
+    "emailAddress": {
+      "type": "string",
+      "required": true
+    },
+    "phoneNumber": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "advocates": {
+      "type": "hasMany",
+      "model": "advocate",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

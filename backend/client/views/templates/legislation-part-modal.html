@@ -1,0 +1,92 @@
+<div id="addLegislationPart" class="modal fade" style="z-index:3000; background-color:rgba(0, 0, 0, 0.5);">
+  <div class="modal-dialog" style="width:50%;padding-left: 2%;padding-right: 2%; ">
+    <div class="modal-content" style="margin-top: 8%">
+      <div class="modal-header" style="border-bottom:none">
+          <button type="button" id="closeModal" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+
+        <h4 style="font-weight: 100;"><span id="CustomerHeading">&nbsp&nbspAdd Legislation Part</span></h4>
+        <p id="WelcomeMessage" style="margin-left:12px">
+          Please ensure that you fill in all the mandatory sections in the form.
+        </p>
+      </div>
+
+      <div class="modal-body" style="margin-bottom: none; padding-top: 0px; border-bottom:none">
+
+        <!-- Start Form-->
+        <form id ="applicationForm" name="form" class="css-form"  novalidate>
+            <div class="row">
+
+              <div class="col-xs-12 col-md-6 form-group">
+                <div class="btn-group" data-dropdown>
+                  <button type="button" class="btn btn-default-alt dropdown-toggle alt-border" id="typeSelector">
+                    <span ng-if="!partTypeSelected">Select Part Type</span><span ng-if="partTypeSelected">Part Type:&nbsp;{{selectedPartType}}</span>  &nbsp;
+                    <i class="fa fa-caret-down"></i>
+                  </button>
+                  <ul class="dropdown-menu" role="menu" style="text-align: left; left:0; right:0">
+                     <li ng-repeat="partType in legislationPartTypes"><a class="dropdown-toggle" ng-click="selectPartType(partType)">{{partType.name}}</a></li>
+                     <li><a a class="dropdown-toggle" data-toggle="modal" data-target="#addLegislationTypeModal"><i class="fa fa-plus"></i>&nbsp;Add Part Type</a></li>
+                  </ul>
+                </div>
+              </div>
+
+
+              <div class="col-xs-12 form-group">
+                <input id="court-name" name="court-name" type="text" class="form-control" ng-model="legislationPart.title" ng-minlength=2 ng-focus required placeholder="Title"/>
+                <div class="text-danger" ng-show="form.$submitted && form.court-name.$invalid || form.court-name.$dirty && form.court-name.$invalid && !form.court-name.$focused">
+
+                  <span ng-show="form.court-name.$error.required">Title is required</span>
+                  <span ng-show="form.court-name.$error.minlength">Title is required to be at least 2 characters long</span>
+
+                </div>
+              </div>
+
+              <div class="col-xs-12 col-md-12 form-group">
+                  <textarea id="preamble" name="preamble" type="text" style="height: 220px; width:100%"; min-word-count="2"  class="form-control" ng-model="legislationPart.content"  ng-minlength=2 required ng-focus placeholder="Content"/>
+                  <div class="text-danger" ng-show="form.$submitted && form.preamble.$invalid || form.preamble.$dirty && form.preamble.$invalid && !form.preamble.$focused">
+
+                  <span ng-show="form.preamble.$error.required">Content is required</span>
+                  <span ng-show="form.preamble.$error.minlength">Content is required to be at least 2 characters long</span>
+
+                </div>
+              </div>
+
+
+
+
+              <div class="col-xs-6 form-group">
+                <span id="sectionHeading" style="margin-bottom:20px">Parent Part</span>
+                <select id="court" ui-select2="{minimumInputLength: 2, width: 'resolve'}" ng-model="legislationPart.parentPart"  onchange="showCustomerDetails()" style="font-weight: 700; width:100%; position: relative; vertical-align: middle; background-color: white" class="ng-pristine ng-valid select2-offscreen" tabindex="-1" title="" >
+
+                </select>
+              </div>
+
+              <div class="col-xs-6 form-group">
+                <span id="sectionHeading" style="margin-bottom:20px">Legislation</span>
+                <select id="court" ui-select2="{minimumInputLength: 2, width: 'resolve'}" ng-model="legislationPart.legislation"  onchange="showCustomerDetails()" style="font-weight: 700; width:100%; position: relative; vertical-align: middle; background-color: white" class="ng-pristine ng-valid select2-offscreen" tabindex="-1" title="" >
+
+                </select>
+              </div>
+
+
+
+            </div>
+
+            <div class = "form-group">
+              <button id="submit" type="submit" class="btn btn-primary-alt pull-right" ng-click="addLegislationPart()" style="width:120px">Add Part</button>
+
+
+              <div id="submitAppMsg" class="pull-left" style="font-size: larger; position: relative; top: 5px"></div>
+            </div>
+
+        </form>
+
+
+
+      </div>
+   <div class="modal-footer" style="border-top:none">
+
+
+    </div>
+ </div>
+</div>
+</div>

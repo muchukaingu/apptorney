@@ -1,0 +1,73 @@
+{
+  "name": "legislation",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "generalTitle": {
+      "type": "string",
+      "required": true
+    },
+    "chapterNumber": {
+      "type": "string",
+      "required": false
+    },
+    "legislationName": {
+      "type": "string",
+      "required": true
+    },
+    "legislationNumber": {
+      "type": "string",
+      "required": false
+    },
+    "dateOfAssent": {
+      "type": "date",
+      "required": true
+    },
+    "preamble": {
+      "type": "string",
+      "required": false
+    },
+    "enactment": {
+      "type": "string",
+      "required": true
+    },
+    "parentLegislation": {
+      "type": "string",
+      "required": false
+    },
+    "yearOfAmendment": {
+      "type": "number",
+      "required": false
+    },
+    "volumeNumber": {
+      "type": "string",
+      "required": false
+    },
+    "legislationType": {
+      "type": "string",
+      "required": true
+    },
+    "year": {
+      "type": "number",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "cases":{
+      "type":"hasMany",
+      "model":"case",
+      "foreignKey":""
+    },
+    "legislationParts":{
+      "type":"hasMany",
+      "model":"legislationPart",
+      "foreignKey":"legislation"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

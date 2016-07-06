@@ -147,6 +147,9 @@ angular
       .when('/legislationparttypes', {
         templateUrl: 'views/legislation-part-types.html',
       })
+      .when('/legislationtypes', {
+        templateUrl: 'views/legislation-types.html',
+      })
       .when('/calendar', {
         templateUrl: 'views/calendar.html',
         resolve: {

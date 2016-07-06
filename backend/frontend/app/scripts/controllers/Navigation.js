@@ -40,7 +40,7 @@ angular
               },
               {
                 label:"Legislation Part Types",
-                iconClasses:"fa fa-bars",
+                iconClasses:"fa fa-th",
                 url: '#/legislationparttypes'
               }
             ]

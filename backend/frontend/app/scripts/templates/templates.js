@@ -539,7 +539,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "              \t\t      </button>\n" +
     "              \t\t      <ul class=\"dropdown-menu\" role=\"menu\" style=\"text-align: left; left:0; right:0\">\n" +
     "              \t\t         <li ng-repeat=\"type in legislationTypes\"><a class=\"dropdown-toggle\" ng-click=\"typeSelected(type)\">{{type.name}}</a></li>\n" +
-    "                           <li><a a class=\"dropdown-toggle\" data-toggle=\"modal\" data-target=\"#addLegislationTypeModal\"><i class=\"fa fa-plus\"></i>&nbsp;Add Legislation Type</a></li>\n" +
+    "\n" +
     "              \t\t      </ul>\n" +
     "              \t\t    </div>\n" +
     "                    </div>\n" +

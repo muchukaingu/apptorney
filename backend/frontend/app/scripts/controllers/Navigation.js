@@ -34,6 +34,11 @@ angular
             iconClasses:"fa fa-cog",
             children: [
               {
+                label:"Legislation Types",
+                iconClasses:"fa fa-bars",
+                url: '#/legislationtypes'
+              },
+              {
                 label:"Legislation Part Types",
                 iconClasses:"fa fa-bars",
                 url: '#/legislationparttypes'

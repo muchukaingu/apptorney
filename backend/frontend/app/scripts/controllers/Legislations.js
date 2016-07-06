@@ -42,17 +42,29 @@ angular.module('apptorney')
     $scope.loadLegislationPartTypes();
 
     $scope.saveLegislationType = function(){
-      LegislationType.upsert($scope.legislationType);
-      //$scope.legislationTypes.push($scope.legislationType);
-      $scope.loadLegislationTypes();
+      LegislationType.upsert($scope.legislationType,
+        function(legislationType){
+          $scope.legislationTypes.push(legislationType);
+        },
+        function(errorResponse){
+
+        }
+      );
+
       $("#addLegislationTypeModal").modal("hide");
-      console.log($scope.legislationTypes);
+      
     }
 
     $scope.saveLegislationPartType = function(){
-      PartType.upsert($scope.legislationPartType);
-      //$scope.legislationTypes.push($scope.legislationType);
-      $scope.loadLegislationPartTypes();
+      PartType.upsert($scope.legislationPartType,
+        function(legislationPartType){
+          $scope.legislationPartTypes.push(legislationPartType);
+        },
+        function(errorResponse){
+
+        }
+      );
+
       $("#addLegislationPartType").modal("hide");
 
     }

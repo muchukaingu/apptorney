@@ -879,13 +879,13 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
 
 
   $templateCache.put('templates/legislation-part-type-modal.html',
-    "<div id=\"addLegislationPartType\" class=\"modal fade\" style=\"z-index:3000; background-color:rgba(0, 0, 0, 0.5);\" ng-controller = \"LegislationPartTypeController\">\n" +
+    "<div id=\"addLegislationPartType\" class=\"modal fade\" style=\"z-index:3000; background-color:rgba(0, 0, 0, 0.5);\">\n" +
     "  <div class=\"modal-dialog\" style=\"width:50%;padding-left: 2%;padding-right: 2%; \">\n" +
     "    <div class=\"modal-content\" style=\"margin-top: 8%\">\n" +
     "      <div class=\"modal-header\" style=\"border-bottom:none\">\n" +
     "          <button type=\"button\" id=\"closeModal\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>\n" +
     "\n" +
-    "        <h4 style=\"font-weight: 100;\"><span id=\"CustomerHeading\">&nbsp&nbspAdd Legislation Part</span></h4>\n" +
+    "        <h4 style=\"font-weight: 100;\"><span id=\"CustomerHeading\">&nbsp&nbspAdd Legislation Part Type</span></h4>\n" +
     "        <p id=\"WelcomeMessage\" style=\"margin-left:12px\">\n" +
     "          Please ensure that you fill in all the mandatory sections in the form.\n" +
     "        </p>\n" +
@@ -902,11 +902,11 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "\n" +
     "                    <div class=\"col-xs-12 form-group\">\n" +
-    "                      <input id=\"court-name\" name=\"court-name\" type=\"text\" class=\"form-control\" ng-model=\"name\" ng-minlength=2 ng-focus required placeholder=\"Title\"/>\n" +
+    "                      <input id=\"court-name\" name=\"court-name\" type=\"text\" class=\"form-control\" ng-model=\"legislationPartType.name\" ng-minlength=2 ng-focus required placeholder=\"Name\"/>\n" +
     "                      <div class=\"text-danger\" ng-show=\"form.$submitted && form.court-name.$invalid || form.court-name.$dirty && form.court-name.$invalid && !form.court-name.$focused\">\n" +
     "\n" +
-    "                        <span ng-show=\"form.court-name.$error.required\">Title is required</span>\n" +
-    "                        <span ng-show=\"form.court-name.$error.minlength\">Title is required to be at least 2 characters long</span>\n" +
+    "                        <span ng-show=\"form.court-name.$error.required\">Name is required</span>\n" +
+    "                        <span ng-show=\"form.court-name.$error.minlength\">Name is required to be at least 2 characters long</span>\n" +
     "\n" +
     "                      </div>\n" +
     "                    </div>\n" +
@@ -935,7 +935,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
 
 
   $templateCache.put('templates/legislation-type-modal.html',
-    "<div id=\"addLegislationTypeModal\" class=\"modal fade\" style=\"z-index:3000; background-color:rgba(0, 0, 0, 0.5);\" ng-controller=\"LegislationController\">\n" +
+    "<div id=\"addLegislationTypeModal\" class=\"modal fade\" style=\"z-index:3000; background-color:rgba(0, 0, 0, 0.5);\">\n" +
     "  <div class=\"modal-dialog\" style=\"width:50%;padding-left: 2%;padding-right: 2%; \">\n" +
     "    <div class=\"modal-content\" style=\"margin-top: 8%\">\n" +
     "      <div class=\"modal-header\" style=\"border-bottom:none\">\n" +

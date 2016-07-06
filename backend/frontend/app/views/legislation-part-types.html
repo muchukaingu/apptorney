@@ -19,7 +19,7 @@
 
 
 
-<div class="container-fluid" ng-controller="LegislationPartTypeController">
+<div class="container-fluid" ng-controller="LegislationController">
     <div class="row" style="position: relative; top: -80px">
 	    <div class="col-xs-3 pull-right text-right" >
 		    <div class="btn-group" data-dropdown>
@@ -98,15 +98,15 @@
                           <!-- <a class="editItem" onclick="assignMentorModal(this)" ><i class="fa fa-edit"></i></a> -->
 
                           <a class="viewItem" onclick="viewApp(this)" itemid="{{application.applicationID}}"><i class="fa fa-eye"></i></a>&nbsp;
-													<a data-user="Admin" class="editItem" data-toggle="modal" data-target="#addLegislationModal" ng-click = "openLegislation(legislation)" ><i class="fa fa-edit"></i></a>
-                          <a class="viewItem" ><i class="fa fa-times"></i></a></a>
+													<a data-user="Admin" class="editItem" data-toggle="modal" data-target="#addLegislationPartType" ng-click = "openLegislationPartType(partType)" ><i class="fa fa-edit"></i></a>
+                          <a class="viewItem" ng-click="deleteLegislationPartType(partType.id)"><i class="fa fa-times"></i></a></a>
 
                           <!-- <a class="deleteItem" data-user="Admin" onclick="deleteEstimate(this,'itemID','Estimates.php','deleteEstimates','cleanRow', 'Estimates')"><i class="fa fa-trash-o"></i></a> -->
                       </div>
                     </td>
                   </tr>
                 </table>
-                <div ng-if="!showLegislationPartTypes" style="position: relative; left: 50%; margin-left: -100px; height: 50px; margin-top: 40px"><i ng-if="!returned" class='fa fa-fw fa-sun-o fa-spin'></i> {{message}}</div>
+                <div ng-if="!showLegislationPartTypes" style="position: relative; left: 50%; margin-left: -100px; height: 50px; margin-top: 40px"><i ng-if="!legislationPartTypesReturned" class='fa fa-fw fa-sun-o fa-spin'></i> {{message}}</div>
 							</div>
 					</div>
         </div>

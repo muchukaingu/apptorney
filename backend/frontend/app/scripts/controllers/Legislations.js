@@ -10,12 +10,13 @@ angular.module('apptorney')
     $scope.message = "Loading...";
     $scope.legislationTypesReturned = false;
     $scope.showLegislationTypes = false;
+    $scope.legislationType = {};
+    $scope.legislationPartType = {};
+    $scope.legislationPartTypesReturned = false;
+    $scope.showLegislationPartTypes = false;
 
-    $scope.saveLegislationType = function(){
-      LegislationType.create({name:$scope.legislationType.name});
-      $scope.loadLegislationTypes();
-      $("#addLegislationTypeModal").modal("hide");
-    }
+
+
 
     $scope.loadLegislationTypes = function(){
       $scope.legislationTypes =  LegislationType.find(
@@ -27,7 +28,34 @@ angular.module('apptorney')
       );
     }
 
+    $scope.loadLegislationPartTypes = function(){
+      $scope.legislationPartTypes =  PartType.find(
+        function(list) {
+          $scope.legislationPartTypesReturned = true;
+          $scope.showLegislationPartTypes = true;
+        },
+        function(errorResponse) { }
+      );
+    }
+
     $scope.loadLegislationTypes();
+    $scope.loadLegislationPartTypes();
+
+    $scope.saveLegislationType = function(){
+      LegislationType.upsert($scope.legislationType);
+      //$scope.legislationTypes.push($scope.legislationType);
+      $scope.loadLegislationTypes();
+      $("#addLegislationTypeModal").modal("hide");
+      console.log($scope.legislationTypes);
+    }
+
+    $scope.saveLegislationPartType = function(){
+      PartType.upsert($scope.legislationPartType);
+      //$scope.legislationTypes.push($scope.legislationType);
+      $scope.loadLegislationPartTypes();
+      $("#addLegislationPartType").modal("hide");
+
+    }
 
     $scope.typeSelected = function(typeOfLegislation){
       $scope.selected = true;
@@ -84,6 +112,21 @@ angular.module('apptorney')
 
     }
 
+    $scope.deleteLegislationPartType = function(legislationPartTypeID){
+      PartType.deleteById({ id: legislationPartTypeID })
+      .$promise
+      .then(function() {
+        //console.log('deleted');
+        $scope.legislationPartTypes.forEach(function(legislationPartType){
+          if(legislationPartType.id == legislationPartTypeID){
+            $scope.legislationPartTypes.splice($scope.legislationPartTypes.indexOf(legislationPartType),1);
+
+          }
+        });
+      });
+
+    }
+
     $scope.legislations = Legislation.find(
       function(list) {
         console.log(list);
@@ -104,12 +147,16 @@ angular.module('apptorney')
 
     }
 
-    $scope.legislationPartTypes =  PartType.find(
-      function(list) {
 
-      },
-      function(errorResponse) { }
-    );
+    $scope.openLegislationType = function(legislationType){
+      $scope.legislationType = legislationType;
+    }
+
+    $scope.openLegislationPartType = function(legislationPartType){
+      $scope.legislationPartType = legislationPartType;
+    }
+
+
 
     $scope.selectedPartType = "";
     $scope.partTypeSelected = false;

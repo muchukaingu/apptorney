@@ -7,17 +7,21 @@ angular.module('apptorney')
     $scope.legislation = {};
     $scope.returned = false;
     $scope.showLegislations = false;
-    $scope.message = "Loading..."
+    $scope.message = "Loading...";
+    $scope.legislationTypesReturned = false;
+    $scope.showLegislationTypes = false;
 
     $scope.saveLegislationType = function(){
       LegislationType.create({name:$scope.legislationType.name});
       $scope.loadLegislationTypes();
+      $("#addLegislationTypeModal").modal("hide");
     }
 
     $scope.loadLegislationTypes = function(){
       $scope.legislationTypes =  LegislationType.find(
         function(list) {
-
+          $scope.legislationTypesReturned = true;
+          $scope.showLegislationTypes = true;
         },
         function(errorResponse) { }
       );
@@ -50,7 +54,7 @@ angular.module('apptorney')
     }
 
     $scope.deleteLegislation = function(legislationID){
-      Legislation.legislationParts.destroyAll({ id: legislationID });
+      Legislation.legislationParts.destroyAll({ legislation: legislationID });
       Legislation.deleteById({ id: legislationID })
       .$promise
       .then(function() {
@@ -58,6 +62,21 @@ angular.module('apptorney')
         $scope.legislations.forEach(function(legislation){
           if(legislation.id == legislationID){
             $scope.legislations.splice($scope.legislations.indexOf(legislation),1);
+
+          }
+        });
+      });
+
+    }
+
+    $scope.deleteLegislationType = function(legislationTypeID){
+      LegislationType.deleteById({ id: legislationTypeID })
+      .$promise
+      .then(function() {
+        //console.log('deleted');
+        $scope.legislationTypes.forEach(function(legislationType){
+          if(legislationType.id == legislationTypeID){
+            $scope.legislationTypes.splice($scope.legislationTypes.indexOf(legislationType),1);
 
           }
         });

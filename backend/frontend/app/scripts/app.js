@@ -107,7 +107,7 @@ angular
       });
     });
 
-    // there are better ways to do this, e.g. using a dedicated service
+    // there are better ways to do this, e.g. using a dedicated service....
     // but for the purposes of this demo this will do :P
     $scope.isLoggedIn = true;
     $scope.logOut = function () {

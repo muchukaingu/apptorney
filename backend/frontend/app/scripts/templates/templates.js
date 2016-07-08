@@ -592,8 +592,8 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "\n" +
     "\n" +
-    "                    <div class=\"col-xs-12 col-md-6 form-group\">\n" +
-    "                      <input id=\"dateOfAssent\" name=\"dateOfAssent\" type=\"text\" datetime=\"dd-MM-yyyy\" class=\"form-control\" ng-model=\"legislation.dateOfAssent\" required placeholder=\"Date of Assent\" ng-focus/>\n" +
+    "                    <div class=\"col-xs-12 col-md-9 form-group\">\n" +
+    "                      <input id=\"dateOfAssent\" name=\"dateOfAssent\" type=\"text\" datetime=\"d MMMM, yyyy\" class=\"form-control\" ng-model=\"legislation.dateOfAssent\" required placeholder=\"Date of Assent\" ng-focus/>\n" +
     "                      <div class=\"text-danger\" ng-show=\"form.$submitted && form.dateOfAssent.$invalid || form.dateOfAssent.$dirty && form.dateOfAssent.$invalid && !form.dateOfAssent.$focused\">\n" +
     "\n" +
     "                        <span ng-show=\"form.dateOfAssent.$error.required\">Date of Assent is required</span>\n" +
@@ -602,17 +602,6 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                      </div>\n" +
     "                    </div>\n" +
     "\n" +
-    "\n" +
-    "\n" +
-    "                    <div class=\"col-xs-12 col-md-3 form-group\">\n" +
-    "                      <input id=\"year\" name=\"year\" type=\"number\" class=\"form-control\" ng-model=\"legislation.year\" ng-minlength=2 ng-focus required placeholder=\"Year *\"/>\n" +
-    "                      <div class=\"text-danger\" ng-show=\"form.$submitted && form.year.$invalid || form.year.$dirty && form.year.$invalid && !form.year.$focused\">\n" +
-    "\n" +
-    "                        <span ng-show=\"form.year.$error.required\">Year is required</span>\n" +
-    "                        <span ng-show=\"form.year.$error.minlength\">Year is required to be at least 2 characters long</span>\n" +
-    "\n" +
-    "                      </div>\n" +
-    "                    </div>\n" +
     "\n" +
     "                    <div class=\"col-xs-12 col-md-3 form-group\">\n" +
     "                      <input id=\"amendment-year\" name=\"amendment-year\" type=\"number\" class=\"form-control\" ng-model=\"legislation.yearOfAmendment\" ng-minlength=2 ng-focus required placeholder=\"Year of Ammendment\"/>\n" +

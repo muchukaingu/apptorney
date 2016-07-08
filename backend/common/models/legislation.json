@@ -49,10 +49,6 @@
     "legislationType": {
       "type": "string",
       "required": true
-    },
-    "year": {
-      "type": "number",
-      "required": true
     }
   },
   "validations": [],

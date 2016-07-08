@@ -150,6 +150,8 @@ angular.module('apptorney')
 
     $scope.openLegislation = function(legislation){
       $scope.legislation = legislation;
+      var parser = datetime("dd-MM-yyyy");
+      $scope.legislation.dateOfAssent = parser;
       $scope.legislationParts =  LegislationPart.find({legislation:legislation.id},
         function(list) {
 

@@ -42,7 +42,8 @@
     "enquire": "2.1.1",
     "shufflejs": "2.1.1",
     "pnotify": "sciactive/pnotify#~2.0.1",
-    "bootstrap-select": "1.10.0"
+    "bootstrap-select": "1.10.0",
+    "angular-datetime": "^3.2.2"
   },
   "resolutions": {
     "jquery": "~1.11.0"

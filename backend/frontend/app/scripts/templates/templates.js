@@ -593,7 +593,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "\n" +
     "                    <div class=\"col-xs-12 col-md-6 form-group\">\n" +
-    "                      <input id=\"dateOfAssent\" name=\"dateOfAssent\" type=\"date\" class=\"form-control\" ng-model=\"legislation.dateOfAssent\" ng-minlength=2 ng-focus required placeholder=\"Date of Assent (dd-mm-yyyy) *\"/>\n" +
+    "                      <input id=\"dateOfAssent\" name=\"dateOfAssent\" type=\"text\" datetime=\"dd-MM-yyyy\" class=\"form-control\" ng-model=\"legislation.dateOfAssent\" ng-minlength=2 ng-focus required placeholder=\"Date of Assent (dd-mm-yyyy) *\"/>\n" +
     "                      <div class=\"text-danger\" ng-show=\"form.$submitted && form.dateOfAssent.$invalid || form.dateOfAssent.$dirty && form.dateOfAssent.$invalid && !form.dateOfAssent.$focused\">\n" +
     "\n" +
     "                        <span ng-show=\"form.dateOfAssent.$error.required\">Date of Assent is required</span>\n" +

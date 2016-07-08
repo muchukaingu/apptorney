@@ -106,7 +106,7 @@
                     <td class="editables">
 
                       <span class="editable"  name="email" form="rowform" onchange="editItem(this,'itemID')" required>
-													{{legislation.year}}
+													{{legislation.dateOfAssent | date : "yyyy"}}
                       </span>
                     </td>
 

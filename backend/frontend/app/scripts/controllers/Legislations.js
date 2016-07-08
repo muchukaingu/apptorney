@@ -91,6 +91,8 @@ angular.module('apptorney')
             );
             $scope.legislations.push($scope.legislation);
 
+            $("#addLegislationModal").modal("hide");
+
     }
 
     $scope.deleteLegislation = function(legislationID){

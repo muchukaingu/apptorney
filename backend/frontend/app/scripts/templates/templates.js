@@ -518,7 +518,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "        <h4 style=\"font-weight: 100;\"><span id=\"CustomerHeading\">&nbsp&nbspAdd Legislation</span></h4>\n" +
     "        <p id=\"WelcomeMessage\" style=\"margin-left:8px; margin-top:-10px\">\n" +
-    "          Please ensure that you fill in all the mandatory sections (marked with an asterix, *) in the form.\n" +
+    "          Please ensure that you fill in all the mandatory sections (marked with an asterisk, *) in the form.\n" +
     "        </p>\n" +
     "      </div>\n" +
     "\n" +

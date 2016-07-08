@@ -14,6 +14,7 @@ angular
     'theme.directives',
     'apptorney',
     'apiServices',
+    'datetime',
     'theme.navigation-controller',
     'theme.notifications-controller',
     'theme.messages-controller',

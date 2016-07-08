@@ -1,6 +1,6 @@
 'use strict'
 angular.module('apptorney')
-  .controller('LegislationController', function($scope,Legislation, LegislationType, LegislationPart, PartType, $location, $global){
+  .controller('LegislationController', function($scope,Legislation, LegislationType, LegislationPart, PartType, $location, $global, datetime){
 
     $scope.selectedType = "";
     $scope.selected = false;
@@ -52,7 +52,7 @@ angular.module('apptorney')
       );
 
       $("#addLegislationTypeModal").modal("hide");
-      
+
     }
 
     $scope.saveLegislationPartType = function(){

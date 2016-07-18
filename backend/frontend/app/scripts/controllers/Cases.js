@@ -1,5 +1,13 @@
 'use strict'
 angular.module('apptorney')
+.directive('setFocus', function(){
+  return{
+      scope: {setFocus: '='},
+      link: function(scope, element){
+         if(scope.setFocus) element[0].focus();
+      }
+  };
+})
 .controller('CasesController', ['$scope', '$timeout','caseService','baseURL', 'filterFilter',function ($scope, $timeout, caseService, baseURL, filterFilter) {
     console.log("xxx---->");
           // $("#s2id_areaOfLaw").select2({
@@ -46,6 +54,16 @@ angular.module('apptorney')
          $scope.cases = [];
          $scope.dirtyFields = [];
          $scope.currentCase = {};
+         $scope.case = {};
+         $scope.case.parties = {};
+         $scope.case.parties.defendants = [];
+         $scope.case.parties.plaintiffs = [];
+         $scope.plaintiff = {};
+         $scope.defendant = {};
+         $scope.advocate = {};
+         $scope.case.parties.defendantAdvocates = [];
+         $scope.case.parties.plaintiffAdvocates = [];
+
 
          caseService.getCases().query()
          .$promise.then(
@@ -325,6 +343,47 @@ angular.module('apptorney')
 
 
          }
+
+         $scope.addCaseParties = function(){
+           $scope.case.parties.defendants.push(angular.copy($scope.defendant));
+           $scope.case.parties.plaintiffs.push(angular.copy($scope.plaintiff));
+           $scope.case.parties.plaintiffAdvocates.push(angular.copy($scope.advocate));
+           $scope.case.parties.defendantAdvocates.push(angular.copy($scope.advocate));
+
+         }
+
+         $scope.addCaseParties();
+
+         $scope.addDefendant = function(event){
+           if(event.which === 13){
+              $scope.case.parties.defendants.push(angular.copy($scope.defendant));
+              console.log($scope.case);
+           }
+         }
+
+         $scope.addPlaintiff = function(event){
+           if(event.which === 13){
+              $scope.case.parties.plaintiffs.push(angular.copy($scope.plaintiff));
+           }
+
+         }
+
+         $scope.addPlaintiffAdvocate = function(event){
+           if(event.which === 13){
+              $scope.case.parties.plaintiffAdvocates.push(angular.copy($scope.advocate));
+              console.log($scope.case);
+           }
+
+         }
+
+         $scope.addDefendantAdvocate = function(event){
+           if(event.which === 13){
+              $scope.case.parties.defendantAdvocates.push(angular.copy($scope.advocate));
+              console.log($scope.case);
+           }
+
+         }
+
 
 
 

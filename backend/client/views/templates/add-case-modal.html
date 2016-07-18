@@ -16,6 +16,115 @@
 
         <form id ="applicationForm" name="form" class="css-form" ng-submit="saveApplication()" novalidate>
                   <div class="row">
+                    <div class="col-xs-12" ng-style = "{'text-align':(case.parties.plaintiffs.length == 0 && case.parties.defendants.length == 0)?'center':'left'}" style="border:1px dashed #d3d3d3; border-radius:5px; height:auto; color:#d3d3d3; padding-top:20px; padding-bottom:0px; width:97%; margin-left:12px; margin-bottom:20px;">
+                      <!-- <a ng-click="addCaseParties()"><i style="font-size:2em; position:absolute; top:20px; right:20px; z-index:10000" class="fa fa-plus"></i></a> -->
+                      <br/>
+
+                      <div class="row" style="padding-bottom:20px">
+
+
+                          <div class="col-xs-6" style="margin-top:-35px">
+                            <h4 ng-if="case.parties.plaintiffs.length > 0">Plaintiffs</h4>
+                            <div>
+
+                                <input ng-repeat="plaintiff in case.parties.plaintiffs" set-focus="$last" id="plaintiff" name="plaintiff" type="text" class="form-control" ng-model="plaintiff.name" ng-minlength=2 ng-focus required placeholder="Name of Plaintiff" ng-keydown = "addPlaintiff($event)" ng-style="{'margin-bottom':(case.parties.plaintiffs.length == 1)?'0px':'10px'}"/>
+                                <div class="text-danger" ng-show="form.$submitted && form.plaintiff.$invalid || form.plaintiff.$dirty && form.plaintiff.$invalid && !form.plaintiff.$focused">
+
+                                  <span ng-show="form.plaintiff.$error.required">Name of Plaintiff is required</span>
+                                  <span ng-show="form.plaintiff.$error.minlength">Name of Plaintiff is required to be at least 2 characters long</span>
+
+                                </div>
+                            </div>
+
+                          </div>
+
+
+                          <div class="col-xs-6" style="margin-top:-35px">
+
+
+
+                            <h4 ng-if="case.parties.plaintiffs.length > 0">Defendants</h4>
+                            <div >
+                                <input ng-repeat="defendant in case.parties.defendants" set-focus="$last" id="name" name="name" type="text" class="form-control" ng-model="defendant.name" ng-minlength=2 ng-focus required placeholder="Name of Defendant" ng-keydown = "addDefendant($event)" ng-style="{'margin-bottom':(case.parties.defendants.length == 1)?'0px':'10px'}"/>
+                                <div class="text-danger" ng-show="form.$submitted && form.name.$invalid || form.name.$dirty && form.name.$invalid && !form.name.$focused">
+
+                                  <span ng-show="form.name.$error.required">Name of Defendant is required</span>
+                                  <span ng-show="form.name.$error.minlength">Name of Defendant is required to be at least 2 characters long</span>
+
+                                </div>
+                            </div>
+
+                          </div>
+                        </div>
+
+                        <div class="row" style="border-top:1px dashed #d3d3d3; background-color:#f9f9f9; padding-bottom:20px;">
+
+
+                            <div class="col-xs-6" style="margin-top:0px">
+                              <h4 ng-if="case.parties.plaintiffs.length > 0">Appearances for Plaintiffs</h4>
+                              <div ng-repeat="advocate in case.parties.plaintiffAdvocates" >
+
+                                  <div class="row">
+                                      <div class="col-xs-6">
+                                        <input  id="name" name="plaintiff" type="text" class="form-control" ng-model="advocate.name" ng-minlength=2 ng-focus required placeholder="Advocate" ng-keydown = "" ng-style="{'margin-bottom':(case.parties.plaintiffAdvocates.length == 1)?'0px':'10px'}"/>
+                                        <div class="text-danger" ng-show="form.$submitted && form.plaintiff.$invalid || form.plaintiff.$dirty && form.plaintiff.$invalid && !form.plaintiff.$focused">
+
+                                          <span ng-show="form.plaintiff.$error.required">Name of Plaintiff is required</span>
+                                          <span ng-show="form.plaintiff.$error.minlength">Name of Plaintiff is required to be at least 2 characters long</span>
+
+                                        </div>
+                                      </div>
+                                      <div class="col-xs-6">
+                                        <input  id="name" name="plaintiff" type="text" class="form-control" ng-model="advocate.firm" ng-minlength=2 ng-focus required placeholder="Law Firm" ng-keydown = "addPlaintiffAdvocate($event)" ng-style="{'margin-bottom':(case.parties.plaintiffAdvocates.length == 1)?'0px':'10px'}"/>
+                                        <div class="text-danger" ng-show="form.$submitted && form.plaintiff.$invalid || form.plaintiff.$dirty && form.plaintiff.$invalid && !form.plaintiff.$focused">
+
+                                          <span ng-show="form.plaintiff.$error.required">Name of Plaintiff is required</span>
+                                          <span ng-show="form.plaintiff.$error.minlength">Name of Plaintiff is required to be at least 2 characters long</span>
+
+                                        </div>
+                                      </div>
+                                  </div>
+                              </div>
+
+                            </div>
+
+
+                            <div class="col-xs-6" style="margin-top:0px">
+
+
+
+                              <h4 ng-if="case.parties.plaintiffs.length > 0">Appearances for Defendants</h4>
+                              <div ng-repeat="advocate in case.parties.defendantAdvocates">
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                      <input  id="name" name="advocate" type="text" class="form-control" ng-model="advocate.name" ng-minlength=2 ng-focus required placeholder="Advocate" ng-keydown = ""/>
+                                      <div class="text-danger" ng-show="form.$submitted && form.advocate.$invalid || form.advocate.$dirty && form.advocate.$invalid && !form.advocate.$focused">
+
+                                        <span ng-show="form.advocate.$error.required">Name of Plaintiff is required</span>
+                                        <span ng-show="form.advocate.$error.minlength">Name of Plaintiff is required to be at least 2 characters long</span>
+
+                                      </div>
+                                    </div>
+                                    <div class="col-xs-6">
+                                      <input  id="name" name="plaintiff" type="text" class="form-control" ng-model="advocate.firm" ng-minlength=2 ng-focus required placeholder="Law Firm" ng-keydown = "addDefendantAdvocate($event)"/>
+                                      <div class="text-danger" ng-show="form.$submitted && form.plaintiff.$invalid || form.plaintiff.$dirty && form.plaintiff.$invalid && !form.plaintiff.$focused">
+
+                                        <span ng-show="form.plaintiff.$error.required">Name of Plaintiff is required</span>
+                                        <span ng-show="form.plaintiff.$error.minlength">Name of Plaintiff is required to be at least 2 characters long</span>
+
+                                      </div><br />
+                                    </div>
+                                </div>
+                              </div>
+
+                            </div>
+                          </div>
+                      <span ng-show="case.parties.plaintiffs.length == 0 && case.parties.defendants.length == 0" style="font-size:1.5em; font-weight:100">Add Parties</span>
+
+                    </div>
+                  </div>
+
+                  <div class="row">
 
 
                     <div class="col-xs-12 col-md-5 form-group">
@@ -129,9 +238,10 @@
 
 
 
-                        <div class="row">
-                          <div style="background-color:#f3f3f3; margin-left:-10px; margin-right:-10px; margin-bottom:20px; padding-left: 20px; padding-top:10px; padding-bottom:10px">Citation Details</div>
-
+              <div class="row">
+              <div class="col-xs-12" style="border:1px dashed #d3d3d3; border-radius:5px; height:auto; color:#d3d3d3; padding-top:10px; padding-bottom:20px; width:97%; margin-left:12px; margin-bottom:20px;">
+                    <h4>Citation Details</h4>
+                    <div class="row">
 
                     <div class="col-xs-3 form-group">
                       <input id="citation-number" type="text" class="form-control " ng-model="citation.number" name="citation-number" ng-minlength = 10 ng-focus placeholder="Citation Number" />
@@ -178,67 +288,9 @@
 
                  </div>
 
+               </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-                          <div class="row">
-                            <div style="background-color:#f3f3f3; margin-left:-10px; margin-right:-10px; margin-bottom:20px; margin-top:10px; padding-left: 20px; padding-top:10px; padding-bottom:10px; ">Appearances</div>
-                            <div class="col-xs-12 form-group">
-
-                              <select class="form-control">
-                                  <option>Select Name Pairs for Plaintiff &amp; Defendants</option>
-                                  <option>Plaintiff</option>
-                                  <option>Petitioner</option>
-                                  <option>Complainant</option>
-                                  <option>Applicant</option>
-
-                              </select>
-
-                            </div>
-
-
-                          </div>
-
-                          <div class="row">
-                            <div class="col-xs-6" style="border:1px dashed #d3d3d3; border-radius:5px; height:200px; text-align: center; color:#d3d3d3; padding-top:75px; width:48%; margin-left:12px">
-                                <a><i style="font-size:2em; position:absolute; top:20px; right:20px" class="fa fa-plus"></i></a>
-                                <span style="font-size:1.5em; font-weight:100">Plaintiffs</span>
-                            </div>
-
-                            <div class="col-xs-6" style="border:1px dashed #d3d3d3; border-radius:5px; height:200px; text-align: center; color:#d3d3d3; padding-top:75px; width:48%; margin-left:20px">
-                                <a><i style="font-size:2em; position:absolute; top:20px; right:20px" class="fa fa-plus"></i></a>
-                                <span style="font-size:1.5em; font-weight:100">Defendants</span>
-                            </div>
-                          </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-          <!-- <input type="button" class="btn btn-default" ng-click="reset(form)" value="Reset" /> -->
-
-
+             </div>
 
 
         </form>  <!--End Form-->

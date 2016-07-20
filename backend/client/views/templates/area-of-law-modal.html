@@ -19,7 +19,7 @@
 
 
                     <div class="col-xs-12 form-group">
-                      <input id="area-name" name="area-name" type="text" class="form-control" ng-model="area.name" ng-minlength=2 ng-focus required placeholder="Name of Area"/>
+                      <input id="area-name" name="area-name" type="text" class="form-control" ng-model="areaOfLaw.name" ng-minlength=2 ng-focus required placeholder="Name of Area"/>
                       <div class="text-danger" ng-show="form.$submitted && form.name.$invalid || form.name.$dirty && form.name.$invalid && !form.name.$focused">
 
                         <span ng-show="form.name.$error.required">Name of Area is required</span>
@@ -29,21 +29,11 @@
                     </div>
 
 
-                    <div class="col-xs-12 form-group">
-                        <textarea id="area-description" name="area-description" type="text" style="height: 90px" min-word-count="2"  class="form-control" ng-model="area.description"  ng-minlength=2 required ng-focus placeholder="Description of Area"/>
-                        <div class="text-danger" ng-show="form.$submitted && form.area-description.$invalid || form.area-description.$dirty && form.area-description.$invalid && !form.area-description.$focused">
-
-                        <span ng-show="form.area-description.$error.required">Description of Area is required</span>
-                        <span ng-show="form.area-description.$error.minlength">Description of Area is required to be at least 2 characters long</span>
-
-                      </div>
-                    </div>
-
 
                   </div>
 
                   <div class = "form-group">
-                    <button id="submit" type="submit" class="btn btn-primary-alt pull-right"  style="width:120px">Save</button>
+                    <button id="submit" type="submit" class="btn btn-primary-alt pull-right"  style="width:120px" ng-click="saveAreaOfLaw()">Save</button>
 
 
                     <div id="submitAppMsg" class="pull-left" style="font-size: larger; position: relative; top: 5px"></div>

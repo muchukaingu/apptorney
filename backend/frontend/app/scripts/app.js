@@ -142,6 +142,12 @@ angular
       .when('/cases', {
         templateUrl: 'views/cases.html',
       })
+      .when('/courts', {
+        templateUrl: 'views/courts.html',
+      })
+      .when('/areasOfLaw', {
+        templateUrl: 'views/areas-of-law.html',
+      })
       .when('/legislations', {
         templateUrl: 'views/legislations.html',
       })

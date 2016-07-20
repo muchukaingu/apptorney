@@ -24,15 +24,21 @@ angular
             iconClasses:"fa fa-file",
             url: '#/legislations'
         },
-        {
-            label:"Courts",
-            iconClasses:"fa fa-building",
-            url: '#/'
-        },
+
         {
             label:"Admin",
             iconClasses:"fa fa-cog",
             children: [
+              {
+                label:"Areas of Law",
+                iconClasses:"fa fa-square",
+                url: '#/areas-of-law'
+              },
+              {
+                label:"Courts",
+                iconClasses:"fa fa-institution",
+                url: '#/courts'
+              },
               {
                 label:"Legislation Types",
                 iconClasses:"fa fa-bars",
@@ -45,12 +51,12 @@ angular
               },
               {
                 label:"Plaintiff Synonyms",
-                iconClasses:"fa fa-th",
+                iconClasses:"fa fa-book",
                 url: '#/plaintiffsynonyms'
               },
               {
                 label:"Defendant Synonyms",
-                iconClasses:"fa fa-th",
+                iconClasses:"fa fa-book",
                 url: '#/defendantsynonyms'
               }
             ]

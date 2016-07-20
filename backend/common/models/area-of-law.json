@@ -9,10 +9,6 @@
     "name": {
       "type": "string",
       "required": true
-    },
-    "description": {
-      "type": "string",
-      "required": true
     }
   },
   "validations": [],
@@ -20,11 +16,6 @@
     "parent": {
       "type": "hasOne",
       "model": "areaOfLaw",
-      "foreignKey": ""
-    },
-    "cases": {
-      "type": "hasMany",
-      "model": "case",
       "foreignKey": ""
     }
   },

@@ -25,7 +25,6 @@
     "angular-toggle-switch": "~0.3.0",
     "ng-grid": "2.0.11",
     "angular-xeditable": "0.1.8",
-    "angular-ui-select2": "0.0.5",
     "iCheck": "1.0.2",
     "google-code-prettify": "1.0.1",
     "bootbox.js": "https://github.com/makeusabrew/bootbox.git#4.2.0",
@@ -44,10 +43,13 @@
     "pnotify": "sciactive/pnotify#~2.0.1",
     "bootstrap-select": "1.10.0",
     "angular-datetime": "^3.2.2",
-    "ng-focus-if": "^1.0.7"
+    "ng-focus-if": "^1.0.7",
+    "angular-ui-select": "^0.18.1",
+    "selectize": "^0.12.1"
   },
   "resolutions": {
-    "jquery": "~1.11.0"
+    "jquery": "~1.11.0",
+    "select2": "~4.0.0"
   },
   "devDependencies": {
     "twbs-bootstrap-sass": "~3.1.1",

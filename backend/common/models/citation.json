@@ -28,10 +28,10 @@
   },
   "validations": [],
   "relations": {
-    "case":{
-      "type":"hasOne",
-      "model":"case",
-      "foreignKey":""
+    "case": {
+      "type": "hasOne",
+      "model": "case",
+      "foreignKey": ""
     }
   },
   "acls": [],

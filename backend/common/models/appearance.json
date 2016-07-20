@@ -8,20 +8,20 @@
   "properties": {},
   "validations": [],
   "relations": {
-    "plaintiffs":{
-      "type":"hasAndBelongsToMany",
-      "model":"advocate",
-      "foreignKey":""
+    "plaintiffs": {
+      "type": "hasAndBelongsToMany",
+      "model": "advocate",
+      "foreignKey": ""
     },
-    "defendants":{
-      "type":"hasAndBelongsToMany",
-      "model":"advocate",
-      "foreignKey":""
+    "defendants": {
+      "type": "hasAndBelongsToMany",
+      "model": "advocate",
+      "foreignKey": ""
     },
-    "case":{
-      "type":"hasOne",
-      "model":"case",
-      "foreignKey":""
+    "case": {
+      "type": "hasOne",
+      "model": "case",
+      "foreignKey": ""
     }
   },
   "acls": [],

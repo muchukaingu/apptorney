@@ -16411,6 +16411,1190 @@ module.factory(
     return R;
   }]);
 
+/**
+ * @ngdoc object
+ * @name apiServices.PlaintiffSynonyms
+ * @header apiServices.PlaintiffSynonyms
+ * @object
+ *
+ * @description
+ *
+ * A $resource object for interacting with the `PlaintiffSynonyms` model.
+ *
+ * ## Example
+ *
+ * See
+ * {@link http://docs.angularjs.org/api/ngResource.$resource#example $resource}
+ * for an example of using this object.
+ *
+ */
+module.factory(
+  "PlaintiffSynonyms",
+  ['LoopBackResource', 'LoopBackAuth', '$injector', function(Resource, LoopBackAuth, $injector) {
+    var R = Resource(
+      urlBase + "/plaintiffSynonyms/:id",
+      { 'id': '@id' },
+      {
+
+        /**
+         * @ngdoc method
+         * @name apiServices.PlaintiffSynonyms#create
+         * @methodOf apiServices.PlaintiffSynonyms
+         *
+         * @description
+         *
+         * Create a new instance of the model and persist it into the data source.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *   This method does not accept any parameters.
+         *   Supply an empty object or omit this argument altogether.
+         *
+         * @param {Object} postData Request data.
+         *
+         * This method expects a subset of model properties as request parameters.
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `PlaintiffSynonyms` object.)
+         * </em>
+         */
+        "create": {
+          url: urlBase + "/plaintiffSynonyms",
+          method: "POST"
+        },
+
+        /**
+         * @ngdoc method
+         * @name apiServices.PlaintiffSynonyms#createMany
+         * @methodOf apiServices.PlaintiffSynonyms
+         *
+         * @description
+         *
+         * Create a new instance of the model and persist it into the data source.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *   This method does not accept any parameters.
+         *   Supply an empty object or omit this argument altogether.
+         *
+         * @param {Object} postData Request data.
+         *
+         * This method expects a subset of model properties as request parameters.
+         *
+         * @param {function(Array.<Object>,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Array.<Object>} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `PlaintiffSynonyms` object.)
+         * </em>
+         */
+        "createMany": {
+          isArray: true,
+          url: urlBase + "/plaintiffSynonyms",
+          method: "POST"
+        },
+
+        /**
+         * @ngdoc method
+         * @name apiServices.PlaintiffSynonyms#upsert
+         * @methodOf apiServices.PlaintiffSynonyms
+         *
+         * @description
+         *
+         * Update an existing model instance or insert a new one into the data source.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *   This method does not accept any parameters.
+         *   Supply an empty object or omit this argument altogether.
+         *
+         * @param {Object} postData Request data.
+         *
+         * This method expects a subset of model properties as request parameters.
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `PlaintiffSynonyms` object.)
+         * </em>
+         */
+        "upsert": {
+          url: urlBase + "/plaintiffSynonyms",
+          method: "PUT"
+        },
+
+        /**
+         * @ngdoc method
+         * @name apiServices.PlaintiffSynonyms#exists
+         * @methodOf apiServices.PlaintiffSynonyms
+         *
+         * @description
+         *
+         * Check whether a model instance exists in the data source.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - Model id
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * Data properties:
+         *
+         *  - `exists` – `{boolean=}` - 
+         */
+        "exists": {
+          url: urlBase + "/plaintiffSynonyms/:id/exists",
+          method: "GET"
+        },
+
+        /**
+         * @ngdoc method
+         * @name apiServices.PlaintiffSynonyms#findById
+         * @methodOf apiServices.PlaintiffSynonyms
+         *
+         * @description
+         *
+         * Find a model instance by id from the data source.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - Model id
+         *
+         *  - `filter` – `{object=}` - Filter defining fields and include
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `PlaintiffSynonyms` object.)
+         * </em>
+         */
+        "findById": {
+          url: urlBase + "/plaintiffSynonyms/:id",
+          method: "GET"
+        },
+
+        /**
+         * @ngdoc method
+         * @name apiServices.PlaintiffSynonyms#find
+         * @methodOf apiServices.PlaintiffSynonyms
+         *
+         * @description
+         *
+         * Find all instances of the model matched by filter from the data source.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `filter` – `{object=}` - Filter defining fields, where, include, order, offset, and limit
+         *
+         * @param {function(Array.<Object>,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Array.<Object>} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `PlaintiffSynonyms` object.)
+         * </em>
+         */
+        "find": {
+          isArray: true,
+          url: urlBase + "/plaintiffSynonyms",
+          method: "GET"
+        },
+
+        /**
+         * @ngdoc method
+         * @name apiServices.PlaintiffSynonyms#findOne
+         * @methodOf apiServices.PlaintiffSynonyms
+         *
+         * @description
+         *
+         * Find first instance of the model matched by filter from the data source.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `filter` – `{object=}` - Filter defining fields, where, include, order, offset, and limit
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `PlaintiffSynonyms` object.)
+         * </em>
+         */
+        "findOne": {
+          url: urlBase + "/plaintiffSynonyms/findOne",
+          method: "GET"
+        },
+
+        /**
+         * @ngdoc method
+         * @name apiServices.PlaintiffSynonyms#updateAll
+         * @methodOf apiServices.PlaintiffSynonyms
+         *
+         * @description
+         *
+         * Update instances of the model matched by where from the data source.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `where` – `{object=}` - Criteria to match model instances
+         *
+         * @param {Object} postData Request data.
+         *
+         * This method expects a subset of model properties as request parameters.
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * The number of instances updated
+         */
+        "updateAll": {
+          url: urlBase + "/plaintiffSynonyms/update",
+          method: "POST"
+        },
+
+        /**
+         * @ngdoc method
+         * @name apiServices.PlaintiffSynonyms#deleteById
+         * @methodOf apiServices.PlaintiffSynonyms
+         *
+         * @description
+         *
+         * Delete a model instance by id from the data source.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - Model id
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `PlaintiffSynonyms` object.)
+         * </em>
+         */
+        "deleteById": {
+          url: urlBase + "/plaintiffSynonyms/:id",
+          method: "DELETE"
+        },
+
+        /**
+         * @ngdoc method
+         * @name apiServices.PlaintiffSynonyms#count
+         * @methodOf apiServices.PlaintiffSynonyms
+         *
+         * @description
+         *
+         * Count instances of the model matched by where from the data source.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `where` – `{object=}` - Criteria to match model instances
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * Data properties:
+         *
+         *  - `count` – `{number=}` - 
+         */
+        "count": {
+          url: urlBase + "/plaintiffSynonyms/count",
+          method: "GET"
+        },
+
+        /**
+         * @ngdoc method
+         * @name apiServices.PlaintiffSynonyms#prototype$updateAttributes
+         * @methodOf apiServices.PlaintiffSynonyms
+         *
+         * @description
+         *
+         * Update attributes for a model instance and persist it into the data source.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - PersistedModel id
+         *
+         * @param {Object} postData Request data.
+         *
+         * This method expects a subset of model properties as request parameters.
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `PlaintiffSynonyms` object.)
+         * </em>
+         */
+        "prototype$updateAttributes": {
+          url: urlBase + "/plaintiffSynonyms/:id",
+          method: "PUT"
+        },
+
+        /**
+         * @ngdoc method
+         * @name apiServices.PlaintiffSynonyms#createChangeStream
+         * @methodOf apiServices.PlaintiffSynonyms
+         *
+         * @description
+         *
+         * Create a change stream.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *   This method does not accept any parameters.
+         *   Supply an empty object or omit this argument altogether.
+         *
+         * @param {Object} postData Request data.
+         *
+         *  - `options` – `{object=}` - 
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * Data properties:
+         *
+         *  - `changes` – `{ReadableStream=}` - 
+         */
+        "createChangeStream": {
+          url: urlBase + "/plaintiffSynonyms/change-stream",
+          method: "POST"
+        },
+      }
+    );
+
+
+
+        /**
+         * @ngdoc method
+         * @name apiServices.PlaintiffSynonyms#updateOrCreate
+         * @methodOf apiServices.PlaintiffSynonyms
+         *
+         * @description
+         *
+         * Update an existing model instance or insert a new one into the data source.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *   This method does not accept any parameters.
+         *   Supply an empty object or omit this argument altogether.
+         *
+         * @param {Object} postData Request data.
+         *
+         * This method expects a subset of model properties as request parameters.
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `PlaintiffSynonyms` object.)
+         * </em>
+         */
+        R["updateOrCreate"] = R["upsert"];
+
+        /**
+         * @ngdoc method
+         * @name apiServices.PlaintiffSynonyms#update
+         * @methodOf apiServices.PlaintiffSynonyms
+         *
+         * @description
+         *
+         * Update instances of the model matched by where from the data source.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `where` – `{object=}` - Criteria to match model instances
+         *
+         * @param {Object} postData Request data.
+         *
+         * This method expects a subset of model properties as request parameters.
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * The number of instances updated
+         */
+        R["update"] = R["updateAll"];
+
+        /**
+         * @ngdoc method
+         * @name apiServices.PlaintiffSynonyms#destroyById
+         * @methodOf apiServices.PlaintiffSynonyms
+         *
+         * @description
+         *
+         * Delete a model instance by id from the data source.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - Model id
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `PlaintiffSynonyms` object.)
+         * </em>
+         */
+        R["destroyById"] = R["deleteById"];
+
+        /**
+         * @ngdoc method
+         * @name apiServices.PlaintiffSynonyms#removeById
+         * @methodOf apiServices.PlaintiffSynonyms
+         *
+         * @description
+         *
+         * Delete a model instance by id from the data source.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - Model id
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `PlaintiffSynonyms` object.)
+         * </em>
+         */
+        R["removeById"] = R["deleteById"];
+
+
+    /**
+    * @ngdoc property
+    * @name apiServices.PlaintiffSynonyms#modelName
+    * @propertyOf apiServices.PlaintiffSynonyms
+    * @description
+    * The name of the model represented by this $resource,
+    * i.e. `PlaintiffSynonyms`.
+    */
+    R.modelName = "PlaintiffSynonyms";
+
+
+    return R;
+  }]);
+
+/**
+ * @ngdoc object
+ * @name apiServices.DefendantSynonyms
+ * @header apiServices.DefendantSynonyms
+ * @object
+ *
+ * @description
+ *
+ * A $resource object for interacting with the `DefendantSynonyms` model.
+ *
+ * ## Example
+ *
+ * See
+ * {@link http://docs.angularjs.org/api/ngResource.$resource#example $resource}
+ * for an example of using this object.
+ *
+ */
+module.factory(
+  "DefendantSynonyms",
+  ['LoopBackResource', 'LoopBackAuth', '$injector', function(Resource, LoopBackAuth, $injector) {
+    var R = Resource(
+      urlBase + "/defendantSynonyms/:id",
+      { 'id': '@id' },
+      {
+
+        /**
+         * @ngdoc method
+         * @name apiServices.DefendantSynonyms#create
+         * @methodOf apiServices.DefendantSynonyms
+         *
+         * @description
+         *
+         * Create a new instance of the model and persist it into the data source.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *   This method does not accept any parameters.
+         *   Supply an empty object or omit this argument altogether.
+         *
+         * @param {Object} postData Request data.
+         *
+         * This method expects a subset of model properties as request parameters.
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `DefendantSynonyms` object.)
+         * </em>
+         */
+        "create": {
+          url: urlBase + "/defendantSynonyms",
+          method: "POST"
+        },
+
+        /**
+         * @ngdoc method
+         * @name apiServices.DefendantSynonyms#createMany
+         * @methodOf apiServices.DefendantSynonyms
+         *
+         * @description
+         *
+         * Create a new instance of the model and persist it into the data source.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *   This method does not accept any parameters.
+         *   Supply an empty object or omit this argument altogether.
+         *
+         * @param {Object} postData Request data.
+         *
+         * This method expects a subset of model properties as request parameters.
+         *
+         * @param {function(Array.<Object>,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Array.<Object>} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `DefendantSynonyms` object.)
+         * </em>
+         */
+        "createMany": {
+          isArray: true,
+          url: urlBase + "/defendantSynonyms",
+          method: "POST"
+        },
+
+        /**
+         * @ngdoc method
+         * @name apiServices.DefendantSynonyms#upsert
+         * @methodOf apiServices.DefendantSynonyms
+         *
+         * @description
+         *
+         * Update an existing model instance or insert a new one into the data source.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *   This method does not accept any parameters.
+         *   Supply an empty object or omit this argument altogether.
+         *
+         * @param {Object} postData Request data.
+         *
+         * This method expects a subset of model properties as request parameters.
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `DefendantSynonyms` object.)
+         * </em>
+         */
+        "upsert": {
+          url: urlBase + "/defendantSynonyms",
+          method: "PUT"
+        },
+
+        /**
+         * @ngdoc method
+         * @name apiServices.DefendantSynonyms#exists
+         * @methodOf apiServices.DefendantSynonyms
+         *
+         * @description
+         *
+         * Check whether a model instance exists in the data source.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - Model id
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * Data properties:
+         *
+         *  - `exists` – `{boolean=}` - 
+         */
+        "exists": {
+          url: urlBase + "/defendantSynonyms/:id/exists",
+          method: "GET"
+        },
+
+        /**
+         * @ngdoc method
+         * @name apiServices.DefendantSynonyms#findById
+         * @methodOf apiServices.DefendantSynonyms
+         *
+         * @description
+         *
+         * Find a model instance by id from the data source.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - Model id
+         *
+         *  - `filter` – `{object=}` - Filter defining fields and include
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `DefendantSynonyms` object.)
+         * </em>
+         */
+        "findById": {
+          url: urlBase + "/defendantSynonyms/:id",
+          method: "GET"
+        },
+
+        /**
+         * @ngdoc method
+         * @name apiServices.DefendantSynonyms#find
+         * @methodOf apiServices.DefendantSynonyms
+         *
+         * @description
+         *
+         * Find all instances of the model matched by filter from the data source.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `filter` – `{object=}` - Filter defining fields, where, include, order, offset, and limit
+         *
+         * @param {function(Array.<Object>,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Array.<Object>} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `DefendantSynonyms` object.)
+         * </em>
+         */
+        "find": {
+          isArray: true,
+          url: urlBase + "/defendantSynonyms",
+          method: "GET"
+        },
+
+        /**
+         * @ngdoc method
+         * @name apiServices.DefendantSynonyms#findOne
+         * @methodOf apiServices.DefendantSynonyms
+         *
+         * @description
+         *
+         * Find first instance of the model matched by filter from the data source.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `filter` – `{object=}` - Filter defining fields, where, include, order, offset, and limit
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `DefendantSynonyms` object.)
+         * </em>
+         */
+        "findOne": {
+          url: urlBase + "/defendantSynonyms/findOne",
+          method: "GET"
+        },
+
+        /**
+         * @ngdoc method
+         * @name apiServices.DefendantSynonyms#updateAll
+         * @methodOf apiServices.DefendantSynonyms
+         *
+         * @description
+         *
+         * Update instances of the model matched by where from the data source.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `where` – `{object=}` - Criteria to match model instances
+         *
+         * @param {Object} postData Request data.
+         *
+         * This method expects a subset of model properties as request parameters.
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * The number of instances updated
+         */
+        "updateAll": {
+          url: urlBase + "/defendantSynonyms/update",
+          method: "POST"
+        },
+
+        /**
+         * @ngdoc method
+         * @name apiServices.DefendantSynonyms#deleteById
+         * @methodOf apiServices.DefendantSynonyms
+         *
+         * @description
+         *
+         * Delete a model instance by id from the data source.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - Model id
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `DefendantSynonyms` object.)
+         * </em>
+         */
+        "deleteById": {
+          url: urlBase + "/defendantSynonyms/:id",
+          method: "DELETE"
+        },
+
+        /**
+         * @ngdoc method
+         * @name apiServices.DefendantSynonyms#count
+         * @methodOf apiServices.DefendantSynonyms
+         *
+         * @description
+         *
+         * Count instances of the model matched by where from the data source.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `where` – `{object=}` - Criteria to match model instances
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * Data properties:
+         *
+         *  - `count` – `{number=}` - 
+         */
+        "count": {
+          url: urlBase + "/defendantSynonyms/count",
+          method: "GET"
+        },
+
+        /**
+         * @ngdoc method
+         * @name apiServices.DefendantSynonyms#prototype$updateAttributes
+         * @methodOf apiServices.DefendantSynonyms
+         *
+         * @description
+         *
+         * Update attributes for a model instance and persist it into the data source.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - PersistedModel id
+         *
+         * @param {Object} postData Request data.
+         *
+         * This method expects a subset of model properties as request parameters.
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `DefendantSynonyms` object.)
+         * </em>
+         */
+        "prototype$updateAttributes": {
+          url: urlBase + "/defendantSynonyms/:id",
+          method: "PUT"
+        },
+
+        /**
+         * @ngdoc method
+         * @name apiServices.DefendantSynonyms#createChangeStream
+         * @methodOf apiServices.DefendantSynonyms
+         *
+         * @description
+         *
+         * Create a change stream.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *   This method does not accept any parameters.
+         *   Supply an empty object or omit this argument altogether.
+         *
+         * @param {Object} postData Request data.
+         *
+         *  - `options` – `{object=}` - 
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * Data properties:
+         *
+         *  - `changes` – `{ReadableStream=}` - 
+         */
+        "createChangeStream": {
+          url: urlBase + "/defendantSynonyms/change-stream",
+          method: "POST"
+        },
+      }
+    );
+
+
+
+        /**
+         * @ngdoc method
+         * @name apiServices.DefendantSynonyms#updateOrCreate
+         * @methodOf apiServices.DefendantSynonyms
+         *
+         * @description
+         *
+         * Update an existing model instance or insert a new one into the data source.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *   This method does not accept any parameters.
+         *   Supply an empty object or omit this argument altogether.
+         *
+         * @param {Object} postData Request data.
+         *
+         * This method expects a subset of model properties as request parameters.
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `DefendantSynonyms` object.)
+         * </em>
+         */
+        R["updateOrCreate"] = R["upsert"];
+
+        /**
+         * @ngdoc method
+         * @name apiServices.DefendantSynonyms#update
+         * @methodOf apiServices.DefendantSynonyms
+         *
+         * @description
+         *
+         * Update instances of the model matched by where from the data source.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `where` – `{object=}` - Criteria to match model instances
+         *
+         * @param {Object} postData Request data.
+         *
+         * This method expects a subset of model properties as request parameters.
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * The number of instances updated
+         */
+        R["update"] = R["updateAll"];
+
+        /**
+         * @ngdoc method
+         * @name apiServices.DefendantSynonyms#destroyById
+         * @methodOf apiServices.DefendantSynonyms
+         *
+         * @description
+         *
+         * Delete a model instance by id from the data source.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - Model id
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `DefendantSynonyms` object.)
+         * </em>
+         */
+        R["destroyById"] = R["deleteById"];
+
+        /**
+         * @ngdoc method
+         * @name apiServices.DefendantSynonyms#removeById
+         * @methodOf apiServices.DefendantSynonyms
+         *
+         * @description
+         *
+         * Delete a model instance by id from the data source.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - Model id
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `DefendantSynonyms` object.)
+         * </em>
+         */
+        R["removeById"] = R["deleteById"];
+
+
+    /**
+    * @ngdoc property
+    * @name apiServices.DefendantSynonyms#modelName
+    * @propertyOf apiServices.DefendantSynonyms
+    * @description
+    * The name of the model represented by this $resource,
+    * i.e. `DefendantSynonyms`.
+    */
+    R.modelName = "DefendantSynonyms";
+
+
+    return R;
+  }]);
+
 
 module
   .factory('LoopBackAuth', function() {

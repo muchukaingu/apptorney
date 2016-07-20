@@ -10,39 +10,13 @@ angular.module('apptorney')
 })
 .controller('CasesController', ['$scope', '$timeout','caseService','baseURL', 'filterFilter',function ($scope, $timeout, caseService, baseURL, filterFilter) {
     console.log("xxx---->");
-          // $("#s2id_areaOfLaw").select2({
-          //     formatNoMatches: function(term) {
-          //         return "<a onclick='openPOCustomerModal()' data-toggle='modal'><i class='fa fa-plus'></i>Add Customer</a>";
-          //     },
-          //     placeholder: 'Area of Law',
-          //     minimumInputLength: 3
-          // });
 
 
 
-            var areaOfLaw = $("select#areaOfLaw").select2();
-            var court = $("select#court").select2();
-            var legislation = $("select#legislation").select2();
-            areaOfLaw.select2({
-              formatNoMatches: function(term) {
-                  return "<a data-toggle='modal' onclick='openAddAreaOfLaw()'><i class='fa fa-plus'></i>&nbsp;Add Area of Law</a>";
-              },
-              minimumInputLength: 2
-            });
 
-            court.select2({
-              formatNoMatches: function(term) {
-                  return "<a onclick='openAddCourt()' data-toggle='modal'><i class='fa fa-plus'></i>&nbsp;Add Court</a>";
-              },
-              minimumInputLength: 2
-            });
 
-            legislation.select2({
-              formatNoMatches: function(term) {
-                  return "<a onclick='openAddLegislation()' data-toggle='modal'><i class='fa fa-plus'></i>&nbsp;Add Legislation</a>";
-              },
-              minimumInputLength: 2
-            });
+
+
 
 
 
@@ -63,6 +37,7 @@ angular.module('apptorney')
          $scope.advocate = {};
          $scope.case.parties.defendantAdvocates = [];
          $scope.case.parties.plaintiffAdvocates = [];
+         $scope.case.parties.selectedPlaintiffAdvocates = [];
 
 
          caseService.getCases().query()

@@ -32,10 +32,10 @@
       "model": "lawFirm",
       "foreignKey": ""
     },
-    "appearance":{
-      "type":"hasAndBelongsToMany",
-      "model":"appearance",
-      "foreignKey":""
+    "appearance": {
+      "type": "hasAndBelongsToMany",
+      "model": "appearance",
+      "foreignKey": ""
     }
   },
   "acls": [],

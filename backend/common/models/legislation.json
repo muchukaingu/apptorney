@@ -53,15 +53,15 @@
   },
   "validations": [],
   "relations": {
-    "cases":{
-      "type":"hasMany",
-      "model":"case",
-      "foreignKey":""
+    "cases": {
+      "type": "hasMany",
+      "model": "case",
+      "foreignKey": ""
     },
-    "legislationParts":{
-      "type":"hasMany",
-      "model":"legislationPart",
-      "foreignKey":"legislation"
+    "legislationParts": {
+      "type": "hasMany",
+      "model": "legislationPart",
+      "foreignKey": "legislation"
     }
   },
   "acls": [],

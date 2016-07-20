@@ -6,7 +6,7 @@ angular
     'toggle-switch',
     'ui.bootstrap',
     'ui.tree',
-    'ui.select2',
+    'ui.select',
     'ngGrid',
     'xeditable',
     'flow',
@@ -150,6 +150,12 @@ angular
       })
       .when('/legislationtypes', {
         templateUrl: 'views/legislation-types.html',
+      })
+      .when('/plaintiffsynonyms', {
+        templateUrl: 'views/plaintiff-synonyms.html',
+      })
+      .when('/defendantsynonyms', {
+        templateUrl: 'views/defendant-synonyms.html',
       })
       .when('/calendar', {
         templateUrl: 'views/calendar.html',

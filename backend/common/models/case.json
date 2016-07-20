@@ -41,35 +41,35 @@
   },
   "validations": [],
   "relations": {
-    "citation":{
-      "type":"hasOne",
-      "model":"citation",
-      "foreignKey":""
+    "citation": {
+      "type": "hasOne",
+      "model": "citation",
+      "foreignKey": ""
     },
-    "court":{
-      "type":"hasOne",
-      "model":"court",
-      "foreignKey":""
+    "court": {
+      "type": "hasOne",
+      "model": "court",
+      "foreignKey": ""
     },
-    "areaOfLaw":{
-      "type":"hasOne",
-      "model":"areaOfLaw",
-      "foreignKey":""
+    "areaOfLaw": {
+      "type": "hasOne",
+      "model": "areaOfLaw",
+      "foreignKey": ""
     },
-    "casesReferedTo":{
-      "type":"hasMany",
-      "model":"case",
-      "foreignKey":""
+    "casesReferedTo": {
+      "type": "hasMany",
+      "model": "case",
+      "foreignKey": ""
     },
-    "legislationsReferedTo":{
-      "type":"hasMany",
-      "model":"legislation",
-      "foreignKey":""
+    "legislationsReferedTo": {
+      "type": "hasMany",
+      "model": "legislation",
+      "foreignKey": ""
     },
-    "appearances":{
-      "type":"hasOne",
-      "model":"appearance",
-      "foreignKey":""
+    "appearances": {
+      "type": "hasOne",
+      "model": "appearance",
+      "foreignKey": ""
     }
   },
   "acls": [],

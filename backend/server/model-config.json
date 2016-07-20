@@ -91,5 +91,13 @@
   "appearance": {
     "dataSource": "apptorney",
     "public": true
+  },
+  "plaintiffSynonyms": {
+    "dataSource": "apptorney",
+    "public": true
+  },
+  "defendantSynonyms": {
+    "dataSource": "apptorney",
+    "public": true
   }
 }

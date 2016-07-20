@@ -42,6 +42,16 @@ angular
                 label:"Legislation Part Types",
                 iconClasses:"fa fa-th",
                 url: '#/legislationparttypes'
+              },
+              {
+                label:"Plaintiff Synonyms",
+                iconClasses:"fa fa-th",
+                url: '#/plaintiffsynonyms'
+              },
+              {
+                label:"Defendant Synonyms",
+                iconClasses:"fa fa-th",
+                url: '#/defendantsynonyms'
               }
             ]
         }

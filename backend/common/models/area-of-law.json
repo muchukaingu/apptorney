@@ -22,10 +22,10 @@
       "model": "areaOfLaw",
       "foreignKey": ""
     },
-    "cases":{
-      "type":"hasMany",
-      "model":"case",
-      "foreignKey":""
+    "cases": {
+      "type": "hasMany",
+      "model": "case",
+      "foreignKey": ""
     }
   },
   "acls": [],

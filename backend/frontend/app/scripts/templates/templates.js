@@ -92,6 +92,22 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "        <form id =\"applicationForm\" name=\"form\" class=\"css-form\" ng-submit=\"saveApplication()\" novalidate>\n" +
     "                  <div class=\"row\">\n" +
+    "                    <div class=\"col-xs-6 form-group\">\n" +
+    "                      <input id=\"caseNumber\" name=\"caseNumber\" type=\"text\" class=\"form-control\" ng-model=\"case.caseNumber\" ng-minlength=2 ng-focus placeholder=\"Case Number\"/>\n" +
+    "                      <div class=\"text-danger\" ng-show=\"form.$submitted && form.caseNumber.$invalid || form.caseNumber.$dirty && form.caseNumber.$invalid && !form.caseNumber.$focused\">\n" +
+    "                        <span><i class=\"fa fa-exclamation-circle\"></i></span>\n" +
+    "                        <span ng-show=\"form.caseNumber.$error.required\">Case Number is required</span>\n" +
+    "                        <span ng-show=\"form.caseNumber.$error.minlength\">Case Number is required to be at least 2 characters long</span>\n" +
+    "\n" +
+    "                      </div>\n" +
+    "                    </div>\n" +
+    "                    <div class=\"col-xs-6 form-group\">\n" +
+    "\n" +
+    "                      <ui-select ng-model=\"advocate.name\" theme=\"selectize\">\n" +
+    "                          <ui-select-match placeholder=\"Select Area of Law\">{{$select.selected.name}}</ui-select-match>\n" +
+    "                          <ui-select-choices repeat=\"advocate in case.parties.plaintiffAdvocates\">{{advocate.name}}</ui-select-choices>\n" +
+    "                      </ui-select>\n" +
+    "                    </div>\n" +
     "                    <div class=\"col-xs-12\" ng-style = \"{'text-align':(case.parties.plaintiffs.length == 0 && case.parties.defendants.length == 0)?'center':'left'}\" style=\"border:1px dashed #d3d3d3; border-radius:5px; height:auto; color:#d3d3d3; padding-top:20px; padding-bottom:0px; width:97%; margin-left:12px; margin-bottom:20px;\">\n" +
     "                      <!-- <a ng-click=\"addCaseParties()\"><i style=\"font-size:2em; position:absolute; top:20px; right:20px; z-index:10000\" class=\"fa fa-plus\"></i></a> -->\n" +
     "                      <br/>\n" +
@@ -121,11 +137,11 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "                            <h4 ng-if=\"case.parties.plaintiffs.length > 0\">Defendants</h4>\n" +
     "                            <div >\n" +
-    "                                <input ng-repeat=\"defendant in case.parties.defendants\" set-focus=\"$last\" id=\"name\" name=\"name\" type=\"text\" class=\"form-control\" ng-model=\"defendant.name\" ng-minlength=2 ng-focus required placeholder=\"Name of Defendant\" ng-keydown = \"addDefendant($event)\" ng-style=\"{'margin-bottom':(case.parties.defendants.length == 1)?'0px':'10px'}\"/>\n" +
-    "                                <div class=\"text-danger\" ng-show=\"form.$submitted && form.name.$invalid || form.name.$dirty && form.name.$invalid && !form.name.$focused\">\n" +
+    "                                <input ng-repeat=\"defendant in case.parties.defendants\" set-focus=\"$last\" id=\"defendant\" name=\"defendant\" type=\"text\" class=\"form-control\" ng-model=\"defendant.name\" ng-minlength=2 ng-focus required placeholder=\"Name of Defendant\" ng-keydown = \"addDefendant($event)\" ng-style=\"{'margin-bottom':(case.parties.defendants.length == 1)?'0px':'10px'}\"/>\n" +
+    "                                <div class=\"text-danger\" ng-show=\"form.$submitted && form.defendant.$invalid || form.defendant.$dirty && form.defendant.$invalid && !form.defendant.$focused\">\n" +
     "\n" +
-    "                                  <span ng-show=\"form.name.$error.required\">Name of Defendant is required</span>\n" +
-    "                                  <span ng-show=\"form.name.$error.minlength\">Name of Defendant is required to be at least 2 characters long</span>\n" +
+    "                                  <span ng-show=\"form.defendant.$error.required\">Name of Defendant is required</span>\n" +
+    "                                  <span ng-show=\"form.defendant.$error.minlength\">Name of Defendant is required to be at least 2 characters long</span>\n" +
     "\n" +
     "                                </div>\n" +
     "                            </div>\n" +
@@ -142,24 +158,30 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "                                  <div class=\"row\">\n" +
     "                                      <div class=\"col-xs-6\">\n" +
-    "                                        <input  id=\"name\" name=\"plaintiff\" type=\"text\" class=\"form-control\" ng-model=\"advocate.name\" ng-minlength=2 ng-focus required placeholder=\"Advocate\" ng-keydown = \"\" ng-style=\"{'margin-bottom':(case.parties.plaintiffAdvocates.length == 1)?'0px':'10px'}\"/>\n" +
-    "                                        <div class=\"text-danger\" ng-show=\"form.$submitted && form.plaintiff.$invalid || form.plaintiff.$dirty && form.plaintiff.$invalid && !form.plaintiff.$focused\">\n" +
+    "                                        <input set-focus=\"$last\" id=\"plaintiffAdvocate\" name=\"plaintiffAdvocate\" type=\"text\" class=\"form-control\" ng-model=\"advocate.name\" ng-minlength=2 ng-focus required placeholder=\"Advocate\" ng-keydown = \"\" ng-style=\"{'margin-bottom':(case.parties.plaintiffAdvocates.length == 1)?'0px':'10px'}\"/>\n" +
     "\n" +
-    "                                          <span ng-show=\"form.plaintiff.$error.required\">Name of Plaintiff is required</span>\n" +
-    "                                          <span ng-show=\"form.plaintiff.$error.minlength\">Name of Plaintiff is required to be at least 2 characters long</span>\n" +
-    "\n" +
-    "                                        </div>\n" +
     "                                      </div>\n" +
     "                                      <div class=\"col-xs-6\">\n" +
-    "                                        <input  id=\"name\" name=\"plaintiff\" type=\"text\" class=\"form-control\" ng-model=\"advocate.firm\" ng-minlength=2 ng-focus required placeholder=\"Law Firm\" ng-keydown = \"addPlaintiffAdvocate($event)\" ng-style=\"{'margin-bottom':(case.parties.plaintiffAdvocates.length == 1)?'0px':'10px'}\"/>\n" +
-    "                                        <div class=\"text-danger\" ng-show=\"form.$submitted && form.plaintiff.$invalid || form.plaintiff.$dirty && form.plaintiff.$invalid && !form.plaintiff.$focused\">\n" +
+    "                                        <input id=\"plaintiffFirm\" name=\"plaintiffFirm\" type=\"text\" class=\"form-control\" ng-model=\"advocate.firm\" ng-minlength=2 ng-focus required placeholder=\"Law Firm\" ng-keydown = \"addPlaintiffAdvocate($event)\" ng-style=\"{'margin-bottom':(case.parties.plaintiffAdvocates.length == 1)?'0px':'10px'}\"/>\n" +
     "\n" +
-    "                                          <span ng-show=\"form.plaintiff.$error.required\">Name of Plaintiff is required</span>\n" +
-    "                                          <span ng-show=\"form.plaintiff.$error.minlength\">Name of Plaintiff is required to be at least 2 characters long</span>\n" +
-    "\n" +
-    "                                        </div>\n" +
     "                                      </div>\n" +
     "                                  </div>\n" +
+    "                              </div>\n" +
+    "\n" +
+    "                              <div class=\"row\">\n" +
+    "                                <div class=\"col-xs-6 text-danger\" ng-show=\"form.$submitted && form.plaintiffAdvocate.$invalid || form.plaintiffAdvocate.$dirty && form.plaintiffAdvocate.$invalid && !form.plaintiffAdvocate.$focused\">\n" +
+    "\n" +
+    "                                  <span ng-show=\"form.plaintiffAdvocate.$error.required\">Name of Advocate is required</span>\n" +
+    "                                  <span ng-show=\"form.plaintiffAdvocate.$error.minlength\">Name of Advocate is required to be at least 2 characters long</span>\n" +
+    "\n" +
+    "                                </div>\n" +
+    "\n" +
+    "                                <div class=\"col-xs-6 text-danger pull-right\" ng-show=\"form.$submitted && form.plaintiffFirm.$invalid || form.plaintiffFirm.$dirty && form.plaintiffFirm.$invalid && !form.plaintiffFirm.$focused\">\n" +
+    "\n" +
+    "                                  <span ng-show=\"form.plaintiffFirm.$error.required\">Name of Law Firm is required</span>\n" +
+    "                                  <span ng-show=\"form.plaintiffFirm.$error.minlength\">Name of Law Firm is required to be at least 2 characters long</span>\n" +
+    "\n" +
+    "                                </div>\n" +
     "                              </div>\n" +
     "\n" +
     "                            </div>\n" +
@@ -173,23 +195,27 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                              <div ng-repeat=\"advocate in case.parties.defendantAdvocates\">\n" +
     "                                <div class=\"row\">\n" +
     "                                    <div class=\"col-xs-6\">\n" +
-    "                                      <input  id=\"name\" name=\"advocate\" type=\"text\" class=\"form-control\" ng-model=\"advocate.name\" ng-minlength=2 ng-focus required placeholder=\"Advocate\" ng-keydown = \"\"/>\n" +
-    "                                      <div class=\"text-danger\" ng-show=\"form.$submitted && form.advocate.$invalid || form.advocate.$dirty && form.advocate.$invalid && !form.advocate.$focused\">\n" +
+    "                                      <input  set-focus=\"$last\" id=\"defendantAdvocate\" name=\"defendantAdvocate\" type=\"text\" class=\"form-control\" ng-model=\"advocate.name\" ng-minlength=2 ng-focus required placeholder=\"Advocate\" ng-keydown = \"\" ng-style=\"{'margin-bottom':(case.parties.defendantAdvocates.length == 1)?'0px':'10px'}\"/>\n" +
     "\n" +
-    "                                        <span ng-show=\"form.advocate.$error.required\">Name of Plaintiff is required</span>\n" +
-    "                                        <span ng-show=\"form.advocate.$error.minlength\">Name of Plaintiff is required to be at least 2 characters long</span>\n" +
-    "\n" +
-    "                                      </div>\n" +
     "                                    </div>\n" +
     "                                    <div class=\"col-xs-6\">\n" +
-    "                                      <input  id=\"name\" name=\"plaintiff\" type=\"text\" class=\"form-control\" ng-model=\"advocate.firm\" ng-minlength=2 ng-focus required placeholder=\"Law Firm\" ng-keydown = \"addDefendantAdvocate($event)\"/>\n" +
-    "                                      <div class=\"text-danger\" ng-show=\"form.$submitted && form.plaintiff.$invalid || form.plaintiff.$dirty && form.plaintiff.$invalid && !form.plaintiff.$focused\">\n" +
+    "                                      <input  id=\"defendantFirm\" name=\"defendantFirm\" type=\"text\" class=\"form-control\" ng-model=\"advocate.firm\" ng-minlength=2 ng-focus required placeholder=\"Law Firm\" ng-keydown = \"addDefendantAdvocate($event)\" ng-style=\"{'margin-bottom':(case.parties.defendantAdvocates.length == 1)?'0px':'10px'}\"/>\n" +
     "\n" +
-    "                                        <span ng-show=\"form.plaintiff.$error.required\">Name of Plaintiff is required</span>\n" +
-    "                                        <span ng-show=\"form.plaintiff.$error.minlength\">Name of Plaintiff is required to be at least 2 characters long</span>\n" +
-    "\n" +
-    "                                      </div><br />\n" +
     "                                    </div>\n" +
+    "                                </div>\n" +
+    "                              </div>\n" +
+    "                              <div class=\"row\">\n" +
+    "                                <div class=\"col-xs-6 text-danger\" ng-show=\"form.$submitted && form.defendantAdvocate.$invalid || form.defendantAdvocate.$dirty && form.defendantAdvocate.$invalid && !form.defendantAdvocate.$focused\">\n" +
+    "\n" +
+    "                                  <span ng-show=\"form.defendantAdvocate.$error.required\">Name of Advocate is required</span>\n" +
+    "                                  <span ng-show=\"form.defendantAdvocate.$error.minlength\">Name of Advocate is required to be at least 2 characters long</span>\n" +
+    "\n" +
+    "                                </div>\n" +
+    "                                <div class=\"col-xs-6 text-danger pull-right\" ng-show=\"form.$submitted && form.defendantFirm.$invalid || form.defendantFirm.$dirty && form.defendantFirm.$invalid && !form.defendantFirm.$focused\">\n" +
+    "\n" +
+    "                                  <span ng-show=\"form.defendantFirm.$error.required\">Name of Law Firm is required</span>\n" +
+    "                                  <span ng-show=\"form.defendantFirm.$error.minlength\">Name of Law Firm is required to be at least 2 characters long</span>\n" +
+    "\n" +
     "                                </div>\n" +
     "                              </div>\n" +
     "\n" +
@@ -203,22 +229,15 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                  <div class=\"row\">\n" +
     "\n" +
     "\n" +
-    "                    <div class=\"col-xs-12 col-md-5 form-group\">\n" +
-    "                      <input id=\"name\" name=\"name\" type=\"text\" class=\"form-control\" ng-model=\"case.name\" ng-minlength=2 ng-focus required placeholder=\"Name of Case\"/>\n" +
-    "                      <div class=\"text-danger\" ng-show=\"form.$submitted && form.name.$invalid || form.name.$dirty && form.name.$invalid && !form.name.$focused\">\n" +
     "\n" +
-    "                        <span ng-show=\"form.name.$error.required\">Name of Case is required</span>\n" +
-    "                        <span ng-show=\"form.name.$error.minlength\">Name of Case is required to be at least 2 characters long</span>\n" +
     "\n" +
-    "                      </div>\n" +
-    "                    </div>\n" +
+    "                    <div class=\"col-xs-12\" style=\"border:1px dashed #d3d3d3; border-radius:5px; height:auto; color:#d3d3d3; padding-top:10px; padding-bottom:20px; width:97%; margin-left:12px; margin-bottom:20px;\">\n" +
+    "                      <h4>Coram</h4>\n" +
+    "                      <input ng-repeat=\"plaintiff in case.parties.plaintiffs\" set-focus=\"$last\" id=\"plaintiff\" name=\"plaintiff\" type=\"text\" class=\"form-control\" ng-model=\"plaintiff.name\" ng-minlength=2 ng-focus required placeholder=\"Name of Judge\" ng-keydown = \"addPlaintiff($event)\" ng-style=\"{'margin-bottom':(case.parties.plaintiffs.length == 1)?'0px':'10px'}\"/>\n" +
+    "                      <div class=\"text-danger\" ng-show=\"form.$submitted && form.plaintiff.$invalid || form.plaintiff.$dirty && form.plaintiff.$invalid && !form.plaintiff.$focused\">\n" +
     "\n" +
-    "                    <div class=\"col-xs-12 col-md-5 form-group\">\n" +
-    "                      <input id=\"coram\" name=\"coram\" type=\"text\" class=\"form-control\" ng-model=\"case.coram\"  ng-minlength=2 ng-focus required placeholder=\"Coram\"/>\n" +
-    "                      <div class=\"text-danger\" ng-show=\"form.$submitted && form.coram.$invalid ||form.coram.$dirty && form.coram.$invalid && !form.coram.$focused\">\n" +
-    "\n" +
-    "                        <span ng-show=\"form.coram.$error.required\">Coram is required</span>\n" +
-    "                        <span ng-show=\"form.coram.$error.minlength\">Coram is required to be at least 2 characters long</span>\n" +
+    "                        <span ng-show=\"form.plaintiff.$error.required\">Name of Judge is required</span>\n" +
+    "                        <span ng-show=\"form.plaintiff.$error.minlength\">Name of Judge is required to be at least 2 characters long</span>\n" +
     "\n" +
     "                      </div>\n" +
     "                    </div>\n" +
@@ -226,16 +245,150 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "\n" +
     "\n" +
-    "                    <div class=\"col-xs-12 col-md-2 form-group\">\n" +
-    "                      <input id=\"caseNumber\" name=\"caseNumber\" type=\"text\" class=\"form-control\" ng-model=\"case.caseNumber\" ng-minlength=2 ng-focus placeholder=\"Case Number\"/>\n" +
-    "                      <div class=\"text-danger\" ng-show=\"form.$submitted && form.caseNumber.$invalid || form.caseNumber.$dirty && form.caseNumber.$invalid && !form.caseNumber.$focused\">\n" +
-    "                        <span><i class=\"fa fa-exclamation-circle\"></i></span>\n" +
-    "                        <span ng-show=\"form.caseNumber.$error.required\">Case Number is required</span>\n" +
-    "                        <span ng-show=\"form.caseNumber.$error.minlength\">Case Number is required to be at least 2 characters long</span>\n" +
     "\n" +
-    "                      </div>\n" +
-    "                    </div>\n" +
     "                  </div>\n" +
+    "\n" +
+    "                  <div class=\"row\">\n" +
+    "                  <div class=\"col-xs-12\" style=\"border:1px dashed #d3d3d3; border-radius:5px; height:auto; color:#d3d3d3; padding-top:10px; padding-bottom:20px; width:97%; margin-left:12px; margin-bottom:20px;\">\n" +
+    "                        <h4>Citation Details</h4>\n" +
+    "                        <div class=\"row\">\n" +
+    "\n" +
+    "                        <div class=\"col-xs-3 form-group\">\n" +
+    "                          <input id=\"citation-number\" type=\"text\" class=\"form-control \" ng-model=\"citation.number\" name=\"citation-number\" ng-minlength = 10 ng-focus placeholder=\"Citation Number\" />\n" +
+    "                          <div class=\"alert alert-danger\" ng-show=\"form.$submitted && form.contactNumber.$invalid || form.contactNumber.$dirty && form.contactNumber.$invalid && !form.contactNumberNumber.$focused\">\n" +
+    "\n" +
+    "                            <span ng-show=\"form.citation-number.$error.required\">Citation Number is required</span>\n" +
+    "                            <span ng-show=\"form.citation-number.$error.minlength\">Citation Number is required to be at least 2 characters long.</span>\n" +
+    "\n" +
+    "                          </div>\n" +
+    "                        </div>\n" +
+    "\n" +
+    "                         <div class=\"col-xs-3 form-group\">\n" +
+    "                          <input id=\"citation-year\" type=\"text\" class=\"form-control \" ng-model=\"citation.year\" name=\"citation-year\" ng-minlength = 2 optional ng-focus placeholder=\"Citation Year\" />\n" +
+    "                          <div class=\"text-danger\" ng-show=\"form.$submitted && form.citation-year.$invalid || form.citation-year.$dirty && form.citation-year.$invalid && !form.citation-year.$focused\">\n" +
+    "\n" +
+    "                            <span ng-show=\"form.citation-year.$error.required\">Citation Year is required.</span>\n" +
+    "                            <span ng-show=\"form.citation-year.$error.minlength\">Citation Year is required to be at least 2 characters long.</span>\n" +
+    "                          </div>\n" +
+    "                        </div>\n" +
+    "\n" +
+    "\n" +
+    "                       <div class=\"col-xs-3 form-group\">\n" +
+    "                        <input id=\"citation-code\" name=\"citation-code\" type=\"text\" class=\"form-control \" ng-model=\"citation.code\"  ng-minlength = 2 optional ng-focus placeholder=\"Citation Code\" />\n" +
+    "                        <div class=\"alert alert-danger\" ng-show=\"form.$submitted && form.citation-code.$invalid || form.citation-code.$dirty && form.citation-code.$invalid && !form.citation-code.$focused\">\n" +
+    "\n" +
+    "\n" +
+    "                          <span ng-show=\"form.citation-code.$error.required\">Citation Code is required.</span>\n" +
+    "                          <span ng-show=\"form.citation-code.$error.minlength\">Citation Year is required to be at least 2 characters long.</span>\n" +
+    "\n" +
+    "                        </div>\n" +
+    "                      </div>\n" +
+    "\n" +
+    "                      <div class=\"col-xs-3 form-group\">\n" +
+    "                       <input id=\"citation-page-number\" name=\"citation-page-number\" type=\"text\" class=\"form-control \" ng-model=\"citation.pageNumber\"  ng-minlength = 10 optional ng-focus placeholder=\"Citation Page Number\" />\n" +
+    "                       <div class=\"text-danger\" ng-show=\"form.$submitted && form.citation-page-number.$invalid || form.citation-page-number.$dirty && form.citation-page-number.$invalid && !form.citation-page-number.$focused\">\n" +
+    "\n" +
+    "\n" +
+    "                         <span ng-show=\"form.citation-page-number.$error.required\">Citation Page Number is required.</span>\n" +
+    "                         <span ng-show=\"form.citation-page-number.$error.minlength\">Citation Page Number is required to be at least 2 characters long.</span>\n" +
+    "                       </div>\n" +
+    "                     </div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "                     </div>\n" +
+    "\n" +
+    "                   </div>\n" +
+    "\n" +
+    "                 </div>\n" +
+    "\n" +
+    "                 <div class=\"row\">\n" +
+    "\n" +
+    "\n" +
+    "                   <div class=\"col-xs-4 form-group\">\n" +
+    "                     <ui-select ng-model=\"advocate.name\" theme=\"selectize\">\n" +
+    "                         <ui-select-match placeholder=\"Select Court\">{{$select.selected.name}}</ui-select-match>\n" +
+    "                         <ui-select-choices repeat=\"advocate in case.parties.plaintiffAdvocates | filter: $select.search\">\n" +
+    "                           <span ng-bind-html=\"advocate.name | highlight: $select.search\"></span>\n" +
+    "                           <small ng-bind-html=\"advocate.firm | highlight: $select.search\"></small>\n" +
+    "                         </ui-select-choices>\n" +
+    "                     </ui-select>\n" +
+    "                   </div>\n" +
+    "\n" +
+    "                   <div class=\"col-xs-4 form-group\">\n" +
+    "                     <ui-select ng-model=\"advocate.name\" theme=\"selectize\">\n" +
+    "                         <ui-select-match placeholder=\"Select Court Division\">{{$select.selected.name}}</ui-select-match>\n" +
+    "                         <ui-select-choices repeat=\"advocate in case.parties.plaintiffAdvocates | filter: $select.search\">\n" +
+    "                           <span ng-bind-html=\"advocate.name | highlight: $select.search\"></span>\n" +
+    "                           <small ng-bind-html=\"advocate.firm | highlight: $select.search\"></small>\n" +
+    "                         </ui-select-choices>\n" +
+    "                     </ui-select>\n" +
+    "                   </div>\n" +
+    "\n" +
+    "\n" +
+    "                   <div class=\"col-xs-4 form-group\">\n" +
+    "                     <ui-select ng-model=\"advocate.name\" theme=\"selectize\">\n" +
+    "                         <ui-select-match placeholder=\"Select Location\">{{$select.selected.name}}</ui-select-match>\n" +
+    "                         <ui-select-choices repeat=\"advocate in case.parties.plaintiffAdvocates | filter: $select.search\">\n" +
+    "                           <span ng-bind-html=\"advocate.name | highlight: $select.search\"></span>\n" +
+    "                           <small ng-bind-html=\"advocate.firm | highlight: $select.search\"></small>\n" +
+    "                         </ui-select-choices>\n" +
+    "                     </ui-select>\n" +
+    "                   </div>\n" +
+    "\n" +
+    "                   <div class=\"col-xs-12\" style=\"border:1px dashed #d3d3d3; border-radius:5px; height:auto; color:#d3d3d3; padding-top:10px; padding-bottom:20px; width:97%; margin-left:12px; margin-bottom:20px;\">\n" +
+    "                         <h4>References</h4>\n" +
+    "                         <div class=\"row\">\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "                             <div class=\"col-xs-4 form-group\">\n" +
+    "\n" +
+    "\n" +
+    "                               <ui-select multiple ng-model=\"case.parties.selectedPlaintiffAdvocates\" theme=\"bootstrap\">\n" +
+    "                                   <ui-select-match placeholder=\"Select Legislations Referred To...\">{{$item.name}}</ui-select-match>\n" +
+    "                                   <ui-select-choices repeat=\"advocate in case.parties.plaintiffAdvocates | filter: $select.search\">\n" +
+    "                                     <span ng-bind-html=\"advocate.name | highlight: $select.search\"></span>\n" +
+    "                                     <small ng-bind-html=\"advocate.firm | highlight: $select.search\"></small>\n" +
+    "                                   </ui-select-choices>\n" +
+    "                               </ui-select>\n" +
+    "                             </div>\n" +
+    "\n" +
+    "                             <div class=\"col-xs-4 form-group\">\n" +
+    "\n" +
+    "\n" +
+    "                               <ui-select multiple ng-model=\"case.parties.selectedPlaintiffAdvocates\" theme=\"bootstrap\">\n" +
+    "                                   <ui-select-match placeholder=\"Select Cases Referred To...\">{{$item.name}}</ui-select-match>\n" +
+    "                                   <ui-select-choices repeat=\"advocate in case.parties.plaintiffAdvocates | filter: $select.search\">\n" +
+    "                                     <span ng-bind-html=\"advocate.name | highlight: $select.search\"></span>\n" +
+    "                                     <small ng-bind-html=\"advocate.firm | highlight: $select.search\"></small>\n" +
+    "                                   </ui-select-choices>\n" +
+    "                               </ui-select>\n" +
+    "                             </div>\n" +
+    "\n" +
+    "\n" +
+    "                             <div class=\"col-xs-4 form-group\">\n" +
+    "\n" +
+    "\n" +
+    "                               <ui-select multiple ng-model=\"case.parties.selectedPlaintiffAdvocates\" theme=\"bootstrap\">\n" +
+    "                                   <ui-select-match placeholder=\"Select Works Referred To...\">{{$item.name}}</ui-select-match>\n" +
+    "                                   <ui-select-choices repeat=\"advocate in case.parties.plaintiffAdvocates | filter: $select.search\">\n" +
+    "                                     <span ng-bind-html=\"advocate.name | highlight: $select.search\"></span>\n" +
+    "                                     <small ng-bind-html=\"advocate.firm | highlight: $select.search\"></small>\n" +
+    "                                   </ui-select-choices>\n" +
+    "                               </ui-select>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "                             </div>\n" +
+    "                             </div>\n" +
+    "                              </div>\n" +
+    "                     </div>\n" +
+    "\n" +
     "                    <div class=\"row\">\n" +
     "\n" +
     "\n" +
@@ -260,16 +413,6 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                    </div>\n" +
     "\n" +
     "                    <div class=\"col-xs-12 form-group\">\n" +
-    "                      <input id=\"workReferredTo\" type=\"workReferredTo\" class=\"form-control\" ng-model=\"case.workReferredTo\" name=\"workReferredTo\" ng-focus placeholder=\"Work Referred To\"/>\n" +
-    "                      <div class=\"text-danger\" ng-show=\"form.$submitted && form.workReferredTo.$invalid || form.workReferredTo.$dirty && form.workReferredTo.$invalid && !form.workReferredTo.$focused\">\n" +
-    "\n" +
-    "                        <span ng-show=\"form.workReferredTo.$error.required\">Work Referred To is required</span>\n" +
-    "                        <span ng-show=\"form.workReferredTo.$error.minlength\">Work Referred To is required to be at least 2 characters long</span>\n" +
-    "\n" +
-    "                      </div>\n" +
-    "                    </div>\n" +
-    "\n" +
-    "                    <div class=\"col-xs-12 form-group\">\n" +
     "                        <textarea ng-model=\"case.judgement\" id=\"judgement\" name=\"judgement\" type=\"text\" style=\"height: 90px\" min-word-count=\"2\" max-word-count=\"100\" class=\"form-control\" ng-minlength=2 required ng-focus placeholder=\"Judgement\"/>\n" +
     "                        <div class=\"text-danger\" ng-show=\"form.$submitted && form.judgement.$invalid || form.judgement.$dirty && form.judgement.$invalid && !form.judgement.$focused\">\n" +
     "\n" +
@@ -279,34 +422,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                      </div>\n" +
     "                    </div>\n" +
     "\n" +
-    "                    <div class=\"col-xs-4 form-group\">\n" +
-    "                      <span id=\"sectionHeading\" style=\"margin-bottom:20px\">Area of Law</span>\n" +
-    "                      <select id=\"areaOfLaw\" ui-select2=\"{minimumInputLength: 2, width: 'resolve'}\" ng-model=\"case.areaOfLaw\"  onchange=\"showCustomerDetails()\" style=\"font-weight: 700; width:100%; position: relative; vertical-align: middle; background-color: white\" class=\"ng-pristine ng-valid select2-offscreen\" tabindex=\"-1\" title=\"Area of Law\" placeholder = \"Area of Law\" >\n" +
-    "                          <option>\n" +
-    "                            xxx\n" +
-    "                          </option>\n" +
-    "                          <option>\n" +
-    "                            yyy\n" +
-    "                          </option>\n" +
-    "                          <option>\n" +
-    "                            zzz\n" +
-    "                          </option>\n" +
-    "                      </select>\n" +
-    "                    </div>\n" +
     "\n" +
-    "                    <div class=\"col-xs-4 form-group\">\n" +
-    "                      <span id=\"sectionHeading\" style=\"margin-bottom:20px\">Court</span>\n" +
-    "                      <select id=\"court\" ui-select2=\"{minimumInputLength: 2, width: 'resolve'}\" ng-model=\"case.court\"  onchange=\"showCustomerDetails()\" style=\"font-weight: 700; width:100%; position: relative; vertical-align: middle; background-color: white\" class=\"ng-pristine ng-valid select2-offscreen\" tabindex=\"-1\" title=\"\" >\n" +
-    "\n" +
-    "                      </select>\n" +
-    "                    </div>\n" +
-    "\n" +
-    "                    <div class=\"col-xs-4 form-group\">\n" +
-    "                      <span id=\"sectionHeading\" style=\"margin-bottom:20px\">Legislation</span>\n" +
-    "                      <select id=\"legislation\" ui-select2=\"{minimumInputLength: 2, width: 'resolve'}\" ng-model=\"case.legislation\"  onchange=\"showCustomerDetails()\" style=\"font-weight: 700; width:100%; position: relative; vertical-align: middle; background-color: white\" class=\"ng-pristine ng-valid select2-offscreen\" tabindex=\"-1\" title=\"\" >\n" +
-    "\n" +
-    "                      </select>\n" +
-    "                    </div>\n" +
     "                  </div>\n" +
     "\n" +
     "\n" +
@@ -314,59 +430,6 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "\n" +
     "\n" +
-    "              <div class=\"row\">\n" +
-    "              <div class=\"col-xs-12\" style=\"border:1px dashed #d3d3d3; border-radius:5px; height:auto; color:#d3d3d3; padding-top:10px; padding-bottom:20px; width:97%; margin-left:12px; margin-bottom:20px;\">\n" +
-    "                    <h4>Citation Details</h4>\n" +
-    "                    <div class=\"row\">\n" +
-    "\n" +
-    "                    <div class=\"col-xs-3 form-group\">\n" +
-    "                      <input id=\"citation-number\" type=\"text\" class=\"form-control \" ng-model=\"citation.number\" name=\"citation-number\" ng-minlength = 10 ng-focus placeholder=\"Citation Number\" />\n" +
-    "                      <div class=\"alert alert-danger\" ng-show=\"form.$submitted && form.contactNumber.$invalid || form.contactNumber.$dirty && form.contactNumber.$invalid && !form.contactNumberNumber.$focused\">\n" +
-    "\n" +
-    "                        <span ng-show=\"form.citation-number.$error.required\">Citation Number is required</span>\n" +
-    "                        <span ng-show=\"form.citation-number.$error.minlength\">Citation Number is required to be at least 2 characters long.</span>\n" +
-    "\n" +
-    "                      </div>\n" +
-    "                    </div>\n" +
-    "\n" +
-    "                     <div class=\"col-xs-3 form-group\">\n" +
-    "                      <input id=\"citation-year\" type=\"text\" class=\"form-control \" ng-model=\"citation.year\" name=\"citation-year\" ng-minlength = 2 optional ng-focus placeholder=\"Citation Year\" />\n" +
-    "                      <div class=\"text-danger\" ng-show=\"form.$submitted && form.citation-year.$invalid || form.citation-year.$dirty && form.citation-year.$invalid && !form.citation-year.$focused\">\n" +
-    "\n" +
-    "                        <span ng-show=\"form.citation-year.$error.required\">Citation Year is required.</span>\n" +
-    "                        <span ng-show=\"form.citation-year.$error.minlength\">Citation Year is required to be at least 2 characters long.</span>\n" +
-    "                      </div>\n" +
-    "                    </div>\n" +
-    "\n" +
-    "\n" +
-    "                   <div class=\"col-xs-3 form-group\">\n" +
-    "                    <input id=\"citation-code\" name=\"citation-code\" type=\"text\" class=\"form-control \" ng-model=\"citation.code\"  ng-minlength = 2 optional ng-focus placeholder=\"Citation Code\" />\n" +
-    "                    <div class=\"alert alert-danger\" ng-show=\"form.$submitted && form.citation-code.$invalid || form.citation-code.$dirty && form.citation-code.$invalid && !form.citation-code.$focused\">\n" +
-    "\n" +
-    "\n" +
-    "                      <span ng-show=\"form.citation-code.$error.required\">Citation Code is required.</span>\n" +
-    "                      <span ng-show=\"form.citation-code.$error.minlength\">Citation Year is required to be at least 2 characters long.</span>\n" +
-    "\n" +
-    "                    </div>\n" +
-    "                  </div>\n" +
-    "\n" +
-    "                  <div class=\"col-xs-3 form-group\">\n" +
-    "                   <input id=\"citation-page-number\" name=\"citation-page-number\" type=\"text\" class=\"form-control \" ng-model=\"citation.pageNumber\"  ng-minlength = 10 optional ng-focus placeholder=\"Citation Page Number\" />\n" +
-    "                   <div class=\"text-danger\" ng-show=\"form.$submitted && form.citation-page-number.$invalid || form.citation-page-number.$dirty && form.citation-page-number.$invalid && !form.citation-page-number.$focused\">\n" +
-    "\n" +
-    "\n" +
-    "                     <span ng-show=\"form.citation-page-number.$error.required\">Citation Page Number is required.</span>\n" +
-    "                     <span ng-show=\"form.citation-page-number.$error.minlength\">Citation Page Number is required to be at least 2 characters long.</span>\n" +
-    "                   </div>\n" +
-    "                 </div>\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "                 </div>\n" +
-    "\n" +
-    "               </div>\n" +
-    "\n" +
-    "             </div>\n" +
     "\n" +
     "\n" +
     "        </form>  <!--End Form-->\n" +

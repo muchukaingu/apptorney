@@ -14,7 +14,7 @@
 
         <!-- Start Form-->
 
-              <form id ="applicationForm" name="form" class="css-form" novalidate>
+              <form id ="applicationForm" name="form" class="css-form" ng-submit="saveApplication()" novalidate>
                   <div class="row">
 
 
@@ -33,18 +33,35 @@
 
                   </div>
 
-                  <div class = "form-group">
-                    <button id="submit" type="submit" class="btn btn-primary-alt pull-right"  style="width:120px" ng-click = "saveCourt()">Save</button>
+                  <div class="row">
 
 
-                    <div id="submitAppMsg" class="pull-left" style="font-size: larger; position: relative; top: 5px"></div>
+
+
+                    <div class="col-xs-12" style="border:1px dashed #d3d3d3; border-radius:5px; height:auto; color:#d3d3d3; padding-top:10px; padding-bottom:20px; width:97%; margin-left:12px; margin-bottom:20px;">
+                      <h4>Court Divisions</h4>
+                      <input ng-repeat="division in divisions" set-focus="$last" id="division" name="division" type="text" class="form-control" ng-model="division.name" ng-minlength=2 ng-focus required placeholder="Name of Division" ng-keydown = "addDivision($event)" ng-style="{'margin-bottom':(courts.length == 1)?'0px':'10px'}"/>
+                      <div class="text-danger" ng-show="form.$submitted && form.coram.$invalid || form.coram.$dirty && form.coram.$invalid && !form.coram.$focused">
+
+                        <span ng-show="form.coram.$error.required">Name of Division is required</span>
+                        <span ng-show="form.coram.$error.minlength">Name of Division is required to be at least 2 characters long</span>
+
+                      </div>
+                    </div>
+
+
+
+
+
                   </div>
+
+
 
             </form>
 
    </div>
    <div class="modal-footer" style="border-top:none">
-
+        <button id="submit" type="submit" class="btn btn-primary-alt pull-right"  style="width:120px" ng-click = "saveCourt()">Save</button>
 
     </div>
  </div>

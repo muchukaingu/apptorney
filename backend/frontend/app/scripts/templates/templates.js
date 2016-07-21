@@ -103,9 +103,9 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                    </div>\n" +
     "                    <div class=\"col-xs-6 form-group\">\n" +
     "\n" +
-    "                      <ui-select ng-model=\"case.areaOfLaw\" theme=\"selectize\">\n" +
+    "                      <ui-select ng-model=\"case.areaOfLaw\" theme=\"selectize\" title=\"Area of Law\" id=\"areaOfLaw\">\n" +
     "                          <ui-select-match placeholder=\"Area of Law\">{{$select.selected.name}}</ui-select-match>\n" +
-    "                          <ui-select-choices repeat=\"area in areasOfLaw | filter:$search\">\n" +
+    "                          <ui-select-choices repeat=\"area in areasOfLaw | filter:$select.search\">\n" +
     "                            <span ng-bind-html=\"area.name | highlight: $select.search\"></span>\n" +
     "\n" +
     "                          </ui-select-choices>\n" +
@@ -313,8 +313,19 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                         <h4>Court Details</h4>\n" +
     "                         <div class=\"row\">\n" +
     "                             <div class=\"col-xs-3 form-group\">\n" +
+    "                               <ui-select ng-model=\"case.court\" theme=\"selectize\" title=\"Court\" id=\"court\">\n" +
+    "                                   <ui-select-match placeholder=\"Court\">{{$select.selected.name}}</ui-select-match>\n" +
+    "                                   <ui-select-choices repeat=\"court in courts | filter:$select.search\">\n" +
+    "                                     <span ng-bind-html=\"court.name | highlight: $select.search\"></span>\n" +
+    "\n" +
+    "                                   </ui-select-choices>\n" +
+    "                               </ui-select>\n" +
+    "\n" +
+    "                             </div>\n" +
+    "\n" +
+    "                             <div class=\"col-xs-3 form-group\">\n" +
     "                               <ui-select ng-model=\"advocate.name\" theme=\"selectize\">\n" +
-    "                                   <ui-select-match placeholder=\"Select Court\">{{$select.selected.name}}</ui-select-match>\n" +
+    "                                   <ui-select-match placeholder=\"Court Division\">{{$select.selected.name}}</ui-select-match>\n" +
     "                                   <ui-select-choices repeat=\"advocate in case.parties.plaintiffAdvocates | filter: $select.search\">\n" +
     "                                     <span ng-bind-html=\"advocate.name | highlight: $select.search\"></span>\n" +
     "                                     <small ng-bind-html=\"advocate.firm | highlight: $select.search\"></small>\n" +
@@ -322,33 +333,23 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                               </ui-select>\n" +
     "                             </div>\n" +
     "\n" +
-    "                             <div class=\"col-xs-3 form-group\">\n" +
-    "                               <ui-select ng-model=\"advocate.name\" theme=\"selectize\">\n" +
-    "                                   <ui-select-match placeholder=\"Select Court Division\">{{$select.selected.name}}</ui-select-match>\n" +
-    "                                   <ui-select-choices repeat=\"advocate in case.parties.plaintiffAdvocates | filter: $select.search\">\n" +
-    "                                     <span ng-bind-html=\"advocate.name | highlight: $select.search\"></span>\n" +
-    "                                     <small ng-bind-html=\"advocate.firm | highlight: $select.search\"></small>\n" +
-    "                                   </ui-select-choices>\n" +
-    "                               </ui-select>\n" +
-    "                             </div>\n" +
-    "\n" +
     "\n" +
     "                             <div class=\"col-xs-3 form-group\">\n" +
-    "                               <ui-select ng-model=\"advocate.name\" theme=\"selectize\">\n" +
-    "                                   <ui-select-match placeholder=\"Select Location\">{{$select.selected.name}}</ui-select-match>\n" +
-    "                                   <ui-select-choices repeat=\"advocate in case.parties.plaintiffAdvocates | filter: $select.search\">\n" +
-    "                                     <span ng-bind-html=\"advocate.name | highlight: $select.search\"></span>\n" +
-    "                                     <small ng-bind-html=\"advocate.firm | highlight: $select.search\"></small>\n" +
+    "                               <ui-select ng-model=\"location.name\" theme=\"selectize\">\n" +
+    "                                   <ui-select-match placeholder=\"Location\">{{$select.selected.name}}</ui-select-match>\n" +
+    "                                   <ui-select-choices repeat=\"location in locations | filter: $select.search\">\n" +
+    "                                     <span ng-bind-html=\"location.name | highlight: $select.search\"></span>\n" +
+    "\n" +
     "                                   </ui-select-choices>\n" +
     "                               </ui-select>\n" +
     "                             </div>\n" +
     "\n" +
     "                             <div class=\"col-xs-3 form-group\">\n" +
-    "                               <ui-select ng-model=\"advocate.name\" theme=\"selectize\">\n" +
-    "                                   <ui-select-match placeholder=\"Select Jurisdiction\">{{$select.selected.name}}</ui-select-match>\n" +
-    "                                   <ui-select-choices repeat=\"advocate in case.parties.plaintiffAdvocates | filter: $select.search\">\n" +
-    "                                     <span ng-bind-html=\"advocate.name | highlight: $select.search\"></span>\n" +
-    "                                     <small ng-bind-html=\"advocate.firm | highlight: $select.search\"></small>\n" +
+    "                               <ui-select ng-model=\"jurisdiction.name\" theme=\"selectize\">\n" +
+    "                                   <ui-select-match placeholder=\"Jurisdiction\">{{$select.selected.name}}</ui-select-match>\n" +
+    "                                   <ui-select-choices repeat=\"jurisdiction in jurisdictions | filter: $select.search\">\n" +
+    "                                     <span ng-bind-html=\"jurisdiction.name | highlight: $select.search\"></span>\n" +
+    "\n" +
     "                                   </ui-select-choices>\n" +
     "                               </ui-select>\n" +
     "                             </div>\n" +
@@ -365,14 +366,15 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "\n" +
     "\n" +
-    "                             <div class=\"col-xs-4 form-group\">\n" +
+    "                             <div class=\"col-xs-4 form-group\" ng-controller = \"LegislationController\">\n" +
     "\n" +
     "\n" +
-    "                               <ui-select multiple ng-model=\"case.parties.selectedPlaintiffAdvocates\" theme=\"bootstrap\">\n" +
-    "                                   <ui-select-match placeholder=\"Select Legislations Referred To...\">{{$item.name}}</ui-select-match>\n" +
-    "                                   <ui-select-choices repeat=\"advocate in case.parties.plaintiffAdvocates | filter: $select.search\">\n" +
-    "                                     <span ng-bind-html=\"advocate.name | highlight: $select.search\"></span>\n" +
-    "                                     <small ng-bind-html=\"advocate.firm | highlight: $select.search\"></small>\n" +
+    "                               <ui-select multiple ng-model=\"case.legislationsReferedTo\" theme=\"bootstrap\">\n" +
+    "                                   <ui-select-match placeholder=\"Select Legislations Referred To...\">{{$item.legislationName}} {{$item.dateOfAssent | date : 'yyyy'}}</ui-select-match>\n" +
+    "                                   <ui-select-choices repeat=\"legislation.id as legislation in legislations | filter: $select.search\">\n" +
+    "                                     <span ng-bind-html=\"legislation.legislationNumber | highlight: $select.search\"></span>&nbsp;-\n" +
+    "                                     <span ng-bind-html=\"legislation.legislationName | highlight: $select.search\"></span>\n" +
+    "                                     <small ng-bind-html=\"legislation.dateOfAssent | date : 'yyyy' | highlight: $select.search\"></small>\n" +
     "                                   </ui-select-choices>\n" +
     "                               </ui-select>\n" +
     "                             </div>\n" +
@@ -380,24 +382,24 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                             <div class=\"col-xs-4 form-group\">\n" +
     "\n" +
     "\n" +
-    "                               <ui-select multiple ng-model=\"case.parties.selectedPlaintiffAdvocates\" theme=\"bootstrap\">\n" +
+    "                               <ui-select multiple ng-model=\"case.casesReferedTo\" theme=\"bootstrap\">\n" +
     "                                   <ui-select-match placeholder=\"Select Cases Referred To...\">{{$item.name}}</ui-select-match>\n" +
-    "                                   <ui-select-choices repeat=\"advocate in case.parties.plaintiffAdvocates | filter: $select.search\">\n" +
-    "                                     <span ng-bind-html=\"advocate.name | highlight: $select.search\"></span>\n" +
-    "                                     <small ng-bind-html=\"advocate.firm | highlight: $select.search\"></small>\n" +
+    "                                   <ui-select-choices repeat=\"case.id as case in cases | filter: $select.search\">\n" +
+    "                                     <span ng-bind-html=\"case.name | highlight: $select.search\"></span>\n" +
+    "                                     <small ng-bind-html=\"case.citation.year | highlight: $select.search\"></small>\n" +
     "                                   </ui-select-choices>\n" +
     "                               </ui-select>\n" +
     "                             </div>\n" +
     "\n" +
     "\n" +
-    "                             <div class=\"col-xs-4 form-group\">\n" +
+    "                             <div class=\"col-xs-4 form-group\" ng-controller=\"WorkReferenceController\">\n" +
     "\n" +
     "\n" +
-    "                               <ui-select multiple ng-model=\"case.parties.selectedPlaintiffAdvocates\" theme=\"bootstrap\">\n" +
+    "                               <ui-select multiple ng-model=\"case.worksReferedTo\" theme=\"bootstrap\">\n" +
     "                                   <ui-select-match placeholder=\"Select Works Referred To...\">{{$item.name}}</ui-select-match>\n" +
-    "                                   <ui-select-choices repeat=\"advocate in case.parties.plaintiffAdvocates | filter: $select.search\">\n" +
-    "                                     <span ng-bind-html=\"advocate.name | highlight: $select.search\"></span>\n" +
-    "                                     <small ng-bind-html=\"advocate.firm | highlight: $select.search\"></small>\n" +
+    "                                   <ui-select-choices repeat=\"work.id as work in works | filter: $select.search\">\n" +
+    "                                     <span ng-bind-html=\"work.name | highlight: $select.search\"></span>\n" +
+    "                                     \n" +
     "                                   </ui-select-choices>\n" +
     "                               </ui-select>\n" +
     "\n" +
@@ -465,7 +467,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "    <div class=\"row\">\n" +
     "      <div class = \"form-group col-xs-3 col-xs-offset-9\">\n" +
     "\n" +
-    "        <button id=\"submit\" type=\"submit\" class=\"btn btn-primary-alt btn-block btn-md\" style=\"\">Save Case</button>\n" +
+    "        <button id=\"submit\" type=\"submit\" class=\"btn btn-primary-alt btn-block btn-md\" style=\"\" ng-click=\"saveCase()\">Save Case</button>\n" +
     "\n" +
     "      </div>\n" +
     "    </div>\n" +
@@ -580,7 +582,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "        <!-- Start Form-->\n" +
     "\n" +
-    "              <form id =\"applicationForm\" name=\"form\" class=\"css-form\" novalidate>\n" +
+    "              <form id =\"applicationForm\" name=\"form\" class=\"css-form\" ng-submit=\"saveApplication()\" novalidate>\n" +
     "                  <div class=\"row\">\n" +
     "\n" +
     "\n" +
@@ -599,8 +601,81 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "                  </div>\n" +
     "\n" +
+    "                  <div class=\"row\">\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "                    <div class=\"col-xs-12\" style=\"border:1px dashed #d3d3d3; border-radius:5px; height:auto; color:#d3d3d3; padding-top:10px; padding-bottom:20px; width:97%; margin-left:12px; margin-bottom:20px;\">\n" +
+    "                      <h4>Court Divisions</h4>\n" +
+    "                      <input ng-repeat=\"division in divisions\" set-focus=\"$last\" id=\"division\" name=\"division\" type=\"text\" class=\"form-control\" ng-model=\"division.name\" ng-minlength=2 ng-focus required placeholder=\"Name of Division\" ng-keydown = \"addDivision($event)\" ng-style=\"{'margin-bottom':(courts.length == 1)?'0px':'10px'}\"/>\n" +
+    "                      <div class=\"text-danger\" ng-show=\"form.$submitted && form.coram.$invalid || form.coram.$dirty && form.coram.$invalid && !form.coram.$focused\">\n" +
+    "\n" +
+    "                        <span ng-show=\"form.coram.$error.required\">Name of Division is required</span>\n" +
+    "                        <span ng-show=\"form.coram.$error.minlength\">Name of Division is required to be at least 2 characters long</span>\n" +
+    "\n" +
+    "                      </div>\n" +
+    "                    </div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "                  </div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "            </form>\n" +
+    "\n" +
+    "   </div>\n" +
+    "   <div class=\"modal-footer\" style=\"border-top:none\">\n" +
+    "        <button id=\"submit\" type=\"submit\" class=\"btn btn-primary-alt pull-right\"  style=\"width:120px\" ng-click = \"saveCourt()\">Save</button>\n" +
+    "\n" +
+    "    </div>\n" +
+    " </div>\n" +
+    "</div>\n" +
+    "</div>\n"
+  );
+
+
+  $templateCache.put('templates/jurisdiction-modal.html',
+    "<div id=\"addJurisdictionModal\" class=\"modal fade\" style=\"z-index:3000; background-color:rgba(0, 0, 0, 0.5);\">\n" +
+    "  <div class=\"modal-dialog\" style=\"width:50%;padding-left: 2%;padding-right: 2%; \">\n" +
+    "    <div class=\"modal-content\" style=\"margin-top: 8%\">\n" +
+    "      <div class=\"modal-header\" style=\"border-bottom:none\">\n" +
+    "          <button type=\"button\" id=\"closeModal\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>\n" +
+    "\n" +
+    "        <h4 style=\"font-weight: 100;\"><span id=\"CustomerHeading\">&nbsp&nbspAdd Jurisdiction</span></h4>\n" +
+    "        <p id=\"WelcomeMessage\" style=\"margin-left:12px\">\n" +
+    "          Please ensure that you fill in all the mandatory sections in the form.\n" +
+    "        </p>\n" +
+    "      </div>\n" +
+    "\n" +
+    "      <div class=\"modal-body\" style=\"margin-bottom: none; padding-top: 0px; border-bottom:none\">\n" +
+    "\n" +
+    "        <!-- Start Form-->\n" +
+    "\n" +
+    "              <form id =\"applicationForm\" name=\"form\" class=\"css-form\" novalidate>\n" +
+    "                  <div class=\"row\">\n" +
+    "\n" +
+    "\n" +
+    "                    <div class=\"col-xs-12 form-group\">\n" +
+    "                      <input id=\"jurisdiction-name\" name=\"jurisdiction-name\" type=\"text\" class=\"form-control\" ng-model=\"jurisdiction.name\" ng-minlength=2 ng-focus required placeholder=\"Name of Jurisdiction\"/>\n" +
+    "                      <div class=\"text-danger\" ng-show=\"form.$submitted && form.jurisdiction-name.$invalid || form.jurisdiction-name.$dirty && form.jurisdiction-name.$invalid && !form.jurisdiction-name.$focused\">\n" +
+    "\n" +
+    "                        <span ng-show=\"form.jurisdiction-name.$error.required\">Name of Jurisdiction is required</span>\n" +
+    "                        <span ng-show=\"form.jurisdiction-name.$error.minlength\">Name of Jurisdiction is required to be at least 2 characters long</span>\n" +
+    "\n" +
+    "                      </div>\n" +
+    "                    </div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "                  </div>\n" +
+    "\n" +
     "                  <div class = \"form-group\">\n" +
-    "                    <button id=\"submit\" type=\"submit\" class=\"btn btn-primary-alt pull-right\"  style=\"width:120px\" ng-click = \"saveCourt()\">Save</button>\n" +
+    "                    <button id=\"submit\" type=\"submit\" class=\"btn btn-primary-alt pull-right\"  style=\"width:120px\" ng-click = \"saveJurisdiction()\">Save</button>\n" +
     "\n" +
     "\n" +
     "                    <div id=\"submitAppMsg\" class=\"pull-left\" style=\"font-size: larger; position: relative; top: 5px\"></div>\n" +
@@ -1090,6 +1165,62 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
   );
 
 
+  $templateCache.put('templates/location-modal.html',
+    "<div id=\"addLocationModal\" class=\"modal fade\" style=\"z-index:3000; background-color:rgba(0, 0, 0, 0.5);\">\n" +
+    "  <div class=\"modal-dialog\" style=\"width:50%;padding-left: 2%;padding-right: 2%; \">\n" +
+    "    <div class=\"modal-content\" style=\"margin-top: 8%\">\n" +
+    "      <div class=\"modal-header\" style=\"border-bottom:none\">\n" +
+    "          <button type=\"button\" id=\"closeModal\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>\n" +
+    "\n" +
+    "        <h4 style=\"font-weight: 100;\"><span id=\"CustomerHeading\">&nbsp&nbspAdd Location</span></h4>\n" +
+    "        <p id=\"WelcomeMessage\" style=\"margin-left:12px\">\n" +
+    "          Please ensure that you fill in all the mandatory sections in the form.\n" +
+    "        </p>\n" +
+    "      </div>\n" +
+    "\n" +
+    "      <div class=\"modal-body\" style=\"margin-bottom: none; padding-top: 0px; border-bottom:none\">\n" +
+    "\n" +
+    "        <!-- Start Form-->\n" +
+    "\n" +
+    "              <form id =\"applicationForm\" name=\"form\" class=\"css-form\" novalidate>\n" +
+    "                  <div class=\"row\">\n" +
+    "\n" +
+    "\n" +
+    "                    <div class=\"col-xs-12 form-group\">\n" +
+    "                      <input id=\"location-name\" name=\"location-name\" type=\"text\" class=\"form-control\" ng-model=\"location.name\" ng-minlength=2 ng-focus required placeholder=\"Name of Location\"/>\n" +
+    "                      <div class=\"text-danger\" ng-show=\"form.$submitted && form.location-name.$invalid || form.location-name.$dirty && form.location-name.$invalid && !form.location-name.$focused\">\n" +
+    "\n" +
+    "                        <span ng-show=\"form.location-name.$error.required\">Name of Location is required</span>\n" +
+    "                        <span ng-show=\"form.location-name.$error.minlength\">Name of Location is required to be at least 2 characters long</span>\n" +
+    "\n" +
+    "                      </div>\n" +
+    "                    </div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "                  </div>\n" +
+    "\n" +
+    "                  <div class = \"form-group\">\n" +
+    "                    <button id=\"submit\" type=\"submit\" class=\"btn btn-primary-alt pull-right\"  style=\"width:120px\" ng-click = \"saveLocation()\">Save</button>\n" +
+    "\n" +
+    "\n" +
+    "                    <div id=\"submitAppMsg\" class=\"pull-left\" style=\"font-size: larger; position: relative; top: 5px\"></div>\n" +
+    "                  </div>\n" +
+    "\n" +
+    "            </form>\n" +
+    "\n" +
+    "   </div>\n" +
+    "   <div class=\"modal-footer\" style=\"border-top:none\">\n" +
+    "\n" +
+    "\n" +
+    "    </div>\n" +
+    " </div>\n" +
+    "</div>\n" +
+    "</div>\n"
+  );
+
+
   $templateCache.put('templates/nav_renderer.html',
     "<a ng-click=\"select(item)\" ng-href=\"{{item.url}}\">\n" +
     "\t<i ng-if=\"item.iconClasses\" class=\"{{item.iconClasses}}\"></i><span>{{item.label}}</span>\n" +
@@ -1240,5 +1371,56 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\t\t{{item.text}}\n" +
     "\t</div>\n" +
     "</a>\n"
+  );
+
+
+  $templateCache.put('templates/work-modal.html',
+    "<div id=\"addWorkModal\" class=\"modal fade\" style=\"z-index:3000; background-color:rgba(0, 0, 0, 0.5);\">\n" +
+    "  <div class=\"modal-dialog\" style=\"width:50%;padding-left: 2%;padding-right: 2%; \">\n" +
+    "    <div class=\"modal-content\" style=\"margin-top: 8%\">\n" +
+    "      <div class=\"modal-header\" style=\"border-bottom:none\">\n" +
+    "          <button type=\"button\" id=\"closeModal\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>\n" +
+    "\n" +
+    "        <h4 style=\"font-weight: 100;\"><span id=\"CustomerHeading\">&nbsp&nbspAdd Work</span></h4>\n" +
+    "        <p id=\"WelcomeMessage\" style=\"margin-left:12px\">\n" +
+    "          Please ensure that you fill in all the mandatory sections in the form.\n" +
+    "        </p>\n" +
+    "      </div>\n" +
+    "\n" +
+    "      <div class=\"modal-body\" style=\"margin-bottom: none; padding-top: 0px; border-bottom:none\">\n" +
+    "\n" +
+    "        <!-- Start Form-->\n" +
+    "\n" +
+    "              <form id =\"applicationForm\" name=\"form\" class=\"css-form\" novalidate>\n" +
+    "                  <div class=\"row\">\n" +
+    "\n" +
+    "\n" +
+    "                    <div class=\"col-xs-12 form-group\">\n" +
+    "                      <input id=\"work-name\" name=\"work-name\" type=\"text\" class=\"form-control\" ng-model=\"work.name\" ng-minlength=2 ng-focus required placeholder=\"Name of Work\"/>\n" +
+    "                      <div class=\"text-danger\" ng-show=\"form.$submitted && form.work-name.$invalid || form.work-name.$dirty && form.work-name.$invalid && !form.work-name.$focused\">\n" +
+    "\n" +
+    "                        <span ng-show=\"form.work-name.$error.required\">Name of Work is required</span>\n" +
+    "                        <span ng-show=\"form.work-name.$error.minlength\">Name of Work is required to be at least 2 characters long</span>\n" +
+    "\n" +
+    "                      </div>\n" +
+    "                    </div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "                  </div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "            </form>\n" +
+    "\n" +
+    "   </div>\n" +
+    "   <div class=\"modal-footer\" style=\"border-top:none\">\n" +
+    "\n" +
+    "      <button id=\"submit\" type=\"submit\" class=\"btn btn-primary-alt pull-right\"  style=\"width:120px\" ng-click = \"saveWork()\">Save</button>\n" +
+    "    </div>\n" +
+    " </div>\n" +
+    "</div>\n" +
+    "</div>\n"
   );
 }])

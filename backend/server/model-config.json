@@ -99,5 +99,13 @@
   "defendantSynonyms": {
     "dataSource": "apptorney",
     "public": true
+  },
+  "jurisdiction": {
+    "dataSource": "apptorney",
+    "public": true
+  },
+  "location": {
+    "dataSource": "apptorney",
+    "public": true
   }
 }

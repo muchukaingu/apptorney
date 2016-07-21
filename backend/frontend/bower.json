@@ -41,7 +41,6 @@
     "enquire": "2.1.1",
     "shufflejs": "2.1.1",
     "pnotify": "sciactive/pnotify#~2.0.1",
-    "bootstrap-select": "1.10.0",
     "angular-datetime": "^3.2.2",
     "ng-focus-if": "^1.0.7",
     "angular-ui-select": "^0.18.1",

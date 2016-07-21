@@ -1,0 +1,47 @@
+<div id="addWorkModal" class="modal fade" style="z-index:3000; background-color:rgba(0, 0, 0, 0.5);">
+  <div class="modal-dialog" style="width:50%;padding-left: 2%;padding-right: 2%; ">
+    <div class="modal-content" style="margin-top: 8%">
+      <div class="modal-header" style="border-bottom:none">
+          <button type="button" id="closeModal" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+
+        <h4 style="font-weight: 100;"><span id="CustomerHeading">&nbsp&nbspAdd Work</span></h4>
+        <p id="WelcomeMessage" style="margin-left:12px">
+          Please ensure that you fill in all the mandatory sections in the form.
+        </p>
+      </div>
+
+      <div class="modal-body" style="margin-bottom: none; padding-top: 0px; border-bottom:none">
+
+        <!-- Start Form-->
+
+              <form id ="applicationForm" name="form" class="css-form" novalidate>
+                  <div class="row">
+
+
+                    <div class="col-xs-12 form-group">
+                      <input id="work-name" name="work-name" type="text" class="form-control" ng-model="work.name" ng-minlength=2 ng-focus required placeholder="Name of Work"/>
+                      <div class="text-danger" ng-show="form.$submitted && form.work-name.$invalid || form.work-name.$dirty && form.work-name.$invalid && !form.work-name.$focused">
+
+                        <span ng-show="form.work-name.$error.required">Name of Work is required</span>
+                        <span ng-show="form.work-name.$error.minlength">Name of Work is required to be at least 2 characters long</span>
+
+                      </div>
+                    </div>
+
+
+
+
+                  </div>
+
+
+
+            </form>
+
+   </div>
+   <div class="modal-footer" style="border-top:none">
+
+      <button id="submit" type="submit" class="btn btn-primary-alt pull-right"  style="width:120px" ng-click = "saveWork()">Save</button>
+    </div>
+ </div>
+</div>
+</div>

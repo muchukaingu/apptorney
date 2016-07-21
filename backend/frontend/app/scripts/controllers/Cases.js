@@ -8,7 +8,7 @@ angular.module('apptorney')
       }
   };
 })
-.controller('CasesController',function ($scope, $timeout, Court, Case, AreaOfLaw, baseURL, filterFilter) {
+.controller('CasesController',function ($scope, $timeout, Court, Case, AreaOfLaw,Jurisdiction, Location, baseURL, filterFilter) {
     console.log("xxx---->");
 
 
@@ -39,13 +39,21 @@ angular.module('apptorney')
          $scope.case.parties.defendantAdvocates = [];
          $scope.case.parties.plaintiffAdvocates = [];
          $scope.case.parties.selectedPlaintiffAdvocates = [];
+         $scope.legislations = [];
 
          $scope.courts = [];
          $scope.court = {};
 
+         $scope.locations = [];
+         $scope.location = {};
+
+
+         $scope.jurisdictions = [];
+         $scope.jurisdiction = {};
+
          $scope.areaOfLaw = {};
          $scope.areasOfLaw = [];
-         
+
          $scope.case.coram = [];
 
 
@@ -65,6 +73,7 @@ angular.module('apptorney')
            $scope.case.parties.plaintiffAdvocates.push(angular.copy($scope.advocate));
            $scope.case.parties.defendantAdvocates.push(angular.copy($scope.advocate));
            $scope.case.coram.push(angular.copy($scope.judge));
+
 
          }
 
@@ -135,6 +144,23 @@ angular.module('apptorney')
          }
 
 
+         $scope.deleteCourt = function(courtID){
+
+           Court.deleteById({ id: courtID })
+           .$promise
+           .then(function() {
+             //console.log('deleted');
+             $scope.courts.forEach(function(court){
+               if(court.id == courtID){
+                 $scope.courts.splice($scope.courts.indexOf(court),1);
+
+               }
+             });
+           });
+
+         }
+
+
          $scope.areasOfLaw = AreaOfLaw.find(
            function(list) {
              console.log(list);
@@ -160,6 +186,115 @@ angular.module('apptorney')
          }
 
 
+         $scope.locations = Location.find(
+           function(list) {
+             console.log(list);
+             $scope.locationsReturned = true;
+             $scope.showLocations = true;
+           },
+           function(errorResponse) { }
+         );
+
+         $scope.saveLocation = function(){
+           console.log($scope.location);
+           Location.upsert($scope.location,
+             function(location){
+               $scope.locations.push(location);
+             },
+             function(errorResponse){
+
+             }
+           );
+
+           $("#addLocationModal").modal("hide");
+
+         }
+
+         $scope.deleteLocation = function(locationID){
+
+           Location.deleteById({ id: locationID })
+           .$promise
+           .then(function() {
+             //console.log('deleted');
+             $scope.locations.forEach(function(location){
+               if(location.id == locationID){
+                 $scope.locations.splice($scope.locations.indexOf(location),1);
+
+               }
+             });
+           });
+
+         }
+
+
+         $scope.jurisdictions = Jurisdiction.find(
+           function(list) {
+             console.log(list);
+             $scope.jurisdictionsReturned = true;
+             $scope.showJurisdictions = true;
+           },
+           function(errorResponse) { }
+         );
+
+         $scope.saveJurisdiction = function(){
+           console.log($scope.jurisdiction);
+           Jurisdiction.upsert($scope.jurisdiction,
+             function(jurisdiction){
+               $scope.jurisdictions.push(jurisdiction);
+             },
+             function(errorResponse){
+
+             }
+           );
+
+           $("#addJurisdictionModal").modal("hide");
+
+         }
+
+         $scope.deleteJurisdiction = function(jurisdictionID){
+
+           Jurisdiction.deleteById({ id: jurisdictionID })
+           .$promise
+           .then(function() {
+             //console.log('deleted');
+             $scope.jurisdictions.forEach(function(jurisdiction){
+               if(jurisdiction.id == jurisdictionID){
+                 $scope.jurisdictions.splice($scope.jurisdictions.indexOf(jurisdiction),1);
+
+               }
+             });
+           });
+
+         }
+
+
+
+         $scope.division = {};
+         $scope.divisions = [];
+        $scope.divisions.push(angular.copy($scope.division));
+
+         $scope.addDivision = function(event){
+
+           if(event.which === 13){
+              $scope.divisions.push(angular.copy($scope.division));
+
+           }
+
+           console.log($scope.divisions);
+         }
+
+         $scope.openAddDivisionModal = function(){
+           //$scope.division = new Object();
+         }
+
+
+         $scope.saveCase = function(){
+           console.log($scope.case);
+         }
+
+
+
+
 
 
 
@@ -168,6 +303,7 @@ angular.module('apptorney')
 
   var openAddAreaOfLaw = function(){
     //$("#addAreaOfLawModal").modal();
+    console.log("opened");
     $('#addAreaOfLawModal').appendTo("body").modal('show');
   }
 

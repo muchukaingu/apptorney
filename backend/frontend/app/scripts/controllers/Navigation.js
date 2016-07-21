@@ -24,6 +24,11 @@ angular
             iconClasses:"fa fa-file",
             url: '#/legislations'
         },
+        {
+            label:"Work References",
+            iconClasses:"fa fa-book",
+            url: '#/works'
+        },
 
         {
             label:"Admin",
@@ -38,6 +43,16 @@ angular
                 label:"Courts",
                 iconClasses:"fa fa-institution",
                 url: '#/courts'
+              },
+              {
+                label:"Jurisdictions",
+                iconClasses:"fa fa-file",
+                url: '#/jurisdictions'
+              },
+              {
+                label:"Locations",
+                iconClasses:"fa fa-map-marker",
+                url: '#/locations'
               },
               {
                 label:"Legislation Types",

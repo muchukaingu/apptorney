@@ -13,11 +13,11 @@
   },
   "validations": [],
   "relations": {
-    "cases": {
-      "type": "hasMany",
-      "model": "case",
-      "foreignKey": ""
-    }
+      "divisions": {
+        "type": "hasMany",
+        "model": "courtDivision",
+        "foreignKey": "court"
+      }
   },
   "acls": [],
   "methods": {}

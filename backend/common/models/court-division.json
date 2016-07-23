@@ -9,10 +9,6 @@
     "name": {
       "type": "string",
       "required": true
-    },
-    "court": {
-      "type": "string",
-      "required": true
     }
   },
   "validations": [],

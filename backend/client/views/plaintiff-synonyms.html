@@ -19,7 +19,7 @@
 
 
 
-<div class="container-fluid" ng-controller="LegislationController">
+<div class="container-fluid" ng-controller="SynonymController">
     <div class="row" style="position: relative; top: -80px">
 	    <div class="col-xs-3 pull-right text-right" >
 		    <div class="btn-group" data-dropdown>
@@ -40,7 +40,7 @@
             <div class="panel-heading" style="background-color:#137ad4">
 						 <h3 style="color:#ffffff; margin-top:5px">Plaintiff Synonyms Management</h3>
 
-								<a class="pull-right" style="color:#add8e6; border:#none; font-size:1.2em; border-radius:5px; margin-top:-32px" data-toggle="modal" data-target="#addLegislationTypeModal"><i class="fa fa-plus"></i></a>
+								<a class="pull-right" style="color:#add8e6; border:#none; font-size:1.2em; border-radius:5px; margin-top:-32px" data-toggle="modal" data-target="#addPlaintiffSynonymModal"><i class="fa fa-plus"></i></a>
 					 </div>
 					 <div class="panel-body">
 
@@ -59,7 +59,7 @@
                   <tr style="background-color: #E8E9EC" class="tableHeaders">
                     <td style="width:7%">
 	                    <a ng-click="sortType = 'caseNumber'; sortReverse = !sortReverse">
-		                    Legislation Type Name
+		                    Synonym Name
 		                    <span ng-show="sortType == 'caseNumber' && !sortReverse" class="fa fa-caret-up"></span>
 		                    <span ng-show="sortType == 'caseNumber' && sortReverse" class="fa fa-caret-down"></span>
 	                    </a>
@@ -69,11 +69,11 @@
 
                     <td style="width:5%">Actions</td>
                   </tr>
-                  <tr id="rowTmp_Est" ng-repeat="type in legislationTypes | filter:query | orderBy:sortType:sortReverse" >
+                  <tr id="rowTmp_Est" ng-repeat="synonym in plaintiffSynonyms | filter:query | orderBy:sortType:sortReverse" >
                       <td class="editables">
 
                       <span class="editable"  name="applicationID" form="rowform" onchange="editItem(this,'itemID')"
-                        required>{{type.name}}
+                        required>{{synonym.synonym}}
 
                       </span>
 
@@ -98,21 +98,21 @@
                           <!-- <a class="editItem" onclick="assignMentorModal(this)" ><i class="fa fa-edit"></i></a> -->
 
                           <a class="viewItem" onclick="viewApp(this)" itemid="{{application.applicationID}}"><i class="fa fa-eye"></i></a>&nbsp;
-													<a data-user="Admin" class="editItem" data-toggle="modal" data-target="#addLegislationTypeModal" ng-click = "openLegislationType(type)" ><i class="fa fa-edit"></i></a>
-                          <a class="viewItem" ng-click="deleteLegislationType(type.id)"><i class="fa fa-times"></i></a></a>
+													<a data-user="Admin" class="editItem" data-toggle="modal" data-target="#addPlaintiffSynonymModal" ng-click = "openPlaintiffSynonym(synonym)" ><i class="fa fa-edit"></i></a>
+                          <a class="viewItem" ng-click="deletePlaintiffSynonym(synonym.id)"><i class="fa fa-times"></i></a></a>
 
                           <!-- <a class="deleteItem" data-user="Admin" onclick="deleteEstimate(this,'itemID','Estimates.php','deleteEstimates','cleanRow', 'Estimates')"><i class="fa fa-trash-o"></i></a> -->
                       </div>
                     </td>
                   </tr>
                 </table>
-                <div ng-if="!showLegislationTypes" style="position: relative; left: 50%; margin-left: -100px; height: 50px; margin-top: 40px"><i ng-if="!legislationsTypesReturned" class='fa fa-fw fa-sun-o fa-spin'></i> {{message}}</div>
-								<div ng-if="legislationTypes.length == 0" style="position: relative; left: 48%; margin-left: -100px; height: 50px; margin-top: 40px">No legislation types found. Click <a data-toggle="modal" data-target="#addLegislationTypeModal">here</a> to create one.</div>
+                <div ng-if="!showPlaintiffSynonyms" style="position: relative; left: 50%; margin-left: -100px; height: 50px; margin-top: 40px"><i ng-if="!plaintiffSynonymsReturned" class='fa fa-fw fa-sun-o fa-spin'></i> {{message}}</div>
+								<div ng-if="plaintiffSynonyms.length == 0" style="position: relative; left: 48%; margin-left: -100px; height: 50px; margin-top: 40px">No Synonyms found. Click <a data-toggle="modal" data-target="#addPlaintiffSynonymModal">here</a> to create one.</div>
 							</div>
 					</div>
         </div>
       </div>
-			<ng-include src="'templates/legislation-type-modal.html'"></ng-include>
+			<ng-include src="'templates/plaintiff-synonym-modal.html'"></ng-include>
 
 
 </div>

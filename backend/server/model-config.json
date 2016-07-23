@@ -52,10 +52,7 @@
     "dataSource": "apptorney",
     "public": true
   },
-  "courtDivision": {
-    "dataSource": "apptorney",
-    "public": true
-  },
+
   "court": {
     "dataSource": "apptorney",
     "public": true
@@ -105,6 +102,10 @@
     "public": true
   },
   "location": {
+    "dataSource": "apptorney",
+    "public": true
+  },
+  "courtDivision": {
     "dataSource": "apptorney",
     "public": true
   }

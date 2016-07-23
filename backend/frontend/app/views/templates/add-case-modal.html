@@ -45,7 +45,28 @@
 
 
                           <div class="col-xs-6" style="margin-top:-35px">
-                            <h4 ng-if="case.parties.plaintiffs.length > 0">Plaintiffs</h4>
+
+
+                            <div ng-controller = "SynonymController" style="margin-top:10px">
+
+
+                                    <div class="form-group" >
+                                      <ui-select ng-model="case.plaintiffSynonym" theme="selectize" title="Court" id="court">
+                                          <ui-select-match placeholder="Synonym for Accuser">{{$select.selected.synonym}}</ui-select-match>
+                                          <ui-select-choices repeat="synonym in plaintiffSynonyms | filter:$select.search">
+                                            <span ng-bind-html="synonym.synonym | highlight: $select.search"></span>
+
+                                          </ui-select-choices>
+                                      </ui-select>
+
+                                    </div>
+
+
+                              </div>
+
+
+
+
                             <div>
 
                                 <input ng-repeat="plaintiff in case.parties.plaintiffs" set-focus="$last" id="plaintiff" name="plaintiff" type="text" class="form-control" ng-model="plaintiff.name" ng-minlength=2 ng-focus required placeholder="Name of Plaintiff" ng-keydown = "addPlaintiff($event)" ng-style="{'margin-bottom':(case.parties.plaintiffs.length == 1)?'0px':'10px'}"/>
@@ -64,7 +85,22 @@
 
 
 
-                            <h4 ng-if="case.parties.plaintiffs.length > 0">Defendants</h4>
+                            <div ng-controller = "SynonymController" style="margin-top:10px">
+
+
+                                    <div class="form-group" >
+                                      <ui-select ng-model="case.defendantSynonym" theme="selectize" title="Court" id="court">
+                                          <ui-select-match placeholder="Synonym for Accused">{{$select.selected.synonym}}</ui-select-match>
+                                          <ui-select-choices repeat="synonym in defendantSynonyms | filter:$select.search">
+                                            <span ng-bind-html="synonym.synonym | highlight: $select.search"></span>
+
+                                          </ui-select-choices>
+                                      </ui-select>
+
+                                    </div>
+
+
+                              </div>
                             <div >
                                 <input ng-repeat="defendant in case.parties.defendants" set-focus="$last" id="defendant" name="defendant" type="text" class="form-control" ng-model="defendant.name" ng-minlength=2 ng-focus required placeholder="Name of Defendant" ng-keydown = "addDefendant($event)" ng-style="{'margin-bottom':(case.parties.defendants.length == 1)?'0px':'10px'}"/>
                                 <div class="text-danger" ng-show="form.$submitted && form.defendant.$invalid || form.defendant.$dirty && form.defendant.$invalid && !form.defendant.$focused">
@@ -82,7 +118,7 @@
 
 
                             <div class="col-xs-6" style="margin-top:0px">
-                              <h4 ng-if="case.parties.plaintiffs.length > 0">Appearances for Plaintiffs</h4>
+                              <h4 ng-if="case.plaintiffSynonym">Appearances{{+" for "+case.plaintiffSynonym.synonym+"s"}}</h4><h4 ng-if="!case.plaintiffSynonym">Appearances</h4>
                               <div ng-repeat="advocate in case.parties.plaintiffAdvocates" >
 
                                   <div class="row">
@@ -120,7 +156,7 @@
 
 
 
-                              <h4 ng-if="case.parties.plaintiffs.length > 0">Appearances for Defendants</h4>
+                              <h4 ng-if="case.defendantSynonym">Appearances{{+" for "+case.defendantSynonym.synonym+"s"}}</h4><h4 ng-if="!case.defendantSynonym">Appearances</h4>
                               <div ng-repeat="advocate in case.parties.defendantAdvocates">
                                 <div class="row">
                                     <div class="col-xs-6">
@@ -235,11 +271,14 @@
 
                    <div class="col-xs-12" style="border:1px dashed #d3d3d3; border-radius:5px; height:auto; color:#d3d3d3; padding-top:10px; padding-bottom:20px; width:97%; margin-left:12px; margin-bottom:20px;">
                          <h4>Court Details</h4>
-                         <div class="row">
-                             <div class="col-xs-3 form-group">
+                         <div class="row" >
+                           <div ng-controller = "CourtController">
+
+
+                             <div class="col-xs-3 form-group" >
                                <ui-select ng-model="case.court" theme="selectize" title="Court" id="court">
                                    <ui-select-match placeholder="Court">{{$select.selected.name}}</ui-select-match>
-                                   <ui-select-choices repeat="court in courts | filter:$select.search">
+                                   <ui-select-choices repeat="court in courts | filter:$select.search" ng-click = "divisionsForCourt(court.id)">
                                      <span ng-bind-html="court.name | highlight: $select.search"></span>
 
                                    </ui-select-choices>
@@ -248,13 +287,15 @@
                              </div>
 
                              <div class="col-xs-3 form-group">
-                               <ui-select ng-model="advocate.name" theme="selectize">
+                               <ui-select ng-model="case.division" theme="selectize">
                                    <ui-select-match placeholder="Court Division">{{$select.selected.name}}</ui-select-match>
-                                   <ui-select-choices repeat="advocate in case.parties.plaintiffAdvocates | filter: $select.search">
-                                     <span ng-bind-html="advocate.name | highlight: $select.search"></span>
-                                     <small ng-bind-html="advocate.firm | highlight: $select.search"></small>
+                                   <ui-select-choices repeat="division.id as division in divisions | filter: $select.search">
+                                     <span ng-bind-html="division.name | highlight: $select.search"></span>
+
                                    </ui-select-choices>
                                </ui-select>
+                             </div>
+
                              </div>
 
 
@@ -323,7 +364,7 @@
                                    <ui-select-match placeholder="Select Works Referred To...">{{$item.name}}</ui-select-match>
                                    <ui-select-choices repeat="work.id as work in works | filter: $select.search">
                                      <span ng-bind-html="work.name | highlight: $select.search"></span>
-                                     
+
                                    </ui-select-choices>
                                </ui-select>
 

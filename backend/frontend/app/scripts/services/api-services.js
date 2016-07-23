@@ -4088,65 +4088,6 @@ module.factory(
           method: "DELETE"
         },
 
-        // INTERNAL. Use Court.cases.findById() instead.
-        "::findById::court::cases": {
-          params: {
-          'fk': '@fk'
-          },
-          url: urlBase + "/courts/:id/cases/:fk",
-          method: "GET"
-        },
-
-        // INTERNAL. Use Court.cases.destroyById() instead.
-        "::destroyById::court::cases": {
-          params: {
-          'fk': '@fk'
-          },
-          url: urlBase + "/courts/:id/cases/:fk",
-          method: "DELETE"
-        },
-
-        // INTERNAL. Use Court.cases.updateById() instead.
-        "::updateById::court::cases": {
-          params: {
-          'fk': '@fk'
-          },
-          url: urlBase + "/courts/:id/cases/:fk",
-          method: "PUT"
-        },
-
-        // INTERNAL. Use Court.cases() instead.
-        "::get::court::cases": {
-          isArray: true,
-          url: urlBase + "/courts/:id/cases",
-          method: "GET"
-        },
-
-        // INTERNAL. Use Court.cases.create() instead.
-        "::create::court::cases": {
-          url: urlBase + "/courts/:id/cases",
-          method: "POST"
-        },
-
-        // INTERNAL. Use Court.cases.createMany() instead.
-        "::createMany::court::cases": {
-          isArray: true,
-          url: urlBase + "/courts/:id/cases",
-          method: "POST"
-        },
-
-        // INTERNAL. Use Court.cases.destroyAll() instead.
-        "::delete::court::cases": {
-          url: urlBase + "/courts/:id/cases",
-          method: "DELETE"
-        },
-
-        // INTERNAL. Use Court.cases.count() instead.
-        "::count::court::cases": {
-          url: urlBase + "/courts/:id/cases/count",
-          method: "GET"
-        },
-
         // INTERNAL. Use Legislation.cases.findById() instead.
         "::findById::legislation::cases": {
           params: {
@@ -7200,598 +7141,6 @@ module.factory(
 
 /**
  * @ngdoc object
- * @name apiServices.CourtDivision
- * @header apiServices.CourtDivision
- * @object
- *
- * @description
- *
- * A $resource object for interacting with the `CourtDivision` model.
- *
- * ## Example
- *
- * See
- * {@link http://docs.angularjs.org/api/ngResource.$resource#example $resource}
- * for an example of using this object.
- *
- */
-module.factory(
-  "CourtDivision",
-  ['LoopBackResource', 'LoopBackAuth', '$injector', function(Resource, LoopBackAuth, $injector) {
-    var R = Resource(
-      urlBase + "/courtDivisions/:id",
-      { 'id': '@id' },
-      {
-
-        /**
-         * @ngdoc method
-         * @name apiServices.CourtDivision#create
-         * @methodOf apiServices.CourtDivision
-         *
-         * @description
-         *
-         * Create a new instance of the model and persist it into the data source.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *   This method does not accept any parameters.
-         *   Supply an empty object or omit this argument altogether.
-         *
-         * @param {Object} postData Request data.
-         *
-         * This method expects a subset of model properties as request parameters.
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `CourtDivision` object.)
-         * </em>
-         */
-        "create": {
-          url: urlBase + "/courtDivisions",
-          method: "POST"
-        },
-
-        /**
-         * @ngdoc method
-         * @name apiServices.CourtDivision#createMany
-         * @methodOf apiServices.CourtDivision
-         *
-         * @description
-         *
-         * Create a new instance of the model and persist it into the data source.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *   This method does not accept any parameters.
-         *   Supply an empty object or omit this argument altogether.
-         *
-         * @param {Object} postData Request data.
-         *
-         * This method expects a subset of model properties as request parameters.
-         *
-         * @param {function(Array.<Object>,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Array.<Object>} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `CourtDivision` object.)
-         * </em>
-         */
-        "createMany": {
-          isArray: true,
-          url: urlBase + "/courtDivisions",
-          method: "POST"
-        },
-
-        /**
-         * @ngdoc method
-         * @name apiServices.CourtDivision#upsert
-         * @methodOf apiServices.CourtDivision
-         *
-         * @description
-         *
-         * Update an existing model instance or insert a new one into the data source.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *   This method does not accept any parameters.
-         *   Supply an empty object or omit this argument altogether.
-         *
-         * @param {Object} postData Request data.
-         *
-         * This method expects a subset of model properties as request parameters.
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `CourtDivision` object.)
-         * </em>
-         */
-        "upsert": {
-          url: urlBase + "/courtDivisions",
-          method: "PUT"
-        },
-
-        /**
-         * @ngdoc method
-         * @name apiServices.CourtDivision#exists
-         * @methodOf apiServices.CourtDivision
-         *
-         * @description
-         *
-         * Check whether a model instance exists in the data source.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - Model id
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * Data properties:
-         *
-         *  - `exists` – `{boolean=}` - 
-         */
-        "exists": {
-          url: urlBase + "/courtDivisions/:id/exists",
-          method: "GET"
-        },
-
-        /**
-         * @ngdoc method
-         * @name apiServices.CourtDivision#findById
-         * @methodOf apiServices.CourtDivision
-         *
-         * @description
-         *
-         * Find a model instance by id from the data source.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - Model id
-         *
-         *  - `filter` – `{object=}` - Filter defining fields and include
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `CourtDivision` object.)
-         * </em>
-         */
-        "findById": {
-          url: urlBase + "/courtDivisions/:id",
-          method: "GET"
-        },
-
-        /**
-         * @ngdoc method
-         * @name apiServices.CourtDivision#find
-         * @methodOf apiServices.CourtDivision
-         *
-         * @description
-         *
-         * Find all instances of the model matched by filter from the data source.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `filter` – `{object=}` - Filter defining fields, where, include, order, offset, and limit
-         *
-         * @param {function(Array.<Object>,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Array.<Object>} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `CourtDivision` object.)
-         * </em>
-         */
-        "find": {
-          isArray: true,
-          url: urlBase + "/courtDivisions",
-          method: "GET"
-        },
-
-        /**
-         * @ngdoc method
-         * @name apiServices.CourtDivision#findOne
-         * @methodOf apiServices.CourtDivision
-         *
-         * @description
-         *
-         * Find first instance of the model matched by filter from the data source.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `filter` – `{object=}` - Filter defining fields, where, include, order, offset, and limit
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `CourtDivision` object.)
-         * </em>
-         */
-        "findOne": {
-          url: urlBase + "/courtDivisions/findOne",
-          method: "GET"
-        },
-
-        /**
-         * @ngdoc method
-         * @name apiServices.CourtDivision#updateAll
-         * @methodOf apiServices.CourtDivision
-         *
-         * @description
-         *
-         * Update instances of the model matched by where from the data source.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `where` – `{object=}` - Criteria to match model instances
-         *
-         * @param {Object} postData Request data.
-         *
-         * This method expects a subset of model properties as request parameters.
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * The number of instances updated
-         */
-        "updateAll": {
-          url: urlBase + "/courtDivisions/update",
-          method: "POST"
-        },
-
-        /**
-         * @ngdoc method
-         * @name apiServices.CourtDivision#deleteById
-         * @methodOf apiServices.CourtDivision
-         *
-         * @description
-         *
-         * Delete a model instance by id from the data source.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - Model id
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `CourtDivision` object.)
-         * </em>
-         */
-        "deleteById": {
-          url: urlBase + "/courtDivisions/:id",
-          method: "DELETE"
-        },
-
-        /**
-         * @ngdoc method
-         * @name apiServices.CourtDivision#count
-         * @methodOf apiServices.CourtDivision
-         *
-         * @description
-         *
-         * Count instances of the model matched by where from the data source.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `where` – `{object=}` - Criteria to match model instances
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * Data properties:
-         *
-         *  - `count` – `{number=}` - 
-         */
-        "count": {
-          url: urlBase + "/courtDivisions/count",
-          method: "GET"
-        },
-
-        /**
-         * @ngdoc method
-         * @name apiServices.CourtDivision#prototype$updateAttributes
-         * @methodOf apiServices.CourtDivision
-         *
-         * @description
-         *
-         * Update attributes for a model instance and persist it into the data source.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         * @param {Object} postData Request data.
-         *
-         * This method expects a subset of model properties as request parameters.
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `CourtDivision` object.)
-         * </em>
-         */
-        "prototype$updateAttributes": {
-          url: urlBase + "/courtDivisions/:id",
-          method: "PUT"
-        },
-
-        /**
-         * @ngdoc method
-         * @name apiServices.CourtDivision#createChangeStream
-         * @methodOf apiServices.CourtDivision
-         *
-         * @description
-         *
-         * Create a change stream.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *   This method does not accept any parameters.
-         *   Supply an empty object or omit this argument altogether.
-         *
-         * @param {Object} postData Request data.
-         *
-         *  - `options` – `{object=}` - 
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * Data properties:
-         *
-         *  - `changes` – `{ReadableStream=}` - 
-         */
-        "createChangeStream": {
-          url: urlBase + "/courtDivisions/change-stream",
-          method: "POST"
-        },
-      }
-    );
-
-
-
-        /**
-         * @ngdoc method
-         * @name apiServices.CourtDivision#updateOrCreate
-         * @methodOf apiServices.CourtDivision
-         *
-         * @description
-         *
-         * Update an existing model instance or insert a new one into the data source.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *   This method does not accept any parameters.
-         *   Supply an empty object or omit this argument altogether.
-         *
-         * @param {Object} postData Request data.
-         *
-         * This method expects a subset of model properties as request parameters.
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `CourtDivision` object.)
-         * </em>
-         */
-        R["updateOrCreate"] = R["upsert"];
-
-        /**
-         * @ngdoc method
-         * @name apiServices.CourtDivision#update
-         * @methodOf apiServices.CourtDivision
-         *
-         * @description
-         *
-         * Update instances of the model matched by where from the data source.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `where` – `{object=}` - Criteria to match model instances
-         *
-         * @param {Object} postData Request data.
-         *
-         * This method expects a subset of model properties as request parameters.
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * The number of instances updated
-         */
-        R["update"] = R["updateAll"];
-
-        /**
-         * @ngdoc method
-         * @name apiServices.CourtDivision#destroyById
-         * @methodOf apiServices.CourtDivision
-         *
-         * @description
-         *
-         * Delete a model instance by id from the data source.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - Model id
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `CourtDivision` object.)
-         * </em>
-         */
-        R["destroyById"] = R["deleteById"];
-
-        /**
-         * @ngdoc method
-         * @name apiServices.CourtDivision#removeById
-         * @methodOf apiServices.CourtDivision
-         *
-         * @description
-         *
-         * Delete a model instance by id from the data source.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - Model id
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `CourtDivision` object.)
-         * </em>
-         */
-        R["removeById"] = R["deleteById"];
-
-
-    /**
-    * @ngdoc property
-    * @name apiServices.CourtDivision#modelName
-    * @propertyOf apiServices.CourtDivision
-    * @description
-    * The name of the model represented by this $resource,
-    * i.e. `CourtDivision`.
-    */
-    R.modelName = "CourtDivision";
-
-
-    return R;
-  }]);
-
-/**
- * @ngdoc object
  * @name apiServices.Court
  * @header apiServices.Court
  * @object
@@ -7815,55 +7164,55 @@ module.factory(
       { 'id': '@id' },
       {
 
-        // INTERNAL. Use Court.cases.findById() instead.
-        "prototype$__findById__cases": {
+        // INTERNAL. Use Court.divisions.findById() instead.
+        "prototype$__findById__divisions": {
           params: {
           'fk': '@fk'
           },
-          url: urlBase + "/courts/:id/cases/:fk",
+          url: urlBase + "/courts/:id/divisions/:fk",
           method: "GET"
         },
 
-        // INTERNAL. Use Court.cases.destroyById() instead.
-        "prototype$__destroyById__cases": {
+        // INTERNAL. Use Court.divisions.destroyById() instead.
+        "prototype$__destroyById__divisions": {
           params: {
           'fk': '@fk'
           },
-          url: urlBase + "/courts/:id/cases/:fk",
+          url: urlBase + "/courts/:id/divisions/:fk",
           method: "DELETE"
         },
 
-        // INTERNAL. Use Court.cases.updateById() instead.
-        "prototype$__updateById__cases": {
+        // INTERNAL. Use Court.divisions.updateById() instead.
+        "prototype$__updateById__divisions": {
           params: {
           'fk': '@fk'
           },
-          url: urlBase + "/courts/:id/cases/:fk",
+          url: urlBase + "/courts/:id/divisions/:fk",
           method: "PUT"
         },
 
-        // INTERNAL. Use Court.cases() instead.
-        "prototype$__get__cases": {
+        // INTERNAL. Use Court.divisions() instead.
+        "prototype$__get__divisions": {
           isArray: true,
-          url: urlBase + "/courts/:id/cases",
+          url: urlBase + "/courts/:id/divisions",
           method: "GET"
         },
 
-        // INTERNAL. Use Court.cases.create() instead.
-        "prototype$__create__cases": {
-          url: urlBase + "/courts/:id/cases",
+        // INTERNAL. Use Court.divisions.create() instead.
+        "prototype$__create__divisions": {
+          url: urlBase + "/courts/:id/divisions",
           method: "POST"
         },
 
-        // INTERNAL. Use Court.cases.destroyAll() instead.
-        "prototype$__delete__cases": {
-          url: urlBase + "/courts/:id/cases",
+        // INTERNAL. Use Court.divisions.destroyAll() instead.
+        "prototype$__delete__divisions": {
+          url: urlBase + "/courts/:id/divisions",
           method: "DELETE"
         },
 
-        // INTERNAL. Use Court.cases.count() instead.
-        "prototype$__count__cases": {
-          url: urlBase + "/courts/:id/cases/count",
+        // INTERNAL. Use Court.divisions.count() instead.
+        "prototype$__count__divisions": {
+          url: urlBase + "/courts/:id/divisions/count",
           method: "GET"
         },
 
@@ -8463,27 +7812,27 @@ module.factory(
 
     /**
      * @ngdoc object
-     * @name apiServices.Court.cases
-     * @header apiServices.Court.cases
+     * @name apiServices.Court.divisions
+     * @header apiServices.Court.divisions
      * @object
      * @description
      *
-     * The object `Court.cases` groups methods
-     * manipulating `Case` instances related to `Court`.
+     * The object `Court.divisions` groups methods
+     * manipulating `CourtDivision` instances related to `Court`.
      *
-     * Call {@link apiServices.Court#cases Court.cases()}
+     * Call {@link apiServices.Court#divisions Court.divisions()}
      * to query all related instances.
      */
 
 
         /**
          * @ngdoc method
-         * @name apiServices.Court#cases
+         * @name apiServices.Court#divisions
          * @methodOf apiServices.Court
          *
          * @description
          *
-         * Queries cases of court.
+         * Queries divisions of court.
          *
          * @param {Object=} parameters Request parameters.
          *
@@ -8503,23 +7852,23 @@ module.factory(
          *
          * <em>
          * (The remote method definition does not provide any description.
-         * This usually means the response is a `Case` object.)
+         * This usually means the response is a `CourtDivision` object.)
          * </em>
          */
-        R.cases = function() {
-          var TargetResource = $injector.get("Case");
-          var action = TargetResource["::get::court::cases"];
+        R.divisions = function() {
+          var TargetResource = $injector.get("CourtDivision");
+          var action = TargetResource["::get::court::divisions"];
           return action.apply(R, arguments);
         };
 
         /**
          * @ngdoc method
-         * @name apiServices.Court.cases#count
-         * @methodOf apiServices.Court.cases
+         * @name apiServices.Court.divisions#count
+         * @methodOf apiServices.Court.divisions
          *
          * @description
          *
-         * Counts cases of court.
+         * Counts divisions of court.
          *
          * @param {Object=} parameters Request parameters.
          *
@@ -8541,20 +7890,20 @@ module.factory(
          *
          *  - `count` – `{number=}` - 
          */
-        R.cases.count = function() {
-          var TargetResource = $injector.get("Case");
-          var action = TargetResource["::count::court::cases"];
+        R.divisions.count = function() {
+          var TargetResource = $injector.get("CourtDivision");
+          var action = TargetResource["::count::court::divisions"];
           return action.apply(R, arguments);
         };
 
         /**
          * @ngdoc method
-         * @name apiServices.Court.cases#create
-         * @methodOf apiServices.Court.cases
+         * @name apiServices.Court.divisions#create
+         * @methodOf apiServices.Court.divisions
          *
          * @description
          *
-         * Creates a new instance in cases of this model.
+         * Creates a new instance in divisions of this model.
          *
          * @param {Object=} parameters Request parameters.
          *
@@ -8576,23 +7925,23 @@ module.factory(
          *
          * <em>
          * (The remote method definition does not provide any description.
-         * This usually means the response is a `Case` object.)
+         * This usually means the response is a `CourtDivision` object.)
          * </em>
          */
-        R.cases.create = function() {
-          var TargetResource = $injector.get("Case");
-          var action = TargetResource["::create::court::cases"];
+        R.divisions.create = function() {
+          var TargetResource = $injector.get("CourtDivision");
+          var action = TargetResource["::create::court::divisions"];
           return action.apply(R, arguments);
         };
 
         /**
          * @ngdoc method
-         * @name apiServices.Court.cases#createMany
-         * @methodOf apiServices.Court.cases
+         * @name apiServices.Court.divisions#createMany
+         * @methodOf apiServices.Court.divisions
          *
          * @description
          *
-         * Creates a new instance in cases of this model.
+         * Creates a new instance in divisions of this model.
          *
          * @param {Object=} parameters Request parameters.
          *
@@ -8614,23 +7963,23 @@ module.factory(
          *
          * <em>
          * (The remote method definition does not provide any description.
-         * This usually means the response is a `Case` object.)
+         * This usually means the response is a `CourtDivision` object.)
          * </em>
          */
-        R.cases.createMany = function() {
-          var TargetResource = $injector.get("Case");
-          var action = TargetResource["::createMany::court::cases"];
+        R.divisions.createMany = function() {
+          var TargetResource = $injector.get("CourtDivision");
+          var action = TargetResource["::createMany::court::divisions"];
           return action.apply(R, arguments);
         };
 
         /**
          * @ngdoc method
-         * @name apiServices.Court.cases#destroyAll
-         * @methodOf apiServices.Court.cases
+         * @name apiServices.Court.divisions#destroyAll
+         * @methodOf apiServices.Court.divisions
          *
          * @description
          *
-         * Deletes all cases of this model.
+         * Deletes all divisions of this model.
          *
          * @param {Object=} parameters Request parameters.
          *
@@ -8648,26 +7997,26 @@ module.factory(
          *
          * This method returns no data.
          */
-        R.cases.destroyAll = function() {
-          var TargetResource = $injector.get("Case");
-          var action = TargetResource["::delete::court::cases"];
+        R.divisions.destroyAll = function() {
+          var TargetResource = $injector.get("CourtDivision");
+          var action = TargetResource["::delete::court::divisions"];
           return action.apply(R, arguments);
         };
 
         /**
          * @ngdoc method
-         * @name apiServices.Court.cases#destroyById
-         * @methodOf apiServices.Court.cases
+         * @name apiServices.Court.divisions#destroyById
+         * @methodOf apiServices.Court.divisions
          *
          * @description
          *
-         * Delete a related item by id for cases.
+         * Delete a related item by id for divisions.
          *
          * @param {Object=} parameters Request parameters.
          *
          *  - `id` – `{*}` - PersistedModel id
          *
-         *  - `fk` – `{*}` - Foreign key for cases
+         *  - `fk` – `{*}` - Foreign key for divisions
          *
          * @param {function(Object,Object)=} successCb
          *   Success callback with two arguments: `value`, `responseHeaders`.
@@ -8681,26 +8030,26 @@ module.factory(
          *
          * This method returns no data.
          */
-        R.cases.destroyById = function() {
-          var TargetResource = $injector.get("Case");
-          var action = TargetResource["::destroyById::court::cases"];
+        R.divisions.destroyById = function() {
+          var TargetResource = $injector.get("CourtDivision");
+          var action = TargetResource["::destroyById::court::divisions"];
           return action.apply(R, arguments);
         };
 
         /**
          * @ngdoc method
-         * @name apiServices.Court.cases#findById
-         * @methodOf apiServices.Court.cases
+         * @name apiServices.Court.divisions#findById
+         * @methodOf apiServices.Court.divisions
          *
          * @description
          *
-         * Find a related item by id for cases.
+         * Find a related item by id for divisions.
          *
          * @param {Object=} parameters Request parameters.
          *
          *  - `id` – `{*}` - PersistedModel id
          *
-         *  - `fk` – `{*}` - Foreign key for cases
+         *  - `fk` – `{*}` - Foreign key for divisions
          *
          * @param {function(Object,Object)=} successCb
          *   Success callback with two arguments: `value`, `responseHeaders`.
@@ -8714,29 +8063,29 @@ module.factory(
          *
          * <em>
          * (The remote method definition does not provide any description.
-         * This usually means the response is a `Case` object.)
+         * This usually means the response is a `CourtDivision` object.)
          * </em>
          */
-        R.cases.findById = function() {
-          var TargetResource = $injector.get("Case");
-          var action = TargetResource["::findById::court::cases"];
+        R.divisions.findById = function() {
+          var TargetResource = $injector.get("CourtDivision");
+          var action = TargetResource["::findById::court::divisions"];
           return action.apply(R, arguments);
         };
 
         /**
          * @ngdoc method
-         * @name apiServices.Court.cases#updateById
-         * @methodOf apiServices.Court.cases
+         * @name apiServices.Court.divisions#updateById
+         * @methodOf apiServices.Court.divisions
          *
          * @description
          *
-         * Update a related item by id for cases.
+         * Update a related item by id for divisions.
          *
          * @param {Object=} parameters Request parameters.
          *
          *  - `id` – `{*}` - PersistedModel id
          *
-         *  - `fk` – `{*}` - Foreign key for cases
+         *  - `fk` – `{*}` - Foreign key for divisions
          *
          * @param {Object} postData Request data.
          *
@@ -8754,12 +8103,12 @@ module.factory(
          *
          * <em>
          * (The remote method definition does not provide any description.
-         * This usually means the response is a `Case` object.)
+         * This usually means the response is a `CourtDivision` object.)
          * </em>
          */
-        R.cases.updateById = function() {
-          var TargetResource = $injector.get("Case");
-          var action = TargetResource["::updateById::court::cases"];
+        R.divisions.updateById = function() {
+          var TargetResource = $injector.get("CourtDivision");
+          var action = TargetResource["::updateById::court::divisions"];
           return action.apply(R, arguments);
         };
 
@@ -18362,6 +17711,657 @@ module.factory(
     * i.e. `Location`.
     */
     R.modelName = "Location";
+
+
+    return R;
+  }]);
+
+/**
+ * @ngdoc object
+ * @name apiServices.CourtDivision
+ * @header apiServices.CourtDivision
+ * @object
+ *
+ * @description
+ *
+ * A $resource object for interacting with the `CourtDivision` model.
+ *
+ * ## Example
+ *
+ * See
+ * {@link http://docs.angularjs.org/api/ngResource.$resource#example $resource}
+ * for an example of using this object.
+ *
+ */
+module.factory(
+  "CourtDivision",
+  ['LoopBackResource', 'LoopBackAuth', '$injector', function(Resource, LoopBackAuth, $injector) {
+    var R = Resource(
+      urlBase + "/courtDivisions/:id",
+      { 'id': '@id' },
+      {
+
+        /**
+         * @ngdoc method
+         * @name apiServices.CourtDivision#create
+         * @methodOf apiServices.CourtDivision
+         *
+         * @description
+         *
+         * Create a new instance of the model and persist it into the data source.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *   This method does not accept any parameters.
+         *   Supply an empty object or omit this argument altogether.
+         *
+         * @param {Object} postData Request data.
+         *
+         * This method expects a subset of model properties as request parameters.
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `CourtDivision` object.)
+         * </em>
+         */
+        "create": {
+          url: urlBase + "/courtDivisions",
+          method: "POST"
+        },
+
+        /**
+         * @ngdoc method
+         * @name apiServices.CourtDivision#createMany
+         * @methodOf apiServices.CourtDivision
+         *
+         * @description
+         *
+         * Create a new instance of the model and persist it into the data source.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *   This method does not accept any parameters.
+         *   Supply an empty object or omit this argument altogether.
+         *
+         * @param {Object} postData Request data.
+         *
+         * This method expects a subset of model properties as request parameters.
+         *
+         * @param {function(Array.<Object>,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Array.<Object>} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `CourtDivision` object.)
+         * </em>
+         */
+        "createMany": {
+          isArray: true,
+          url: urlBase + "/courtDivisions",
+          method: "POST"
+        },
+
+        /**
+         * @ngdoc method
+         * @name apiServices.CourtDivision#upsert
+         * @methodOf apiServices.CourtDivision
+         *
+         * @description
+         *
+         * Update an existing model instance or insert a new one into the data source.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *   This method does not accept any parameters.
+         *   Supply an empty object or omit this argument altogether.
+         *
+         * @param {Object} postData Request data.
+         *
+         * This method expects a subset of model properties as request parameters.
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `CourtDivision` object.)
+         * </em>
+         */
+        "upsert": {
+          url: urlBase + "/courtDivisions",
+          method: "PUT"
+        },
+
+        /**
+         * @ngdoc method
+         * @name apiServices.CourtDivision#exists
+         * @methodOf apiServices.CourtDivision
+         *
+         * @description
+         *
+         * Check whether a model instance exists in the data source.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - Model id
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * Data properties:
+         *
+         *  - `exists` – `{boolean=}` - 
+         */
+        "exists": {
+          url: urlBase + "/courtDivisions/:id/exists",
+          method: "GET"
+        },
+
+        /**
+         * @ngdoc method
+         * @name apiServices.CourtDivision#findById
+         * @methodOf apiServices.CourtDivision
+         *
+         * @description
+         *
+         * Find a model instance by id from the data source.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - Model id
+         *
+         *  - `filter` – `{object=}` - Filter defining fields and include
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `CourtDivision` object.)
+         * </em>
+         */
+        "findById": {
+          url: urlBase + "/courtDivisions/:id",
+          method: "GET"
+        },
+
+        /**
+         * @ngdoc method
+         * @name apiServices.CourtDivision#find
+         * @methodOf apiServices.CourtDivision
+         *
+         * @description
+         *
+         * Find all instances of the model matched by filter from the data source.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `filter` – `{object=}` - Filter defining fields, where, include, order, offset, and limit
+         *
+         * @param {function(Array.<Object>,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Array.<Object>} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `CourtDivision` object.)
+         * </em>
+         */
+        "find": {
+          isArray: true,
+          url: urlBase + "/courtDivisions",
+          method: "GET"
+        },
+
+        /**
+         * @ngdoc method
+         * @name apiServices.CourtDivision#findOne
+         * @methodOf apiServices.CourtDivision
+         *
+         * @description
+         *
+         * Find first instance of the model matched by filter from the data source.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `filter` – `{object=}` - Filter defining fields, where, include, order, offset, and limit
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `CourtDivision` object.)
+         * </em>
+         */
+        "findOne": {
+          url: urlBase + "/courtDivisions/findOne",
+          method: "GET"
+        },
+
+        /**
+         * @ngdoc method
+         * @name apiServices.CourtDivision#updateAll
+         * @methodOf apiServices.CourtDivision
+         *
+         * @description
+         *
+         * Update instances of the model matched by where from the data source.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `where` – `{object=}` - Criteria to match model instances
+         *
+         * @param {Object} postData Request data.
+         *
+         * This method expects a subset of model properties as request parameters.
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * The number of instances updated
+         */
+        "updateAll": {
+          url: urlBase + "/courtDivisions/update",
+          method: "POST"
+        },
+
+        /**
+         * @ngdoc method
+         * @name apiServices.CourtDivision#deleteById
+         * @methodOf apiServices.CourtDivision
+         *
+         * @description
+         *
+         * Delete a model instance by id from the data source.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - Model id
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `CourtDivision` object.)
+         * </em>
+         */
+        "deleteById": {
+          url: urlBase + "/courtDivisions/:id",
+          method: "DELETE"
+        },
+
+        /**
+         * @ngdoc method
+         * @name apiServices.CourtDivision#count
+         * @methodOf apiServices.CourtDivision
+         *
+         * @description
+         *
+         * Count instances of the model matched by where from the data source.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `where` – `{object=}` - Criteria to match model instances
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * Data properties:
+         *
+         *  - `count` – `{number=}` - 
+         */
+        "count": {
+          url: urlBase + "/courtDivisions/count",
+          method: "GET"
+        },
+
+        /**
+         * @ngdoc method
+         * @name apiServices.CourtDivision#prototype$updateAttributes
+         * @methodOf apiServices.CourtDivision
+         *
+         * @description
+         *
+         * Update attributes for a model instance and persist it into the data source.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - PersistedModel id
+         *
+         * @param {Object} postData Request data.
+         *
+         * This method expects a subset of model properties as request parameters.
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `CourtDivision` object.)
+         * </em>
+         */
+        "prototype$updateAttributes": {
+          url: urlBase + "/courtDivisions/:id",
+          method: "PUT"
+        },
+
+        /**
+         * @ngdoc method
+         * @name apiServices.CourtDivision#createChangeStream
+         * @methodOf apiServices.CourtDivision
+         *
+         * @description
+         *
+         * Create a change stream.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *   This method does not accept any parameters.
+         *   Supply an empty object or omit this argument altogether.
+         *
+         * @param {Object} postData Request data.
+         *
+         *  - `options` – `{object=}` - 
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * Data properties:
+         *
+         *  - `changes` – `{ReadableStream=}` - 
+         */
+        "createChangeStream": {
+          url: urlBase + "/courtDivisions/change-stream",
+          method: "POST"
+        },
+
+        // INTERNAL. Use Court.divisions.findById() instead.
+        "::findById::court::divisions": {
+          params: {
+          'fk': '@fk'
+          },
+          url: urlBase + "/courts/:id/divisions/:fk",
+          method: "GET"
+        },
+
+        // INTERNAL. Use Court.divisions.destroyById() instead.
+        "::destroyById::court::divisions": {
+          params: {
+          'fk': '@fk'
+          },
+          url: urlBase + "/courts/:id/divisions/:fk",
+          method: "DELETE"
+        },
+
+        // INTERNAL. Use Court.divisions.updateById() instead.
+        "::updateById::court::divisions": {
+          params: {
+          'fk': '@fk'
+          },
+          url: urlBase + "/courts/:id/divisions/:fk",
+          method: "PUT"
+        },
+
+        // INTERNAL. Use Court.divisions() instead.
+        "::get::court::divisions": {
+          isArray: true,
+          url: urlBase + "/courts/:id/divisions",
+          method: "GET"
+        },
+
+        // INTERNAL. Use Court.divisions.create() instead.
+        "::create::court::divisions": {
+          url: urlBase + "/courts/:id/divisions",
+          method: "POST"
+        },
+
+        // INTERNAL. Use Court.divisions.createMany() instead.
+        "::createMany::court::divisions": {
+          isArray: true,
+          url: urlBase + "/courts/:id/divisions",
+          method: "POST"
+        },
+
+        // INTERNAL. Use Court.divisions.destroyAll() instead.
+        "::delete::court::divisions": {
+          url: urlBase + "/courts/:id/divisions",
+          method: "DELETE"
+        },
+
+        // INTERNAL. Use Court.divisions.count() instead.
+        "::count::court::divisions": {
+          url: urlBase + "/courts/:id/divisions/count",
+          method: "GET"
+        },
+      }
+    );
+
+
+
+        /**
+         * @ngdoc method
+         * @name apiServices.CourtDivision#updateOrCreate
+         * @methodOf apiServices.CourtDivision
+         *
+         * @description
+         *
+         * Update an existing model instance or insert a new one into the data source.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *   This method does not accept any parameters.
+         *   Supply an empty object or omit this argument altogether.
+         *
+         * @param {Object} postData Request data.
+         *
+         * This method expects a subset of model properties as request parameters.
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `CourtDivision` object.)
+         * </em>
+         */
+        R["updateOrCreate"] = R["upsert"];
+
+        /**
+         * @ngdoc method
+         * @name apiServices.CourtDivision#update
+         * @methodOf apiServices.CourtDivision
+         *
+         * @description
+         *
+         * Update instances of the model matched by where from the data source.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `where` – `{object=}` - Criteria to match model instances
+         *
+         * @param {Object} postData Request data.
+         *
+         * This method expects a subset of model properties as request parameters.
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * The number of instances updated
+         */
+        R["update"] = R["updateAll"];
+
+        /**
+         * @ngdoc method
+         * @name apiServices.CourtDivision#destroyById
+         * @methodOf apiServices.CourtDivision
+         *
+         * @description
+         *
+         * Delete a model instance by id from the data source.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - Model id
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `CourtDivision` object.)
+         * </em>
+         */
+        R["destroyById"] = R["deleteById"];
+
+        /**
+         * @ngdoc method
+         * @name apiServices.CourtDivision#removeById
+         * @methodOf apiServices.CourtDivision
+         *
+         * @description
+         *
+         * Delete a model instance by id from the data source.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - Model id
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `CourtDivision` object.)
+         * </em>
+         */
+        R["removeById"] = R["deleteById"];
+
+
+    /**
+    * @ngdoc property
+    * @name apiServices.CourtDivision#modelName
+    * @propertyOf apiServices.CourtDivision
+    * @description
+    * The name of the model represented by this $resource,
+    * i.e. `CourtDivision`.
+    */
+    R.modelName = "CourtDivision";
 
 
     return R;

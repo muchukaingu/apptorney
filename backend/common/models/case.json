@@ -6,18 +6,17 @@
     "validateUpsert": true
   },
   "properties": {
-    "name": {
-      "type": "string",
-      "required": true
-    },
-    "coram": {
-      "type": "string",
-      "required": true
-    },
     "caseNumber": {
       "type": "string",
       "required": true
     },
+    "plaintiffs": ["string"],
+    "defendants": ["string"],
+    "coram": {
+      "type": "string",
+      "required": true
+    },
+
     "description": {
       "type": "string",
       "required": true

@@ -121,7 +121,28 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "\n" +
     "                          <div class=\"col-xs-6\" style=\"margin-top:-35px\">\n" +
-    "                            <h4 ng-if=\"case.parties.plaintiffs.length > 0\">Plaintiffs</h4>\n" +
+    "\n" +
+    "\n" +
+    "                            <div ng-controller = \"SynonymController\" style=\"margin-top:10px\">\n" +
+    "\n" +
+    "\n" +
+    "                                    <div class=\"form-group\" >\n" +
+    "                                      <ui-select ng-model=\"case.plaintiffSynonym\" theme=\"selectize\" title=\"Court\" id=\"court\">\n" +
+    "                                          <ui-select-match placeholder=\"Synonym for Accuser\">{{$select.selected.synonym}}</ui-select-match>\n" +
+    "                                          <ui-select-choices repeat=\"synonym in plaintiffSynonyms | filter:$select.search\">\n" +
+    "                                            <span ng-bind-html=\"synonym.synonym | highlight: $select.search\"></span>\n" +
+    "\n" +
+    "                                          </ui-select-choices>\n" +
+    "                                      </ui-select>\n" +
+    "\n" +
+    "                                    </div>\n" +
+    "\n" +
+    "\n" +
+    "                              </div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
     "                            <div>\n" +
     "\n" +
     "                                <input ng-repeat=\"plaintiff in case.parties.plaintiffs\" set-focus=\"$last\" id=\"plaintiff\" name=\"plaintiff\" type=\"text\" class=\"form-control\" ng-model=\"plaintiff.name\" ng-minlength=2 ng-focus required placeholder=\"Name of Plaintiff\" ng-keydown = \"addPlaintiff($event)\" ng-style=\"{'margin-bottom':(case.parties.plaintiffs.length == 1)?'0px':'10px'}\"/>\n" +
@@ -140,7 +161,22 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "\n" +
     "\n" +
-    "                            <h4 ng-if=\"case.parties.plaintiffs.length > 0\">Defendants</h4>\n" +
+    "                            <div ng-controller = \"SynonymController\" style=\"margin-top:10px\">\n" +
+    "\n" +
+    "\n" +
+    "                                    <div class=\"form-group\" >\n" +
+    "                                      <ui-select ng-model=\"case.defendantSynonym\" theme=\"selectize\" title=\"Court\" id=\"court\">\n" +
+    "                                          <ui-select-match placeholder=\"Synonym for Accused\">{{$select.selected.synonym}}</ui-select-match>\n" +
+    "                                          <ui-select-choices repeat=\"synonym in defendantSynonyms | filter:$select.search\">\n" +
+    "                                            <span ng-bind-html=\"synonym.synonym | highlight: $select.search\"></span>\n" +
+    "\n" +
+    "                                          </ui-select-choices>\n" +
+    "                                      </ui-select>\n" +
+    "\n" +
+    "                                    </div>\n" +
+    "\n" +
+    "\n" +
+    "                              </div>\n" +
     "                            <div >\n" +
     "                                <input ng-repeat=\"defendant in case.parties.defendants\" set-focus=\"$last\" id=\"defendant\" name=\"defendant\" type=\"text\" class=\"form-control\" ng-model=\"defendant.name\" ng-minlength=2 ng-focus required placeholder=\"Name of Defendant\" ng-keydown = \"addDefendant($event)\" ng-style=\"{'margin-bottom':(case.parties.defendants.length == 1)?'0px':'10px'}\"/>\n" +
     "                                <div class=\"text-danger\" ng-show=\"form.$submitted && form.defendant.$invalid || form.defendant.$dirty && form.defendant.$invalid && !form.defendant.$focused\">\n" +
@@ -158,7 +194,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "\n" +
     "                            <div class=\"col-xs-6\" style=\"margin-top:0px\">\n" +
-    "                              <h4 ng-if=\"case.parties.plaintiffs.length > 0\">Appearances for Plaintiffs</h4>\n" +
+    "                              <h4 ng-if=\"case.plaintiffSynonym\">Appearances{{+\" for \"+case.plaintiffSynonym.synonym+\"s\"}}</h4><h4 ng-if=\"!case.plaintiffSynonym\">Appearances</h4>\n" +
     "                              <div ng-repeat=\"advocate in case.parties.plaintiffAdvocates\" >\n" +
     "\n" +
     "                                  <div class=\"row\">\n" +
@@ -196,7 +232,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "\n" +
     "\n" +
-    "                              <h4 ng-if=\"case.parties.plaintiffs.length > 0\">Appearances for Defendants</h4>\n" +
+    "                              <h4 ng-if=\"case.defendantSynonym\">Appearances{{+\" for \"+case.defendantSynonym.synonym+\"s\"}}</h4><h4 ng-if=\"!case.defendantSynonym\">Appearances</h4>\n" +
     "                              <div ng-repeat=\"advocate in case.parties.defendantAdvocates\">\n" +
     "                                <div class=\"row\">\n" +
     "                                    <div class=\"col-xs-6\">\n" +
@@ -311,11 +347,14 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "                   <div class=\"col-xs-12\" style=\"border:1px dashed #d3d3d3; border-radius:5px; height:auto; color:#d3d3d3; padding-top:10px; padding-bottom:20px; width:97%; margin-left:12px; margin-bottom:20px;\">\n" +
     "                         <h4>Court Details</h4>\n" +
-    "                         <div class=\"row\">\n" +
-    "                             <div class=\"col-xs-3 form-group\">\n" +
+    "                         <div class=\"row\" >\n" +
+    "                           <div ng-controller = \"CourtController\">\n" +
+    "\n" +
+    "\n" +
+    "                             <div class=\"col-xs-3 form-group\" >\n" +
     "                               <ui-select ng-model=\"case.court\" theme=\"selectize\" title=\"Court\" id=\"court\">\n" +
     "                                   <ui-select-match placeholder=\"Court\">{{$select.selected.name}}</ui-select-match>\n" +
-    "                                   <ui-select-choices repeat=\"court in courts | filter:$select.search\">\n" +
+    "                                   <ui-select-choices repeat=\"court in courts | filter:$select.search\" ng-click = \"divisionsForCourt(court.id)\">\n" +
     "                                     <span ng-bind-html=\"court.name | highlight: $select.search\"></span>\n" +
     "\n" +
     "                                   </ui-select-choices>\n" +
@@ -324,13 +363,15 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                             </div>\n" +
     "\n" +
     "                             <div class=\"col-xs-3 form-group\">\n" +
-    "                               <ui-select ng-model=\"advocate.name\" theme=\"selectize\">\n" +
+    "                               <ui-select ng-model=\"case.division\" theme=\"selectize\">\n" +
     "                                   <ui-select-match placeholder=\"Court Division\">{{$select.selected.name}}</ui-select-match>\n" +
-    "                                   <ui-select-choices repeat=\"advocate in case.parties.plaintiffAdvocates | filter: $select.search\">\n" +
-    "                                     <span ng-bind-html=\"advocate.name | highlight: $select.search\"></span>\n" +
-    "                                     <small ng-bind-html=\"advocate.firm | highlight: $select.search\"></small>\n" +
+    "                                   <ui-select-choices repeat=\"division.id as division in divisions | filter: $select.search\">\n" +
+    "                                     <span ng-bind-html=\"division.name | highlight: $select.search\"></span>\n" +
+    "\n" +
     "                                   </ui-select-choices>\n" +
     "                               </ui-select>\n" +
+    "                             </div>\n" +
+    "\n" +
     "                             </div>\n" +
     "\n" +
     "\n" +
@@ -399,7 +440,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                                   <ui-select-match placeholder=\"Select Works Referred To...\">{{$item.name}}</ui-select-match>\n" +
     "                                   <ui-select-choices repeat=\"work.id as work in works | filter: $select.search\">\n" +
     "                                     <span ng-bind-html=\"work.name | highlight: $select.search\"></span>\n" +
-    "                                     \n" +
+    "\n" +
     "                                   </ui-select-choices>\n" +
     "                               </ui-select>\n" +
     "\n" +
@@ -630,6 +671,62 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "   </div>\n" +
     "   <div class=\"modal-footer\" style=\"border-top:none\">\n" +
     "        <button id=\"submit\" type=\"submit\" class=\"btn btn-primary-alt pull-right\"  style=\"width:120px\" ng-click = \"saveCourt()\">Save</button>\n" +
+    "\n" +
+    "    </div>\n" +
+    " </div>\n" +
+    "</div>\n" +
+    "</div>\n"
+  );
+
+
+  $templateCache.put('templates/defendant-synonym-modal.html',
+    "<div id=\"addDefendantSynonymModal\" class=\"modal fade\" style=\"z-index:3000; background-color:rgba(0, 0, 0, 0.5);\">\n" +
+    "  <div class=\"modal-dialog\" style=\"width:50%;padding-left: 2%;padding-right: 2%; \">\n" +
+    "    <div class=\"modal-content\" style=\"margin-top: 8%\">\n" +
+    "      <div class=\"modal-header\" style=\"border-bottom:none\">\n" +
+    "          <button type=\"button\" id=\"closeModal\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>\n" +
+    "\n" +
+    "        <h4 style=\"font-weight: 100;\"><span id=\"CustomerHeading\">&nbsp&nbspAdd Synonym</span></h4>\n" +
+    "        <p id=\"WelcomeMessage\" style=\"margin-left:12px\">\n" +
+    "          Please ensure that you fill in all the mandatory sections in the form.\n" +
+    "        </p>\n" +
+    "      </div>\n" +
+    "\n" +
+    "      <div class=\"modal-body\" style=\"margin-bottom: none; padding-top: 0px; border-bottom:none\">\n" +
+    "\n" +
+    "        <!-- Start Form-->\n" +
+    "\n" +
+    "              <form id =\"applicationForm\" name=\"form\" class=\"css-form\" novalidate>\n" +
+    "                  <div class=\"row\">\n" +
+    "\n" +
+    "\n" +
+    "                    <div class=\"col-xs-12 form-group\">\n" +
+    "                      <input id=\"location-name\" name=\"location-name\" type=\"text\" class=\"form-control\" ng-model=\"defendantSynonym.synonym\" ng-minlength=2 ng-focus required placeholder=\"Synonym\"/>\n" +
+    "                      <div class=\"text-danger\" ng-show=\"form.$submitted && form.location-name.$invalid || form.location-name.$dirty && form.location-name.$invalid && !form.location-name.$focused\">\n" +
+    "\n" +
+    "                        <span ng-show=\"form.location-name.$error.required\">Synonym is required</span>\n" +
+    "                        <span ng-show=\"form.location-name.$error.minlength\">Synonym is required to be at least 2 characters long</span>\n" +
+    "\n" +
+    "                      </div>\n" +
+    "                    </div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "                  </div>\n" +
+    "\n" +
+    "                  <div class = \"form-group\">\n" +
+    "                    <button id=\"submit\" type=\"submit\" class=\"btn btn-primary-alt pull-right\"  style=\"width:120px\" ng-click = \"saveDefendantSynonym()\">Save</button>\n" +
+    "\n" +
+    "\n" +
+    "                    <div id=\"submitAppMsg\" class=\"pull-left\" style=\"font-size: larger; position: relative; top: 5px\"></div>\n" +
+    "                  </div>\n" +
+    "\n" +
+    "            </form>\n" +
+    "\n" +
+    "   </div>\n" +
+    "   <div class=\"modal-footer\" style=\"border-top:none\">\n" +
+    "\n" +
     "\n" +
     "    </div>\n" +
     " </div>\n" +
@@ -1303,6 +1400,62 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "  </div>\n" +
     "  <div class=\"panel-body\" ng-transclude>\n" +
     "  </div>\n" +
+    "</div>\n"
+  );
+
+
+  $templateCache.put('templates/plaintiff-synonym-modal.html',
+    "<div id=\"addPlaintiffSynonymModal\" class=\"modal fade\" style=\"z-index:3000; background-color:rgba(0, 0, 0, 0.5);\">\n" +
+    "  <div class=\"modal-dialog\" style=\"width:50%;padding-left: 2%;padding-right: 2%; \">\n" +
+    "    <div class=\"modal-content\" style=\"margin-top: 8%\">\n" +
+    "      <div class=\"modal-header\" style=\"border-bottom:none\">\n" +
+    "          <button type=\"button\" id=\"closeModal\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>\n" +
+    "\n" +
+    "        <h4 style=\"font-weight: 100;\"><span id=\"CustomerHeading\">&nbsp&nbspAdd Synonym</span></h4>\n" +
+    "        <p id=\"WelcomeMessage\" style=\"margin-left:12px\">\n" +
+    "          Please ensure that you fill in all the mandatory sections in the form.\n" +
+    "        </p>\n" +
+    "      </div>\n" +
+    "\n" +
+    "      <div class=\"modal-body\" style=\"margin-bottom: none; padding-top: 0px; border-bottom:none\">\n" +
+    "\n" +
+    "        <!-- Start Form-->\n" +
+    "\n" +
+    "              <form id =\"applicationForm\" name=\"form\" class=\"css-form\" novalidate>\n" +
+    "                  <div class=\"row\">\n" +
+    "\n" +
+    "\n" +
+    "                    <div class=\"col-xs-12 form-group\">\n" +
+    "                      <input id=\"synonym\" name=\"synonym\" type=\"text\" class=\"form-control\" ng-model=\"plaintiffSynonym.synonym\" ng-minlength=2 ng-focus required placeholder=\"Synonym\"/>\n" +
+    "                      <div class=\"text-danger\" ng-show=\"form.$submitted && form.synonym.$invalid || form.synonym.$dirty && form.synonym.$invalid && !form.synonym.$focused\">\n" +
+    "\n" +
+    "                        <span ng-show=\"form.synonym.$error.required\">Synonym is required</span>\n" +
+    "                        <span ng-show=\"form.synonym.$error.minlength\">Synonym is required to be at least 2 characters long</span>\n" +
+    "\n" +
+    "                      </div>\n" +
+    "                    </div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "                  </div>\n" +
+    "\n" +
+    "                  <div class = \"form-group\">\n" +
+    "                    <button id=\"submit\" type=\"submit\" class=\"btn btn-primary-alt pull-right\"  style=\"width:120px\" ng-click = \"savePlaintiffSynonym()\">Save</button>\n" +
+    "\n" +
+    "\n" +
+    "                    <div id=\"submitAppMsg\" class=\"pull-left\" style=\"font-size: larger; position: relative; top: 5px\"></div>\n" +
+    "                  </div>\n" +
+    "\n" +
+    "            </form>\n" +
+    "\n" +
+    "   </div>\n" +
+    "   <div class=\"modal-footer\" style=\"border-top:none\">\n" +
+    "\n" +
+    "\n" +
+    "    </div>\n" +
+    " </div>\n" +
+    "</div>\n" +
     "</div>\n"
   );
 

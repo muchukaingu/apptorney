@@ -119,46 +119,7 @@ angular.module('apptorney')
 
 
 
-         $scope.courts = Court.find(
-           function(list) {
-             console.log(list);
-             $scope.courtsReturned = true;
-             $scope.showCourts = true;
-           },
-           function(errorResponse) { }
-         );
 
-         $scope.saveCourt = function(){
-           console.log($scope.court);
-           Court.upsert($scope.court,
-             function(court){
-               $scope.courts.push(court);
-             },
-             function(errorResponse){
-
-             }
-           );
-
-           $("#addCourtModal").modal("hide");
-
-         }
-
-
-         $scope.deleteCourt = function(courtID){
-
-           Court.deleteById({ id: courtID })
-           .$promise
-           .then(function() {
-             //console.log('deleted');
-             $scope.courts.forEach(function(court){
-               if(court.id == courtID){
-                 $scope.courts.splice($scope.courts.indexOf(court),1);
-
-               }
-             });
-           });
-
-         }
 
 
          $scope.areasOfLaw = AreaOfLaw.find(
@@ -269,28 +230,7 @@ angular.module('apptorney')
 
 
 
-         $scope.division = {};
-         $scope.divisions = [];
-        $scope.divisions.push(angular.copy($scope.division));
-
-         $scope.addDivision = function(event){
-
-           if(event.which === 13){
-              $scope.divisions.push(angular.copy($scope.division));
-
-           }
-
-           console.log($scope.divisions);
-         }
-
-         $scope.openAddDivisionModal = function(){
-           //$scope.division = new Object();
-         }
-
-
-         $scope.saveCase = function(){
-           console.log($scope.case);
-         }
+        
 
 
 

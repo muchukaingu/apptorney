@@ -1714,178 +1714,6 @@ module.factory(
           url: urlBase + "/lawFirms/:id/advocates/count",
           method: "GET"
         },
-
-        // INTERNAL. Use Appearance.plaintiffs.findById() instead.
-        "::findById::appearance::plaintiffs": {
-          params: {
-          'fk': '@fk'
-          },
-          url: urlBase + "/appearances/:id/plaintiffs/:fk",
-          method: "GET"
-        },
-
-        // INTERNAL. Use Appearance.plaintiffs.destroyById() instead.
-        "::destroyById::appearance::plaintiffs": {
-          params: {
-          'fk': '@fk'
-          },
-          url: urlBase + "/appearances/:id/plaintiffs/:fk",
-          method: "DELETE"
-        },
-
-        // INTERNAL. Use Appearance.plaintiffs.updateById() instead.
-        "::updateById::appearance::plaintiffs": {
-          params: {
-          'fk': '@fk'
-          },
-          url: urlBase + "/appearances/:id/plaintiffs/:fk",
-          method: "PUT"
-        },
-
-        // INTERNAL. Use Appearance.plaintiffs.link() instead.
-        "::link::appearance::plaintiffs": {
-          params: {
-          'fk': '@fk'
-          },
-          url: urlBase + "/appearances/:id/plaintiffs/rel/:fk",
-          method: "PUT"
-        },
-
-        // INTERNAL. Use Appearance.plaintiffs.unlink() instead.
-        "::unlink::appearance::plaintiffs": {
-          params: {
-          'fk': '@fk'
-          },
-          url: urlBase + "/appearances/:id/plaintiffs/rel/:fk",
-          method: "DELETE"
-        },
-
-        // INTERNAL. Use Appearance.plaintiffs.exists() instead.
-        "::exists::appearance::plaintiffs": {
-          params: {
-          'fk': '@fk'
-          },
-          url: urlBase + "/appearances/:id/plaintiffs/rel/:fk",
-          method: "HEAD"
-        },
-
-        // INTERNAL. Use Appearance.defendants.findById() instead.
-        "::findById::appearance::defendants": {
-          params: {
-          'fk': '@fk'
-          },
-          url: urlBase + "/appearances/:id/defendants/:fk",
-          method: "GET"
-        },
-
-        // INTERNAL. Use Appearance.defendants.destroyById() instead.
-        "::destroyById::appearance::defendants": {
-          params: {
-          'fk': '@fk'
-          },
-          url: urlBase + "/appearances/:id/defendants/:fk",
-          method: "DELETE"
-        },
-
-        // INTERNAL. Use Appearance.defendants.updateById() instead.
-        "::updateById::appearance::defendants": {
-          params: {
-          'fk': '@fk'
-          },
-          url: urlBase + "/appearances/:id/defendants/:fk",
-          method: "PUT"
-        },
-
-        // INTERNAL. Use Appearance.defendants.link() instead.
-        "::link::appearance::defendants": {
-          params: {
-          'fk': '@fk'
-          },
-          url: urlBase + "/appearances/:id/defendants/rel/:fk",
-          method: "PUT"
-        },
-
-        // INTERNAL. Use Appearance.defendants.unlink() instead.
-        "::unlink::appearance::defendants": {
-          params: {
-          'fk': '@fk'
-          },
-          url: urlBase + "/appearances/:id/defendants/rel/:fk",
-          method: "DELETE"
-        },
-
-        // INTERNAL. Use Appearance.defendants.exists() instead.
-        "::exists::appearance::defendants": {
-          params: {
-          'fk': '@fk'
-          },
-          url: urlBase + "/appearances/:id/defendants/rel/:fk",
-          method: "HEAD"
-        },
-
-        // INTERNAL. Use Appearance.plaintiffs() instead.
-        "::get::appearance::plaintiffs": {
-          isArray: true,
-          url: urlBase + "/appearances/:id/plaintiffs",
-          method: "GET"
-        },
-
-        // INTERNAL. Use Appearance.plaintiffs.create() instead.
-        "::create::appearance::plaintiffs": {
-          url: urlBase + "/appearances/:id/plaintiffs",
-          method: "POST"
-        },
-
-        // INTERNAL. Use Appearance.plaintiffs.createMany() instead.
-        "::createMany::appearance::plaintiffs": {
-          isArray: true,
-          url: urlBase + "/appearances/:id/plaintiffs",
-          method: "POST"
-        },
-
-        // INTERNAL. Use Appearance.plaintiffs.destroyAll() instead.
-        "::delete::appearance::plaintiffs": {
-          url: urlBase + "/appearances/:id/plaintiffs",
-          method: "DELETE"
-        },
-
-        // INTERNAL. Use Appearance.plaintiffs.count() instead.
-        "::count::appearance::plaintiffs": {
-          url: urlBase + "/appearances/:id/plaintiffs/count",
-          method: "GET"
-        },
-
-        // INTERNAL. Use Appearance.defendants() instead.
-        "::get::appearance::defendants": {
-          isArray: true,
-          url: urlBase + "/appearances/:id/defendants",
-          method: "GET"
-        },
-
-        // INTERNAL. Use Appearance.defendants.create() instead.
-        "::create::appearance::defendants": {
-          url: urlBase + "/appearances/:id/defendants",
-          method: "POST"
-        },
-
-        // INTERNAL. Use Appearance.defendants.createMany() instead.
-        "::createMany::appearance::defendants": {
-          isArray: true,
-          url: urlBase + "/appearances/:id/defendants",
-          method: "POST"
-        },
-
-        // INTERNAL. Use Appearance.defendants.destroyAll() instead.
-        "::delete::appearance::defendants": {
-          url: urlBase + "/appearances/:id/defendants",
-          method: "DELETE"
-        },
-
-        // INTERNAL. Use Appearance.defendants.count() instead.
-        "::count::appearance::defendants": {
-          url: urlBase + "/appearances/:id/defendants/count",
-          method: "GET"
-        },
       }
     );
 
@@ -2985,31 +2813,6 @@ module.factory(
           url: urlBase + "/cases/:id/areaOfLaw",
           method: "GET"
         },
-
-        // INTERNAL. Use Case.areaOfLaw.create() instead.
-        "::create::case::areaOfLaw": {
-          url: urlBase + "/cases/:id/areaOfLaw",
-          method: "POST"
-        },
-
-        // INTERNAL. Use Case.areaOfLaw.createMany() instead.
-        "::createMany::case::areaOfLaw": {
-          isArray: true,
-          url: urlBase + "/cases/:id/areaOfLaw",
-          method: "POST"
-        },
-
-        // INTERNAL. Use Case.areaOfLaw.update() instead.
-        "::update::case::areaOfLaw": {
-          url: urlBase + "/cases/:id/areaOfLaw",
-          method: "PUT"
-        },
-
-        // INTERNAL. Use Case.areaOfLaw.destroy() instead.
-        "::destroy::case::areaOfLaw": {
-          url: urlBase + "/cases/:id/areaOfLaw",
-          method: "DELETE"
-        },
       }
     );
 
@@ -3382,197 +3185,39 @@ module.factory(
           method: "GET"
         },
 
-        // INTERNAL. Use Case.areaOfLaw.create() instead.
-        "prototype$__create__areaOfLaw": {
-          url: urlBase + "/cases/:id/areaOfLaw",
-          method: "POST"
-        },
-
-        // INTERNAL. Use Case.areaOfLaw.update() instead.
-        "prototype$__update__areaOfLaw": {
-          url: urlBase + "/cases/:id/areaOfLaw",
-          method: "PUT"
-        },
-
-        // INTERNAL. Use Case.areaOfLaw.destroy() instead.
-        "prototype$__destroy__areaOfLaw": {
-          url: urlBase + "/cases/:id/areaOfLaw",
-          method: "DELETE"
-        },
-
-        // INTERNAL. Use Case.casesReferedTo.findById() instead.
-        "prototype$__findById__casesReferedTo": {
-          params: {
-          'fk': '@fk'
-          },
-          url: urlBase + "/cases/:id/casesReferedTo/:fk",
-          method: "GET"
-        },
-
-        // INTERNAL. Use Case.casesReferedTo.destroyById() instead.
-        "prototype$__destroyById__casesReferedTo": {
-          params: {
-          'fk': '@fk'
-          },
-          url: urlBase + "/cases/:id/casesReferedTo/:fk",
-          method: "DELETE"
-        },
-
-        // INTERNAL. Use Case.casesReferedTo.updateById() instead.
-        "prototype$__updateById__casesReferedTo": {
-          params: {
-          'fk': '@fk'
-          },
-          url: urlBase + "/cases/:id/casesReferedTo/:fk",
-          method: "PUT"
-        },
-
-        // INTERNAL. Use Case.citation() instead.
-        "prototype$__get__citation": {
-          url: urlBase + "/cases/:id/citation",
-          method: "GET"
-        },
-
-        // INTERNAL. Use Case.citation.create() instead.
-        "prototype$__create__citation": {
-          url: urlBase + "/cases/:id/citation",
-          method: "POST"
-        },
-
-        // INTERNAL. Use Case.citation.update() instead.
-        "prototype$__update__citation": {
-          url: urlBase + "/cases/:id/citation",
-          method: "PUT"
-        },
-
-        // INTERNAL. Use Case.citation.destroy() instead.
-        "prototype$__destroy__citation": {
-          url: urlBase + "/cases/:id/citation",
-          method: "DELETE"
-        },
-
         // INTERNAL. Use Case.court() instead.
         "prototype$__get__court": {
           url: urlBase + "/cases/:id/court",
           method: "GET"
         },
 
-        // INTERNAL. Use Case.court.create() instead.
-        "prototype$__create__court": {
-          url: urlBase + "/cases/:id/court",
-          method: "POST"
-        },
-
-        // INTERNAL. Use Case.court.update() instead.
-        "prototype$__update__court": {
-          url: urlBase + "/cases/:id/court",
-          method: "PUT"
-        },
-
-        // INTERNAL. Use Case.court.destroy() instead.
-        "prototype$__destroy__court": {
-          url: urlBase + "/cases/:id/court",
-          method: "DELETE"
-        },
-
-        // INTERNAL. Use Case.legislationsReferedTo.findById() instead.
-        "prototype$__findById__legislationsReferedTo": {
-          params: {
-          'fk': '@fk'
-          },
-          url: urlBase + "/cases/:id/legislationsReferedTo/:fk",
+        // INTERNAL. Use Case.plaintiffSynonym() instead.
+        "prototype$__get__plaintiffSynonym": {
+          url: urlBase + "/cases/:id/plaintiffSynonym",
           method: "GET"
         },
 
-        // INTERNAL. Use Case.legislationsReferedTo.destroyById() instead.
-        "prototype$__destroyById__legislationsReferedTo": {
-          params: {
-          'fk': '@fk'
-          },
-          url: urlBase + "/cases/:id/legislationsReferedTo/:fk",
-          method: "DELETE"
-        },
-
-        // INTERNAL. Use Case.legislationsReferedTo.updateById() instead.
-        "prototype$__updateById__legislationsReferedTo": {
-          params: {
-          'fk': '@fk'
-          },
-          url: urlBase + "/cases/:id/legislationsReferedTo/:fk",
-          method: "PUT"
-        },
-
-        // INTERNAL. Use Case.appearances() instead.
-        "prototype$__get__appearances": {
-          url: urlBase + "/cases/:id/appearances",
+        // INTERNAL. Use Case.defendantSynonym() instead.
+        "prototype$__get__defendantSynonym": {
+          url: urlBase + "/cases/:id/defendantSynonym",
           method: "GET"
         },
 
-        // INTERNAL. Use Case.appearances.create() instead.
-        "prototype$__create__appearances": {
-          url: urlBase + "/cases/:id/appearances",
-          method: "POST"
-        },
-
-        // INTERNAL. Use Case.appearances.update() instead.
-        "prototype$__update__appearances": {
-          url: urlBase + "/cases/:id/appearances",
-          method: "PUT"
-        },
-
-        // INTERNAL. Use Case.appearances.destroy() instead.
-        "prototype$__destroy__appearances": {
-          url: urlBase + "/cases/:id/appearances",
-          method: "DELETE"
-        },
-
-        // INTERNAL. Use Case.casesReferedTo() instead.
-        "prototype$__get__casesReferedTo": {
-          isArray: true,
-          url: urlBase + "/cases/:id/casesReferedTo",
+        // INTERNAL. Use Case.jurisdiction() instead.
+        "prototype$__get__jurisdiction": {
+          url: urlBase + "/cases/:id/jurisdiction",
           method: "GET"
         },
 
-        // INTERNAL. Use Case.casesReferedTo.create() instead.
-        "prototype$__create__casesReferedTo": {
-          url: urlBase + "/cases/:id/casesReferedTo",
-          method: "POST"
-        },
-
-        // INTERNAL. Use Case.casesReferedTo.destroyAll() instead.
-        "prototype$__delete__casesReferedTo": {
-          url: urlBase + "/cases/:id/casesReferedTo",
-          method: "DELETE"
-        },
-
-        // INTERNAL. Use Case.casesReferedTo.count() instead.
-        "prototype$__count__casesReferedTo": {
-          url: urlBase + "/cases/:id/casesReferedTo/count",
+        // INTERNAL. Use Case.location() instead.
+        "prototype$__get__location": {
+          url: urlBase + "/cases/:id/location",
           method: "GET"
         },
 
-        // INTERNAL. Use Case.legislationsReferedTo() instead.
-        "prototype$__get__legislationsReferedTo": {
-          isArray: true,
-          url: urlBase + "/cases/:id/legislationsReferedTo",
-          method: "GET"
-        },
-
-        // INTERNAL. Use Case.legislationsReferedTo.create() instead.
-        "prototype$__create__legislationsReferedTo": {
-          url: urlBase + "/cases/:id/legislationsReferedTo",
-          method: "POST"
-        },
-
-        // INTERNAL. Use Case.legislationsReferedTo.destroyAll() instead.
-        "prototype$__delete__legislationsReferedTo": {
-          url: urlBase + "/cases/:id/legislationsReferedTo",
-          method: "DELETE"
-        },
-
-        // INTERNAL. Use Case.legislationsReferedTo.count() instead.
-        "prototype$__count__legislationsReferedTo": {
-          url: urlBase + "/cases/:id/legislationsReferedTo/count",
+        // INTERNAL. Use Case.courtDivision() instead.
+        "prototype$__get__courtDivision": {
+          url: urlBase + "/cases/:id/courtDivision",
           method: "GET"
         },
 
@@ -3998,65 +3643,6 @@ module.factory(
           method: "POST"
         },
 
-        // INTERNAL. Use Case.casesReferedTo.findById() instead.
-        "::findById::case::casesReferedTo": {
-          params: {
-          'fk': '@fk'
-          },
-          url: urlBase + "/cases/:id/casesReferedTo/:fk",
-          method: "GET"
-        },
-
-        // INTERNAL. Use Case.casesReferedTo.destroyById() instead.
-        "::destroyById::case::casesReferedTo": {
-          params: {
-          'fk': '@fk'
-          },
-          url: urlBase + "/cases/:id/casesReferedTo/:fk",
-          method: "DELETE"
-        },
-
-        // INTERNAL. Use Case.casesReferedTo.updateById() instead.
-        "::updateById::case::casesReferedTo": {
-          params: {
-          'fk': '@fk'
-          },
-          url: urlBase + "/cases/:id/casesReferedTo/:fk",
-          method: "PUT"
-        },
-
-        // INTERNAL. Use Case.casesReferedTo() instead.
-        "::get::case::casesReferedTo": {
-          isArray: true,
-          url: urlBase + "/cases/:id/casesReferedTo",
-          method: "GET"
-        },
-
-        // INTERNAL. Use Case.casesReferedTo.create() instead.
-        "::create::case::casesReferedTo": {
-          url: urlBase + "/cases/:id/casesReferedTo",
-          method: "POST"
-        },
-
-        // INTERNAL. Use Case.casesReferedTo.createMany() instead.
-        "::createMany::case::casesReferedTo": {
-          isArray: true,
-          url: urlBase + "/cases/:id/casesReferedTo",
-          method: "POST"
-        },
-
-        // INTERNAL. Use Case.casesReferedTo.destroyAll() instead.
-        "::delete::case::casesReferedTo": {
-          url: urlBase + "/cases/:id/casesReferedTo",
-          method: "DELETE"
-        },
-
-        // INTERNAL. Use Case.casesReferedTo.count() instead.
-        "::count::case::casesReferedTo": {
-          url: urlBase + "/cases/:id/casesReferedTo/count",
-          method: "GET"
-        },
-
         // INTERNAL. Use Citation.case() instead.
         "::get::citation::case": {
           url: urlBase + "/citations/:id/case",
@@ -4145,37 +3731,6 @@ module.factory(
         "::count::legislation::cases": {
           url: urlBase + "/legislations/:id/cases/count",
           method: "GET"
-        },
-
-        // INTERNAL. Use Appearance.case() instead.
-        "::get::appearance::case": {
-          url: urlBase + "/appearances/:id/case",
-          method: "GET"
-        },
-
-        // INTERNAL. Use Appearance.case.create() instead.
-        "::create::appearance::case": {
-          url: urlBase + "/appearances/:id/case",
-          method: "POST"
-        },
-
-        // INTERNAL. Use Appearance.case.createMany() instead.
-        "::createMany::appearance::case": {
-          isArray: true,
-          url: urlBase + "/appearances/:id/case",
-          method: "POST"
-        },
-
-        // INTERNAL. Use Appearance.case.update() instead.
-        "::update::appearance::case": {
-          url: urlBase + "/appearances/:id/case",
-          method: "PUT"
-        },
-
-        // INTERNAL. Use Appearance.case.destroy() instead.
-        "::destroy::appearance::case": {
-          url: urlBase + "/appearances/:id/case",
-          method: "DELETE"
         },
       }
     );
@@ -4319,20 +3874,6 @@ module.factory(
     */
     R.modelName = "Case";
 
-    /**
-     * @ngdoc object
-     * @name apiServices.Case.areaOfLaw
-     * @header apiServices.Case.areaOfLaw
-     * @object
-     * @description
-     *
-     * The object `Case.areaOfLaw` groups methods
-     * manipulating `AreaOfLaw` instances related to `Case`.
-     *
-     * Call {@link apiServices.Case#areaOfLaw Case.areaOfLaw()}
-     * to query all related instances.
-     */
-
 
         /**
          * @ngdoc method
@@ -4341,7 +3882,7 @@ module.factory(
          *
          * @description
          *
-         * Fetches hasOne relation areaOfLaw.
+         * Fetches belongsTo relation areaOfLaw.
          *
          * @param {Object=} parameters Request parameters.
          *
@@ -4372,667 +3913,12 @@ module.factory(
 
         /**
          * @ngdoc method
-         * @name apiServices.Case.areaOfLaw#create
-         * @methodOf apiServices.Case.areaOfLaw
-         *
-         * @description
-         *
-         * Creates a new instance in areaOfLaw of this model.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         * @param {Object} postData Request data.
-         *
-         * This method expects a subset of model properties as request parameters.
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `AreaOfLaw` object.)
-         * </em>
-         */
-        R.areaOfLaw.create = function() {
-          var TargetResource = $injector.get("AreaOfLaw");
-          var action = TargetResource["::create::case::areaOfLaw"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Case.areaOfLaw#createMany
-         * @methodOf apiServices.Case.areaOfLaw
-         *
-         * @description
-         *
-         * Creates a new instance in areaOfLaw of this model.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         * @param {Object} postData Request data.
-         *
-         * This method expects a subset of model properties as request parameters.
-         *
-         * @param {function(Array.<Object>,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Array.<Object>} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `AreaOfLaw` object.)
-         * </em>
-         */
-        R.areaOfLaw.createMany = function() {
-          var TargetResource = $injector.get("AreaOfLaw");
-          var action = TargetResource["::createMany::case::areaOfLaw"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Case.areaOfLaw#destroy
-         * @methodOf apiServices.Case.areaOfLaw
-         *
-         * @description
-         *
-         * Deletes areaOfLaw of this model.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * This method returns no data.
-         */
-        R.areaOfLaw.destroy = function() {
-          var TargetResource = $injector.get("AreaOfLaw");
-          var action = TargetResource["::destroy::case::areaOfLaw"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Case.areaOfLaw#update
-         * @methodOf apiServices.Case.areaOfLaw
-         *
-         * @description
-         *
-         * Update areaOfLaw of this model.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         * @param {Object} postData Request data.
-         *
-         * This method expects a subset of model properties as request parameters.
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `AreaOfLaw` object.)
-         * </em>
-         */
-        R.areaOfLaw.update = function() {
-          var TargetResource = $injector.get("AreaOfLaw");
-          var action = TargetResource["::update::case::areaOfLaw"];
-          return action.apply(R, arguments);
-        };
-    /**
-     * @ngdoc object
-     * @name apiServices.Case.casesReferedTo
-     * @header apiServices.Case.casesReferedTo
-     * @object
-     * @description
-     *
-     * The object `Case.casesReferedTo` groups methods
-     * manipulating `Case` instances related to `Case`.
-     *
-     * Call {@link apiServices.Case#casesReferedTo Case.casesReferedTo()}
-     * to query all related instances.
-     */
-
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Case#casesReferedTo
-         * @methodOf apiServices.Case
-         *
-         * @description
-         *
-         * Queries casesReferedTo of case.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         *  - `filter` – `{object=}` - 
-         *
-         * @param {function(Array.<Object>,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Array.<Object>} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `Case` object.)
-         * </em>
-         */
-        R.casesReferedTo = function() {
-          var TargetResource = $injector.get("Case");
-          var action = TargetResource["::get::case::casesReferedTo"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Case.casesReferedTo#count
-         * @methodOf apiServices.Case.casesReferedTo
-         *
-         * @description
-         *
-         * Counts casesReferedTo of case.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         *  - `where` – `{object=}` - Criteria to match model instances
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * Data properties:
-         *
-         *  - `count` – `{number=}` - 
-         */
-        R.casesReferedTo.count = function() {
-          var TargetResource = $injector.get("Case");
-          var action = TargetResource["::count::case::casesReferedTo"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Case.casesReferedTo#create
-         * @methodOf apiServices.Case.casesReferedTo
-         *
-         * @description
-         *
-         * Creates a new instance in casesReferedTo of this model.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         * @param {Object} postData Request data.
-         *
-         * This method expects a subset of model properties as request parameters.
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `Case` object.)
-         * </em>
-         */
-        R.casesReferedTo.create = function() {
-          var TargetResource = $injector.get("Case");
-          var action = TargetResource["::create::case::casesReferedTo"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Case.casesReferedTo#createMany
-         * @methodOf apiServices.Case.casesReferedTo
-         *
-         * @description
-         *
-         * Creates a new instance in casesReferedTo of this model.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         * @param {Object} postData Request data.
-         *
-         * This method expects a subset of model properties as request parameters.
-         *
-         * @param {function(Array.<Object>,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Array.<Object>} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `Case` object.)
-         * </em>
-         */
-        R.casesReferedTo.createMany = function() {
-          var TargetResource = $injector.get("Case");
-          var action = TargetResource["::createMany::case::casesReferedTo"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Case.casesReferedTo#destroyAll
-         * @methodOf apiServices.Case.casesReferedTo
-         *
-         * @description
-         *
-         * Deletes all casesReferedTo of this model.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * This method returns no data.
-         */
-        R.casesReferedTo.destroyAll = function() {
-          var TargetResource = $injector.get("Case");
-          var action = TargetResource["::delete::case::casesReferedTo"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Case.casesReferedTo#destroyById
-         * @methodOf apiServices.Case.casesReferedTo
-         *
-         * @description
-         *
-         * Delete a related item by id for casesReferedTo.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         *  - `fk` – `{*}` - Foreign key for casesReferedTo
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * This method returns no data.
-         */
-        R.casesReferedTo.destroyById = function() {
-          var TargetResource = $injector.get("Case");
-          var action = TargetResource["::destroyById::case::casesReferedTo"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Case.casesReferedTo#findById
-         * @methodOf apiServices.Case.casesReferedTo
-         *
-         * @description
-         *
-         * Find a related item by id for casesReferedTo.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         *  - `fk` – `{*}` - Foreign key for casesReferedTo
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `Case` object.)
-         * </em>
-         */
-        R.casesReferedTo.findById = function() {
-          var TargetResource = $injector.get("Case");
-          var action = TargetResource["::findById::case::casesReferedTo"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Case.casesReferedTo#updateById
-         * @methodOf apiServices.Case.casesReferedTo
-         *
-         * @description
-         *
-         * Update a related item by id for casesReferedTo.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         *  - `fk` – `{*}` - Foreign key for casesReferedTo
-         *
-         * @param {Object} postData Request data.
-         *
-         * This method expects a subset of model properties as request parameters.
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `Case` object.)
-         * </em>
-         */
-        R.casesReferedTo.updateById = function() {
-          var TargetResource = $injector.get("Case");
-          var action = TargetResource["::updateById::case::casesReferedTo"];
-          return action.apply(R, arguments);
-        };
-    /**
-     * @ngdoc object
-     * @name apiServices.Case.citation
-     * @header apiServices.Case.citation
-     * @object
-     * @description
-     *
-     * The object `Case.citation` groups methods
-     * manipulating `Citation` instances related to `Case`.
-     *
-     * Call {@link apiServices.Case#citation Case.citation()}
-     * to query all related instances.
-     */
-
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Case#citation
-         * @methodOf apiServices.Case
-         *
-         * @description
-         *
-         * Fetches hasOne relation citation.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         *  - `refresh` – `{boolean=}` - 
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `Citation` object.)
-         * </em>
-         */
-        R.citation = function() {
-          var TargetResource = $injector.get("Citation");
-          var action = TargetResource["::get::case::citation"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Case.citation#create
-         * @methodOf apiServices.Case.citation
-         *
-         * @description
-         *
-         * Creates a new instance in citation of this model.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         * @param {Object} postData Request data.
-         *
-         * This method expects a subset of model properties as request parameters.
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `Citation` object.)
-         * </em>
-         */
-        R.citation.create = function() {
-          var TargetResource = $injector.get("Citation");
-          var action = TargetResource["::create::case::citation"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Case.citation#createMany
-         * @methodOf apiServices.Case.citation
-         *
-         * @description
-         *
-         * Creates a new instance in citation of this model.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         * @param {Object} postData Request data.
-         *
-         * This method expects a subset of model properties as request parameters.
-         *
-         * @param {function(Array.<Object>,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Array.<Object>} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `Citation` object.)
-         * </em>
-         */
-        R.citation.createMany = function() {
-          var TargetResource = $injector.get("Citation");
-          var action = TargetResource["::createMany::case::citation"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Case.citation#destroy
-         * @methodOf apiServices.Case.citation
-         *
-         * @description
-         *
-         * Deletes citation of this model.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * This method returns no data.
-         */
-        R.citation.destroy = function() {
-          var TargetResource = $injector.get("Citation");
-          var action = TargetResource["::destroy::case::citation"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Case.citation#update
-         * @methodOf apiServices.Case.citation
-         *
-         * @description
-         *
-         * Update citation of this model.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         * @param {Object} postData Request data.
-         *
-         * This method expects a subset of model properties as request parameters.
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `Citation` object.)
-         * </em>
-         */
-        R.citation.update = function() {
-          var TargetResource = $injector.get("Citation");
-          var action = TargetResource["::update::case::citation"];
-          return action.apply(R, arguments);
-        };
-    /**
-     * @ngdoc object
-     * @name apiServices.Case.court
-     * @header apiServices.Case.court
-     * @object
-     * @description
-     *
-     * The object `Case.court` groups methods
-     * manipulating `Court` instances related to `Case`.
-     *
-     * Call {@link apiServices.Case#court Case.court()}
-     * to query all related instances.
-     */
-
-
-        /**
-         * @ngdoc method
          * @name apiServices.Case#court
          * @methodOf apiServices.Case
          *
          * @description
          *
-         * Fetches hasOne relation court.
+         * Fetches belongsTo relation court.
          *
          * @param {Object=} parameters Request parameters.
          *
@@ -5063,472 +3949,12 @@ module.factory(
 
         /**
          * @ngdoc method
-         * @name apiServices.Case.court#create
-         * @methodOf apiServices.Case.court
-         *
-         * @description
-         *
-         * Creates a new instance in court of this model.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         * @param {Object} postData Request data.
-         *
-         * This method expects a subset of model properties as request parameters.
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `Court` object.)
-         * </em>
-         */
-        R.court.create = function() {
-          var TargetResource = $injector.get("Court");
-          var action = TargetResource["::create::case::court"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Case.court#createMany
-         * @methodOf apiServices.Case.court
-         *
-         * @description
-         *
-         * Creates a new instance in court of this model.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         * @param {Object} postData Request data.
-         *
-         * This method expects a subset of model properties as request parameters.
-         *
-         * @param {function(Array.<Object>,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Array.<Object>} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `Court` object.)
-         * </em>
-         */
-        R.court.createMany = function() {
-          var TargetResource = $injector.get("Court");
-          var action = TargetResource["::createMany::case::court"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Case.court#destroy
-         * @methodOf apiServices.Case.court
-         *
-         * @description
-         *
-         * Deletes court of this model.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * This method returns no data.
-         */
-        R.court.destroy = function() {
-          var TargetResource = $injector.get("Court");
-          var action = TargetResource["::destroy::case::court"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Case.court#update
-         * @methodOf apiServices.Case.court
-         *
-         * @description
-         *
-         * Update court of this model.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         * @param {Object} postData Request data.
-         *
-         * This method expects a subset of model properties as request parameters.
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `Court` object.)
-         * </em>
-         */
-        R.court.update = function() {
-          var TargetResource = $injector.get("Court");
-          var action = TargetResource["::update::case::court"];
-          return action.apply(R, arguments);
-        };
-    /**
-     * @ngdoc object
-     * @name apiServices.Case.legislationsReferedTo
-     * @header apiServices.Case.legislationsReferedTo
-     * @object
-     * @description
-     *
-     * The object `Case.legislationsReferedTo` groups methods
-     * manipulating `Legislation` instances related to `Case`.
-     *
-     * Call {@link apiServices.Case#legislationsReferedTo Case.legislationsReferedTo()}
-     * to query all related instances.
-     */
-
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Case#legislationsReferedTo
+         * @name apiServices.Case#plaintiffSynonym
          * @methodOf apiServices.Case
          *
          * @description
          *
-         * Queries legislationsReferedTo of case.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         *  - `filter` – `{object=}` - 
-         *
-         * @param {function(Array.<Object>,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Array.<Object>} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `Legislation` object.)
-         * </em>
-         */
-        R.legislationsReferedTo = function() {
-          var TargetResource = $injector.get("Legislation");
-          var action = TargetResource["::get::case::legislationsReferedTo"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Case.legislationsReferedTo#count
-         * @methodOf apiServices.Case.legislationsReferedTo
-         *
-         * @description
-         *
-         * Counts legislationsReferedTo of case.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         *  - `where` – `{object=}` - Criteria to match model instances
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * Data properties:
-         *
-         *  - `count` – `{number=}` - 
-         */
-        R.legislationsReferedTo.count = function() {
-          var TargetResource = $injector.get("Legislation");
-          var action = TargetResource["::count::case::legislationsReferedTo"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Case.legislationsReferedTo#create
-         * @methodOf apiServices.Case.legislationsReferedTo
-         *
-         * @description
-         *
-         * Creates a new instance in legislationsReferedTo of this model.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         * @param {Object} postData Request data.
-         *
-         * This method expects a subset of model properties as request parameters.
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `Legislation` object.)
-         * </em>
-         */
-        R.legislationsReferedTo.create = function() {
-          var TargetResource = $injector.get("Legislation");
-          var action = TargetResource["::create::case::legislationsReferedTo"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Case.legislationsReferedTo#createMany
-         * @methodOf apiServices.Case.legislationsReferedTo
-         *
-         * @description
-         *
-         * Creates a new instance in legislationsReferedTo of this model.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         * @param {Object} postData Request data.
-         *
-         * This method expects a subset of model properties as request parameters.
-         *
-         * @param {function(Array.<Object>,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Array.<Object>} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `Legislation` object.)
-         * </em>
-         */
-        R.legislationsReferedTo.createMany = function() {
-          var TargetResource = $injector.get("Legislation");
-          var action = TargetResource["::createMany::case::legislationsReferedTo"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Case.legislationsReferedTo#destroyAll
-         * @methodOf apiServices.Case.legislationsReferedTo
-         *
-         * @description
-         *
-         * Deletes all legislationsReferedTo of this model.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * This method returns no data.
-         */
-        R.legislationsReferedTo.destroyAll = function() {
-          var TargetResource = $injector.get("Legislation");
-          var action = TargetResource["::delete::case::legislationsReferedTo"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Case.legislationsReferedTo#destroyById
-         * @methodOf apiServices.Case.legislationsReferedTo
-         *
-         * @description
-         *
-         * Delete a related item by id for legislationsReferedTo.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         *  - `fk` – `{*}` - Foreign key for legislationsReferedTo
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * This method returns no data.
-         */
-        R.legislationsReferedTo.destroyById = function() {
-          var TargetResource = $injector.get("Legislation");
-          var action = TargetResource["::destroyById::case::legislationsReferedTo"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Case.legislationsReferedTo#findById
-         * @methodOf apiServices.Case.legislationsReferedTo
-         *
-         * @description
-         *
-         * Find a related item by id for legislationsReferedTo.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         *  - `fk` – `{*}` - Foreign key for legislationsReferedTo
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `Legislation` object.)
-         * </em>
-         */
-        R.legislationsReferedTo.findById = function() {
-          var TargetResource = $injector.get("Legislation");
-          var action = TargetResource["::findById::case::legislationsReferedTo"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Case.legislationsReferedTo#updateById
-         * @methodOf apiServices.Case.legislationsReferedTo
-         *
-         * @description
-         *
-         * Update a related item by id for legislationsReferedTo.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         *  - `fk` – `{*}` - Foreign key for legislationsReferedTo
-         *
-         * @param {Object} postData Request data.
-         *
-         * This method expects a subset of model properties as request parameters.
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `Legislation` object.)
-         * </em>
-         */
-        R.legislationsReferedTo.updateById = function() {
-          var TargetResource = $injector.get("Legislation");
-          var action = TargetResource["::updateById::case::legislationsReferedTo"];
-          return action.apply(R, arguments);
-        };
-    /**
-     * @ngdoc object
-     * @name apiServices.Case.appearances
-     * @header apiServices.Case.appearances
-     * @object
-     * @description
-     *
-     * The object `Case.appearances` groups methods
-     * manipulating `Appearance` instances related to `Case`.
-     *
-     * Call {@link apiServices.Case#appearances Case.appearances()}
-     * to query all related instances.
-     */
-
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Case#appearances
-         * @methodOf apiServices.Case
-         *
-         * @description
-         *
-         * Fetches hasOne relation appearances.
+         * Fetches belongsTo relation plaintiffSynonym.
          *
          * @param {Object=} parameters Request parameters.
          *
@@ -5548,31 +3974,29 @@ module.factory(
          *
          * <em>
          * (The remote method definition does not provide any description.
-         * This usually means the response is a `Appearance` object.)
+         * This usually means the response is a `PlaintiffSynonyms` object.)
          * </em>
          */
-        R.appearances = function() {
-          var TargetResource = $injector.get("Appearance");
-          var action = TargetResource["::get::case::appearances"];
+        R.plaintiffSynonym = function() {
+          var TargetResource = $injector.get("PlaintiffSynonyms");
+          var action = TargetResource["::get::case::plaintiffSynonym"];
           return action.apply(R, arguments);
         };
 
         /**
          * @ngdoc method
-         * @name apiServices.Case.appearances#create
-         * @methodOf apiServices.Case.appearances
+         * @name apiServices.Case#defendantSynonym
+         * @methodOf apiServices.Case
          *
          * @description
          *
-         * Creates a new instance in appearances of this model.
+         * Fetches belongsTo relation defendantSynonym.
          *
          * @param {Object=} parameters Request parameters.
          *
          *  - `id` – `{*}` - PersistedModel id
          *
-         * @param {Object} postData Request data.
-         *
-         * This method expects a subset of model properties as request parameters.
+         *  - `refresh` – `{boolean=}` - 
          *
          * @param {function(Object,Object)=} successCb
          *   Success callback with two arguments: `value`, `responseHeaders`.
@@ -5586,100 +4010,29 @@ module.factory(
          *
          * <em>
          * (The remote method definition does not provide any description.
-         * This usually means the response is a `Appearance` object.)
+         * This usually means the response is a `DefendantSynonyms` object.)
          * </em>
          */
-        R.appearances.create = function() {
-          var TargetResource = $injector.get("Appearance");
-          var action = TargetResource["::create::case::appearances"];
+        R.defendantSynonym = function() {
+          var TargetResource = $injector.get("DefendantSynonyms");
+          var action = TargetResource["::get::case::defendantSynonym"];
           return action.apply(R, arguments);
         };
 
         /**
          * @ngdoc method
-         * @name apiServices.Case.appearances#createMany
-         * @methodOf apiServices.Case.appearances
+         * @name apiServices.Case#jurisdiction
+         * @methodOf apiServices.Case
          *
          * @description
          *
-         * Creates a new instance in appearances of this model.
+         * Fetches belongsTo relation jurisdiction.
          *
          * @param {Object=} parameters Request parameters.
          *
          *  - `id` – `{*}` - PersistedModel id
          *
-         * @param {Object} postData Request data.
-         *
-         * This method expects a subset of model properties as request parameters.
-         *
-         * @param {function(Array.<Object>,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Array.<Object>} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `Appearance` object.)
-         * </em>
-         */
-        R.appearances.createMany = function() {
-          var TargetResource = $injector.get("Appearance");
-          var action = TargetResource["::createMany::case::appearances"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Case.appearances#destroy
-         * @methodOf apiServices.Case.appearances
-         *
-         * @description
-         *
-         * Deletes appearances of this model.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * This method returns no data.
-         */
-        R.appearances.destroy = function() {
-          var TargetResource = $injector.get("Appearance");
-          var action = TargetResource["::destroy::case::appearances"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Case.appearances#update
-         * @methodOf apiServices.Case.appearances
-         *
-         * @description
-         *
-         * Update appearances of this model.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         * @param {Object} postData Request data.
-         *
-         * This method expects a subset of model properties as request parameters.
+         *  - `refresh` – `{boolean=}` - 
          *
          * @param {function(Object,Object)=} successCb
          *   Success callback with two arguments: `value`, `responseHeaders`.
@@ -5693,12 +4046,84 @@ module.factory(
          *
          * <em>
          * (The remote method definition does not provide any description.
-         * This usually means the response is a `Appearance` object.)
+         * This usually means the response is a `Jurisdiction` object.)
          * </em>
          */
-        R.appearances.update = function() {
-          var TargetResource = $injector.get("Appearance");
-          var action = TargetResource["::update::case::appearances"];
+        R.jurisdiction = function() {
+          var TargetResource = $injector.get("Jurisdiction");
+          var action = TargetResource["::get::case::jurisdiction"];
+          return action.apply(R, arguments);
+        };
+
+        /**
+         * @ngdoc method
+         * @name apiServices.Case#location
+         * @methodOf apiServices.Case
+         *
+         * @description
+         *
+         * Fetches belongsTo relation location.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - PersistedModel id
+         *
+         *  - `refresh` – `{boolean=}` - 
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `Location` object.)
+         * </em>
+         */
+        R.location = function() {
+          var TargetResource = $injector.get("Location");
+          var action = TargetResource["::get::case::location"];
+          return action.apply(R, arguments);
+        };
+
+        /**
+         * @ngdoc method
+         * @name apiServices.Case#courtDivision
+         * @methodOf apiServices.Case
+         *
+         * @description
+         *
+         * Fetches belongsTo relation courtDivision.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - PersistedModel id
+         *
+         *  - `refresh` – `{boolean=}` - 
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `CourtDivision` object.)
+         * </em>
+         */
+        R.courtDivision = function() {
+          var TargetResource = $injector.get("CourtDivision");
+          var action = TargetResource["::get::case::courtDivision"];
           return action.apply(R, arguments);
         };
 
@@ -6767,37 +5192,6 @@ module.factory(
           url: urlBase + "/citations/change-stream",
           method: "POST"
         },
-
-        // INTERNAL. Use Case.citation() instead.
-        "::get::case::citation": {
-          url: urlBase + "/cases/:id/citation",
-          method: "GET"
-        },
-
-        // INTERNAL. Use Case.citation.create() instead.
-        "::create::case::citation": {
-          url: urlBase + "/cases/:id/citation",
-          method: "POST"
-        },
-
-        // INTERNAL. Use Case.citation.createMany() instead.
-        "::createMany::case::citation": {
-          isArray: true,
-          url: urlBase + "/cases/:id/citation",
-          method: "POST"
-        },
-
-        // INTERNAL. Use Case.citation.update() instead.
-        "::update::case::citation": {
-          url: urlBase + "/cases/:id/citation",
-          method: "PUT"
-        },
-
-        // INTERNAL. Use Case.citation.destroy() instead.
-        "::destroy::case::citation": {
-          url: urlBase + "/cases/:id/citation",
-          method: "DELETE"
-        },
       }
     );
 
@@ -7642,31 +6036,6 @@ module.factory(
         "::get::case::court": {
           url: urlBase + "/cases/:id/court",
           method: "GET"
-        },
-
-        // INTERNAL. Use Case.court.create() instead.
-        "::create::case::court": {
-          url: urlBase + "/cases/:id/court",
-          method: "POST"
-        },
-
-        // INTERNAL. Use Case.court.createMany() instead.
-        "::createMany::case::court": {
-          isArray: true,
-          url: urlBase + "/cases/:id/court",
-          method: "POST"
-        },
-
-        // INTERNAL. Use Case.court.update() instead.
-        "::update::case::court": {
-          url: urlBase + "/cases/:id/court",
-          method: "PUT"
-        },
-
-        // INTERNAL. Use Case.court.destroy() instead.
-        "::destroy::case::court": {
-          url: urlBase + "/cases/:id/court",
-          method: "DELETE"
         },
       }
     );
@@ -11451,65 +9820,6 @@ module.factory(
           url: urlBase + "/legislations/change-stream",
           method: "POST"
         },
-
-        // INTERNAL. Use Case.legislationsReferedTo.findById() instead.
-        "::findById::case::legislationsReferedTo": {
-          params: {
-          'fk': '@fk'
-          },
-          url: urlBase + "/cases/:id/legislationsReferedTo/:fk",
-          method: "GET"
-        },
-
-        // INTERNAL. Use Case.legislationsReferedTo.destroyById() instead.
-        "::destroyById::case::legislationsReferedTo": {
-          params: {
-          'fk': '@fk'
-          },
-          url: urlBase + "/cases/:id/legislationsReferedTo/:fk",
-          method: "DELETE"
-        },
-
-        // INTERNAL. Use Case.legislationsReferedTo.updateById() instead.
-        "::updateById::case::legislationsReferedTo": {
-          params: {
-          'fk': '@fk'
-          },
-          url: urlBase + "/cases/:id/legislationsReferedTo/:fk",
-          method: "PUT"
-        },
-
-        // INTERNAL. Use Case.legislationsReferedTo() instead.
-        "::get::case::legislationsReferedTo": {
-          isArray: true,
-          url: urlBase + "/cases/:id/legislationsReferedTo",
-          method: "GET"
-        },
-
-        // INTERNAL. Use Case.legislationsReferedTo.create() instead.
-        "::create::case::legislationsReferedTo": {
-          url: urlBase + "/cases/:id/legislationsReferedTo",
-          method: "POST"
-        },
-
-        // INTERNAL. Use Case.legislationsReferedTo.createMany() instead.
-        "::createMany::case::legislationsReferedTo": {
-          isArray: true,
-          url: urlBase + "/cases/:id/legislationsReferedTo",
-          method: "POST"
-        },
-
-        // INTERNAL. Use Case.legislationsReferedTo.destroyAll() instead.
-        "::delete::case::legislationsReferedTo": {
-          url: urlBase + "/cases/:id/legislationsReferedTo",
-          method: "DELETE"
-        },
-
-        // INTERNAL. Use Case.legislationsReferedTo.count() instead.
-        "::count::case::legislationsReferedTo": {
-          url: urlBase + "/cases/:id/legislationsReferedTo/count",
-          method: "GET"
-        },
       }
     );
 
@@ -13467,188 +11777,6 @@ module.factory(
       { 'id': '@id' },
       {
 
-        // INTERNAL. Use Appearance.plaintiffs.findById() instead.
-        "prototype$__findById__plaintiffs": {
-          params: {
-          'fk': '@fk'
-          },
-          url: urlBase + "/appearances/:id/plaintiffs/:fk",
-          method: "GET"
-        },
-
-        // INTERNAL. Use Appearance.plaintiffs.destroyById() instead.
-        "prototype$__destroyById__plaintiffs": {
-          params: {
-          'fk': '@fk'
-          },
-          url: urlBase + "/appearances/:id/plaintiffs/:fk",
-          method: "DELETE"
-        },
-
-        // INTERNAL. Use Appearance.plaintiffs.updateById() instead.
-        "prototype$__updateById__plaintiffs": {
-          params: {
-          'fk': '@fk'
-          },
-          url: urlBase + "/appearances/:id/plaintiffs/:fk",
-          method: "PUT"
-        },
-
-        // INTERNAL. Use Appearance.plaintiffs.link() instead.
-        "prototype$__link__plaintiffs": {
-          params: {
-          'fk': '@fk'
-          },
-          url: urlBase + "/appearances/:id/plaintiffs/rel/:fk",
-          method: "PUT"
-        },
-
-        // INTERNAL. Use Appearance.plaintiffs.unlink() instead.
-        "prototype$__unlink__plaintiffs": {
-          params: {
-          'fk': '@fk'
-          },
-          url: urlBase + "/appearances/:id/plaintiffs/rel/:fk",
-          method: "DELETE"
-        },
-
-        // INTERNAL. Use Appearance.plaintiffs.exists() instead.
-        "prototype$__exists__plaintiffs": {
-          params: {
-          'fk': '@fk'
-          },
-          url: urlBase + "/appearances/:id/plaintiffs/rel/:fk",
-          method: "HEAD"
-        },
-
-        // INTERNAL. Use Appearance.defendants.findById() instead.
-        "prototype$__findById__defendants": {
-          params: {
-          'fk': '@fk'
-          },
-          url: urlBase + "/appearances/:id/defendants/:fk",
-          method: "GET"
-        },
-
-        // INTERNAL. Use Appearance.defendants.destroyById() instead.
-        "prototype$__destroyById__defendants": {
-          params: {
-          'fk': '@fk'
-          },
-          url: urlBase + "/appearances/:id/defendants/:fk",
-          method: "DELETE"
-        },
-
-        // INTERNAL. Use Appearance.defendants.updateById() instead.
-        "prototype$__updateById__defendants": {
-          params: {
-          'fk': '@fk'
-          },
-          url: urlBase + "/appearances/:id/defendants/:fk",
-          method: "PUT"
-        },
-
-        // INTERNAL. Use Appearance.defendants.link() instead.
-        "prototype$__link__defendants": {
-          params: {
-          'fk': '@fk'
-          },
-          url: urlBase + "/appearances/:id/defendants/rel/:fk",
-          method: "PUT"
-        },
-
-        // INTERNAL. Use Appearance.defendants.unlink() instead.
-        "prototype$__unlink__defendants": {
-          params: {
-          'fk': '@fk'
-          },
-          url: urlBase + "/appearances/:id/defendants/rel/:fk",
-          method: "DELETE"
-        },
-
-        // INTERNAL. Use Appearance.defendants.exists() instead.
-        "prototype$__exists__defendants": {
-          params: {
-          'fk': '@fk'
-          },
-          url: urlBase + "/appearances/:id/defendants/rel/:fk",
-          method: "HEAD"
-        },
-
-        // INTERNAL. Use Appearance.case() instead.
-        "prototype$__get__case": {
-          url: urlBase + "/appearances/:id/case",
-          method: "GET"
-        },
-
-        // INTERNAL. Use Appearance.case.create() instead.
-        "prototype$__create__case": {
-          url: urlBase + "/appearances/:id/case",
-          method: "POST"
-        },
-
-        // INTERNAL. Use Appearance.case.update() instead.
-        "prototype$__update__case": {
-          url: urlBase + "/appearances/:id/case",
-          method: "PUT"
-        },
-
-        // INTERNAL. Use Appearance.case.destroy() instead.
-        "prototype$__destroy__case": {
-          url: urlBase + "/appearances/:id/case",
-          method: "DELETE"
-        },
-
-        // INTERNAL. Use Appearance.plaintiffs() instead.
-        "prototype$__get__plaintiffs": {
-          isArray: true,
-          url: urlBase + "/appearances/:id/plaintiffs",
-          method: "GET"
-        },
-
-        // INTERNAL. Use Appearance.plaintiffs.create() instead.
-        "prototype$__create__plaintiffs": {
-          url: urlBase + "/appearances/:id/plaintiffs",
-          method: "POST"
-        },
-
-        // INTERNAL. Use Appearance.plaintiffs.destroyAll() instead.
-        "prototype$__delete__plaintiffs": {
-          url: urlBase + "/appearances/:id/plaintiffs",
-          method: "DELETE"
-        },
-
-        // INTERNAL. Use Appearance.plaintiffs.count() instead.
-        "prototype$__count__plaintiffs": {
-          url: urlBase + "/appearances/:id/plaintiffs/count",
-          method: "GET"
-        },
-
-        // INTERNAL. Use Appearance.defendants() instead.
-        "prototype$__get__defendants": {
-          isArray: true,
-          url: urlBase + "/appearances/:id/defendants",
-          method: "GET"
-        },
-
-        // INTERNAL. Use Appearance.defendants.create() instead.
-        "prototype$__create__defendants": {
-          url: urlBase + "/appearances/:id/defendants",
-          method: "POST"
-        },
-
-        // INTERNAL. Use Appearance.defendants.destroyAll() instead.
-        "prototype$__delete__defendants": {
-          url: urlBase + "/appearances/:id/defendants",
-          method: "DELETE"
-        },
-
-        // INTERNAL. Use Appearance.defendants.count() instead.
-        "prototype$__count__defendants": {
-          url: urlBase + "/appearances/:id/defendants/count",
-          method: "GET"
-        },
-
         /**
          * @ngdoc method
          * @name apiServices.Appearance#create
@@ -14156,37 +12284,6 @@ module.factory(
           url: urlBase + "/advocates/:id/appearance/count",
           method: "GET"
         },
-
-        // INTERNAL. Use Case.appearances() instead.
-        "::get::case::appearances": {
-          url: urlBase + "/cases/:id/appearances",
-          method: "GET"
-        },
-
-        // INTERNAL. Use Case.appearances.create() instead.
-        "::create::case::appearances": {
-          url: urlBase + "/cases/:id/appearances",
-          method: "POST"
-        },
-
-        // INTERNAL. Use Case.appearances.createMany() instead.
-        "::createMany::case::appearances": {
-          isArray: true,
-          url: urlBase + "/cases/:id/appearances",
-          method: "POST"
-        },
-
-        // INTERNAL. Use Case.appearances.update() instead.
-        "::update::case::appearances": {
-          url: urlBase + "/cases/:id/appearances",
-          method: "PUT"
-        },
-
-        // INTERNAL. Use Case.appearances.destroy() instead.
-        "::destroy::case::appearances": {
-          url: urlBase + "/cases/:id/appearances",
-          method: "DELETE"
-        },
       }
     );
 
@@ -14329,1021 +12426,6 @@ module.factory(
     */
     R.modelName = "Appearance";
 
-    /**
-     * @ngdoc object
-     * @name apiServices.Appearance.plaintiffs
-     * @header apiServices.Appearance.plaintiffs
-     * @object
-     * @description
-     *
-     * The object `Appearance.plaintiffs` groups methods
-     * manipulating `Advocate` instances related to `Appearance`.
-     *
-     * Call {@link apiServices.Appearance#plaintiffs Appearance.plaintiffs()}
-     * to query all related instances.
-     */
-
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Appearance#plaintiffs
-         * @methodOf apiServices.Appearance
-         *
-         * @description
-         *
-         * Queries plaintiffs of appearance.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         *  - `filter` – `{object=}` - 
-         *
-         * @param {function(Array.<Object>,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Array.<Object>} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `Advocate` object.)
-         * </em>
-         */
-        R.plaintiffs = function() {
-          var TargetResource = $injector.get("Advocate");
-          var action = TargetResource["::get::appearance::plaintiffs"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Appearance.plaintiffs#count
-         * @methodOf apiServices.Appearance.plaintiffs
-         *
-         * @description
-         *
-         * Counts plaintiffs of appearance.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         *  - `where` – `{object=}` - Criteria to match model instances
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * Data properties:
-         *
-         *  - `count` – `{number=}` - 
-         */
-        R.plaintiffs.count = function() {
-          var TargetResource = $injector.get("Advocate");
-          var action = TargetResource["::count::appearance::plaintiffs"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Appearance.plaintiffs#create
-         * @methodOf apiServices.Appearance.plaintiffs
-         *
-         * @description
-         *
-         * Creates a new instance in plaintiffs of this model.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         * @param {Object} postData Request data.
-         *
-         * This method expects a subset of model properties as request parameters.
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `Advocate` object.)
-         * </em>
-         */
-        R.plaintiffs.create = function() {
-          var TargetResource = $injector.get("Advocate");
-          var action = TargetResource["::create::appearance::plaintiffs"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Appearance.plaintiffs#createMany
-         * @methodOf apiServices.Appearance.plaintiffs
-         *
-         * @description
-         *
-         * Creates a new instance in plaintiffs of this model.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         * @param {Object} postData Request data.
-         *
-         * This method expects a subset of model properties as request parameters.
-         *
-         * @param {function(Array.<Object>,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Array.<Object>} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `Advocate` object.)
-         * </em>
-         */
-        R.plaintiffs.createMany = function() {
-          var TargetResource = $injector.get("Advocate");
-          var action = TargetResource["::createMany::appearance::plaintiffs"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Appearance.plaintiffs#destroyAll
-         * @methodOf apiServices.Appearance.plaintiffs
-         *
-         * @description
-         *
-         * Deletes all plaintiffs of this model.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * This method returns no data.
-         */
-        R.plaintiffs.destroyAll = function() {
-          var TargetResource = $injector.get("Advocate");
-          var action = TargetResource["::delete::appearance::plaintiffs"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Appearance.plaintiffs#destroyById
-         * @methodOf apiServices.Appearance.plaintiffs
-         *
-         * @description
-         *
-         * Delete a related item by id for plaintiffs.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         *  - `fk` – `{*}` - Foreign key for plaintiffs
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * This method returns no data.
-         */
-        R.plaintiffs.destroyById = function() {
-          var TargetResource = $injector.get("Advocate");
-          var action = TargetResource["::destroyById::appearance::plaintiffs"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Appearance.plaintiffs#exists
-         * @methodOf apiServices.Appearance.plaintiffs
-         *
-         * @description
-         *
-         * Check the existence of plaintiffs relation to an item by id.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         *  - `fk` – `{*}` - Foreign key for plaintiffs
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `Advocate` object.)
-         * </em>
-         */
-        R.plaintiffs.exists = function() {
-          var TargetResource = $injector.get("Advocate");
-          var action = TargetResource["::exists::appearance::plaintiffs"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Appearance.plaintiffs#findById
-         * @methodOf apiServices.Appearance.plaintiffs
-         *
-         * @description
-         *
-         * Find a related item by id for plaintiffs.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         *  - `fk` – `{*}` - Foreign key for plaintiffs
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `Advocate` object.)
-         * </em>
-         */
-        R.plaintiffs.findById = function() {
-          var TargetResource = $injector.get("Advocate");
-          var action = TargetResource["::findById::appearance::plaintiffs"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Appearance.plaintiffs#link
-         * @methodOf apiServices.Appearance.plaintiffs
-         *
-         * @description
-         *
-         * Add a related item by id for plaintiffs.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         *  - `fk` – `{*}` - Foreign key for plaintiffs
-         *
-         * @param {Object} postData Request data.
-         *
-         * This method expects a subset of model properties as request parameters.
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `Advocate` object.)
-         * </em>
-         */
-        R.plaintiffs.link = function() {
-          var TargetResource = $injector.get("Advocate");
-          var action = TargetResource["::link::appearance::plaintiffs"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Appearance.plaintiffs#unlink
-         * @methodOf apiServices.Appearance.plaintiffs
-         *
-         * @description
-         *
-         * Remove the plaintiffs relation to an item by id.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         *  - `fk` – `{*}` - Foreign key for plaintiffs
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * This method returns no data.
-         */
-        R.plaintiffs.unlink = function() {
-          var TargetResource = $injector.get("Advocate");
-          var action = TargetResource["::unlink::appearance::plaintiffs"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Appearance.plaintiffs#updateById
-         * @methodOf apiServices.Appearance.plaintiffs
-         *
-         * @description
-         *
-         * Update a related item by id for plaintiffs.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         *  - `fk` – `{*}` - Foreign key for plaintiffs
-         *
-         * @param {Object} postData Request data.
-         *
-         * This method expects a subset of model properties as request parameters.
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `Advocate` object.)
-         * </em>
-         */
-        R.plaintiffs.updateById = function() {
-          var TargetResource = $injector.get("Advocate");
-          var action = TargetResource["::updateById::appearance::plaintiffs"];
-          return action.apply(R, arguments);
-        };
-    /**
-     * @ngdoc object
-     * @name apiServices.Appearance.defendants
-     * @header apiServices.Appearance.defendants
-     * @object
-     * @description
-     *
-     * The object `Appearance.defendants` groups methods
-     * manipulating `Advocate` instances related to `Appearance`.
-     *
-     * Call {@link apiServices.Appearance#defendants Appearance.defendants()}
-     * to query all related instances.
-     */
-
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Appearance#defendants
-         * @methodOf apiServices.Appearance
-         *
-         * @description
-         *
-         * Queries defendants of appearance.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         *  - `filter` – `{object=}` - 
-         *
-         * @param {function(Array.<Object>,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Array.<Object>} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `Advocate` object.)
-         * </em>
-         */
-        R.defendants = function() {
-          var TargetResource = $injector.get("Advocate");
-          var action = TargetResource["::get::appearance::defendants"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Appearance.defendants#count
-         * @methodOf apiServices.Appearance.defendants
-         *
-         * @description
-         *
-         * Counts defendants of appearance.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         *  - `where` – `{object=}` - Criteria to match model instances
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * Data properties:
-         *
-         *  - `count` – `{number=}` - 
-         */
-        R.defendants.count = function() {
-          var TargetResource = $injector.get("Advocate");
-          var action = TargetResource["::count::appearance::defendants"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Appearance.defendants#create
-         * @methodOf apiServices.Appearance.defendants
-         *
-         * @description
-         *
-         * Creates a new instance in defendants of this model.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         * @param {Object} postData Request data.
-         *
-         * This method expects a subset of model properties as request parameters.
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `Advocate` object.)
-         * </em>
-         */
-        R.defendants.create = function() {
-          var TargetResource = $injector.get("Advocate");
-          var action = TargetResource["::create::appearance::defendants"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Appearance.defendants#createMany
-         * @methodOf apiServices.Appearance.defendants
-         *
-         * @description
-         *
-         * Creates a new instance in defendants of this model.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         * @param {Object} postData Request data.
-         *
-         * This method expects a subset of model properties as request parameters.
-         *
-         * @param {function(Array.<Object>,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Array.<Object>} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `Advocate` object.)
-         * </em>
-         */
-        R.defendants.createMany = function() {
-          var TargetResource = $injector.get("Advocate");
-          var action = TargetResource["::createMany::appearance::defendants"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Appearance.defendants#destroyAll
-         * @methodOf apiServices.Appearance.defendants
-         *
-         * @description
-         *
-         * Deletes all defendants of this model.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * This method returns no data.
-         */
-        R.defendants.destroyAll = function() {
-          var TargetResource = $injector.get("Advocate");
-          var action = TargetResource["::delete::appearance::defendants"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Appearance.defendants#destroyById
-         * @methodOf apiServices.Appearance.defendants
-         *
-         * @description
-         *
-         * Delete a related item by id for defendants.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         *  - `fk` – `{*}` - Foreign key for defendants
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * This method returns no data.
-         */
-        R.defendants.destroyById = function() {
-          var TargetResource = $injector.get("Advocate");
-          var action = TargetResource["::destroyById::appearance::defendants"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Appearance.defendants#exists
-         * @methodOf apiServices.Appearance.defendants
-         *
-         * @description
-         *
-         * Check the existence of defendants relation to an item by id.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         *  - `fk` – `{*}` - Foreign key for defendants
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `Advocate` object.)
-         * </em>
-         */
-        R.defendants.exists = function() {
-          var TargetResource = $injector.get("Advocate");
-          var action = TargetResource["::exists::appearance::defendants"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Appearance.defendants#findById
-         * @methodOf apiServices.Appearance.defendants
-         *
-         * @description
-         *
-         * Find a related item by id for defendants.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         *  - `fk` – `{*}` - Foreign key for defendants
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `Advocate` object.)
-         * </em>
-         */
-        R.defendants.findById = function() {
-          var TargetResource = $injector.get("Advocate");
-          var action = TargetResource["::findById::appearance::defendants"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Appearance.defendants#link
-         * @methodOf apiServices.Appearance.defendants
-         *
-         * @description
-         *
-         * Add a related item by id for defendants.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         *  - `fk` – `{*}` - Foreign key for defendants
-         *
-         * @param {Object} postData Request data.
-         *
-         * This method expects a subset of model properties as request parameters.
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `Advocate` object.)
-         * </em>
-         */
-        R.defendants.link = function() {
-          var TargetResource = $injector.get("Advocate");
-          var action = TargetResource["::link::appearance::defendants"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Appearance.defendants#unlink
-         * @methodOf apiServices.Appearance.defendants
-         *
-         * @description
-         *
-         * Remove the defendants relation to an item by id.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         *  - `fk` – `{*}` - Foreign key for defendants
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * This method returns no data.
-         */
-        R.defendants.unlink = function() {
-          var TargetResource = $injector.get("Advocate");
-          var action = TargetResource["::unlink::appearance::defendants"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Appearance.defendants#updateById
-         * @methodOf apiServices.Appearance.defendants
-         *
-         * @description
-         *
-         * Update a related item by id for defendants.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         *  - `fk` – `{*}` - Foreign key for defendants
-         *
-         * @param {Object} postData Request data.
-         *
-         * This method expects a subset of model properties as request parameters.
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `Advocate` object.)
-         * </em>
-         */
-        R.defendants.updateById = function() {
-          var TargetResource = $injector.get("Advocate");
-          var action = TargetResource["::updateById::appearance::defendants"];
-          return action.apply(R, arguments);
-        };
-    /**
-     * @ngdoc object
-     * @name apiServices.Appearance.case
-     * @header apiServices.Appearance.case
-     * @object
-     * @description
-     *
-     * The object `Appearance.case` groups methods
-     * manipulating `Case` instances related to `Appearance`.
-     *
-     * Call {@link apiServices.Appearance#case Appearance.case()}
-     * to query all related instances.
-     */
-
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Appearance#case
-         * @methodOf apiServices.Appearance
-         *
-         * @description
-         *
-         * Fetches hasOne relation case.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         *  - `refresh` – `{boolean=}` - 
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `Case` object.)
-         * </em>
-         */
-        R.case = function() {
-          var TargetResource = $injector.get("Case");
-          var action = TargetResource["::get::appearance::case"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Appearance.case#create
-         * @methodOf apiServices.Appearance.case
-         *
-         * @description
-         *
-         * Creates a new instance in case of this model.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         * @param {Object} postData Request data.
-         *
-         * This method expects a subset of model properties as request parameters.
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `Case` object.)
-         * </em>
-         */
-        R.case.create = function() {
-          var TargetResource = $injector.get("Case");
-          var action = TargetResource["::create::appearance::case"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Appearance.case#createMany
-         * @methodOf apiServices.Appearance.case
-         *
-         * @description
-         *
-         * Creates a new instance in case of this model.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         * @param {Object} postData Request data.
-         *
-         * This method expects a subset of model properties as request parameters.
-         *
-         * @param {function(Array.<Object>,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Array.<Object>} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `Case` object.)
-         * </em>
-         */
-        R.case.createMany = function() {
-          var TargetResource = $injector.get("Case");
-          var action = TargetResource["::createMany::appearance::case"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Appearance.case#destroy
-         * @methodOf apiServices.Appearance.case
-         *
-         * @description
-         *
-         * Deletes case of this model.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * This method returns no data.
-         */
-        R.case.destroy = function() {
-          var TargetResource = $injector.get("Case");
-          var action = TargetResource["::destroy::appearance::case"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Appearance.case#update
-         * @methodOf apiServices.Appearance.case
-         *
-         * @description
-         *
-         * Update case of this model.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         * @param {Object} postData Request data.
-         *
-         * This method expects a subset of model properties as request parameters.
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `Case` object.)
-         * </em>
-         */
-        R.case.update = function() {
-          var TargetResource = $injector.get("Case");
-          var action = TargetResource["::update::appearance::case"];
-          return action.apply(R, arguments);
-        };
 
     return R;
   }]);
@@ -15793,6 +12875,12 @@ module.factory(
         "createChangeStream": {
           url: urlBase + "/plaintiffSynonyms/change-stream",
           method: "POST"
+        },
+
+        // INTERNAL. Use Case.plaintiffSynonym() instead.
+        "::get::case::plaintiffSynonym": {
+          url: urlBase + "/cases/:id/plaintiffSynonym",
+          method: "GET"
         },
       }
     );
@@ -16386,6 +13474,12 @@ module.factory(
           url: urlBase + "/defendantSynonyms/change-stream",
           method: "POST"
         },
+
+        // INTERNAL. Use Case.defendantSynonym() instead.
+        "::get::case::defendantSynonym": {
+          url: urlBase + "/cases/:id/defendantSynonym",
+          method: "GET"
+        },
       }
     );
 
@@ -16977,6 +14071,12 @@ module.factory(
         "createChangeStream": {
           url: urlBase + "/jurisdictions/change-stream",
           method: "POST"
+        },
+
+        // INTERNAL. Use Case.jurisdiction() instead.
+        "::get::case::jurisdiction": {
+          url: urlBase + "/cases/:id/jurisdiction",
+          method: "GET"
         },
       }
     );
@@ -17570,6 +14670,12 @@ module.factory(
           url: urlBase + "/locations/change-stream",
           method: "POST"
         },
+
+        // INTERNAL. Use Case.location() instead.
+        "::get::case::location": {
+          url: urlBase + "/cases/:id/location",
+          method: "GET"
+        },
       }
     );
 
@@ -18161,6 +15267,12 @@ module.factory(
         "createChangeStream": {
           url: urlBase + "/courtDivisions/change-stream",
           method: "POST"
+        },
+
+        // INTERNAL. Use Case.courtDivision() instead.
+        "::get::case::courtDivision": {
+          url: urlBase + "/cases/:id/courtDivision",
+          method: "GET"
         },
 
         // INTERNAL. Use Court.divisions.findById() instead.

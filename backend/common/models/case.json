@@ -6,70 +6,100 @@
     "validateUpsert": true
   },
   "properties": {
+
     "caseNumber": {
       "type": "string",
       "required": true
     },
-    "plaintiffs": ["string"],
-    "defendants": ["string"],
-    "coram": {
-      "type": "string",
-      "required": true
+
+    "plaintiffs": {
+      "type": ["object"]
+    },
+    "defendants": {
+      "type": ["object"]
     },
 
-    "description": {
-      "type": "string",
-      "required": true
+
+    "appearancesForPlaintiffs": ["appearance"],
+    "appearancesForDefendants": ["appearance"],
+
+    "coram": {
+      "type": [
+        "string"
+      ],
+      "required": false
     },
+
+    "citation":"citation",
+    "legislationsReferedTo": {
+      "type": ["object"]
+    },
+    "casesReferedTo": {
+      "type": ["object"]
+    },
+
+    "workReferredTo": {
+      "type": ["object"]
+    },
+
+
+
     "summaryOfFacts": {
       "type": "string",
       "required": true
     },
+
     "summaryOfRuling": {
       "type": "string",
       "required": true
     },
-    "workReferredTo": {
-      "type": "string",
-      "required": true
-    },
+
     "judgement": {
       "type": "string",
       "required": true
     }
+
   },
   "validations": [],
   "relations": {
-    "citation": {
-      "type": "hasOne",
-      "model": "citation",
-      "foreignKey": ""
-    },
     "court": {
-      "type": "hasOne",
+      "type": "belongsTo",
       "model": "court",
       "foreignKey": ""
     },
+    "courtDivision": {
+      "type": "belongsTo",
+      "model": "courtDivision",
+      "foreignKey": ""
+    },
+    "location": {
+      "type": "belongsTo",
+      "model": "location",
+      "foreignKey": ""
+    },
+    "jurisdiction": {
+      "type": "belongsTo",
+      "model": "jurisdiction",
+      "foreignKey": ""
+    },
+
     "areaOfLaw": {
-      "type": "hasOne",
+      "type": "belongsTo",
       "model": "areaOfLaw",
       "foreignKey": ""
     },
-    "casesReferedTo": {
-      "type": "hasMany",
-      "model": "case",
+
+    "plaintiffSynonym": {
+      "type": "belongsTo",
+      "model": "plaintiffSynonyms",
       "foreignKey": ""
     },
-    "legislationsReferedTo": {
-      "type": "hasMany",
-      "model": "legislation",
-      "foreignKey": ""
-    },
-    "appearances": {
-      "type": "hasOne",
-      "model": "appearance",
+    "defendantSynonym": {
+      "type": "belongsTo",
+      "model": "defendantSynonyms",
       "foreignKey": ""
     }
+
   },
   "acls": [],
   "methods": {}

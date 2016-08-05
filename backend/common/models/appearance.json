@@ -1,29 +1,21 @@
 {
   "name": "appearance",
   "base": "PersistedModel",
-  "idInjection": true,
   "options": {
     "validateUpsert": true
   },
-  "properties": {},
-  "validations": [],
-  "relations": {
-    "plaintiffs": {
-      "type": "hasAndBelongsToMany",
-      "model": "advocate",
-      "foreignKey": ""
+  "properties": {
+    "advocate":{
+      "type":"string",
+      "required":true
     },
-    "defendants": {
-      "type": "hasAndBelongsToMany",
-      "model": "advocate",
-      "foreignKey": ""
-    },
-    "case": {
-      "type": "hasOne",
-      "model": "case",
-      "foreignKey": ""
+    "lawFirm":{
+      "type":"string",
+      "required":true
     }
   },
+  "validations": [],
+
   "acls": [],
   "methods": {}
 }

@@ -30,14 +30,15 @@ angular.module('apptorney')
          $scope.currentCase = {};
          $scope.case = {};
          $scope.case.parties = {};
-         $scope.case.parties.defendants = [];
-         $scope.case.parties.plaintiffs = [];
+         $scope.case.citation = {};
+         $scope.case.defendants = [];
+         $scope.case.plaintiffs = [];
          $scope.plaintiff = {};
          $scope.defendant = {};
-         $scope.advocate = {};
+         $scope.appearance = {};
          $scope.judge = {};
-         $scope.case.parties.defendantAdvocates = [];
-         $scope.case.parties.plaintiffAdvocates = [];
+         $scope.case.appearancesForDefendants = [];
+         $scope.case.appearancesForPlaintiffs = [];
          $scope.case.parties.selectedPlaintiffAdvocates = [];
          $scope.legislations = [];
 
@@ -68,10 +69,10 @@ angular.module('apptorney')
 
 
          $scope.addCaseParties = function(){
-           $scope.case.parties.defendants.push(angular.copy($scope.defendant));
-           $scope.case.parties.plaintiffs.push(angular.copy($scope.plaintiff));
-           $scope.case.parties.plaintiffAdvocates.push(angular.copy($scope.advocate));
-           $scope.case.parties.defendantAdvocates.push(angular.copy($scope.advocate));
+           $scope.case.defendants.push(angular.copy($scope.defendant));
+           $scope.case.plaintiffs.push(angular.copy($scope.plaintiff));
+           $scope.case.appearancesForPlaintiffs.push(angular.copy($scope.appearance));
+           $scope.case.appearancesForDefendants.push(angular.copy($scope.appearance));
            $scope.case.coram.push(angular.copy($scope.judge));
 
 
@@ -81,30 +82,30 @@ angular.module('apptorney')
 
          $scope.addDefendant = function(event){
            if(event.which === 13){
-              $scope.case.parties.defendants.push(angular.copy($scope.defendant));
-              console.log($scope.case);
+              $scope.case.defendants.push(angular.copy($scope.defendant));
+
            }
          }
 
          $scope.addPlaintiff = function(event){
            if(event.which === 13){
-              $scope.case.parties.plaintiffs.push(angular.copy($scope.plaintiff));
+              $scope.case.plaintiffs.push(angular.copy($scope.plaintiff));
            }
 
          }
 
          $scope.addPlaintiffAdvocate = function(event){
            if(event.which === 13){
-              $scope.case.parties.plaintiffAdvocates.push(angular.copy($scope.advocate));
-              console.log($scope.case);
+              $scope.case.appearancesForPlaintiffs.push(angular.copy($scope.appearance));
+
            }
 
          }
 
          $scope.addDefendantAdvocate = function(event){
            if(event.which === 13){
-              $scope.case.parties.defendantAdvocates.push(angular.copy($scope.advocate));
-              console.log($scope.case);
+              $scope.case.appearancesForDefendants.push(angular.copy($scope.appearance));
+
            }
 
          }
@@ -112,7 +113,7 @@ angular.module('apptorney')
          $scope.addJudge = function(event){
            if(event.which === 13){
               $scope.case.coram.push(angular.copy($scope.judge));
-              console.log($scope.judge);
+
            }
 
          }
@@ -230,7 +231,27 @@ angular.module('apptorney')
 
 
 
-        
+         $scope.saveCase = function(){
+
+                 Case.upsert($scope.case,
+                   function(aCase){
+                     console.log(aCase);
+                   },
+                   function(errorResponse){
+
+                   }
+                 );
+                 $scope.cases.push($scope.case);
+
+                 $("#addCaseModal").modal("hide");
+
+                console.log($scope.case);
+
+         }
+
+
+
+
 
 
 

@@ -145,7 +145,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "                            <div>\n" +
     "\n" +
-    "                                <input ng-repeat=\"plaintiff in case.parties.plaintiffs\" set-focus=\"$last\" id=\"plaintiff\" name=\"plaintiff\" type=\"text\" class=\"form-control\" ng-model=\"plaintiff.name\" ng-minlength=2 ng-focus required placeholder=\"Name of Plaintiff\" ng-keydown = \"addPlaintiff($event)\" ng-style=\"{'margin-bottom':(case.parties.plaintiffs.length == 1)?'0px':'10px'}\"/>\n" +
+    "                                <input ng-repeat=\"plaintiff in case.plaintiffs\" set-focus=\"$last\" id=\"plaintiff\" name=\"plaintiff\" type=\"text\" class=\"form-control\" ng-model=\"plaintiff.name\" ng-minlength=2 ng-focus required placeholder=\"Name of Plaintiff\" ng-keydown = \"addPlaintiff($event)\" ng-style=\"{'margin-bottom':(case.parties.plaintiffs.length == 1)?'0px':'10px'}\"/>\n" +
     "                                <div class=\"text-danger\" ng-show=\"form.$submitted && form.plaintiff.$invalid || form.plaintiff.$dirty && form.plaintiff.$invalid && !form.plaintiff.$focused\">\n" +
     "\n" +
     "                                  <span ng-show=\"form.plaintiff.$error.required\">Name of Plaintiff is required</span>\n" +
@@ -178,7 +178,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "                              </div>\n" +
     "                            <div >\n" +
-    "                                <input ng-repeat=\"defendant in case.parties.defendants\" set-focus=\"$last\" id=\"defendant\" name=\"defendant\" type=\"text\" class=\"form-control\" ng-model=\"defendant.name\" ng-minlength=2 ng-focus required placeholder=\"Name of Defendant\" ng-keydown = \"addDefendant($event)\" ng-style=\"{'margin-bottom':(case.parties.defendants.length == 1)?'0px':'10px'}\"/>\n" +
+    "                                <input ng-repeat=\"defendant in case.defendants\" set-focus=\"$last\" id=\"defendant\" name=\"defendant\" type=\"text\" class=\"form-control\" ng-model=\"defendant.name\" ng-minlength=2 ng-focus required placeholder=\"Name of Defendant\" ng-keydown = \"addDefendant($event)\" ng-style=\"{'margin-bottom':(case.parties.defendants.length == 1)?'0px':'10px'}\"/>\n" +
     "                                <div class=\"text-danger\" ng-show=\"form.$submitted && form.defendant.$invalid || form.defendant.$dirty && form.defendant.$invalid && !form.defendant.$focused\">\n" +
     "\n" +
     "                                  <span ng-show=\"form.defendant.$error.required\">Name of Defendant is required</span>\n" +
@@ -195,15 +195,15 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "                            <div class=\"col-xs-6\" style=\"margin-top:0px\">\n" +
     "                              <h4 ng-if=\"case.plaintiffSynonym\">Appearances{{+\" for \"+case.plaintiffSynonym.synonym+\"s\"}}</h4><h4 ng-if=\"!case.plaintiffSynonym\">Appearances</h4>\n" +
-    "                              <div ng-repeat=\"advocate in case.parties.plaintiffAdvocates\" >\n" +
+    "                              <div ng-repeat=\"appearance in case.appearancesForPlaintiffs\" >\n" +
     "\n" +
     "                                  <div class=\"row\">\n" +
     "                                      <div class=\"col-xs-6\">\n" +
-    "                                        <input set-focus=\"$last\" id=\"plaintiffAdvocate\" name=\"plaintiffAdvocate\" type=\"text\" class=\"form-control\" ng-model=\"advocate.name\" ng-minlength=2 ng-focus required placeholder=\"Advocate\" ng-keydown = \"\" ng-style=\"{'margin-bottom':(case.parties.plaintiffAdvocates.length == 1)?'0px':'10px'}\"/>\n" +
+    "                                        <input set-focus=\"$last\" id=\"plaintiffAdvocate\" name=\"plaintiffAdvocate\" type=\"text\" class=\"form-control\" ng-model=\"appearance.advocate\" ng-minlength=2 ng-focus required placeholder=\"Advocate\" ng-keydown = \"\" ng-style=\"{'margin-bottom':(case.parties.plaintiffAdvocates.length == 1)?'0px':'10px'}\"/>\n" +
     "\n" +
     "                                      </div>\n" +
     "                                      <div class=\"col-xs-6\">\n" +
-    "                                        <input id=\"plaintiffFirm\" name=\"plaintiffFirm\" type=\"text\" class=\"form-control\" ng-model=\"advocate.firm\" ng-minlength=2 ng-focus required placeholder=\"Law Firm\" ng-keydown = \"addPlaintiffAdvocate($event)\" ng-style=\"{'margin-bottom':(case.parties.plaintiffAdvocates.length == 1)?'0px':'10px'}\"/>\n" +
+    "                                        <input id=\"plaintiffFirm\" name=\"plaintiffFirm\" type=\"text\" class=\"form-control\" ng-model=\"appearance.lawFirm\" ng-minlength=2 ng-focus required placeholder=\"Law Firm\" ng-keydown = \"addPlaintiffAdvocate($event)\" ng-style=\"{'margin-bottom':(case.parties.plaintiffAdvocates.length == 1)?'0px':'10px'}\"/>\n" +
     "\n" +
     "                                      </div>\n" +
     "                                  </div>\n" +
@@ -233,14 +233,14 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "\n" +
     "                              <h4 ng-if=\"case.defendantSynonym\">Appearances{{+\" for \"+case.defendantSynonym.synonym+\"s\"}}</h4><h4 ng-if=\"!case.defendantSynonym\">Appearances</h4>\n" +
-    "                              <div ng-repeat=\"advocate in case.parties.defendantAdvocates\">\n" +
+    "                              <div ng-repeat=\"appearance in case.appearancesForDefendants\">\n" +
     "                                <div class=\"row\">\n" +
     "                                    <div class=\"col-xs-6\">\n" +
-    "                                      <input  set-focus=\"$last\" id=\"defendantAdvocate\" name=\"defendantAdvocate\" type=\"text\" class=\"form-control\" ng-model=\"advocate.name\" ng-minlength=2 ng-focus required placeholder=\"Advocate\" ng-keydown = \"\" ng-style=\"{'margin-bottom':(case.parties.defendantAdvocates.length == 1)?'0px':'10px'}\"/>\n" +
+    "                                      <input  set-focus=\"$last\" id=\"defendantAdvocate\" name=\"defendantAdvocate\" type=\"text\" class=\"form-control\" ng-model=\"appearance.advocate\" ng-minlength=2 ng-focus required placeholder=\"Advocate\" ng-keydown = \"\" ng-style=\"{'margin-bottom':(case.parties.defendantAdvocates.length == 1)?'0px':'10px'}\"/>\n" +
     "\n" +
     "                                    </div>\n" +
     "                                    <div class=\"col-xs-6\">\n" +
-    "                                      <input  id=\"defendantFirm\" name=\"defendantFirm\" type=\"text\" class=\"form-control\" ng-model=\"advocate.firm\" ng-minlength=2 ng-focus required placeholder=\"Law Firm\" ng-keydown = \"addDefendantAdvocate($event)\" ng-style=\"{'margin-bottom':(case.parties.defendantAdvocates.length == 1)?'0px':'10px'}\"/>\n" +
+    "                                      <input  id=\"defendantFirm\" name=\"defendantFirm\" type=\"text\" class=\"form-control\" ng-model=\"appearance.lawFirm\" ng-minlength=2 ng-focus required placeholder=\"Law Firm\" ng-keydown = \"addDefendantAdvocate($event)\" ng-style=\"{'margin-bottom':(case.parties.defendantAdvocates.length == 1)?'0px':'10px'}\"/>\n" +
     "\n" +
     "                                    </div>\n" +
     "                                </div>\n" +
@@ -295,7 +295,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                        <div class=\"row\">\n" +
     "\n" +
     "                        <div class=\"col-xs-3 form-group\">\n" +
-    "                          <input id=\"citation-number\" type=\"text\" class=\"form-control \" ng-model=\"citation.number\" name=\"citation-number\" ng-minlength = 10 ng-focus placeholder=\"Citation Number\" />\n" +
+    "                          <input id=\"citation-number\" type=\"text\" class=\"form-control \" ng-model=\"case.citation.number\" name=\"citation-number\" ng-minlength = 1 ng-focus placeholder=\"Citation Number\" />\n" +
     "                          <div class=\"alert alert-danger\" ng-show=\"form.$submitted && form.contactNumber.$invalid || form.contactNumber.$dirty && form.contactNumber.$invalid && !form.contactNumberNumber.$focused\">\n" +
     "\n" +
     "                            <span ng-show=\"form.citation-number.$error.required\">Citation Number is required</span>\n" +
@@ -305,7 +305,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                        </div>\n" +
     "\n" +
     "                         <div class=\"col-xs-3 form-group\">\n" +
-    "                          <input id=\"citation-year\" type=\"text\" class=\"form-control \" ng-model=\"citation.year\" name=\"citation-year\" ng-minlength = 2 optional ng-focus placeholder=\"Citation Year\" />\n" +
+    "                          <input id=\"citation-year\" type=\"text\" class=\"form-control \" ng-model=\"case.citation.year\" name=\"citation-year\" ng-minlength = 2 optional ng-focus placeholder=\"Citation Year\" />\n" +
     "                          <div class=\"text-danger\" ng-show=\"form.$submitted && form.citation-year.$invalid || form.citation-year.$dirty && form.citation-year.$invalid && !form.citation-year.$focused\">\n" +
     "\n" +
     "                            <span ng-show=\"form.citation-year.$error.required\">Citation Year is required.</span>\n" +
@@ -315,7 +315,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "\n" +
     "                       <div class=\"col-xs-3 form-group\">\n" +
-    "                        <input id=\"citation-code\" name=\"citation-code\" type=\"text\" class=\"form-control \" ng-model=\"citation.code\"  ng-minlength = 2 optional ng-focus placeholder=\"Citation Code\" />\n" +
+    "                        <input id=\"citation-code\" name=\"citation-code\" type=\"text\" class=\"form-control \" ng-model=\"case.citation.code\"  ng-minlength = 2 optional ng-focus placeholder=\"Citation Code\" />\n" +
     "                        <div class=\"alert alert-danger\" ng-show=\"form.$submitted && form.citation-code.$invalid || form.citation-code.$dirty && form.citation-code.$invalid && !form.citation-code.$focused\">\n" +
     "\n" +
     "\n" +
@@ -326,7 +326,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                      </div>\n" +
     "\n" +
     "                      <div class=\"col-xs-3 form-group\">\n" +
-    "                       <input id=\"citation-page-number\" name=\"citation-page-number\" type=\"text\" class=\"form-control \" ng-model=\"citation.pageNumber\"  ng-minlength = 10 optional ng-focus placeholder=\"Citation Page Number\" />\n" +
+    "                       <input id=\"citation-page-number\" name=\"citation-page-number\" type=\"text\" class=\"form-control \" ng-model=\"case.citation.pageNumber\"  ng-minlength = 1 optional ng-focus placeholder=\"Citation Page Number\" />\n" +
     "                       <div class=\"text-danger\" ng-show=\"form.$submitted && form.citation-page-number.$invalid || form.citation-page-number.$dirty && form.citation-page-number.$invalid && !form.citation-page-number.$focused\">\n" +
     "\n" +
     "\n" +
@@ -365,7 +365,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                             <div class=\"col-xs-3 form-group\">\n" +
     "                               <ui-select ng-model=\"case.division\" theme=\"selectize\">\n" +
     "                                   <ui-select-match placeholder=\"Court Division\">{{$select.selected.name}}</ui-select-match>\n" +
-    "                                   <ui-select-choices repeat=\"division.id as division in divisions | filter: $select.search\">\n" +
+    "                                   <ui-select-choices repeat=\"division in divisions | filter: $select.search\">\n" +
     "                                     <span ng-bind-html=\"division.name | highlight: $select.search\"></span>\n" +
     "\n" +
     "                                   </ui-select-choices>\n" +
@@ -376,7 +376,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "\n" +
     "                             <div class=\"col-xs-3 form-group\">\n" +
-    "                               <ui-select ng-model=\"location.name\" theme=\"selectize\">\n" +
+    "                               <ui-select ng-model=\"case.location\" theme=\"selectize\">\n" +
     "                                   <ui-select-match placeholder=\"Location\">{{$select.selected.name}}</ui-select-match>\n" +
     "                                   <ui-select-choices repeat=\"location in locations | filter: $select.search\">\n" +
     "                                     <span ng-bind-html=\"location.name | highlight: $select.search\"></span>\n" +
@@ -386,7 +386,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                             </div>\n" +
     "\n" +
     "                             <div class=\"col-xs-3 form-group\">\n" +
-    "                               <ui-select ng-model=\"jurisdiction.name\" theme=\"selectize\">\n" +
+    "                               <ui-select ng-model=\"case.jurisdiction\" theme=\"selectize\">\n" +
     "                                   <ui-select-match placeholder=\"Jurisdiction\">{{$select.selected.name}}</ui-select-match>\n" +
     "                                   <ui-select-choices repeat=\"jurisdiction in jurisdictions | filter: $select.search\">\n" +
     "                                     <span ng-bind-html=\"jurisdiction.name | highlight: $select.search\"></span>\n" +
@@ -412,7 +412,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "                               <ui-select multiple ng-model=\"case.legislationsReferedTo\" theme=\"bootstrap\">\n" +
     "                                   <ui-select-match placeholder=\"Select Legislations Referred To...\">{{$item.legislationName}} {{$item.dateOfAssent | date : 'yyyy'}}</ui-select-match>\n" +
-    "                                   <ui-select-choices repeat=\"legislation.id as legislation in legislations | filter: $select.search\">\n" +
+    "                                   <ui-select-choices repeat=\"legislation in legislations | filter: $select.search\">\n" +
     "                                     <span ng-bind-html=\"legislation.legislationNumber | highlight: $select.search\"></span>&nbsp;-\n" +
     "                                     <span ng-bind-html=\"legislation.legislationName | highlight: $select.search\"></span>\n" +
     "                                     <small ng-bind-html=\"legislation.dateOfAssent | date : 'yyyy' | highlight: $select.search\"></small>\n" +
@@ -425,7 +425,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "                               <ui-select multiple ng-model=\"case.casesReferedTo\" theme=\"bootstrap\">\n" +
     "                                   <ui-select-match placeholder=\"Select Cases Referred To...\">{{$item.name}}</ui-select-match>\n" +
-    "                                   <ui-select-choices repeat=\"case.id as case in cases | filter: $select.search\">\n" +
+    "                                   <ui-select-choices repeat=\"case in cases | filter: $select.search\">\n" +
     "                                     <span ng-bind-html=\"case.name | highlight: $select.search\"></span>\n" +
     "                                     <small ng-bind-html=\"case.citation.year | highlight: $select.search\"></small>\n" +
     "                                   </ui-select-choices>\n" +
@@ -438,7 +438,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "                               <ui-select multiple ng-model=\"case.worksReferedTo\" theme=\"bootstrap\">\n" +
     "                                   <ui-select-match placeholder=\"Select Works Referred To...\">{{$item.name}}</ui-select-match>\n" +
-    "                                   <ui-select-choices repeat=\"work.id as work in works | filter: $select.search\">\n" +
+    "                                   <ui-select-choices repeat=\"work in works | filter: $select.search\">\n" +
     "                                     <span ng-bind-html=\"work.name | highlight: $select.search\"></span>\n" +
     "\n" +
     "                                   </ui-select-choices>\n" +

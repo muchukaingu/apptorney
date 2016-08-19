@@ -108,5 +108,10 @@
   "courtDivision": {
     "dataSource": "apptorney",
     "public": true
+  },
+
+  "party": {
+    "dataSource": "apptorney",
+    "public": false
   }
 }

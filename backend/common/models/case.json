@@ -13,10 +13,10 @@
     },
 
     "plaintiffs": {
-      "type": ["object"]
+      "type": ["party"]
     },
     "defendants": {
-      "type": ["object"]
+      "type": ["party"]
     },
 
 
@@ -24,22 +24,20 @@
     "appearancesForDefendants": ["appearance"],
 
     "coram": {
-      "type": [
-        "string"
-      ],
+      "type": ["party"],
       "required": false
     },
 
     "citation":"citation",
     "legislationsReferedTo": {
-      "type": ["object"]
+      "type": ["string"]
     },
     "casesReferedTo": {
-      "type": ["object"]
+      "type": ["string"]
     },
 
     "workReferredTo": {
-      "type": ["object"]
+      "type": ["string"]
     },
 
 

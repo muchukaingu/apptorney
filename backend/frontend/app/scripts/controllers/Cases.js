@@ -58,11 +58,52 @@ angular.module('apptorney')
          $scope.case.coram = [];
 
 
-         $scope.cases = Case.find(
-           function(list) {
-             console.log(list);
+         $scope.cases = Case.find({
+           filter:{include: {
+             relation: 'areaOfLaw', // include the owner object
+             scope: { // further filter the owner object
+               fields: ['name','id'] // only show two fields
+             }
+           }}},
+           function(cases) {
+
+             cases.forEach(function(aCase){
+               Court.find({id:aCase.courtId},
+                 function(court){
+                  aCase.court = court[0].name;
+                  console.log(court);
+                 },
+                 function(err){}
+               );
+               aCase.accuser = "";
+               aCase.accused = "";
+               if(aCase.plaintiffs.length > 1){
+                 aCase.accuser = aCase.plaintiffs[0].name + " and Others";
+               }
+               else {
+                 aCase.accuser = aCase.plaintiffs[0].name;
+               }
+
+               if(aCase.defendants.length > 1){
+                 aCase.accused = aCase.defendants[0].name + " and Others";
+               }
+               else {
+                 aCase.accused = aCase.defendants[0].name;
+               }
+
+               aCase.name = aCase.accuser + " Vs. "+aCase.accused;
+
+             });
+
+
+
+             $scope.cases = cases;
+
+
+
              $scope.returned = true;
              $scope.showCases = true;
+
            },
            function(errorResponse) { }
          );
@@ -236,17 +277,26 @@ angular.module('apptorney')
                  Case.upsert($scope.case,
                    function(aCase){
                      console.log(aCase);
+                     $scope.cases.push(aCase);
+                     console.log($scope.cases);
                    },
                    function(errorResponse){
 
                    }
                  );
-                 $scope.cases.push($scope.case);
+
 
                  $("#addCaseModal").modal("hide");
 
-                console.log($scope.case);
 
+
+         }
+
+
+         $scope.openCase = function(aCase){
+           $scope.case = aCase;
+           $scope.case.citation.year = parseInt($scope.case.citation.year);
+           console.log($scope.case.citation.year);
          }
 
 

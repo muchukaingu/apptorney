@@ -74,7 +74,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
 
 
   $templateCache.put('templates/add-case-modal.html',
-    "<div id=\"addCaseModal\" class=\"modal fade\" style=\"z-index:2000;\" ng-controller = \"CasesController\">\n" +
+    "<div id=\"addCaseModal\" class=\"modal fade\" style=\"z-index:2000;\">\n" +
     "  <div class=\"modal-dialog\" style=\"width:65%;padding-left: 2%;padding-right: 2%;\">\n" +
     "    <div class=\"modal-content\" style=\"margin-top: 8%\">\n" +
     "      <div class=\"modal-header\" style=\"margin-bottom:20px\">\n" +
@@ -305,7 +305,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                        </div>\n" +
     "\n" +
     "                         <div class=\"col-xs-3 form-group\">\n" +
-    "                          <input id=\"citation-year\" type=\"text\" class=\"form-control \" ng-model=\"case.citation.year\" name=\"citation-year\" ng-minlength = 2 optional ng-focus placeholder=\"Citation Year\" />\n" +
+    "                          <input id=\"citation-year\" type=\"number\" class=\"form-control \" ng-model=\"case.citation.year\" name=\"citation-year\" ng-minlength = 2 optional ng-focus placeholder=\"Citation Year\" />\n" +
     "                          <div class=\"text-danger\" ng-show=\"form.$submitted && form.citation-year.$invalid || form.citation-year.$dirty && form.citation-year.$invalid && !form.citation-year.$focused\">\n" +
     "\n" +
     "                            <span ng-show=\"form.citation-year.$error.required\">Citation Year is required.</span>\n" +
@@ -326,7 +326,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                      </div>\n" +
     "\n" +
     "                      <div class=\"col-xs-3 form-group\">\n" +
-    "                       <input id=\"citation-page-number\" name=\"citation-page-number\" type=\"text\" class=\"form-control \" ng-model=\"case.citation.pageNumber\"  ng-minlength = 1 optional ng-focus placeholder=\"Citation Page Number\" />\n" +
+    "                       <input id=\"citation-page-number\" name=\"citation-page-number\" type=\"number\" class=\"form-control \" ng-model=\"case.citation.pageNumber\"  ng-minlength = 1 optional ng-focus placeholder=\"Citation Page Number\" />\n" +
     "                       <div class=\"text-danger\" ng-show=\"form.$submitted && form.citation-page-number.$invalid || form.citation-page-number.$dirty && form.citation-page-number.$invalid && !form.citation-page-number.$focused\">\n" +
     "\n" +
     "\n" +

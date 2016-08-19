@@ -57,36 +57,29 @@
             </div>
                 <table id="casesTbl" class="table table-condensed">
                   <tr style="background-color: #E8E9EC" class="tableHeaders">
-                    <td style="width:10%">
+                    <td style="width:15%">
 	                    <a ng-click="sortType = 'caseNumber'; sortReverse = !sortReverse">
 		                    Case Number
 		                    <span ng-show="sortType == 'caseNumber' && !sortReverse" class="fa fa-caret-up"></span>
 		                    <span ng-show="sortType == 'caseNumber' && sortReverse" class="fa fa-caret-down"></span>
 	                    </a>
 		            </td>
-                    <td style="width:16%">
+                    <td style="width:35%">
 	                    <a ng-click="sortType = 'name'; sortReverse = !sortReverse">
 		                    Name
 		                    <span ng-show="sortType == 'name' && !sortReverse" class="fa fa-caret-up"></span>
 		                    <span ng-show="sortType == 'name' && sortReverse" class="fa fa-caret-down"></span>
 	                    </a>
 					</td>
-                    <td style="width:16%">
-	                    <a ng-click="sortType = 'coram'; sortReverse = !sortReverse">
-	                    	Coram
-							<span ng-show="sortType == 'coram' && !sortReverse" class="fa fa-caret-up"></span>
-							<span ng-show="sortType == 'coram' && sortReverse" class="fa fa-caret-down"></span>
-	                    </a>
 
-	                </td>
-                    <td style="width:16%">
+                    <td style="width:15%">
 	                    <a ng-click="sortType = 'areaOfLaw'; sortReverse = !sortReverse">
 		                    Area of Law
 		                    <span ng-show="sortType == 'areaOfLaw' && !sortReverse" class="fa fa-caret-up"></span>
 		                    <span ng-show="sortType == 'areaOfLaw' && sortReverse" class="fa fa-caret-down"></span>
 	                    </a>
 		            </td>
-                    <td style="width:16%">
+                    <td style="width:15%">
 	                    <a ng-click="sortType = 'courtId'; sortReverse = !sortReverse">
 	                    	Court
 	                    	<span ng-show="sortType == 'courtId' && !sortReverse" class="fa fa-caret-up"></span>
@@ -116,23 +109,18 @@
 
                     </td>
 
-                    <td class="editables">
 
-                      <span class="editable"  name="email" form="rowform" onchange="editItem(this,'itemID')" required>
-													{{case.coram}}
-                      </span>
-                    </td>
                     <td class="editables">
 
                       <span class="editable" name="company" form="rowform" onchange="editItem(this,'itemID')">
-													{{case.areaOfLaw}}
+													{{case.areaOfLaw.name}}
                       </span>
                     </td>
 
                     <td class="editables">
 
                       <span class="editable" name="stage" form="rowform" onchange="editItem(this,'itemID')">
-														{{case.courtId}}
+														{{case.court}}
                       </span>
                     </td>
 
@@ -152,7 +140,7 @@
                           <!-- <a class="editItem" onclick="assignMentorModal(this)" ><i class="fa fa-edit"></i></a> -->
 
                           <a class="viewItem" onclick="viewApp(this)" itemid="{{application.applicationID}}"><i class="fa fa-eye"></i></a>&nbsp;
-													<a data-user="Admin" class="editItem" onclick="assignMentor(this)" ><i class="fa fa-edit"></i></a>
+													<a data-user="Admin" class="editItem" data-toggle="modal" data-target="#addCaseModal" ng-click="openCase(case)" ><i class="fa fa-edit"></i></a>
                           <a class="viewItem" ><i class="fa fa-times"></i></a></a>
 
                           <!-- <a class="deleteItem" data-user="Admin" onclick="deleteEstimate(this,'itemID','Estimates.php','deleteEstimates','cleanRow', 'Estimates')"><i class="fa fa-trash-o"></i></a> -->
@@ -164,15 +152,16 @@
 
 
                 <div ng-if="!showCases" style="position: relative; left: 50%; margin-left: -100px; height: 50px; margin-top: 40px"><i ng-if="!returned" class='fa fa-fw fa-sun-o fa-spin'></i> {{message}}</div>
+								<div ng-if="cases.length == 0" style="position: relative; left: 48%; margin-left: -100px; height: 50px; margin-top: 40px">No cases found. Click <a data-toggle="modal" data-target="#addCaseModal">here</a> to create one.</div>
 							</div>
 					</div>
         </div>
       </div>
 
 
-
-</div>
 <ng-include src="'templates/add-case-modal.html'"></ng-include>
+</div>
+
 <ng-include src="'templates/area-of-law-modal.html'"></ng-include>
 <ng-include src="'templates/court-modal.html'"></ng-include>
 <ng-include src="'templates/legislation-modal.html'"></ng-include>

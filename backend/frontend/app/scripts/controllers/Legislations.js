@@ -96,24 +96,22 @@ angular.module('apptorney')
     }
 
     $scope.deleteLegislation = function(legislationID){
-      LegislationPart.find({ legislation: legislationID })
+      Legislation.legislationParts.destroyAll({id:legislationID})
       .$promise
-      .then(function(parts){
-        parts.forEach(function(part){
-          LegislationPart.deleteById({id:part.id});
-        });
-      });
-      Legislation.deleteById({ id: legislationID })
-      .$promise
-      .then(function() {
-        //console.log('deleted');
-        $scope.legislations.forEach(function(legislation){
-          if(legislation.id == legislationID){
-            $scope.legislations.splice($scope.legislations.indexOf(legislation),1);
+      .then(function(){
+        Legislation.deleteById({ id: legislationID })
+        .$promise
+        .then(function() {
+          //console.log('deleted');
+          $scope.legislations.forEach(function(legislation){
+            if(legislation.id == legislationID){
+              $scope.legislations.splice($scope.legislations.indexOf(legislation),1);
 
-          }
+            }
+          });
         });
-      });
+      })
+
 
     }
 
@@ -158,12 +156,16 @@ angular.module('apptorney')
 
     $scope.openLegislation = function(legislation){
       $scope.legislation = legislation;
-      legislation.dateOfAssent = legislation.dateOfAssent.substring(0,10);
-      var parser = datetime("yyyy-MM-dd");
-      console.log(parser);
-      $scope.legislation.dateOfAssent = parser.parse(legislation.dateOfAssent).getDate();
-      console.log($scope.legislation.dateOfAssent);
-      $scope.legislationParts =  LegislationPart.find({legislation:legislation.id},
+      if(typeof legislation.dateOfAssent == 'string'){
+        legislation.dateOfAssent = legislation.dateOfAssent.substring(0,10);
+        var parser = datetime("yyyy-MM-dd");
+        console.log(parser);
+        $scope.legislation.dateOfAssent = parser.parse(legislation.dateOfAssent).getDate();
+        console.log($scope.legislation.dateOfAssent);
+      }
+
+
+      $scope.legislationParts =  Legislation.legislationParts({id:legislation.id},
         function(list) {
 
         },

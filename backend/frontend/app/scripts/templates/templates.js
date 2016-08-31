@@ -942,13 +942,22 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "                  <div class=\"row\">\n" +
     "\n" +
-    "                    <div class=\"col-xs-12\" ng-style = \"{'text-align':(legislationParts.length == 0)?'center':'left'}\" style=\"border:1px dashed #d3d3d3; border-radius:5px; height:auto; color:#d3d3d3; padding-top:20px; padding-bottom:20px; width:97%; margin-left:12px\">\n" +
-    "                        <a ng-click=\"addLegislationPart()\"><i style=\"font-size:2em; position:absolute; top:20px; right:20px; z-index:10000\" class=\"fa fa-plus\"></i></a>\n" +
+    "                    <div class=\"col-xs-12\" ng-style = \"{'text-align':(legislationParts.length == 0)?'center':'left'}\" style=\"border:1px dashed #d3d3d3; border-radius:5px; height:auto; color:#d3d3d3; padding-top:20px; padding-bottom:60px; width:97%; margin-left:12px\">\n" +
     "                        <br/>\n" +
-    "                        <div class=\"col-xs-12\" ng-repeat=\"part in legislationParts\" style=\"margin-top:5px\">\n" +
-    "                            <ng-include src=\"'templates/legislation-part-form.html'\"></ng-include>\n" +
+    "                        <div class=\"row\">\n" +
+    "                          <div class=\"col-xs-12\" ng-repeat=\"part in legislationParts\" style=\"margin-top:5px\">\n" +
+    "                              <ng-include src=\"'templates/legislation-part-form.html'\"></ng-include>\n" +
+    "\n" +
+    "                          </div>\n" +
+    "\n" +
+    "                          <div class=\"col-xs-1 pull-right\">\n" +
+    "                            <a ng-click=\"addLegislationPart()\"><i style=\"font-size:2em; z-index:10000\"  class=\"fa fa-plus\"></i></a>\n" +
+    "                          </div>\n" +
     "\n" +
     "                        </div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
     "                        <span ng-show=\"legislationParts.length == 0\" style=\"font-size:1.5em; font-weight:100\">Add Legislation Parts</span>\n" +
     "\n" +
     "                    </div>\n" +

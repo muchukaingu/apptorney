@@ -8052,6 +8052,12 @@ module.factory(
       { 'id': '@id' },
       {
 
+        // INTERNAL. Use LegislationPart.legislation() instead.
+        "prototype$__get__legislation": {
+          url: urlBase + "/legislationParts/:id/legislation",
+          method: "GET"
+        },
+
         /**
          * @ngdoc method
          * @name apiServices.LegislationPart#create
@@ -8674,6 +8680,42 @@ module.factory(
     */
     R.modelName = "LegislationPart";
 
+
+        /**
+         * @ngdoc method
+         * @name apiServices.LegislationPart#legislation
+         * @methodOf apiServices.LegislationPart
+         *
+         * @description
+         *
+         * Fetches belongsTo relation legislation.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - PersistedModel id
+         *
+         *  - `refresh` – `{boolean=}` - 
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `Legislation` object.)
+         * </em>
+         */
+        R.legislation = function() {
+          var TargetResource = $injector.get("Legislation");
+          var action = TargetResource["::get::legislationPart::legislation"];
+          return action.apply(R, arguments);
+        };
 
     return R;
   }]);
@@ -9819,6 +9861,12 @@ module.factory(
         "createChangeStream": {
           url: urlBase + "/legislations/change-stream",
           method: "POST"
+        },
+
+        // INTERNAL. Use LegislationPart.legislation() instead.
+        "::get::legislationPart::legislation": {
+          url: urlBase + "/legislationParts/:id/legislation",
+          method: "GET"
         },
       }
     );

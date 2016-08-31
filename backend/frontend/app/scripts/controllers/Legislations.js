@@ -96,7 +96,13 @@ angular.module('apptorney')
     }
 
     $scope.deleteLegislation = function(legislationID){
-      LegislationPart.destroyAll({ legislation: legislationID });
+      LegislationPart.find({ legislation: legislationID })
+      .$promise
+      .then(function(parts){
+        parts.forEach(function(part){
+          LegislationPart.deleteById({id:part.id});
+        });
+      });
       Legislation.deleteById({ id: legislationID })
       .$promise
       .then(function() {

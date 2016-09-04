@@ -175,13 +175,14 @@ angular.module('apptorney')
         $scope.legislation.dateOfAssent = parser.parse(legislation.dateOfAssent).getDate();
         console.log($scope.legislation.dateOfAssent);
       }
-
+      $scope.showParts = false;
+      $scope.parts_returned = false;
 
       $scope.legislationParts =  Legislation.legislationParts({id:legislation.id},
         function(list) {
-          list.forEach(function(part){
+          $scope.showParts = true;
+          $scope.parts_returned = true;
 
-          })
 
         },
         function(errorResponse) { }

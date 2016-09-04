@@ -12,7 +12,13 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "legislationParts": {
+      "type": "hasMany",
+      "model": "legislationPart",
+      "foreignKey": ""
+    }
+  },
   "acls": [],
   "methods": {}
 }

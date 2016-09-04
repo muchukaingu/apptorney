@@ -33,7 +33,13 @@
       "type": "belongsTo",
       "model": "legislation",
       "foreignKey": "legislation"
+    },
+    "partType": {
+      "type": "belongsTo",
+      "model": "partType",
+      "foreignKey": "partType"
     }
+
   },
   "acls": [],
   "methods": {}

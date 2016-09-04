@@ -154,8 +154,20 @@ angular.module('apptorney')
       function(errorResponse) { }
     );
 
+    $scope.newLegislation = function(){ //fires when user opens the create modal for the first time
+      $scope.legislation = {};
+      $scope.legislationParts = [];
+      $scope.selected=false;
+    }
+
     $scope.openLegislation = function(legislation){
       $scope.legislation = legislation;
+      $scope.legislationTypes.forEach(function(type){
+        if(type.id == legislation.legislationType){
+          $scope.selected = true;
+          $scope.selectedType = type.name;
+        }
+      })
       if(typeof legislation.dateOfAssent == 'string'){
         legislation.dateOfAssent = legislation.dateOfAssent.substring(0,10);
         var parser = datetime("yyyy-MM-dd");
@@ -167,12 +179,16 @@ angular.module('apptorney')
 
       $scope.legislationParts =  Legislation.legislationParts({id:legislation.id},
         function(list) {
+          list.forEach(function(part){
+
+          })
 
         },
         function(errorResponse) { }
       );
 
     }
+
 
 
     $scope.openLegislationType = function(legislationType){

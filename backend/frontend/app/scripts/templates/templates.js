@@ -1003,13 +1003,14 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "    <div class=\"row\">\n" +
     "\n" +
     "      <div class=\"col-xs-12 col-md-3 form-group\">\n" +
-    "        <select class=\"form-control\" ng-model = \"part.partType\">\n" +
-    "            <option value=\"\" disabled selected>\n" +
+    "        <select class=\"form-control\" ng-model = \"part.partType\" ng-options=\"type.name for type in legislationPartTypes track by type.id\" id=\"partType\">\n" +
+    "            <!--option value=\"\" disabled selected>\n" +
     "              <span style=\"font-weight:600\">Select Part Type...</span>\n" +
     "            </option>\n" +
     "            <option ng-repeat=\"type in legislationPartTypes\" value=\"{{type.id}}\">\n" +
     "              {{type.name}}\n" +
-    "            </option>\n" +
+    "            </option-->\n" +
+    "            <option value=\"\">- Please Select Part Type -</option>\n" +
     "        </select>\n" +
     "      </div>\n" +
     "\n" +

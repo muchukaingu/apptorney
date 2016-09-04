@@ -958,8 +958,8 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "\n" +
     "\n" +
-    "                        <span ng-show=\"legislationParts.length == 0\" style=\"font-size:1.5em; font-weight:100\">Add Legislation Parts</span>\n" +
-    "                        <div ng-if=\"!showParts\" style=\"position: relative; left: 50%; margin-left: -100px; height: 50px; margin-top: 40px\"><i ng-if=\"!parts_returned\" class='fa fa-fw fa-sun-o fa-spin'></i> Loading. Please Wait...</div>\n" +
+    "                        <span ng-show=\"legislationParts.length == 0 && parts_returned\" style=\"font-size:1.5em; font-weight:100\">Add Legislation Parts</span>\n" +
+    "                        <div ng-if=\"!showParts\" style=\"font-size:1.5em; font-weight:100\"><i ng-if=\"!parts_returned\" class='fa fa-fw fa-sun-o fa-spin'></i> Loading. Please Wait...</div>\n" +
     "\n" +
     "                    </div>\n" +
     "\n" +

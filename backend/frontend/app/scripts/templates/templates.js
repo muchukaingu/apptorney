@@ -1538,6 +1538,175 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
   );
 
 
+  $templateCache.put('templates/view-legislations-modal.html',
+    "<div id=\"viewLegislationModal\" class=\"modal fade\">\n" +
+    "  <div class=\"modal-dialog\" style=\"width:65%;\">\n" +
+    "    <div class=\"modal-content\" style=\"margin-top: 8%; padding: 40px; \">\n" +
+    "      <div class=\"modal-header\" style=\"border-bottom:none\">\n" +
+    "          <button type=\"button\" id=\"closeModal\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>\n" +
+    "\n" +
+    "      </div>\n" +
+    "\n" +
+    "      <div class=\"modal-body\" style=\"margin-bottom: none; padding-top: 0px; border-bottom:none\">\n" +
+    "\n" +
+    "<div class=\"row\">\n" +
+    "\n" +
+    "  <div class=\"col-xs-6\" style=\"border-bottom:1px solid black\">\n" +
+    "        <span style=\"font-weight: 500; font-size: 16pt\"><span id=\"CustomerHeading\"> {{legislation.legislationName+\" [\"+legislation.legislationNumber+\"]\"}}</span><br/>Legislation Number: {{legislation.applicationID}}</span>\n" +
+    "  </div>\n" +
+    "  <div class=\"col-xs-6 pull-right text-right\" style=\"\"><span style=\"font-weight: 500; font-size: 16pt\"><span id=\"viewCompany\"></span></span><br/><span id=\"applicationNumber\" style=\"font-size: 1.5em\">{{legislation.companyName}}</span></div>\n" +
+    "</div>\n" +
+    "        <!-- Start Form-->\n" +
+    "\n" +
+    "        <form id =\"viewLegislationForm\" name=\"form\" class=\"css-form\" ng-submit=\"addCustomer()\" novalidate>\n" +
+    "          <div class =\"row\" style=\"border-bottom: 1px dashed #7a869c; padding-bottom: 0px; margin-bottom: 20px; margin-top: 10px\">\n" +
+    "            <!-- <div class=\"col-xs-4 form-group\">\n" +
+    "            <span><b>Name Of Applicant: </b></span>\n" +
+    "            <span id = \"viewApplicantName\"></span>\n" +
+    "          </div> -->\n" +
+    "          <div class=\"col-xs-12 col-sm-6\">\n" +
+    "            <table class=\"table\">\n" +
+    "\n" +
+    "              <tr>\n" +
+    "                <td><i class=\"fa fa-phone\"></i>&nbsp;Contact Number(s)</td><td><span id = \"viewContact\">{{legislation.telephoneNumber}}</span></td>\n" +
+    "              </tr>\n" +
+    "               <tr>\n" +
+    "                <td><i class=\"fa fa-envelope\"></i>&nbsp;Email Address</td><td><span id = \"viewEmail\">{{legislation.email}}</span></td>\n" +
+    "              </tr>\n" +
+    "              <tr>\n" +
+    "                <td><i class=\"fa fa-twitter\"></i>&nbsp;Twitter</td><td><span id = \"viewTwitter\">{{legislation.twitterHandle}}</span></td>\n" +
+    "              </tr>\n" +
+    "              <tr>\n" +
+    "                <td><i class=\"fa fa-linkedin\"></i>&nbsp;LinkedIn</td><td><span id = \"viewLinkedin\">{{legislation.linkedInProfile}}</span></td>\n" +
+    "              </tr>\n" +
+    "              <tr>\n" +
+    "                <td><i class=\"fa fa-globe\"></i>&nbsp;Website</td><td><span id = \"viewWebsite\">{{legislation.website}}</span></td>\n" +
+    "              </tr>\n" +
+    "\n" +
+    "            </table>\n" +
+    "          </div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "          </div>\n" +
+    "    <div class =\"row\">\n" +
+    "      <span style=\"font-size:1.2em\">Please share your business idea (100 words or less)*</span><br/>\n" +
+    "      <div>\n" +
+    "      <span id = \"viewIdea\">{{legislation.idea}}\n" +
+    "      </span>\n" +
+    "    </div>\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <br>\n" +
+    "    <br>\n" +
+    "    <div class =\"row\">\n" +
+    "      <span style=\"font-size:1.2em\">What need and/or solution are you filling? (100 words or less)*</span><br/>\n" +
+    "      <div>\n" +
+    "      <span id = \"viewSolution\">{{legislation.solution}}\n" +
+    "      </span>\n" +
+    "    </div>\n" +
+    "\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <br>\n" +
+    "    <br>\n" +
+    "    <div class =\"row\">\n" +
+    "      <span style=\"font-size:1.2em\">Please share a little about your product and/or service (200 words or less)*</span><br/>\n" +
+    "      <div>\n" +
+    "      <span id = \"viewProductInformation\">{{legislation.product}}\n" +
+    "      </span>\n" +
+    "    </div>\n" +
+    "\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <br>\n" +
+    "    <br>\n" +
+    "    <div class =\"row\">\n" +
+    "      <span style=\"font-size:1.2em\">Tell us a little about your market size? (100 words or less)*</span><br/>\n" +
+    "      <div>\n" +
+    "      <span id = \"viewMarketInformation\">{{legislation.market}}\n" +
+    "      </span>\n" +
+    "    </div>\n" +
+    "\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <br>\n" +
+    "    <br>\n" +
+    "    <div class =\"row\">\n" +
+    "      <span style=\"font-size:1.2em\">What revenue steam and/or streams do you have? How does your company make money? (200 words or less)*</span><br/>\n" +
+    "      <div>\n" +
+    "      <span id = \"viewRevenue\">{{legislation.revenue}}\n" +
+    "      </span>\n" +
+    "    </div>\n" +
+    "\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <br>\n" +
+    "    <br>\n" +
+    "    <div class =\"row\">\n" +
+    "      <span style=\"font-size:1.2em\">Who is on your management team and what is their experience? (200 words or less)*</span><br/>\n" +
+    "      <div>\n" +
+    "      <span id = \"viewTeamInformation\">{{legislation.team}}\n" +
+    "      </span>\n" +
+    "    </div>\n" +
+    "\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <br>\n" +
+    "    <br>\n" +
+    "    <div class =\"row\">\n" +
+    "      <span style=\"font-size:1.2em\">Share with us how you are going to go to market. What is your strategy? (200 words or less)*</span><br/>\n" +
+    "      <div>\n" +
+    "      <span id = \"viewStrategy\">{{legislation.team}}\n" +
+    "      </span>\n" +
+    "    </div>\n" +
+    "\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <br>\n" +
+    "    <br>\n" +
+    "    <div class =\"row\">\n" +
+    "      <span style=\"font-size:1.2em\">Do you have any funding requirements to support growing your startup? (100 words or less)*</span><br/>\n" +
+    "      <div>\n" +
+    "      <span id = \"viewFunding\">{{legislation.funding}}\n" +
+    "      </span>\n" +
+    "    </div>\n" +
+    "\n" +
+    "    </div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "          <!-- <input type=\"button\" class=\"btn btn-default\" ng-click=\"reset(form)\" value=\"Reset\" /> -->\n" +
+    "          <div class = \"form-group\">\n" +
+    "            <!-- <button id=\"submit\" type=\"button\" class=\"btn btn-primary-alt pull-right\" onclick=\"saveLegislation()\" ng-disabled=\"form.$invalid\" style=\"width:120px\">Save</button>\n" +
+    "            <button id=\"resubmit\" type=\"button\" class=\"btn btn-primary-alt pull-right\" onclick=\"saveEditedLegislation()\" style=\"width:120px\">Save</button> -->\n" +
+    "\n" +
+    "\n" +
+    "            <!-- <div id=\"submitAppMsg\" class=\"pull-left\" style=\"font-size: larger; position: relative; top: 5px\"></div> -->\n" +
+    "          </div>\n" +
+    "          <div class=\"modal-footer\" style=\"border-top:none\">\n" +
+    "\n" +
+    "            <!-- <button id=\"save\" type=\"button\" class=\"btn btn-primary-alt\" onclick=\"saveLegislation()\" ng-submit=\"form.$valid && saveLegislation()\" style=\"width:120px\">Save</button> -->\n" +
+    "\n" +
+    "           </div>\n" +
+    "\n" +
+    "        </form>  <!--End Form-->\n" +
+    "\n" +
+    "\n" +
+    "     <!--  </div>  -->\n" +
+    "    </div>\n" +
+    "  </div>\n" +
+    "</div> <!-- end modal -->\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "</div>    <!-- container -->\n"
+  );
+
+
   $templateCache.put('templates/work-modal.html',
     "<div id=\"addWorkModal\" class=\"modal fade\" style=\"z-index:3000; background-color:rgba(0, 0, 0, 0.5);\">\n" +
     "  <div class=\"modal-dialog\" style=\"width:50%;padding-left: 2%;padding-right: 2%; \">\n" +

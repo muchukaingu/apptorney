@@ -126,7 +126,7 @@
                       <div class="buttons" ng-show="!rowform.$visible">
                           <!-- <a class="editItem" onclick="assignMentorModal(this)" ><i class="fa fa-edit"></i></a> -->
 
-                          <a class="viewItem" onclick="viewApp(this)" itemid="{{application.applicationID}}"><i class="fa fa-eye"></i></a>&nbsp;
+                          <a class="viewItem" data-toggle="modal" data-target="#viewLegislationModal" ng-click = "openLegislation(legislation)"><i class="fa fa-eye"></i></a>&nbsp;
 													<a data-user="Admin" class="editItem" data-toggle="modal" data-target="#addLegislationModal" ng-click = "openLegislation(legislation)" ><i class="fa fa-edit"></i></a>
                           <a class="viewItem" ng-click = "deleteLegislation(legislation.id)"><i class="fa fa-times"></i></a></a>
 
@@ -143,6 +143,7 @@
         </div>
       </div>
 			<ng-include src="'templates/legislation-modal.html'"></ng-include>
+			<ng-include src="'templates/view-legislation-modal.html'"></ng-include>
 
 
 </div>

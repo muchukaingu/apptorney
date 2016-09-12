@@ -1538,7 +1538,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
   );
 
 
-  $templateCache.put('templates/view-legislations-modal.html',
+  $templateCache.put('templates/view-legislation-modal.html',
     "<div id=\"viewLegislationModal\" class=\"modal fade\">\n" +
     "  <div class=\"modal-dialog\" style=\"width:65%;\">\n" +
     "    <div class=\"modal-content\" style=\"margin-top: 8%; padding: 40px; \">\n" +

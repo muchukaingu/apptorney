@@ -1551,8 +1551,8 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "<div class=\"row\">\n" +
     "\n" +
-    "  <div class=\"col-xs-6\" style=\"border-bottom:1px solid black\">\n" +
-    "        <span style=\"font-weight: 500; font-size: 16pt\"><span id=\"CustomerHeading\"> {{legislation.legislationName+\" [\"+legislation.legislationNumber+\"]\"}}</span><br/>Legislation Number: {{legislation.applicationID}}</span>\n" +
+    "  <div class=\"col-xs-12\" style=\"border-bottom:1px solid black\">\n" +
+    "        <span style=\"font-weight: 500; font-size: 16pt\"><span id=\"CustomerHeading\"> {{legislation.legislationName+\" [\"+legislation.legislationNumber+\"]\"}}</span><br/></span>\n" +
     "  </div>\n" +
     "  <div class=\"col-xs-6 pull-right text-right\" style=\"\"><span style=\"font-weight: 500; font-size: 16pt\"><span id=\"viewCompany\"></span></span><br/><span id=\"applicationNumber\" style=\"font-size: 1.5em\">{{legislation.companyName}}</span></div>\n" +
     "</div>\n" +

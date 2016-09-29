@@ -799,8 +799,8 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "          <button type=\"button\" id=\"closeModal\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>\n" +
     "\n" +
-    "        <h4 ng-if=\"!viewMode\" style=\"font-weight: 100;\"><span id=\"CustomerHeading\">&nbsp;&nbsp;Add Legislation &nbsp; <button ng-click=\"toggleView()\" class=\"btn-primary-alt btn-xs\">View</button></span></h4>\n" +
-    "        <h3 ng-if=\"viewMode\" style=\"font-weight: 100;\"><span id=\"CustomerHeading\">&nbsp;&nbsp;{{selectedType}} No. {{legislation.legislationNumber}}: of {{legislation.dateOfAssent | date:'yyyy'}} &nbsp; <button ng-click=\"toggleView()\" class=\"btn-primary-alt btn-xs\">Edit</button></span> </h3>\n" +
+    "        <h4 ng-if=\"!viewMode\" style=\"font-weight: 100;\"><span id=\"CustomerHeading\">&nbsp;&nbsp;Add Legislation <button ng-click=\"toggleView()\" class=\"btn-primary-alt btn-xs\">View</button></span></h4>\n" +
+    "        <h4 ng-if=\"viewMode\" style=\"font-weight: 100;\"><span id=\"CustomerHeading\">&nbsp;&nbsp;{{selectedType}} No. {{legislation.legislationNumber}}: of {{legislation.dateOfAssent | date:'yyyy'}} <button ng-click=\"toggleView()\" class=\"btn-primary-alt btn-xs\">Edit</button></span> </h4>\n" +
     "        <p id=\"WelcomeMessage\" style=\"margin-left:8px; margin-top:-10px\" ng-if=\"!viewMode\">\n" +
     "          Please ensure that you fill in all the mandatory sections (marked with an asterisk, *) in the form.\n" +
     "        </p>\n" +
@@ -960,9 +960,9 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "                  <div class=\"row\">\n" +
     "\n" +
-    "                    <div class=\"col-xs-12\" ng-style = \"{'text-align':(legislationParts.length == 0)?'center':'left', 'border':(viewMode)?'none':'border:1px dashed #d3d3d3'}\" style=\"border-radius:5px; height:auto; color:#d3d3d3; padding-top:20px; padding-bottom:60px; width:97%; margin-left:12px;\">\n" +
+    "                    <div class=\"col-xs-12\" ng-style = \"{'text-align':(legislationParts.length == 0)?'center':'left', 'border':(viewMode)?'none':'1px dashed #d3d3d3'}\" style=\"border-radius:5px; height:auto; color:#d3d3d3; padding-top:20px; padding-bottom:60px; width:97%; margin-left:12px;\">\n" +
     "\n" +
-    "                        <h2 style=\"margin-bottom:-20px; margin-left:-8px\">Legislation Parts</h2>\n" +
+    "                        <h2 ng-style=\"{'margin-bottom':(viewMode)?'-20px':'0px', 'margin-left':(viewMode)?'-8px':'0px'}\">Legislation Parts</h2>\n" +
     "                        <div class=\"row\">\n" +
     "                          <div class=\"col-xs-12\" ng-repeat=\"part in legislationParts\" style=\"margin-top:5px\">\n" +
     "\n" +

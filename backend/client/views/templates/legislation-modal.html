@@ -5,8 +5,8 @@
 
           <button type="button" id="closeModal" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 
-        <h4 ng-if="!viewMode" style="font-weight: 100;"><span id="CustomerHeading">&nbsp;&nbsp;Add Legislation &nbsp; <button ng-click="toggleView()" class="btn-primary-alt btn-xs">View</button></span></h4>
-        <h3 ng-if="viewMode" style="font-weight: 100;"><span id="CustomerHeading">&nbsp;&nbsp;{{selectedType}} No. {{legislation.legislationNumber}}: of {{legislation.dateOfAssent | date:'yyyy'}} &nbsp; <button ng-click="toggleView()" class="btn-primary-alt btn-xs">Edit</button></span> </h3>
+        <h4 ng-if="!viewMode" style="font-weight: 100;"><span id="CustomerHeading">&nbsp;&nbsp;Add Legislation <button ng-click="toggleView()" class="btn-primary-alt btn-xs">View</button></span></h4>
+        <h4 ng-if="viewMode" style="font-weight: 100;"><span id="CustomerHeading">&nbsp;&nbsp;{{selectedType}} No. {{legislation.legislationNumber}}: of {{legislation.dateOfAssent | date:'yyyy'}} <button ng-click="toggleView()" class="btn-primary-alt btn-xs">Edit</button></span> </h4>
         <p id="WelcomeMessage" style="margin-left:8px; margin-top:-10px" ng-if="!viewMode">
           Please ensure that you fill in all the mandatory sections (marked with an asterisk, *) in the form.
         </p>
@@ -166,9 +166,9 @@
 
                   <div class="row">
 
-                    <div class="col-xs-12" ng-style = "{'text-align':(legislationParts.length == 0)?'center':'left', 'border':(viewMode)?'none':'border:1px dashed #d3d3d3'}" style="border-radius:5px; height:auto; color:#d3d3d3; padding-top:20px; padding-bottom:60px; width:97%; margin-left:12px;">
+                    <div class="col-xs-12" ng-style = "{'text-align':(legislationParts.length == 0)?'center':'left', 'border':(viewMode)?'none':'1px dashed #d3d3d3'}" style="border-radius:5px; height:auto; color:#d3d3d3; padding-top:20px; padding-bottom:60px; width:97%; margin-left:12px;">
 
-                        <h2 style="margin-bottom:-20px; margin-left:-8px">Legislation Parts</h2>
+                        <h2 ng-style="{'margin-bottom':(viewMode)?'-20px':'0px', 'margin-left':(viewMode)?'-8px':'0px'}">Legislation Parts</h2>
                         <div class="row">
                           <div class="col-xs-12" ng-repeat="part in legislationParts" style="margin-top:5px">
 

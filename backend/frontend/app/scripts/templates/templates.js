@@ -796,11 +796,16 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "  <div class=\"modal-dialog\" style=\"width:60%;padding-left: 2%;padding-right: 2%; \">\n" +
     "    <div class=\"modal-content\" style=\"margin-top: 8%\">\n" +
     "      <div class=\"modal-header\" style=\"margin-bottom:20px\">\n" +
+    "\n" +
     "          <button type=\"button\" id=\"closeModal\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>\n" +
     "\n" +
-    "        <h4 style=\"font-weight: 100;\"><span id=\"CustomerHeading\">&nbsp&nbspAdd Legislation</span></h4>\n" +
-    "        <p id=\"WelcomeMessage\" style=\"margin-left:8px; margin-top:-10px\">\n" +
+    "        <h4 ng-if=\"!viewMode\" style=\"font-weight: 100;\"><span id=\"CustomerHeading\">&nbsp;&nbsp;Add Legislation &nbsp; <button ng-click=\"toggleView()\" class=\"btn-primary-alt btn-xs\">View</button></span></h4>\n" +
+    "        <h3 ng-if=\"viewMode\" style=\"font-weight: 100;\"><span id=\"CustomerHeading\">&nbsp;&nbsp;{{selectedType}} No. {{legislation.legislationNumber}}: of {{legislation.dateOfAssent | date:'yyyy'}} &nbsp; <button ng-click=\"toggleView()\" class=\"btn-primary-alt btn-xs\">Edit</button></span> </h3>\n" +
+    "        <p id=\"WelcomeMessage\" style=\"margin-left:8px; margin-top:-10px\" ng-if=\"!viewMode\">\n" +
     "          Please ensure that you fill in all the mandatory sections (marked with an asterisk, *) in the form.\n" +
+    "        </p>\n" +
+    "        <p id=\"WelcomeMessage\" style=\"margin-left:8px; margin-top:-10px; font-size:1.2em\" ng-if=\"viewMode\">\n" +
+    "          {{legislation.legislationName}}\n" +
     "        </p>\n" +
     "      </div>\n" +
     "\n" +
@@ -809,6 +814,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "        <!-- Start Form-->\n" +
     "\n" +
     "              <form id =\"applicationForm\" name=\"form\" class=\"css-form\" ng-submit=\"saveApplication()\" novalidate>\n" +
+    "                <span ng-if=\"!viewMode\">\n" +
     "                  <div class=\"row\">\n" +
     "\n" +
     "\n" +
@@ -937,23 +943,71 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "                  </div>\n" +
     "\n" +
+    "                </span>\n" +
+    "\n" +
+    "                <span ng-if=\"viewMode\">\n" +
+    "                    <div class=\"row\">\n" +
+    "                      <div class=\"col-xs-12\" style=\"padding-left:16px\">\n" +
+    "                        <h2 style=\"margin-bottom:-20px;\">Preamble</h2>\n" +
+    "                        <br/>{{legislation.preamble}}\n" +
+    "                      </div>\n" +
+    "\n" +
+    "                    </div>\n" +
+    "                </span>\n" +
+    "\n" +
     "\n" +
     "\n" +
     "\n" +
     "                  <div class=\"row\">\n" +
     "\n" +
-    "                    <div class=\"col-xs-12\" ng-style = \"{'text-align':(legislationParts.length == 0)?'center':'left'}\" style=\"border:1px dashed #d3d3d3; border-radius:5px; height:auto; color:#d3d3d3; padding-top:20px; padding-bottom:60px; width:97%; margin-left:12px\">\n" +
-    "                        <br/>\n" +
+    "                    <div class=\"col-xs-12\" ng-style = \"{'text-align':(legislationParts.length == 0)?'center':'left', 'border':(viewMode)?'none':'border:1px dashed #d3d3d3'}\" style=\"border-radius:5px; height:auto; color:#d3d3d3; padding-top:20px; padding-bottom:60px; width:97%; margin-left:12px;\">\n" +
+    "\n" +
+    "                        <h2 style=\"margin-bottom:-20px; margin-left:-8px\">Legislation Parts</h2>\n" +
     "                        <div class=\"row\">\n" +
     "                          <div class=\"col-xs-12\" ng-repeat=\"part in legislationParts\" style=\"margin-top:5px\">\n" +
-    "                              <ng-include src=\"'templates/legislation-part-form.html'\"></ng-include>\n" +
+    "\n" +
+    "                              <ng-include src=\"'templates/legislation-part-form.html'\" ng-if=\"!viewMode\"></ng-include>\n" +
     "\n" +
     "                          </div>\n" +
     "\n" +
+    "\n" +
+    "\n" +
+    "                          \t\t<div class=\"row\" style=\"margin-bottom:20px\">\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "                          \t\t</div>\n" +
+    "\n" +
+    "                          \t\t<accordion close-others=\"true\" class=\"panel-success\" style=\"width:80%\" dnd-list=\"legislationParts\" ng-if=\"viewMode\">\n" +
+    "\n" +
+    "                          \t\t    <accordion-group\n" +
+    "                                    heading=\"\"\n" +
+    "                                    ng-repeat=\"part in legislationParts\"\n" +
+    "                                    dnd-draggable=\"part\"\n" +
+    "                                    dnd-moved=\"legislationParts.splice($index, 1)\"\n" +
+    "                                    dnd-effect-allowed=\"move\"\n" +
+    "                                    dnd-selected=\"models.selected = part\"\n" +
+    "                                    ng-class=\"{'selected': models.selected === part}\"\n" +
+    "                                    >\n" +
+    "                                    <accordion-heading>\n" +
+    "                                        {{part.title}}<i class=\"pull-right fa\" ng-class=\"{'fa-angle-down': status.open, 'fa-angle-left': !status.open}\"></i>\n" +
+    "                                    </accordion-heading>\n" +
+    "                                    {{part.content}}\n" +
+    "                          \t\t    </accordion-group>\n" +
+    "\n" +
+    "\n" +
+    "                          \t\t</accordion>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "                        </div>\n" +
+    "\n" +
+    "                        <div class=\"row\" style=\"margin-top:15px; margin-right:-50px\">\n" +
     "                          <div class=\"col-xs-1 pull-right\">\n" +
     "                            <a ng-click=\"addLegislationPart()\"><i style=\"font-size:2em; z-index:10000\"  class=\"fa fa-plus\"></i></a>\n" +
     "                          </div>\n" +
-    "\n" +
     "                        </div>\n" +
     "\n" +
     "\n" +
@@ -1552,7 +1606,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "<div class=\"row\">\n" +
     "\n" +
     "  <div class=\"col-xs-12\" style=\"border-bottom:1px solid black\">\n" +
-    "        <span style=\"font-weight: 500; font-size: 16pt\"><span id=\"CustomerHeading\"> {{legislation.legislationName+\" [\"+legislation.legislationNumber+\"]\"}}</span><br/></span>\n" +
+    "        <span style=\"font-weight: 500; font-size: 16pt\"><span id=\"CustomerHeading\"> {{legislation.legislationName+\"     [\"+legislation.legislationNumber+\"]\"}}</span><br/></span>\n" +
     "  </div>\n" +
     "  <div class=\"col-xs-6 pull-right text-right\" style=\"\"><span style=\"font-weight: 500; font-size: 16pt\"><span id=\"viewCompany\"></span></span><br/><span id=\"applicationNumber\" style=\"font-size: 1.5em\">{{legislation.companyName}}</span></div>\n" +
     "</div>\n" +

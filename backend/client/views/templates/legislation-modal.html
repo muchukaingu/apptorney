@@ -2,11 +2,16 @@
   <div class="modal-dialog" style="width:60%;padding-left: 2%;padding-right: 2%; ">
     <div class="modal-content" style="margin-top: 8%">
       <div class="modal-header" style="margin-bottom:20px">
+
           <button type="button" id="closeModal" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 
-        <h4 style="font-weight: 100;"><span id="CustomerHeading">&nbsp&nbspAdd Legislation</span></h4>
-        <p id="WelcomeMessage" style="margin-left:8px; margin-top:-10px">
+        <h4 ng-if="!viewMode" style="font-weight: 100;"><span id="CustomerHeading">&nbsp;&nbsp;Add Legislation &nbsp; <button ng-click="toggleView()" class="btn-primary-alt btn-xs">View</button></span></h4>
+        <h3 ng-if="viewMode" style="font-weight: 100;"><span id="CustomerHeading">&nbsp;&nbsp;{{selectedType}} No. {{legislation.legislationNumber}}: of {{legislation.dateOfAssent | date:'yyyy'}} &nbsp; <button ng-click="toggleView()" class="btn-primary-alt btn-xs">Edit</button></span> </h3>
+        <p id="WelcomeMessage" style="margin-left:8px; margin-top:-10px" ng-if="!viewMode">
           Please ensure that you fill in all the mandatory sections (marked with an asterisk, *) in the form.
+        </p>
+        <p id="WelcomeMessage" style="margin-left:8px; margin-top:-10px; font-size:1.2em" ng-if="viewMode">
+          {{legislation.legislationName}}
         </p>
       </div>
 
@@ -15,6 +20,7 @@
         <!-- Start Form-->
 
               <form id ="applicationForm" name="form" class="css-form" ng-submit="saveApplication()" novalidate>
+                <span ng-if="!viewMode">
                   <div class="row">
 
 
@@ -143,23 +149,71 @@
 
                   </div>
 
+                </span>
+
+                <span ng-if="viewMode">
+                    <div class="row">
+                      <div class="col-xs-12" style="padding-left:16px">
+                        <h2 style="margin-bottom:-20px;">Preamble</h2>
+                        <br/>{{legislation.preamble}}
+                      </div>
+
+                    </div>
+                </span>
+
 
 
 
                   <div class="row">
 
-                    <div class="col-xs-12" ng-style = "{'text-align':(legislationParts.length == 0)?'center':'left'}" style="border:1px dashed #d3d3d3; border-radius:5px; height:auto; color:#d3d3d3; padding-top:20px; padding-bottom:60px; width:97%; margin-left:12px">
-                        <br/>
+                    <div class="col-xs-12" ng-style = "{'text-align':(legislationParts.length == 0)?'center':'left', 'border':(viewMode)?'none':'border:1px dashed #d3d3d3'}" style="border-radius:5px; height:auto; color:#d3d3d3; padding-top:20px; padding-bottom:60px; width:97%; margin-left:12px;">
+
+                        <h2 style="margin-bottom:-20px; margin-left:-8px">Legislation Parts</h2>
                         <div class="row">
                           <div class="col-xs-12" ng-repeat="part in legislationParts" style="margin-top:5px">
-                              <ng-include src="'templates/legislation-part-form.html'"></ng-include>
+
+                              <ng-include src="'templates/legislation-part-form.html'" ng-if="!viewMode"></ng-include>
 
                           </div>
 
+
+
+                          		<div class="row" style="margin-bottom:20px">
+
+
+
+                          		</div>
+
+                          		<accordion close-others="true" class="panel-success" style="width:80%" dnd-list="legislationParts" ng-if="viewMode">
+
+                          		    <accordion-group
+                                    heading=""
+                                    ng-repeat="part in legislationParts"
+                                    dnd-draggable="part"
+                                    dnd-moved="legislationParts.splice($index, 1)"
+                                    dnd-effect-allowed="move"
+                                    dnd-selected="models.selected = part"
+                                    ng-class="{'selected': models.selected === part}"
+                                    >
+                                    <accordion-heading>
+                                        {{part.title}}<i class="pull-right fa" ng-class="{'fa-angle-down': status.open, 'fa-angle-left': !status.open}"></i>
+                                    </accordion-heading>
+                                    {{part.content}}
+                          		    </accordion-group>
+
+
+                          		</accordion>
+
+
+
+
+
+                        </div>
+
+                        <div class="row" style="margin-top:15px; margin-right:-50px">
                           <div class="col-xs-1 pull-right">
                             <a ng-click="addLegislationPart()"><i style="font-size:2em; z-index:10000"  class="fa fa-plus"></i></a>
                           </div>
-
                         </div>
 
 

@@ -161,6 +161,11 @@ angular.module('apptorney')
     }
 
     $scope.openLegislation = function(legislation){
+      $scope.models = {
+       selected: null
+      };
+
+      $scope.viewMode = true;
       $scope.legislation = legislation;
       $scope.legislationTypes.forEach(function(type){
         if(type.id == legislation.legislationType){
@@ -179,7 +184,10 @@ angular.module('apptorney')
       $scope.parts_returned = false;
 
       $scope.legislationParts =  Legislation.legislationParts({id:legislation.id},
-        function(list) {
+        function(parts) {
+          parts.forEach(function(part){
+            part.viewMode = false;
+          });
           $scope.showParts = true;
           $scope.parts_returned = true;
 
@@ -222,6 +230,15 @@ angular.module('apptorney')
 
     $scope.openAddLegislationPartModal = function(){
       //$scope.legislationPart = new Object();
+    }
+
+    $scope.toggleView = function(){
+      if ($scope.viewMode == false){
+        $scope.viewMode = true;
+      }
+      else {
+        $scope.viewMode = false;
+      }
     }
 
 

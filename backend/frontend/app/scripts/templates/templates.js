@@ -806,7 +806,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                Please ensure that you fill in all the mandatory sections (marked with an asterisk, *) in the form.\n" +
     "              </p>\n" +
     "              <p id=\"WelcomeMessage\" style=\"margin-left:8px; margin-top:-10px; font-size:1.2em\" ng-if=\"viewMode\">\n" +
-    "                {{legislation.legislationName}} <br />\n" +
+    "                <span style=\"font-weight:600\">{{legislation.legislationName}} </span><br />\n" +
     "                Enacted by {{legislation.enactment}}\n" +
     "\n" +
     "              </p>\n" +

@@ -1,5 +1,15 @@
 'use strict'
 angular.module('apptorney')
+  .filter('dateSuffix', function($filter) {
+      var suffixes = ["th", "st", "nd", "rd"];
+      return function(input) {
+        var dtfilter = $filter('date')(input, 'dd');
+        var day = parseInt(dtfilter.slice(-2));
+        var relevantDigits = (day < 30) ? day % 20 : day % 30;
+        var suffix = (relevantDigits <= 3) ? suffixes[relevantDigits] : suffixes[0];
+        return dtfilter+suffix;
+      };
+  })
   .controller('LegislationController', function($scope,Legislation, LegislationType, LegislationPart, PartType, $location, $global, datetime){
 
     $scope.selectedType = "";

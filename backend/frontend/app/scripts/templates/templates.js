@@ -812,7 +812,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "              </p>\n" +
     "            </div>\n" +
     "            <div class=\"col-xs-2\">\n" +
-    "              {{legislation.dateOfAssent | dateSuffix }} {{legislation.dateOfAssent | date:'MMMM, yyyy'}}\n" +
+    "              <!--{{legislation.dateOfAssent | dateSuffix }} --> {{legislation.dateOfAssent | date:'MMMM d, yyyy'}}\n" +
     "            </div>\n" +
     "          </div>\n" +
     "\n" +
@@ -993,7 +993,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                                    heading=\"\"\n" +
     "                                    ng-repeat=\"part in legislationParts\"\n" +
     "                                    dnd-draggable=\"part\"\n" +
-    "                                    dnd-moved=\"legislationParts.splice($index, 1)\"\n" +
+    "                                    dnd-moved=\"reOrder($index)\"\n" +
     "                                    dnd-effect-allowed=\"move\"\n" +
     "                                    dnd-selected=\"models.selected = part\"\n" +
     "                                    ng-class=\"{'selected': models.selected === part}\"\n" +

@@ -10,7 +10,7 @@ angular.module('apptorney')
         return dtfilter+suffix;
       };
   })
-  .controller('LegislationController', function($scope,Legislation, LegislationType, LegislationPart, PartType, $location, $global, datetime){
+  .controller('LegislationController', function($scope, $filter, Legislation, LegislationType, LegislationPart, PartType, $location, $global, datetime){
 
     $scope.selectedType = "";
     $scope.selected = false;
@@ -99,7 +99,7 @@ angular.module('apptorney')
 
               }
             );
-            $scope.legislations.push($scope.legislation);
+            //$scope.legislations.push($scope.legislation);
 
             $("#addLegislationModal").modal("hide");
 
@@ -157,7 +157,7 @@ angular.module('apptorney')
 
     $scope.legislations = Legislation.find(
       function(list) {
-        console.log(list);
+        //console.log(list);
         $scope.returned = true;
         $scope.showLegislations = true;
       },
@@ -186,25 +186,35 @@ angular.module('apptorney')
       if(typeof legislation.dateOfAssent == 'string'){
         legislation.dateOfAssent = legislation.dateOfAssent.substring(0,10);
         var parser = datetime("yyyy-MM-dd");
-        console.log(parser);
+        //console.log(parser);
         $scope.legislation.dateOfAssent = parser.parse(legislation.dateOfAssent).getDate();
-        console.log($scope.legislation.dateOfAssent);
+        //console.log($scope.legislation.dateOfAssent);
       }
       $scope.showParts = false;
       $scope.parts_returned = false;
 
-      $scope.legislationParts =  Legislation.legislationParts({id:legislation.id},
+      $scope.legislationParts =  Legislation.legislationParts({id:legislation.id, filter: {order: 'orderIndex ASC'}},
         function(parts) {
+          //var i = 0;
           parts.forEach(function(part){
             part.viewMode = false;
+            part.orderIndex = parseInt(part.orderIndex);
+
+            //part.orderIndex = i;
+            //i++;
           });
+
+
           $scope.showParts = true;
           $scope.parts_returned = true;
-
+          $scope.opened = true;
+          //$filter('orderBy')(parts,'orderIndex');
 
         },
         function(errorResponse) { }
       );
+
+
 
     }
 
@@ -251,6 +261,34 @@ angular.module('apptorney')
       }
     }
 
+    $scope.$watch('legislationParts', function(model) {
+      //$scope.modelAsJson = angular.toJson(model, true);
+      //$scope.legislationParts = model;
+      //console.log($scope.opened);
+      /*if($scope.opened){
+        var i = 0;
+        $scope.legislationParts.forEach(function(part){
+          part.orderIndex = i;
+          i++;
+        });
+        console.log(angular.toJson(model, true));
+      }*/
+
+
+    }, true);
+
+    $scope.reOrder = function(index){
+      //console.log(index);
+      $scope.legislationParts.splice(index, 1);
+      var i = 0;
+      $scope.legislationParts.forEach(function(part){
+        part.orderIndex = i;
+        i++;
+      });
+
+      //console.log(angular.toJson($scope.legislationParts, true));
+
+    }
 
 
 

@@ -18,7 +18,7 @@
               </p>
             </div>
             <div class="col-xs-2">
-              {{legislation.dateOfAssent | dateSuffix }} {{legislation.dateOfAssent | date:'MMMM, yyyy'}}
+              <!--{{legislation.dateOfAssent | dateSuffix }} --> {{legislation.dateOfAssent | date:'MMMM d, yyyy'}}
             </div>
           </div>
 
@@ -199,7 +199,7 @@
                                     heading=""
                                     ng-repeat="part in legislationParts"
                                     dnd-draggable="part"
-                                    dnd-moved="legislationParts.splice($index, 1)"
+                                    dnd-moved="reOrder($index)"
                                     dnd-effect-allowed="move"
                                     dnd-selected="models.selected = part"
                                     ng-class="{'selected': models.selected === part}"

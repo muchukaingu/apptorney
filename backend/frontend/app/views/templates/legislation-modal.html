@@ -171,7 +171,7 @@
 
                   <div class="row">
 
-                    <div class="col-xs-12" ng-style = "{'text-align':(legislation.legislationParts.length == 0)?'center':'left', 'border':(viewMode)?'none':'1px dashed #d3d3d3'}" style="border-radius:5px; height:auto; color:#d3d3d3; padding-top:20px; padding-bottom:60px; width:97%; margin-left:12px;">
+                    <div class="col-xs-12" ng-style = "'border':(viewMode)?'none':'1px dashed #d3d3d3'}" style="border-radius:5px; height:auto; color:#d3d3d3; padding-top:20px; padding-bottom:60px; width:97%; margin-left:12px;">
 
 
                         <div class="row">
@@ -204,7 +204,7 @@
                                         <a class="btn handletools expand" data-nodrag ng-click="toggle(this)">
                                           <span class="fa fa-fw" ng-class="{'fa-plus-square-o': collapsed, 'fa-minus-square-o': !collapsed}" ng-show="part.subParts.length"></span>
                                         </a>
-                                        <div class="pull-left" style="color:gray">{{part.title}}</div>
+                                        <div class="pull-left" style="color:gray">{{part.title?part.title:'New Component - '}}<span ng-if="!part.title"><em>Click Edit (Pencil) to Modify</em></span></div>
                                         <a class="pull-right btn handletools delete" data-nodrag ng-click="remove(this)"><span class="fa fa-fw fa-trash-o"></span></a>
                                         <a class="pull-right btn handletools edit" data-nodrag ng-click="editPart(this)" data-toggle="modal" data-target="#addLegislationPart"><span class="fa fa-fw fa-pencil"></span></a>
                                         <a class="pull-right btn handletools add" data-nodrag ng-click="newSubItem(this)"><span class="fa fa-fw fa-plus"></span></a>
@@ -226,7 +226,7 @@
                                     </panel-controls>
 
 
-                                      <div class="row">
+                                      <div class="row" ng-show="legislation.legislationParts.length > 0">
 
                                           <div class="col-lg-12">
                                             <div ui-tree="options">
@@ -257,7 +257,7 @@
 
 
 
-                        <span ng-show="legislation.legislationParts.length == 0 && parts_returned" style="font-size:1.5em; font-weight:100">Add Legislation Parts</span>
+                        <span ng-show="legislation.legislationParts.length == 0 && parts_returned" style="font-size:1.5em; font-weight:100; position:relative; left:42%">Add Legislation Parts</span>
                         <div ng-if="!showParts" style="font-size:1.5em; font-weight:100"><i ng-if="!parts_returned" class='fa fa-fw fa-sun-o fa-spin'></i> Loading. Please Wait...</div>
 
                     </div>

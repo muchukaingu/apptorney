@@ -965,7 +965,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "                  <div class=\"row\">\n" +
     "\n" +
-    "                    <div class=\"col-xs-12\" ng-style = \"{'text-align':(legislation.legislationParts.length == 0)?'center':'left', 'border':(viewMode)?'none':'1px dashed #d3d3d3'}\" style=\"border-radius:5px; height:auto; color:#d3d3d3; padding-top:20px; padding-bottom:60px; width:97%; margin-left:12px;\">\n" +
+    "                    <div class=\"col-xs-12\" ng-style = \"'border':(viewMode)?'none':'1px dashed #d3d3d3'}\" style=\"border-radius:5px; height:auto; color:#d3d3d3; padding-top:20px; padding-bottom:60px; width:97%; margin-left:12px;\">\n" +
     "\n" +
     "\n" +
     "                        <div class=\"row\">\n" +
@@ -998,7 +998,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                                        <a class=\"btn handletools expand\" data-nodrag ng-click=\"toggle(this)\">\n" +
     "                                          <span class=\"fa fa-fw\" ng-class=\"{'fa-plus-square-o': collapsed, 'fa-minus-square-o': !collapsed}\" ng-show=\"part.subParts.length\"></span>\n" +
     "                                        </a>\n" +
-    "                                        <div class=\"pull-left\" style=\"color:gray\">{{part.title}}</div>\n" +
+    "                                        <div class=\"pull-left\" style=\"color:gray\">{{part.title?part.title:'New Component - '}}<span ng-if=\"!part.title\"><em>Click Edit (Pencil) to Modify</em></span></div>\n" +
     "                                        <a class=\"pull-right btn handletools delete\" data-nodrag ng-click=\"remove(this)\"><span class=\"fa fa-fw fa-trash-o\"></span></a>\n" +
     "                                        <a class=\"pull-right btn handletools edit\" data-nodrag ng-click=\"editPart(this)\" data-toggle=\"modal\" data-target=\"#addLegislationPart\"><span class=\"fa fa-fw fa-pencil\"></span></a>\n" +
     "                                        <a class=\"pull-right btn handletools add\" data-nodrag ng-click=\"newSubItem(this)\"><span class=\"fa fa-fw fa-plus\"></span></a>\n" +
@@ -1020,7 +1020,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                                    </panel-controls>\n" +
     "\n" +
     "\n" +
-    "                                      <div class=\"row\">\n" +
+    "                                      <div class=\"row\" ng-show=\"legislation.legislationParts.length > 0\">\n" +
     "\n" +
     "                                          <div class=\"col-lg-12\">\n" +
     "                                            <div ui-tree=\"options\">\n" +
@@ -1051,7 +1051,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "\n" +
     "\n" +
-    "                        <span ng-show=\"legislation.legislationParts.length == 0 && parts_returned\" style=\"font-size:1.5em; font-weight:100\">Add Legislation Parts</span>\n" +
+    "                        <span ng-show=\"legislation.legislationParts.length == 0 && parts_returned\" style=\"font-size:1.5em; font-weight:100; position:relative; left:42%\">Add Legislation Parts</span>\n" +
     "                        <div ng-if=\"!showParts\" style=\"font-size:1.5em; font-weight:100\"><i ng-if=\"!parts_returned\" class='fa fa-fw fa-sun-o fa-spin'></i> Loading. Please Wait...</div>\n" +
     "\n" +
     "                    </div>\n" +

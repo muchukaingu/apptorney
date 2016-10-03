@@ -53,10 +53,10 @@ angular
 
     $scope.newSubItem = function(scope) {
       var nodeData = scope.$modelValue;
-      nodeData.items.push({
-        id: nodeData.id * 10 + nodeData.items.length,
-        title: nodeData.title + '.' + (nodeData.items.length + 1),
-        items: []
+      nodeData.subParts.push({
+        id: nodeData.id * 10 + nodeData.subParts.length,
+        title: nodeData.title + '.' + (nodeData.subParts.length + 1),
+        subParts: []
       });
     };
   }])

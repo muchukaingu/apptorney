@@ -954,58 +954,92 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "                </span>\n" +
     "\n" +
-    "                <span ng-if=\"viewMode\">\n" +
-    "                    <div class=\"row\">\n" +
-    "                      <div class=\"col-xs-12\" style=\"padding-left:16px\">\n" +
-    "                        <h2 style=\"margin-bottom:-20px;\">Preamble</h2>\n" +
-    "                        <br/>{{legislation.preamble}}\n" +
-    "                      </div>\n" +
     "\n" +
-    "                    </div>\n" +
-    "                </span>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
     "\n" +
     "\n" +
     "\n" +
     "\n" +
     "                  <div class=\"row\">\n" +
     "\n" +
-    "                    <div class=\"col-xs-12\" ng-style = \"{'text-align':(legislationParts.length == 0)?'center':'left', 'border':(viewMode)?'none':'1px dashed #d3d3d3'}\" style=\"border-radius:5px; height:auto; color:#d3d3d3; padding-top:20px; padding-bottom:60px; width:97%; margin-left:12px;\">\n" +
+    "                    <div class=\"col-xs-12\" ng-style = \"{'text-align':(legislation.legislationParts.length == 0)?'center':'left', 'border':(viewMode)?'none':'1px dashed #d3d3d3'}\" style=\"border-radius:5px; height:auto; color:#d3d3d3; padding-top:20px; padding-bottom:60px; width:97%; margin-left:12px;\">\n" +
     "\n" +
-    "                        <h2 ng-style=\"{'margin-bottom':(viewMode)?'-20px':'0px', 'margin-left':(viewMode)?'-8px':'0px'}\">Legislation Parts</h2>\n" +
+    "\n" +
     "                        <div class=\"row\">\n" +
-    "                          <div class=\"col-xs-12\" ng-repeat=\"part in legislationParts\" style=\"margin-top:5px\">\n" +
-    "\n" +
-    "                              <ng-include src=\"'templates/legislation-part-form.html'\" ng-if=\"!viewMode\"></ng-include>\n" +
-    "\n" +
-    "                          </div>\n" +
     "\n" +
     "\n" +
     "\n" +
-    "                          \t\t<div class=\"row\" style=\"margin-bottom:20px\">\n" +
     "\n" +
     "\n" +
     "\n" +
-    "                          \t\t</div>\n" +
     "\n" +
-    "                          \t\t<accordion close-others=\"true\" class=\"panel-success\" style=\"width:80%\" dnd-list=\"legislationParts\" ng-if=\"viewMode\">\n" +
+    "                              <div class=\"container-fluid\" ng-controller=\"NestedTreeDemoController\">\n" +
     "\n" +
-    "                          \t\t    <accordion-group\n" +
-    "                                    heading=\"\"\n" +
-    "                                    ng-repeat=\"part in legislationParts\"\n" +
-    "                                    dnd-draggable=\"part\"\n" +
-    "                                    dnd-moved=\"reOrder($index)\"\n" +
-    "                                    dnd-effect-allowed=\"move\"\n" +
-    "                                    dnd-selected=\"models.selected = part\"\n" +
-    "                                    ng-class=\"{'selected': models.selected === part}\"\n" +
-    "                                    >\n" +
-    "                                    <accordion-heading>\n" +
-    "                                        {{part.title}}<i class=\"pull-right fa\" ng-class=\"{'fa-angle-down': status.open, 'fa-angle-left': !status.open}\"></i>\n" +
-    "                                    </accordion-heading>\n" +
-    "                                    {{part.content}}\n" +
-    "                          \t\t    </accordion-group>\n" +
+    "                                <panel heading=\"Preamble\" ng-if=\"viewMode\">\n" +
+    "                                  <panel-controls>\n" +
+    "                                        <a href=\"\"><panel-control-collapse class=\"fa fa-chevron-down\"></panel-control-collapse></a>\n" +
     "\n" +
     "\n" +
-    "                          \t\t</accordion>\n" +
+    "\n" +
+    "                                  </panel-controls>\n" +
+    "                                  <div class=\"row\">\n" +
+    "\n" +
+    "                                      <div class=\"col-lg-12\">\n" +
+    "                                        {{legislation.preamble}}\n" +
+    "                                      </div>\n" +
+    "                                  </div>\n" +
+    "                                </panel>\n" +
+    "\n" +
+    "                                    <script type=\"text/ng-template\" id=\"items_renderer.html\">\n" +
+    "                                      <div ui-tree-handle style=\"padding-bottom:27px\">\n" +
+    "                                        <a class=\"btn handletools expand\" data-nodrag ng-click=\"toggle(this)\">\n" +
+    "                                          <span class=\"fa fa-fw\" ng-class=\"{'fa-plus-square-o': collapsed, 'fa-minus-square-o': !collapsed}\" ng-show=\"part.subParts.length\"></span>\n" +
+    "                                        </a>\n" +
+    "                                        <div class=\"pull-left\" style=\"color:gray\">{{part.title}}</div>\n" +
+    "                                        <a class=\"pull-right btn handletools delete\" data-nodrag ng-click=\"remove(this)\"><span class=\"fa fa-fw fa-trash-o\"></span></a>\n" +
+    "                                        <a class=\"pull-right btn handletools edit\" data-nodrag ng-click=\"editPart(this)\" data-toggle=\"modal\" data-target=\"#addLegislationPart\"><span class=\"fa fa-fw fa-pencil\"></span></a>\n" +
+    "                                        <a class=\"pull-right btn handletools add\" data-nodrag ng-click=\"newSubItem(this)\"><span class=\"fa fa-fw fa-plus\"></span></a>\n" +
+    "                                      </div>\n" +
+    "                                      <ol ui-tree-nodes=\"options\" ng-model=\"part.subParts\" ng-class=\"{hidden: collapsed}\">\n" +
+    "                                        <li ng-repeat=\"part in part.subParts\" ui-tree-node ng-include=\"'items_renderer.html'\">\n" +
+    "\n" +
+    "                                        </li>\n" +
+    "                                      </ol>\n" +
+    "                                      </div ui-tree-handle>\n" +
+    "                                    </script>\n" +
+    "\n" +
+    "                                  <panel heading=\"Legislation Components\">\n" +
+    "                                    <panel-controls>\n" +
+    "                                          <a href=\"\"><panel-control-collapse class=\"fa fa-chevron-down\"></panel-control-collapse></a>\n" +
+    "                                          <a href=\"javascript:;\" ng-click=\"addLegislationPart()\"><i class=\"fa fa-plus\"></i></a>\n" +
+    "\n" +
+    "\n" +
+    "                                    </panel-controls>\n" +
+    "\n" +
+    "\n" +
+    "                                      <div class=\"row\">\n" +
+    "\n" +
+    "                                          <div class=\"col-lg-12\">\n" +
+    "                                            <div ui-tree=\"options\">\n" +
+    "                                              <ol ui-tree-nodes ng-model=\"legislation.legislationParts\" >\n" +
+    "                                                <li ng-repeat=\"part in legislation.legislationParts\" ui-tree-node ng-include=\"'items_renderer.html'\"></li>\n" +
+    "                                              </ol>\n" +
+    "                                            </div>\n" +
+    "                                          </div>\n" +
+    "\n" +
+    "                                          <!--div class=\"col-lg-6\">\n" +
+    "                                              <h3>Full tree</h3>\n" +
+    "                                              <pre class=\"code\">{{ legislation | json }}</pre>\n" +
+    "                                          </div-->\n" +
+    "\n" +
+    "                                      </div>\n" +
+    "\n" +
+    "                                  </panel>\n" +
+    "\n" +
+    "                              </div> <!-- container -->\n" +
     "\n" +
     "\n" +
     "\n" +
@@ -1013,15 +1047,11 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "                        </div>\n" +
     "\n" +
-    "                        <div class=\"row\" style=\"margin-top:15px; margin-right:-50px\">\n" +
-    "                          <div class=\"col-xs-1 pull-right\">\n" +
-    "                            <a ng-click=\"addLegislationPart()\"><i style=\"font-size:2em; z-index:10000\"  class=\"fa fa-plus\"></i></a>\n" +
-    "                          </div>\n" +
-    "                        </div>\n" +
     "\n" +
     "\n" +
     "\n" +
-    "                        <span ng-show=\"legislationParts.length == 0 && parts_returned\" style=\"font-size:1.5em; font-weight:100\">Add Legislation Parts</span>\n" +
+    "\n" +
+    "                        <span ng-show=\"legislation.legislationParts.length == 0 && parts_returned\" style=\"font-size:1.5em; font-weight:100\">Add Legislation Parts</span>\n" +
     "                        <div ng-if=\"!showParts\" style=\"font-size:1.5em; font-weight:100\"><i ng-if=\"!parts_returned\" class='fa fa-fw fa-sun-o fa-spin'></i> Loading. Please Wait...</div>\n" +
     "\n" +
     "                    </div>\n" +
@@ -1052,22 +1082,19 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "    </div>\n" +
     " </div>\n" +
     "</div>\n" +
-    "<ng-include src=\"'templates/legislation-part-modal.html'\"></ng-include>\n" +
+    "\n" +
     "</div>\n" +
     "\n" +
-    "\n" +
-    "<ng-include src=\"'templates/legislation-type-modal.html'\"></ng-include>\n"
+    "<ng-include src=\"'templates/legislation-part-modal.html'\"></ng-include>\n"
   );
 
 
   $templateCache.put('templates/legislation-part-form.html',
-    "<h3>{{part.title}}</h3>\n" +
-    "\n" +
     "<form id =\"applicationForm\" name=\"form\" class=\"css-form\" novalidate>\n" +
     "    <div class=\"row\">\n" +
     "\n" +
     "      <div class=\"col-xs-12 col-md-3 form-group\">\n" +
-    "        <select class=\"form-control\" ng-model = \"part.partType\" ng-options=\"type.name for type in legislationPartTypes track by type.id\" id=\"partType\">\n" +
+    "        <select class=\"form-control\" ng-model = \"legislationPart.partType\" ng-options=\"type.name for type in legislationPartTypes track by type.id\" id=\"partType\">\n" +
     "            <!--option value=\"\" disabled selected>\n" +
     "              <span style=\"font-weight:600\">Select Part Type...</span>\n" +
     "            </option>\n" +
@@ -1079,7 +1106,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "      </div>\n" +
     "\n" +
     "      <div class=\"col-xs-12 col-md-9 form-group\">\n" +
-    "        <input id=\"court-name\" name=\"court-name\" type=\"text\" class=\"form-control\" ng-model=\"part.title\" ng-minlength=2 ng-focus required placeholder=\"Title\"/>\n" +
+    "        <input id=\"court-name\" name=\"court-name\" type=\"text\" class=\"form-control\" ng-model=\"legislationPart.title\" ng-minlength=2 ng-focus required placeholder=\"Title\"/>\n" +
     "        <div class=\"text-danger\" ng-show=\"form.$submitted && form.court-name.$invalid || form.court-name.$dirty && form.court-name.$invalid && !form.court-name.$focused\">\n" +
     "\n" +
     "          <span ng-show=\"form.court-name.$error.required\">Title is required</span>\n" +
@@ -1092,7 +1119,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "\n" +
     "      <div class=\"col-xs-12 col-md-12 form-group\">\n" +
-    "          <textarea id=\"preamble\" name=\"preamble\" type=\"text\" style=\"height: 90px; width:100%\"; min-word-count=\"2\"  class=\"form-control\" ng-model=\"part.content\"  ng-minlength=2 required ng-focus placeholder=\"Content *\"/>\n" +
+    "          <textarea id=\"preamble\" name=\"preamble\" type=\"text\" style=\"height: 90px; width:100%\"; min-word-count=\"2\"  class=\"form-control\" ng-model=\"legislationPart.content\"  ng-minlength=2 required ng-focus placeholder=\"Content *\"/>\n" +
     "          <div class=\"text-danger\" ng-show=\"form.$submitted && form.preamble.$invalid || form.preamble.$dirty && form.preamble.$invalid && !form.preamble.$focused\">\n" +
     "\n" +
     "          <span ng-show=\"form.preamble.$error.required\">Content is required</span>\n" +
@@ -1101,16 +1128,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "        </div>\n" +
     "      </div>\n" +
     "\n" +
-    "      <div class=\"col-xs-12 col-md-12 form-group\" ng-if=\"legislationParts.length > 1\">\n" +
-    "        <select id=\"court\" ui-select2=\"{minimumInputLength: 2, width: 'resolve'}\" ng-model=\"part.parentPart\"  onchange=\"showCustomerDetails()\" style=\"font-weight: 700; width:100%; position: relative; vertical-align: middle; background-color: white\" class=\"ng-pristine ng-valid select2-offscreen\" tabindex=\"-1\" title=\"\" placeholder = \"Parent Part\" >\n" +
-    "          <option ng-repeat=\"legislationPart in legislationParts\" value=\"{{legislationPart.id}}\" disabled>\n" +
-    "            Select Parent...\n" +
-    "          </option>\n" +
-    "            <option ng-repeat=\"legislationPart in legislationParts\" value=\"{{legislationPart.id}}\">\n" +
-    "              {{legislationPart.title + \": \" + legislationPart.content}}\n" +
-    "            </option>\n" +
-    "        </select>\n" +
-    "      </div>\n" +
+    "\n" +
     "\n" +
     "\n" +
     "\n" +
@@ -1134,7 +1152,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "      <div class=\"modal-header\" style=\"border-bottom:none\">\n" +
     "          <button type=\"button\" id=\"closeModal\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>\n" +
     "\n" +
-    "        <h4 style=\"font-weight: 100;\"><span id=\"CustomerHeading\">&nbsp&nbspAdd Legislation Part</span></h4>\n" +
+    "        <h4 style=\"font-weight: 100;\"><span id=\"CustomerHeading\">&nbsp&nbspEdit {{legislationPart.title}}</span></h4>\n" +
     "        <p id=\"WelcomeMessage\" style=\"margin-left:12px\">\n" +
     "          Please ensure that you fill in all the mandatory sections in the form.\n" +
     "        </p>\n" +
@@ -1143,72 +1161,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "      <div class=\"modal-body\" style=\"margin-bottom: none; padding-top: 0px; border-bottom:none\">\n" +
     "\n" +
     "        <!-- Start Form-->\n" +
-    "        <form id =\"applicationForm\" name=\"form\" class=\"css-form\"  novalidate>\n" +
-    "            <div class=\"row\">\n" +
-    "\n" +
-    "              <div class=\"col-xs-12 col-md-6 form-group\">\n" +
-    "                <div class=\"btn-group\" data-dropdown>\n" +
-    "                  <button type=\"button\" class=\"btn btn-default-alt dropdown-toggle alt-border\" id=\"typeSelector\">\n" +
-    "                    <span ng-if=\"!partTypeSelected\">Select Part Type</span><span ng-if=\"partTypeSelected\">Part Type:&nbsp;{{selectedPartType}}</span>  &nbsp;\n" +
-    "                    <i class=\"fa fa-caret-down\"></i>\n" +
-    "                  </button>\n" +
-    "                  <ul class=\"dropdown-menu\" role=\"menu\" style=\"text-align: left; left:0; right:0\">\n" +
-    "                     <li ng-repeat=\"partType in legislationPartTypes\"><a class=\"dropdown-toggle\" ng-click=\"selectPartType(partType)\">{{partType.name}}</a></li>\n" +
-    "                     <li><a a class=\"dropdown-toggle\" data-toggle=\"modal\" data-target=\"#addLegislationTypeModal\"><i class=\"fa fa-plus\"></i>&nbsp;Add Part Type</a></li>\n" +
-    "                  </ul>\n" +
-    "                </div>\n" +
-    "              </div>\n" +
-    "\n" +
-    "\n" +
-    "              <div class=\"col-xs-12 form-group\">\n" +
-    "                <input id=\"court-name\" name=\"court-name\" type=\"text\" class=\"form-control\" ng-model=\"legislationPart.title\" ng-minlength=2 ng-focus required placeholder=\"Title\"/>\n" +
-    "                <div class=\"text-danger\" ng-show=\"form.$submitted && form.court-name.$invalid || form.court-name.$dirty && form.court-name.$invalid && !form.court-name.$focused\">\n" +
-    "\n" +
-    "                  <span ng-show=\"form.court-name.$error.required\">Title is required</span>\n" +
-    "                  <span ng-show=\"form.court-name.$error.minlength\">Title is required to be at least 2 characters long</span>\n" +
-    "\n" +
-    "                </div>\n" +
-    "              </div>\n" +
-    "\n" +
-    "              <div class=\"col-xs-12 col-md-12 form-group\">\n" +
-    "                  <textarea id=\"preamble\" name=\"preamble\" type=\"text\" style=\"height: 220px; width:100%\"; min-word-count=\"2\"  class=\"form-control\" ng-model=\"legislationPart.content\"  ng-minlength=2 required ng-focus placeholder=\"Content\"/>\n" +
-    "                  <div class=\"text-danger\" ng-show=\"form.$submitted && form.preamble.$invalid || form.preamble.$dirty && form.preamble.$invalid && !form.preamble.$focused\">\n" +
-    "\n" +
-    "                  <span ng-show=\"form.preamble.$error.required\">Content is required</span>\n" +
-    "                  <span ng-show=\"form.preamble.$error.minlength\">Content is required to be at least 2 characters long</span>\n" +
-    "\n" +
-    "                </div>\n" +
-    "              </div>\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "              <div class=\"col-xs-6 form-group\">\n" +
-    "                <span id=\"sectionHeading\" style=\"margin-bottom:20px\">Parent Part</span>\n" +
-    "                <select id=\"court\" ui-select2=\"{minimumInputLength: 2, width: 'resolve'}\" ng-model=\"legislationPart.parentPart\"  onchange=\"showCustomerDetails()\" style=\"font-weight: 700; width:100%; position: relative; vertical-align: middle; background-color: white\" class=\"ng-pristine ng-valid select2-offscreen\" tabindex=\"-1\" title=\"\" >\n" +
-    "\n" +
-    "                </select>\n" +
-    "              </div>\n" +
-    "\n" +
-    "              <div class=\"col-xs-6 form-group\">\n" +
-    "                <span id=\"sectionHeading\" style=\"margin-bottom:20px\">Legislation</span>\n" +
-    "                <select id=\"court\" ui-select2=\"{minimumInputLength: 2, width: 'resolve'}\" ng-model=\"legislationPart.legislation\"  onchange=\"showCustomerDetails()\" style=\"font-weight: 700; width:100%; position: relative; vertical-align: middle; background-color: white\" class=\"ng-pristine ng-valid select2-offscreen\" tabindex=\"-1\" title=\"\" >\n" +
-    "\n" +
-    "                </select>\n" +
-    "              </div>\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "            </div>\n" +
-    "\n" +
-    "            <div class = \"form-group\">\n" +
-    "              <button id=\"submit\" type=\"submit\" class=\"btn btn-primary-alt pull-right\" ng-click=\"addLegislationPart()\" style=\"width:120px\">Add Part</button>\n" +
-    "\n" +
-    "\n" +
-    "              <div id=\"submitAppMsg\" class=\"pull-left\" style=\"font-size: larger; position: relative; top: 5px\"></div>\n" +
-    "            </div>\n" +
-    "\n" +
-    "        </form>\n" +
+    "        <ng-include src=\"'templates/legislation-part-form.html'\"></ng-include>\n" +
     "\n" +
     "\n" +
     "\n" +

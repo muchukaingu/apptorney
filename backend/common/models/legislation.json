@@ -49,6 +49,10 @@
     "legislationType": {
       "type": "string",
       "required": true
+    },
+    "legislationParts":{
+      "type": ["legislationPart"],
+      "required": false
     }
   },
   "validations": [],
@@ -57,11 +61,6 @@
       "type": "hasMany",
       "model": "case",
       "foreignKey": ""
-    },
-    "legislationParts": {
-      "type": "hasMany",
-      "model": "legislationPart",
-      "foreignKey": "legislation"
     }
   },
   "acls": [],

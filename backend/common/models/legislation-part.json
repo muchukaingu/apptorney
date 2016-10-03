@@ -10,30 +10,21 @@
       "type": "string",
       "required": true
     },
-    "parentPart": {
-      "type": "string",
-      "required": false
-    },
     "content": {
-      "type": "string",
-      "required": true
-    },
-    "legislation": {
       "type": "string",
       "required": true
     },
     "partType": {
       "type": "string",
       "required": true
+    },
+    "subParts": {
+      "type": ["legislationPart"],
+      "required": true
     }
   },
   "validations": [],
   "relations": {
-    "legislation": {
-      "type": "belongsTo",
-      "model": "legislation",
-      "foreignKey": "legislation"
-    },
     "partType": {
       "type": "belongsTo",
       "model": "partType",

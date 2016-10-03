@@ -15,6 +15,7 @@ angular.module('apptorney')
     $scope.selectedType = "";
     $scope.selected = false;
     $scope.legislation = {};
+    $scope.legislationPart = {};
     $scope.returned = false;
     $scope.showLegislations = false;
     $scope.message = "Loading...";
@@ -79,11 +80,17 @@ angular.module('apptorney')
 
     }
 
+
+
+
     $scope.typeSelected = function(typeOfLegislation){
       $scope.selected = true;
       $scope.legislation.legislationType = typeOfLegislation.id
       $scope.selectedType = typeOfLegislation.name;
     }
+
+
+
 
     $scope.saveLegislation = function(){
             $scope.legislation.generalTitle = "Government of Zambia";
@@ -105,6 +112,10 @@ angular.module('apptorney')
 
     }
 
+
+
+
+
     $scope.deleteLegislation = function(legislationID){
       Legislation.legislationParts.destroyAll({id:legislationID})
       .$promise
@@ -125,6 +136,9 @@ angular.module('apptorney')
 
     }
 
+
+
+
     $scope.deleteLegislationType = function(legislationTypeID){
       LegislationType.deleteById({ id: legislationTypeID })
       .$promise
@@ -139,6 +153,9 @@ angular.module('apptorney')
       });
 
     }
+
+
+
 
     $scope.deleteLegislationPartType = function(legislationPartTypeID){
       PartType.deleteById({ id: legislationPartTypeID })
@@ -155,6 +172,9 @@ angular.module('apptorney')
 
     }
 
+
+
+
     $scope.legislations = Legislation.find(
       function(list) {
         //console.log(list);
@@ -164,11 +184,18 @@ angular.module('apptorney')
       function(errorResponse) { }
     );
 
+
+
+
     $scope.newLegislation = function(){ //fires when user opens the create modal for the first time
       $scope.legislation = {};
-      $scope.legislationParts = [];
+      $scope.legislation.legislationParts = [];
       $scope.selected=false;
     }
+
+
+
+
 
     $scope.openLegislation = function(legislation){
       $scope.models = {
@@ -190,10 +217,10 @@ angular.module('apptorney')
         $scope.legislation.dateOfAssent = parser.parse(legislation.dateOfAssent).getDate();
         //console.log($scope.legislation.dateOfAssent);
       }
-      $scope.showParts = false;
-      $scope.parts_returned = false;
+      $scope.showParts = true;
+      $scope.parts_returned = true;
 
-      $scope.legislationParts =  Legislation.legislationParts({id:legislation.id, filter: {order: 'orderIndex ASC'}},
+      /*$scope.legislationParts =  Legislation.legislationParts({id:legislation.id, filter: {order: 'orderIndex ASC'}},
         function(parts) {
           //var i = 0;
           parts.forEach(function(part){
@@ -212,7 +239,7 @@ angular.module('apptorney')
 
         },
         function(errorResponse) { }
-      );
+      ); */
 
 
 
@@ -243,9 +270,9 @@ angular.module('apptorney')
     $scope.legislationParts = [];
 
     $scope.addLegislationPart = function(){
-      $scope.legislationParts.push(angular.copy($scope.legislationPart));
+      $scope.legislation.legislationParts.push({});
       //$("#addLegislationPart").modal("hide");
-      console.log($scope.legislationParts);
+      console.log($scope.legislation.legislationParts);
     }
 
     $scope.openAddLegislationPartModal = function(){
@@ -288,6 +315,10 @@ angular.module('apptorney')
 
       //console.log(angular.toJson($scope.legislationParts, true));
 
+    }
+
+    $scope.editPart = function(scope){
+      $scope.legislationPart = scope.$modelValue;
     }
 
 

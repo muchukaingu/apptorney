@@ -8052,9 +8052,9 @@ module.factory(
       { 'id': '@id' },
       {
 
-        // INTERNAL. Use LegislationPart.legislation() instead.
-        "prototype$__get__legislation": {
-          url: urlBase + "/legislationParts/:id/legislation",
+        // INTERNAL. Use LegislationPart.partType() instead.
+        "prototype$__get__partType": {
+          url: urlBase + "/legislationParts/:id/partType",
           method: "GET"
         },
 
@@ -8480,62 +8480,62 @@ module.factory(
           method: "POST"
         },
 
-        // INTERNAL. Use Legislation.legislationParts.findById() instead.
-        "::findById::legislation::legislationParts": {
+        // INTERNAL. Use PartType.legislationParts.findById() instead.
+        "::findById::partType::legislationParts": {
           params: {
           'fk': '@fk'
           },
-          url: urlBase + "/legislations/:id/legislationParts/:fk",
+          url: urlBase + "/partTypes/:id/legislationParts/:fk",
           method: "GET"
         },
 
-        // INTERNAL. Use Legislation.legislationParts.destroyById() instead.
-        "::destroyById::legislation::legislationParts": {
+        // INTERNAL. Use PartType.legislationParts.destroyById() instead.
+        "::destroyById::partType::legislationParts": {
           params: {
           'fk': '@fk'
           },
-          url: urlBase + "/legislations/:id/legislationParts/:fk",
+          url: urlBase + "/partTypes/:id/legislationParts/:fk",
           method: "DELETE"
         },
 
-        // INTERNAL. Use Legislation.legislationParts.updateById() instead.
-        "::updateById::legislation::legislationParts": {
+        // INTERNAL. Use PartType.legislationParts.updateById() instead.
+        "::updateById::partType::legislationParts": {
           params: {
           'fk': '@fk'
           },
-          url: urlBase + "/legislations/:id/legislationParts/:fk",
+          url: urlBase + "/partTypes/:id/legislationParts/:fk",
           method: "PUT"
         },
 
-        // INTERNAL. Use Legislation.legislationParts() instead.
-        "::get::legislation::legislationParts": {
+        // INTERNAL. Use PartType.legislationParts() instead.
+        "::get::partType::legislationParts": {
           isArray: true,
-          url: urlBase + "/legislations/:id/legislationParts",
+          url: urlBase + "/partTypes/:id/legislationParts",
           method: "GET"
         },
 
-        // INTERNAL. Use Legislation.legislationParts.create() instead.
-        "::create::legislation::legislationParts": {
-          url: urlBase + "/legislations/:id/legislationParts",
+        // INTERNAL. Use PartType.legislationParts.create() instead.
+        "::create::partType::legislationParts": {
+          url: urlBase + "/partTypes/:id/legislationParts",
           method: "POST"
         },
 
-        // INTERNAL. Use Legislation.legislationParts.createMany() instead.
-        "::createMany::legislation::legislationParts": {
+        // INTERNAL. Use PartType.legislationParts.createMany() instead.
+        "::createMany::partType::legislationParts": {
           isArray: true,
-          url: urlBase + "/legislations/:id/legislationParts",
+          url: urlBase + "/partTypes/:id/legislationParts",
           method: "POST"
         },
 
-        // INTERNAL. Use Legislation.legislationParts.destroyAll() instead.
-        "::delete::legislation::legislationParts": {
-          url: urlBase + "/legislations/:id/legislationParts",
+        // INTERNAL. Use PartType.legislationParts.destroyAll() instead.
+        "::delete::partType::legislationParts": {
+          url: urlBase + "/partTypes/:id/legislationParts",
           method: "DELETE"
         },
 
-        // INTERNAL. Use Legislation.legislationParts.count() instead.
-        "::count::legislation::legislationParts": {
-          url: urlBase + "/legislations/:id/legislationParts/count",
+        // INTERNAL. Use PartType.legislationParts.count() instead.
+        "::count::partType::legislationParts": {
+          url: urlBase + "/partTypes/:id/legislationParts/count",
           method: "GET"
         },
       }
@@ -8683,12 +8683,12 @@ module.factory(
 
         /**
          * @ngdoc method
-         * @name apiServices.LegislationPart#legislation
+         * @name apiServices.LegislationPart#partType
          * @methodOf apiServices.LegislationPart
          *
          * @description
          *
-         * Fetches belongsTo relation legislation.
+         * Fetches belongsTo relation partType.
          *
          * @param {Object=} parameters Request parameters.
          *
@@ -8708,12 +8708,12 @@ module.factory(
          *
          * <em>
          * (The remote method definition does not provide any description.
-         * This usually means the response is a `Legislation` object.)
+         * This usually means the response is a `PartType` object.)
          * </em>
          */
-        R.legislation = function() {
-          var TargetResource = $injector.get("Legislation");
-          var action = TargetResource["::get::legislationPart::legislation"];
+        R.partType = function() {
+          var TargetResource = $injector.get("PartType");
+          var action = TargetResource["::get::legislationPart::partType"];
           return action.apply(R, arguments);
         };
 
@@ -8744,6 +8744,58 @@ module.factory(
       urlBase + "/partTypes/:id",
       { 'id': '@id' },
       {
+
+        // INTERNAL. Use PartType.legislationParts.findById() instead.
+        "prototype$__findById__legislationParts": {
+          params: {
+          'fk': '@fk'
+          },
+          url: urlBase + "/partTypes/:id/legislationParts/:fk",
+          method: "GET"
+        },
+
+        // INTERNAL. Use PartType.legislationParts.destroyById() instead.
+        "prototype$__destroyById__legislationParts": {
+          params: {
+          'fk': '@fk'
+          },
+          url: urlBase + "/partTypes/:id/legislationParts/:fk",
+          method: "DELETE"
+        },
+
+        // INTERNAL. Use PartType.legislationParts.updateById() instead.
+        "prototype$__updateById__legislationParts": {
+          params: {
+          'fk': '@fk'
+          },
+          url: urlBase + "/partTypes/:id/legislationParts/:fk",
+          method: "PUT"
+        },
+
+        // INTERNAL. Use PartType.legislationParts() instead.
+        "prototype$__get__legislationParts": {
+          isArray: true,
+          url: urlBase + "/partTypes/:id/legislationParts",
+          method: "GET"
+        },
+
+        // INTERNAL. Use PartType.legislationParts.create() instead.
+        "prototype$__create__legislationParts": {
+          url: urlBase + "/partTypes/:id/legislationParts",
+          method: "POST"
+        },
+
+        // INTERNAL. Use PartType.legislationParts.destroyAll() instead.
+        "prototype$__delete__legislationParts": {
+          url: urlBase + "/partTypes/:id/legislationParts",
+          method: "DELETE"
+        },
+
+        // INTERNAL. Use PartType.legislationParts.count() instead.
+        "prototype$__count__legislationParts": {
+          url: urlBase + "/partTypes/:id/legislationParts/count",
+          method: "GET"
+        },
 
         /**
          * @ngdoc method
@@ -9166,6 +9218,12 @@ module.factory(
           url: urlBase + "/partTypes/change-stream",
           method: "POST"
         },
+
+        // INTERNAL. Use LegislationPart.partType() instead.
+        "::get::legislationPart::partType": {
+          url: urlBase + "/legislationParts/:id/partType",
+          method: "GET"
+        },
       }
     );
 
@@ -9308,6 +9366,307 @@ module.factory(
     */
     R.modelName = "PartType";
 
+    /**
+     * @ngdoc object
+     * @name apiServices.PartType.legislationParts
+     * @header apiServices.PartType.legislationParts
+     * @object
+     * @description
+     *
+     * The object `PartType.legislationParts` groups methods
+     * manipulating `LegislationPart` instances related to `PartType`.
+     *
+     * Call {@link apiServices.PartType#legislationParts PartType.legislationParts()}
+     * to query all related instances.
+     */
+
+
+        /**
+         * @ngdoc method
+         * @name apiServices.PartType#legislationParts
+         * @methodOf apiServices.PartType
+         *
+         * @description
+         *
+         * Queries legislationParts of partType.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - PersistedModel id
+         *
+         *  - `filter` – `{object=}` - 
+         *
+         * @param {function(Array.<Object>,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Array.<Object>} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `LegislationPart` object.)
+         * </em>
+         */
+        R.legislationParts = function() {
+          var TargetResource = $injector.get("LegislationPart");
+          var action = TargetResource["::get::partType::legislationParts"];
+          return action.apply(R, arguments);
+        };
+
+        /**
+         * @ngdoc method
+         * @name apiServices.PartType.legislationParts#count
+         * @methodOf apiServices.PartType.legislationParts
+         *
+         * @description
+         *
+         * Counts legislationParts of partType.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - PersistedModel id
+         *
+         *  - `where` – `{object=}` - Criteria to match model instances
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * Data properties:
+         *
+         *  - `count` – `{number=}` - 
+         */
+        R.legislationParts.count = function() {
+          var TargetResource = $injector.get("LegislationPart");
+          var action = TargetResource["::count::partType::legislationParts"];
+          return action.apply(R, arguments);
+        };
+
+        /**
+         * @ngdoc method
+         * @name apiServices.PartType.legislationParts#create
+         * @methodOf apiServices.PartType.legislationParts
+         *
+         * @description
+         *
+         * Creates a new instance in legislationParts of this model.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - PersistedModel id
+         *
+         * @param {Object} postData Request data.
+         *
+         * This method expects a subset of model properties as request parameters.
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `LegislationPart` object.)
+         * </em>
+         */
+        R.legislationParts.create = function() {
+          var TargetResource = $injector.get("LegislationPart");
+          var action = TargetResource["::create::partType::legislationParts"];
+          return action.apply(R, arguments);
+        };
+
+        /**
+         * @ngdoc method
+         * @name apiServices.PartType.legislationParts#createMany
+         * @methodOf apiServices.PartType.legislationParts
+         *
+         * @description
+         *
+         * Creates a new instance in legislationParts of this model.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - PersistedModel id
+         *
+         * @param {Object} postData Request data.
+         *
+         * This method expects a subset of model properties as request parameters.
+         *
+         * @param {function(Array.<Object>,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Array.<Object>} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `LegislationPart` object.)
+         * </em>
+         */
+        R.legislationParts.createMany = function() {
+          var TargetResource = $injector.get("LegislationPart");
+          var action = TargetResource["::createMany::partType::legislationParts"];
+          return action.apply(R, arguments);
+        };
+
+        /**
+         * @ngdoc method
+         * @name apiServices.PartType.legislationParts#destroyAll
+         * @methodOf apiServices.PartType.legislationParts
+         *
+         * @description
+         *
+         * Deletes all legislationParts of this model.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - PersistedModel id
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * This method returns no data.
+         */
+        R.legislationParts.destroyAll = function() {
+          var TargetResource = $injector.get("LegislationPart");
+          var action = TargetResource["::delete::partType::legislationParts"];
+          return action.apply(R, arguments);
+        };
+
+        /**
+         * @ngdoc method
+         * @name apiServices.PartType.legislationParts#destroyById
+         * @methodOf apiServices.PartType.legislationParts
+         *
+         * @description
+         *
+         * Delete a related item by id for legislationParts.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - PersistedModel id
+         *
+         *  - `fk` – `{*}` - Foreign key for legislationParts
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * This method returns no data.
+         */
+        R.legislationParts.destroyById = function() {
+          var TargetResource = $injector.get("LegislationPart");
+          var action = TargetResource["::destroyById::partType::legislationParts"];
+          return action.apply(R, arguments);
+        };
+
+        /**
+         * @ngdoc method
+         * @name apiServices.PartType.legislationParts#findById
+         * @methodOf apiServices.PartType.legislationParts
+         *
+         * @description
+         *
+         * Find a related item by id for legislationParts.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - PersistedModel id
+         *
+         *  - `fk` – `{*}` - Foreign key for legislationParts
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `LegislationPart` object.)
+         * </em>
+         */
+        R.legislationParts.findById = function() {
+          var TargetResource = $injector.get("LegislationPart");
+          var action = TargetResource["::findById::partType::legislationParts"];
+          return action.apply(R, arguments);
+        };
+
+        /**
+         * @ngdoc method
+         * @name apiServices.PartType.legislationParts#updateById
+         * @methodOf apiServices.PartType.legislationParts
+         *
+         * @description
+         *
+         * Update a related item by id for legislationParts.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - PersistedModel id
+         *
+         *  - `fk` – `{*}` - Foreign key for legislationParts
+         *
+         * @param {Object} postData Request data.
+         *
+         * This method expects a subset of model properties as request parameters.
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `LegislationPart` object.)
+         * </em>
+         */
+        R.legislationParts.updateById = function() {
+          var TargetResource = $injector.get("LegislationPart");
+          var action = TargetResource["::updateById::partType::legislationParts"];
+          return action.apply(R, arguments);
+        };
 
     return R;
   }]);
@@ -9364,33 +9723,6 @@ module.factory(
           method: "PUT"
         },
 
-        // INTERNAL. Use Legislation.legislationParts.findById() instead.
-        "prototype$__findById__legislationParts": {
-          params: {
-          'fk': '@fk'
-          },
-          url: urlBase + "/legislations/:id/legislationParts/:fk",
-          method: "GET"
-        },
-
-        // INTERNAL. Use Legislation.legislationParts.destroyById() instead.
-        "prototype$__destroyById__legislationParts": {
-          params: {
-          'fk': '@fk'
-          },
-          url: urlBase + "/legislations/:id/legislationParts/:fk",
-          method: "DELETE"
-        },
-
-        // INTERNAL. Use Legislation.legislationParts.updateById() instead.
-        "prototype$__updateById__legislationParts": {
-          params: {
-          'fk': '@fk'
-          },
-          url: urlBase + "/legislations/:id/legislationParts/:fk",
-          method: "PUT"
-        },
-
         // INTERNAL. Use Legislation.cases() instead.
         "prototype$__get__cases": {
           isArray: true,
@@ -9413,31 +9745,6 @@ module.factory(
         // INTERNAL. Use Legislation.cases.count() instead.
         "prototype$__count__cases": {
           url: urlBase + "/legislations/:id/cases/count",
-          method: "GET"
-        },
-
-        // INTERNAL. Use Legislation.legislationParts() instead.
-        "prototype$__get__legislationParts": {
-          isArray: true,
-          url: urlBase + "/legislations/:id/legislationParts",
-          method: "GET"
-        },
-
-        // INTERNAL. Use Legislation.legislationParts.create() instead.
-        "prototype$__create__legislationParts": {
-          url: urlBase + "/legislations/:id/legislationParts",
-          method: "POST"
-        },
-
-        // INTERNAL. Use Legislation.legislationParts.destroyAll() instead.
-        "prototype$__delete__legislationParts": {
-          url: urlBase + "/legislations/:id/legislationParts",
-          method: "DELETE"
-        },
-
-        // INTERNAL. Use Legislation.legislationParts.count() instead.
-        "prototype$__count__legislationParts": {
-          url: urlBase + "/legislations/:id/legislationParts/count",
           method: "GET"
         },
 
@@ -9861,12 +10168,6 @@ module.factory(
         "createChangeStream": {
           url: urlBase + "/legislations/change-stream",
           method: "POST"
-        },
-
-        // INTERNAL. Use LegislationPart.legislation() instead.
-        "::get::legislationPart::legislation": {
-          url: urlBase + "/legislationParts/:id/legislation",
-          method: "GET"
         },
       }
     );
@@ -10309,307 +10610,6 @@ module.factory(
         R.cases.updateById = function() {
           var TargetResource = $injector.get("Case");
           var action = TargetResource["::updateById::legislation::cases"];
-          return action.apply(R, arguments);
-        };
-    /**
-     * @ngdoc object
-     * @name apiServices.Legislation.legislationParts
-     * @header apiServices.Legislation.legislationParts
-     * @object
-     * @description
-     *
-     * The object `Legislation.legislationParts` groups methods
-     * manipulating `LegislationPart` instances related to `Legislation`.
-     *
-     * Call {@link apiServices.Legislation#legislationParts Legislation.legislationParts()}
-     * to query all related instances.
-     */
-
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Legislation#legislationParts
-         * @methodOf apiServices.Legislation
-         *
-         * @description
-         *
-         * Queries legislationParts of legislation.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         *  - `filter` – `{object=}` - 
-         *
-         * @param {function(Array.<Object>,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Array.<Object>} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `LegislationPart` object.)
-         * </em>
-         */
-        R.legislationParts = function() {
-          var TargetResource = $injector.get("LegislationPart");
-          var action = TargetResource["::get::legislation::legislationParts"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Legislation.legislationParts#count
-         * @methodOf apiServices.Legislation.legislationParts
-         *
-         * @description
-         *
-         * Counts legislationParts of legislation.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         *  - `where` – `{object=}` - Criteria to match model instances
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * Data properties:
-         *
-         *  - `count` – `{number=}` - 
-         */
-        R.legislationParts.count = function() {
-          var TargetResource = $injector.get("LegislationPart");
-          var action = TargetResource["::count::legislation::legislationParts"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Legislation.legislationParts#create
-         * @methodOf apiServices.Legislation.legislationParts
-         *
-         * @description
-         *
-         * Creates a new instance in legislationParts of this model.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         * @param {Object} postData Request data.
-         *
-         * This method expects a subset of model properties as request parameters.
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `LegislationPart` object.)
-         * </em>
-         */
-        R.legislationParts.create = function() {
-          var TargetResource = $injector.get("LegislationPart");
-          var action = TargetResource["::create::legislation::legislationParts"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Legislation.legislationParts#createMany
-         * @methodOf apiServices.Legislation.legislationParts
-         *
-         * @description
-         *
-         * Creates a new instance in legislationParts of this model.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         * @param {Object} postData Request data.
-         *
-         * This method expects a subset of model properties as request parameters.
-         *
-         * @param {function(Array.<Object>,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Array.<Object>} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `LegislationPart` object.)
-         * </em>
-         */
-        R.legislationParts.createMany = function() {
-          var TargetResource = $injector.get("LegislationPart");
-          var action = TargetResource["::createMany::legislation::legislationParts"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Legislation.legislationParts#destroyAll
-         * @methodOf apiServices.Legislation.legislationParts
-         *
-         * @description
-         *
-         * Deletes all legislationParts of this model.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * This method returns no data.
-         */
-        R.legislationParts.destroyAll = function() {
-          var TargetResource = $injector.get("LegislationPart");
-          var action = TargetResource["::delete::legislation::legislationParts"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Legislation.legislationParts#destroyById
-         * @methodOf apiServices.Legislation.legislationParts
-         *
-         * @description
-         *
-         * Delete a related item by id for legislationParts.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         *  - `fk` – `{*}` - Foreign key for legislationParts
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * This method returns no data.
-         */
-        R.legislationParts.destroyById = function() {
-          var TargetResource = $injector.get("LegislationPart");
-          var action = TargetResource["::destroyById::legislation::legislationParts"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Legislation.legislationParts#findById
-         * @methodOf apiServices.Legislation.legislationParts
-         *
-         * @description
-         *
-         * Find a related item by id for legislationParts.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         *  - `fk` – `{*}` - Foreign key for legislationParts
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `LegislationPart` object.)
-         * </em>
-         */
-        R.legislationParts.findById = function() {
-          var TargetResource = $injector.get("LegislationPart");
-          var action = TargetResource["::findById::legislation::legislationParts"];
-          return action.apply(R, arguments);
-        };
-
-        /**
-         * @ngdoc method
-         * @name apiServices.Legislation.legislationParts#updateById
-         * @methodOf apiServices.Legislation.legislationParts
-         *
-         * @description
-         *
-         * Update a related item by id for legislationParts.
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         *  - `fk` – `{*}` - Foreign key for legislationParts
-         *
-         * @param {Object} postData Request data.
-         *
-         * This method expects a subset of model properties as request parameters.
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `LegislationPart` object.)
-         * </em>
-         */
-        R.legislationParts.updateById = function() {
-          var TargetResource = $injector.get("LegislationPart");
-          var action = TargetResource["::updateById::legislation::legislationParts"];
           return action.apply(R, arguments);
         };
 

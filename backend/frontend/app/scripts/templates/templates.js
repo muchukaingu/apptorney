@@ -998,10 +998,10 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                                        <a class=\"btn handletools expand\" data-nodrag ng-click=\"toggle(this)\">\n" +
     "                                          <span class=\"fa fa-fw\" ng-class=\"{'fa-plus-square-o': collapsed, 'fa-minus-square-o': !collapsed}\" ng-show=\"part.subParts.length\"></span>\n" +
     "                                        </a>\n" +
-    "                                        <div class=\"pull-left\" style=\"color:gray\">{{part.title?part.title:'New Component - '}}<span ng-if=\"!part.title\"><em>Click Edit (Pencil) to Modify</em></span></div>\n" +
+    "                                        <div class=\"pull-left\" style=\"color:gray\">{{part.number + ' ' + part.title}}</div>\n" +
     "                                        <a class=\"pull-right btn handletools delete\" data-nodrag ng-click=\"remove(this)\"><span class=\"fa fa-fw fa-trash-o\"></span></a>\n" +
     "                                        <a class=\"pull-right btn handletools edit\" data-nodrag ng-click=\"editPart(this)\" data-toggle=\"modal\" data-target=\"#addLegislationPart\"><span class=\"fa fa-fw fa-pencil\"></span></a>\n" +
-    "                                        <a class=\"pull-right btn handletools add\" data-nodrag ng-click=\"newSubItem(this)\"><span class=\"fa fa-fw fa-plus\"></span></a>\n" +
+    "                                        <a class=\"pull-right btn handletools add\" data-nodrag ng-click=\"newSubItem(this, $index)\"><span class=\"fa fa-fw fa-plus\"></span></a>\n" +
     "                                      </div>\n" +
     "                                      <ol ui-tree-nodes=\"options\" ng-model=\"part.subParts\" ng-class=\"{hidden: collapsed}\">\n" +
     "                                        <li ng-repeat=\"part in part.subParts\" ui-tree-node ng-include=\"'items_renderer.html'\">\n" +
@@ -1094,18 +1094,11 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "    <div class=\"row\">\n" +
     "\n" +
     "      <div class=\"col-xs-12 col-md-3 form-group\">\n" +
-    "        <select class=\"form-control\" ng-model = \"legislationPart.partType\" ng-options=\"type.name for type in legislationPartTypes track by type.id\" id=\"partType\">\n" +
-    "            <!--option value=\"\" disabled selected>\n" +
-    "              <span style=\"font-weight:600\">Select Part Type...</span>\n" +
-    "            </option>\n" +
-    "            <option ng-repeat=\"type in legislationPartTypes\" value=\"{{type.id}}\">\n" +
-    "              {{type.name}}\n" +
-    "            </option-->\n" +
-    "            <option value=\"\">- Please Select Part Type -</option>\n" +
-    "        </select>\n" +
+    "        <input id=\"court-name\" name=\"court-name\" type=\"text\" class=\"form-control\" ng-model=\"legislationPart.number\" ng-focus placeholder=\"Number\" ng-if=\"legislationPart.level\"/>\n" +
+    "\n" +
     "      </div>\n" +
     "\n" +
-    "      <div class=\"col-xs-12 col-md-9 form-group\">\n" +
+    "      <div class=\"\" ng-class=\"(legislationPart.level)?'col-xs-12 col-md-9 form-group':'col-xs-12 col-md-12 form-group'\">\n" +
     "        <input id=\"court-name\" name=\"court-name\" type=\"text\" class=\"form-control\" ng-model=\"legislationPart.title\" ng-minlength=2 ng-focus required placeholder=\"Title\"/>\n" +
     "        <div class=\"text-danger\" ng-show=\"form.$submitted && form.court-name.$invalid || form.court-name.$dirty && form.court-name.$invalid && !form.court-name.$focused\">\n" +
     "\n" +

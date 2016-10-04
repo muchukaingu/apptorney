@@ -270,7 +270,7 @@ angular.module('apptorney')
     $scope.legislationParts = [];
 
     $scope.addLegislationPart = function(){
-      $scope.legislation.legislationParts.push({});
+      $scope.legislation.legislationParts.push({title:'Part ' + ($scope.legislation.legislationParts.length + 1)});
       //$("#addLegislationPart").modal("hide");
       console.log($scope.legislation.legislationParts);
     }

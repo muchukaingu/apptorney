@@ -204,10 +204,10 @@
                                         <a class="btn handletools expand" data-nodrag ng-click="toggle(this)">
                                           <span class="fa fa-fw" ng-class="{'fa-plus-square-o': collapsed, 'fa-minus-square-o': !collapsed}" ng-show="part.subParts.length"></span>
                                         </a>
-                                        <div class="pull-left" style="color:gray">{{part.title?part.title:'New Component - '}}<span ng-if="!part.title"><em>Click Edit (Pencil) to Modify</em></span></div>
+                                        <div class="pull-left" style="color:gray">{{part.number + ' ' + part.title}}</div>
                                         <a class="pull-right btn handletools delete" data-nodrag ng-click="remove(this)"><span class="fa fa-fw fa-trash-o"></span></a>
                                         <a class="pull-right btn handletools edit" data-nodrag ng-click="editPart(this)" data-toggle="modal" data-target="#addLegislationPart"><span class="fa fa-fw fa-pencil"></span></a>
-                                        <a class="pull-right btn handletools add" data-nodrag ng-click="newSubItem(this)"><span class="fa fa-fw fa-plus"></span></a>
+                                        <a class="pull-right btn handletools add" data-nodrag ng-click="newSubItem(this, $index)"><span class="fa fa-fw fa-plus"></span></a>
                                       </div>
                                       <ol ui-tree-nodes="options" ng-model="part.subParts" ng-class="{hidden: collapsed}">
                                         <li ng-repeat="part in part.subParts" ui-tree-node ng-include="'items_renderer.html'">

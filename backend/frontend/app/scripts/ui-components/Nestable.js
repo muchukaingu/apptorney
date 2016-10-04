@@ -39,6 +39,20 @@ angular
 
     $scope.selectedItem = {};
 
+    $scope.romanize = function (num) {
+        if (!+num)
+            return false;
+        var digits = String(+num).split(""),
+            key = ["","C","CC","CCC","CD","D","DC","DCC","DCCC","CM",
+                   "","X","XX","XXX","XL","L","LX","LXX","LXXX","XC",
+                   "","I","II","III","IV","V","VI","VII","VIII","IX"],
+            roman = "",
+            i = 3;
+        while (i--)
+            roman = (key[+digits.pop() + (i * 10)] || "") + roman;
+        return Array(+digits.join("") + 1).join("M") + roman;
+    }
+
     $scope.options = {
     	// levelThreshold: 300000,
     };
@@ -51,12 +65,46 @@ angular
       scope.toggle();
     };
 
-    $scope.newSubItem = function(scope) {
+    $scope.newSubItem = function(scope, index) {
       var nodeData = scope.$modelValue;
-      nodeData.subParts.push({
+      var childNode = {
         id: nodeData.id * 10 + nodeData.subParts.length,
-        title: nodeData.title + '.' + (nodeData.subParts.length + 1),
+        level:(nodeData.number)?(nodeData.level+1):1,
+        //number: (nodeData.subParts.length + 1) + '. ',
+        title: '',
         subParts: []
-      });
+      }
+
+      if (childNode.level == 1){
+        childNode.number = (nodeData.subParts.length + 1) + '. ';
+      }
+      else if (childNode.level == 2){
+        childNode.number = '(' + (nodeData.subParts.length + 1) + ') ';
+      }
+
+      else if (childNode.level == 3){
+        if (nodeData.subParts.length == 0){
+          childNode.number = '(A)';
+        }
+        else {
+          var previous = nodeData.subParts[nodeData.subParts.length-1].number;
+
+          previous = previous.charAt(1);
+          console.log(previous);
+          childNode.number = '(' + String.fromCharCode(previous.charCodeAt() + 1) + ')';// Returns B;
+        }
+
+      }
+      else if (childNode.level == 4){
+
+          childNode.number = '(' + $scope.romanize(nodeData.subParts.length + 1) + ') ';
+
+
+      }
+
+
+
+      nodeData.subParts.push(childNode);
+      console.log(nodeData);
     };
   }])

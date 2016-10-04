@@ -2,18 +2,11 @@
     <div class="row">
 
       <div class="col-xs-12 col-md-3 form-group">
-        <select class="form-control" ng-model = "legislationPart.partType" ng-options="type.name for type in legislationPartTypes track by type.id" id="partType">
-            <!--option value="" disabled selected>
-              <span style="font-weight:600">Select Part Type...</span>
-            </option>
-            <option ng-repeat="type in legislationPartTypes" value="{{type.id}}">
-              {{type.name}}
-            </option-->
-            <option value="">- Please Select Part Type -</option>
-        </select>
+        <input id="court-name" name="court-name" type="text" class="form-control" ng-model="legislationPart.number" ng-focus placeholder="Number" ng-if="legislationPart.level"/>
+
       </div>
 
-      <div class="col-xs-12 col-md-9 form-group">
+      <div class="" ng-class="(legislationPart.level)?'col-xs-12 col-md-9 form-group':'col-xs-12 col-md-12 form-group'">
         <input id="court-name" name="court-name" type="text" class="form-control" ng-model="legislationPart.title" ng-minlength=2 ng-focus required placeholder="Title"/>
         <div class="text-danger" ng-show="form.$submitted && form.court-name.$invalid || form.court-name.$dirty && form.court-name.$invalid && !form.court-name.$focused">
 

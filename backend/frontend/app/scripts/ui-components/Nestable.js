@@ -43,14 +43,14 @@ angular
         if (!+num)
             return false;
         var digits = String(+num).split(""),
-            key = ["","C","CC","CCC","CD","D","DC","DCC","DCCC","CM",
-                   "","X","XX","XXX","XL","L","LX","LXX","LXXX","XC",
-                   "","I","II","III","IV","V","VI","VII","VIII","IX"],
+            key = ["","c","cc","ccc","cd","d","dc","dcc","dccc","cm",
+                   "","x","xx","xxx","xl","l","lx","lxx","lxxx","xc",
+                   "","i","ii","iii","iv","v","vi","vii","viii","ix"],
             roman = "",
             i = 3;
         while (i--)
             roman = (key[+digits.pop() + (i * 10)] || "") + roman;
-        return Array(+digits.join("") + 1).join("M") + roman;
+        return Array(+digits.join("") + 1).join("m") + roman;
     }
 
     $scope.options = {
@@ -84,7 +84,7 @@ angular
 
       else if (childNode.level == 3){
         if (nodeData.subParts.length == 0){
-          childNode.number = '(A)';
+          childNode.number = '(a)';
         }
         else {
           var previous = nodeData.subParts[nodeData.subParts.length-1].number;

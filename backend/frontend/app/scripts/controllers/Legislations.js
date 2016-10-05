@@ -270,7 +270,7 @@ angular.module('apptorney')
     $scope.legislationParts = [];
 
     $scope.addLegislationPart = function(){
-      $scope.legislation.legislationParts.push({title:'Part ' + ($scope.legislation.legislationParts.length + 1)});
+      $scope.legislation.legislationParts.push({title:'PART ' + $scope.romanize($scope.legislation.legislationParts.length + 1)});
       //$("#addLegislationPart").modal("hide");
       console.log($scope.legislation.legislationParts);
     }
@@ -319,6 +319,20 @@ angular.module('apptorney')
 
     $scope.editPart = function(scope){
       $scope.legislationPart = scope.$modelValue;
+    }
+
+    $scope.romanize = function (num) {
+        if (!+num)
+            return false;
+        var digits = String(+num).split(""),
+            key = ["","C","CC","CCC","CD","D","DC","DCC","DCCC","CM",
+                   "","X","XX","XXX","XL","L","LX","LXX","LXXX","XC",
+                   "","I","II","III","IV","V","VI","VII","VIII","IX"],
+            roman = "",
+            i = 3;
+        while (i--)
+            roman = (key[+digits.pop() + (i * 10)] || "") + roman;
+        return Array(+digits.join("") + 1).join("M") + roman;
     }
 
 

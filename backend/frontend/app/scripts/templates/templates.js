@@ -965,7 +965,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "                  <div class=\"row\">\n" +
     "\n" +
-    "                    <div class=\"col-xs-12\" ng-style = \"'border':(viewMode)?'none':'1px dashed #d3d3d3'}\" style=\"border-radius:5px; height:auto; color:#d3d3d3; padding-top:20px; padding-bottom:60px; width:97%; margin-left:12px;\">\n" +
+    "                    <div class=\"col-xs-12\" ng-style = \"'border':(viewMode)?'none':'1px dashed #d3d3d3', 'color':(legislation.legislationParts.length == 0)?'#d3d3d3':'gray'}\" style=\"border-radius:5px; height:auto; padding-top:20px; padding-bottom:60px; width:97%; margin-left:12px;\">\n" +
     "\n" +
     "\n" +
     "                        <div class=\"row\">\n" +
@@ -1011,10 +1011,18 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                                      </div ui-tree-handle>\n" +
     "                                    </script>\n" +
     "\n" +
+    "                                    <script type=\"text/ng-template\" id=\"items_view_renderer.html\">\n" +
+    "                                        <span style=\"font-weight:600\">{{ part.number }} {{ part.title }}</span> <br>\n" +
+    "                                        <span>{{ part.content }}</span><br>\n" +
+    "                                        <ul>\n" +
+    "                                          <p ng-repeat=\"part in part.subParts\" ng-include=\"'items_view_renderer.html'\">&emsp;</p>\n" +
+    "                                        </ul>\n" +
+    "                                    </script>\n" +
+    "\n" +
     "                                  <panel heading=\"Legislation Components\">\n" +
     "                                    <panel-controls>\n" +
     "                                          <a href=\"\"><panel-control-collapse class=\"fa fa-chevron-down\"></panel-control-collapse></a>\n" +
-    "                                          <a href=\"javascript:;\" ng-click=\"addLegislationPart()\"><i class=\"fa fa-plus\"></i></a>\n" +
+    "                                          <a ng-if=\"!viewMode\" href=\"javascript:;\" ng-click=\"addLegislationPart()\"><i class=\"fa fa-plus\"></i></a>\n" +
     "\n" +
     "\n" +
     "                                    </panel-controls>\n" +
@@ -1023,11 +1031,16 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                                      <div class=\"row\" ng-show=\"legislation.legislationParts.length > 0\">\n" +
     "\n" +
     "                                          <div class=\"col-lg-12\">\n" +
-    "                                            <div ui-tree=\"options\">\n" +
+    "                                            <div ui-tree=\"options\" ng-if=\"!viewMode\">\n" +
     "                                              <ol ui-tree-nodes ng-model=\"legislation.legislationParts\" >\n" +
     "                                                <li ng-repeat=\"part in legislation.legislationParts\" ui-tree-node ng-include=\"'items_renderer.html'\"></li>\n" +
     "                                              </ol>\n" +
     "                                            </div>\n" +
+    "\n" +
+    "                                            <p ng-repeat=\"part in legislation.legislationParts\" ng-include=\"'items_view_renderer.html'\" ng-if=\"viewMode\">\n" +
+    "\n" +
+    "                                            </p>\n" +
+    "\n" +
     "                                          </div>\n" +
     "\n" +
     "                                          <!--div class=\"col-lg-6\">\n" +

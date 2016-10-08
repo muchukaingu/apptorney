@@ -6,8 +6,7 @@ var path = require('path');
 var app = module.exports = loopback();
 
 app.use(loopback.static(path.resolve(__dirname, '../client')));
-app.use(loopback.bodyParser.json({limit: '50mb'}));
-app.use(loopback.bodyParser.urlencoded({limit: '50mb', extended: true}));
+
 
 app.start = function() {
   // start the web server

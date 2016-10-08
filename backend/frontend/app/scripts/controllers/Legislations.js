@@ -25,6 +25,7 @@ angular.module('apptorney')
     $scope.legislationPartType = {};
     $scope.legislationPartTypesReturned = false;
     $scope.showLegislationPartTypes = false;
+    $scope.saveStatus = 0;
 
 
 
@@ -93,15 +94,14 @@ angular.module('apptorney')
 
 
     $scope.saveLegislation = function(){
+            $scope.saveStatus = 1;
             $scope.legislation.generalTitle = "Government of Zambia";
             console.log($global.get('user'));
             Legislation.upsert($scope.legislation,
               function(legislation){
-                console.log($scope.legislationParts);
-                $scope.legislationParts.forEach(function(legislationPart){
-                  legislationPart.legislation = legislation.id;
-                  LegislationPart.upsert(legislationPart);
-                });
+                console.log("Saved");
+                $scope.saveStatus = 2;
+
               },
               function(errorResponse){
 
@@ -109,7 +109,7 @@ angular.module('apptorney')
             );
             //$scope.legislations.push($scope.legislation);
 
-            $("#addLegislationModal").modal("hide");
+            //$("#addLegislationModal").modal("hide");
 
     }
 

@@ -102,7 +102,7 @@ angular.module('apptorney')
                 console.log("Saved");
 
                 $scope.saveStatus = 2;
-                setTimeout(function(){ $scope.saveStatus = 0; }, 3000);
+                setTimeout(function(){ $scope.saveStatus = 0; console.log("Save Status = "+$scope.saveStatus); }, 3000);
 
               },
               function(errorResponse){

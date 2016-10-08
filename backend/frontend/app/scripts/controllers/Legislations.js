@@ -100,7 +100,9 @@ angular.module('apptorney')
             Legislation.upsert($scope.legislation,
               function(legislation){
                 console.log("Saved");
+
                 $scope.saveStatus = 2;
+                setTimeout(function(){ $scope.saveStatus = 0; }, 3000);
 
               },
               function(errorResponse){

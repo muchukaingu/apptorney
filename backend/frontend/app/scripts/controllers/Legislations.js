@@ -94,6 +94,7 @@ angular.module('apptorney')
 
     $scope.saveLegislation = function(){
             $scope.legislation.generalTitle = "Government of Zambia";
+            console.log($global.get('user'));
             Legislation.upsert($scope.legislation,
               function(legislation){
                 console.log($scope.legislationParts);

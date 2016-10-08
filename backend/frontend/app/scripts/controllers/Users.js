@@ -87,8 +87,9 @@ angular.module('apptorney')
     $scope.login = function(){
 
       $scope.loginResult = User.login($scope.user,
-        function(){
-          $scope.status.message = "Your password has successfully been reset. Please check your email for your login details.";
+        function(res){
+          $global.set('user', res.user);
+          $scope.status.message = "Login Successful.";
           $location.path('/dashboard');
           console.log("success...");
           $scope.authenticating = false;

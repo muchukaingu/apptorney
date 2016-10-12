@@ -793,7 +793,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
 
   $templateCache.put('templates/legislation-modal.html',
     "<div id=\"addLegislationModal\" class=\"modal fade\" style=\"z-index:3000; background-color:rgba(0, 0, 0, 0.5);\">\n" +
-    "  <div class=\"modal-dialog\" style=\"width:90%;padding-left: 2%;padding-right: 2%; padding-bottom:50% \">\n" +
+    "  <div class=\"modal-dialog\" style=\"width:90%;padding-left: 2%;padding-right: 2%;\">\n" +
     "    <div class=\"modal-content\" style=\"margin-top: 8%\">\n" +
     "      <div class=\"modal-header\" style=\"margin-bottom:20px\">\n" +
     "\n" +
@@ -818,7 +818,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "      </div>\n" +
     "\n" +
-    "      <div class=\"modal-body\" style=\"margin-bottom: none; padding-top: 0px; border-bottom:none\">\n" +
+    "      <div class=\"modal-body\" style=\"margin-bottom: none; padding-top: 0px; border-bottom:none; padding-bottom:50%\">\n" +
     "\n" +
     "        <!-- Start Form-->\n" +
     "\n" +

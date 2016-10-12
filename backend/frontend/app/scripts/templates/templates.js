@@ -793,7 +793,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
 
   $templateCache.put('templates/legislation-modal.html',
     "<div id=\"addLegislationModal\" class=\"modal fade\" style=\"z-index:3000; background-color:rgba(0, 0, 0, 0.5);\">\n" +
-    "  <div class=\"modal-dialog\" style=\"width:60%;padding-left: 2%;padding-right: 2%; \">\n" +
+    "  <div class=\"modal-dialog\" style=\"width:80%;padding-left: 2%;padding-right: 2%; \">\n" +
     "    <div class=\"modal-content\" style=\"margin-top: 8%\">\n" +
     "      <div class=\"modal-header\" style=\"margin-bottom:20px\">\n" +
     "\n" +

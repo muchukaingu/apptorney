@@ -207,7 +207,7 @@
                                         <div class="pull-left" style="color:gray">{{part.number + ' ' + part.title}}</div>
                                         <a class="pull-right btn handletools delete" data-nodrag ng-click="remove(this)"><span class="fa fa-fw fa-trash-o"></span></a>
                                         <a class="pull-right btn handletools edit" data-nodrag ng-click="editPart(this)" data-toggle="modal" data-target="#addLegislationPart"><span class="fa fa-fw fa-pencil"></span></a>
-                                        <a class="pull-right btn handletools add" data-nodrag ng-click="newSubItem(this, $index)"><span class="fa fa-fw fa-plus"></span></a>
+                                        <a class="pull-right btn handletools add" data-nodrag ng-click="newSubItem(this, $index, $$prevSibling)"><span class="fa fa-fw fa-plus"></span></a>
                                       </div>
                                       <ol ui-tree-nodes="options" ng-model="part.subParts" ng-class="{hidden: collapsed}">
                                         <li ng-repeat="part in part.subParts" ui-tree-node ng-include="'items_renderer.html'">

@@ -3,39 +3,7 @@
 angular
   .module('theme.ui-nestable', [])
   .controller('NestedTreeDemoController', ['$scope', function ($scope) {
-    $scope.list = [{
-      "id": 1,
-      "title": "Write documentation",
-      "items": []
-    }, {
-      "id": 2,
-      "title": "Compile Code",
-      "items": [{
-        "id": 21,
-        "title": "Upload Files to Server",
-        "items": [{
-          "id": 211,
-          "title": "Call client",
-          "items": []
-        }, {
-          "id": 212,
-          "title": "Buy Milk",
-          "items": []
-        }],
-      }, {
-        "id": 22,
-        "title": "Set up meeting with client",
-        "items": []
-      }],
-    }, {
-      "id": 3,
-      "title": "Pay office rent and bills",
-      "items": []
-    }, {
-      "id": 4,
-      "title": "Read book",
-      "items": []
-    }];
+
 
     $scope.selectedItem = {};
 
@@ -65,8 +33,15 @@ angular
       scope.toggle();
     };
 
+    $scope.reNumber = function(item){
+      item.subParts.forEach(function(part){
+        console.log(part);
+      })
+    }
+
     $scope.newSubItem = function(scope, index) {
       var nodeData = scope.$modelValue;
+
       var childNode = {
         id: nodeData.id * 10 + nodeData.subParts.length,
         level:(nodeData.number)?(nodeData.level+1):1,
@@ -76,7 +51,45 @@ angular
       }
 
       if (childNode.level == 1){
-        childNode.number = (nodeData.subParts.length + 1) + '. ';
+        var siblings = scope.$parent.siblings();
+
+
+
+
+        if (scope.prev() && nodeData.subParts.length == 0){
+          //console.log(scope.prev());
+          var previousNode = scope.prev();
+          previousNode = previousNode.$modelValue.subParts[previousNode.$modelValue.subParts.length-1].number;
+          var previousNumber = parseInt(previousNode.substring(0,previousNode.length-2));
+          childNode.number = (previousNumber + 1) + '. ';
+        }
+        else if(scope.prev() && nodeData.subParts.length > 0) {
+          childNode.number = (parseInt(nodeData.subParts[nodeData.subParts.length-1].number) + 1) + '. ';
+        }
+        else if(!scope.prev()) {
+          childNode.number = (nodeData.subParts.length + 1) + '. ';
+        }
+
+
+        if (!scope.$parent.$parent.$last){
+          siblings.forEach(function(sibling){
+            if (sibling.index() > scope.$parent.index()){
+
+            sibling.$modelValue.subParts.forEach(function(part){
+                var previousNode = siblings[sibling.index()-1]; //scope.$parent;
+
+                previousNode = previousNode.$modelValue.subParts[previousNode.$modelValue.subParts.length-1].number;
+                console.log(parseInt(previousNode.substring(0,previousNode.length-2)));
+                var previousNumber = parseInt(previousNode.substring(0,previousNode.length-2));
+                part.number = previousNumber + ((sibling.index()==scope.$parent.index()+1)?2:1) + sibling.$modelValue.subParts.indexOf(part) + '. ';
+              })
+            }
+
+          })
+          //console.log(siblings[0]);
+        }
+
+
       }
       else if (childNode.level == 2){
         childNode.number = '(' + (nodeData.subParts.length + 1) + ') ';

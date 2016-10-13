@@ -276,7 +276,7 @@ angular.module('apptorney')
     $scope.addLegislationPart = function(){
       $scope.legislation.legislationParts.push({title:'PART ' + $scope.romanize($scope.legislation.legislationParts.length + 1)});
       //$("#addLegislationPart").modal("hide");
-      console.log($scope.legislation.legislationParts);
+      // console.log($scope.legislation.legislationParts);
     }
 
     $scope.openAddLegislationPartModal = function(){

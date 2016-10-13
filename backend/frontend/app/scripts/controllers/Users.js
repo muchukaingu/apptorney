@@ -48,6 +48,7 @@ angular.module('apptorney')
                $location.path('/dashboard');
                console.log("success...");
                $scope.authenticating = false;
+
              },
              function(response){
                 $scope.authenticating = false;
@@ -70,7 +71,7 @@ angular.module('apptorney')
 
 
   }])
-  .controller('LoginCtrl', function($scope,User, $location, $global){
+  .controller('LoginCtrl', function($rootScope,$scope,User, $location, $global){
     $scope.status = {};
     $scope.resetting = false;
     $scope.authenticated = false;
@@ -93,6 +94,9 @@ angular.module('apptorney')
           $location.path('/dashboard');
           console.log("success...");
           $scope.authenticating = false;
+          $rootScope.isLoggedIn = true;
+          $rootScope.user = res.user;
+          console.log($rootScope.user);
         },
         function(res){
           $scope.authenticating = false;

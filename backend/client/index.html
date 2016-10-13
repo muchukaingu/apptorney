@@ -136,17 +136,13 @@
             <a href="#/extras-login2" style="font-size: 14px"><i class="fa fa-sign-in"></i> Log in</a>
           </li>
           <li class="dropdown" ng-show="isLoggedIn" style="border-left:none">
-            <a href="#" class="dropdown-toggle username"><span class="hidden-xs">Admin</span><img src="assets/img/user.png" alt="User" /></a>
+            <a href="#" class="dropdown-toggle username"><span class="hidden-xs">{{user.firstName + ' ' + user.lastName}}</span><img src="assets/img/user.png" alt="User" /></a>
             <ul class="dropdown-menu userinfo arrow">
               <li class="userlinks">
                 <ul class="dropdown-menu">
                   <li><a href="#">Edit Profile <i class="pull-right fa fa-fw fa-pencil"></i></a></li>
                   <li><a href="#">Account <i class="pull-right fa fa-fw fa-user"></i></a></li>
                   <li><a href="#">Settings <i class="pull-right fa fa-fw fa-cog"></i></a></li>
-                  <li class="divider"></li>
-                  <li><a href="#">Earnings <i class="pull-right fa fa-fw fa-dollar"></i></a></li>
-                  <li><a href="#">Statement <i class="pull-right fa fa-fw fa-bars"></i></a></li>
-                  <li><a href="#">Withdrawals <i class="pull-right fa fa-fw fa-credit-card"></i></a></li>
                   <li class="divider"></li>
                   <li><a href="" class="text-right" ng-click="logOut()">Sign Out</a></li>
                 </ul>
@@ -334,7 +330,7 @@
 
     <script src="scripts/3180400a.vendor.js"></script>
 
-      <script src="scripts/34ed4e6e.scripts.js"></script>
+      <script src="scripts/15129c9f.scripts.js"></script>
 
 </body>
 </html>

@@ -10235,6 +10235,41 @@ module.factory(
           method: "POST"
         },
 
+        /**
+         * @ngdoc method
+         * @name apiServices.Legislation#summary
+         * @methodOf apiServices.Legislation
+         *
+         * @description
+         *
+         * <em>
+         * (The remote method definition does not provide any description.)
+         * </em>
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *   This method does not accept any parameters.
+         *   Supply an empty object or omit this argument altogether.
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * Data properties:
+         *
+         *  - `summary` – `{Object=}` - 
+         */
+        "summary": {
+          url: urlBase + "/legislations/summary",
+          method: "GET"
+        },
+
         // INTERNAL. Use Appuser.legislations.findById() instead.
         "::findById::appuser::legislations": {
           params: {

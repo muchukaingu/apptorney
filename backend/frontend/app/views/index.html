@@ -67,7 +67,7 @@
 
 
 
-                        <div class="col-md-3 col-sm-5" ng-controller = "LegislationController">
+                        <div class="col-md-3 col-sm-5" >
                             <a class="info-tiles tiles-primary dashboard-tiles" href="#">
                                 <div class="tiles-heading">
                                     <div class="pull-left">Acts</div>
@@ -79,11 +79,11 @@
 	                                    <div class="col-xs-9" style="font-size: 0.6em">
 		                                    <div class="row">
 		                                        <div class="col-xs-4 col-sm-4" style="font-size: 1em">Complete</div>
-		                                        <div class="col-xs-2 text-right" id="online" style="font-size: 1em">{{completedLegislations.length}}</div>
+		                                        <div class="col-xs-2 text-right" id="online" style="font-size: 1em">{{legislationSummary.completedLegislations}}</div>
 		                                    </div>
 		                                    <div class="row">
 		                                        <div class="col-xs-4 col-sm-4" style="font-size: 1em">Incomplete</div>
-		                                        <div class="col-xs-2 text-right" id="manual" style="font-size: 1em">{{legislations.length - completedLegislations.length}}</div>
+		                                        <div class="col-xs-2 text-right" id="manual" style="font-size: 1em">{{legislationSummary.incompleteLegislations}}</div>
 		                                    </div>
 
 	                                    </div>
@@ -92,7 +92,7 @@
                                         <div style=" position:relative; bottom:65px; right:15px;" class="pull-right">
 
                                             <span style="font-size:40pt;" class="packages" id="total">
-                                                  {{legislations.length}}
+                                                  {{legislationSummary.totalLegislations}}
                                             </span>
                                         </div>
 	                                </div>
@@ -105,10 +105,10 @@
                         </div>
 
 
-                        <div class="col-md-3 col-sm-5" ng-controller = "LegislationController">
+                        <div class="col-md-3 col-sm-5" >
                             <a class="info-tiles tiles-primary dashboard-tiles" href="#">
                                 <div class="tiles-heading">
-                                    <div class="pull-left">Statutory Instruments</div>
+                                    <div class="pull-left">Subsidiary Legislations</div>
                                     <div class="pull-right"><span id="penetration"></span>&nbsp<span id="application"></span></div>
                                 </div>
                                 <div style="height:100px;" class="tiles-body">
@@ -117,11 +117,11 @@
                                       <div class="col-xs-9" style="font-size: 0.6em">
                                         <div class="row">
                                             <div class="col-xs-4 col-sm-4" style="font-size: 1em">Complete</div>
-                                            <div class="col-xs-2 text-right" id="online" style="font-size: 1em">{{completedLegislations.length}}</div>
+                                            <div class="col-xs-2 text-right" id="online" style="font-size: 1em">0</div>
                                         </div>
                                         <div class="row">
                                             <div class="col-xs-4 col-sm-4" style="font-size: 1em">Incomplete</div>
-                                            <div class="col-xs-2 text-right" id="manual" style="font-size: 1em">{{legislations.length - completedLegislations.length}}</div>
+                                            <div class="col-xs-2 text-right" id="manual" style="font-size: 1em">0</div>
                                         </div>
 
                                       </div>
@@ -130,7 +130,7 @@
                                         <div style=" position:relative; bottom:65px; right:15px;" class="pull-right">
 
                                             <span style="font-size:40pt;" class="packages" id="total">
-                                                  {{legislations.length}}
+                                                  0
                                             </span>
                                         </div>
                                   </div>
@@ -284,7 +284,7 @@
                           <tr id="rowTmp_capturer" ng-repeat = "user in userPerformance" >
                           <td class="editables" >
 
-                          <span class="editable"  name="name" form="rowform" onchange="editItem(this,'userID')" required>{{user.email}}</span>
+                          <span class="editable"  name="name" form="rowform" onchange="editItem(this,'userID')" required>{{user.firstName + ' ' + user.lastName}}</span>
                         </td>
 
                         <td class="editables" >

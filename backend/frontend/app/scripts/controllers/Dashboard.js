@@ -1,9 +1,13 @@
 'use strict'
 
 angular.module('theme.dashboard',  [])
-  .controller('DashboardController', ['$scope','Appuser', function ($scope, Appuser) {
+  .controller('DashboardController', ['$scope','Appuser','Legislation', function ($scope, Appuser, Legislation) {
     $scope.percentages = [53, 65, 23, 99];
     $scope.userPerformance = [];
+    $scope.legislationSummary = {};
+    Legislation.summary(function(res){
+      $scope.legislationSummary = res.summary;
+    },function(err){});
     Appuser.performance(function(res){
       $scope.userPerformance = res.performance;
       console.log($scope.userPerformance);

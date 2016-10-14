@@ -71,7 +71,7 @@ angular.module('apptorney')
 
 
   }])
-  .controller('LoginCtrl', function($rootScope,$scope,User, $location, $global){
+  .controller('LoginCtrl', function($rootScope,$scope,Appuser, $location, $global){
     $scope.status = {};
     $scope.resetting = false;
     $scope.authenticated = false;
@@ -87,7 +87,7 @@ angular.module('apptorney')
     });
     $scope.login = function(){
 
-      $scope.loginResult = User.login($scope.user,
+      $scope.loginResult = Appuser.login($scope.user,
         function(res){
           $global.set('user', res.user);
           $scope.status.message = "Login Successful.";
@@ -106,6 +106,8 @@ angular.module('apptorney')
         }
       )
     }
+
+    
 
     $scope.$watchCollection('user', function() {
       console.log("Mambo!");

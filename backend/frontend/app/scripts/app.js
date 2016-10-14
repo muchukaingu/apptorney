@@ -59,7 +59,7 @@ angular
     'ngAnimate',
     'dndLists',
   ])
-  .controller('MainController', ['$rootScope', '$scope', '$global', '$timeout', 'progressLoader', '$location', 'User', function ($rootScope, $scope, $global, $timeout, progressLoader, $location, User) {
+  .controller('MainController', ['$rootScope', '$scope', '$global', '$timeout', 'progressLoader', '$location', 'Appuser', function ($rootScope, $scope, $global, $timeout, progressLoader, $location, Appuser) {
     $scope.style_fixedHeader = $global.get('fixedHeader');
     $scope.style_headerBarHidden = $global.get('headerBarHidden');
     $scope.style_layoutBoxed = $global.get('layoutBoxed');
@@ -111,7 +111,7 @@ angular
 
     // there are better ways to do this, e.g. using a dedicated service....
     // but for the purposes of this demo this will do :P
-    if(User.isAuthenticated()) {
+    if(Appuser.isAuthenticated()) {
         $rootScope.isLoggedIn = true;
     }
 
@@ -120,7 +120,7 @@ angular
     };
 
     $scope.logOut = function () {
-      User.logout().$promise.then(function() {
+      Appuser.logout().$promise.then(function() {
          $rootScope.isLoggedIn = false;
          $location.path('/login');
       });
@@ -261,9 +261,9 @@ angular
         redirectTo: '/'
       });
   }])
-  .run(function ($rootScope, $location, User) {
+  .run(function ($rootScope, $location, Appuser) {
       $rootScope.$on('$locationChangeStart', function (event, next) {
-          if (!User.isAuthenticated()) {
+          if (!Appuser.isAuthenticated()) {
               if(next.toString().split('#')[1] == '/login') { // Need a way to know where this is going
 
               } else {
@@ -271,7 +271,7 @@ angular
               }
           }
           else {
-            User.getCurrent(function(res){$rootScope.user = res;}, function(err){})
+            Appuser.getCurrent(function(res){$rootScope.user = res;}, function(err){})
           }
       });
 });

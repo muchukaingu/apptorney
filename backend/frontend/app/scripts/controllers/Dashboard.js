@@ -1,8 +1,14 @@
 'use strict'
 
 angular.module('theme.dashboard',  [])
-  .controller('DashboardController', ['$scope', function ($scope) {
+  .controller('DashboardController', ['$scope','Appuser', function ($scope, Appuser) {
     $scope.percentages = [53, 65, 23, 99];
+    $scope.userPerformance = [];
+    Appuser.performance(function(res){
+      $scope.userPerformance = res.performance;
+      console.log($scope.userPerformance);
+    },function(err){});
+
     $scope.randomizePie = function() {
       $scope.percentages = _.shuffle($scope.percentages);
     };
@@ -10,6 +16,8 @@ angular.module('theme.dashboard',  [])
     function randValue() {
         return (Math.floor(Math.random() * (2)));
     }
+
+
 
     var slOpts = function(a,b) { return {data: a, opts: b}; };
 
@@ -75,7 +83,7 @@ angular.module('theme.dashboard',  [])
         colors: ["#b3bcc7"],
         xaxis: {
             tickColor: 'transparent',
-            
+
             tickDecimals: 0,
             autoscaleMargin: 0,
             font: {

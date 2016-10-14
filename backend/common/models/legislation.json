@@ -61,7 +61,13 @@
       "type": "hasMany",
       "model": "case",
       "foreignKey": ""
+    },
+    "capturedBy":{
+      "type": "belongsTo",
+      "model": "appuser",
+      "foreignKey": ""
     }
+
   },
   "acls": [],
   "methods": {}

@@ -113,5 +113,9 @@
   "party": {
     "dataSource": "apptorney",
     "public": false
+  },
+  "appuser": {
+    "dataSource": "apptorney",
+    "public": true
   }
 }

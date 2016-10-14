@@ -1,0 +1,100 @@
+{
+  "name": "appuser",
+  "base": "User",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+
+  },
+  "validations": [],
+  "relations": {
+    "cases": {
+      "type": "hasMany",
+      "model": "case",
+      "foreignKey": ""
+    },
+    "legislations":{
+      "type": "hasMany",
+      "model": "legislation",
+      "foreignKey": ""
+    }
+  },
+  "inheritAcls": false,
+  "acls": [
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "performance"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "count"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "update"
+    },
+  {
+    "principalType": "ROLE",
+    "principal": "$everyone",
+    "permission": "DENY"
+  },
+  {
+    "principalType": "ROLE",
+    "principalId": "$everyone",
+    "permission": "ALLOW",
+    "property": "create"
+  },
+  {
+    "principalType": "ROLE",
+    "principalId": "$owner",
+    "permission": "ALLOW",
+    "property": "deleteById"
+  },
+  {
+    "principalType": "ROLE",
+    "principalId": "$everyone",
+    "permission": "ALLOW",
+    "property": "login"
+  },
+  {
+    "principalType": "ROLE",
+    "principalId": "$everyone",
+    "permission": "ALLOW",
+    "property": "logout"
+  },
+  {
+    "principalType": "ROLE",
+    "principalId": "$owner",
+    "permission": "ALLOW",
+    "property": "findById"
+  },
+  {
+    "principalType": "ROLE",
+    "principalId": "$owner",
+    "permission": "ALLOW",
+    "property": "updateAttributes"
+  },
+  {
+    "principalType": "ROLE",
+    "principalId": "$everyone",
+    "permission": "ALLOW",
+    "property": "confirm"
+  },
+  {
+    "principalType": "ROLE",
+    "principalId": "$everyone",
+    "permission": "ALLOW",
+    "property": "resetPassword",
+    "accessType": "EXECUTE"
+  }
+],
+  "methods": {}
+}

@@ -802,18 +802,20 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "            <div class=\"col-xs-10\">\n" +
     "              <h4 ng-if=\"!viewMode\" style=\"font-weight: 100;\"><span id=\"CustomerHeading\">&nbsp;&nbsp;Add Legislation <button ng-click=\"toggleView()\" class=\"btn-primary-alt btn-xs\">View</button></span></h4>\n" +
     "              <h4 ng-if=\"viewMode\" style=\"font-weight: 100;\"><span id=\"CustomerHeading\">&nbsp;&nbsp;{{selectedType}} No. {{legislation.legislationNumber}}: of {{legislation.dateOfAssent | date:'yyyy'}} <button ng-click=\"toggleView()\" class=\"btn-primary-alt btn-xs\">Edit</button></span> </h4>\n" +
+    "\n" +
+    "\n" +
     "              <p id=\"WelcomeMessage\" style=\"margin-left:8px; margin-top:-10px\" ng-if=\"!viewMode\">\n" +
     "                Please ensure that you fill in all the mandatory sections (marked with an asterisk, *) in the form.\n" +
     "              </p>\n" +
     "              <p id=\"WelcomeMessage\" style=\"margin-left:8px; margin-top:-10px; font-size:1.2em\" ng-if=\"viewMode\">\n" +
     "                <span style=\"font-weight:600\">{{legislation.legislationName}} </span><br />\n" +
-    "                Enacted by {{legislation.enactment}}\n" +
+    "                Enacted by {{legislation.enactment}}<br />\n" +
+    "                Assented on {{legislation.dateOfAssent | date:'MMMM d, yyyy'}}\n" +
     "\n" +
     "              </p>\n" +
     "            </div>\n" +
-    "            <div class=\"col-xs-2\">\n" +
-    "              <!--{{legislation.dateOfAssent | dateSuffix }} --> {{legislation.dateOfAssent | date:'MMMM d, yyyy'}}\n" +
-    "            </div>\n" +
+    "\n" +
+    "            <div class=\"col-sm-2\"><toggle-switch on-label = \"Complete\" off-label=\"Incomplete\" model=\"legislation.completionStatus\" class=\"primary\" knob-label=\"Status\"><toggle-switch></div>\n" +
     "          </div>\n" +
     "\n" +
     "      </div>\n" +

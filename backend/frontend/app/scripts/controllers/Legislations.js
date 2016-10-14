@@ -10,7 +10,7 @@ angular.module('apptorney')
         return dtfilter+suffix;
       };
   })
-  .controller('LegislationController', function($scope, $filter, Legislation, LegislationType, LegislationPart, PartType, $location, $global, datetime){
+  .controller('LegislationController', function($rootScope,$scope, $filter, Legislation, LegislationType, LegislationPart, PartType, $location, $global, datetime){
 
     $scope.selectedType = "";
     $scope.selected = false;
@@ -96,7 +96,11 @@ angular.module('apptorney')
     $scope.saveLegislation = function(){
             $scope.saveStatus = 1;
             $scope.legislation.generalTitle = "Government of Zambia";
-            console.log($global.get('user'));
+            console.log($rootScope.user);
+            if($scope.legislation.completionStatus == true){
+              $scope.legislation.capturedById = $rootScope.user.id;
+            }
+
             Legislation.upsert($scope.legislation,
               function(legislation){
                 console.log("Saved");
@@ -121,9 +125,7 @@ angular.module('apptorney')
 
 
     $scope.deleteLegislation = function(legislationID){
-      Legislation.legislationParts.destroyAll({id:legislationID})
-      .$promise
-      .then(function(){
+
         Legislation.deleteById({ id: legislationID })
         .$promise
         .then(function() {
@@ -135,7 +137,7 @@ angular.module('apptorney')
             }
           });
         });
-      })
+
 
 
     }
@@ -187,6 +189,13 @@ angular.module('apptorney')
       },
       function(errorResponse) { }
     );
+
+    $scope.completedLegislations = [];
+    $scope.legislations.forEach(function(legislation){
+      if (legislation.completionStatus == true){
+        $scope.completedLegislations.push(legislation);
+      }
+    });
 
 
 

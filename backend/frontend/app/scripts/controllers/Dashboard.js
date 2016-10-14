@@ -1,34 +1,13 @@
 'use strict'
 
 angular.module('theme.dashboard',  [])
-  .controller('DashboardController', ['$scope','Appuser','Legislation','Case', function ($scope, Appuser, Legislation, Case) {
+  .controller('DashboardController', ['$scope','Appuser', function ($scope, Appuser) {
     $scope.percentages = [53, 65, 23, 99];
     $scope.userPerformance = [];
     Appuser.performance(function(res){
       $scope.userPerformance = res.performance;
       console.log($scope.userPerformance);
     },function(err){});
-    $scope.legislations = Legislation.find(
-      function(list) {
-      },
-      function(errorResponse) { }
-    );
-
-    $scope.completedLegislations = [];
-    $scope.legislations.forEach(function(legislation){
-      if (legislation.completionStatus == true){
-        $scope.completedLegislations.push(legislation);
-      }
-    });
-
-
-    $scope.cases = Case.find(
-      function(list) {
-
-      },
-      function(errorResponse) { }
-    );
-
 
     $scope.randomizePie = function() {
       $scope.percentages = _.shuffle($scope.percentages);

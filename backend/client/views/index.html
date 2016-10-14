@@ -71,7 +71,7 @@
                             <a class="info-tiles tiles-primary dashboard-tiles" href="#">
                                 <div class="tiles-heading">
                                     <div class="pull-left">Acts</div>
-                                    <div class="pull-right"><span id="penetration"></span>&nbsp<span id="application"></span></div>
+                                    <div class="pull-right"><span id="penetration">{{(legislationSummary.completedLegislations*100/legislationSummary.totalLegislations) | number:2}}%</span>&nbsp<span id="application"></span></div>
                                 </div>
                                 <div style="height:100px;" class="tiles-body">
 	                                <div class="row">

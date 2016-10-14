@@ -191,11 +191,11 @@ angular.module('apptorney')
     );
 
     $scope.completedLegislations = [];
-    $scope.legislations.forEach(function(legislation){
+    /*$scope.legislations.forEach(function(legislation){
       if (legislation.completionStatus == true){
         $scope.completedLegislations.push(legislation);
       }
-    });
+    });*/
 
 
 

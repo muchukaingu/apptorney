@@ -6,6 +6,10 @@
     "validateUpsert": true
   },
   "properties": {
+    "target": {
+      "type": "number",
+      "required": false
+    }
 
   },
   "validations": [],

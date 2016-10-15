@@ -23,7 +23,10 @@ module.exports = function(Appuser) {
                 console.log(numberoflegislations.length);
                 user.performance = numberoflegislations.length;
                 console.log(user);
-                cb(null, users);
+                if(users.indexOf(user)==users.length-1){
+                  cb(null, users);
+                }
+
               });
 
 

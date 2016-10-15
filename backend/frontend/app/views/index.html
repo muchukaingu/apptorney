@@ -36,30 +36,39 @@
                                     <div class="pull-left">Cases</div>
                                     <div class="pull-right">Performance &nbsp<span id="target"></span>&nbsp/&nbsp <span id="application"></span></div>
                                 </div>
-                                <div style="height:100px;" class="tiles-body">
-                                      <div class="pull-left"><i style="font-size:40pt; position:relative; top:5px" class="fa fa-gavel"></i></div>
 
-                                        <div style="position:relative; bottom:0px; left:40px;" class="uncollected">
-                                        <div class="pull-left" style="font-size:14pt;" >
-                                            <span class="packages">Complete</span>
-                                            <span class="packages" id="online">
-                                            {{}}
-                                            </span>
-                                        </div><br/>
-                                        <div style=" position:relative; bottom:15px; font-size:14pt;" class="pull-left">
-                                            <span class="packages">Incomplete</span>
-                                            <span class="packages" id="manual">
-                                              {{}}
-                                            </span>
-                                        </div><br/>
-                                        <div style=" position:relative; bottom:90px; right:40px;" class="pull-right">
-                                            <span style="font-size:25px;" class="packages">Total</span>
-                                            <span style="font-size:25px;" class="packages" id="total">
-                                            {{cases.length}}
+
+
+                                <div style="height:100px;" class="tiles-body">
+	                                <div class="row">
+	                                    <div class="col-xs-2 pull-left"><i style="font-size:40pt; position:relative; top:-1px" class="fa fa-file-text"></i></div>
+	                                    <div class="col-xs-10" style="font-size: 0.6em">
+		                                    <div class="row">
+		                                        <div class="col-xs-3 col-sm-5" style="font-size: 1em">Complete</div>
+		                                        <div class="col-xs-2 text-left" id="online" style="font-size: 1em">{{}}</div>
+		                                    </div>
+		                                    <div class="row">
+		                                        <div class="col-xs-3 col-sm-5" style="font-size: 1em">Incomplete</div>
+		                                        <div class="col-xs-2 text-left" id="manual" style="font-size: 1em">{{}}</div>
+		                                    </div>
+
+	                                    </div>
+	                                </div>
+	                                <div class="row">
+                                        <div style=" position:relative; bottom:65px; right:15px;" class="pull-right">
+
+                                            <span style="font-size:40pt;" class="packages" id="total">
+                                                  {{cases.length}}
                                             </span>
                                         </div>
-                                    </div>
+	                                </div>
+
+
+
+
                                 </div>
+
+
                             </a>
                         </div>
 
@@ -75,15 +84,15 @@
                                 </div>
                                 <div style="height:100px;" class="tiles-body">
 	                                <div class="row">
-	                                    <div class="col-xs-3 pull-left"><i style="font-size:40pt; position:relative; top:-1px" class="fa fa-file-text"></i></div>
-	                                    <div class="col-xs-9" style="font-size: 0.6em">
+	                                    <div class="col-xs-2 pull-left"><i style="font-size:40pt; position:relative; top:-1px" class="fa fa-file-text"></i></div>
+	                                    <div class="col-xs-10" style="font-size: 0.6em">
 		                                    <div class="row">
-		                                        <div class="col-xs-5 col-sm-5" style="font-size: 1em">Complete</div>
-		                                        <div class="col-xs-3 text-right" id="online" style="font-size: 1em">{{legislationSummary.completedLegislations}}</div>
+		                                        <div class="col-xs-3 col-sm-4" style="font-size: 1em">Complete</div>
+		                                        <div class="col-xs-2 text-left" id="online" style="font-size: 1em">{{legislationSummary.completedLegislations}}</div>
 		                                    </div>
 		                                    <div class="row">
-		                                        <div class="col-xs-5 col-sm-5" style="font-size: 1em">Incomplete</div>
-		                                        <div class="col-xs-3 text-right" id="manual" style="font-size: 1em">{{legislationSummary.incompleteLegislations}}</div>
+		                                        <div class="col-xs-3 col-sm-4" style="font-size: 1em">Incomplete</div>
+		                                        <div class="col-xs-2 text-left" id="manual" style="font-size: 1em">{{legislationSummary.incompleteLegislations}}</div>
 		                                    </div>
 
 	                                    </div>
@@ -113,15 +122,15 @@
                                 </div>
                                 <div style="height:100px;" class="tiles-body">
                                   <div class="row">
-                                      <div class="col-xs-3 pull-left"><i style="font-size:40pt; position:relative; top:-1px" class="fa fa-file"></i></div>
-                                      <div class="col-xs-9" style="font-size: 0.6em">
+                                      <div class="col-xs-2 pull-left"><i style="font-size:40pt; position:relative; top:-1px" class="fa fa-file"></i></div>
+                                      <div class="col-xs-10" style="font-size: 0.6em">
                                         <div class="row">
-                                            <div class="col-xs-5 col-sm-5" style="font-size: 1em">Complete</div>
-                                            <div class="col-xs-3 text-right" id="online" style="font-size: 1em">0</div>
+                                            <div class="col-xs-3 col-sm-4" style="font-size: 1em">Complete</div>
+                                            <div class="col-xs-2 text-left" id="online" style="font-size: 1em">0</div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-xs-5 col-sm-5" style="font-size: 1em">Incomplete</div>
-                                            <div class="col-xs-3 text-right" id="manual" style="font-size: 1em">0</div>
+                                            <div class="col-xs-3 col-sm-4" style="font-size: 1em">Incomplete</div>
+                                            <div class="col-xs-2 text-left" id="manual" style="font-size: 1em">0</div>
                                         </div>
 
                                       </div>
@@ -150,15 +159,15 @@
                                 </div>
                                 <div style="height:100px;" class="tiles-body">
                                   <div class="row">
-                                      <div class="col-xs-3 pull-left"><i style="font-size:40pt; position:relative; top:-1px" class="fa fa-file-text"></i></div>
-                                      <div class="col-xs-9" style="font-size: 0.6em">
+                                      <div class="col-xs-2 pull-left"><i style="font-size:40pt; position:relative; top:-1px" class="fa fa-user"></i></div>
+                                      <div class="col-xs-10" style="font-size: 0.6em">
                                         <div class="row">
-                                            <div class="col-xs-4 col-sm-4" style="font-size: 1em"></div>
-                                            <div class="col-xs-2 text-right" id="online" style="font-size: 1em"></div>
+                                            <div class="col-xs-3 col-sm-3" style="font-size: 1em"></div>
+                                            <div class="col-xs-2 text-left" id="online" style="font-size: 1em"></div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-xs-4 col-sm-4" style="font-size: 1em"></div>
-                                            <div class="col-xs-2 text-right" id="manual" style="font-size: 1em"></div>
+                                            <div class="col-xs-3 col-sm-3" style="font-size: 1em"></div>
+                                            <div class="col-xs-2 text-left" id="manual" style="font-size: 1em"></div>
                                         </div>
 
                                       </div>
@@ -440,7 +449,7 @@
                           </td>
 
                           <td class="editables" >
-                            <span style="margin-left: 20px" class="editable"  name="reviews" form="rowform" onchange="editItem(this,'userID')" required>{{user.performance}}/{{user.target?user.target:0}} </span><span class='badge badge-info' style="margin-left:30px">{{user.performance*100/(user.target?user.target:0) | number:0}}%</span>
+                            <span style="margin-left: 20px" class="editable"  name="reviews" form="rowform" onchange="editItem(this,'userID')" required>{{user.performance}}/{{user.target?user.target:0}} </span><span class='badge badge-info pull-right' style="margin-right:100px">{{user.performance*100/(user.target?user.target:0) | number:0}}%</span>
                           </td>
                           <td class="editables" >
                             <span style="margin-left: 20px" class="editable"  name="reviews" form="rowform" onchange="editItem(this,'userID')" required>0/0</span>

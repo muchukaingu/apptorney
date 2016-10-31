@@ -18,11 +18,10 @@ module.exports = function(Appuser) {
         //query the database for a single matching dog
         Appuser.find({}, function(err, users) {
             users.forEach(function(user){
-              var performance = 0;
+              user.performance = 0;
               legislations.find({where: {capturedById: user.id, completionStatus:true}}, function(err, numberoflegislations){
                 console.log(numberoflegislations.length);
                 user.performance = 0;
-                console.log(user);
                 if(users.indexOf(user)==users.length-1){
                   cb(null, users);
                 }

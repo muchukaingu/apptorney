@@ -23,7 +23,7 @@ module.exports = function(Appuser) {
                 //console.log(numberoflegislations.length);
                 user.performance = numberoflegislations.length;
                 if(users.indexOf(user)==users.length-1){
-
+                    cb(null, users);
                 }
 
               });
@@ -31,7 +31,7 @@ module.exports = function(Appuser) {
 
 
             });
-            cb(null, users);
+
 
 
 

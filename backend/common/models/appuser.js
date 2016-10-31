@@ -21,7 +21,7 @@ module.exports = function(Appuser) {
               var performance = 0;
               legislations.find({where: {capturedById: user.id, completionStatus:true}}, function(err, numberoflegislations){
                 console.log(numberoflegislations.length);
-                user.performance = numberoflegislations.length;
+                user.performance = 0;
                 console.log(user);
                 if(users.indexOf(user)==users.length-1){
                   cb(null, users);
@@ -32,7 +32,7 @@ module.exports = function(Appuser) {
 
 
             });
-              //return only the location property of the dog
+
 
 
         });

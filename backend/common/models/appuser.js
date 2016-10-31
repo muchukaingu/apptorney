@@ -20,8 +20,8 @@ module.exports = function(Appuser) {
             users.forEach(function(user){
               user.performance = 0;
               legislations.find({where: {capturedById: user.id, completionStatus:true}}, function(err, numberoflegislations){
-                console.log(numberoflegislations.length);
-                user.performance = 0;
+                //console.log(numberoflegislations.length);
+                user.performance = numberoflegislations.length;
                 if(users.indexOf(user)==users.length-1){
 
                 }

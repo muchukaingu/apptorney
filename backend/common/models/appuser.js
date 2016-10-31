@@ -23,7 +23,7 @@ module.exports = function(Appuser) {
                 console.log(numberoflegislations.length);
                 user.performance = 0;
                 if(users.indexOf(user)==users.length-1){
-                  cb(null, users);
+
                 }
 
               });
@@ -31,10 +31,12 @@ module.exports = function(Appuser) {
 
 
             });
+            cb(null, users);
 
 
 
         });
+
     }
 
 };

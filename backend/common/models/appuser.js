@@ -8,7 +8,7 @@ module.exports = function(Appuser) {
   Appuser.remoteMethod(
     'performance',{
       http: {path: '/performance', verb: 'get'},
-      returns: {arg: 'performance', type: '[Object]'}
+      returns: {arg: 'performance', type: '[{}]'}
     });
 
     Appuser.performance = function(cb) {
@@ -17,13 +17,19 @@ module.exports = function(Appuser) {
        var legislations = app.models.legislation;
         //query the database for a single matching dog
         Appuser.find({}, function(err, users) {
+            var performanceArray = [];
             users.forEach(function(user){
               user.performance = 0;
+
               legislations.find({where: {capturedById: user.id, completionStatus:true}}, function(err, numberoflegislations){
                 //console.log(numberoflegislations.length);
                 user.performance = numberoflegislations.length;
+
+                performanceArray.push({"firstName":user.firstName, "lastName":user.lastName, "performance":user.performance, "target":user.target});
                 if(users.indexOf(user)==users.length-1){
-                    cb(null, users);
+                    console.log(users);
+                    console.log(performanceArray);
+                    cb(null, performanceArray);
                 }
 
               });
@@ -38,5 +44,6 @@ module.exports = function(Appuser) {
         });
 
     }
+
 
 };

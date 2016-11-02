@@ -181,7 +181,13 @@ angular.module('apptorney')
 
 
 
-    $scope.legislations = Legislation.find(
+    $scope.legislations = Legislation.find({
+      filter:{include: {
+        relation: 'capturedBy', // include the owner object
+        scope: { // further filter the owner object
+          fields: ['firstName','lastName'] // only show two fields
+        }
+      }}},
       function(list) {
         //console.log(list);
         $scope.returned = true;

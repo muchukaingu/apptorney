@@ -20,9 +20,9 @@ angular
             url: '#/legislations'
         },
         {
-            label:"Statutory Instruments",
+            label:"Subsidiary Legislations",
             iconClasses:"fa fa-file",
-            url: '#/legislations'
+            url: '#/legislations/subsidiary'
         },
         {
             label:"Work References",

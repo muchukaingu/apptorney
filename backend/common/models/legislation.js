@@ -30,4 +30,41 @@ module.exports = function(Legislation) {
 
 
     };
+
+
+    Legislation.observe('after save', function updatePerformance(ctx, next) {
+      /*if (ctx.instance) {
+        ctx.instance.performance = 99;
+      } else {
+        ctx.data.updated = new Date();
+      }*/
+      console.log("Updating performance...");
+      var app = Legislation.app;
+
+      var Appuser = app.models.appuser;
+       //query the database for a single matching dog
+       Appuser.find({}, function(err, users) {
+           var performanceArray = [];
+           users.forEach(function(user){
+             user.performance = 0;
+
+             Legislation.find({where: {capturedById: user.id, completionStatus:true}}, function(err, numberoflegislations){
+               //console.log(numberoflegislations.length);
+               user.performance = numberoflegislations.length;
+
+               Appuser.upsert(user);
+
+
+             });
+
+
+
+           });
+
+
+
+
+       });
+      next();
+    });
 };

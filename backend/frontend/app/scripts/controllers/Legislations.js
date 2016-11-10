@@ -210,6 +210,8 @@ angular.module('apptorney')
       $scope.legislation = {};
       $scope.legislation.legislationParts = [];
       $scope.selected=false;
+      $scope.showParts = true;
+      
     }
 
 

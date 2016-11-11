@@ -190,7 +190,6 @@ angular.module('apptorney')
       },
       fields:{
         legislationParts:false,
-        capturedById:false,
         enactment: false,
         generalTitle: false,
         preamble:false

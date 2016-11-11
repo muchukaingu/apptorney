@@ -230,20 +230,35 @@ angular.module('apptorney')
       };
 
       $scope.viewMode = true;
-      $scope.legislation = legislation;
-      $scope.legislationTypes.forEach(function(type){
-        if(type.id == legislation.legislationType){
-          $scope.selected = true;
-          $scope.selectedType = type.name;
+      Legislation.find({
+        filter:{where: {
+          id: legislation.id
         }
-      })
-      if(typeof legislation.dateOfAssent == 'string'){
-        legislation.dateOfAssent = legislation.dateOfAssent.substring(0,10);
-        var parser = datetime("yyyy-MM-dd");
-        //console.log(parser);
-        $scope.legislation.dateOfAssent = parser.parse(legislation.dateOfAssent).getDate();
-        //console.log($scope.legislation.dateOfAssent);
-      }
+        }},
+        function(list) {
+          //console.log(list);
+          $scope.legislation = list[0];
+          //console.log($scope.legislation);
+          $scope.legislationTypes.forEach(function(type){
+            if(type.id == $scope.legislation.legislationType){
+              $scope.selected = true;
+              $scope.selectedType = type.name;
+            }
+          })
+          if(typeof $scope.legislation.dateOfAssent == 'string'){
+            $scope.legislation.dateOfAssent = $scope.legislation.dateOfAssent.substring(0,10);
+            var parser = datetime("yyyy-MM-dd");
+            //console.log(parser);
+            $scope.legislation.dateOfAssent = parser.parse($scope.legislation.dateOfAssent).getDate();
+            //console.log($scope.legislation.dateOfAssent);
+          }
+          $scope.returned = true;
+          $scope.showLegislations = true;
+        },
+        function(errorResponse) { }
+      );
+
+
       $scope.showParts = true;
       $scope.parts_returned = true;
 

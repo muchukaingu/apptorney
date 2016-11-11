@@ -2,7 +2,21 @@
 
 angular
   .module('theme.navigation-controller', [])
-  .controller('NavigationController', ['$scope', '$location', '$timeout', '$global', function ($scope, $location, $timeout, $global) {
+  .controller('NavigationController', ['LegislationType', '$scope', '$location', '$timeout', '$global', function (LegislationType, $scope, $location, $timeout, $global) {
+    var legislationTypes = [];
+    LegislationType.find(
+      function(types) {
+        types.forEach(function(type){
+          legislationTypes.push({
+            label: type.name,
+            iconClasses: "fa fa-file",
+            url:"#/legislations/"+type.id
+          })
+        })
+      },
+      function(errorResponse) { }
+    );
+
     $scope.menu = [
         {
             label: 'Dashboard',
@@ -17,7 +31,7 @@ angular
         {
             label:"Legislations",
             iconClasses:"fa fa-file-text",
-            url: '#/legislations'
+            children: legislationTypes
         },
 
         {

@@ -165,7 +165,7 @@ angular
       .when('/areasOfLaw', {
         templateUrl: 'views/areas-of-law.html',
       })
-      .when('/legislations', {
+      .when('/legislations/:id', {
         templateUrl: 'views/legislations.html',
       })
       .when('/legislationparttypes', {

@@ -10,7 +10,7 @@ angular.module('apptorney')
         return dtfilter+suffix;
       };
   })
-  .controller('LegislationController', function($rootScope,$scope, $filter, Legislation, LegislationType, LegislationPart, PartType, $location, $global, datetime){
+  .controller('LegislationController', function($rootScope,$scope, $filter, Legislation, LegislationType, LegislationPart, PartType, $location, $global, datetime, $routeParams, filterFilter){
 
     $scope.selectedType = "";
     $scope.selected = false;
@@ -196,6 +196,8 @@ angular.module('apptorney')
       }}},
       function(list) {
         //console.log(list);
+        console.log($routeParams.id);
+        $scope.legislations = filterFilter($scope.legislations, $routeParams.id);
         $scope.returned = true;
         $scope.showLegislations = true;
       },

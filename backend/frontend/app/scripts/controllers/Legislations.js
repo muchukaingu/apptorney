@@ -189,7 +189,11 @@ angular.module('apptorney')
         }
       },
       fields:{
-        legislationParts:false
+        legislationParts:false,
+        capturedById:false,
+        enactment: false,
+        generalTitle: false,
+        preamble:false
       }}},
       function(list) {
         //console.log(list);

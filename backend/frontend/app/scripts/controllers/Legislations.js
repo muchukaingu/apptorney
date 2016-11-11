@@ -187,6 +187,9 @@ angular.module('apptorney')
         scope: { // further filter the owner object
           fields: ['firstName','lastName'] // only show two fields
         }
+      },
+      fields:{
+        legislationParts:false
       }}},
       function(list) {
         //console.log(list);
@@ -211,7 +214,7 @@ angular.module('apptorney')
       $scope.legislation.legislationParts = [];
       $scope.selected=false;
       $scope.showParts = true;
-      
+
     }
 
 

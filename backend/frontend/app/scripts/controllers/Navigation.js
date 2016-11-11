@@ -15,15 +15,11 @@ angular
             url: '#/cases'
         },
         {
-            label:"Acts",
+            label:"Legislations",
             iconClasses:"fa fa-file-text",
             url: '#/legislations'
         },
-        {
-            label:"Subsidiary Legislations",
-            iconClasses:"fa fa-file",
-            url: '#/legislations/subsidiary'
-        },
+
         {
             label:"Work References",
             iconClasses:"fa fa-book",

@@ -967,7 +967,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "                  <div class=\"row\">\n" +
     "\n" +
-    "                    <div class=\"col-xs-12\" ng-style = \"'border':(viewMode)?'none':'1px dashed #d3d3d3', 'color':(legislation.legislationParts.length == 0)?'#d3d3d3':'gray'}\" style=\"border-radius:5px; height:auto; padding-top:20px; padding-bottom:60px; width:97%; margin-left:12px;\">\n" +
+    "                    <div class=\"col-xs-12\" ng-style = \"\" style=\"border-radius:5px; height:auto; padding-top:20px; padding-bottom:60px; width:97%; margin-left:12px;\">\n" +
     "\n" +
     "\n" +
     "                        <div class=\"row\">\n" +

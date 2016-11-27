@@ -1,0 +1,32 @@
+
+        <div class="container-fluid" ng-controller="TablesViewableController" ng-if="part.showTable">
+
+          <div class="row" ng-switch="colState">
+
+              <style>
+                  .circuit-editable {
+                      color: gray !important;
+                      border-bottom: dashed 1px gray !important;
+                  }
+              </style>
+
+              <div ng-switch-when="display_table">
+                  <div class="row">
+                      <div class="col-sm-8">
+                            <span style="font-weight:600; font-size:0.9em">{{ part.table.title | uppercase}}</span><br/>
+
+
+                      </div>
+
+                  </div>
+              </div>
+
+              <div ng-keydown="checkKey($event)" tabindex="1"  ng-init="initViewable()">
+                  <table id="viewable" class="table table-bordered table-condensed" ng-init="page = part.table.tableHeaders; data = part.table.content; table_name = part.table.title">
+
+                  </table>
+              </div>
+
+
+          </div>
+        </div>

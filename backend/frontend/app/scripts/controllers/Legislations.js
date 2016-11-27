@@ -367,7 +367,7 @@ angular.module('apptorney')
           $scope.legislationPart.showTable = false;
       }
       else{
-          $scope.legislationPart.tableHeaders = Object.keys($scope.legislationPart.table[0]);
+          //$scope.legislationPart.tableHeaders = Object.keys($scope.legislationPart.table[0]);
           $scope.legislationPart.showTable = true;
       }
     }

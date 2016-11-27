@@ -84,6 +84,8 @@ angular
         $compile(window.document.getElementById("test"))($scope);
     }
 
+
+
     // addColumn to table
     $scope.addColumn = function() {
         var colName;
@@ -149,60 +151,56 @@ angular
     }
 
 
+    $scope.initViewable = function () {
+        $scope.createViewableTable();
+    }
+
+
     $scope.$watch('page', function () {
-    	$scope.createTable();
+      $scope.createTable();
+
     });
 
-  }]).controller('ExpandingTableController', ['$scope', '$filter', function ($scope, $filter) {
-        $scope.colState = "col_num_prompt";
-        $scope.numFields = 1;
-        $scope.cols = [];
-        $scope.page =[];
-        $scope.myData = [];
-        $scope.myDefs = [];
-        $scope.newCol = "";
+  }])
+  .controller('TablesViewableController', ['$scope', '$filter', '$compile', function ($scope, $filter, $compile) {
+        $scope.page = [];
 
-        $scope.gridOptions = {
-            data: 'myData',
-            enableCellSelection: true,
-            enableColumnResize: true,
-            enableRowSelection: false,
-            enableCellEditOnFocus: true,
-            columnDefs: 'myDefs'
-        };
 
-        $scope.getColumnNames = function (num) {
-            for(var i = 1; i <= num; i++) {
-                $scope.cols.push(i);
-            }
-            $scope.colState = "col_name_prompt";
-        }
+        // Generate table
+        $scope.createViewableTable = function() {
+            //$scope.page = Object.keys($scope.data[0]);
 
-        $scope.generateTable = function() {
+            //$scope.data = Object.keys($scope.data).map(function (key) { return $scope.data[key]; });
+            console.log($scope.data);
             $scope.colState = "display_table";
-            console.log($scope.page); // [1: "col1", 2: "col2", 3: "col3"]
 
-            var newdefs = [];
-            for(var i = 1; i < $scope.page.length; i++) {
-                newdefs.push({field: $scope.page[i], displayName: $scope.page[i], enableCellEdit: true});
+            var content = '<tr style="font-weight: bold" id="rowNames">';
+            for(var i = 0; i < $scope.page.length; i++) {
+                content += '<td> {{ page['+i+'] }} </td>';
             }
-            $scope.myDefs = newdefs;
+
+            content += '</tr>';
+            content += '<tr ng-repeat="entry in data" id="rowData">';
+            for(var i = 0; i < $scope.page.length; i++) {
+                content += '<td > {{ entry.' + $scope.page[i].replace(" ", "_") + ' || \'empty\' }} </td>';
+            }
+
+            content += '</tr>';
+
+            window.document.getElementById("viewable").innerHTML = content;
+
+            $compile(window.document.getElementById("viewable"))($scope);
         }
 
-        $scope.addRow = function() {
-            $scope.inserted = {};
-            $scope.myData.push($scope.inserted);
-        };
+        $scope.initViewable = function () {
+            $scope.createViewableTable();
+        }
 
-        $scope.checkKey = function($event){
-            console.log($event.keyCode);
-            if ($event.which === 13) console.log("I am here");
-        };
 
-        $scope.addColumn = function (newCol) {
-            var newdefs = $scope.myDefs;
-            newdefs.push({field: newCol, displayName: newCol, enableCellEdit: true});
-            $scope.myDefs = newdefs;
-        };
+        $scope.$watch('page', function () {
 
-    }])
+        	$scope.createViewableTable();
+        });
+
+
+}])

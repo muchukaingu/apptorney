@@ -1016,6 +1016,8 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                                    <script type=\"text/ng-template\" id=\"items_view_renderer.html\">\n" +
     "                                        <span style=\"font-weight:600\">{{ part.number }} {{ part.title }}</span> <br>\n" +
     "                                        <span>{{ part.content }}</span><br>\n" +
+    "\n" +
+    "                                        <ng-include src=\"'templates/table-viewable.html'\"></ng-include>\n" +
     "                                        <ul>\n" +
     "                                          <p ng-repeat=\"part in part.subParts\" ng-include=\"'items_view_renderer.html'\">&emsp;</p>\n" +
     "                                        </ul>\n" +
@@ -1499,6 +1501,42 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     " </div>\n" +
     "</div>\n" +
     "</div>\n"
+  );
+
+
+  $templateCache.put('templates/table-viewable.html',
+    "\n" +
+    "        <div class=\"container-fluid\" ng-controller=\"TablesViewableController\" ng-if=\"part.showTable\">\n" +
+    "\n" +
+    "          <div class=\"row\" ng-switch=\"colState\">\n" +
+    "\n" +
+    "              <style>\n" +
+    "                  .circuit-editable {\n" +
+    "                      color: gray !important;\n" +
+    "                      border-bottom: dashed 1px gray !important;\n" +
+    "                  }\n" +
+    "              </style>\n" +
+    "\n" +
+    "              <div ng-switch-when=\"display_table\">\n" +
+    "                  <div class=\"row\">\n" +
+    "                      <div class=\"col-sm-8\">\n" +
+    "                            <span style=\"font-weight:600; font-size:0.9em\">{{ part.table.title | uppercase}}</span><br/>\n" +
+    "\n" +
+    "\n" +
+    "                      </div>\n" +
+    "\n" +
+    "                  </div>\n" +
+    "              </div>\n" +
+    "\n" +
+    "              <div ng-keydown=\"checkKey($event)\" tabindex=\"1\"  ng-init=\"initViewable()\">\n" +
+    "                  <table id=\"viewable\" class=\"table table-bordered table-condensed\" ng-init=\"page = part.table.tableHeaders; data = part.table.content; table_name = part.table.title\">\n" +
+    "\n" +
+    "                  </table>\n" +
+    "              </div>\n" +
+    "\n" +
+    "\n" +
+    "          </div>\n" +
+    "        </div>\n"
   );
 
 

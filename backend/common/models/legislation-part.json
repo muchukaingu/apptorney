@@ -21,6 +21,10 @@
     "subParts": {
       "type": ["legislationPart"],
       "required": true
+    },
+    "table":{
+      "type":"table",
+      "required":true
     }
   },
   "validations": [],

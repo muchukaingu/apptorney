@@ -1138,7 +1138,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "\n" +
     "      <div class=\"col-xs-12 col-md-12 form-group\">\n" +
-    "          <button class=\"btn btn-primary-alt\" data-toggle=\"modal\" data-target=\"#addTableModal\"><i class=\"fa fa-th\"></i> Add Table</button>\n" +
+    "          <button ng-if=\"!legislationPart.showTable\" class=\"btn btn-primary-alt\" ng-click=\"addTable()\"><i class=\"fa fa-th\"></i> Add Table</button>\n" +
     "\n" +
     "      </div>\n" +
     "\n" +
@@ -1176,6 +1176,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "        <!-- Start Form-->\n" +
     "        <ng-include src=\"'templates/legislation-part-form.html'\"></ng-include>\n" +
+    "        <ng-include src=\"'templates/table.html'\"></ng-include>\n" +
     "\n" +
     "\n" +
     "\n" +
@@ -1186,9 +1187,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "    </div>\n" +
     " </div>\n" +
     "</div>\n" +
-    "</div>\n" +
-    "\n" +
-    "<ng-include src=\"'templates/table-modal.html'\"></ng-include>\n"
+    "</div>\n"
   );
 
 
@@ -1503,124 +1502,43 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
   );
 
 
-  $templateCache.put('templates/table-modal.html',
-    "<div id=\"addTableModal\" class=\"modal fade\" style=\"z-index:3000; background-color:rgba(0, 0, 0, 0.5);\">\n" +
-    "  <div class=\"modal-dialog\" style=\"width:50%;padding-left: 2%;padding-right: 2%;\">\n" +
-    "    <div class=\"modal-content\" style=\"margin-top: 8%\">\n" +
-    "      <div class=\"modal-header\" style=\"margin-bottom:20px\">\n" +
+  $templateCache.put('templates/table.html',
     "\n" +
-    "          <button type=\"button\" id=\"closeModal\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>\n" +
-    "          <div class=\"row\">\n" +
-    "            <div class=\"col-xs-10\">\n" +
-    "              <h4 ng-if=\"!viewMode\" style=\"font-weight: 100;\"><span id=\"CustomerHeading\">&nbsp;&nbsp;Add Table <button ng-click=\"toggleView()\" class=\"btn-primary-alt btn-xs\">View</button></span></h4>\n" +
-    "              <h4 ng-if=\"viewMode\" style=\"font-weight: 100;\"><span id=\"CustomerHeading\">&nbsp;&nbsp;{{selectedType}} No. {{legislation.legislationNumber}}: of {{legislation.dateOfAssent | date:'yyyy'}} <button ng-click=\"toggleView()\" class=\"btn-primary-alt btn-xs\">Edit</button></span> </h4>\n" +
+    "        <div class=\"container-fluid\" ng-controller=\"TablesEditableController\" ng-if=\"legislationPart.showTable\">\n" +
     "\n" +
+    "          <div class=\"row\" ng-switch=\"colState\">\n" +
     "\n" +
-    "              <p id=\"WelcomeMessage\" style=\"margin-left:8px; margin-top:-10px\" ng-if=\"!viewMode\">\n" +
-    "                Please ensure that you fill in all the mandatory sections (marked with an asterisk, *) in the form.\n" +
-    "              </p>\n" +
+    "              <style>\n" +
+    "                  .circuit-editable {\n" +
+    "                      color: gray !important;\n" +
+    "                      border-bottom: dashed 1px gray !important;\n" +
+    "                  }\n" +
+    "              </style>\n" +
     "\n" +
-    "            </div>\n" +
+    "              <div ng-switch-when=\"display_table\">\n" +
+    "                  <div class=\"row\">\n" +
+    "                      <div class=\"col-sm-8\">\n" +
+    "                          <h3><a href=\"javascript:;\" class=\"circuit-editable\" editable-text=\"legislationPart.table.title\" e-label=\"Table Name\">{{ legislationPart.table.title }}</a></h3>\n" +
+    "                      </div>\n" +
+    "                      <div class=\"col-sm-4\">\n" +
+    "                          <a class=\"btn btn-md pull-right\" ng-click=\"addColumn()\"><i class=\"fa fa-plus\"></i></a>\n" +
+    "                      </div>\n" +
+    "                  </div>\n" +
+    "              </div>\n" +
     "\n" +
+    "              <div ng-keydown=\"checkKey($event)\" tabindex=\"1\"  ng-init=\"init()\">\n" +
+    "                  <table id=\"test\" class=\"table table-bordered table-condensed\" ng-init=\"page = legislationPart.table.tableHeaders; data = legislationPart.table.content; table_name = legislationPart.table.title\">\n" +
     "\n" +
+    "                  </table>\n" +
+    "              </div>\n" +
+    "\n" +
+    "              <div ng-switch-when=\"display_table\">\n" +
+    "\n" +
+    "                  <a class=\"btn btn-md\" ng-click=\"addData()\"><i class=\"fa fa-plus\"></i></a>\n" +
+    "\n" +
+    "              </div>\n" +
     "          </div>\n" +
-    "\n" +
-    "      </div>\n" +
-    "\n" +
-    "      <div class=\"modal-body\" style=\"margin-bottom: none; padding-top: 0px; border-bottom:none; padding-bottom:50%\">\n" +
-    "        <div class=\"container-fluid\" ng-controller=\"TablesEditableController\">\n" +
-    "\n" +
-    "            <div class=\"row\">\n" +
-    "                <div class=\"col-md-12\">\n" +
-    "\n" +
-    "\n" +
-    "                        <div class=\"row\" ng-switch=\"colState\">\n" +
-    "                            <div ng-switch-when=\"col_num_prompt\">\n" +
-    "                                <div class=\"col-md-12\">\n" +
-    "                                    <form class=\"form-horizontal\">\n" +
-    "                                        <div class=\"form-group text-center\">\n" +
-    "                                            <label for=\"numFields\" class=\"control-label\">How many Columns(Fields) would you like to have?</label><br>\n" +
-    "                                            <div class=\"col-sm-2 col-sm-offset-5\">\n" +
-    "                                                <br><input type=\"number\" class=\"form-control\" size=\"10\" min=\"0\" id=\"numFields\" placeholder=\"Enter a number\" ng-model=\"numFields\">\n" +
-    "                                            </div>\n" +
-    "                                            <div class=\"row\">\n" +
-    "                                                <div class=\"col-sm-12\">\n" +
-    "                                                    <br><button class=\"btn btn-default text-center\" ng-click=\"getColumnNames(numFields)\">Next</button>\n" +
-    "                                                </div>\n" +
-    "                                            </div>\n" +
-    "                                        </div>\n" +
-    "                                    </form>\n" +
-    "                                </div>\n" +
-    "                            </div>\n" +
-    "                            <div ng-switch-when=\"col_name_prompt\">\n" +
-    "                                <div class=\"row\">\n" +
-    "                                    <div class=\"col-md-12\">\n" +
-    "                                        <form class=\"form-horizontal\">\n" +
-    "                                            <div class=\"form-group\" ng-repeat=\"i in cols\">\n" +
-    "                                                <div class=\"row\">\n" +
-    "                                                    <label for=\"numFields\" class=\"col-sm-3 control-label\">Column {{i}}</label>\n" +
-    "                                                    <div class=\"col-sm-6\">\n" +
-    "                                                        <input type=\"text\" class=\"form-control\" placeholder=\"Enter Column Name\" ng-model=\"page[i]\">\n" +
-    "                                                    </div>\n" +
-    "                                                </div>\n" +
-    "                                            </div><br>\n" +
-    "                                            <div class=\"row\">\n" +
-    "                                                <div class=\"col-sm-offset-3 col-sm-9\">\n" +
-    "                                                    <button class=\"btn btn-default text-center\" ng-click=\"backToDefault()\">Back</button>\n" +
-    "                                                    <button class=\"btn btn-default text-center\" ng-click=\"createTable()\">Next</button>\n" +
-    "                                                </div>\n" +
-    "                                            </div>\n" +
-    "                                        </form>\n" +
-    "                                    </div>\n" +
-    "                                </div>\n" +
-    "                            </div>\n" +
-    "\n" +
-    "\n" +
-    "                            <div ng-switch-when=\"display_table\">\n" +
-    "                                <div class=\"row\">\n" +
-    "                                    <div class=\"col-sm-offset-8 col-sm-4\">\n" +
-    "                                        <div class=\"row\">\n" +
-    "                                            <div class=\"col-sm-7\">\n" +
-    "                                                <input type=\"text\" class=\"form-control\" placeholder=\"Enter New Column Name\" ng-model=\"newCol\"><br>\n" +
-    "                                            </div>\n" +
-    "                                            <div class=\"col-sm-4\">\n" +
-    "                                                <button class=\"btn btn-default\" ng-click=\"addColumn(newCol)\">Add Column</button>\n" +
-    "                                            </div>\n" +
-    "                                        </div>\n" +
-    "                                    </div>\n" +
-    "                                </div>\n" +
-    "                            </div>\n" +
-    "\n" +
-    "                            <div ng-keydown=\"checkKey($event)\" tabindex=\"1\">\n" +
-    "                                <table id=\"test\" class=\"table table-bordered table-condensed\">\n" +
-    "\n" +
-    "                                </table>\n" +
-    "                            </div>\n" +
-    "\n" +
-    "                            <div ng-switch-when=\"display_table\">\n" +
-    "\n" +
-    "                                <button class=\"btn btn-default\" ng-click=\"addData()\">Add row</button>\n" +
-    "\n" +
-    "                            </div>\n" +
-    "                        </div>\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "            </div>    <!-- container -->\n" +
-    "          </div>\n" +
-    "        </div>\n" +
-    "\n" +
-    "\n" +
-    "      </div>\n" +
-    "     <div class=\"modal-footer\" style=\"\">\n" +
-    "        <button id=\"submit\" ng-click=\"saveLegislation()\" type=\"submit\" class=\"btn btn-primary-alt pull-right\" ng-class=\"{'btn btn-primary-alt pull-right':(saveStatus==0), 'btn btn-primary pull-right':(saveStatus == 1), 'btn btn-success pull-right':(saveStatus == 2)} \"  style=\"width:120px\"><i ng-if=\"saveStatus==1\" class='fa fa-fw fa-sun-o fa-spin'></i>{{(saveStatus==0)?'Save Legislation':(saveStatus==1)?'Saving...':'Saved'}}</button>\n" +
-    "\n" +
-    "      </div>\n" +
-    " </div>\n" +
-    "</div>\n" +
-    "\n" +
-    "</div>\n"
+    "        </div>\n"
   );
 
 

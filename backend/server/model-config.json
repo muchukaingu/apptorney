@@ -117,5 +117,9 @@
   "appuser": {
     "dataSource": "apptorney",
     "public": true
+  },
+  "table": {
+    "dataSource": "apptorney",
+    "public": true
   }
 }

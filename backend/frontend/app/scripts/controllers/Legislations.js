@@ -316,7 +316,7 @@ angular.module('apptorney')
     $scope.addLegislationPart = function(){
       $scope.legislation.legislationParts.push({title:'PART ' + $scope.romanize($scope.legislation.legislationParts.length + 1)});
       //$("#addLegislationPart").modal("hide");
-      // console.log($scope.legislation.legislationParts);
+      console.log($scope.legislation.legislationParts);
     }
 
     $scope.openAddLegislationPartModal = function(){
@@ -363,6 +363,13 @@ angular.module('apptorney')
 
     $scope.editPart = function(scope){
       $scope.legislationPart = scope.$modelValue;
+      if($scope.legislationPart.table==undefined){
+          $scope.legislationPart.showTable = false;
+      }
+      else{
+          $scope.legislationPart.tableHeaders = Object.keys($scope.legislationPart.table[0]);
+          $scope.legislationPart.showTable = true;
+      }
     }
 
     $scope.romanize = function (num) {
@@ -377,6 +384,19 @@ angular.module('apptorney')
         while (i--)
             roman = (key[+digits.pop() + (i * 10)] || "") + roman;
         return Array(+digits.join("") + 1).join("M") + roman;
+    }
+
+    $scope.addTable = function(){
+      $scope.legislationPart.showTable = true;
+      if($scope.legislationPart.table == undefined){
+        $scope.legislationPart.table = {};
+        $scope.legislationPart.table.content = [{}];
+        $scope.legislationPart.table.tableHeaders = ["column1","column2","column3"];
+        $scope.legislationPart.table.title = "Table Heading";
+
+      }
+
+
     }
 
 

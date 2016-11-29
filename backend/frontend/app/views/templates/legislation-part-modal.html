@@ -14,7 +14,43 @@
 
         <!-- Start Form-->
         <ng-include src="'templates/legislation-part-form.html'"></ng-include>
+
+        <div class="col-md-12" style="margin-bottom: 40px"
+             ng-controller="FilesController" data-ng-init="load()">
+
+
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th colspan="2">Files in the Legislation Component</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>
+                        <img ng-src="{{legislationPart.file}}" width="100%"/></td>
+                    <td>
+                    <td>
+                        <button type="button" class="btn btn-danger btn-xs"
+                                ng-click="delete($index, file.name)"
+                                title="Delete the file">
+                            <span class="glyphicon glyphicon-trash"></span>
+                            Remove
+                        </button>
+
+                    </td>
+                    </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
         <ng-include src="'templates/table.html'"></ng-include>
+
+
 
 
 

@@ -764,14 +764,14 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "                        <!-- Example: nv-file-drop | nv-file-drop=\"options\" -->\n" +
     "                        <div class=\"well my-drop-zone\" nv-file-drop options=\"{name: legislation.id, filename: legislation.legislationParts.indexOf(legislationPart), part: legislationPart}\" filters==\"{name: 'xxx'}\"\n" +
-    "                             nv-file-over=\"another-file-over-class\" uploader=\"uploader\">\n" +
+    "                             nv-file-over=\"another-file-over-class\" uploader=\"uploader\" ng-click=\"angular.element('#fileControl').trigger('click');\">\n" +
     "                            Drag your file here or click to browse for it on your file system\n" +
     "                        </div>\n" +
     "                    </div>\n" +
     "\n" +
     "                    <!-- 2. nv-file-select | nv-file-select=\"options\" -->\n" +
     "\n" +
-    "                    <input nv-file-select uploader=\"uploader\" type=\"file\" multiple ng-show=\"false\"/><br/>\n" +
+    "                    <input nv-file-select uploader=\"uploader\" type=\"file\" multiple ng-show=\"false\" id=\"fileControl\"/><br/>\n" +
     "\n" +
     "\n" +
     "                    <input nv-file-select uploader=\"uploader\" type=\"file\" ng-show=\"false\"/>\n" +
@@ -853,10 +853,9 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                        </tr>\n" +
     "                        </thead>\n" +
     "                        <tbody>\n" +
-    "                        <tr ng-repeat=\"file in files\">\n" +
+    "                        <tr>\n" +
     "                            <td>\n" +
-    "                                <a href=\"/api/containers/attachments/download/{{file.name}}\"><strong>{{\n" +
-    "                                    file.name }}</strong></a></td>\n" +
+    "                                <img ng-src=\"{{legislationPart.file}}\" width=\"100%\"/></td>\n" +
     "                            <td>\n" +
     "                            <td>\n" +
     "                                <button type=\"button\" class=\"btn btn-danger btn-xs\"\n" +
@@ -1173,6 +1172,9 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                                        <span><img ng-src=\"{{ part.file }}\" width=\"100%\" /></span><br>\n" +
     "\n" +
     "                                        <ng-include src=\"'templates/table-viewable.html'\"></ng-include>\n" +
+    "\n" +
+    "                                        \n" +
+    "\n" +
     "                                        <ul>\n" +
     "                                          <p ng-repeat=\"part in part.subParts\" ng-include=\"'items_view_renderer.html'\">&emsp;</p>\n" +
     "                                        </ul>\n" +
@@ -1347,7 +1349,43 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "        <!-- Start Form-->\n" +
     "        <ng-include src=\"'templates/legislation-part-form.html'\"></ng-include>\n" +
+    "\n" +
+    "        <div class=\"col-md-12\" style=\"margin-bottom: 40px\"\n" +
+    "             ng-controller=\"FilesController\" data-ng-init=\"load()\">\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "            <table class=\"table\">\n" +
+    "                <thead>\n" +
+    "                <tr>\n" +
+    "                    <th colspan=\"2\">Files in the Legislation Component</th>\n" +
+    "\n" +
+    "                </tr>\n" +
+    "                </thead>\n" +
+    "                <tbody>\n" +
+    "                <tr>\n" +
+    "                    <td>\n" +
+    "                        <img ng-src=\"{{legislationPart.file}}\" width=\"100%\"/></td>\n" +
+    "                    <td>\n" +
+    "                    <td>\n" +
+    "                        <button type=\"button\" class=\"btn btn-danger btn-xs\"\n" +
+    "                                ng-click=\"delete($index, file.name)\"\n" +
+    "                                title=\"Delete the file\">\n" +
+    "                            <span class=\"glyphicon glyphicon-trash\"></span>\n" +
+    "                            Remove\n" +
+    "                        </button>\n" +
+    "\n" +
+    "                    </td>\n" +
+    "                    </button>\n" +
+    "                    </td>\n" +
+    "                </tr>\n" +
+    "                </tbody>\n" +
+    "            </table>\n" +
+    "        </div>\n" +
+    "\n" +
     "        <ng-include src=\"'templates/table.html'\"></ng-include>\n" +
+    "\n" +
+    "\n" +
     "\n" +
     "\n" +
     "\n" +

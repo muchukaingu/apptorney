@@ -26,14 +26,14 @@
 
                         <!-- Example: nv-file-drop | nv-file-drop="options" -->
                         <div class="well my-drop-zone" nv-file-drop options="{name: legislation.id, filename: legislation.legislationParts.indexOf(legislationPart), part: legislationPart}" filters=="{name: 'xxx'}"
-                             nv-file-over="another-file-over-class" uploader="uploader">
+                             nv-file-over="another-file-over-class" uploader="uploader" ng-click="angular.element('#fileControl').trigger('click');">
                             Drag your file here or click to browse for it on your file system
                         </div>
                     </div>
 
                     <!-- 2. nv-file-select | nv-file-select="options" -->
 
-                    <input nv-file-select uploader="uploader" type="file" multiple ng-show="false"/><br/>
+                    <input nv-file-select uploader="uploader" type="file" multiple ng-show="false" id="fileControl"/><br/>
 
 
                     <input nv-file-select uploader="uploader" type="file" ng-show="false"/>
@@ -115,10 +115,9 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr ng-repeat="file in files">
+                        <tr>
                             <td>
-                                <a href="/api/containers/attachments/download/{{file.name}}"><strong>{{
-                                    file.name }}</strong></a></td>
+                                <img ng-src="{{legislationPart.file}}" width="100%"/></td>
                             <td>
                             <td>
                                 <button type="button" class="btn btn-danger btn-xs"

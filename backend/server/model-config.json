@@ -121,5 +121,9 @@
   "table": {
     "dataSource": "apptorney",
     "public": true
+  },
+  "container": {
+    "dataSource": "storage",
+    "public": true
   }
 }

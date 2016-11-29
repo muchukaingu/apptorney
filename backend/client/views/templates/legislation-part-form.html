@@ -30,10 +30,24 @@
       </div>
 
 
-      <div class="col-xs-12 col-md-12 form-group">
-          <button ng-if="!legislationPart.showTable" class="btn btn-primary-alt" ng-click="addTable()"><i class="fa fa-th"></i> Add Table</button>
 
-      </div>
+
+
+
+  	    <div class="col-xs-3 pull-left" >
+  		    <div class="btn-group" data-dropdown>
+  		      <button type="button" class="btn btn-default-alt dropdown-toggle alt-border" id="stageSelector">
+  		        <span ng-if="!filtered">Add Attachments to Component</span>
+  		        <i class="fa fa-caret-down"></i>
+  		      </button>
+  		      <ul class="dropdown-menu" role="menu" style="text-align: left; position:relative; left:1px; padding-right:21px">
+               <li><a class="dropdown-toggle" ng-if="!legislationPart.showTable" ng-click="addTable()"><i class="fa fa-th"></i>&nbsp;&nbsp;Add Table&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+               <li><a class="dropdown-toggle" data-toggle="modal" data-target="#manageFilesModal"><i class="fa fa-image"></i></i>&nbsp;&nbsp;Add File&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+  		         <li ng-repeat="type in legislationTypes"><a class="dropdown-toggle" ng-click="itemselected(stage)"><i class="fa fa-file"></i>&nbsp;&nbsp;Add {{type.name}}&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+  		      </ul>
+  		    </div>
+  	    </div>
+
 
 
 

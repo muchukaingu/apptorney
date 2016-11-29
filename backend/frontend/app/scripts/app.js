@@ -58,6 +58,7 @@ angular
     'ngRoute',
     'ngAnimate',
     'dndLists',
+    'angularFileUpload',
   ])
   .controller('MainController', ['$rootScope', '$scope', '$global', '$timeout', 'progressLoader', '$location', 'Appuser', function ($rootScope, $scope, $global, $timeout, progressLoader, $location, Appuser) {
     $scope.style_fixedHeader = $global.get('fixedHeader');

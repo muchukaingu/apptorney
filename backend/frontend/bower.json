@@ -45,7 +45,8 @@
     "ng-focus-if": "^1.0.7",
     "angular-ui-select": "^0.18.1",
     "selectize": "^0.12.1",
-    "angular-drag-and-drop-lists": "^1.4.0"
+    "angular-drag-and-drop-lists": "^1.4.0",
+    "angular-file-upload": "^2.3.4"
   },
   "resolutions": {
     "jquery": "~1.11.0",

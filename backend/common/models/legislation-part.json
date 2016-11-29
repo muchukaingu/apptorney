@@ -25,7 +25,12 @@
     "table":{
       "type":"table",
       "required":true
+    },
+    "file":{
+      "type": "string",
+      "required": false
     }
+
   },
   "validations": [],
   "relations": {

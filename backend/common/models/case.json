@@ -9,7 +9,7 @@
 
     "caseNumber": {
       "type": "string",
-      "required": true
+      "required": false
     },
 
     "plaintiffs": {
@@ -44,17 +44,17 @@
 
     "summaryOfFacts": {
       "type": "string",
-      "required": true
+      "required": false
     },
 
     "summaryOfRuling": {
       "type": "string",
-      "required": true
+      "required": false
     },
 
     "judgement": {
       "type": "string",
-      "required": true
+      "required": false
     }
 
   },

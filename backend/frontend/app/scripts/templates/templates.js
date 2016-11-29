@@ -735,6 +735,160 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
   );
 
 
+  $templateCache.put('templates/file-manager.html',
+    "<div id=\"manageFilesModal\" class=\"modal fade\" style=\"z-index:3000; background-color:rgba(0, 0, 0, 0.5);\" ng-controller = \"TestController\">\n" +
+    "  <div class=\"modal-dialog\" style=\"width:50%;padding-left: 2%;padding-right: 2%; \">\n" +
+    "    <div class=\"modal-content\" style=\"margin-top: 8%\">\n" +
+    "      <div class=\"modal-header\" style=\"border-bottom:none\">\n" +
+    "          <button type=\"button\" id=\"closeModal\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>\n" +
+    "\n" +
+    "        <h4 style=\"font-weight: 100;\"><span id=\"CustomerHeading\">Add File to Legislation</span></h4>\n" +
+    "        <p id=\"WelcomeMessage\" style=\"\">\n" +
+    "          Use this screen to attach files to a Legislation Component\n" +
+    "        </p>\n" +
+    "      </div>\n" +
+    "\n" +
+    "      <div class=\"modal-body\" style=\"margin-bottom: none; padding-top: 0px; border-bottom:none\">\n" +
+    "\n" +
+    "        <div class=\"row\">\n" +
+    "\n" +
+    "                <div class=\"col-md-12\">\n" +
+    "\n" +
+    "                <img ng-src=\"{{image}}\"> </img>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "                    <div ng-show=\"uploader.isHTML5\">\n" +
+    "                        <!-- 3. nv-file-over | nv-file-over=\"className\" -->\n" +
+    "\n" +
+    "\n" +
+    "                        <!-- Example: nv-file-drop | nv-file-drop=\"options\" -->\n" +
+    "                        <div class=\"well my-drop-zone\" nv-file-drop options=\"{name: legislation.id, filename: legislation.legislationParts.indexOf(legislationPart), part: legislationPart}\" filters==\"{name: 'xxx'}\"\n" +
+    "                             nv-file-over=\"another-file-over-class\" uploader=\"uploader\">\n" +
+    "                            Drag your file here or click to browse for it on your file system\n" +
+    "                        </div>\n" +
+    "                    </div>\n" +
+    "\n" +
+    "                    <!-- 2. nv-file-select | nv-file-select=\"options\" -->\n" +
+    "\n" +
+    "                    <input nv-file-select uploader=\"uploader\" type=\"file\" multiple ng-show=\"false\"/><br/>\n" +
+    "\n" +
+    "\n" +
+    "                    <input nv-file-select uploader=\"uploader\" type=\"file\" ng-show=\"false\"/>\n" +
+    "                </div>\n" +
+    "\n" +
+    "                <div class=\"col-md-12\" style=\"margin-bottom: 40px\">\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "                    <p>Number of files to be added: {{ uploader.queue.length }}</p>\n" +
+    "\n" +
+    "                    <table class=\"table\">\n" +
+    "                        <thead>\n" +
+    "                        <tr>\n" +
+    "                            <th width=\"50%\">Name</th>\n" +
+    "                            <th ng-show=\"uploader.isHTML5\">Size</th>\n" +
+    "                            <th ng-show=\"uploader.isHTML5\">Progress</th>\n" +
+    "                            <th>Status</th>\n" +
+    "                            <th>Actions</th>\n" +
+    "                        </tr>\n" +
+    "                        </thead>\n" +
+    "                        <tbody>\n" +
+    "                        <tr ng-repeat=\"item in uploader.queue\">\n" +
+    "                            <td><strong>{{ item.file.name }}</strong></td>\n" +
+    "                            <td ng-show=\"uploader.isHTML5\" nowrap>{{\n" +
+    "                                item.file.size/1024/1024|number:2 }} MB\n" +
+    "                            </td>\n" +
+    "                            <td ng-show=\"uploader.isHTML5\">\n" +
+    "                                <div class=\"progress\" style=\"margin-bottom: 0;\">\n" +
+    "                                    <div class=\"progress-bar\" role=\"progressbar\"\n" +
+    "                                         ng-style=\"{ 'width': item.progress + '%' }\"></div>\n" +
+    "                                </div>\n" +
+    "                            </td>\n" +
+    "                            <td class=\"text-center\">\n" +
+    "                                <span ng-show=\"item.isSuccess\"><i\n" +
+    "                                        class=\"glyphicon glyphicon-ok\"></i></span>\n" +
+    "                                <span ng-show=\"item.isCancel\"><i\n" +
+    "                                        class=\"glyphicon glyphicon-ban-circle\"></i></span>\n" +
+    "                                <span ng-show=\"item.isError\"><i\n" +
+    "                                        class=\"glyphicon glyphicon-remove\"></i></span>\n" +
+    "                            </td>\n" +
+    "                            <td nowrap>\n" +
+    "                                <button type=\"button\" class=\"btn btn-success btn-xs\"\n" +
+    "                                        ng-click=\"item.upload()\"\n" +
+    "                                        ng-disabled=\"item.isReady || item.isUploading || item.isSuccess\">\n" +
+    "                                    <span class=\"glyphicon glyphicon-upload\"></span>\n" +
+    "                                    Upload\n" +
+    "                                </button>\n" +
+    "                                <button type=\"button\" class=\"btn btn-warning btn-xs\"\n" +
+    "                                        ng-click=\"item.cancel()\"\n" +
+    "                                        ng-disabled=\"!item.isUploading\">\n" +
+    "                                    <span class=\"glyphicon glyphicon-ban-circle\"></span>\n" +
+    "                                    Cancel\n" +
+    "                                </button>\n" +
+    "                                <button type=\"button\" class=\"btn btn-danger btn-xs\"\n" +
+    "                                        ng-click=\"item.remove()\">\n" +
+    "                                    <span class=\"glyphicon glyphicon-trash\"></span>\n" +
+    "                                    Remove\n" +
+    "                                </button>\n" +
+    "                            </td>\n" +
+    "                        </tr>\n" +
+    "                        </tbody>\n" +
+    "                    </table>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "                </div>\n" +
+    "\n" +
+    "                <div class=\"col-md-12\" style=\"margin-bottom: 40px\"\n" +
+    "                     ng-controller=\"FilesController\" data-ng-init=\"load()\">\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "                    <table class=\"table\">\n" +
+    "                        <thead>\n" +
+    "                        <tr>\n" +
+    "                            <th colspan=\"2\">Files in the Legislation Component</th>\n" +
+    "\n" +
+    "                        </tr>\n" +
+    "                        </thead>\n" +
+    "                        <tbody>\n" +
+    "                        <tr ng-repeat=\"file in files\">\n" +
+    "                            <td>\n" +
+    "                                <a href=\"/api/containers/attachments/download/{{file.name}}\"><strong>{{\n" +
+    "                                    file.name }}</strong></a></td>\n" +
+    "                            <td>\n" +
+    "                            <td>\n" +
+    "                                <button type=\"button\" class=\"btn btn-danger btn-xs\"\n" +
+    "                                        ng-click=\"delete($index, file.name)\"\n" +
+    "                                        title=\"Delete the file\">\n" +
+    "                                    <span class=\"glyphicon glyphicon-trash\"></span>\n" +
+    "                                    Remove\n" +
+    "                                </button>\n" +
+    "\n" +
+    "                            </td>\n" +
+    "                            </button>\n" +
+    "                            </td>\n" +
+    "                        </tr>\n" +
+    "                        </tbody>\n" +
+    "                    </table>\n" +
+    "                </div>\n" +
+    "\n" +
+    "            </div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "      </div>\n" +
+    "   <div class=\"modal-footer\" style=\"border-top:none\">\n" +
+    "\n" +
+    "\n" +
+    "    </div>\n" +
+    " </div>\n" +
+    "</div>\n" +
+    "</div>\n"
+  );
+
+
   $templateCache.put('templates/jurisdiction-modal.html',
     "<div id=\"addJurisdictionModal\" class=\"modal fade\" style=\"z-index:3000; background-color:rgba(0, 0, 0, 0.5);\">\n" +
     "  <div class=\"modal-dialog\" style=\"width:50%;padding-left: 2%;padding-right: 2%; \">\n" +
@@ -1016,6 +1170,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                                    <script type=\"text/ng-template\" id=\"items_view_renderer.html\">\n" +
     "                                        <span style=\"font-weight:600\">{{ part.number }} {{ part.title }}</span> <br>\n" +
     "                                        <span>{{ part.content }}</span><br>\n" +
+    "                                        <span><img ng-src=\"{{ part.file }}\" width=\"100%\" /></span><br>\n" +
     "\n" +
     "                                        <ng-include src=\"'templates/table-viewable.html'\"></ng-include>\n" +
     "                                        <ul>\n" +
@@ -1139,10 +1294,24 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "      </div>\n" +
     "\n" +
     "\n" +
-    "      <div class=\"col-xs-12 col-md-12 form-group\">\n" +
-    "          <button ng-if=\"!legislationPart.showTable\" class=\"btn btn-primary-alt\" ng-click=\"addTable()\"><i class=\"fa fa-th\"></i> Add Table</button>\n" +
     "\n" +
-    "      </div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "  \t    <div class=\"col-xs-3 pull-left\" >\n" +
+    "  \t\t    <div class=\"btn-group\" data-dropdown>\n" +
+    "  \t\t      <button type=\"button\" class=\"btn btn-default-alt dropdown-toggle alt-border\" id=\"stageSelector\">\n" +
+    "  \t\t        <span ng-if=\"!filtered\">Add Attachments to Component</span>\n" +
+    "  \t\t        <i class=\"fa fa-caret-down\"></i>\n" +
+    "  \t\t      </button>\n" +
+    "  \t\t      <ul class=\"dropdown-menu\" role=\"menu\" style=\"text-align: left; position:relative; left:1px; padding-right:21px\">\n" +
+    "               <li><a class=\"dropdown-toggle\" ng-if=\"!legislationPart.showTable\" ng-click=\"addTable()\"><i class=\"fa fa-th\"></i>&nbsp;&nbsp;Add Table&nbsp;&nbsp;&nbsp;&nbsp;</a></li>\n" +
+    "               <li><a class=\"dropdown-toggle\" data-toggle=\"modal\" data-target=\"#manageFilesModal\"><i class=\"fa fa-image\"></i></i>&nbsp;&nbsp;Add File&nbsp;&nbsp;&nbsp;&nbsp;</a></li>\n" +
+    "  \t\t         <li ng-repeat=\"type in legislationTypes\"><a class=\"dropdown-toggle\" ng-click=\"itemselected(stage)\"><i class=\"fa fa-file\"></i>&nbsp;&nbsp;Add {{type.name}}&nbsp;&nbsp;&nbsp;&nbsp;</a></li>\n" +
+    "  \t\t      </ul>\n" +
+    "  \t\t    </div>\n" +
+    "  \t    </div>\n" +
+    "\n" +
     "\n" +
     "\n" +
     "\n" +
@@ -1168,7 +1337,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "      <div class=\"modal-header\" style=\"border-bottom:none\">\n" +
     "          <button type=\"button\" id=\"closeModal\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>\n" +
     "\n" +
-    "        <h4 style=\"font-weight: 100;\"><span id=\"CustomerHeading\">&nbsp&nbspEdit {{legislationPart.title}}</span></h4>\n" +
+    "        <h4 style=\"font-weight: 100;\"><span id=\"CustomerHeading\">&nbsp;&nbsp;Edit {{legislationPart.title}}</span></h4>\n" +
     "        <p id=\"WelcomeMessage\" style=\"margin-left:12px\">\n" +
     "          Please ensure that you fill in all the mandatory sections in the form.\n" +
     "        </p>\n" +
@@ -1189,7 +1358,9 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "    </div>\n" +
     " </div>\n" +
     "</div>\n" +
-    "</div>\n"
+    "</div>\n" +
+    "\n" +
+    "<ng-include src=\"'templates/file-manager.html'\"></ng-include>\n"
   );
 
 

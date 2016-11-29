@@ -222,6 +222,7 @@
                                     <script type="text/ng-template" id="items_view_renderer.html">
                                         <span style="font-weight:600">{{ part.number }} {{ part.title }}</span> <br>
                                         <span>{{ part.content }}</span><br>
+                                        <span><img ng-src="{{ part.file }}" width="100%" /></span><br>
 
                                         <ng-include src="'templates/table-viewable.html'"></ng-include>
                                         <ul>

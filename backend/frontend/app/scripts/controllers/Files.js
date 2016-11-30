@@ -106,9 +106,11 @@ angular.module('apptorney')
       });
     };
 
-    $scope.delete = function (index, id) {
+    $scope.delete = function (id) {
+      $scope.currentPart.file = undefined;
       $http.delete('/api/containers/attachments/files/' + encodeURIComponent(id)).success(function (data, status, headers) {
-        $scope.files.splice(index, 1);
+
+        $scope.files.splice(0, 1);
       });
     };
 

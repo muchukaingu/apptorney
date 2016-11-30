@@ -2,7 +2,7 @@
 
 angular
   .module('theme.navigation-controller', [])
-  .controller('NavigationController', ['LegislationType', '$scope', '$location', '$timeout', '$global', function (LegislationType, $scope, $location, $timeout, $global) {
+  .controller('NavigationController', ['LegislationType', '$scope', '$location', '$timeout', '$global', '$rootScope', 'Appuser', function (LegislationType, $scope, $location, $timeout, $global, $rootScope, Appuser) {
     var legislationTypes = [];
     LegislationType.find(
       function(types) {
@@ -156,6 +156,45 @@ angular
       }
       $scope.selectedFromNavMenu = false;
     });
+
+    Appuser.getCurrent(function(res){
+      $rootScope.user = res;
+
+
+      if($rootScope.user){
+        console.info('User in Scope', $rootScope.user);
+        var menu = $scope.menu;
+
+
+
+         if($rootScope.user.userType == 4){
+           angular.forEach(menu, function (child) {
+               if(child.label !== "Cases"){
+                 console.log(child.label);
+                 menu.splice(menu.indexOf(child),1);
+               }
+
+            });
+
+
+          }
+          //console.info('menu', menu);
+
+      }
+
+
+    }, function(err){})
+
+
+
+
+
+
+
+
+
+
+
 
     // searchbar
     $scope.showSearchBar = function ($e) {

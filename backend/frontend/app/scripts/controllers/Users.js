@@ -91,7 +91,13 @@ angular.module('apptorney')
         function(res){
           $global.set('user', res.user);
           $scope.status.message = "Login Successful.";
-          $location.path('/dashboard');
+          if (res.user.userType == 4){
+            $location.path('/cases');
+          }
+          else{
+            $location.path('/dashboard');
+          }
+
           console.log("success...");
           $scope.authenticating = false;
           $rootScope.isLoggedIn = true;
@@ -107,7 +113,7 @@ angular.module('apptorney')
       )
     }
 
-    
+
 
     $scope.$watchCollection('user', function() {
       console.log("Mambo!");

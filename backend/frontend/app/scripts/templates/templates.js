@@ -859,7 +859,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                            <td>\n" +
     "                            <td>\n" +
     "                                <button type=\"button\" class=\"btn btn-danger btn-xs\"\n" +
-    "                                        ng-click=\"delete($index, file.name)\"\n" +
+    "                                        ng-click=\"delete(legislationPart.file)\"\n" +
     "                                        title=\"Delete the file\">\n" +
     "                                    <span class=\"glyphicon glyphicon-trash\"></span>\n" +
     "                                    Remove\n" +
@@ -1368,8 +1368,8 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                        <img ng-src=\"{{legislationPart.file}}\" width=\"100%\"/></td>\n" +
     "                    <td>\n" +
     "                    <td>\n" +
-    "                        <button type=\"button\" class=\"btn btn-danger btn-xs\"\n" +
-    "                                ng-click=\"delete($index, file.name)\"\n" +
+    "                        <button ng-if=\"legislationPart.file !== ''\" type=\"button\" class=\"btn btn-danger btn-xs\"\n" +
+    "                                ng-click=\"delete(fileName)\"\n" +
     "                                title=\"Delete the file\">\n" +
     "                            <span class=\"glyphicon glyphicon-trash\"></span>\n" +
     "                            Remove\n" +

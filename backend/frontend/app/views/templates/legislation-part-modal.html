@@ -33,8 +33,8 @@
                         <img ng-src="{{legislationPart.file}}" width="100%"/></td>
                     <td>
                     <td>
-                        <button type="button" class="btn btn-danger btn-xs"
-                                ng-click="delete($index, file.name)"
+                        <button ng-if="legislationPart.file !== ''" type="button" class="btn btn-danger btn-xs"
+                                ng-click="delete(fileName)"
                                 title="Delete the file">
                             <span class="glyphicon glyphicon-trash"></span>
                             Remove

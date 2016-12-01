@@ -152,7 +152,7 @@
 
 
                 <div ng-if="!showCases" style="position: relative; left: 50%; margin-left: -100px; height: 50px; margin-top: 40px"><i ng-if="!returned" class='fa fa-fw fa-sun-o fa-spin'></i> {{message}}</div>
-								<div ng-if="cases.length == 0" style="position: relative; left: 48%; margin-left: -100px; height: 50px; margin-top: 40px">No cases found. Click <a data-toggle="modal" data-target="#addCaseModal">here</a> to create one.</div>
+								<div ng-if="cases.length == 0 && returned" style="position: relative; left: 48%; margin-left: -100px; height: 50px; margin-top: 40px">No cases found. Click <a data-toggle="modal" data-target="#addCaseModal">here</a> to create one.</div>
 							</div>
 					</div>
         </div>

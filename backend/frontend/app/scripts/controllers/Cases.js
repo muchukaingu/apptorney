@@ -63,18 +63,16 @@ angular.module('apptorney')
              relation: 'areaOfLaw', // include the owner object
              scope: { // further filter the owner object
                fields: ['name','id'] // only show two fields
+             },
+             relation: 'court', // include the owner object
+             scope: { // further filter the owner object
+               fields: ['name','id'] // only show two fields
              }
            }}},
            function(cases) {
 
              cases.forEach(function(aCase){
-               Court.find({id:aCase.courtId},
-                 function(court){
-                  aCase.court = court[0].name;
-                  console.log(court);
-                 },
-                 function(err){}
-               );
+
                aCase.accuser = "";
                aCase.accused = "";
                if(aCase.plaintiffs.length > 1){

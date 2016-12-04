@@ -1,14 +1,53 @@
 <div id="addCaseModal" class="modal fade" style="z-index:2000;">
   <div class="modal-dialog" style="width:65%;padding-left: 2%;padding-right: 2%;">
     <div class="modal-content" style="margin-top: 8%">
-      <div class="modal-header" style="margin-bottom:20px">
-          <button type="button" id="closeModal" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 
-        <h4 style="font-weight: 100;"><span id="CustomerHeading">&nbsp&nbspAdd Case</span></h4>
-        <p id="WelcomeMessage" style="margin-left:8px; margin-top:-10px">
-          Please ensure that you fill in all the mandatory sections in the form.
-        </p>
+
+
+
+  
+
+
+
+      <!--New heading -->
+
+
+      <div class="modal-header" style="margin-bottom:20px">
+
+          <button type="button" id="closeModal" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <div class="row">
+            <div class="col-sm-9">
+              <h4 ng-if="!viewMode" style="font-weight: 100;"><span id="CustomerHeading">&nbsp;&nbsp;Add Case <button ng-click="toggleView()" class="btn-primary-alt btn-xs">View</button></span></h4>
+              <h4 ng-if="viewMode" style="font-weight: 100;"><span id="CustomerHeading">&nbsp;&nbsp;Case No. {{case.number}}: of {{legislation.dateOfAssent | date:'yyyy'}} <button ng-click="toggleView()" class="btn-primary-alt btn-xs">Edit</button></span> </h4>
+
+
+              <p id="WelcomeMessage" style="margin-left:8px; margin-top:-10px" ng-if="!viewMode">
+                Please ensure that you fill in all the mandatory sections (marked with an asterisk, *) in the form.
+              </p>
+              <p id="WelcomeMessage" style="margin-left:8px; margin-top:-10px; font-size:1.2em" ng-if="viewMode">
+                <span style="font-weight:600">{{case.name}} </span><br />
+
+
+              </p>
+            </div>
+
+            <div class="col-sm-3">
+              <div class="row">
+                <div class="col-sm-4" style="padding-top:4px; font-size:1.3em">Reported</div><div class="col-sm-8"><toggle-switch on-label = "Yes" off-label="No" model="case.reported" class="primary" knob-label="Status"><toggle-switch></div>
+                <div class="col-sm-4" style="padding-top:4px; font-size:1.3em">Complete</div><div class="col-sm-8"><toggle-switch on-label = "Yes" off-label="No" model="case.completionStatus" class="success" knob-label="Status"><toggle-switch></div>
+              </div>
+
+
+            </div>
+          </div>
+
       </div>
+
+
+
+
+
+
 
       <div class="modal-body" style="margin-bottom: none; padding-top: 0px; border-bottom:none">
 

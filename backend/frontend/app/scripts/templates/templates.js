@@ -77,14 +77,53 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "<div id=\"addCaseModal\" class=\"modal fade\" style=\"z-index:2000;\">\n" +
     "  <div class=\"modal-dialog\" style=\"width:65%;padding-left: 2%;padding-right: 2%;\">\n" +
     "    <div class=\"modal-content\" style=\"margin-top: 8%\">\n" +
-    "      <div class=\"modal-header\" style=\"margin-bottom:20px\">\n" +
-    "          <button type=\"button\" id=\"closeModal\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>\n" +
     "\n" +
-    "        <h4 style=\"font-weight: 100;\"><span id=\"CustomerHeading\">&nbsp&nbspAdd Case</span></h4>\n" +
-    "        <p id=\"WelcomeMessage\" style=\"margin-left:8px; margin-top:-10px\">\n" +
-    "          Please ensure that you fill in all the mandatory sections in the form.\n" +
-    "        </p>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "  \n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "      <!--New heading -->\n" +
+    "\n" +
+    "\n" +
+    "      <div class=\"modal-header\" style=\"margin-bottom:20px\">\n" +
+    "\n" +
+    "          <button type=\"button\" id=\"closeModal\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>\n" +
+    "          <div class=\"row\">\n" +
+    "            <div class=\"col-sm-9\">\n" +
+    "              <h4 ng-if=\"!viewMode\" style=\"font-weight: 100;\"><span id=\"CustomerHeading\">&nbsp;&nbsp;Add Case <button ng-click=\"toggleView()\" class=\"btn-primary-alt btn-xs\">View</button></span></h4>\n" +
+    "              <h4 ng-if=\"viewMode\" style=\"font-weight: 100;\"><span id=\"CustomerHeading\">&nbsp;&nbsp;Case No. {{case.number}}: of {{legislation.dateOfAssent | date:'yyyy'}} <button ng-click=\"toggleView()\" class=\"btn-primary-alt btn-xs\">Edit</button></span> </h4>\n" +
+    "\n" +
+    "\n" +
+    "              <p id=\"WelcomeMessage\" style=\"margin-left:8px; margin-top:-10px\" ng-if=\"!viewMode\">\n" +
+    "                Please ensure that you fill in all the mandatory sections (marked with an asterisk, *) in the form.\n" +
+    "              </p>\n" +
+    "              <p id=\"WelcomeMessage\" style=\"margin-left:8px; margin-top:-10px; font-size:1.2em\" ng-if=\"viewMode\">\n" +
+    "                <span style=\"font-weight:600\">{{case.name}} </span><br />\n" +
+    "\n" +
+    "\n" +
+    "              </p>\n" +
+    "            </div>\n" +
+    "\n" +
+    "            <div class=\"col-sm-3\">\n" +
+    "              <div class=\"row\">\n" +
+    "                <div class=\"col-sm-4\" style=\"padding-top:4px; font-size:1.3em\">Reported</div><div class=\"col-sm-8\"><toggle-switch on-label = \"Yes\" off-label=\"No\" model=\"case.reported\" class=\"primary\" knob-label=\"Status\"><toggle-switch></div>\n" +
+    "                <div class=\"col-sm-4\" style=\"padding-top:4px; font-size:1.3em\">Complete</div><div class=\"col-sm-8\"><toggle-switch on-label = \"Yes\" off-label=\"No\" model=\"case.completionStatus\" class=\"success\" knob-label=\"Status\"><toggle-switch></div>\n" +
+    "              </div>\n" +
+    "\n" +
+    "\n" +
+    "            </div>\n" +
+    "          </div>\n" +
+    "\n" +
     "      </div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
     "\n" +
     "      <div class=\"modal-body\" style=\"margin-bottom: none; padding-top: 0px; border-bottom:none\">\n" +
     "\n" +

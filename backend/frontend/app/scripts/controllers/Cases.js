@@ -68,7 +68,18 @@ angular.module('apptorney')
              scope: { // further filter the owner object
                fields: ['name','id'] // only show two fields
              }
-           }}},
+           },
+           fields:{
+              appearancesForPlaintiffs:false,
+              appearancesForDefendants:false,
+              legislationsReferredTo:false,
+              casesReferedTo:false,
+              workReferedTo:false,
+              summaryOfFacts:false,
+              summaryOfRuling:false,
+              judgement:false
+           }
+         }},
            function(cases) {
 
              cases.forEach(function(aCase){
@@ -291,10 +302,34 @@ angular.module('apptorney')
          }
 
 
+
+
          $scope.openCase = function(aCase){
-           $scope.case = aCase;
-           $scope.case.citation.year = parseInt($scope.case.citation.year);
-           console.log($scope.case.citation.year);
+
+
+           $scope.viewMode = true;
+           Case.find({
+             filter:{where: {
+               id: aCase.id
+             }
+             }},
+             function(list) {
+
+               $scope.case = list[0];
+               $scope.case.citation.year = parseInt($scope.case.citation.year);
+
+
+
+               $scope.returned = true;
+              
+             },
+             function(errorResponse) { }
+           );
+
+
+
+
+
          }
 
 

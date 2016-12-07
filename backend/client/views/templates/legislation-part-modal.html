@@ -1,0 +1,66 @@
+<div id="addLegislationPart" class="modal fade" style="z-index:3000; background-color:rgba(0, 0, 0, 0.5);">
+  <div class="modal-dialog" style="width:50%;padding-left: 2%;padding-right: 2%; ">
+    <div class="modal-content" style="margin-top: 8%">
+      <div class="modal-header" style="border-bottom:none">
+          <button type="button" id="closeModal" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+
+        <h4 style="font-weight: 100;"><span id="CustomerHeading">&nbsp;&nbsp;Edit {{legislationPart.title}}</span></h4>
+        <p id="WelcomeMessage" style="margin-left:12px">
+          Please ensure that you fill in all the mandatory sections in the form.
+        </p>
+      </div>
+
+      <div class="modal-body" style="margin-bottom: none; padding-top: 0px; border-bottom:none">
+
+        <!-- Start Form-->
+        <ng-include src="'templates/legislation-part-form.html'"></ng-include>
+
+        <div class="col-md-12" style="margin-bottom: 40px"
+             ng-controller="FilesController" data-ng-init="load()">
+
+
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th colspan="2">Files in the Legislation Component</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>
+                        <img ng-src="{{legislationPart.file}}" width="100%"/></td>
+                    <td>
+                    <td>
+                        <button ng-if="legislationPart.file !== ''" type="button" class="btn btn-danger btn-xs"
+                                ng-click="delete(fileName)"
+                                title="Delete the file">
+                            <span class="glyphicon glyphicon-trash"></span>
+                            Remove
+                        </button>
+
+                    </td>
+                    </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <ng-include src="'templates/table.html'"></ng-include>
+
+
+
+
+
+      </div>
+   <div class="modal-footer" style="border-top:none">
+
+
+    </div>
+ </div>
+</div>
+</div>
+
+<ng-include src="'templates/file-manager.html'"></ng-include>

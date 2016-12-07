@@ -1,0 +1,478 @@
+        <div id="page-heading">
+            <!-- <ol class="breadcrumb">
+                <li class='active'><a href="index.htm">Dashboard</a></li>
+            </ol> -->
+
+            <h1>Dashboard</h1>
+            <div class="options">
+                <div class="btn-toolbar">
+                    <div class="btn-group" dropdown>
+                        <button type="button" class="btn btn-default dropdown-toggle">
+                           Export as <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Action</a></li>
+                          <li><a href="#">Another action</a></li>
+                          <li><a href="#">Something else here</a></li>
+                          <li class="divider"></li>
+                          <li><a href="#">Separated link</a></li>
+                        </ul>
+                    </div>
+                    <a href="#" class="btn btn-default hidden-xs"><i class="fa fa-cog"></i></a>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="container-fluid" ng-controller="DashboardController">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+
+
+                        <div class="col-md-3 col-sm-5" ng-controller = "CasesController">
+                            <a class="info-tiles tiles-primary dashboard-tiles" href="#">
+                                <div class="tiles-heading">
+                                    <div class="pull-left">Cases</div>
+                                    <div class="pull-right">Performance &nbsp<span id="target"></span>&nbsp/&nbsp <span id="application"></span></div>
+                                </div>
+
+
+
+                                <div style="height:100px;" class="tiles-body">
+	                                <div class="row">
+	                                    <div class="col-xs-2 pull-left"><i style="font-size:40pt; position:relative; top:-1px" class="fa fa-file-text"></i></div>
+	                                    <div class="col-xs-10" style="font-size: 0.6em">
+		                                    <div class="row">
+		                                        <div class="col-xs-3 col-sm-5" style="font-size: 1em">Complete</div>
+		                                        <div class="col-xs-2 text-left" id="online" style="font-size: 1em">{{}}</div>
+		                                    </div>
+		                                    <div class="row">
+		                                        <div class="col-xs-3 col-sm-5" style="font-size: 1em">Incomplete</div>
+		                                        <div class="col-xs-2 text-left" id="manual" style="font-size: 1em">{{}}</div>
+		                                    </div>
+
+	                                    </div>
+	                                </div>
+	                                <div class="row">
+                                        <div style=" position:relative; bottom:65px; right:15px;" class="pull-right">
+
+                                            <span style="font-size:40pt;" class="packages" id="total">
+                                                  {{cases.length}}
+                                            </span>
+                                        </div>
+	                                </div>
+
+
+
+
+                                </div>
+
+
+                            </a>
+                        </div>
+
+
+
+
+
+                        <div class="col-md-3 col-sm-5" >
+                            <a class="info-tiles tiles-primary dashboard-tiles" href="#">
+                                <div class="tiles-heading">
+                                    <div class="pull-left">Acts</div>
+                                    <div class="pull-right"><span id="penetration">{{(legislationSummary.completedLegislations*100/legislationSummary.totalLegislations) | number:2}}%</span>&nbsp<span id="application"></span></div>
+                                </div>
+                                <div style="height:100px;" class="tiles-body">
+	                                <div class="row">
+	                                    <div class="col-xs-2 pull-left"><i style="font-size:40pt; position:relative; top:-1px" class="fa fa-file-text"></i></div>
+	                                    <div class="col-xs-10" style="font-size: 0.6em">
+		                                    <div class="row">
+		                                        <div class="col-xs-3 col-sm-4" style="font-size: 1em">Complete</div>
+		                                        <div class="col-xs-2 text-left" id="online" style="font-size: 1em">{{legislationSummary.completedLegislations}}</div>
+		                                    </div>
+		                                    <div class="row">
+		                                        <div class="col-xs-3 col-sm-4" style="font-size: 1em">Incomplete</div>
+		                                        <div class="col-xs-2 text-left" id="manual" style="font-size: 1em">{{legislationSummary.incompleteLegislations}}</div>
+		                                    </div>
+
+	                                    </div>
+	                                </div>
+	                                <div class="row">
+                                        <div style=" position:relative; bottom:65px; right:15px;" class="pull-right">
+
+                                            <span style="font-size:40pt;" class="packages" id="total">
+                                                  {{legislationSummary.totalLegislations}}
+                                            </span>
+                                        </div>
+	                                </div>
+
+
+
+
+                                </div>
+                            </a>
+                        </div>
+
+
+                        <div class="col-md-3 col-sm-5" >
+                            <a class="info-tiles tiles-primary dashboard-tiles" href="#">
+                                <div class="tiles-heading">
+                                    <div class="pull-left">Subsidiary Legislations</div>
+                                    <div class="pull-right"><span id="penetration"></span>&nbsp<span id="application"></span></div>
+                                </div>
+                                <div style="height:100px;" class="tiles-body">
+                                  <div class="row">
+                                      <div class="col-xs-2 pull-left"><i style="font-size:40pt; position:relative; top:-1px" class="fa fa-file"></i></div>
+                                      <div class="col-xs-10" style="font-size: 0.6em">
+                                        <div class="row">
+                                            <div class="col-xs-3 col-sm-4" style="font-size: 1em">Complete</div>
+                                            <div class="col-xs-2 text-left" id="online" style="font-size: 1em">0</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-3 col-sm-4" style="font-size: 1em">Incomplete</div>
+                                            <div class="col-xs-2 text-left" id="manual" style="font-size: 1em">0</div>
+                                        </div>
+
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                        <div style=" position:relative; bottom:65px; right:15px;" class="pull-right">
+
+                                            <span style="font-size:40pt;" class="packages" id="total">
+                                                  0
+                                            </span>
+                                        </div>
+                                  </div>
+
+
+
+
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-md-3 col-sm-5">
+                            <a class="info-tiles tiles-primary dashboard-tiles" href="#">
+                                <div class="tiles-heading">
+                                    <div class="pull-left">Users</div>
+                                    <div class="pull-right"><span id="penetration"></span>&nbsp<span id="application"></span></div>
+                                </div>
+                                <div style="height:100px;" class="tiles-body">
+                                  <div class="row">
+                                      <div class="col-xs-2 pull-left"><i style="font-size:40pt; position:relative; top:-1px" class="fa fa-user"></i></div>
+                                      <div class="col-xs-10" style="font-size: 0.6em">
+                                        <div class="row">
+                                            <div class="col-xs-3 col-sm-3" style="font-size: 1em"></div>
+                                            <div class="col-xs-2 text-left" id="online" style="font-size: 1em"></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-3 col-sm-3" style="font-size: 1em"></div>
+                                            <div class="col-xs-2 text-left" id="manual" style="font-size: 1em"></div>
+                                        </div>
+
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                        <div style=" position:relative; bottom:65px; right:15px;" class="pull-right">
+
+                                            <span style="font-size:40pt;" class="packages" id="total">
+                                                  {{userPerformance.length}}
+                                            </span>
+                                        </div>
+                                  </div>
+
+
+
+
+                                </div>
+                            </a>
+                        </div>
+
+
+
+
+
+
+
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="row">
+                <div class="col-md-2">
+                    <tile type="indigo" heading="Members">
+                        <div class="text-center">
+                            <div class="info-text">1,73<span class="subscript">K</span></div>
+                            <div class="info-text-bottom">increased by 15%</div>
+                        </div>
+                    </tile>
+                </div>
+                <div class="col-md-2">
+                    <tile type="danger" heading="Orders">
+                        <div class="text-center">
+                            <div class="info-text">1562</div>
+                            <div class="info-text-bottom">increased by 30%</div>
+                        </div>
+                    </tile>
+                </div>
+                <div class="col-md-2">
+                    <tile type="success" heading="Revenue">
+                        <div class="text-center">
+                            <div class="info-text"><span class="superscript">$</span>77,2<span class="subscript">K</span></div>
+                            <div class="info-text-bottom">increased by 12%</div>
+                        </div>
+                    </tile>
+                </div>
+
+                <div class="col-md-2">
+                    <tile type="primary" heading="Bandwidth">
+                        <div easypiechart class="easypiechart"
+                            data-percent="5"
+                            data-options="{
+                                animate: { duration: 0, enabled: false},
+                                barColor: 'rgba(255,255,255,0.6)',
+                                trackColor: 'rgba(255,255,255,0.2)',
+                                scaleColor: 'rgba(255,255,255,0.3)',
+                                lineWidth: 2,
+                                size: 100,
+                                lineCap:'circle'
+                            }"><span class="percent">5</span>
+                        </div>
+                    </tile>
+                </div>
+
+                <div class="col-md-2">
+                    <tile type="inverse" heading="RAM Usage">
+                        <div easypiechart class="easypiechart"
+                            data-percent="64"
+                            data-options="{
+                                animate: { duration: 0, enabled: false},
+                                barColor: 'rgba(255,255,255,0.6)',
+                                trackColor: 'rgba(255,255,255,0.2)',
+                                scaleColor: 'rgba(255,255,255,0.3)',
+                                lineWidth: 2,
+                                size: 100,
+                                lineCap:'circle'
+                            }"><span class="percent">64</span>
+                        </div>
+                    </tile>
+                </div>
+
+                <div class="col-md-2">
+                    <tile type="midnightblue" heading="Server Load">
+                        <div easypiechart class="easypiechart"
+                            data-percent="19"
+                            data-options="{
+                                animate: { duration: 0, enabled: false},
+                                barColor: 'rgba(255,255,255,0.6)',
+                                trackColor: 'rgba(255,255,255,0.2)',
+                                scaleColor: 'rgba(255,255,255,0.3)',
+                                lineWidth: 2,
+                                size: 100,
+                                lineCap:'circle'
+                            }"><span class="percent">19</span>
+                        </div>
+                    </tile>
+                </div>
+            </div> -->
+
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="panel panel-gray">
+                        <div class="panel-body no-border">
+                            <div class="row">
+                                <div class="col-md-12 clearfix">
+                                    <h4 class="pull-left" style="margin: 6px 0;">User Reports</h4>
+                                    <div ng-controller="DateRangePickerDemo" class="pull-right">
+                                        <button class="btn btn-default" daterangepicker="drp_options" date-begin="drp_start" date-end="drp_end">
+                                            <i class="fa fa-calendar"></i> <span style="margin-left: 5px">{{drp_start}} - {{drp_end}}</span> <b class="caret"></b>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                   <div class="mb20 mt20" flot-chart style="width: 100%; height:250px"
+                                        data-flot-data="plotStatsData"
+                                        data-flot-options="plotStatsOptions"
+                                    ></div>
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                            <div class="row">
+                                <div class="visitor-sparklines col-xs-12 col-sm-4 col-md-4">
+                                        <div class="sparkline-block">
+                                            <span sparklines="{
+                                            lineWidth: 1.5,
+                                            type: 'line',
+                                            width: '90px',
+                                            height: '20px',
+                                            lineColor: '#b3bcc7',
+                                            fillColor: 'rgba(179,188,199,0.1)',
+                                            spotColor: false,
+                                            minSpotColor: false,
+                                            highlightLineColor: 'rgba(0,0,0,0.1)',
+                                            highlightSpotColor: '#b3bcc7',
+                                            spotRadius: 3,
+                                            maxSpotColor: false}" data-data="[251,933,653,759,1022,1702,565,1913,889,674]"></span>
+                                        </div>
+                                    <h3 style="text-align: center; margin: 0;">7,451</h3>
+                                    <p style="text-align: center; margin: 0;">Visits</p>
+                                    <hr class="hidden-md hidden-sm hidden-lg">
+                                </div>
+                                <div class="visitor-sparklines col-xs-12 col-sm-4 col-md-4">
+                                        <div class="sparkline-block">
+                                            <span sparklines="{
+                                            lineWidth: 1.5,
+                                            type: 'line',
+                                            width: '90px',
+                                            height: '20px',
+                                            lineColor: '#b3bcc7',
+                                            fillColor: 'rgba(179,188,199,0.1)',
+                                            spotColor: false,
+                                            minSpotColor: false,
+                                            highlightLineColor: 'rgba(0,0,0,0.1)',
+                                            highlightSpotColor: '#b3bcc7',
+                                            spotRadius: 3,
+                                            maxSpotColor: false}" data-data="[1225,6533,2953,3469,21282,7354,1655,2567,1234,677]"></span>
+                                        </div>
+                                    <h3 style="text-align: center; margin: 0;">25,170</h3>
+                                    <p style="text-align: center; margin: 0;">Page Views</p>
+                                    <hr class="hidden-md hidden-sm hidden-lg">
+                                </div>
+                                <div class="visitor-sparklines col-xs-12 col-sm-4 col-md-4">
+                                        <div class="sparkline-block">
+                                            <span sparklines="{
+                                            lineWidth: 1.5,
+                                            type: 'line',
+                                            width: '90px',
+                                            height: '20px',
+                                            lineColor: '#b3bcc7',
+                                            fillColor: 'rgba(179,188,199,0.1)',
+                                            spotColor: false,
+                                            minSpotColor: false,
+                                            highlightLineColor: 'rgba(0,0,0,0.1)',
+                                            highlightSpotColor: '#b3bcc7',
+                                            spotRadius: 3,
+                                            maxSpotColor: false}" data-data="[5,3,7,6,2,4,6,8,6,4]"></span>
+                                        </div>
+                                    <h3 style="text-align: center; margin: 0;">5.36</h3>
+                                    <p style="text-align: center; margin: 0;">Pages/Visit</p>
+                                </div>
+                                <!-- <div class="visitor-sparklines col-xs-6 col-sm-6 col-md-2">
+                                        <div class="sparkline-block">
+                                            <span sparklines="{
+                                            lineWidth: 1.5,
+                                            type: 'line',
+                                            width: '90px',
+                                            height: '20px',
+                                            lineColor: '#b3bcc7',
+                                            fillColor: 'rgba(179,188,199,0.1)',
+                                            spotColor: false,
+                                            minSpotColor: false,
+                                            highlightLineColor: 'rgba(0,0,0,0.1)',
+                                            highlightSpotColor: '#b3bcc7',
+                                            spotRadius: 3,
+                                            maxSpotColor: false}" data-data="[2,4,7,6,5,3,2,3,5,2]"></span>
+                                        </div>
+                                    <h3 style="text-align: center; margin: 0;">00:04:15</h3>
+                                    <p style="text-align: center; margin: 0;">Avg. Visit Time</p>
+                                    <hr class="hidden-md hidden-lg">
+                                </div>
+                                <div class="visitor-sparklines col-xs-6 col-sm-6 col-md-2">
+                                        <div class="sparkline-block">
+                                            <span sparklines="{
+                                            lineWidth: 1.5,
+                                            type: 'line',
+                                            width: '90px',
+                                            height: '20px',
+                                            lineColor: '#b3bcc7',
+                                            fillColor: 'rgba(179,188,199,0.1)',
+                                            spotColor: false,
+                                            minSpotColor: false,
+                                            highlightLineColor: 'rgba(0,0,0,0.1)',
+                                            highlightSpotColor: '#b3bcc7',
+                                            spotRadius: 3,
+                                            maxSpotColor: false}" data-data="[68,83,33,90,20,76,85,65,34,52]"></span>
+                                        </div>
+                                    <h3 style="text-align: center; margin: 0;">71.63%</h3>
+                                    <p style="text-align: center; margin: 0;">New Visits</p>
+                                    <hr class="hidden-md hidden-lg">
+                                </div>
+                                <div class="visitor-sparklines col-xs-6 col-sm-6 col-md-2">
+                                        <div class="sparkline-block">
+                                            <span sparklines="{
+                                            lineWidth: 1.5,
+                                            type: 'line',
+                                            width: '90px',
+                                            height: '20px',
+                                            lineColor: '#b3bcc7',
+                                            fillColor: 'rgba(179,188,199,0.1)',
+                                            spotColor: false,
+                                            minSpotColor: false,
+                                            highlightLineColor: 'rgba(0,0,0,0.1)',
+                                            highlightSpotColor: '#b3bcc7',
+                                            spotRadius: 3,
+                                            maxSpotColor: false}" data-data="[41,33,53,79,62,47,35,23,25,64]"></span>
+                                        </div>
+                                    <h3 style="text-align: center; margin: 0;">60.24%</h3>
+                                    <p style="text-align: center; margin: 0;">Bounce Rate</p>
+                                    <hr class="hidden-md hidden-lg">
+                                </div> -->
+                            </div>
+                        </div>
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 pull-right">
+                  <div class="panel panel-gray">
+                <div class="panel-body no-border">
+
+
+                <h4>User Productivity</h4>
+                   <div class="">
+                    <div class="">
+                     <table class="table" id="capturerTbl">
+                <tr>
+                <th class="col-xs-4">User's Name</th>
+                <th class="col-xs-4">Legislations Completed</th>
+                <th class="col-xs-4">Cases Completed</th>
+              </tr>
+                            <tr id="rowTmp_capturer" ng-repeat = "user in userPerformance" >
+                            <td class="editables" >
+
+                            <span class="editable"  name="name" form="rowform" onchange="editItem(this,'userID')" required>{{user.firstName + ' ' + user.lastName}}</span>
+                          </td>
+
+                          <td class="editables" >
+                            <span style="margin-left: 20px" class="editable"  name="reviews" form="rowform" onchange="editItem(this,'userID')" required>{{user.performance}}/{{user.target?user.target:0}} </span><span class='badge badge-info pull-right' style="margin-right:100px">{{user.performance*100/(user.target?user.target:0) | number:0}}%</span>
+                          </td>
+                          <td class="editables" >
+                            <span style="margin-left: 20px" class="editable"  name="reviews" form="rowform" onchange="editItem(this,'userID')" required>0/0</span>
+                          </td>
+                        </tr>
+
+                        </table>
+                    </div>
+                    </div>
+
+                  </div>
+                  </div>
+
+                </div>
+            </div>
+
+
+
+
+
+            <div class="row">
+
+
+
+            </div>
+        </div> <!-- container -->

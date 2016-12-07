@@ -1,0 +1,118 @@
+<div id="page-heading">
+	<ol class="breadcrumb">
+        <li><a href="#/dashboard">Dashboard</a></li>
+        <li class="active">Areas of Law</li>
+    </ol>
+
+
+
+
+
+
+
+</div>
+
+<!-- <div id="viewSub" hidden="true">
+  <button id="viewsubmission" type="button"  class="btn btn-primary-alt" onclick="postData('../API/processApplications.php', $userID, 'viewApplication', 'viewApplication')" style="width:190px;">View Submission</button>
+</div> -->
+
+
+
+
+<div class="container-fluid" ng-controller="CasesController">
+    <div class="row" style="position: relative; top: -80px">
+	    <div class="col-xs-3 pull-right text-right" >
+		    <div class="btn-group" data-dropdown>
+		      <button type="button" class="btn btn-default-alt dropdown-toggle alt-border" id="stageSelector">
+		        <span ng-if="!filtered">Filter Applications by Stage</span><span ng-if="filtered">Selected Stage:</span>  &nbsp;
+		        <i class="fa fa-caret-down"></i>
+		      </button>
+		      <ul class="dropdown-menu" role="menu" style="text-align: right;">
+		         <li ng-repeat="stage in stages"><a class="dropdown-toggle" ></a></li>
+		      </ul>
+		    </div>
+	    </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+
+          <div class="panel panel-primary" style="margin-top:-35px">
+            <div class="panel-heading" style="background-color:#137ad4">
+						 <h3 style="color:#ffffff; margin-top:5px">Area of Law Management</h3>
+
+								<a class="pull-right" style="color:#add8e6; border:#none; font-size:1.2em; border-radius:5px; margin-top:-32px" data-toggle="modal" data-target="#addAreaOfLawModal"><i class="fa fa-plus"></i></a>
+					 </div>
+					 <div class="panel-body">
+
+        <form   enctype="multipart/form-data" accept-charset="utf-8" hidden="true"
+        method="post" action=""  name="caseUpload">
+              <input type="hidden" name="uploadApplications">
+              <input type="file" required="true" onchange="checkUpload(event)" id="applicationFile"  name="application" />
+              <input type="submit"  value="upload"  id="uploadApplicationBtn">
+          </form>
+
+            <div class="input-icon right mb10">
+                  <i class="fa fa-search"></i>
+                  <input type="text" ng-model="query" class="form-control" placeholder="Search..." id="Search">
+            </div>
+                <table id="casesTbl" class="table table-condensed">
+                  <tr style="background-color: #E8E9EC" class="tableHeaders">
+                    <td style="width:7%">
+	                    <a ng-click="sortType = 'caseNumber'; sortReverse = !sortReverse">
+		                    Area of Law Name
+		                    <span ng-show="sortType == 'caseNumber' && !sortReverse" class="fa fa-caret-up"></span>
+		                    <span ng-show="sortType == 'caseNumber' && sortReverse" class="fa fa-caret-down"></span>
+	                    </a>
+		            </td>
+
+
+
+                    <td style="width:5%">Actions</td>
+                  </tr>
+                  <tr id="rowTmp_Est" ng-repeat="areaOfLaw in areasOfLaw | filter:query | orderBy:sortType:sortReverse" >
+                      <td class="editables">
+
+                      <span class="editable"  name="applicationID" form="rowform" onchange="editItem(this,'itemID')"
+                        required>{{areaOfLaw.name}}
+
+                      </span>
+
+                    </td>
+
+
+
+
+
+
+                    <td style="white-space: nowrap">
+                      <!-- form -->
+                      <form editable-form name="rowform"  ng-show="rowform.$visible" class="form-buttons form-inline" >
+                        <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-sm btn-primary">
+                          Save
+                        </button>
+                        <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-sm btn-default">
+                          Cancel
+                        </button>
+                      </form>
+                      <div class="buttons" ng-show="!rowform.$visible">
+                          <!-- <a class="editItem" onclick="assignMentorModal(this)" ><i class="fa fa-edit"></i></a> -->
+
+                          <a class="viewItem" onclick="viewApp(this)" itemid="{{application.applicationID}}"><i class="fa fa-eye"></i></a>&nbsp;
+													<a data-user="Admin" class="editItem" data-toggle="modal" data-target="#addAreaOfLawModal" ng-click = "openAddAreaOfLaw(areaOfLaw)" ><i class="fa fa-edit"></i></a>
+                          <a class="viewItem" ng-click="deleteAreaOfLaw(areaOfLaw.id)"><i class="fa fa-times"></i></a></a>
+
+                          <!-- <a class="deleteItem" data-user="Admin" onclick="deleteEstimate(this,'itemID','Estimates.php','deleteEstimates','cleanRow', 'Estimates')"><i class="fa fa-trash-o"></i></a> -->
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+                <div ng-if="!showAreas" style="position: relative; left: 50%; margin-left: -100px; height: 50px; margin-top: 40px"><i ng-if="!areasReturned" class='fa fa-fw fa-sun-o fa-spin'></i> {{message}}</div>
+								<div ng-if="areasOfLaw.length == 0" style="position: relative; left: 48%; margin-left: -100px; height: 50px; margin-top: 40px">No Areas of Law found. Click <a data-toggle="modal" data-target="#addAreaOfLawModal">here</a> to create one.</div>
+							</div>
+					</div>
+        </div>
+      </div>
+			<ng-include src="'templates/area-of-law-modal.html'"></ng-include>
+
+
+</div>

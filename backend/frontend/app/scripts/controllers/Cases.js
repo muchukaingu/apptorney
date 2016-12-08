@@ -118,6 +118,71 @@ angular.module('apptorney')
          );
 
 
+
+         $scope.$watch('bigCurrentPage', function () {
+
+           $scope.cases = Case.find({
+             filter:{fields:{
+                appearancesForPlaintiffs:false,
+                appearancesForDefendants:false,
+                legislationsReferedTo:false,
+                casesReferedTo:false,
+                workReferedTo:false,
+                summaryOfFacts:false,
+                summaryOfRuling:false,
+                judgement:false,
+                court:false,
+                areaOfLawId:false,
+                coram:false,
+                courtId:false,
+                defendantSynonymId:false,
+                jurisdictionId:false,
+                locationId:false,
+                plaintiffSynonymId:false
+
+             },
+             limit:10,
+             skip:($scope.bigCurrentPage-1)*10
+           }},
+             function(cases) {
+
+               cases.forEach(function(aCase){
+                console.log("xxxxxxxxxx----->");
+                 aCase.accuser = "";
+                 aCase.accused = "";
+                 if(aCase.plaintiffs.length > 1){
+                   aCase.accuser = aCase.plaintiffs[0].name + " and Others";
+                 }
+                 else {
+                   aCase.accuser = aCase.plaintiffs[0].name;
+                 }
+
+                 if(aCase.defendants.length > 1){
+                   aCase.accused = aCase.defendants[0].name + " and Others";
+                 }
+                 else {
+                   aCase.accused = aCase.defendants[0].name;
+                 }
+
+                 aCase.name = aCase.accuser + " Vs. "+aCase.accused;
+
+               });
+
+
+
+               $scope.cases = cases;
+
+
+
+               $scope.returned = true;
+               $scope.showCases = true;
+
+             },
+             function(errorResponse) { }
+           );
+        });
+
+
          $scope.addCaseParties = function(){
            $scope.case.defendants.push(angular.copy($scope.defendant));
            $scope.case.plaintiffs.push(angular.copy($scope.plaintiff));

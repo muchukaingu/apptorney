@@ -77,7 +77,8 @@ angular.module('apptorney')
               locationId:false,
               plaintiffSynonymId:false
 
-           }
+           },
+           limit:10
          }},
            function(cases) {
 

@@ -59,31 +59,30 @@ angular.module('apptorney')
 
 
          $scope.cases = Case.find({
-           filter:{include: {
-             relation: 'areaOfLaw', // include the owner object
-             scope: { // further filter the owner object
-               fields: ['name','id'] // only show two fields
-             },
-             relation: 'court', // include the owner object
-             scope: { // further filter the owner object
-               fields: ['name','id'] // only show two fields
-             }
-           },
-           fields:{
+           filter:{fields:{
               appearancesForPlaintiffs:false,
               appearancesForDefendants:false,
-              legislationsReferredTo:false,
+              legislationsReferedTo:false,
               casesReferedTo:false,
               workReferedTo:false,
               summaryOfFacts:false,
               summaryOfRuling:false,
-              judgement:false
+              judgement:false,
+              court:false,
+              areaOfLawId:false,
+              coram:false,
+              courtId:false,
+              defendantSynonymId:false,
+              jurisdictionId:false,
+              locationId:false,
+              plaintiffSynonymId:false
+
            }
          }},
            function(cases) {
 
              cases.forEach(function(aCase){
-
+              console.log("xxxxxxxxxx----->");
                aCase.accuser = "";
                aCase.accused = "";
                if(aCase.plaintiffs.length > 1){
@@ -321,7 +320,7 @@ angular.module('apptorney')
 
 
                $scope.returned = true;
-              
+
              },
              function(errorResponse) { }
            );

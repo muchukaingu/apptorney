@@ -74,14 +74,14 @@
 
                     <td style="width:15%">
 	                    <a ng-click="sortType = 'areaOfLaw'; sortReverse = !sortReverse">
-		                    Area of Law
+		                    Citation Year
 		                    <span ng-show="sortType == 'areaOfLaw' && !sortReverse" class="fa fa-caret-up"></span>
 		                    <span ng-show="sortType == 'areaOfLaw' && sortReverse" class="fa fa-caret-down"></span>
 	                    </a>
 		            </td>
                     <td style="width:15%">
 	                    <a ng-click="sortType = 'courtId'; sortReverse = !sortReverse">
-	                    	Court
+	                    	Captured By
 	                    	<span ng-show="sortType == 'courtId' && !sortReverse" class="fa fa-caret-up"></span>
 	                    	<span ng-show="sortType == 'courtId' && sortReverse" class="fa fa-caret-down"></span>
 	                    </a>
@@ -113,7 +113,7 @@
                     <td class="editables">
 
                       <span class="editable" name="company" form="rowform" onchange="editItem(this,'itemID')">
-													{{case.areaOfLaw.name}}
+													{{case.citation.year}}
                       </span>
                     </td>
 

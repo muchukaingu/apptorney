@@ -58,7 +58,7 @@ angular.module('apptorney')
          $scope.case.coram = [];
 
 
-         $scope.cases = Case.find({
+         /*$scope.cases = Case.find({
            filter:{fields:{
               appearancesForPlaintiffs:false,
               appearancesForDefendants:false,
@@ -117,69 +117,142 @@ angular.module('apptorney')
            function(errorResponse) { }
          );
 
+         */
+
+          $scope.$watch('query', function () {
+              if($scope.query.length > 4){
+                $scope.bigCurrentPage = 0;
+              }
+
+          });
+
 
 
          $scope.$watch('bigCurrentPage', function () {
+            if($scope.bigCurrentPage == 0){
+              $scope.cases = Case.find({
+                filter:{where: {
+                  name: {like:$scope.query}
+                },
+                fields:{
+                   appearancesForPlaintiffs:false,
+                   appearancesForDefendants:false,
+                   legislationsReferedTo:false,
+                   casesReferedTo:false,
+                   workReferedTo:false,
+                   summaryOfFacts:false,
+                   summaryOfRuling:false,
+                   judgement:false,
+                   court:false,
+                   areaOfLawId:false,
+                   coram:false,
+                   courtId:false,
+                   defendantSynonymId:false,
+                   jurisdictionId:false,
+                   locationId:false,
+                   plaintiffSynonymId:false
 
-           $scope.cases = Case.find({
-             filter:{fields:{
-                appearancesForPlaintiffs:false,
-                appearancesForDefendants:false,
-                legislationsReferedTo:false,
-                casesReferedTo:false,
-                workReferedTo:false,
-                summaryOfFacts:false,
-                summaryOfRuling:false,
-                judgement:false,
-                court:false,
-                areaOfLawId:false,
-                coram:false,
-                courtId:false,
-                defendantSynonymId:false,
-                jurisdictionId:false,
-                locationId:false,
-                plaintiffSynonymId:false
+                }
+              }},
+                function(cases) {
 
-             },
-             limit:10,
-             skip:($scope.bigCurrentPage-1)*10
-           }},
-             function(cases) {
+                  cases.forEach(function(aCase){
+                   console.log("xxxxxxxxxx----->");
+                    aCase.accuser = "";
+                    aCase.accused = "";
+                    if(aCase.plaintiffs.length > 1){
+                      aCase.accuser = aCase.plaintiffs[0].name + " and Others";
+                    }
+                    else {
+                      aCase.accuser = aCase.plaintiffs[0].name;
+                    }
 
-               cases.forEach(function(aCase){
-                console.log("xxxxxxxxxx----->");
-                 aCase.accuser = "";
-                 aCase.accused = "";
-                 if(aCase.plaintiffs.length > 1){
-                   aCase.accuser = aCase.plaintiffs[0].name + " and Others";
-                 }
-                 else {
-                   aCase.accuser = aCase.plaintiffs[0].name;
-                 }
+                    if(aCase.defendants.length > 1){
+                      aCase.accused = aCase.defendants[0].name + " and Others";
+                    }
+                    else {
+                      aCase.accused = aCase.defendants[0].name;
+                    }
 
-                 if(aCase.defendants.length > 1){
-                   aCase.accused = aCase.defendants[0].name + " and Others";
-                 }
-                 else {
-                   aCase.accused = aCase.defendants[0].name;
-                 }
+                    aCase.name = aCase.accuser + " Vs. "+aCase.accused;
 
-                 aCase.name = aCase.accuser + " Vs. "+aCase.accused;
-
-               });
-
-
-
-               $scope.cases = cases;
+                  });
 
 
 
-               $scope.returned = true;
-               $scope.showCases = true;
+                  $scope.cases = cases;
 
-             },
-             function(errorResponse) { }
-           );
+
+
+                  $scope.returned = true;
+                  $scope.showCases = true;
+
+                },
+                function(errorResponse) { }
+              );
+            }
+            else {
+              $scope.cases = Case.find({
+                filter:{fields:{
+                   appearancesForPlaintiffs:false,
+                   appearancesForDefendants:false,
+                   legislationsReferedTo:false,
+                   casesReferedTo:false,
+                   workReferedTo:false,
+                   summaryOfFacts:false,
+                   summaryOfRuling:false,
+                   judgement:false,
+                   court:false,
+                   areaOfLawId:false,
+                   coram:false,
+                   courtId:false,
+                   defendantSynonymId:false,
+                   jurisdictionId:false,
+                   locationId:false,
+                   plaintiffSynonymId:false
+
+                },
+                limit:10,
+                skip:($scope.bigCurrentPage-1)*10
+              }},
+                function(cases) {
+
+                  cases.forEach(function(aCase){
+                   console.log("xxxxxxxxxx----->");
+                    aCase.accuser = "";
+                    aCase.accused = "";
+                    if(aCase.plaintiffs.length > 1){
+                      aCase.accuser = aCase.plaintiffs[0].name + " and Others";
+                    }
+                    else {
+                      aCase.accuser = aCase.plaintiffs[0].name;
+                    }
+
+                    if(aCase.defendants.length > 1){
+                      aCase.accused = aCase.defendants[0].name + " and Others";
+                    }
+                    else {
+                      aCase.accused = aCase.defendants[0].name;
+                    }
+
+                    aCase.name = aCase.accuser + " Vs. "+aCase.accused;
+
+                  });
+
+
+
+                  $scope.cases = cases;
+
+
+
+                  $scope.returned = true;
+                  $scope.showCases = true;
+
+                },
+                function(errorResponse) { }
+              );
+            }
+
         });
 
 

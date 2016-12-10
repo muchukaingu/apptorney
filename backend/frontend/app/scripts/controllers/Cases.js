@@ -119,6 +119,10 @@ angular.module('apptorney')
 
          */
 
+         $scope.newCase = function(){
+           $scope.case.isNew = true;
+         }
+
           $scope.$watch('query', function () {
               if($scope.query.length > 4){
                 $scope.bigCurrentPage = 0;
@@ -132,7 +136,7 @@ angular.module('apptorney')
             if($scope.bigCurrentPage == 0){
               $scope.cases = Case.find({
                 filter:{where: {
-                  name: {like:$scope.query}
+                  name: $scope.query
                 },
                 fields:{
                    appearancesForPlaintiffs:false,
@@ -422,18 +426,16 @@ angular.module('apptorney')
          $scope.saveCase = function(){
 
                  Case.upsert($scope.case,
-                   function(aCase){
-                     console.log(aCase);
-                     $scope.cases.push(aCase);
-                     console.log($scope.cases);
-                   },
-                   function(errorResponse){
+                     function(aCase){
+                         if($scope.case.isNew == true){
+                           $scope.cases.push(aCase);
+                         }
+                     },
+                     function(errorResponse){
 
-                   }
+                     }
                  );
 
-
-                 $("#addCaseModal").modal("hide");
 
 
 
@@ -447,13 +449,49 @@ angular.module('apptorney')
 
            $scope.viewMode = true;
            Case.find({
-             filter:{where: {
+             filter:{include: [{
+               relation: 'plaintiffSynonym', // include the owner object
+               scope: { // further filter the owner object
+                 fields: ['synonym'] // only show two fields
+               }},
+               {relation: 'defendantSynonym', // include the owner object
+               scope: { // further filter the owner object
+                 fields: ['synonym'] // only show two fields
+               }},
+               {relation: 'court', // include the owner object
+               scope: { // further filter the owner object
+                 fields: ['name'] // only show two fields
+               }},
+               {relation: 'location', // include the owner object
+               scope: { // further filter the owner object
+                 fields: ['name'] // only show two fields
+               }},
+               {relation: 'jurisdiction', // include the owner object
+               scope: { // further filter the owner object
+                 fields: ['name'] // only show two fields
+               }},
+               {relation: 'legislationsReferedTo', // include the owner object
+               scope: { // further filter the owner object
+                 fields: ['name'] // only show two fields
+               }},
+               {relation: 'casesReferedTo', // include the owner object
+               scope: { // further filter the owner object
+                 fields: ['name'] // only show two fields
+               }},
+               {relation: 'workReferedTo', // include the owner object
+               scope: { // further filter the owner object
+                 fields: ['name'] // only show two fields
+               }}
+             ],
+
+             where: {
                id: aCase.id
              }
              }},
              function(list) {
 
                $scope.case = list[0];
+               $scope.case.isNew = false;
                $scope.case.citation.year = parseInt($scope.case.citation.year);
 
 

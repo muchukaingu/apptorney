@@ -81,7 +81,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "\n" +
     "\n" +
-    "  \n" +
+    "\n" +
     "\n" +
     "\n" +
     "\n" +
@@ -451,7 +451,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "                               <ui-select multiple ng-model=\"case.legislationsReferedTo\" theme=\"bootstrap\">\n" +
     "                                   <ui-select-match placeholder=\"Select Legislations Referred To...\">{{$item.legislationName}} {{$item.dateOfAssent | date : 'yyyy'}}</ui-select-match>\n" +
-    "                                   <ui-select-choices repeat=\"legislation in legislations | filter: $select.search\">\n" +
+    "                                   <ui-select-choices repeat=\"legislation.id in legislations | filter: $select.search\">\n" +
     "                                     <span ng-bind-html=\"legislation.legislationNumber | highlight: $select.search\"></span>&nbsp;-\n" +
     "                                     <span ng-bind-html=\"legislation.legislationName | highlight: $select.search\"></span>\n" +
     "                                     <small ng-bind-html=\"legislation.dateOfAssent | date : 'yyyy' | highlight: $select.search\"></small>\n" +

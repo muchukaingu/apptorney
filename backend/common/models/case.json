@@ -36,7 +36,7 @@
       "type": ["string"]
     },
 
-    "workReferredTo": {
+    "workReferedTo": {
       "type": ["string"]
     },
 
@@ -96,7 +96,25 @@
       "type": "belongsTo",
       "model": "defendantSynonyms",
       "foreignKey": ""
+    },
+    "legislationsReferedTo": {
+      "type": "hasMany",
+      "model": "legislation",
+      "foreignKey": ""
+    },
+
+    "casesReferedTo": {
+      "type": "hasMany",
+      "model": "case",
+      "foreignKey": ""
+    },
+    "workReferedTo": {
+      "type": "hasMany",
+      "model": "work",
+      "foreignKey": ""
     }
+
+
 
   },
   "acls": [],

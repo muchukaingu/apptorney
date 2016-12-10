@@ -481,6 +481,10 @@ angular.module('apptorney')
                {relation: 'workReferedTo', // include the owner object
                scope: { // further filter the owner object
                  fields: ['name'] // only show two fields
+               }},
+               {relation: 'areaOfLaw', // include the owner object
+               scope: { // further filter the owner object
+                 fields: ['name'] // only show two fields
                }}
              ],
 

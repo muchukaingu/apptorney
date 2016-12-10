@@ -375,7 +375,7 @@
 
                                <ui-select multiple ng-model="case.legislationsReferedTo" theme="bootstrap">
                                    <ui-select-match placeholder="Select Legislations Referred To...">{{$item.legislationName}} {{$item.dateOfAssent | date : 'yyyy'}}</ui-select-match>
-                                   <ui-select-choices repeat="legislation in legislations | filter: $select.search">
+                                   <ui-select-choices repeat="legislation in legislations track by id | filter: $select.search">
                                      <span ng-bind-html="legislation.legislationNumber | highlight: $select.search"></span>&nbsp;-
                                      <span ng-bind-html="legislation.legislationName | highlight: $select.search"></span>
                                      <small ng-bind-html="legislation.dateOfAssent | date : 'yyyy' | highlight: $select.search"></small>

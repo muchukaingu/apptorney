@@ -58,14 +58,25 @@ angular.module('apptorney')
          $scope.case.coram = [];
          $scope.totalPages = 0;
          $scope.itemsPerPage = 100;
-         Case.count({}, function(result){
-           $scope.totalPages = Math.ceil(result.count/$scope.itemsPerPage);
-           console.info("Total number of pages = ", $scope.totalPages);
-         },function(error){});
+         $scope.totalCases = 0;
+
 
          $scope.setItemsPerPage = function(number){
            $scope.itemsPerPage = number;
          }
+
+
+
+         $scope.getTotalCases = function(){
+           Case.count({}, function(result){
+             $scope.totalCases = result.count;
+             $scope.totalPages = Math.ceil($scope.totalCases/$scope.itemsPerPage);
+             console.info("Total number of pages = ", $scope.totalPages);
+           },function(error){});
+         }
+
+        $scope.getTotalCases();
+
 
 
          /*$scope.cases = Case.find({
@@ -139,6 +150,74 @@ angular.module('apptorney')
               }
 
           });
+
+
+          $scope.$watch('itemsPerPage', function () {
+               $scope.getTotalCases();
+
+
+               $scope.cases = Case.find({
+                 filter:{fields:{
+                    appearancesForPlaintiffs:false,
+                    appearancesForDefendants:false,
+                    legislationsReferedTo:false,
+                    casesReferedTo:false,
+                    workReferedTo:false,
+                    summaryOfFacts:false,
+                    summaryOfRuling:false,
+                    judgement:false,
+                    court:false,
+                    areaOfLawId:false,
+                    coram:false,
+                    courtId:false,
+                    defendantSynonymId:false,
+                    jurisdictionId:false,
+                    locationId:false,
+                    plaintiffSynonymId:false
+
+                 },
+                 limit:$scope.itemsPerPage,
+                 skip:($scope.bigCurrentPage-1)*$scope.itemsPerPage
+               }},
+                 function(cases) {
+
+                   cases.forEach(function(aCase){
+                    console.log("xxxxxxxxxx----->");
+                     aCase.accuser = "";
+                     aCase.accused = "";
+                     if(aCase.plaintiffs.length > 1){
+                       aCase.accuser = aCase.plaintiffs[0].name + " and Others";
+                     }
+                     else {
+                       aCase.accuser = aCase.plaintiffs[0].name;
+                     }
+
+                     if(aCase.defendants.length > 1){
+                       aCase.accused = aCase.defendants[0].name + " and Others";
+                     }
+                     else {
+                       aCase.accused = aCase.defendants[0].name;
+                     }
+
+                     aCase.name = aCase.accuser + " Vs. "+aCase.accused;
+
+                   });
+
+
+
+                   $scope.cases = cases;
+
+
+
+                   $scope.returned = true;
+                   $scope.showCases = true;
+
+                 },
+                 function(errorResponse) { }
+               );
+
+
+         });
 
 
 

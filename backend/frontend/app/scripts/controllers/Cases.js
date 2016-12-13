@@ -56,6 +56,16 @@ angular.module('apptorney')
          $scope.areasOfLaw = [];
 
          $scope.case.coram = [];
+         $scope.totalPages = 0;
+         $scope.itemsPerPage = 100;
+         Case.count({}, function(result){
+           $scope.totalPages = Math.ceil(result.count/$scope.itemsPerPage);
+           console.info("Total number of pages = ", $scope.totalPages);
+         },function(error){});
+
+         $scope.setItemsPerPage = function(number){
+           $scope.itemsPerPage = number;
+         }
 
 
          /*$scope.cases = Case.find({
@@ -216,8 +226,8 @@ angular.module('apptorney')
                    plaintiffSynonymId:false
 
                 },
-                limit:10,
-                skip:($scope.bigCurrentPage-1)*10
+                limit:$scope.itemsPerPage,
+                skip:($scope.bigCurrentPage-1)*$scope.itemsPerPage
               }},
                 function(cases) {
 

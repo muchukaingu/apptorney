@@ -153,7 +153,23 @@
 
                 <div ng-if="!showCases" style="position: relative; left: 50%; margin-left: -100px; height: 50px; margin-top: 40px"><i ng-if="!returned" class='fa fa-fw fa-sun-o fa-spin'></i> {{message}}</div>
 								<div ng-if="cases.length == 0 && returned" style="position: relative; left: 48%; margin-left: -100px; height: 50px; margin-top: 40px">No cases found. Click <a data-toggle="modal" data-target="#addCaseModal">here</a> to create one.</div>
-								<pagination total-items="2000" ng-model="bigCurrentPage" max-size="10" class="pagination-sm" boundary-links="true"></pagination>
+								<div class="row">
+									<div class="col-sm-12 col-md-9">
+										<pagination total-items="totalPages" ng-model="bigCurrentPage" max-size="100" class="pagination-sm" boundary-links="true"></pagination>
+									</div>
+									<div class="col-sm-12 col-md-3 form-group">
+										<select class="form-control" id="sel1">
+											 <option>Visible Cases Per Page</option>
+											 <option ng-click="setItemsPerPage(50)">50 Cases</option>
+											 <option ng-click="setItemsPerPage(100)">100 Cases</option>
+											 <option ng-click="setItemsPerPage(250)">250 Cases</option>
+											 <option ng-click="setItemsPerPage(500)">500 Cases</option>
+										 </select>
+
+
+									</div>
+								</div>
+
 							</div>
 					</div>
         </div>

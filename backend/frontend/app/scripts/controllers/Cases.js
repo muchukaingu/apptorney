@@ -71,7 +71,8 @@ angular.module('apptorney')
          $scope.caseReferences = Case.find({
                     filter:{fields:{
                        defendants:true,
-                       plaintiffs:true
+                       plaintiffs:true,
+                       id:true
 
                     }
 

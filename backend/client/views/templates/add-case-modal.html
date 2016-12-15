@@ -389,7 +389,7 @@
 
                                <ui-select multiple ng-model="case.casesReferedTo" theme="bootstrap">
                                    <ui-select-match placeholder="Select Cases Referred To...">{{$item.name}}</ui-select-match>
-                                   <ui-select-choices repeat="case in cases | filter: $select.search">
+                                   <ui-select-choices repeat="case in caseReferences | filter: $select.search">
                                      <span ng-bind-html="case.name | highlight: $select.search"></span>
                                      <small ng-bind-html="case.citation.year | highlight: $select.search"></small>
                                    </ui-select-choices>

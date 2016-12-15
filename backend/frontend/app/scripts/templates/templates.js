@@ -465,7 +465,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "                               <ui-select multiple ng-model=\"case.casesReferedTo\" theme=\"bootstrap\">\n" +
     "                                   <ui-select-match placeholder=\"Select Cases Referred To...\">{{$item.name}}</ui-select-match>\n" +
-    "                                   <ui-select-choices repeat=\"case in cases | filter: $select.search\">\n" +
+    "                                   <ui-select-choices repeat=\"case in caseReferences | filter: $select.search\">\n" +
     "                                     <span ng-bind-html=\"case.name | highlight: $select.search\"></span>\n" +
     "                                     <small ng-bind-html=\"case.citation.year | highlight: $select.search\"></small>\n" +
     "                                   </ui-select-choices>\n" +

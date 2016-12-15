@@ -29,18 +29,6 @@
     },
 
     "citation":"citation",
-    "legislationsReferedTo": {
-      "type": ["string"]
-    },
-    "casesReferedTo": {
-      "type": ["string"]
-    },
-
-    "workReferedTo": {
-      "type": ["string"]
-    },
-
-
 
     "summaryOfFacts": {
       "type": "string",
@@ -97,21 +85,24 @@
       "model": "defendantSynonyms",
       "foreignKey": ""
     },
-    "legislationsReferedTo": {
-      "type": "hasMany",
-      "model": "legislation",
-      "foreignKey": ""
-    },
-
-    "casesReferedTo": {
-      "type": "hasMany",
-      "model": "case",
-      "foreignKey": ""
-    },
     "workReferedTo": {
       "type": "hasMany",
       "model": "work",
-      "foreignKey": ""
+      "foreignKey": "caseId",
+      "through": "caseWorks"
+    },
+    "legislationsReferedTo": {
+      "type": "hasMany",
+      "model": "legislation",
+      "foreignKey": "caseId",
+      "through": "caseLegislations"
+    },
+    "casesReferedTo": {
+      "type": "hasMany",
+      "model": "case",
+      "foreignKey": "caseId",
+      "through": "caseCases",
+      "keyThrough":"caseReferedToId"
     }
 
 

@@ -40,7 +40,19 @@
     "dataSource": "apptorney",
     "public": true
   },
+  "caseLegislations": {
+    "dataSource": "apptorney",
+    "public": true
+  },
   "case": {
+    "dataSource": "apptorney",
+    "public": true
+  },
+  "caseCases": {
+    "dataSource": "apptorney",
+    "public": true
+  },
+  "caseWorks": {
     "dataSource": "apptorney",
     "public": true
   },

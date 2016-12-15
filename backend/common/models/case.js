@@ -1,5 +1,6 @@
 module.exports = function(Case) {
 
+
   Case.remoteMethod(
     'generateNames',{
         http: {path: '/generatenames', verb: 'get'},
@@ -43,5 +44,33 @@ module.exports = function(Case) {
 
 
   };
+
+
+Case.observe('before save', function clearReferences(ctx, next) {
+
+      var app = Case.app;
+
+      var CaseLegislations = app.models.caseLegislations;
+      var CaseCases = app.models.caseCases;
+      var CaseWorks = app.models.caseWorks;
+
+       //query the database for a single matching dog
+       if(ctx.data.id){
+         CaseLegislations.destroyAll({caseId:ctx.data.id}, function(err, result) {
+            console.log(result);
+         });
+
+         CaseCases.destroyAll({caseId:ctx.data.id}, function(err, result) {
+            console.log(result);
+         });
+
+         CaseWorks.destroyAll({caseId:ctx.data.id}, function(err, result) {
+            console.info("Case Works Deleted",result);
+         });
+       }
+
+      next();
+    });
+
 
 };

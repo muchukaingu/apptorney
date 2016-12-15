@@ -445,13 +445,13 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "\n" +
     "\n" +
-    "\n" +
-    "                             <div class=\"col-xs-4 form-group\" ng-controller = \"LegislationController\">\n" +
+    "                             <div class=\"col-xs-12\">Legislations</div>\n" +
+    "                             <div class=\"col-xs-12 form-group\" ng-controller = \"LegislationController\">\n" +
     "\n" +
     "\n" +
     "                               <ui-select multiple ng-model=\"case.legislationsReferedTo\" theme=\"bootstrap\">\n" +
     "                                   <ui-select-match placeholder=\"Select Legislations Referred To...\">{{$item.legislationName}} {{$item.dateOfAssent | date : 'yyyy'}}</ui-select-match>\n" +
-    "                                   <ui-select-choices repeat=\"legislation in legislations track by id | filter: $select.search\">\n" +
+    "                                   <ui-select-choices repeat=\"legislation in legislations | filter: $select.search\">\n" +
     "                                     <span ng-bind-html=\"legislation.legislationNumber | highlight: $select.search\"></span>&nbsp;-\n" +
     "                                     <span ng-bind-html=\"legislation.legislationName | highlight: $select.search\"></span>\n" +
     "                                     <small ng-bind-html=\"legislation.dateOfAssent | date : 'yyyy' | highlight: $select.search\"></small>\n" +
@@ -459,7 +459,8 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                               </ui-select>\n" +
     "                             </div>\n" +
     "\n" +
-    "                             <div class=\"col-xs-4 form-group\">\n" +
+    "                             <div class=\"col-xs-12\">Cases</div>\n" +
+    "                             <div class=\"col-xs-12 form-group\">\n" +
     "\n" +
     "\n" +
     "                               <ui-select multiple ng-model=\"case.casesReferedTo\" theme=\"bootstrap\">\n" +
@@ -471,11 +472,11 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                               </ui-select>\n" +
     "                             </div>\n" +
     "\n" +
+    "                            <div class=\"col-xs-12\">Works</div>\n" +
+    "                             <div class=\"col-xs-12 form-group\" ng-controller=\"WorkReferenceController\">\n" +
     "\n" +
-    "                             <div class=\"col-xs-4 form-group\" ng-controller=\"WorkReferenceController\">\n" +
     "\n" +
-    "\n" +
-    "                               <ui-select multiple ng-model=\"case.worksReferedTo\" theme=\"bootstrap\">\n" +
+    "                               <ui-select multiple ng-model=\"case.workReferedTo\" theme=\"bootstrap\">\n" +
     "                                   <ui-select-match placeholder=\"Select Works Referred To...\">{{$item.name}}</ui-select-match>\n" +
     "                                   <ui-select-choices repeat=\"work in works | filter: $select.search\">\n" +
     "                                     <span ng-bind-html=\"work.name | highlight: $select.search\"></span>\n" +
@@ -547,7 +548,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "    <div class=\"row\">\n" +
     "      <div class = \"form-group col-xs-3 col-xs-offset-9\">\n" +
     "\n" +
-    "        <button id=\"submit\" type=\"submit\" class=\"btn btn-primary-alt btn-block btn-md\" style=\"\" ng-click=\"saveCase()\">Save Case</button>\n" +
+    "        <button id=\"submit\" type=\"submit\" class=\"btn btn-primary-alt btn-block btn-md\" style=\"\" ng-click=\"saveCase()\" ng-class=\"{'btn btn-primary-alt pull-right':(saveStatus==0), 'btn btn-primary pull-right':(saveStatus == 1), 'btn btn-success pull-right':(saveStatus == 2)} \"  style=\"width:120px\"><i ng-if=\"saveStatus==1\" class='fa fa-fw fa-sun-o fa-spin'></i>{{(saveStatus==0)?'Save Case':(saveStatus==1)?'Saving...':'Saved'}}</button>\n" +
     "\n" +
     "      </div>\n" +
     "    </div>\n" +

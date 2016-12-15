@@ -8,7 +8,7 @@ angular.module('apptorney')
       }
   };
 })
-.controller('CasesController',function ($scope, $timeout, Court, Case, AreaOfLaw,Jurisdiction, Location, baseURL, filterFilter) {
+.controller('CasesController',function ($scope, $timeout, Court, Case, CaseLegislations, CaseCases, CaseWorks, AreaOfLaw,Jurisdiction, Location, baseURL, filterFilter) {
     console.log("xxx---->");
 
 
@@ -41,6 +41,8 @@ angular.module('apptorney')
          $scope.case.appearancesForPlaintiffs = [];
          $scope.case.parties.selectedPlaintiffAdvocates = [];
          $scope.legislations = [];
+         $scope.saveStatus = 0;
+
 
          $scope.courts = [];
          $scope.court = {};
@@ -77,68 +79,6 @@ angular.module('apptorney')
 
         $scope.getTotalCases();
 
-
-
-         /*$scope.cases = Case.find({
-           filter:{fields:{
-              appearancesForPlaintiffs:false,
-              appearancesForDefendants:false,
-              legislationsReferedTo:false,
-              casesReferedTo:false,
-              workReferedTo:false,
-              summaryOfFacts:false,
-              summaryOfRuling:false,
-              judgement:false,
-              court:false,
-              areaOfLawId:false,
-              coram:false,
-              courtId:false,
-              defendantSynonymId:false,
-              jurisdictionId:false,
-              locationId:false,
-              plaintiffSynonymId:false
-
-           },
-           limit:10
-         }},
-           function(cases) {
-
-             cases.forEach(function(aCase){
-              console.log("xxxxxxxxxx----->");
-               aCase.accuser = "";
-               aCase.accused = "";
-               if(aCase.plaintiffs.length > 1){
-                 aCase.accuser = aCase.plaintiffs[0].name + " and Others";
-               }
-               else {
-                 aCase.accuser = aCase.plaintiffs[0].name;
-               }
-
-               if(aCase.defendants.length > 1){
-                 aCase.accused = aCase.defendants[0].name + " and Others";
-               }
-               else {
-                 aCase.accused = aCase.defendants[0].name;
-               }
-
-               aCase.name = aCase.accuser + " Vs. "+aCase.accused;
-
-             });
-
-
-
-             $scope.cases = cases;
-
-
-
-             $scope.returned = true;
-             $scope.showCases = true;
-
-           },
-           function(errorResponse) { }
-         );
-
-         */
 
          $scope.newCase = function(){
            $scope.case.isNew = true;
@@ -513,12 +453,49 @@ angular.module('apptorney')
 
 
          $scope.saveCase = function(){
+                 $scope.saveStatus = 1;
 
                  Case.upsert($scope.case,
                      function(aCase){
+                         $scope.case.legislationsReferedTo.forEach(function(legislation){
+                           CaseLegislations.create({
+                             caseId: aCase.id,
+                             legislationId: legislation.id
+                           }, function(res){}, function(err){});
+
+                         });
+
+                         $scope.case.casesReferedTo.forEach(function(reference){
+                           CaseCases.create({
+                             caseId: aCase.id,
+                             caseReferedToId: reference.id
+                           }, function(res){}, function(err){});
+
+                         })
+
+                         $scope.case.workReferedTo.forEach(function(reference){
+                           CaseWorks.create({
+                             caseId: aCase.id,
+                             workId: reference.id
+                           }, function(res){}, function(err){});
+
+
+
+                         })
+
+                         $scope.saveStatus = 2;
+                         setTimeout(function(){ $scope.saveStatus = 0; console.log("Save Status = " + $scope.saveStatus); $("#applicationForm").click(); }, 10000);
+
+
+
+
+
+
                          if($scope.case.isNew == true){
                            $scope.cases.push(aCase);
                          }
+
+
                      },
                      function(errorResponse){
 
@@ -530,6 +507,31 @@ angular.module('apptorney')
 
          }
 
+
+
+
+
+
+
+         $scope.generateName = function(aCase){
+            aCase.accuser = "";
+            aCase.accused = "";
+            if(aCase.plaintiffs.length > 1){
+              aCase.accuser = aCase.plaintiffs[0].name + " and Others";
+            }
+            else {
+              aCase.accuser = aCase.plaintiffs[0].name;
+            }
+
+            if(aCase.defendants.length > 1){
+              aCase.accused = aCase.defendants[0].name + " and Others";
+            }
+            else {
+              aCase.accused = aCase.defendants[0].name;
+            }
+
+            return aCase.name = aCase.accuser + " Vs. "+aCase.accused;
+         }
 
 
 
@@ -561,11 +563,11 @@ angular.module('apptorney')
                }},
                {relation: 'legislationsReferedTo', // include the owner object
                scope: { // further filter the owner object
-                 fields: ['name'] // only show two fields
+                 fields: ['legislationName'] // only show two fields
                }},
                {relation: 'casesReferedTo', // include the owner object
                scope: { // further filter the owner object
-                 fields: ['name'] // only show two fields
+                 fields: ['plaintiffs','defendants'] // only show two fields
                }},
                {relation: 'workReferedTo', // include the owner object
                scope: { // further filter the owner object
@@ -584,10 +586,16 @@ angular.module('apptorney')
              function(list) {
 
                $scope.case = list[0];
+
                $scope.case.isNew = false;
                $scope.case.citation.year = parseInt($scope.case.citation.year);
 
+               //Generate Names for Reference Field in view
 
+               $scope.case.casesReferedTo.forEach(function(reference){
+                 reference.name=$scope.generateName(reference);
+                 console.info("Case reference",  reference);
+               });
 
                $scope.returned = true;
 

@@ -82,6 +82,24 @@ angular.module('apptorney')
 
          $scope.newCase = function(){
            $scope.case.isNew = true;
+           $scope.case = {};
+           $scope.case.parties = {};
+           $scope.case.citation = {};
+           $scope.case.defendants = [];
+           $scope.case.plaintiffs = [];
+           $scope.case.coram = [];
+           $scope.plaintiff = {};
+           $scope.defendant = {};
+           $scope.appearance = {};
+           $scope.judge = {};
+           $scope.case.appearancesForDefendants = [];
+           $scope.case.appearancesForPlaintiffs = [];
+           $scope.case.parties.selectedPlaintiffAdvocates = [];
+           $scope.case.legislationsReferedTo = [];
+           $scope.case.workReferedTo = [];
+           $scope.case.casesReferedTo = [];
+           $scope.addCaseParties();
+
          }
 
           $scope.$watch('query', function () {

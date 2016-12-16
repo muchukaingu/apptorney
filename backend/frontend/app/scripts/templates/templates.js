@@ -449,7 +449,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                             <div class=\"col-xs-12 form-group\" ng-controller = \"LegislationController\">\n" +
     "\n" +
     "\n" +
-    "                               <ui-select multiple ng-model=\"case.legislationsReferedTo\" theme=\"bootstrap\">\n" +
+    "                               <ui-select multiple tagging ng-model=\"case.legislationsReferedTo\" theme=\"bootstrap\">\n" +
     "                                   <ui-select-match placeholder=\"Select Legislations Referred To...\">{{$item.legislationName}} {{$item.dateOfAssent | date : 'yyyy'}}</ui-select-match>\n" +
     "                                   <ui-select-choices repeat=\"legislation in legislations | filter: $select.search\">\n" +
     "                                     <span ng-bind-html=\"legislation.legislationNumber | highlight: $select.search\"></span>&nbsp;-\n" +
@@ -463,7 +463,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                             <div class=\"col-xs-12 form-group\">\n" +
     "\n" +
     "\n" +
-    "                               <ui-select multiple ng-model=\"case.casesReferedTo\" theme=\"bootstrap\">\n" +
+    "                               <ui-select multiple tagging=\"createStab\" ng-keydown = \"saveStab($event)\" ng-model=\"case.casesReferedTo\" theme=\"bootstrap\">\n" +
     "                                   <ui-select-match placeholder=\"Select Cases Referred To...\">{{$item.name}}</ui-select-match>\n" +
     "                                   <ui-select-choices repeat=\"case in caseReferences | filter: $select.search\">\n" +
     "                                     <span ng-bind-html=\"case.name | highlight: $select.search\"></span>\n" +
@@ -476,7 +476,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                             <div class=\"col-xs-12 form-group\" ng-controller=\"WorkReferenceController\">\n" +
     "\n" +
     "\n" +
-    "                               <ui-select multiple ng-model=\"case.workReferedTo\" theme=\"bootstrap\">\n" +
+    "                               <ui-select multiple tagging ng-model=\"case.workReferedTo\" theme=\"bootstrap\">\n" +
     "                                   <ui-select-match placeholder=\"Select Works Referred To...\">{{$item.name}}</ui-select-match>\n" +
     "                                   <ui-select-choices repeat=\"work in works | filter: $select.search\">\n" +
     "                                     <span ng-bind-html=\"work.name | highlight: $select.search\"></span>\n" +

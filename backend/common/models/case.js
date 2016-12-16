@@ -56,7 +56,7 @@ Case.observe('before save', function clearReferences(ctx, next) {
 
        //query the database for a single matching dog
        console.info("Context is ", ctx.isNewInstance);
-       if(ctx.isNewInstance == false){
+       if(ctx.isNewInstance == false || ctx.isNewInstance == undefined){
 
          CaseLegislations.destroyAll({caseId:ctx.data.id}, function(err, result) {
             console.log(result);

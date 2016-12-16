@@ -42,6 +42,9 @@ angular.module('apptorney')
          $scope.case.parties.selectedPlaintiffAdvocates = [];
          $scope.legislations = [];
          $scope.saveStatus = 0;
+         $scope.caseStab = {};
+         $scope.legislationStab = {};
+         $scope.workStab = {};
 
 
          $scope.courts = [];
@@ -62,10 +65,6 @@ angular.module('apptorney')
          $scope.itemsPerPage = 100;
          $scope.totalCases = 0;
 
-
-         $scope.setItemsPerPage = function(number){
-           $scope.itemsPerPage = number;
-         }
 
 
          $scope.caseReferences = Case.find({
@@ -106,6 +105,110 @@ angular.module('apptorney')
                     },
                     function(errorResponse) { }
                   );
+
+
+
+         $scope.setItemsPerPage = function(number){
+           $scope.itemsPerPage = number;
+         }
+
+         $scope.createStab = function(newCase){
+           if (typeof newCase === 'string'){
+             var plaintiff = "";
+             var defendant = "";
+             var separator = 0;
+             if (newCase.indexOf("Vs")!==-1){
+               separator = newCase.indexOf("Vs");
+             }
+             else if (newCase.indexOf("vs")!==-1){
+               separator = newCase.indexOf("vs");
+             }
+             else if (newCase.indexOf("VS")!==-1){
+               separator = newCase.indexOf("VS");
+             }
+
+             console.info("Separator is ", separator);
+             plaintiff = newCase.substring(0,separator-1);
+             defendant = newCase.substring(separator+3, newCase.length);
+
+             $scope.caseStab.plaintiffs = [];
+             $scope.caseStab.defendants = [];
+
+             $scope.caseStab.plaintiffs.push({name:plaintiff});
+             $scope.caseStab.defendants.push({name:defendant});
+             $scope.caseStab.name = newCase;
+
+
+
+             console.info("Stab is", $scope.caseStab);
+           }
+
+         }
+
+         $scope.saveStab = function(event){
+
+           if(event.which === 188){
+              console.log("Savng Stab...");
+              Case.upsert($scope.caseStab,
+                  function(aCase){
+                      var caseArray = [];
+
+
+
+
+                      $scope.caseReferences = Case.find({
+                                 filter:{fields:{
+                                    defendants:true,
+                                    plaintiffs:true,
+                                    id:true
+
+                                 },
+                                 where: {
+                                   id: aCase.id
+                                 }
+                               }},
+                                 function(cases) {
+
+                                   cases.forEach(function(aCase){
+
+                                     aCase.accuser = "";
+                                     aCase.accused = "";
+                                     if(aCase.plaintiffs.length > 1){
+                                       aCase.accuser = aCase.plaintiffs[0].name + " and Others";
+                                     }
+                                     else {
+                                       aCase.accuser = aCase.plaintiffs[0].name;
+                                     }
+
+                                     if(aCase.defendants.length > 1){
+                                       aCase.accused = aCase.defendants[0].name + " and Others";
+                                     }
+                                     else {
+                                       aCase.accused = aCase.defendants[0].name;
+                                     }
+
+                                     aCase.name = aCase.accuser + " Vs. "+aCase.accused;
+
+                                   });
+
+                                   console.info("Retained | Returned Case References", aCase);
+
+                                 },
+                                 function(errorResponse) { }
+                               );
+
+                  },
+                  function(error){
+
+                  }
+              );
+
+
+           }
+
+         }
+
+
 
 
 
@@ -513,6 +616,7 @@ angular.module('apptorney')
 
 
          $scope.saveCase = function(){
+                 console.info("Case Details", $scope.case);
                  $scope.saveStatus = 1;
 
                  Case.upsert($scope.case,

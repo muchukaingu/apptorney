@@ -373,7 +373,7 @@
                              <div class="col-xs-12 form-group" ng-controller = "LegislationController">
 
 
-                               <ui-select multiple tagging ng-model="case.legislationsReferedTo" theme="bootstrap">
+                               <ui-select multiple tagging="createLegislationStab" ng-keydown = "saveLegislationStab($event)" ng-model="case.legislationsReferedTo" theme="bootstrap">
                                    <ui-select-match placeholder="Select Legislations Referred To...">{{$item.legislationName}} {{$item.dateOfAssent | date : 'yyyy'}}</ui-select-match>
                                    <ui-select-choices repeat="legislation in legislations | filter: $select.search">
                                      <span ng-bind-html="legislation.legislationNumber | highlight: $select.search"></span>&nbsp;-

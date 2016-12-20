@@ -449,7 +449,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                             <div class=\"col-xs-12 form-group\" ng-controller = \"LegislationController\">\n" +
     "\n" +
     "\n" +
-    "                               <ui-select multiple tagging ng-model=\"case.legislationsReferedTo\" theme=\"bootstrap\">\n" +
+    "                               <ui-select multiple tagging=\"createLegislationStab\" ng-keydown = \"saveLegislationStab($event)\" ng-model=\"case.legislationsReferedTo\" theme=\"bootstrap\">\n" +
     "                                   <ui-select-match placeholder=\"Select Legislations Referred To...\">{{$item.legislationName}} {{$item.dateOfAssent | date : 'yyyy'}}</ui-select-match>\n" +
     "                                   <ui-select-choices repeat=\"legislation in legislations | filter: $select.search\">\n" +
     "                                     <span ng-bind-html=\"legislation.legislationNumber | highlight: $select.search\"></span>&nbsp;-\n" +

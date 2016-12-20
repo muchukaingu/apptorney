@@ -8,7 +8,7 @@
   "properties": {
     "generalTitle": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "chapterNumber": {
       "type": "string",
@@ -24,7 +24,7 @@
     },
     "dateOfAssent": {
       "type": "date",
-      "required": true
+      "required": false
     },
     "preamble": {
       "type": "string",
@@ -32,7 +32,7 @@
     },
     "enactment": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "parentLegislation": {
       "type": "string",
@@ -48,7 +48,7 @@
     },
     "legislationType": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "legislationParts":{
       "type": ["legislationPart"],

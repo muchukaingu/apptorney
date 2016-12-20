@@ -30,6 +30,9 @@ angular.module('apptorney')
 
 
 
+
+
+
     $scope.loadLegislationTypes = function(){
       $scope.legislationTypes =  LegislationType.find(
         function(list) {

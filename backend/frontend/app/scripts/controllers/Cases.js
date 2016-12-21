@@ -909,7 +909,11 @@ angular.module('apptorney')
 
 
          $scope.$watch('queries.caseReferencesQuery', function () {
+              if($scope.queries.caseReferencesQuery.length < 5){
 
+                  $scope.caseReferences = [];
+
+              }
               if($scope.queries.caseReferencesQuery.length == 5){
                   $scope.caseReferences = Case.find({
                            filter:{fields:{
@@ -951,6 +955,8 @@ angular.module('apptorney')
                          );
 
               }
+
+
 
 
 

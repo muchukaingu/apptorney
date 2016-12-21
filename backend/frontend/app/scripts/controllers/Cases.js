@@ -914,7 +914,7 @@ angular.module('apptorney')
                   $scope.caseReferences = [];
 
               }
-              if($scope.queries.caseReferencesQuery.length == 5){
+              else if($scope.queries.caseReferencesQuery.length == 5){
                   $scope.caseReferences = Case.find({
                            filter:{fields:{
                               defendants:true,

@@ -692,7 +692,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                    <tr id=\"rowTmp_Est\" ng-repeat=\"case in caseReferences | filter:queries.caseReferencesQuery | orderBy:sortType:sortReverse\" >\n" +
     "                      <td class=\"editables\">\n" +
     "\n" +
-    "                          <div class=\"checkbox block\"><input icheck type=\"checkbox\" ng-change = \"addCaseReference(case)\" ng-model = \"case.selected\"> </div>\n" +
+    "                          <input type=\"checkbox\" ng-change = \"addCaseReference(case)\" ng-model = \"case.selected\">\n" +
     "\n" +
     "                       </td>\n" +
     "\n" +
@@ -715,8 +715,9 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "\n" +
     "\n" +
-    "            <div ng-if=\"caseReferences.length == 0\" style=\"position: relative; left: 30%; margin-left: -50px; height: 50px; margin-top: 40px\"><i ng-if=\"!returned\" class='fa fa-fw fa-sun-o fa-spin'></i> Type the first 5 characters in the name of the case to begin.</div>\n" +
-    "            <div ng-if=\"queries.caseReferencesQuery.length > 4\" style=\"position: relative; left: 32%; margin-left: -50px; height: 50px; margin-top: 40px\"><i ng-if=\"!returned\" class='fa fa-fw fa-sun-o fa-spin'></i> If you can't find a match, press Enter to create Stub</div>\n" +
+    "            <div ng-if=\"caseReferences.length == 0 && queries.caseReferencesQuery.length < 5 || caseReferences.length == 0 && queries.caseReferencesQuery == undefined\" style=\"position: relative; left: 30%; margin-left: -50px; height: 50px; margin-top: 40px\"><i ng-if=\"!returned\" class='fa fa-fw fa-sun-o fa-spin'></i> Type the first 5 characters in the name of the case to begin.</div>\n" +
+    "            <div ng-if=\"queries.caseReferencesQuery.length > 4 && (caseReferences|filter:queries.caseReferencesQuery).length == 0 && caseReferences.length == 0\" style=\"position: relative; left: 32%; margin-left: -50px; height: 50px; margin-top: 40px\"><i class='fa fa-fw fa-sun-o fa-spin'></i>Searching for Cases. Please Wait...</div>\n" +
+    "            <div ng-if=\"queries.caseReferencesQuery.length > 4 && (caseReferences|filter:queries.caseReferencesQuery).length == 0 && caseReferences.length > 0\" style=\"position: relative; left: 32%; margin-left: -50px; height: 50px; margin-top: 40px\"><i ng-if=\"!returned\" class='fa fa-fw fa-sun-o fa-spin'></i> No matches found. Press Enter to create Stub</div>\n" +
     "\n" +
     "        </div>\n" +
     "\n" +

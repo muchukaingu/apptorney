@@ -658,7 +658,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "\n" +
     "\n" +
-    "  <div class=\"modal-body\" style=\"margin-bottom: none; padding-top: 10px; border-bottom:none; height:600px; overflow-y: auto;\" ng-init=\"openCaseReferences()\">\n" +
+    "  <div class=\"modal-body\" style=\"margin-bottom: none; padding-top: 10px; border-bottom:none; height:600px; overflow-y: auto;\">\n" +
     "    <div ng-if=\"caseReferences.length > 0\">\n" +
     "\n" +
     "\n" +

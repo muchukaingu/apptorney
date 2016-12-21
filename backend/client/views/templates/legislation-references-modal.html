@@ -39,7 +39,7 @@
           <tr id="rowTmp_Est" ng-repeat="legislation in legislationReferences | filter:queries.legislationReferencesQuery | orderBy:sortType:sortReverse" >
             <td class="editables">
 
-                <div class="checkbox block"><input icheck type="checkbox" ng-change = "addLegislationReference(legislation)" ng-model = "legislation.selected"> </div>
+                <input type="checkbox" ng-change = "addLegislationReference(legislation)" ng-model = "legislation.selected">
 
              </td>
 
@@ -57,7 +57,9 @@
         </table>
 
 
-        <div ng-if="legislationReferences.length == 0" style="position: relative; left: 50%; margin-left: -100px; height: 50px; margin-top: 40px"><i ng-if="!returned" class='fa fa-fw fa-sun-o fa-spin'></i> Loading References. Please Wait...</div>
+        <div ng-if="legislationReferences.length == 0 && queries.legislationReferencesQuery.length < 5 || legislationReferences.length == 0 && queries.legislationReferencesQuery == undefined" style="position: relative; left: 30%; margin-left: -50px; height: 50px; margin-top: 40px"><i ng-if="!returned" class='fa fa-fw fa-sun-o fa-spin'></i> Type the first 5 characters in the name of the legislation to begin.</div>
+        <div ng-if="queries.legislationReferencesQuery.length > 4 && (legislationReferences|filter:queries.legislationReferencesQuery).length == 0 && legislationReferences.length == 0" style="position: relative; left: 50%; margin-left: -50px; height: 50px; margin-top: 40px"><i class='fa fa-fw fa-sun-o fa-spin'></i>Searching for Legislations. Please Wait...</div>
+        <div ng-if="queries.legislationReferencesQuery.length > 4 && (legislationReferences|filter:queries.legislationReferencesQuery).length == 0 && legislationReferences.length > 0" style="position: relative; left: 32%; margin-left: -50px; height: 50px; margin-top: 40px"><i ng-if="!returned" class='fa fa-fw fa-sun-o fa-spin'></i> No matches found. Press Enter to create Stub</div>
 
   </div>
 

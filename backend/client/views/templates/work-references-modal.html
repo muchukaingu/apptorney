@@ -38,7 +38,7 @@
           <tr id="rowTmp_Est" ng-repeat="work in workReferences | filter:queries.workReferencesQuery | orderBy:sortType:sortReverse" >
             <td class="editables">
 
-                <div class="checkbox block"><input icheck type="checkbox" ng-change = "addWorkReference(work)" ng-model = "work.selected"> </div>
+              <input type="checkbox" ng-change = "addWorkReference(work)" ng-model = "work.selected">
 
              </td>
 
@@ -56,7 +56,9 @@
         </table>
 
 
-        <div ng-if="workReferences.length == 0" style="position: relative; left: 50%; margin-left: -100px; height: 50px; margin-top: 40px"><i ng-if="!returned" class='fa fa-fw fa-sun-o fa-spin'></i> Loading References. Please Wait...</div>
+        <div ng-if="workReferences.length == 0 && queries.workReferencesQuery.length < 5 || workReferences.length == 0 && queries.workReferencesQuery == undefined" style="position: relative; left: 30%; margin-left: -50px; height: 50px; margin-top: 40px"><i ng-if="!returned" class='fa fa-fw fa-sun-o fa-spin'></i> Type the first 5 characters in the name of the work to begin.</div>
+        <div ng-if="queries.workReferencesQuery.length > 4 && (workReferences|filter:queries.workReferencesQuery).length == 0 && workReferences.length == 0" style="position: relative; left: 50%; margin-left: -50px; height: 50px; margin-top: 40px"><i class='fa fa-fw fa-sun-o fa-spin'></i>Searching for Works. Please Wait...</div>
+        <div ng-if="queries.workReferencesQuery.length > 4 && (workReferences|filter:queries.workReferencesQuery).length == 0 && workReferences.length > 0" style="position: relative; left: 32%; margin-left: -50px; height: 50px; margin-top: 40px"><i ng-if="!returned" class='fa fa-fw fa-sun-o fa-spin'></i> No matches found. Press Enter to create Stub</div>
 
 
 

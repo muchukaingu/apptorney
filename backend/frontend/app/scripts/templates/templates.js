@@ -447,7 +447,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "                             <div class=\"col-xs-10\">Legislations</div>\n" +
     "                             <div class=\"col-xs-2 pull-right\">\n" +
-    "                                <a class=\"pull-right\" style=\"color:#d3d3d3; border:#none; font-size:1.2em; border-radius:5px; margin-top:-2px\" data-toggle=\"modal\" data-target=\"#legislationReferencesModal\" ng-click=\"openLegislationReferences()\"><i class=\"fa fa-plus\"></i></a>\n" +
+    "                                <a class=\"pull-right\" style=\"color:#d3d3d3; border:#none; font-size:1.2em; border-radius:5px; margin-top:-2px\" data-toggle=\"modal\" data-target=\"#legislationReferencesModal\"><i class=\"fa fa-plus\"></i></a>\n" +
     "                             </div>\n" +
     "                             <div class=\"col-xs-12 form-group\">\n" +
     "\n" +
@@ -464,7 +464,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "                             <div class=\"col-xs-10\">Cases</div>\n" +
     "                             <div class=\"col-xs-2 pull-right\">\n" +
-    "                                <a class=\"pull-right\" style=\"color:#d3d3d3; border:#none; font-size:1.2em; border-radius:5px; margin-top:-2px\" data-toggle=\"modal\" data-target=\"#caseReferencesModal\" ng-click=\"openCaseReferences()\"><i class=\"fa fa-plus\"></i></a>\n" +
+    "                                <a class=\"pull-right\" style=\"color:#d3d3d3; border:#none; font-size:1.2em; border-radius:5px; margin-top:-2px\" data-toggle=\"modal\" data-target=\"#caseReferencesModal\"><i class=\"fa fa-plus\"></i></a>\n" +
     "                             </div>\n" +
     "                             <div class=\"col-xs-12 form-group\">\n" +
     "\n" +
@@ -480,7 +480,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "                            <div class=\"col-xs-10\">Works</div>\n" +
     "                            <div class=\"col-xs-2 pull-right\">\n" +
-    "                               <a class=\"pull-right\" style=\"color:#d3d3d3; border:#none; font-size:1.2em; border-radius:5px; margin-top:-2px\" data-toggle=\"modal\" data-target=\"#workReferencesModal\" ng-click=\"openWorkReferences()\"><i class=\"fa fa-plus\"></i></a>\n" +
+    "                               <a class=\"pull-right\" style=\"color:#d3d3d3; border:#none; font-size:1.2em; border-radius:5px; margin-top:-2px\" data-toggle=\"modal\" data-target=\"#workReferencesModal\"><i class=\"fa fa-plus\"></i></a>\n" +
     "                            </div>\n" +
     "                             <div class=\"col-xs-12 form-group\">\n" +
     "\n" +
@@ -716,7 +716,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "\n" +
     "            <div ng-if=\"caseReferences.length == 0 && queries.caseReferencesQuery.length < 5 || caseReferences.length == 0 && queries.caseReferencesQuery == undefined\" style=\"position: relative; left: 30%; margin-left: -50px; height: 50px; margin-top: 40px\"><i ng-if=\"!returned\" class='fa fa-fw fa-sun-o fa-spin'></i> Type the first 5 characters in the name of the case to begin.</div>\n" +
-    "            <div ng-if=\"queries.caseReferencesQuery.length > 4 && (caseReferences|filter:queries.caseReferencesQuery).length == 0 && caseReferences.length == 0\" style=\"position: relative; left: 32%; margin-left: -50px; height: 50px; margin-top: 40px\"><i class='fa fa-fw fa-sun-o fa-spin'></i>Searching for Cases. Please Wait...</div>\n" +
+    "            <div ng-if=\"queries.caseReferencesQuery.length > 4 && (caseReferences|filter:queries.caseReferencesQuery).length == 0 && caseReferences.length == 0\" style=\"position: relative; left: 50%; margin-left: -50px; height: 50px; margin-top: 40px\"><i class='fa fa-fw fa-sun-o fa-spin'></i>Searching for Cases. Please Wait...</div>\n" +
     "            <div ng-if=\"queries.caseReferencesQuery.length > 4 && (caseReferences|filter:queries.caseReferencesQuery).length == 0 && caseReferences.length > 0\" style=\"position: relative; left: 32%; margin-left: -50px; height: 50px; margin-top: 40px\"><i ng-if=\"!returned\" class='fa fa-fw fa-sun-o fa-spin'></i> No matches found. Press Enter to create Stub</div>\n" +
     "\n" +
     "        </div>\n" +
@@ -1634,7 +1634,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "          <tr id=\"rowTmp_Est\" ng-repeat=\"legislation in legislationReferences | filter:queries.legislationReferencesQuery | orderBy:sortType:sortReverse\" >\n" +
     "            <td class=\"editables\">\n" +
     "\n" +
-    "                <div class=\"checkbox block\"><input icheck type=\"checkbox\" ng-change = \"addLegislationReference(legislation)\" ng-model = \"legislation.selected\"> </div>\n" +
+    "                <input type=\"checkbox\" ng-change = \"addLegislationReference(legislation)\" ng-model = \"legislation.selected\">\n" +
     "\n" +
     "             </td>\n" +
     "\n" +
@@ -1652,7 +1652,9 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "        </table>\n" +
     "\n" +
     "\n" +
-    "        <div ng-if=\"legislationReferences.length == 0\" style=\"position: relative; left: 50%; margin-left: -100px; height: 50px; margin-top: 40px\"><i ng-if=\"!returned\" class='fa fa-fw fa-sun-o fa-spin'></i> Loading References. Please Wait...</div>\n" +
+    "        <div ng-if=\"legislationReferences.length == 0 && queries.legislationReferencesQuery.length < 5 || legislationReferences.length == 0 && queries.legislationReferencesQuery == undefined\" style=\"position: relative; left: 30%; margin-left: -50px; height: 50px; margin-top: 40px\"><i ng-if=\"!returned\" class='fa fa-fw fa-sun-o fa-spin'></i> Type the first 5 characters in the name of the legislation to begin.</div>\n" +
+    "        <div ng-if=\"queries.legislationReferencesQuery.length > 4 && (legislationReferences|filter:queries.legislationReferencesQuery).length == 0 && legislationReferences.length == 0\" style=\"position: relative; left: 50%; margin-left: -50px; height: 50px; margin-top: 40px\"><i class='fa fa-fw fa-sun-o fa-spin'></i>Searching for Legislations. Please Wait...</div>\n" +
+    "        <div ng-if=\"queries.legislationReferencesQuery.length > 4 && (legislationReferences|filter:queries.legislationReferencesQuery).length == 0 && legislationReferences.length > 0\" style=\"position: relative; left: 32%; margin-left: -50px; height: 50px; margin-top: 40px\"><i ng-if=\"!returned\" class='fa fa-fw fa-sun-o fa-spin'></i> No matches found. Press Enter to create Stub</div>\n" +
     "\n" +
     "  </div>\n" +
     "\n" +
@@ -2322,7 +2324,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "          <tr id=\"rowTmp_Est\" ng-repeat=\"work in workReferences | filter:queries.workReferencesQuery | orderBy:sortType:sortReverse\" >\n" +
     "            <td class=\"editables\">\n" +
     "\n" +
-    "                <div class=\"checkbox block\"><input icheck type=\"checkbox\" ng-change = \"addWorkReference(work)\" ng-model = \"work.selected\"> </div>\n" +
+    "              <input type=\"checkbox\" ng-change = \"addWorkReference(work)\" ng-model = \"work.selected\">\n" +
     "\n" +
     "             </td>\n" +
     "\n" +
@@ -2340,7 +2342,9 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "        </table>\n" +
     "\n" +
     "\n" +
-    "        <div ng-if=\"workReferences.length == 0\" style=\"position: relative; left: 50%; margin-left: -100px; height: 50px; margin-top: 40px\"><i ng-if=\"!returned\" class='fa fa-fw fa-sun-o fa-spin'></i> Loading References. Please Wait...</div>\n" +
+    "        <div ng-if=\"workReferences.length == 0 && queries.workReferencesQuery.length < 5 || workReferences.length == 0 && queries.workReferencesQuery == undefined\" style=\"position: relative; left: 30%; margin-left: -50px; height: 50px; margin-top: 40px\"><i ng-if=\"!returned\" class='fa fa-fw fa-sun-o fa-spin'></i> Type the first 5 characters in the name of the work to begin.</div>\n" +
+    "        <div ng-if=\"queries.workReferencesQuery.length > 4 && (workReferences|filter:queries.workReferencesQuery).length == 0 && workReferences.length == 0\" style=\"position: relative; left: 50%; margin-left: -50px; height: 50px; margin-top: 40px\"><i class='fa fa-fw fa-sun-o fa-spin'></i>Searching for Works. Please Wait...</div>\n" +
+    "        <div ng-if=\"queries.workReferencesQuery.length > 4 && (workReferences|filter:queries.workReferencesQuery).length == 0 && workReferences.length > 0\" style=\"position: relative; left: 32%; margin-left: -50px; height: 50px; margin-top: 40px\"><i ng-if=\"!returned\" class='fa fa-fw fa-sun-o fa-spin'></i> No matches found. Press Enter to create Stub</div>\n" +
     "\n" +
     "\n" +
     "\n" +

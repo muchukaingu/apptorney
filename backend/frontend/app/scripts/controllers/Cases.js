@@ -9,7 +9,7 @@ angular.module('apptorney')
   };
 })
 .controller('CasesController',function ($scope, $timeout, Court, Case, Legislation, Work,CaseLegislations, CaseCases, CaseWorks, AreaOfLaw,Jurisdiction, Location, baseURL, filterFilter) {
-    console.log("xxx---->");
+    //console.log("xxx---->");
 
 
 
@@ -98,7 +98,7 @@ angular.module('apptorney')
                separator = newCase.indexOf("VS");
              }
 
-             console.info("Separator is ", separator);
+             //console.info("Separator is ", separator);
              plaintiff = newCase.substring(0,separator-1);
              defendant = newCase.substring(separator+3, newCase.length);
 
@@ -112,7 +112,7 @@ angular.module('apptorney')
 
 
 
-             console.info("Stab is", $scope.caseStab);
+             //console.info("Stab is", $scope.caseStab);
            }
 
          }
@@ -126,10 +126,10 @@ angular.module('apptorney')
 
 
          $scope.saveStab = function(event){
-           console.info("This is the detected text", $scope.queries.caseReferencesQuery);
+           //console.info("This is the detected text", $scope.queries.caseReferencesQuery);
            $scope.createStab($scope.queries.caseReferencesQuery);
            if(event.which === 13){
-              console.log("Savng Stab...");
+              //console.log("Savng Stab...");
 
               Case.upsert($scope.caseStab,
                   function(aCase){
@@ -173,7 +173,7 @@ angular.module('apptorney')
 
                                    });
 
-                                   console.info("Retained | Returned Case References", aCase);
+                                   //console.info("Retained | Returned Case References", aCase);
 
                                  },
                                  function(errorResponse) { }
@@ -246,7 +246,7 @@ angular.module('apptorney')
            Case.count({}, function(result){
              $scope.totalCases = result.count;
              $scope.totalPages = Math.ceil($scope.totalCases/$scope.itemsPerPage);
-             console.info("Total number of pages = ", $scope.totalPages);
+             //console.info("Total number of pages = ", $scope.totalPages);
            },function(error){});
          }
 
@@ -314,7 +314,7 @@ angular.module('apptorney')
                  function(cases) {
 
                    cases.forEach(function(aCase){
-                    //console.info("Case Plaintiffs", aCase.plaintiffs);
+                    ////console.info("Case Plaintiffs", aCase.plaintiffs);
                      aCase.accuser = "";
                      aCase.accused = "";
 
@@ -447,7 +447,7 @@ angular.module('apptorney')
                 function(cases) {
 
                   cases.forEach(function(aCase){
-                   console.log("xxxxxxxxxx----->");
+
                     aCase.accuser = "";
                     aCase.accused = "";
                     if(aCase.plaintiffs.length > 1){
@@ -544,7 +544,7 @@ angular.module('apptorney')
 
          $scope.areasOfLaw = AreaOfLaw.find(
            function(list) {
-             console.log(list);
+             //console.log(list);
              $scope.areasReturned = true;
              $scope.showAreas = true;
            },
@@ -552,7 +552,7 @@ angular.module('apptorney')
          );
 
          $scope.saveAreaOfLaw = function(){
-           console.log($scope.areaOfLaw);
+           //console.log($scope.areaOfLaw);
            AreaOfLaw.upsert($scope.areaOfLaw,
              function(area){
                $scope.areasOfLaw.push(area);
@@ -569,7 +569,7 @@ angular.module('apptorney')
 
          $scope.locations = Location.find(
            function(list) {
-             console.log(list);
+             //console.log(list);
              $scope.locationsReturned = true;
              $scope.showLocations = true;
            },
@@ -577,7 +577,7 @@ angular.module('apptorney')
          );
 
          $scope.saveLocation = function(){
-           console.log($scope.location);
+           //console.log($scope.location);
            Location.upsert($scope.location,
              function(location){
                $scope.locations.push(location);
@@ -596,7 +596,7 @@ angular.module('apptorney')
            Location.deleteById({ id: locationID })
            .$promise
            .then(function() {
-             //console.log('deleted');
+             ////console.log('deleted');
              $scope.locations.forEach(function(location){
                if(location.id == locationID){
                  $scope.locations.splice($scope.locations.indexOf(location),1);
@@ -610,7 +610,7 @@ angular.module('apptorney')
 
          $scope.jurisdictions = Jurisdiction.find(
            function(list) {
-             console.log(list);
+             //console.log(list);
              $scope.jurisdictionsReturned = true;
              $scope.showJurisdictions = true;
            },
@@ -618,7 +618,7 @@ angular.module('apptorney')
          );
 
          $scope.saveJurisdiction = function(){
-           console.log($scope.jurisdiction);
+           //console.log($scope.jurisdiction);
            Jurisdiction.upsert($scope.jurisdiction,
              function(jurisdiction){
                $scope.jurisdictions.push(jurisdiction);
@@ -637,7 +637,7 @@ angular.module('apptorney')
            Jurisdiction.deleteById({ id: jurisdictionID })
            .$promise
            .then(function() {
-             //console.log('deleted');
+             ////console.log('deleted');
              $scope.jurisdictions.forEach(function(jurisdiction){
                if(jurisdiction.id == jurisdictionID){
                  $scope.jurisdictions.splice($scope.jurisdictions.indexOf(jurisdiction),1);
@@ -651,7 +651,7 @@ angular.module('apptorney')
 
 
          $scope.saveCase = function(){
-                 console.info("Case Details", $scope.case);
+                 //console.info("Case Details", $scope.case);
                  $scope.saveStatus = 1;
 
                  Case.upsert($scope.case,
@@ -683,7 +683,7 @@ angular.module('apptorney')
                          })
 
                          $scope.saveStatus = 2;
-                         setTimeout(function(){ $scope.saveStatus = 0; console.log("Save Status = " + $scope.saveStatus); $("#applicationForm").click(); }, 10000);
+                         setTimeout(function(){ $scope.saveStatus = 0; $("#applicationForm").click(); }, 10000);
 
 
 
@@ -793,7 +793,7 @@ angular.module('apptorney')
 
                $scope.case.casesReferedTo.forEach(function(reference){
                  reference.name=$scope.generateName(reference);
-                 console.info("Case reference",  reference);
+                 //console.info("Case reference",  reference);
                });
 
                $scope.returned = true;
@@ -826,95 +826,22 @@ angular.module('apptorney')
 
 
 
-         $scope.openLegislationReferences = function(){
-            setTimeout(function(){
-              $scope.legislationReferences = Legislation.find({
-                         filter:{fields:{
-                            legislationName:true,
-                            id:true
-
-                         }
-
-                       }},
-                         function(legislations) {},
-                         function(error){}
-             );
-           }, 3000);
-
-         }
-
-         $scope.openCaseReferences = function(){
+    
 
 
-            /*
 
-                $scope.caseReferences = Case.find({
-                           filter:{fields:{
-                              defendants:true,
-                              plaintiffs:true,
-                              id:true
-
-                           }
-
-                         }},
-                           function(cases) {
-
-                             cases.forEach(function(aCase){
-                              console.log("xxxxxxxxxx----->");
-                               aCase.accuser = "";
-                               aCase.accused = "";
-                               if(aCase.plaintiffs.length > 1){
-                                 aCase.accuser = aCase.plaintiffs[0].name + " and Others";
-                               }
-                               else {
-                                 aCase.accuser = aCase.plaintiffs[0].name;
-                               }
-
-                               if(aCase.defendants.length > 1){
-                                 aCase.accused = aCase.defendants[0].name + " and Others";
-                               }
-                               else {
-                                 aCase.accused = aCase.defendants[0].name;
-                               }
-
-                               aCase.name = aCase.accuser + " Vs. "+aCase.accused;
-
-                             });
-
-                             console.info("Case References", $scope.caseReferences);
-
-                           },
-                           function(errorResponse) { }
-                         );
-
-                          */
-         }
-
-         $scope.openWorkReferences = function(){
-
-              setTimeout(function(){
-                 $scope.workReferences = Work.find({
-                            filter:{fields:{
-                               name:true,
-                               id:true
-
-                            }
-
-                          }},
-                            function(work) {},
-                            function(error){}
-                );
-              }, 3000);
-         }
-
+         $scope.gettingCaseReferences = false;
+         $scope.gettingLegislationReferences = false;
+         $scope.gettingWorkReferences = false;
 
          $scope.$watch('queries.caseReferencesQuery', function () {
               if($scope.queries.caseReferencesQuery.length < 5){
-
+                  $scope.gettingCaseReferences = false;
                   $scope.caseReferences = [];
 
               }
-              else if($scope.queries.caseReferencesQuery.length == 5){
+              else if($scope.queries.caseReferencesQuery.length >= 5 &&  $scope.gettingCaseReferences == false){
+                  $scope.gettingCaseReferences = true;
                   $scope.caseReferences = Case.find({
                            filter:{fields:{
                               defendants:true,
@@ -948,7 +875,7 @@ angular.module('apptorney')
 
                              });
 
-                             console.info("Case References", $scope.caseReferences);
+                             //console.info("Case References", $scope.caseReferences);
 
                            },
                            function(errorResponse) { }
@@ -961,6 +888,64 @@ angular.module('apptorney')
 
 
           });
+
+
+          $scope.$watch('queries.legislationReferencesQuery', function () {
+               if($scope.queries.legislationReferencesQuery.length < 5){
+                   $scope.gettingLegislationReferences = false;
+                   $scope.legislationReferences = [];
+
+               }
+               else if($scope.queries.legislationReferencesQuery.length >= 5 &&  $scope.gettingLegislationReferences == false){
+                   $scope.gettingLegislationReferences = true;
+                   $scope.legislationReferences = Legislation.find({
+                              filter:{fields:{
+                                 legislationName:true,
+                                 id:true
+
+                              }
+
+                            }},
+                              function(legislations) {},
+                              function(error){}
+                  );
+
+               }
+
+
+
+
+
+           });
+
+
+           $scope.$watch('queries.workReferencesQuery', function () {
+                if($scope.queries.workReferencesQuery.length < 5){
+                    $scope.gettingWorkReferences = false;
+                    $scope.workReferences = [];
+
+                }
+                else if($scope.queries.workReferencesQuery.length >= 5 &&  $scope.gettingWorkReferences == false){
+                    $scope.gettingWorkReferences = true;
+                    $scope.workReferences = Work.find({
+                               filter:{fields:{
+                                  name:true,
+                                  id:true
+
+                               }
+
+                             }},
+                               function(work) {},
+                               function(error){}
+                   );
+
+                }
+
+
+
+
+
+            });
 
 
 
@@ -980,7 +965,7 @@ angular.module('apptorney')
 
   var openAddAreaOfLaw = function(){
     //$("#addAreaOfLawModal").modal();
-    console.log("opened");
+    //console.log("opened");
     $('#addAreaOfLawModal').appendTo("body").modal('show');
   }
 

@@ -46,6 +46,9 @@ angular.module('apptorney')
          $scope.legislationStab = {};
          $scope.workStab = {};
          $scope.queries={};
+         $scope.caseReferences = [];
+         $scope.legislationReferences = [];
+         $scope.workReferences = [];
 
 
          $scope.courts = [];
@@ -66,70 +69,9 @@ angular.module('apptorney')
          $scope.itemsPerPage = 100;
          $scope.totalCases = 0;
 
-         $scope.legislationReferences = Legislation.find({
-                    filter:{fields:{
-                       legislationName:true,
-                       id:true
-
-                    }
-
-                  }},
-                    function(legislations) {},
-                    function(error){}
-        );
-
-        $scope.workReferences = Work.find({
-                   filter:{fields:{
-                      name:true,
-                      id:true
-
-                   }
-
-                 }},
-                   function(work) {},
-                   function(error){}
-       );
 
 
 
-         $scope.caseReferences = Case.find({
-                    filter:{fields:{
-                       defendants:true,
-                       plaintiffs:true,
-                       id:true
-
-                    }
-
-                  }},
-                    function(cases) {
-
-                      cases.forEach(function(aCase){
-                       console.log("xxxxxxxxxx----->");
-                        aCase.accuser = "";
-                        aCase.accused = "";
-                        if(aCase.plaintiffs.length > 1){
-                          aCase.accuser = aCase.plaintiffs[0].name + " and Others";
-                        }
-                        else {
-                          aCase.accuser = aCase.plaintiffs[0].name;
-                        }
-
-                        if(aCase.defendants.length > 1){
-                          aCase.accused = aCase.defendants[0].name + " and Others";
-                        }
-                        else {
-                          aCase.accused = aCase.defendants[0].name;
-                        }
-
-                        aCase.name = aCase.accuser + " Vs. "+aCase.accused;
-
-                      });
-
-                      console.info("Case References", $scope.caseReferences);
-
-                    },
-                    function(errorResponse) { }
-                  );
 
 
 
@@ -882,6 +824,87 @@ angular.module('apptorney')
          $scope.addWorkReference = function(work){
            $scope.case.workReferedTo.push(work);
          }
+
+
+
+
+
+         $scope.openLegislationReferences = function(){
+            setTimeout(function(){
+              $scope.legislationReferences = Legislation.find({
+                         filter:{fields:{
+                            legislationName:true,
+                            id:true
+
+                         }
+
+                       }},
+                         function(legislations) {},
+                         function(error){}
+             );
+           }, 3000);
+
+         }
+
+         $scope.openCaseReferences = function(){
+
+
+
+
+                $scope.caseReferences = Case.find({
+                           filter:{fields:{
+                              defendants:true,
+                              plaintiffs:true,
+                              id:true
+
+                           }
+
+                         }},
+                           function(cases) {
+
+                             cases.forEach(function(aCase){
+                              console.log("xxxxxxxxxx----->");
+                               aCase.accuser = "";
+                               aCase.accused = "";
+                               if(aCase.plaintiffs.length > 1){
+                                 aCase.accuser = aCase.plaintiffs[0].name + " and Others";
+                               }
+                               else {
+                                 aCase.accuser = aCase.plaintiffs[0].name;
+                               }
+
+                               if(aCase.defendants.length > 1){
+                                 aCase.accused = aCase.defendants[0].name + " and Others";
+                               }
+                               else {
+                                 aCase.accused = aCase.defendants[0].name;
+                               }
+
+                               aCase.name = aCase.accuser + " Vs. "+aCase.accused;
+
+                             });
+
+                             console.info("Case References", $scope.caseReferences);
+
+                           },
+                           function(errorResponse) { }
+                         );
+         }
+
+         $scope.openWorkReferences = function(){
+               $scope.workReferences = Work.find({
+                          filter:{fields:{
+                             name:true,
+                             id:true
+
+                          }
+
+                        }},
+                          function(work) {},
+                          function(error){}
+              );
+         }
+
 
 
 

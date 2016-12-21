@@ -371,9 +371,9 @@
 
                              <div class="col-xs-10">Legislations</div>
                              <div class="col-xs-2 pull-right">
-                                <a class="pull-right" style="color:#d3d3d3; border:#none; font-size:1.2em; border-radius:5px; margin-top:-2px" data-toggle="modal" data-target="#legislationReferencesModal"><i class="fa fa-plus"></i></a>
+                                <a class="pull-right" style="color:#d3d3d3; border:#none; font-size:1.2em; border-radius:5px; margin-top:-2px" data-toggle="modal" data-target="#legislationReferencesModal" ng-click="openLegislationReferences()"><i class="fa fa-plus"></i></a>
                              </div>
-                             <div class="col-xs-12 form-group" ng-controller = "LegislationController">
+                             <div class="col-xs-12 form-group">
 
 
                                <ui-select multiple tagging="createLegislationStab" ng-keydown = "saveLegislationStab($event)" ng-model="case.legislationsReferedTo" theme="bootstrap">
@@ -404,9 +404,9 @@
 
                             <div class="col-xs-10">Works</div>
                             <div class="col-xs-2 pull-right">
-                               <a class="pull-right" style="color:#d3d3d3; border:#none; font-size:1.2em; border-radius:5px; margin-top:-2px" data-toggle="modal" data-target="#workReferencesModal"><i class="fa fa-plus"></i></a>
+                               <a class="pull-right" style="color:#d3d3d3; border:#none; font-size:1.2em; border-radius:5px; margin-top:-2px" data-toggle="modal" data-target="#workReferencesModal" ng-click="openWorkReferences()"><i class="fa fa-plus"></i></a>
                             </div>
-                             <div class="col-xs-12 form-group" ng-controller="WorkReferenceController">
+                             <div class="col-xs-12 form-group">
 
 
                                <ui-select multiple tagging ng-model="case.workReferedTo" theme="bootstrap">

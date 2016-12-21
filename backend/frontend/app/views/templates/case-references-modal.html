@@ -7,58 +7,68 @@
 
 
 
-  <div class="modal-body" style="margin-bottom: none; padding-top: 10px; border-bottom:none; height:600px; overflow-y: auto;">
-    <h2>Select Cases Referred To</h2>
-    <div class="input-icon right mb10">
-          <i class="fa fa-search"></i>
-          <input type="text" ng-model="queries.caseReferencesQuery" class="form-control" placeholder="Search..." id="Search" ng-keydown = "saveStab($event)">
-    </div>
-        <table id="casesTbl" class="table table-condensed">
-          <tr style="background-color: #E8E9EC" class="tableHeaders">
-            <td style="width:5%">
-              <a ng-click="sortType = 'caseNumber'; sortReverse = !sortReverse">
-                Selected
-                <span ng-show="sortType == 'caseNumber' && !sortReverse" class="fa fa-caret-up"></span>
-                <span ng-show="sortType == 'caseNumber' && sortReverse" class="fa fa-caret-down"></span>
-              </a>
+  <div class="modal-body" style="margin-bottom: none; padding-top: 10px; border-bottom:none; height:600px; overflow-y: auto;" ng-init="openCaseReferences()">
+    <div ng-if="caseReferences.length > 0">
+
+
+              <h2>Select Cases Referred To</h2>
+              <div class="input-icon right mb10">
+                    <i class="fa fa-search"></i>
+                    <input type="text" ng-model="queries.caseReferencesQuery" class="form-control" placeholder="Search..." id="Search" ng-keydown = "saveStab($event)">
+              </div>
+                  <table id="casesTbl" class="table table-condensed">
+                    <tr style="background-color: #E8E9EC" class="tableHeaders">
+                      <td style="width:5%">
+                        <a ng-click="sortType = 'caseNumber'; sortReverse = !sortReverse">
+                          Selected
+                          <span ng-show="sortType == 'caseNumber' && !sortReverse" class="fa fa-caret-up"></span>
+                          <span ng-show="sortType == 'caseNumber' && sortReverse" class="fa fa-caret-down"></span>
+                        </a>
+                      </td>
+
+                      <td style="width:45%">
+                        <a ng-click="sortType = 'name'; sortReverse = !sortReverse">
+                          Name of Case
+                          <span ng-show="sortType == 'name' && !sortReverse" class="fa fa-caret-up"></span>
+                          <span ng-show="sortType == 'name' && sortReverse" class="fa fa-caret-down"></span>
+                        </a>
             </td>
 
-            <td style="width:45%">
-              <a ng-click="sortType = 'name'; sortReverse = !sortReverse">
-                Name of Case
-                <span ng-show="sortType == 'name' && !sortReverse" class="fa fa-caret-up"></span>
-                <span ng-show="sortType == 'name' && sortReverse" class="fa fa-caret-down"></span>
-              </a>
-  </td>
+
+
+
+                    </tr>
+                    <tr id="rowTmp_Est" ng-repeat="case in caseReferences | filter:queries.caseReferencesQuery | orderBy:sortType:sortReverse" >
+                      <td class="editables">
+
+                          <div class="checkbox block"><input icheck type="checkbox" ng-change = "addCaseReference(case)" ng-model = "case.selected"> </div>
+
+                       </td>
+
+
+                      <td class="editables">
+
+                        <span class="editable" name="applicantname" form="rowform" onchange="editItem(this,'itemID')"
+                          required>{{case.name}}
+
+                        </span>
+
+                      </td>
+
+                    </tr>
+                  </table>
 
 
 
 
-          </tr>
-          <tr id="rowTmp_Est" ng-repeat="case in caseReferences | filter:queries.caseReferencesQuery | orderBy:sortType:sortReverse" >
-            <td class="editables">
-
-                <div class="checkbox block"><input icheck type="checkbox" ng-change = "addCaseReference(case)" ng-model = "case.selected"> </div>
-
-             </td>
+            </div>
 
 
-            <td class="editables">
-
-              <span class="editable" name="applicantname" form="rowform" onchange="editItem(this,'itemID')"
-                required>{{case.name}}
-
-              </span>
-
-            </td>
-
-          </tr>
-        </table>
+            <div ng-if="caseReferences.length == 0" style="position: relative; left: 50%; margin-left: -100px; height: 50px; margin-top: 40px"><i ng-if="!returned" class='fa fa-fw fa-sun-o fa-spin'></i> Loading References. Please Wait...</div>
 
 
+        </div>
 
-
-  </div>
-
+</div>
 </div>
 </div>

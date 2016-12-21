@@ -8,6 +8,7 @@
 
 
   <div class="modal-body" style="margin-bottom: none; padding-top: 10px; border-bottom:none; height:600px; overflow-y: auto;" >
+
     <h2>Select Legislations Referred To</h2>
     <div class="input-icon right mb10">
           <i class="fa fa-search"></i>
@@ -56,9 +57,11 @@
         </table>
 
 
-
+        <div ng-if="legislationReferences.length == 0" style="position: relative; left: 50%; margin-left: -100px; height: 50px; margin-top: 40px"><i ng-if="!returned" class='fa fa-fw fa-sun-o fa-spin'></i> Loading References. Please Wait...</div>
 
   </div>
 
 </div>
+</div>
+
 </div>

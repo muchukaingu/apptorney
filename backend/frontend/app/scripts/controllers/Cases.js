@@ -118,10 +118,7 @@ angular.module('apptorney')
          }
 
 
-         $scope.$watch('queries.caseReferencesQuery', function () {
-               console.log("Watching Case References...");
 
-          });
 
 
 
@@ -388,7 +385,7 @@ angular.module('apptorney')
                 function(cases) {
 
                   cases.forEach(function(aCase){
-                   console.log("xxxxxxxxxx----->");
+
                     aCase.accuser = "";
                     aCase.accused = "";
                     if(aCase.plaintiffs.length > 1){
@@ -848,7 +845,7 @@ angular.module('apptorney')
 
          $scope.openCaseReferences = function(){
 
-
+             setTimeout(function(){
 
 
                 $scope.caseReferences = Case.find({
@@ -889,20 +886,25 @@ angular.module('apptorney')
                            },
                            function(errorResponse) { }
                          );
+
+                       }, 3000);
          }
 
          $scope.openWorkReferences = function(){
-               $scope.workReferences = Work.find({
-                          filter:{fields:{
-                             name:true,
-                             id:true
 
-                          }
+              setTimeout(function(){
+                 $scope.workReferences = Work.find({
+                            filter:{fields:{
+                               name:true,
+                               id:true
 
-                        }},
-                          function(work) {},
-                          function(error){}
-              );
+                            }
+
+                          }},
+                            function(work) {},
+                            function(error){}
+                );
+              }, 3000);
          }
 
 

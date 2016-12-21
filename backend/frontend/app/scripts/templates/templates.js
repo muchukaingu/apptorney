@@ -464,7 +464,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "                             <div class=\"col-xs-10\">Cases</div>\n" +
     "                             <div class=\"col-xs-2 pull-right\">\n" +
-    "                                <a class=\"pull-right\" style=\"color:#d3d3d3; border:#none; font-size:1.2em; border-radius:5px; margin-top:-2px\" data-toggle=\"modal\" data-target=\"#caseReferencesModal\"><i class=\"fa fa-plus\"></i></a>\n" +
+    "                                <a class=\"pull-right\" style=\"color:#d3d3d3; border:#none; font-size:1.2em; border-radius:5px; margin-top:-2px\" data-toggle=\"modal\" data-target=\"#caseReferencesModal\" ng-click=\"openCaseReferences()\"><i class=\"fa fa-plus\"></i></a>\n" +
     "                             </div>\n" +
     "                             <div class=\"col-xs-12 form-group\">\n" +
     "\n" +

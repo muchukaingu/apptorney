@@ -659,7 +659,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "\n" +
     "  <div class=\"modal-body\" style=\"margin-bottom: none; padding-top: 10px; border-bottom:none; height:600px; overflow-y: auto;\">\n" +
-    "    <div ng-if=\"caseReferences.length > 0\">\n" +
+    "\n" +
     "\n" +
     "\n" +
     "              <h2>Select Cases Referred To</h2>\n" +
@@ -712,11 +712,11 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "\n" +
     "\n" +
-    "            </div>\n" +
     "\n" +
     "\n" +
-    "            <div ng-if=\"caseReferences.length == 0\" style=\"position: relative; left: 50%; margin-left: -100px; height: 50px; margin-top: 40px\"><i ng-if=\"!returned\" class='fa fa-fw fa-sun-o fa-spin'></i> Loading References. Please Wait...</div>\n" +
     "\n" +
+    "            <div ng-if=\"caseReferences.length == 0\" style=\"position: relative; left: 30%; margin-left: -50px; height: 50px; margin-top: 40px\"><i ng-if=\"!returned\" class='fa fa-fw fa-sun-o fa-spin'></i> Type the first 5 characters in the name of the case to begin.</div>\n" +
+    "            <div ng-if=\"queries.caseReferencesQuery.length > 4\" style=\"position: relative; left: 32%; margin-left: -50px; height: 50px; margin-top: 40px\"><i ng-if=\"!returned\" class='fa fa-fw fa-sun-o fa-spin'></i> If you can't find a match, press Enter to create Stub</div>\n" +
     "\n" +
     "        </div>\n" +
     "\n" +
@@ -2291,7 +2291,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "\n" +
     "  <div class=\"modal-body\" style=\"margin-bottom: none; padding-top: 10px; border-bottom:none; height:600px; overflow-y: auto;\">\n" +
-    "    <h2>Select Legislations Referred To</h2>\n" +
+    "    <h2>Select Work Referred To</h2>\n" +
     "    <div class=\"input-icon right mb10\">\n" +
     "          <i class=\"fa fa-search\"></i>\n" +
     "          <input type=\"text\" ng-model=\"queries.workReferencesQuery\" class=\"form-control\" placeholder=\"Search...\" id=\"Search\" ng-keydown = \"saveWorkStab($event)\">\n" +
@@ -2308,7 +2308,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "            <td style=\"width:45%\">\n" +
     "              <a ng-click=\"sortType = 'name'; sortReverse = !sortReverse\">\n" +
-    "                Name of Legislation\n" +
+    "                Name of Work\n" +
     "                <span ng-show=\"sortType == 'name' && !sortReverse\" class=\"fa fa-caret-up\"></span>\n" +
     "                <span ng-show=\"sortType == 'name' && sortReverse\" class=\"fa fa-caret-down\"></span>\n" +
     "              </a>\n" +

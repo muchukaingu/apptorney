@@ -8,7 +8,7 @@
 
 
   <div class="modal-body" style="margin-bottom: none; padding-top: 10px; border-bottom:none; height:600px; overflow-y: auto;">
-    <h2>Select Legislations Referred To</h2>
+    <h2>Select Work Referred To</h2>
     <div class="input-icon right mb10">
           <i class="fa fa-search"></i>
           <input type="text" ng-model="queries.workReferencesQuery" class="form-control" placeholder="Search..." id="Search" ng-keydown = "saveWorkStab($event)">
@@ -25,7 +25,7 @@
 
             <td style="width:45%">
               <a ng-click="sortType = 'name'; sortReverse = !sortReverse">
-                Name of Legislation
+                Name of Work
                 <span ng-show="sortType == 'name' && !sortReverse" class="fa fa-caret-up"></span>
                 <span ng-show="sortType == 'name' && sortReverse" class="fa fa-caret-down"></span>
               </a>

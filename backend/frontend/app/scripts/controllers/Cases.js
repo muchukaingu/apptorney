@@ -845,8 +845,8 @@ angular.module('apptorney')
 
          $scope.openCaseReferences = function(){
 
-             setTimeout(function(){
 
+            /*
 
                 $scope.caseReferences = Case.find({
                            filter:{fields:{
@@ -887,7 +887,7 @@ angular.module('apptorney')
                            function(errorResponse) { }
                          );
 
-                       }, 3000);
+                          */
          }
 
          $scope.openWorkReferences = function(){
@@ -906,6 +906,55 @@ angular.module('apptorney')
                 );
               }, 3000);
          }
+
+
+         $scope.$watch('queries.caseReferencesQuery', function () {
+
+              if($scope.queries.caseReferencesQuery.length == 5){
+                  $scope.caseReferences = Case.find({
+                           filter:{fields:{
+                              defendants:true,
+                              plaintiffs:true,
+                              id:true
+
+                           }
+
+                         }},
+                         function(cases) {
+
+                             cases.forEach(function(aCase){
+
+                               aCase.accuser = "";
+                               aCase.accused = "";
+                               if(aCase.plaintiffs.length > 1){
+                                 aCase.accuser = aCase.plaintiffs[0].name + " and Others";
+                               }
+                               else {
+                                 aCase.accuser = aCase.plaintiffs[0].name;
+                               }
+
+                               if(aCase.defendants.length > 1){
+                                 aCase.accused = aCase.defendants[0].name + " and Others";
+                               }
+                               else {
+                                 aCase.accused = aCase.defendants[0].name;
+                               }
+
+                               aCase.name = aCase.accuser + " Vs. "+aCase.accused;
+
+                             });
+
+                             console.info("Case References", $scope.caseReferences);
+
+                           },
+                           function(errorResponse) { }
+                         );
+
+              }
+
+
+
+          });
 
 
 

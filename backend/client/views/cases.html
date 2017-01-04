@@ -53,7 +53,7 @@
 
             <div class="input-icon right mb10">
                   <i class="fa fa-search"></i>
-                  <input type="text" ng-model="query" class="form-control" placeholder="Search..." id="Search">
+                  <input type="text" ng-model="query" class="form-control" placeholder="Search..." id="Search" ng-keydown = "searchForCases($event)">
             </div>
                 <table id="casesTbl" class="table table-condensed">
                   <tr style="background-color: #E8E9EC" class="tableHeaders">
@@ -151,24 +151,12 @@
 
 
 
-                <div ng-if="!showCases" style="position: relative; left: 50%; margin-left: -100px; height: 50px; margin-top: 40px"><i ng-if="!returned" class='fa fa-fw fa-sun-o fa-spin'></i> {{message}}</div>
+                <div ng-if="searching" style="position: relative; left: 50%; margin-left: -100px; height: 50px; margin-top: 40px"><i ng-if="!returned" class='fa fa-fw fa-sun-o fa-spin'></i> {{message}}</div>
 								<div ng-if="cases.length == 0 && returned" style="position: relative; left: 48%; margin-left: -100px; height: 50px; margin-top: 40px">No cases found. Click <a data-toggle="modal" data-target="#addCaseModal">here</a> to create one.</div>
+								<div ng-if="cases.length == 0 && !returned" style="position: relative; left: 45%; margin-left: -100px; height: 50px; margin-top: 40px">Search for a case by name and press Enter to begin</div>
 								<div class="row">
-									<div class="col-sm-12 col-md-9">
-										<pagination total-items="totalCases" ng-model="bigCurrentPage" items-per-page= "itemsPerPage" class="pagination-sm" boundary-links="true" id="paginator"></pagination>
-									</div>
-									<div class="col-sm-12 col-md-3 form-group">
-										<select class="form-control" id="sel1" ng-model="itemsPerPage">
-											 <option>Visible Cases Per Page</option>
-											 <option value="5">5 Cases</option>
-											 <option value="50">50 Cases</option>
-											 <option value="100">100 Cases</option>
-											 <option value="250">250 Cases</option>
-											 <option value="500">500 Cases</option>
-										 </select>
 
 
-									</div>
 								</div>
 
 							</div>

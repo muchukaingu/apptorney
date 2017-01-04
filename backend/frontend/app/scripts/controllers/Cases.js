@@ -280,7 +280,7 @@ angular.module('apptorney')
                 $scope.searching = true;
                 $scope.cases = Case.find({
                   filter:{where: {
-                    name: {like: '.*'+$scope.query+'.*'}
+                    or:[{name: {like: '.*'+$scope.query+'.*'}},{'citation.year':parseInt($scope.query)} ]
                   },
                   fields:{
                      appearancesForPlaintiffs:false,

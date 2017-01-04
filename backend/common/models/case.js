@@ -32,6 +32,7 @@ module.exports = function(Case) {
 
           aCase.name = aCase.accuser + " Vs. "+aCase.accused;
           names.push(aCase.name);
+          Case.upsert(aCase);
         });
 
 

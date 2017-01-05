@@ -90,7 +90,7 @@
 
                     <td style="width:10%">Actions</td>
                   </tr>
-                  <tr id="rowTmp_Est" ng-repeat="case in cases | filter:query | orderBy:sortType:sortReverse" >
+                  <tr id="rowTmp_Est" ng-repeat="case in cases | orderBy:sortType:sortReverse" >
                       <td class="editables">
 
                       <span class="editable"  name="applicationID" form="rowform" onchange="editItem(this,'itemID')"

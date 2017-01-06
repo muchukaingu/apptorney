@@ -4,6 +4,29 @@ angular
   .module('theme.navigation-controller', [])
   .controller('NavigationController', ['LegislationType', '$scope', '$location', '$timeout', '$global', '$rootScope', 'Appuser', function (LegislationType, $scope, $location, $timeout, $global, $rootScope, Appuser) {
     var legislationTypes = [];
+    var yearMenu = [];
+
+
+    for (var year = 1960; year<2018; year++){
+
+        var periodMenuItem = {};
+        if(year%10==0){
+          periodMenuItem.children = [];
+          periodMenuItem.label = String(year)+"s";
+          //periodMenuItem.html= "<span class='badge badge-indigo'>4</span>";
+          for (var years = year; years < year+10; years++){
+            var yearMenuItem = {};
+            yearMenuItem.label=String(years);
+            yearMenuItem.url = "#/cases/"+String(years);
+            periodMenuItem.children.push(yearMenuItem);
+          }
+          yearMenu.push(periodMenuItem);
+
+        }
+
+    }
+
+    console.info("Year Menu", yearMenu);
     LegislationType.find(
       function(types) {
         types.forEach(function(type){
@@ -26,7 +49,8 @@ angular
         {
             label:"Cases",
             iconClasses:"fa fa-gavel",
-            url: '#/cases'
+            url: '#/cases',
+            children: yearMenu
         },
         {
             label:"Legislations",

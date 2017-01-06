@@ -8,7 +8,7 @@ angular.module('apptorney')
       }
   };
 })
-.controller('CasesController',function ($scope, $timeout, Court, Case, Legislation, Work,CaseLegislations, CaseCases, CaseWorks, AreaOfLaw,Jurisdiction, Location, baseURL, filterFilter) {
+.controller('CasesController',function ($scope, $timeout, Court, Case, Legislation, Work,CaseLegislations, CaseCases, CaseWorks, AreaOfLaw,Jurisdiction, Location, baseURL, filterFilter,$routeParams) {
     //console.log("xxx---->");
 
 
@@ -275,6 +275,14 @@ angular.module('apptorney')
 
          $scope.searching = false;
 
+
+
+         $scope.$watch('$routeParams',function(){
+           var newEvent = {};
+           newEvent.which = 13;
+           $scope.searchForCases(newEvent);
+         });
+
          $scope.searchForCases = function(event){
               if(event.which === 13){
                 $scope.searching = true;
@@ -284,11 +292,18 @@ angular.module('apptorney')
                   yearFilter = {'citation.year':parseInt($scope.query)};
                 }
                 else {
-                  yearFilter = {'capturedBy':$scope.query};
+
+                  if (!isNaN(parseInt($routeParams.year))){
+                    yearFilter = {'citation.year':parseInt($routeParams.year)};
+                  }
+                  else {
+                    yearFilter = {'capturedBy':$scope.query};
+                  }
                 }
+
                 $scope.cases = Case.find({
                   filter:{where: {
-                    or:[{name: {like: '.*'+$scope.query+'.*'}},yearFilter, {caseNumber: {like: '.*'+$scope.query+'.*'}} ]
+                    or:[{name: {like: '.*'+($scope.query || $routeParams.year)+'.*'}},yearFilter, {caseNumber: {like: '.*'+($scope.query || $routeParams.year)+'.*'}} ]
                   },
                   fields:{
                      appearancesForPlaintiffs:false,

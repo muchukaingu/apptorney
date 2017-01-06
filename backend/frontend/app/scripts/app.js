@@ -148,7 +148,7 @@ angular
       .when('/dashboard', {
         templateUrl: 'views/index.html',
       })
-      .when('/cases', {
+      .when('/cases/:year', {
         templateUrl: 'views/cases.html',
       })
       .when('/works', {

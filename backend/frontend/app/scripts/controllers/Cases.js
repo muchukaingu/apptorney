@@ -279,8 +279,10 @@ angular.module('apptorney')
 
          $scope.$watch('$routeParams',function(){
            var newEvent = {};
-           newEvent.which = 13;
-           $scope.searchForCases(newEvent);
+           if (!isNaN(parseInt($routeParams.year))){
+             newEvent.which = 13;
+             $scope.searchForCases(newEvent);
+           }
          });
 
          $scope.searchForCases = function(event){

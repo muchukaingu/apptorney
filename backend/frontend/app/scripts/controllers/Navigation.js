@@ -7,7 +7,7 @@ angular
     var yearMenu = [];
 
 
-    for (var year = 1960; year<2018; year++){
+    for (var year = 1900; year<2018; year++){
 
         var periodMenuItem = {};
         if(year%10==0){

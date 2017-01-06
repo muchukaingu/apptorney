@@ -278,9 +278,17 @@ angular.module('apptorney')
          $scope.searchForCases = function(event){
               if(event.which === 13){
                 $scope.searching = true;
+                var yearFilter = {};
+                console.log(parseInt($scope.query));
+                if (!isNaN(parseInt($scope.query))){
+                  yearFilter = {'citation.year':parseInt($scope.query)};
+                }
+                else {
+                  yearFilter = {'capturedBy':$scope.query};
+                }
                 $scope.cases = Case.find({
                   filter:{where: {
-                    or:[{name: {like: '.*'+$scope.query+'.*'}},{'citation.year':parseInt($scope.query)}, {caseNumber: {like: '.*'+$scope.query+'.*'}} ]
+                    or:[{name: {like: '.*'+$scope.query+'.*'}},yearFilter, {caseNumber: {like: '.*'+$scope.query+'.*'}} ]
                   },
                   fields:{
                      appearancesForPlaintiffs:false,

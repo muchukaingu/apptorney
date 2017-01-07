@@ -8,6 +8,7 @@ module.exports = function(Case) {
     }
   );
 
+
   Case.generateNames = function(cb) {
       Case.find({}, function(err, cases) {
 
@@ -31,8 +32,9 @@ module.exports = function(Case) {
           }
 
           aCase.name = aCase.accuser + " Vs. "+aCase.accused;
+          Case.upsert(aCase,function(err, data){});
           names.push(aCase.name);
-        
+
         });
 
 
@@ -47,6 +49,7 @@ module.exports = function(Case) {
   };
 
 
+/*
 Case.observe('before save', function clearReferences(ctx, next) {
 
       var app = Case.app;
@@ -55,8 +58,7 @@ Case.observe('before save', function clearReferences(ctx, next) {
       var CaseCases = app.models.caseCases;
       var CaseWorks = app.models.caseWorks;
 
-       //query the database for a single matching dog
-       console.info("Context is ", ctx.isNewInstance);
+
        if(ctx.isNewInstance == false || ctx.isNewInstance == undefined){
 
          CaseLegislations.destroyAll({caseId:ctx.data.id}, function(err, result) {
@@ -73,7 +75,11 @@ Case.observe('before save', function clearReferences(ctx, next) {
        }
 
       next();
-    });
+});
+*/
+
+
+
 
 
 

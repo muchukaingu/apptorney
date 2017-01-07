@@ -539,7 +539,7 @@ angular.module('apptorney')
          $scope.saveCase = function(){
                  //console.info("Case Details", $scope.case);
                  $scope.saveStatus = 1;
-
+                 $scope.case.name = $scope.generateName($scope.case);
                  Case.upsert($scope.case,
                      function(aCase){
                          $scope.case.legislationsReferedTo.forEach(function(legislation){

@@ -12,6 +12,11 @@
       "required": false
     },
 
+    "name": {
+      "type": "string",
+      "required": false
+    },
+
     "plaintiffs": {
       "type": ["party"]
     },

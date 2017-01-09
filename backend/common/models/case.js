@@ -8,6 +8,13 @@ module.exports = function(Case) {
     }
   );
 
+  Case.remoteMethod(
+    'summariseCasePeriods',{
+        http: {path: '/summarisecaseperiods', verb: 'get'},
+        returns: {arg: 'summary', type: ['object']}
+    }
+  );
+
 
   Case.generateNames = function(cb) {
       Case.find({}, function(err, cases) {
@@ -49,7 +56,26 @@ module.exports = function(Case) {
   };
 
 
-/*
+  Case.summariseCasePeriods = function(cb){
+    var periods = [];
+    var period = {name:"2010s"};
+    Case.find({filter:{where: {
+      or:[{name: {like: '.*201.*'}},{'citation.year':2016}, {caseNumber: {like: '.*201.*'}} ]
+    }}}), function(err, cases) {
+      if (err){
+        console.info("Error Occured ", err);
+        return;
+      }
+      console.info("Number of Cases ", cases.length);
+      period.count = cases.length;
+      periods.push(period);
+      cb(null,periods);
+    }
+
+  }
+
+
+
 Case.observe('before save', function clearReferences(ctx, next) {
 
       var app = Case.app;
@@ -76,7 +102,7 @@ Case.observe('before save', function clearReferences(ctx, next) {
 
       next();
 });
-*/
+
 
 
 

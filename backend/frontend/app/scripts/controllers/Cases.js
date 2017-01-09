@@ -308,6 +308,7 @@ angular.module('apptorney')
                     or:[{name: {like: '.*'+($scope.query || $routeParams.year)+'.*'}},yearFilter, {caseNumber: {like: '.*'+($scope.query || $routeParams.year)+'.*'}} ]
                   },
                   fields:{
+                     id:true,
                      name:true,
                      caseNumber:true,
                      completionStatus:true,

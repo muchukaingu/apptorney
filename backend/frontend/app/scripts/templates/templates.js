@@ -92,9 +92,9 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "          <button type=\"button\" id=\"closeModal\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>\n" +
     "          <div class=\"row\">\n" +
-    "            <div class=\"col-sm-9\">\n" +
+    "            <div class=\"col-sm-10\">\n" +
     "              <h4 ng-if=\"!viewMode\" style=\"font-weight: 100;\"><span id=\"CustomerHeading\">&nbsp;&nbsp;Add Case <button ng-click=\"toggleView()\" class=\"btn-primary-alt btn-xs\">View</button></span></h4>\n" +
-    "              <h4 ng-if=\"viewMode\" style=\"font-weight: 100;\"><span id=\"CustomerHeading\">&nbsp;&nbsp;Case No. {{case.number}}: of {{legislation.dateOfAssent | date:'yyyy'}} <button ng-click=\"toggleView()\" class=\"btn-primary-alt btn-xs\">Edit</button></span> </h4>\n" +
+    "              <h4 ng-if=\"viewMode\" style=\"font-weight: 100;\"><span id=\"CustomerHeading\">&nbsp;&nbsp;{{case.caseNumber}} <button ng-click=\"toggleView()\" class=\"btn-primary-alt btn-xs\">{{viewMode?\"Edit\":\"View\"}}</button></span> </h4>\n" +
     "\n" +
     "\n" +
     "              <p id=\"WelcomeMessage\" style=\"margin-left:8px; margin-top:-10px\" ng-if=\"!viewMode\">\n" +
@@ -102,15 +102,17 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "              </p>\n" +
     "              <p id=\"WelcomeMessage\" style=\"margin-left:8px; margin-top:-10px; font-size:1.2em\" ng-if=\"viewMode\">\n" +
     "                <span style=\"font-weight:600\">{{case.name}} </span><br />\n" +
+    "                <span class = \"text-success\" style=\"font-weight:600\" ng-if=\"case.secondaryReview\">Reviewed</span><br />\n" +
     "\n" +
     "\n" +
     "              </p>\n" +
     "            </div>\n" +
     "\n" +
-    "            <div class=\"col-sm-3\">\n" +
+    "            <div class=\"col-sm-2\">\n" +
     "              <div class=\"row\">\n" +
-    "                <div class=\"col-sm-4\" style=\"padding-top:4px; font-size:1.3em\">Reported</div><div class=\"col-sm-8\"><toggle-switch on-label = \"Yes\" off-label=\"No\" model=\"case.reported\" class=\"primary\" knob-label=\"Status\"><toggle-switch></div>\n" +
-    "                <div class=\"col-sm-4\" style=\"padding-top:4px; font-size:1.3em\">Complete</div><div class=\"col-sm-8\"><toggle-switch on-label = \"Yes\" off-label=\"No\" model=\"case.completionStatus\" class=\"success\" knob-label=\"Status\"><toggle-switch></div>\n" +
+    "                <!--div class=\"col-sm-12\"><toggle-switch on-label = \"Reported\" off-label=\"Unreported\" model=\"case.reported\" class=\"primary\" knob-label=\"Status\"><toggle-switch></div-->\n" +
+    "                <!--div class=\"col-sm-4\" style=\"padding-top:4px; font-size:1.3em\">Complete</div><div class=\"col-sm-8\"><toggle-switch on-label = \"Yes\" off-label=\"No\" model=\"case.completionStatus\" class=\"success\" knob-label=\"Status\"><toggle-switch></div-->\n" +
+    "                <div class=\"col-sm-12 pull-right\"><button data-toggle=\"modal\" data-target=\"#caseReviewModal\" class=\"btn btn-warning btn-block\">Review</button></div>\n" +
     "              </div>\n" +
     "\n" +
     "\n" +
@@ -129,7 +131,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "        <!-- Start Form-->\n" +
     "\n" +
-    "        <form id =\"applicationForm\" name=\"form\" class=\"css-form\" ng-submit=\"saveApplication()\" novalidate>\n" +
+    "        <form id =\"applicationForm\" name=\"form\" class=\"css-form\" ng-submit=\"saveApplication()\" novalidate ng-if=\"!viewMode\">\n" +
     "                  <div class=\"row\">\n" +
     "                    <div class=\"col-xs-6 form-group\">\n" +
     "                      <input id=\"caseNumber\" name=\"caseNumber\" type=\"text\" class=\"form-control\" ng-model=\"case.caseNumber\" ng-minlength=2 ng-focus placeholder=\"Case Number\"/>\n" +
@@ -184,7 +186,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "                            <div>\n" +
     "\n" +
-    "                                <input ng-repeat=\"plaintiff in case.plaintiffs\" set-focus=\"$last\" id=\"plaintiff\" name=\"plaintiff\" type=\"text\" class=\"form-control\" ng-model=\"plaintiff.name\" ng-minlength=2 ng-focus required placeholder=\"Name of Plaintiff\" ng-keydown = \"addPlaintiff($event)\" ng-style=\"{'margin-bottom':(case.parties.plaintiffs.length == 1)?'0px':'10px'}\"/>\n" +
+    "                                <input ng-repeat=\"plaintiff in case.plaintiffs\"  id=\"plaintiff\" name=\"plaintiff\" type=\"text\" class=\"form-control\" ng-model=\"plaintiff.name\" ng-minlength=2 ng-focus required placeholder=\"Name of Plaintiff\" ng-keydown = \"addPlaintiff($event)\" ng-style=\"{'margin-bottom':(case.parties.plaintiffs.length == 1)?'0px':'10px'}\"/>\n" +
     "                                <div class=\"text-danger\" ng-show=\"form.$submitted && form.plaintiff.$invalid || form.plaintiff.$dirty && form.plaintiff.$invalid && !form.plaintiff.$focused\">\n" +
     "\n" +
     "                                  <span ng-show=\"form.plaintiff.$error.required\">Name of Plaintiff is required</span>\n" +
@@ -217,7 +219,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "                              </div>\n" +
     "                            <div >\n" +
-    "                                <input ng-repeat=\"defendant in case.defendants\" set-focus=\"$last\" id=\"defendant\" name=\"defendant\" type=\"text\" class=\"form-control\" ng-model=\"defendant.name\" ng-minlength=2 ng-focus required placeholder=\"Name of Defendant\" ng-keydown = \"addDefendant($event)\" ng-style=\"{'margin-bottom':(case.parties.defendants.length == 1)?'0px':'10px'}\"/>\n" +
+    "                                <input ng-repeat=\"defendant in case.defendants\"  id=\"defendant\" name=\"defendant\" type=\"text\" class=\"form-control\" ng-model=\"defendant.name\" ng-minlength=2 ng-focus required placeholder=\"Name of Defendant\" ng-keydown = \"addDefendant($event)\" ng-style=\"{'margin-bottom':(case.parties.defendants.length == 1)?'0px':'10px'}\"/>\n" +
     "                                <div class=\"text-danger\" ng-show=\"form.$submitted && form.defendant.$invalid || form.defendant.$dirty && form.defendant.$invalid && !form.defendant.$focused\">\n" +
     "\n" +
     "                                  <span ng-show=\"form.defendant.$error.required\">Name of Defendant is required</span>\n" +
@@ -238,7 +240,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "                                  <div class=\"row\">\n" +
     "                                      <div class=\"col-xs-6\">\n" +
-    "                                        <input set-focus=\"$last\" id=\"plaintiffAdvocate\" name=\"plaintiffAdvocate\" type=\"text\" class=\"form-control\" ng-model=\"appearance.advocate\" ng-minlength=2 ng-focus required placeholder=\"Advocate\" ng-keydown = \"\" ng-style=\"{'margin-bottom':(case.parties.plaintiffAdvocates.length == 1)?'0px':'10px'}\"/>\n" +
+    "                                        <input id=\"plaintiffAdvocate\" name=\"plaintiffAdvocate\" type=\"text\" class=\"form-control\" ng-model=\"appearance.advocate\" ng-minlength=2 ng-focus required placeholder=\"Advocate\" ng-keydown = \"\" ng-style=\"{'margin-bottom':(case.parties.plaintiffAdvocates.length == 1)?'0px':'10px'}\"/>\n" +
     "\n" +
     "                                      </div>\n" +
     "                                      <div class=\"col-xs-6\">\n" +
@@ -275,7 +277,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                              <div ng-repeat=\"appearance in case.appearancesForDefendants\">\n" +
     "                                <div class=\"row\">\n" +
     "                                    <div class=\"col-xs-6\">\n" +
-    "                                      <input  set-focus=\"$last\" id=\"defendantAdvocate\" name=\"defendantAdvocate\" type=\"text\" class=\"form-control\" ng-model=\"appearance.advocate\" ng-minlength=2 ng-focus required placeholder=\"Advocate\" ng-keydown = \"\" ng-style=\"{'margin-bottom':(case.parties.defendantAdvocates.length == 1)?'0px':'10px'}\"/>\n" +
+    "                                      <input id=\"defendantAdvocate\" name=\"defendantAdvocate\" type=\"text\" class=\"form-control\" ng-model=\"appearance.advocate\" ng-minlength=2 ng-focus required placeholder=\"Advocate\" ng-keydown = \"\" ng-style=\"{'margin-bottom':(case.parties.defendantAdvocates.length == 1)?'0px':'10px'}\"/>\n" +
     "\n" +
     "                                    </div>\n" +
     "                                    <div class=\"col-xs-6\">\n" +
@@ -313,7 +315,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "                    <div class=\"col-xs-12\" style=\"border:1px dashed #d3d3d3; border-radius:5px; height:auto; color:#d3d3d3; padding-top:10px; padding-bottom:20px; width:97%; margin-left:12px; margin-bottom:20px;\">\n" +
     "                      <h4>Coram</h4>\n" +
-    "                      <input ng-repeat=\"judge in case.coram\" set-focus=\"$last\" id=\"judge\" name=\"judge\" type=\"text\" class=\"form-control\" ng-model=\"judge.name\" ng-minlength=2 ng-focus required placeholder=\"Name of Judge\" ng-keydown = \"addJudge($event)\" ng-style=\"{'margin-bottom':(case.coram.length == 1)?'0px':'10px'}\"/>\n" +
+    "                      <input ng-repeat=\"judge in case.coram\" id=\"judge\" name=\"judge\" type=\"text\" class=\"form-control\" ng-model=\"judge.name\" ng-minlength=2 ng-focus required placeholder=\"Name of Judge\" ng-keydown = \"addJudge($event)\" ng-style=\"{'margin-bottom':(case.coram.length == 1)?'0px':'10px'}\"/>\n" +
     "                      <div class=\"text-danger\" ng-show=\"form.$submitted && form.coram.$invalid || form.coram.$dirty && form.coram.$invalid && !form.coram.$focused\">\n" +
     "\n" +
     "                        <span ng-show=\"form.coram.$error.required\">Name of Judge is required</span>\n" +
@@ -549,6 +551,32 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "        </form>  <!--End Form-->\n" +
     "\n" +
+    "        <!--div class=\"row\">\n" +
+    "\n" +
+    "              <div class=\"col-xs-12\">\n" +
+    "\n" +
+    "                <panel heading=\"Case Details\" >\n" +
+    "                  <panel-controls>\n" +
+    "                        <a href=\"\"><panel-control-collapse class=\"fa fa-chevron-down\"></panel-control-collapse></a>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "                  </panel-controls>\n" +
+    "                  <div class=\"row\">\n" +
+    "\n" +
+    "                      <div class=\"col-lg-12\">\n" +
+    "                        Area of Law: {{case.areaOfLaw}}\n" +
+    "                      </div>\n" +
+    "                  </div>\n" +
+    "                </panel>\n" +
+    "\n" +
+    "\n" +
+    "            </div>\n" +
+    "        </div-->\n" +
+    "\n" +
+    "\n" +
+    "        <ng-include src=\"'templates/case-view-mode.html'\"></ng-include>\n" +
+    "\n" +
     "\n" +
     "     <!--  </div>  -->\n" +
     "\n" +
@@ -570,7 +598,8 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "<ng-include src=\"'templates/case-references-modal.html'\"></ng-include>\n" +
     "<ng-include src=\"'templates/legislation-references-modal.html'\"></ng-include>\n" +
-    "<ng-include src=\"'templates/work-references-modal.html'\"></ng-include>\n"
+    "<ng-include src=\"'templates/work-references-modal.html'\"></ng-include>\n" +
+    "<ng-include src=\"'templates/case-review-modal.html'\"></ng-include>\n"
   );
 
 
@@ -727,6 +756,133 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
   );
 
 
+  $templateCache.put('templates/case-review-modal.html',
+    "<div id=\"caseReviewModal\" class=\"modal fade\" style=\"z-index:3000; background-color:rgba(0, 0, 0, 0.5);\">\n" +
+    "  <div class=\"modal-dialog\" style=\"width:30%;padding-left: 2%;padding-right: 2%; \">\n" +
+    "    <div class=\"modal-content\" style=\"margin-top: 8%\">\n" +
+    "      <div class=\"modal-header\">\n" +
+    "          <button type=\"button\" id=\"closeModal\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>\n" +
+    "\n" +
+    "        <h3 style=\"font-weight: 100;\"><span id=\"CustomerHeading\">&nbsp&nbspReview Case</span></h3>\n" +
+    "\n" +
+    "      </div>\n" +
+    "\n" +
+    "      <div class=\"modal-body\" style=\"margin-bottom: none; padding-top: 0px; border-bottom:none\">\n" +
+    "\n" +
+    "        <!-- Start Form-->\n" +
+    "\n" +
+    "              <form id =\"applicationForm\" name=\"form\" class=\"css-form\" ng-submit=\"saveApplication()\" novalidate>\n" +
+    "                  <div class=\"row\">\n" +
+    "\n" +
+    "\n" +
+    "                    <div class=\"col-xs-12 form-group\">\n" +
+    "                        <div class=\"col-sm-9\" style=\"padding-top:4px; margin-top:20px; font-size:1.2em\">Is Case Complete?</div><div style=\"padding-top:4px; margin-top:20px; font-size:1.3em; position:relative; left:-10px\" class=\"col-sm-3\"><toggle-switch on-label = \"Yes\" off-label=\"No\" model=\"case.completionStatus\" class=\"success\" ><toggle-switch></div>\n" +
+    "                        <div class=\"col-sm-9\" style=\"padding-top:4px; margin-top:5px; font-size:1.2em\">Have You Reviewed Case?</div><div style=\"padding-top:4px; margin-top:5px; font-size:1.3em; position:relative; left:-10px\" class=\"col-sm-3\"><toggle-switch on-label = \"Yes\" off-label=\"No\" model=\"case.primaryReview\" class=\"success\" ><toggle-switch></div>\n" +
+    "                        <div class=\"col-sm-9\" style=\"padding-top:4px; margin-top:5px; font-size:1.2em\">Have You Reviewed Case?</div><div style=\"padding-top:4px; margin-top:5px; font-size:1.3em; position:relative; left:-10px\" class=\"col-sm-3\"><toggle-switch on-label = \"Yes\" off-label=\"No\" model=\"case.secondaryReview\" class=\"success\" ><toggle-switch></div>\n" +
+    "\n" +
+    "                    </div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "                  </div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "            </form>\n" +
+    "\n" +
+    "   </div>\n" +
+    "   <div class=\"modal-footer\" style=\"border-top:none\">\n" +
+    "     <div class = \"form-group\">\n" +
+    "       <button id=\"submit\" type=\"submit\" class=\"btn btn-primary-alt pull-right\"  style=\"width:120px\" ng-click=\"saveReview()\">Review</button>\n" +
+    "\n" +
+    "\n" +
+    "       <div id=\"submitAppMsg\" class=\"pull-left\" style=\"font-size: larger; position: relative; top: 5px\"></div>\n" +
+    "     </div>\n" +
+    "\n" +
+    "    </div>\n" +
+    " </div>\n" +
+    "</div>\n" +
+    "</div>\n"
+  );
+
+
+  $templateCache.put('templates/case-view-mode.html',
+    "<div class=\"row\" ng-if=\"viewMode\">\n" +
+    "\n" +
+    "      <div class=\"col-xs-12\">\n" +
+    "\n" +
+    "\n" +
+    "          <div class=\"row\">\n" +
+    "\n" +
+    "              <div class=\"col-lg-12\">\n" +
+    "                {{case.court.name}}\n" +
+    "              </div>\n" +
+    "              <div class=\"col-xs-12\" ng-repeat=\"judge in case.coram\">\n" +
+    "                {{judge.name}}\n" +
+    "              </div>\n" +
+    "              <div class=\"col-xs-12\">\n" +
+    "                {{case.citation.code}}/{{case.citation.number}}/{{case.citation.year}}\n" +
+    "              </div>\n" +
+    "\n" +
+    "              <div class=\"col-xs-12\">\n" +
+    "                Flynote (Area of Law): {{case.areaOfLaw.name}}\n" +
+    "              </div>\n" +
+    "\n" +
+    "\n" +
+    "              <div class=\"col-xs-12\">\n" +
+    "\n" +
+    "                  <panel heading=\"Headnote (Summary of Facts)\" >\n" +
+    "                    <panel-controls>\n" +
+    "                          <a href=\"\"><panel-control-collapse class=\"fa fa-chevron-down\"></panel-control-collapse></a>\n" +
+    "                    </panel-controls>\n" +
+    "                      <span style=\"white-space: pre-wrap;\" ng-bind-html=\"case.summaryOfFacts\"></span>\n" +
+    "                  </panel>\n" +
+    "              </div>\n" +
+    "\n" +
+    "\n" +
+    "              <div class=\"col-xs-12\">\n" +
+    "\n" +
+    "                  <panel heading=\"Held (Summary of Ruling)\" >\n" +
+    "                    <panel-controls>\n" +
+    "                          <a href=\"\"><panel-control-collapse class=\"fa fa-chevron-down\"></panel-control-collapse></a>\n" +
+    "                    </panel-controls>\n" +
+    "                      <span style=\"white-space: pre-wrap;\" ng-bind-html=\"case.summaryOfRuling\"></span>\n" +
+    "                  </panel>\n" +
+    "              </div>\n" +
+    "\n" +
+    "\n" +
+    "              <div class=\"col-xs-12\">\n" +
+    "                <panel heading=\"Cases Referred To\" >\n" +
+    "                  <panel-controls>\n" +
+    "                        <a href=\"\"><panel-control-collapse class=\"fa fa-chevron-down\"></panel-control-collapse></a>\n" +
+    "                  </panel-controls>\n" +
+    "                    <ol>\n" +
+    "                      <li ng-repeat=\"ref in case.casesReferedTo\">\n" +
+    "                        {{ref.name}}\n" +
+    "                      </li>\n" +
+    "                    </ol>\n" +
+    "                  </panel>\n" +
+    "              </div>\n" +
+    "\n" +
+    "\n" +
+    "              <div class=\"col-xs-12\">\n" +
+    "                <panel heading=\"Judgement\" >\n" +
+    "                  <panel-controls>\n" +
+    "                        <a href=\"\"><panel-control-collapse class=\"fa fa-chevron-down\"></panel-control-collapse></a>\n" +
+    "                  </panel-controls>\n" +
+    "\n" +
+    "                  <span style=\"white-space: pre-wrap;\" ng-bind-html=\"case.judgement\"></span>\n" +
+    "                </panel>\n" +
+    "              </div>\n" +
+    "\n" +
+    "          </div>\n" +
+    "\n" +
+    "\n" +
+    "    </div>\n" +
+    "</div>\n"
+  );
+
+
   $templateCache.put('templates/contextual-progressbar.html',
     "<div class=\"contextual-progress\">\n" +
     "\t<div class=\"clearfix\">\n" +
@@ -783,7 +939,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "                    <div class=\"col-xs-12\" style=\"border:1px dashed #d3d3d3; border-radius:5px; height:auto; color:#d3d3d3; padding-top:10px; padding-bottom:20px; width:97%; margin-left:12px; margin-bottom:20px;\">\n" +
     "                      <h4>Court Divisions</h4>\n" +
-    "                      <input ng-repeat=\"division in divisions\" set-focus=\"$last\" id=\"division\" name=\"division\" type=\"text\" class=\"form-control\" ng-model=\"division.name\" ng-minlength=2 ng-focus required placeholder=\"Name of Division\" ng-keydown = \"addDivision($event)\" ng-style=\"{'margin-bottom':(courts.length == 1)?'0px':'10px'}\"/>\n" +
+    "                      <input ng-repeat=\"division in divisions\" id=\"division\" name=\"division\" type=\"text\" class=\"form-control\" ng-model=\"division.name\" ng-minlength=2 ng-focus required placeholder=\"Name of Division\" ng-keydown = \"addDivision($event)\" ng-style=\"{'margin-bottom':(courts.length == 1)?'0px':'10px'}\"/>\n" +
     "                      <div class=\"text-danger\" ng-show=\"form.$submitted && form.coram.$invalid || form.coram.$dirty && form.coram.$invalid && !form.coram.$focused\">\n" +
     "\n" +
     "                        <span ng-show=\"form.coram.$error.required\">Name of Division is required</span>\n" +
@@ -1307,7 +1463,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "                                        <ng-include src=\"'templates/table-viewable.html'\"></ng-include>\n" +
     "\n" +
-    "                                        \n" +
+    "\n" +
     "\n" +
     "                                        <ul>\n" +
     "                                          <p ng-repeat=\"part in part.subParts\" ng-include=\"'items_view_renderer.html'\">&emsp;</p>\n" +

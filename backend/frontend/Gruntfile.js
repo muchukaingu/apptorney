@@ -38,6 +38,14 @@ module.exports = function (grunt) {
           livereload: true
         }
       },
+
+      html: {
+        files: ['<%= yeoman.app %>/views/{,*/}*.html'],
+        tasks: ['forceOn','build','forceOff'],
+        options: {
+          livereload: true
+        }
+      },
       jsTest: {
         files: ['test/spec/{,*/}*.js'],
         tasks: ['newer:jshint:test', 'karma']
@@ -58,7 +66,7 @@ module.exports = function (grunt) {
           livereload: '<%= connect.options.livereload %>'
         },
         files: [
-          '<%= yeoman.app %>/{,*/}*.html',
+          '<%= yeoman.app %>/views/{,*/}*.html',
           '.tmp/assets/{,*/}*.css',
           '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
         ]
@@ -493,4 +501,20 @@ module.exports = function (grunt) {
     // 'test',
     'build'
   ]);
+
+  grunt.registerTask('forceOn', 'turns the --force option ON',
+    function() {
+      if ( !grunt.option( 'force' ) ) {
+        grunt.config.set('forceStatus', true);
+        grunt.option( 'force', true );
+      }
+    });
+
+  grunt.registerTask('forceOff', 'turns the --force option Off',
+    function() {
+      if ( grunt.config.get('forceStatus') ) {
+        grunt.option( 'force', false );
+      }
+    });
+
 };

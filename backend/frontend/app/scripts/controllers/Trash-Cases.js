@@ -8,7 +8,7 @@ angular.module('apptorney')
       }
   };
 })
-.controller('CasesController',function ($bootbox,$scope, $timeout, Court, Case, Legislation, Work,CaseLegislations, CaseCases, CaseWorks, AreaOfLaw,Jurisdiction, Location, baseURL, filterFilter,$routeParams) {
+.controller('TrashCasesController',function ($bootbox,$scope, $timeout, Court, Case, Legislation, Work,CaseLegislations, CaseCases, CaseWorks, AreaOfLaw,Jurisdiction, Location, baseURL, filterFilter,$routeParams) {
     //console.log("xxx---->");//
 
 
@@ -348,36 +348,20 @@ angular.module('apptorney')
 
 
          $scope.$watch('$routeParams',function(){
-           var newEvent = {};
-           if (!isNaN(parseInt($routeParams.year))){
-             newEvent.which = 13;
-             $scope.searchForCases(newEvent);
-           }
+
+             $scope.searchForCases();
+
          });
 
-         $scope.searchForCases = function(event){
-              if(event.which === 13){
-                $scope.searching = true;
-                var yearFilter = {};
-                console.log(parseInt($scope.query));
-                if (!isNaN(parseInt($scope.query))){
-                  yearFilter = {'citation.year':parseInt($scope.query)};
-                }
-                else {
+         $scope.searchForCases = function(){
 
-                  if (!isNaN(parseInt($routeParams.year))){
-                    yearFilter = {'citation.year':parseInt($routeParams.year)};
-                  }
-                  else {
-                    yearFilter = {'capturedBy':$scope.query};
-                  }
-                }
+
 
                 $scope.cases = Case.find({
                   filter:{where: {
-                    or:[
-                      {and:[{name: {like: '.*'+($scope.query || $routeParams.year)+'.*'}},{primaryDeletion:{neq:1}}]},{and:[yearFilter, {primaryDeletion:{neq:1}}]}, {and:[{caseNumber: {like: '.*'+($scope.query || $routeParams.year)+'.*'}},{primaryDeletion:{neq:1}}]}
-                    ]
+
+                      primaryDeletion:1
+
                   },
                   fields:{
                      id:true,
@@ -403,7 +387,7 @@ angular.module('apptorney')
                   },
                   function(errorResponse) { }
                 );
-              }
+
 
           }
 
@@ -746,11 +730,6 @@ angular.module('apptorney')
 
          $scope.addWorkReference = function(work){
            $scope.case.workReferedTo.push(work);
-         }
-
-
-         $scope.saveReview = function(){
-           $("#caseReviewModal").modal("hide");
          }
 
 

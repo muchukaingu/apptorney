@@ -140,7 +140,12 @@ angular
       progressLoader.end();
     });
   }])
-  .config(['$provide', '$routeProvider', function ($provide, $routeProvider) {
+  .config(['$provide', '$routeProvider','LoopBackResourceProvider', function ($provide, $routeProvider, LoopBackResourceProvider) {
+
+
+    // Change the URL where to access the LoopBack REST API server
+    LoopBackResourceProvider.setUrlBase('http://circuit.cloudapp.net:3001/api'); //Important: Comment for production
+
     $routeProvider
       .when('/', {
         templateUrl: 'views/login.html',
@@ -153,6 +158,9 @@ angular
       })
       .when('/works', {
         templateUrl: 'views/works.html',
+      })
+      .when('/trash', {
+        templateUrl: 'views/trash-cases.html',
       })
       .when('/courts', {
         templateUrl: 'views/courts.html',

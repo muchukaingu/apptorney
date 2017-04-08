@@ -159,7 +159,11 @@
 
                           <a class="viewItem" onclick="viewApp(this)" itemid="{{application.applicationID}}"><i class="fa fa-eye"></i></a>&nbsp;
 													<a data-user="Admin" class="editItem" data-toggle="modal" data-target="#addCaseModal" ng-click="openCase(case)" ><i class="fa fa-edit"></i></a>
-                          <a class="viewItem" ><i class="fa fa-times"></i></a></a>
+                          <a class="viewItem" ng-click = "deleteCase(case)"><i class="fa fa-times"></i></a></a>
+
+
+
+
 
                           <!-- <a class="deleteItem" data-user="Admin" onclick="deleteEstimate(this,'itemID','Estimates.php','deleteEstimates','cleanRow', 'Estimates')"><i class="fa fa-trash-o"></i></a> -->
                       </div>

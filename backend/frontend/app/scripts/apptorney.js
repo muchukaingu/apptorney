@@ -1,3 +1,3 @@
 'use strict'
 angular.module('apptorney',[])
-.constant("baseURL", "http://localhost:3000/api/");
+.constant("baseURL", "http://circuit.cloudapp.net:3001/api/");

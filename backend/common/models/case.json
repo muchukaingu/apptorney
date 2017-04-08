@@ -40,6 +40,12 @@
       "required": false
     },
 
+    "primaryDeletion": {
+      "type": "number",
+      "default":0,
+      "required": false
+    },
+
     "summaryOfRuling": {
       "type": "string",
       "required": false

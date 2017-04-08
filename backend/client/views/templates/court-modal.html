@@ -40,7 +40,7 @@
 
                     <div class="col-xs-12" style="border:1px dashed #d3d3d3; border-radius:5px; height:auto; color:#d3d3d3; padding-top:10px; padding-bottom:20px; width:97%; margin-left:12px; margin-bottom:20px;">
                       <h4>Court Divisions</h4>
-                      <input ng-repeat="division in divisions" set-focus="$last" id="division" name="division" type="text" class="form-control" ng-model="division.name" ng-minlength=2 ng-focus required placeholder="Name of Division" ng-keydown = "addDivision($event)" ng-style="{'margin-bottom':(courts.length == 1)?'0px':'10px'}"/>
+                      <input ng-repeat="division in divisions" id="division" name="division" type="text" class="form-control" ng-model="division.name" ng-minlength=2 ng-focus required placeholder="Name of Division" ng-keydown = "addDivision($event)" ng-style="{'margin-bottom':(courts.length == 1)?'0px':'10px'}"/>
                       <div class="text-danger" ng-show="form.$submitted && form.coram.$invalid || form.coram.$dirty && form.coram.$invalid && !form.coram.$focused">
 
                         <span ng-show="form.coram.$error.required">Name of Division is required</span>

@@ -109,6 +109,12 @@ angular
                 url: '#/defendantsynonyms'
               }
             ]
+        },
+
+        {
+            label:"Trash",
+            iconClasses:"fa fa-trash-o",
+            url: '#/trash'
         }
     ];
 

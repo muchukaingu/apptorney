@@ -11,7 +11,7 @@ angular.module('apptorney')
 
     var uploader = $scope.uploader = new FileUploader({
       scope: $scope,                          // to automatically update the html. Default: $rootScope
-      url: '/api/containers/attachments/upload',
+      url: '/api/files/upload',
       formData: [
         { key: 'value' }
       ]

@@ -73,6 +73,11 @@
     "dataSource": "apptorney",
     "public": true
   },
+  "file": {
+    "dataSource": "apptorney",
+    "public": true
+  },
+
   "lawFirm": {
     "dataSource": "apptorney",
     "public": true

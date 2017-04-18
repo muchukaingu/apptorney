@@ -1026,155 +1026,48 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
 
 
   $templateCache.put('templates/file-manager.html',
-    "<div id=\"manageFilesModal\" class=\"modal fade\" style=\"z-index:3000; background-color:rgba(0, 0, 0, 0.5);\" ng-controller = \"TestController\">\n" +
-    "  <div class=\"modal-dialog\" style=\"width:50%;padding-left: 2%;padding-right: 2%; \">\n" +
-    "    <div class=\"modal-content\" style=\"margin-top: 8%\">\n" +
-    "      <div class=\"modal-header\" style=\"border-bottom:none\">\n" +
-    "          <button type=\"button\" id=\"closeModal\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>\n" +
-    "\n" +
-    "        <h4 style=\"font-weight: 100;\"><span id=\"CustomerHeading\">Add File to Legislation</span></h4>\n" +
-    "        <p id=\"WelcomeMessage\" style=\"\">\n" +
-    "          Use this screen to attach files to a Legislation Component\n" +
-    "        </p>\n" +
-    "      </div>\n" +
-    "\n" +
-    "      <div class=\"modal-body\" style=\"margin-bottom: none; padding-top: 0px; border-bottom:none\">\n" +
     "\n" +
     "        <div class=\"row\">\n" +
-    "\n" +
     "                <div class=\"col-md-12\">\n" +
-    "\n" +
-    "                <img ng-src=\"{{image}}\"> </img>\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "                    <div ng-show=\"uploader.isHTML5\">\n" +
-    "                        <!-- 3. nv-file-over | nv-file-over=\"className\" -->\n" +
-    "\n" +
-    "\n" +
-    "                        <!-- Example: nv-file-drop | nv-file-drop=\"options\" -->\n" +
-    "                        <div class=\"well my-drop-zone\" nv-file-drop options=\"{name: legislation.id, filename: legislation.legislationParts.indexOf(legislationPart), part: legislationPart}\" filters==\"{name: 'xxx'}\"\n" +
-    "                             nv-file-over=\"another-file-over-class\" uploader=\"uploader\" ng-click=\"angular.element('#fileControl').trigger('click');\">\n" +
-    "                            Drag your file here or click to browse for it on your file system\n" +
-    "                        </div>\n" +
-    "                    </div>\n" +
-    "\n" +
-    "                    <!-- 2. nv-file-select | nv-file-select=\"options\" -->\n" +
-    "\n" +
-    "                    <input nv-file-select uploader=\"uploader\" type=\"file\" multiple ng-show=\"false\" id=\"fileControl\"/><br/>\n" +
-    "\n" +
-    "\n" +
-    "                    <input nv-file-select uploader=\"uploader\" type=\"file\" ng-show=\"false\"/>\n" +
+    "                  \n" +
+    "                    <input nv-file-select uploader=\"uploader\" type=\"file\" ng-show=\"true\" id=\"fileControl\" />\n" +
     "                </div>\n" +
-    "\n" +
-    "                <div class=\"col-md-12\" style=\"margin-bottom: 40px\">\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "                    <p>Number of files to be added: {{ uploader.queue.length }}</p>\n" +
-    "\n" +
+    "                <div class=\"col-md-12\" style=\"margin-bottom: 40px; margin-top:20px\" ng-if=\"uploader.queue.length>0\">\n" +
+    "                    <h3 style=\"margin-left:5px\">File Upload Details</h3>\n" +
     "                    <table class=\"table\">\n" +
     "                        <thead>\n" +
-    "                        <tr>\n" +
-    "                            <th width=\"50%\">Name</th>\n" +
-    "                            <th ng-show=\"uploader.isHTML5\">Size</th>\n" +
-    "                            <th ng-show=\"uploader.isHTML5\">Progress</th>\n" +
-    "                            <th>Status</th>\n" +
-    "                            <th>Actions</th>\n" +
-    "                        </tr>\n" +
+    "                            <tr><th width=\"50%\">Name</th><th ng-show=\"uploader.isHTML5\">Size</th><th ng-show=\"uploader.isHTML5\">Progress</th><th>Status</th><th>Actions</th></tr>\n" +
     "                        </thead>\n" +
     "                        <tbody>\n" +
-    "                        <tr ng-repeat=\"item in uploader.queue\">\n" +
-    "                            <td><strong>{{ item.file.name }}</strong></td>\n" +
-    "                            <td ng-show=\"uploader.isHTML5\" nowrap>{{\n" +
-    "                                item.file.size/1024/1024|number:2 }} MB\n" +
-    "                            </td>\n" +
-    "                            <td ng-show=\"uploader.isHTML5\">\n" +
-    "                                <div class=\"progress\" style=\"margin-bottom: 0;\">\n" +
-    "                                    <div class=\"progress-bar\" role=\"progressbar\"\n" +
-    "                                         ng-style=\"{ 'width': item.progress + '%' }\"></div>\n" +
-    "                                </div>\n" +
-    "                            </td>\n" +
-    "                            <td class=\"text-center\">\n" +
-    "                                <span ng-show=\"item.isSuccess\"><i\n" +
-    "                                        class=\"glyphicon glyphicon-ok\"></i></span>\n" +
-    "                                <span ng-show=\"item.isCancel\"><i\n" +
-    "                                        class=\"glyphicon glyphicon-ban-circle\"></i></span>\n" +
-    "                                <span ng-show=\"item.isError\"><i\n" +
-    "                                        class=\"glyphicon glyphicon-remove\"></i></span>\n" +
-    "                            </td>\n" +
-    "                            <td nowrap>\n" +
-    "                                <button type=\"button\" class=\"btn btn-success btn-xs\"\n" +
-    "                                        ng-click=\"item.upload()\"\n" +
-    "                                        ng-disabled=\"item.isReady || item.isUploading || item.isSuccess\">\n" +
-    "                                    <span class=\"glyphicon glyphicon-upload\"></span>\n" +
-    "                                    Upload\n" +
-    "                                </button>\n" +
-    "                                <button type=\"button\" class=\"btn btn-warning btn-xs\"\n" +
-    "                                        ng-click=\"item.cancel()\"\n" +
-    "                                        ng-disabled=\"!item.isUploading\">\n" +
-    "                                    <span class=\"glyphicon glyphicon-ban-circle\"></span>\n" +
-    "                                    Cancel\n" +
-    "                                </button>\n" +
-    "                                <button type=\"button\" class=\"btn btn-danger btn-xs\"\n" +
-    "                                        ng-click=\"item.remove()\">\n" +
-    "                                    <span class=\"glyphicon glyphicon-trash\"></span>\n" +
-    "                                    Remove\n" +
-    "                                </button>\n" +
-    "                            </td>\n" +
-    "                        </tr>\n" +
+    "                            <tr ng-repeat=\"item in uploader.queue\">\n" +
+    "                                <td><strong>{{ item.file.name }}</strong></td>\n" +
+    "                                <td ng-show=\"uploader.isHTML5\" nowrap>{{item.file.size/1024/1024|number:2 }} MB</td>\n" +
+    "                                <td ng-show=\"uploader.isHTML5\">\n" +
+    "                                    <div class=\"progress\" style=\"margin-bottom: 0;\">\n" +
+    "                                        <div class=\"progress-bar\" role=\"progressbar\" ng-style=\"{ 'width': item.progress + '%' }\"></div>\n" +
+    "                                    </div>\n" +
+    "                                </td>\n" +
+    "                                <td class=\"text-center\">\n" +
+    "                                    <span ng-show=\"item.isSuccess\"><i class=\"glyphicon glyphicon-ok\"></i></span>\n" +
+    "                                    <span ng-show=\"item.isCancel\"><i class=\"glyphicon glyphicon-ban-circle\"></i></span>\n" +
+    "                                    <span ng-show=\"item.isError\"><i class=\"glyphicon glyphicon-remove\"></i></span>\n" +
+    "                                </td>\n" +
+    "                                <td nowrap>\n" +
+    "                                    <button type=\"button\" class=\"btn btn-success btn-xs\" ng-click=\"item.upload()\" ng-disabled=\"item.isReady || item.isUploading || item.isSuccess\">\n" +
+    "                                        <span class=\"glyphicon glyphicon-upload\"></span>\n" +
+    "                                    </button>\n" +
+    "                                    <button type=\"button\" class=\"btn btn-warning btn-xs\" ng-click=\"item.cancel()\" ng-disabled=\"!item.isUploading\">\n" +
+    "                                        <span class=\"glyphicon glyphicon-ban-circle\"></span>\n" +
+    "                                    </button>\n" +
+    "                                    <button type=\"button\" class=\"btn btn-danger btn-xs\" ng-click=\"item.remove()\">\n" +
+    "                                        <span class=\"glyphicon glyphicon-trash\"></span>\n" +
+    "                                    </button>\n" +
+    "                                </td>\n" +
+    "                            </tr>\n" +
     "                        </tbody>\n" +
     "                    </table>\n" +
     "\n" +
-    "\n" +
-    "\n" +
-    "                </div>\n" +
-    "\n" +
-    "                <div class=\"col-md-12\" style=\"margin-bottom: 40px\"\n" +
-    "                     ng-controller=\"FilesController\" data-ng-init=\"load()\">\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "                    <table class=\"table\">\n" +
-    "                        <thead>\n" +
-    "                        <tr>\n" +
-    "                            <th colspan=\"2\">Files in the Legislation Component</th>\n" +
-    "\n" +
-    "                        </tr>\n" +
-    "                        </thead>\n" +
-    "                        <tbody>\n" +
-    "                        <tr>\n" +
-    "                            <td>\n" +
-    "                                <img ng-src=\"{{legislationPart.file}}\" width=\"100%\"/></td>\n" +
-    "                            <td>\n" +
-    "                            <td>\n" +
-    "                                <button type=\"button\" class=\"btn btn-danger btn-xs\"\n" +
-    "                                        ng-click=\"delete(legislationPart.file)\"\n" +
-    "                                        title=\"Delete the file\">\n" +
-    "                                    <span class=\"glyphicon glyphicon-trash\"></span>\n" +
-    "                                    Remove\n" +
-    "                                </button>\n" +
-    "\n" +
-    "                            </td>\n" +
-    "                            </button>\n" +
-    "                            </td>\n" +
-    "                        </tr>\n" +
-    "                        </tbody>\n" +
-    "                    </table>\n" +
-    "                </div>\n" +
-    "\n" +
-    "            </div>\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "      </div>\n" +
-    "   <div class=\"modal-footer\" style=\"border-top:none\">\n" +
-    "\n" +
-    "\n" +
-    "    </div>\n" +
-    " </div>\n" +
-    "</div>\n" +
-    "</div>\n"
+    "        </div>\n"
   );
 
 
@@ -1372,7 +1265,6 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                    </div>\n" +
     "\n" +
     "                    <div class=\"col-xs-12 col-md-4 form-group\" ng-if = \"selectedType !=='Schedule'\">\n" +
-    "                      {{selectedType}}\n" +
     "                      <input id=\"volumeNumber\" name=\"volumeNumber\" type=\"text\" class=\"form-control\" ng-model=\"legislation.volumeNumber\" ng-minlength=2 ng-focus required placeholder=\"Volume Number\" />\n" +
     "                      <div class=\"text-danger\" ng-show=\"form.$submitted && form.volumeNumber.$invalid || form.volumeNumber.$dirty && form.volumeNumber.$invalid && !form.volumeNumber.$focused\">\n" +
     "\n" +
@@ -1460,7 +1352,10 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                                    <script type=\"text/ng-template\" id=\"items_view_renderer.html\">\n" +
     "                                        <span style=\"font-weight:600\">{{ part.number }} {{ part.title }}</span> <br>\n" +
     "                                        <span>{{ part.content }}</span><br>\n" +
-    "                                        <span><img ng-src=\"{{ part.file }}\" width=\"100%\" /></span><br>\n" +
+    "                                        <span ng-if=\"part.file.type.substring(0,5)=='image'\"><img ng-src=\"{{ baseURL+part.file.url }}\" width=\"150px\" /></span><br> <!--change hard coding to server URL -->\n" +
+    "                                        <span ng-if=\"part.file.type.substring(0,5)!=='image'\"><a ng-href=\"{{ baseURL+part.file.url }}\">{{part.title}} File</a></span><br> <!--change hard coding to server URL -->\n" +
+    "\n" +
+    "\n" +
     "\n" +
     "                                        <ng-include src=\"'templates/table-viewable.html'\"></ng-include>\n" +
     "\n" +
@@ -1554,142 +1449,68 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
   );
 
 
-  $templateCache.put('templates/legislation-part-form.html',
-    "<form id =\"applicationForm\" name=\"form\" class=\"css-form\" novalidate>\n" +
-    "    <div class=\"row\">\n" +
-    "\n" +
-    "      <div class=\"col-xs-12 col-md-3 form-group\">\n" +
-    "        <input id=\"court-name\" name=\"court-name\" type=\"text\" class=\"form-control\" ng-model=\"legislationPart.number\" ng-focus placeholder=\"Number\" ng-if=\"legislationPart.level\"/>\n" +
-    "\n" +
-    "      </div>\n" +
-    "\n" +
-    "      <div class=\"\" ng-class=\"(legislationPart.level)?'col-xs-12 col-md-9 form-group':'col-xs-12 col-md-12 form-group'\">\n" +
-    "        <input id=\"court-name\" name=\"court-name\" type=\"text\" class=\"form-control\" ng-model=\"legislationPart.title\" ng-minlength=2 ng-focus required placeholder=\"Title\"/>\n" +
-    "        <div class=\"text-danger\" ng-show=\"form.$submitted && form.court-name.$invalid || form.court-name.$dirty && form.court-name.$invalid && !form.court-name.$focused\">\n" +
-    "\n" +
-    "          <span ng-show=\"form.court-name.$error.required\">Title is required</span>\n" +
-    "          <span ng-show=\"form.court-name.$error.minlength\">Title is required to be at least 2 characters long</span>\n" +
-    "\n" +
-    "        </div>\n" +
-    "      </div>\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "      <div class=\"col-xs-12 col-md-12 form-group\">\n" +
-    "          <textarea id=\"preamble\" name=\"preamble\" type=\"text\" style=\"height: 90px; width:100%\"; min-word-count=\"2\"  class=\"form-control\" ng-model=\"legislationPart.content\"  ng-minlength=2 required ng-focus placeholder=\"Content *\"/>\n" +
-    "          <div class=\"text-danger\" ng-show=\"form.$submitted && form.preamble.$invalid || form.preamble.$dirty && form.preamble.$invalid && !form.preamble.$focused\">\n" +
-    "\n" +
-    "          <span ng-show=\"form.preamble.$error.required\">Content is required</span>\n" +
-    "          <span ng-show=\"form.preamble.$error.minlength\">Content is required to be at least 2 characters long</span>\n" +
-    "\n" +
-    "        </div>\n" +
-    "      </div>\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "  \t    <div class=\"col-xs-3 pull-left\" >\n" +
-    "  \t\t    <div class=\"btn-group\" data-dropdown>\n" +
-    "  \t\t      <button type=\"button\" class=\"btn btn-default-alt dropdown-toggle alt-border\" id=\"stageSelector\">\n" +
-    "  \t\t        <span ng-if=\"!filtered\">Add Attachments to Component</span>\n" +
-    "  \t\t        <i class=\"fa fa-caret-down\"></i>\n" +
-    "  \t\t      </button>\n" +
-    "  \t\t      <ul class=\"dropdown-menu\" role=\"menu\" style=\"text-align: left; position:relative; left:1px; padding-right:21px\">\n" +
-    "               <li><a class=\"dropdown-toggle\" ng-if=\"!legislationPart.showTable\" ng-click=\"addTable()\"><i class=\"fa fa-th\"></i>&nbsp;&nbsp;Add Table&nbsp;&nbsp;&nbsp;&nbsp;</a></li>\n" +
-    "               <li><a class=\"dropdown-toggle\" data-toggle=\"modal\" data-target=\"#manageFilesModal\"><i class=\"fa fa-image\"></i></i>&nbsp;&nbsp;Add File&nbsp;&nbsp;&nbsp;&nbsp;</a></li>\n" +
-    "  \t\t         <li ng-repeat=\"type in legislationTypes\"><a class=\"dropdown-toggle\" ng-click=\"itemselected(stage)\"><i class=\"fa fa-file\"></i>&nbsp;&nbsp;Add {{type.name}}&nbsp;&nbsp;&nbsp;&nbsp;</a></li>\n" +
-    "  \t\t      </ul>\n" +
-    "  \t\t    </div>\n" +
-    "  \t    </div>\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "    </div>\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "</form>\n"
-  );
-
-
   $templateCache.put('templates/legislation-part-modal.html',
     "<div id=\"addLegislationPart\" class=\"modal fade\" style=\"z-index:3000; background-color:rgba(0, 0, 0, 0.5);\">\n" +
-    "  <div class=\"modal-dialog\" style=\"width:50%;padding-left: 2%;padding-right: 2%; \">\n" +
-    "    <div class=\"modal-content\" style=\"margin-top: 8%\">\n" +
-    "      <div class=\"modal-header\" style=\"border-bottom:none\">\n" +
-    "          <button type=\"button\" id=\"closeModal\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>\n" +
+    "    <div class=\"modal-dialog\" style=\"width:50%;padding-left: 2%;padding-right: 2%; \">\n" +
+    "        <div class=\"modal-content\" style=\"margin-top: 8%\">\n" +
+    "              <div class=\"modal-header\" style=\"border-bottom:none\">\n" +
+    "                  <button type=\"button\" id=\"closeModal\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>\n" +
+    "                  <h4 style=\"font-weight: 100;\"><span id=\"CustomerHeading\">&nbsp;&nbsp;Edit {{legislationPart.title}}</span></h4>\n" +
+    "                  <p id=\"WelcomeMessage\" style=\"margin-left:12px\">Please ensure that you fill in all the mandatory sections in the form.</p>\n" +
+    "              </div>\n" +
+    "              <div class=\"modal-body\" style=\"margin-bottom: none; padding-top: 0px; border-bottom:none\">\n" +
+    "                  <!-- Start Form-->\n" +
+    "                  <form id =\"applicationForm\" name=\"form\" class=\"css-form\" novalidate>\n" +
+    "                      <div class=\"row\">\n" +
+    "                          <div class=\"col-xs-12 col-md-3 form-group\">\n" +
+    "                              <input id=\"court-name\" name=\"court-name\" type=\"text\" class=\"form-control\" ng-model=\"legislationPart.number\" ng-focus placeholder=\"Number\" ng-if=\"legislationPart.level\"/>\n" +
+    "                          </div>\n" +
+    "                          <div class=\"\" ng-class=\"(legislationPart.level)?'col-xs-12 col-md-9 form-group':'col-xs-12 col-md-12 form-group'\">\n" +
+    "                              <input id=\"court-name\" name=\"court-name\" type=\"text\" class=\"form-control\" ng-model=\"legislationPart.title\" ng-minlength=2 ng-focus required placeholder=\"Title\"/>\n" +
+    "                              <div class=\"text-danger\" ng-show=\"form.$submitted && form.court-name.$invalid || form.court-name.$dirty && form.court-name.$invalid && !form.court-name.$focused\">\n" +
+    "                                  <span ng-show=\"form.court-name.$error.required\">Title is required</span>\n" +
+    "                                  <span ng-show=\"form.court-name.$error.minlength\">Title is required to be at least 2 characters long</span>\n" +
+    "                              </div>\n" +
+    "                          </div>\n" +
+    "                          <div class=\"col-xs-12 col-md-12 form-group\">\n" +
+    "                              <textarea id=\"preamble\" name=\"preamble\" type=\"text\" style=\"height: 90px; width:100%\"; min-word-count=\"2\"  class=\"form-control\" ng-model=\"legislationPart.content\"  ng-minlength=2 required ng-focus placeholder=\"Content *\"/>\n" +
+    "                              <div class=\"text-danger\" ng-show=\"form.$submitted && form.preamble.$invalid || form.preamble.$dirty && form.preamble.$invalid && !form.preamble.$focused\">\n" +
+    "                                <span ng-show=\"form.preamble.$error.required\">Content is required</span>\n" +
+    "                                <span ng-show=\"form.preamble.$error.minlength\">Content is required to be at least 2 characters long</span>\n" +
+    "                              </div>\n" +
+    "                          </div>\n" +
     "\n" +
-    "        <h4 style=\"font-weight: 100;\"><span id=\"CustomerHeading\">&nbsp;&nbsp;Edit {{legislationPart.title}}</span></h4>\n" +
-    "        <p id=\"WelcomeMessage\" style=\"margin-left:12px\">\n" +
-    "          Please ensure that you fill in all the mandatory sections in the form.\n" +
-    "        </p>\n" +
-    "      </div>\n" +
+    "                          <div class=\"col-xs-12\" style=\"margin-top:-18px; margin-bottom:15px\">\n" +
+    "          \n" +
+    "                            <span ng-if=\"legislationPart.file.type.substring(0,5)=='image'\"><img ng-src=\"{{ baseURL+legislationPart.file.url }}\" width=\"150px\" /></span><br> <!--change hard coding to server URL -->\n" +
+    "                            <span ng-if=\"legislationPart.file.type.substring(0,5)!=='image'\"><a ng-href=\"{{ baseURL+legislationPart.file.url }}\">{{legislationPart.title}} File</a></span><br> <!--change hard coding to server URL -->\n" +
+    "                          </div>\n" +
     "\n" +
-    "      <div class=\"modal-body\" style=\"margin-bottom: none; padding-top: 0px; border-bottom:none\">\n" +
-    "\n" +
-    "        <!-- Start Form-->\n" +
-    "        <ng-include src=\"'templates/legislation-part-form.html'\"></ng-include>\n" +
-    "\n" +
-    "        <div class=\"col-md-12\" style=\"margin-bottom: 40px\"\n" +
-    "             ng-controller=\"FilesController\" data-ng-init=\"load()\">\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "            <table class=\"table\">\n" +
-    "                <thead>\n" +
-    "                <tr>\n" +
-    "                    <th colspan=\"2\">Files in the Legislation Component</th>\n" +
-    "\n" +
-    "                </tr>\n" +
-    "                </thead>\n" +
-    "                <tbody>\n" +
-    "                <tr>\n" +
-    "                    <td>\n" +
-    "                        <img ng-src=\"{{legislationPart.file}}\" width=\"100%\"/></td>\n" +
-    "                    <td>\n" +
-    "                    <td>\n" +
-    "                        <button ng-if=\"legislationPart.file !== ''\" type=\"button\" class=\"btn btn-danger btn-xs\"\n" +
-    "                                ng-click=\"delete(fileName)\"\n" +
-    "                                title=\"Delete the file\">\n" +
-    "                            <span class=\"glyphicon glyphicon-trash\"></span>\n" +
-    "                            Remove\n" +
-    "                        </button>\n" +
-    "\n" +
-    "                    </td>\n" +
-    "                    </button>\n" +
-    "                    </td>\n" +
-    "                </tr>\n" +
-    "                </tbody>\n" +
-    "            </table>\n" +
+    "                    \t    <div class=\"col-xs-3 pull-left\" >\n" +
+    "                      \t\t    <div class=\"btn-group\" data-dropdown>\n" +
+    "                      \t\t      <button type=\"button\" class=\"btn btn-default-alt dropdown-toggle alt-border\" id=\"stageSelector\">\n" +
+    "                      \t\t        <span ng-if=\"!filtered\">{{(legislationPart.file==undefined)?\"Add\":\"Replace\"}} Attachment</span>\n" +
+    "                      \t\t        <i class=\"fa fa-caret-down\"></i>\n" +
+    "                      \t\t      </button>\n" +
+    "                      \t\t      <ul class=\"dropdown-menu\" role=\"menu\" style=\"text-align: left; position:relative; left:1px; padding-right:21px\">\n" +
+    "                                   <li><a class=\"dropdown-toggle\" ng-click=\"addTable(); legislationPart.attachmentType = 'table'\"><i class=\"fa fa-th\"></i>&nbsp;&nbsp;Add Table&nbsp;&nbsp;&nbsp;&nbsp;</a></li>\n" +
+    "                                   <li><a class=\"dropdown-toggle\" data-toggle=\"modal\" ng-click=\"legislationPart.attachmentType = 'file'\"><i class=\"fa fa-image\"></i></i>&nbsp;&nbsp;Add File&nbsp;&nbsp;&nbsp;&nbsp;</a></li>\n" +
+    "                      \t\t         <!--li ng-repeat=\"type in legislationTypes\"><a class=\"dropdown-toggle\" ng-click=\"itemselected(stage)\"><i class=\"fa fa-file\"></i>&nbsp;&nbsp;Add {{type.name}}&nbsp;&nbsp;&nbsp;&nbsp;</a></li-->\n" +
+    "                      \t\t      </ul>\n" +
+    "                      \t\t    </div>\n" +
+    "                    \t    </div>\n" +
+    "                          <div class=\"col-xs-12 pull-left\" ng-if=\"legislationPart.attachmentType == 'file'\" style=\"margin-top:10px\" ng-controller = \"TestController\">\n" +
+    "                            <ng-include src=\"'templates/file-manager.html'\"></ng-include>\n" +
+    "                          </div>\n" +
+    "                      </div>\n" +
+    "                  </form>\n" +
+    "                  <!-- End Form-->\n" +
+    "                  <ng-include src=\"'templates/table.html'\" ng-if=\"legislationPart.attachmentType == 'table'\"></ng-include>\n" +
+    "              </div>\n" +
+    "              <div class=\"modal-footer\" style=\"border-top:none\"></div>\n" +
     "        </div>\n" +
-    "\n" +
-    "        <ng-include src=\"'templates/table.html'\"></ng-include>\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "      </div>\n" +
-    "   <div class=\"modal-footer\" style=\"border-top:none\">\n" +
-    "\n" +
-    "\n" +
     "    </div>\n" +
-    " </div>\n" +
-    "</div>\n" +
-    "</div>\n" +
-    "\n" +
-    "<ng-include src=\"'templates/file-manager.html'\"></ng-include>\n"
+    "</div>\n"
   );
 
 
@@ -2434,7 +2255,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
 
   $templateCache.put('templates/table.html',
     "\n" +
-    "        <div class=\"container-fluid\" ng-controller=\"TablesEditableController\" ng-if=\"legislationPart.showTable\">\n" +
+    "        <div class=\"container-fluid\" ng-controller=\"TablesEditableController\" ng-if=\"legislationPart.showTable\" style=\"margin-top:15px\">\n" +
     "\n" +
     "          <div class=\"row\" ng-switch=\"colState\">\n" +
     "\n" +

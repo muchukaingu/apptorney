@@ -27,7 +27,7 @@
       "required":true
     },
     "file":{
-      "type": "string",
+      "type": "file",
       "required": false
     }
 

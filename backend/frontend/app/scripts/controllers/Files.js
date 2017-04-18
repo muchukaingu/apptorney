@@ -11,7 +11,7 @@ angular.module('apptorney')
 
     var uploader = $scope.uploader = new FileUploader({
       scope: $scope,                          // to automatically update the html. Default: $rootScope
-      url: '/api/files/upload',
+      url: 'http://localhost:3009/api/files/upload',
       formData: [
         { key: 'value' }
       ]
@@ -21,7 +21,6 @@ angular.module('apptorney')
     uploader.filters.push({
         name: 'filterName',
         fn: function (item, options) { // second user filter
-            console.info('filter2');
             return true;
         }
     });
@@ -29,17 +28,14 @@ angular.module('apptorney')
     // REGISTER HANDLERS
     // --------------------
     uploader.onAfterAddingFile = function(item) {
-      //console.info('After adding a file', item);
-      $scope.currentPart = item.part;
-      console.info('legislationPart', item.filename);
-      $scope.containerName = item.name;
-      var filename = $scope.containerName+"_"+Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
-      var orginalName = item.file.name;
 
+      $scope.currentPart = item.part;
+      $scope.containerName = item.name;
+      var filename = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
+      var orginalName = item.file.name;
       //$scope.createContainer($scope.containerName);
       var extn = orginalName.split(".").pop();
       item.file.name = filename + '.' + extn;
-      console.log(item.file.name);
     };
     // --------------------
     uploader.onAfterAddingAll = function(items) {
@@ -63,9 +59,11 @@ angular.module('apptorney')
     };
     // --------------------
     uploader.onSuccessItem = function(item, response, status, headers) {
-      console.log();
-      console.info('part', $scope.currentPart);
-      $scope.currentPart.file = location.href.split('#')[0]+'api/containers/attachments/download/'+item.file.name;
+      var file = JSON.parse(item._xhr.response);
+      console.info('After adding a file', file);
+      $scope.legislationPart.file = file;
+      console.info('part', $scope.legislationPart);
+      //$scope.currentPart.file = location.href.split('#')[0]+'api/containers/attachments/download/'+item.file.name;
       console.info('Success', response, status, headers);
       //$scope.$broadcast('uploadCompleted', item);
     };

@@ -135,7 +135,6 @@
                     </div>
 
                     <div class="col-xs-12 col-md-4 form-group" ng-if = "selectedType !=='Schedule'">
-                      {{selectedType}}
                       <input id="volumeNumber" name="volumeNumber" type="text" class="form-control" ng-model="legislation.volumeNumber" ng-minlength=2 ng-focus required placeholder="Volume Number" />
                       <div class="text-danger" ng-show="form.$submitted && form.volumeNumber.$invalid || form.volumeNumber.$dirty && form.volumeNumber.$invalid && !form.volumeNumber.$focused">
 
@@ -223,7 +222,10 @@
                                     <script type="text/ng-template" id="items_view_renderer.html">
                                         <span style="font-weight:600">{{ part.number }} {{ part.title }}</span> <br>
                                         <span>{{ part.content }}</span><br>
-                                        <span><img ng-src="{{ part.file }}" width="100%" /></span><br>
+                                        <span ng-if="part.file.type.substring(0,5)=='image'"><img ng-src="{{ baseURL+part.file.url }}" width="150px" /></span><br> <!--change hard coding to server URL -->
+                                        <span ng-if="part.file.type.substring(0,5)!=='image'"><a ng-href="{{ baseURL+part.file.url }}">{{part.title}} File</a></span><br> <!--change hard coding to server URL -->
+
+
 
                                         <ng-include src="'templates/table-viewable.html'"></ng-include>
 

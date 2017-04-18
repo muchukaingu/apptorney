@@ -1,149 +1,42 @@
-<div id="manageFilesModal" class="modal fade" style="z-index:3000; background-color:rgba(0, 0, 0, 0.5);" ng-controller = "TestController">
-  <div class="modal-dialog" style="width:50%;padding-left: 2%;padding-right: 2%; ">
-    <div class="modal-content" style="margin-top: 8%">
-      <div class="modal-header" style="border-bottom:none">
-          <button type="button" id="closeModal" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-
-        <h4 style="font-weight: 100;"><span id="CustomerHeading">Add File to Legislation</span></h4>
-        <p id="WelcomeMessage" style="">
-          Use this screen to attach files to a Legislation Component
-        </p>
-      </div>
-
-      <div class="modal-body" style="margin-bottom: none; padding-top: 0px; border-bottom:none">
 
         <div class="row">
-
                 <div class="col-md-12">
-
-                <img ng-src="{{image}}"> </img>
-
-
-
-                    <div ng-show="uploader.isHTML5">
-                        <!-- 3. nv-file-over | nv-file-over="className" -->
-
-
-                        <!-- Example: nv-file-drop | nv-file-drop="options" -->
-                        <div class="well my-drop-zone" nv-file-drop options="{name: legislation.id, filename: legislation.legislationParts.indexOf(legislationPart), part: legislationPart}" filters=="{name: 'xxx'}"
-                             nv-file-over="another-file-over-class" uploader="uploader" ng-click="angular.element('#fileControl').trigger('click');">
-                            Drag your file here or click to browse for it on your file system
-                        </div>
-                    </div>
-
-                    <!-- 2. nv-file-select | nv-file-select="options" -->
-
-                    <input nv-file-select uploader="uploader" type="file" multiple ng-show="false" id="fileControl"/><br/>
-
-
-                    <input nv-file-select uploader="uploader" type="file" ng-show="false"/>
+                  
+                    <input nv-file-select uploader="uploader" type="file" ng-show="true" id="fileControl" />
                 </div>
-
-                <div class="col-md-12" style="margin-bottom: 40px">
-
-
-
-                    <p>Number of files to be added: {{ uploader.queue.length }}</p>
-
+                <div class="col-md-12" style="margin-bottom: 40px; margin-top:20px" ng-if="uploader.queue.length>0">
+                    <h3 style="margin-left:5px">File Upload Details</h3>
                     <table class="table">
                         <thead>
-                        <tr>
-                            <th width="50%">Name</th>
-                            <th ng-show="uploader.isHTML5">Size</th>
-                            <th ng-show="uploader.isHTML5">Progress</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
+                            <tr><th width="50%">Name</th><th ng-show="uploader.isHTML5">Size</th><th ng-show="uploader.isHTML5">Progress</th><th>Status</th><th>Actions</th></tr>
                         </thead>
                         <tbody>
-                        <tr ng-repeat="item in uploader.queue">
-                            <td><strong>{{ item.file.name }}</strong></td>
-                            <td ng-show="uploader.isHTML5" nowrap>{{
-                                item.file.size/1024/1024|number:2 }} MB
-                            </td>
-                            <td ng-show="uploader.isHTML5">
-                                <div class="progress" style="margin-bottom: 0;">
-                                    <div class="progress-bar" role="progressbar"
-                                         ng-style="{ 'width': item.progress + '%' }"></div>
-                                </div>
-                            </td>
-                            <td class="text-center">
-                                <span ng-show="item.isSuccess"><i
-                                        class="glyphicon glyphicon-ok"></i></span>
-                                <span ng-show="item.isCancel"><i
-                                        class="glyphicon glyphicon-ban-circle"></i></span>
-                                <span ng-show="item.isError"><i
-                                        class="glyphicon glyphicon-remove"></i></span>
-                            </td>
-                            <td nowrap>
-                                <button type="button" class="btn btn-success btn-xs"
-                                        ng-click="item.upload()"
-                                        ng-disabled="item.isReady || item.isUploading || item.isSuccess">
-                                    <span class="glyphicon glyphicon-upload"></span>
-                                    Upload
-                                </button>
-                                <button type="button" class="btn btn-warning btn-xs"
-                                        ng-click="item.cancel()"
-                                        ng-disabled="!item.isUploading">
-                                    <span class="glyphicon glyphicon-ban-circle"></span>
-                                    Cancel
-                                </button>
-                                <button type="button" class="btn btn-danger btn-xs"
-                                        ng-click="item.remove()">
-                                    <span class="glyphicon glyphicon-trash"></span>
-                                    Remove
-                                </button>
-                            </td>
-                        </tr>
+                            <tr ng-repeat="item in uploader.queue">
+                                <td><strong>{{ item.file.name }}</strong></td>
+                                <td ng-show="uploader.isHTML5" nowrap>{{item.file.size/1024/1024|number:2 }} MB</td>
+                                <td ng-show="uploader.isHTML5">
+                                    <div class="progress" style="margin-bottom: 0;">
+                                        <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                                    <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                                    <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                                </td>
+                                <td nowrap>
+                                    <button type="button" class="btn btn-success btn-xs" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+                                        <span class="glyphicon glyphicon-upload"></span>
+                                    </button>
+                                    <button type="button" class="btn btn-warning btn-xs" ng-click="item.cancel()" ng-disabled="!item.isUploading">
+                                        <span class="glyphicon glyphicon-ban-circle"></span>
+                                    </button>
+                                    <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </button>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
 
-
-
-                </div>
-
-                <div class="col-md-12" style="margin-bottom: 40px"
-                     ng-controller="FilesController" data-ng-init="load()">
-
-
-
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th colspan="2">Files in the Legislation Component</th>
-
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>
-                                <img ng-src="{{legislationPart.file}}" width="100%"/></td>
-                            <td>
-                            <td>
-                                <button type="button" class="btn btn-danger btn-xs"
-                                        ng-click="delete(legislationPart.file)"
-                                        title="Delete the file">
-                                    <span class="glyphicon glyphicon-trash"></span>
-                                    Remove
-                                </button>
-
-                            </td>
-                            </button>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-            </div>
-
-
-
-      </div>
-   <div class="modal-footer" style="border-top:none">
-
-
-    </div>
- </div>
-</div>
-</div>
+        </div>

@@ -10,7 +10,7 @@ angular.module('apptorney')
         return dtfilter+suffix;
       };
   })
-  .controller('LegislationController', function($rootScope,$scope, $filter, Legislation, LegislationType, LegislationPart, PartType, $location, $global, datetime, $routeParams, filterFilter){
+  .controller('LegislationController', function($rootScope,$scope, $filter, Legislation, LegislationType, LegislationPart, PartType, $location, $global, datetime, $routeParams, filterFilter, baseURL){
 
     $scope.selectedType = "";
     $scope.selected = false;
@@ -26,6 +26,7 @@ angular.module('apptorney')
     $scope.legislationPartTypesReturned = false;
     $scope.showLegislationPartTypes = false;
     $scope.saveStatus = 0;
+    $scope.baseURL = baseURL.replace("/api/",""); //Hack to show images and file links in Legislation
 
 
 

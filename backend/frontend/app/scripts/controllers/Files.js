@@ -31,7 +31,7 @@ angular.module('apptorney')
 
       $scope.currentPart = item.part;
       $scope.containerName = item.name;
-      var filename = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
+      var filename = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 10);
       var orginalName = item.file.name;
       //$scope.createContainer($scope.containerName);
       var extn = orginalName.split(".").pop();

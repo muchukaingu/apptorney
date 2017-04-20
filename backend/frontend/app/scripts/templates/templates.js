@@ -1481,9 +1481,9 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                          </div>\n" +
     "\n" +
     "                          <div class=\"col-xs-12\" style=\"margin-top:-18px; margin-bottom:15px\">\n" +
-    "          \n" +
+    "\n" +
     "                            <span ng-if=\"legislationPart.file.type.substring(0,5)=='image'\"><img ng-src=\"{{ baseURL+legislationPart.file.url }}\" width=\"150px\" /></span><br> <!--change hard coding to server URL -->\n" +
-    "                            <span ng-if=\"legislationPart.file.type.substring(0,5)!=='image'\"><a ng-href=\"{{ baseURL+legislationPart.file.url }}\">{{legislationPart.title}} File</a></span><br> <!--change hard coding to server URL -->\n" +
+    "                            <span ng-if=\"legislationPart.file.type.substring(0,5)!=='image' && legislationPart.file !== undefined\"><a ng-href=\"{{ baseURL+legislationPart.file.url }}\">{{legislationPart.title}} File</a></span><br> <!--change hard coding to server URL -->\n" +
     "                          </div>\n" +
     "\n" +
     "                    \t    <div class=\"col-xs-3 pull-left\" >\n" +

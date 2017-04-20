@@ -1180,7 +1180,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                    </div>\n" +
     "\n" +
     "                    <div class=\"col-xs-12 col-md-6 form-group\">\n" +
-    "                      <input id=\"legislation-number\" name=\"legislation-number\" type=\"text\" class=\"form-control\" ng-model=\"legislation.legislationNumber\" ng-minlength=2 ng-focus required placeholder=\"Legislation Number *\"/>\n" +
+    "                      <input id=\"legislation-number\" name=\"legislation-number\" type=\"text\" class=\"form-control\" ng-model=\"legislation.legislationNumber\" ng-minlength=2 ng-focus placeholder=\"Legislation Number\"/>\n" +
     "                      <div class=\"text-danger\" ng-show=\"form.$submitted && form.legislation-number.$invalid || form.legislation-number.$dirty && form.legislation-number.$invalid && !form.legislation-number.$focused\">\n" +
     "\n" +
     "                        <span ng-show=\"form.legislation-number.$error.required\">Legislation Number is required</span>\n" +
@@ -1209,7 +1209,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "\n" +
     "                    <div class=\"col-xs-12 col-md-12 form-group\">\n" +
-    "                        <textarea id=\"preamble\" name=\"preamble\" type=\"text\" style=\"height: 90px\" min-word-count=\"2\"  class=\"form-control\" ng-model=\"legislation.preamble\"  ng-minlength=2 required ng-focus placeholder=\"Preamble *\"/>\n" +
+    "                        <textarea id=\"preamble\" name=\"preamble\" type=\"text\" style=\"height: 90px\" min-word-count=\"2\"  class=\"form-control\" ng-model=\"legislation.preamble\"  ng-minlength=2 ng-focus placeholder=\"Preamble\"/>\n" +
     "                        <div class=\"text-danger\" ng-show=\"form.$submitted && form.preamble.$invalid || form.preamble.$dirty && form.preamble.$invalid && !form.preamble.$focused\">\n" +
     "\n" +
     "                        <span ng-show=\"form.preamble.$error.required\">Preamble is required</span>\n" +
@@ -1228,7 +1228,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "\n" +
     "                    <div class=\"col-xs-12 col-md-9 form-group\">\n" +
-    "                      <input id=\"dateOfAssent\" name=\"dateOfAssent\" type=\"text\" datetime=\"d MMMM, yyyy\" class=\"form-control\" ng-model=\"legislation.dateOfAssent\" required placeholder=\"Date of Assent\" ng-focus/>\n" +
+    "                      <input id=\"dateOfAssent\" name=\"dateOfAssent\" type=\"text\" datetime=\"d MMMM, yyyy\" class=\"form-control\" ng-model=\"legislation.dateOfAssent\" placeholder=\"Date of Assent\" ng-focus/>\n" +
     "                      <div class=\"text-danger\" ng-show=\"form.$submitted && form.dateOfAssent.$invalid || form.dateOfAssent.$dirty && form.dateOfAssent.$invalid && !form.dateOfAssent.$focused\">\n" +
     "\n" +
     "                        <span ng-show=\"form.dateOfAssent.$error.required\">Date of Assent is required</span>\n" +
@@ -1239,7 +1239,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "\n" +
     "                    <div class=\"col-xs-12 col-md-3 form-group\">\n" +
-    "                      <input id=\"amendment-year\" name=\"amendment-year\" type=\"number\" class=\"form-control\" ng-model=\"legislation.yearOfAmendment\" ng-minlength=2 ng-focus required placeholder=\"Year of Ammendment\"/>\n" +
+    "                      <input id=\"amendment-year\" name=\"amendment-year\" type=\"number\" class=\"form-control\" ng-model=\"legislation.yearOfAmendment\" ng-minlength=2 ng-focus placeholder=\"Year of Ammendment\"/>\n" +
     "                      <div class=\"text-danger\" ng-show=\"form.$submitted && form.amendment-year.$invalid || form.amendment-year.$dirty && form.amendment-year.$invalid && !form.amendment-year.$focused\">\n" +
     "\n" +
     "                        <span ng-show=\"form.amendment-year.$error.required\">Year of Ammendment is required</span>\n" +
@@ -1255,7 +1255,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "                  <div class=\"row\">\n" +
     "                    <div class=\"col-xs-12 col-md-4 form-group\">\n" +
-    "                      <input id=\"enactment\" name=\"enactment\" type=\"text\" class=\"form-control\" ng-model=\"legislation.enactment\" ng-minlength=2 ng-focus required placeholder=\"Enactment *\"/>\n" +
+    "                      <input id=\"enactment\" name=\"enactment\" type=\"text\" class=\"form-control\" ng-model=\"legislation.enactment\" ng-minlength=2 ng-focus placeholder=\"Enactment *\"/>\n" +
     "                      <div class=\"text-danger\" ng-show=\"form.$submitted && form.enactment.$invalid || form.enactment.$dirty && form.enactment.$invalid && !form.enactment.$focused\">\n" +
     "\n" +
     "                        <span ng-show=\"form.enactment.$error.required\">Enactment is required</span>\n" +
@@ -1265,7 +1265,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                    </div>\n" +
     "\n" +
     "                    <div class=\"col-xs-12 col-md-4 form-group\" ng-if = \"selectedType !=='Schedule'\">\n" +
-    "                      <input id=\"volumeNumber\" name=\"volumeNumber\" type=\"text\" class=\"form-control\" ng-model=\"legislation.volumeNumber\" ng-minlength=2 ng-focus required placeholder=\"Volume Number\" />\n" +
+    "                      <input id=\"volumeNumber\" name=\"volumeNumber\" type=\"text\" class=\"form-control\" ng-model=\"legislation.volumeNumber\" ng-minlength=2 ng-focus placeholder=\"Volume Number\" />\n" +
     "                      <div class=\"text-danger\" ng-show=\"form.$submitted && form.volumeNumber.$invalid || form.volumeNumber.$dirty && form.volumeNumber.$invalid && !form.volumeNumber.$focused\">\n" +
     "\n" +
     "                        <span ng-show=\"form.volumeNumber.$error.required\">Volume Number is required</span>\n" +
@@ -1276,7 +1276,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "\n" +
     "                    <div class=\"col-xs-12 col-md-4 form-group\" ng-if = \"selectedType !=='Schedule'\">\n" +
-    "                      <input id=\"chapter-number\" name=\"chapter-number\" type=\"text\" class=\"form-control\" ng-model=\"legislation.chapterNumber\" ng-minlength=2 ng-focus required placeholder=\"Chapter Number\"/>\n" +
+    "                      <input id=\"chapter-number\" name=\"chapter-number\" type=\"text\" class=\"form-control\" ng-model=\"legislation.chapterNumber\" ng-minlength=2 ng-focus placeholder=\"Chapter Number\"/>\n" +
     "                      <div class=\"text-danger\" ng-show=\"form.$submitted && form.chapter-number.$invalid || form.chapter-number.$dirty && form.chapter-number.$invalid && !form.chapter-number.$focused\">\n" +
     "\n" +
     "                        <span ng-show=\"form.chapter-number.$error.required\">Chapter Number is required</span>\n" +
@@ -1353,7 +1353,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                                        <span style=\"font-weight:600\">{{ part.number }} {{ part.title }}</span> <br>\n" +
     "                                        <span>{{ part.content }}</span><br>\n" +
     "                                        <span ng-if=\"part.file.type.substring(0,5)=='image'\"><img ng-src=\"{{ baseURL+part.file.url }}\" width=\"150px\" /></span><br> <!--change hard coding to server URL -->\n" +
-    "                                        <span ng-if=\"part.file.type.substring(0,5)!=='image' && part.file !== undefined\"><a ng-href=\"{{ baseURL+part.file.url }}\">{{part.title}} File</a></span><br> <!--change hard coding to server URL -->\n" +
+    "                                        <span ng-if=\"part.file.type.substring(0,5)!=='image' && part.file !== undefined\"><a target=\"_blank\" ng-href=\"{{ baseURL+part.file.url }}\">{{part.title}} File</a></span><br> <!--change hard coding to server URL -->\n" +
     "\n" +
     "\n" +
     "\n" +
@@ -1483,7 +1483,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                          <div class=\"col-xs-12\" style=\"margin-top:-18px; margin-bottom:15px\">\n" +
     "\n" +
     "                            <span ng-if=\"legislationPart.file.type.substring(0,5)=='image'\"><img ng-src=\"{{ baseURL+legislationPart.file.url }}\" width=\"150px\" /></span><br> <!--change hard coding to server URL -->\n" +
-    "                            <span ng-if=\"legislationPart.file.type.substring(0,5)!=='image' && legislationPart.file !== undefined\"><a ng-href=\"{{ baseURL+legislationPart.file.url }}\">{{legislationPart.title}} File</a></span><br> <!--change hard coding to server URL -->\n" +
+    "                            <span ng-if=\"legislationPart.file.type.substring(0,5)!=='image' && legislationPart.file !== undefined\"><a target=\"_blank\" ng-href=\"{{ baseURL+legislationPart.file.url }}\">{{legislationPart.title}} File</a></span><br> <!--change hard coding to server URL -->\n" +
     "                          </div>\n" +
     "\n" +
     "                    \t    <div class=\"col-xs-3 pull-left\" >\n" +

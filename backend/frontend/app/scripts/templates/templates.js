@@ -1353,7 +1353,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                                        <span style=\"font-weight:600\">{{ part.number }} {{ part.title }}</span> <br>\n" +
     "                                        <span>{{ part.content }}</span><br>\n" +
     "                                        <span ng-if=\"part.file.type.substring(0,5)=='image'\"><img ng-src=\"{{ baseURL+part.file.url }}\" width=\"150px\" /></span><br> <!--change hard coding to server URL -->\n" +
-    "                                        <span ng-if=\"part.file.type.substring(0,5)!=='image'\"><a ng-href=\"{{ baseURL+part.file.url }}\">{{part.title}} File</a></span><br> <!--change hard coding to server URL -->\n" +
+    "                                        <span ng-if=\"part.file.type.substring(0,5)!=='image' && part.file !== undefined\"><a ng-href=\"{{ baseURL+part.file.url }}\">{{part.title}} File</a></span><br> <!--change hard coding to server URL -->\n" +
     "\n" +
     "\n" +
     "\n" +

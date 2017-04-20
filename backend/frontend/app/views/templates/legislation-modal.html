@@ -223,7 +223,7 @@
                                         <span style="font-weight:600">{{ part.number }} {{ part.title }}</span> <br>
                                         <span>{{ part.content }}</span><br>
                                         <span ng-if="part.file.type.substring(0,5)=='image'"><img ng-src="{{ baseURL+part.file.url }}" width="150px" /></span><br> <!--change hard coding to server URL -->
-                                        <span ng-if="part.file.type.substring(0,5)!=='image'"><a ng-href="{{ baseURL+part.file.url }}">{{part.title}} File</a></span><br> <!--change hard coding to server URL -->
+                                        <span ng-if="part.file.type.substring(0,5)!=='image' && part.file !== undefined"><a ng-href="{{ baseURL+part.file.url }}">{{part.title}} File</a></span><br> <!--change hard coding to server URL -->
 
 
 

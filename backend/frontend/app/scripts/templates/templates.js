@@ -1351,13 +1351,14 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "                                    <script type=\"text/ng-template\" id=\"items_view_renderer.html\">\n" +
     "                                        <span style=\"font-weight:600\">{{ part.number }} {{ part.title }}</span> <br>\n" +
-    "                                        <span>{{ part.content }}</span><br>\n" +
+    "                                        <span ng-if=\"part.content !== undefined\">{{part.content}}</span><br>\n" +
+    "                                        <ng-include src=\"'templates/table-viewable.html'\"></ng-include>\n" +
     "                                        <span ng-if=\"part.file.type.substring(0,5)=='image'\"><img ng-src=\"{{ baseURL+part.file.url }}\" width=\"150px\" /></span><br> <!--change hard coding to server URL -->\n" +
     "                                        <span ng-if=\"part.file.type.substring(0,5)!=='image' && part.file !== undefined\"><a target=\"_blank\" ng-href=\"{{ baseURL+part.file.url }}\">{{part.title}} File</a></span><br> <!--change hard coding to server URL -->\n" +
     "\n" +
     "\n" +
     "\n" +
-    "                                        <ng-include src=\"'templates/table-viewable.html'\"></ng-include>\n" +
+    "\n" +
     "\n" +
     "\n" +
     "\n" +
@@ -1381,6 +1382,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                                            <div ui-tree=\"options\" ng-if=\"!viewMode\">\n" +
     "                                              <ol ui-tree-nodes ng-model=\"legislation.legislationParts\" >\n" +
     "                                                <li ng-repeat=\"part in legislation.legislationParts\" ui-tree-node ng-include=\"'items_renderer.html'\"></li>\n" +
+    "                                                \n" +
     "                                              </ol>\n" +
     "                                            </div>\n" +
     "\n" +
@@ -2230,25 +2232,30 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                  }\n" +
     "              </style>\n" +
     "\n" +
-    "              <div ng-switch-when=\"display_table\">\n" +
-    "                  <div class=\"row\">\n" +
-    "                      <div class=\"col-sm-8\">\n" +
-    "                            <span style=\"font-weight:600; font-size:0.9em\">{{ part.table.title | uppercase}}</span><br/>\n" +
     "\n" +
-    "\n" +
-    "                      </div>\n" +
-    "\n" +
-    "                  </div>\n" +
-    "              </div>\n" +
     "\n" +
     "              <div ng-keydown=\"checkKey($event)\" tabindex=\"1\"  ng-init=\"initViewable()\">\n" +
-    "                  <table id=\"viewable\" class=\"table table-bordered table-condensed\" ng-init=\"page = part.table.tableHeaders; data = part.table.content; table_name = part.table.title\">\n" +
+    "                  <span style=\"font-weight:600; font-size:0.9em\">{{ part.table.title | uppercase}}</span><br/>\n" +
+    "                  <table class=\"table table-bordered table-condensed\">\n" +
+    "                      <thead>\n" +
+    "                        <tr>\n" +
+    "                          <th ng-repeat = \"heading in part.table.tableHeaders\">{{heading}}</th>\n" +
+    "                        </tr>\n" +
+    "                      </thead>\n" +
     "\n" +
+    "\n" +
+    "                      <tr ng-repeat = \"data in part.table.content\">\n" +
+    "                        <td ng-repeat = \"heading in part.table.tableHeaders\">\n" +
+    "                          {{data[heading]}}\n" +
+    "                        </td>\n" +
+    "                      </tr>\n" +
     "                  </table>\n" +
+    "\n" +
+    "\n" +
     "              </div>\n" +
     "\n" +
     "\n" +
-    "          </div>\n" +
+    "          </div> \n" +
     "        </div>\n"
   );
 
@@ -2289,7 +2296,8 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "              </div>\n" +
     "          </div>\n" +
-    "        </div>\n"
+    "        </div>\n" +
+    " \n"
   );
 
 

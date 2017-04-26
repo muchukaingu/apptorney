@@ -166,30 +166,11 @@ angular
         $scope.page = [];
 
 
-        // Generate table
         $scope.createViewableTable = function() {
-            //$scope.page = Object.keys($scope.data[0]);
-
-            //$scope.data = Object.keys($scope.data).map(function (key) { return $scope.data[key]; });
-            console.log($scope.data);
-            $scope.colState = "display_table";
-
-            var content = '<tr style="font-weight: bold" id="rowNames">';
-            for(var i = 0; i < $scope.page.length; i++) {
-                content += '<td> {{ page['+i+'] }} </td>';
+            $scope.myData = $scope.part.table.content;
+            $scope.gridOptions = {
+              data:'myData'
             }
-
-            content += '</tr>';
-            content += '<tr ng-repeat="entry in data" id="rowData">';
-            for(var i = 0; i < $scope.page.length; i++) {
-                content += '<td > {{ entry.' + $scope.page[i].replace(" ", "_") + ' || \'empty\' }} </td>';
-            }
-
-            content += '</tr>';
-
-            window.document.getElementById("viewable").innerHTML = content;
-
-            $compile(window.document.getElementById("viewable"))($scope);
         }
 
         $scope.initViewable = function () {
@@ -197,10 +178,11 @@ angular
         }
 
 
-        $scope.$watch('page', function () {
+        /*$scope.$watch('page', function () {
 
         	$scope.createViewableTable();
-        });
+        });*/
+
 
 
 }])

@@ -82,22 +82,6 @@ angular.module('apptorney')
 
 
          $scope.deleteCase = function (aCase) {
-             /*$bootbox.confirm("Are you sure you want to delete the case <strong>" + aCase.name + "</strong>?", function(result) {
-                 if(result == false)
-                     return;
-
-                 Case.deleteById({
-                     id: aCase.id
-                 })
-                 .$promise
-                 .then(function() {
-                     console.log('Project Deleted');
-                     //$scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage);
-                 });
-             });
-
-             */
-
              bootbox.confirm({
                 message: "Are you sure you want to delete the case <strong>" + aCase.name + "</strong>?",
                 buttons: {
@@ -322,8 +306,11 @@ angular.module('apptorney')
 
 
          $scope.newCase = function(){
-           $scope.case.isNew = true;
+           console.info("new case created");
            $scope.case = {};
+           $scope.case.isNew = true;
+           console.info($scope.case.isNew);
+
            $scope.case.parties = {};
            $scope.case.citation = {};
            $scope.case.defendants = [];
@@ -613,11 +600,13 @@ angular.module('apptorney')
 
 
 
-
+                         console.info($scope.case.isNew);
 
                          if($scope.case.isNew == true){
                            $scope.cases.push(aCase);
+
                          }
+                         $scope.openCase(aCase);
 
 
                      },
@@ -663,70 +652,78 @@ angular.module('apptorney')
          $scope.openCase = function(aCase){
 
 
-           $scope.viewMode = true;
-           Case.find({
-             filter:{include: [{
-               relation: 'plaintiffSynonym', // include the owner object
-               scope: { // further filter the owner object
-                 fields: ['synonym'] // only show two fields
-               }},
-               {relation: 'defendantSynonym', // include the owner object
-               scope: { // further filter the owner object
-                 fields: ['synonym'] // only show two fields
-               }},
-               {relation: 'court', // include the owner object
-               scope: { // further filter the owner object
-                 fields: ['name'] // only show two fields
-               }},
-               {relation: 'location', // include the owner object
-               scope: { // further filter the owner object
-                 fields: ['name'] // only show two fields
-               }},
-               {relation: 'jurisdiction', // include the owner object
-               scope: { // further filter the owner object
-                 fields: ['name'] // only show two fields
-               }},
-               {relation: 'legislationsReferedTo', // include the owner object
-               scope: { // further filter the owner object
-                 fields: ['legislationName'] // only show two fields
-               }},
-               {relation: 'casesReferedTo', // include the owner object
-               scope: { // further filter the owner object
-                 fields: ['plaintiffs','defendants'] // only show two fields
-               }},
-               {relation: 'workReferedTo', // include the owner object
-               scope: { // further filter the owner object
-                 fields: ['name'] // only show two fields
-               }},
-               {relation: 'areaOfLaw', // include the owner object
-               scope: { // further filter the owner object
-                 fields: ['name'] // only show two fields
-               }}
-             ],
+              $scope.case = aCase;
 
-             where: {
-               id: aCase.id
-             }
-             }},
-             function(list) {
+              $scope.viewMode = true;
+              Case.find({
+                filter:{include: [{
+                  relation: 'plaintiffSynonym', // include the owner object
+                  scope: { // further filter the owner object
+                    fields: ['synonym'] // only show two fields
+                  }},
+                  {relation: 'defendantSynonym', // include the owner object
+                  scope: { // further filter the owner object
+                    fields: ['synonym'] // only show two fields
+                  }},
+                  {relation: 'court', // include the owner object
+                  scope: { // further filter the owner object
+                    fields: ['name'] // only show two fields
+                  }},
+                  {relation: 'location', // include the owner object
+                  scope: { // further filter the owner object
+                    fields: ['name'] // only show two fields
+                  }},
+                  {relation: 'jurisdiction', // include the owner object
+                  scope: { // further filter the owner object
+                    fields: ['name'] // only show two fields
+                  }},
+                  {relation: 'legislationsReferedTo', // include the owner object
+                  scope: { // further filter the owner object
+                    fields: ['legislationName'] // only show two fields
+                  }},
+                  {relation: 'casesReferedTo', // include the owner object
+                  scope: { // further filter the owner object
+                    fields: ['plaintiffs','defendants'] // only show two fields
+                  }},
+                  {relation: 'workReferedTo', // include the owner object
+                  scope: { // further filter the owner object
+                    fields: ['name'] // only show two fields
+                  }},
+                  {relation: 'areaOfLaw', // include the owner object
+                  scope: { // further filter the owner object
+                    fields: ['name'] // only show two fields
+                  }}
+                ],
 
-               $scope.case = list[0];
+                where: {
+                  id: aCase.id
+                }
+                }},
+                function(list) {
+                  var instance = list[0];
+                  console.info("Returned: ", instance);
+                   angular.forEach(instance, function(value, key){
+                     $scope.case[key] = value;
+                   });
 
-               $scope.case.isNew = false;
-               $scope.case.citation.year = parseInt($scope.case.citation.year);
 
-               //Generate Names for Reference Field in view
 
-               $scope.case.casesReferedTo.forEach(function(reference){
-                 reference.name=$scope.generateName(reference);
-                 //console.info("Case reference",  reference);
-               });
 
-               $scope.returned = true;
+                  $scope.case.isNew = false;
+                  $scope.case.citation.year = parseInt($scope.case.citation.year);
 
-             },
-             function(errorResponse) { }
-           );
+                  //Generate Names for Reference Field in view
+
+                  $scope.case.casesReferedTo.forEach(function(reference){
+                    reference.name=$scope.generateName(reference);
+                    //console.info("Case reference",  reference);
+                  });
+
+                  $scope.returned = true;
+
+                },
+                function(errorResponse) { }
+              );
 
 
 

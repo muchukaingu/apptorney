@@ -1351,17 +1351,10 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "                                    <script type=\"text/ng-template\" id=\"items_view_renderer.html\">\n" +
     "                                        <span style=\"font-weight:600\">{{ part.number }} {{ part.title }}</span> <br>\n" +
-    "                                        <span ng-if=\"part.content !== undefined\">{{part.content}}</span><br>\n" +
+    "                                        <span ng-if=\"part.content !== undefined\" style=\"white-space: pre-wrap;\" ng-bind-html=\"part.content\"></span>\n" +
     "                                        <ng-include src=\"'templates/table-viewable.html'\"></ng-include>\n" +
     "                                        <span ng-if=\"part.file.type.substring(0,5)=='image'\"><img ng-src=\"{{ baseURL+part.file.url }}\" width=\"150px\" /></span><br> <!--change hard coding to server URL -->\n" +
     "                                        <span ng-if=\"part.file.type.substring(0,5)!=='image' && part.file !== undefined\"><a target=\"_blank\" ng-href=\"{{ baseURL+part.file.url }}\">{{part.title}} File</a></span><br> <!--change hard coding to server URL -->\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "\n" +
     "                                        <ul>\n" +
     "                                          <p ng-repeat=\"part in part.subParts\" ng-include=\"'items_view_renderer.html'\">&emsp;</p>\n" +
     "                                        </ul>\n" +
@@ -1382,7 +1375,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                                            <div ui-tree=\"options\" ng-if=\"!viewMode\">\n" +
     "                                              <ol ui-tree-nodes ng-model=\"legislation.legislationParts\" >\n" +
     "                                                <li ng-repeat=\"part in legislation.legislationParts\" ui-tree-node ng-include=\"'items_renderer.html'\"></li>\n" +
-    "                                                \n" +
+    "\n" +
     "                                              </ol>\n" +
     "                                            </div>\n" +
     "\n" +

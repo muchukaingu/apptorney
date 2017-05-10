@@ -111,6 +111,7 @@ angular.module('apptorney')
 
                 $scope.saveStatus = 2;
                 setTimeout(function(){ $scope.saveStatus = 0; console.log("Save Status = " + $scope.saveStatus); $("#applicationForm").click(); }, 10000);
+                $scope.openLegislation(legislation);
 
 
               },
@@ -242,9 +243,14 @@ angular.module('apptorney')
         }
         }},
         function(list) {
-          //console.log(list);
-          $scope.legislation = list[0];
-          //console.log($scope.legislation);
+
+          var instance = list[0];
+
+          angular.forEach(instance, function(value, key){
+            $scope.legislation[key] = value;
+          });
+
+
           $scope.legislationTypes.forEach(function(type){
             if(type.id == $scope.legislation.legislationType){
               $scope.selected = true;
@@ -254,9 +260,9 @@ angular.module('apptorney')
           if(typeof $scope.legislation.dateOfAssent == 'string'){
             $scope.legislation.dateOfAssent = $scope.legislation.dateOfAssent.substring(0,10);
             var parser = datetime("yyyy-MM-dd");
-            //console.log(parser);
+
             $scope.legislation.dateOfAssent = parser.parse($scope.legislation.dateOfAssent).getDate();
-            //console.log($scope.legislation.dateOfAssent);
+
           }
           $scope.returned = true;
           $scope.showLegislations = true;

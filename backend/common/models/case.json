@@ -9,35 +9,82 @@
 
     "caseNumber": {
       "type": "string",
-      "required": false
+      "required": false,
+      "label":"Case Number",
+      "table_index": 0,
+      "editor_index":0,
+      "detail_index":0
     },
 
     "name": {
       "type": "string",
-      "required": false
+      "required": false,
+      "label":"Case Name",
+      "table_index": 0,
+      "editor_index":0,
+      "detail_index":0
     },
 
     "plaintiffs": {
-      "type": ["party"]
+      "type": ["party"],
+      "labelSource":"plaintiffSynonym",
+      "table_index": 0,
+      "editor_index":0,
+      "detail_index":0
     },
     "defendants": {
-      "type": ["party"]
+      "type": ["party"],
+      "labelSource":"defendantSynonym",
+      "table_index": 0,
+      "editor_index":0,
+      "detail_index":0
     },
 
 
-    "appearancesForPlaintiffs": ["appearance"],
-    "appearancesForDefendants": ["appearance"],
+    "appearancesForPlaintiffs": {
+      "type":["appearance"],
+      "label":"Appearances for /labelSource/",
+      "labelSource":"plaintiffSynonym",
+      "table_index": 0,
+      "editor_index":0,
+      "detail_index":0
+
+    },
+    "appearancesForDefendants": {
+      "type":["appearance"],
+      "label":"Appearances for /labelSource/",
+      "labelSource":"defendantSynonym",
+      "table_index": 0,
+      "editor_index":0,
+      "detail_index":0
+    },
 
     "coram": {
       "type": ["party"],
-      "required": false
+      "label":"Coram",
+      "required": false,
+      "table_index": 0,
+      "editor_index":0,
+      "detail_index":0
+
     },
 
-    "citation":"citation",
+    "citation":{
+      "type":"citation",
+      "label":"Citation",
+      "required": false,
+      "table_index": 0,
+      "editor_index":0,
+      "detail_index":0
+    },
 
     "summaryOfFacts": {
       "type": "string",
-      "required": false
+      "label":"Summary of Facts",
+      "required": false,
+      "table_index": 0,
+      "editor_index":0,
+      "detail_index":0
     },
 
     "primaryDeletion": {
@@ -48,13 +95,117 @@
 
     "summaryOfRuling": {
       "type": "string",
-      "required": false
+      "label":"Summary of Ruling",
+      "required": false,
+      "table_index": 0,
+      "editor_index":0,
+      "detail_index":0
     },
 
     "judgement": {
       "type": "string",
-      "required": false
+      "label":"Judgement",
+      "required": false,
+      "table_index": 0,
+      "editor_index":0,
+      "detail_index":0
+    },
+
+    "court": {
+      "type": "string",
+      "label":"Court",
+      "required": false,
+      "table_index": 0,
+      "editor_index":0,
+      "detail_index":0
+    },
+
+    "courtDivision": {
+      "type": "string",
+      "label":"Court Division",
+      "required": false,
+      "table_index": 0,
+      "editor_index":0,
+      "detail_index":0
+    },
+
+    "location": {
+      "type": "string",
+      "label":"Location",
+      "required": false,
+      "table_index": 0,
+      "editor_index":0,
+      "detail_index":0
+    },
+
+    "jurisdiction": {
+      "type": "string",
+      "label":"Jurisdiction",
+      "required": false,
+      "table_index": 0,
+      "editor_index":0,
+      "detail_index":0
+    },
+
+    "areaOfLaw": {
+      "type": "string",
+      "label":"Area of Law",
+      "required": false,
+      "table_index": 0,
+      "editor_index":0,
+      "detail_index":0
+    },
+
+    "plaintiffSynonym": {
+      "type": "string",
+      "labelFor":"xxx",
+      "required": false,
+      "table_index": 0,
+      "editor_index":0,
+      "detail_index":0
+    },
+
+    "defendantSynonym": {
+      "type": "string",
+      "labelFor":"xxx",
+      "required": false,
+      "table_index": 0,
+      "editor_index":0,
+      "detail_index":0
+    },
+
+    "workReferedTo": {
+      "type": "string",
+      "label":"Work Referred To",
+      "required": false,
+      "table_index": 0,
+      "editor_index":0,
+      "detail_index":0
+    },
+
+    "legislationReferedTo": {
+      "type": "string",
+      "label":"Legislation Referred To",
+      "required": false,
+      "table_index": 0,
+      "editor_index":0,
+      "detail_index":0
+    },
+
+    "casesReferedTo": {
+      "type": "string",
+      "label":"Cases Referred To",
+      "required": false,
+      "table_index": 0,
+      "editor_index":0,
+      "detail_index":0
     }
+
+
+
+
+
+
 
   },
   "validations": [],

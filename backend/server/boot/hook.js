@@ -20,10 +20,13 @@ module.exports = function(app) {
       properties: app.models[modelName].definition.rawProperties,
       relations: app.models[modelName].definition.settings.relations
     };
-    ctx.result = {
-      data: ctx.result,
-      model:currentModel
-    };
+    if(modelName !== "appuser" && modelName !== "Appuser"){
+      ctx.result = {
+        data: ctx.result,
+        model:currentModel
+      };
+    }
+
 
     next();
 

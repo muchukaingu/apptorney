@@ -1,5 +1,5 @@
 
-        <div class="container-fluid" ng-controller="TablesEditableController" ng-if="legislationPart.showTable" style="margin-top:15px">
+        <!--div class="container-fluid" ng-controller="TablesEditableController" ng-if="legislationPart.showTable" style="margin-top:15px">
 
           <div class="row" ng-switch="colState">
 
@@ -33,5 +33,60 @@
 
               </div>
           </div>
+        </div-->
+        <div class="container-fluid" ng-if="legislationPart.showTable">
+
+          <div class="row" ng-switch="colState">
+
+              <style>
+                  .circuit-editable {
+                      color: gray !important;
+                      border-bottom: dashed 1px gray !important;
+                  }
+              </style>
+
+
+
+              <div ng-keydown="checkKey($event)" tabindex="1" >
+                  <span style="font-weight:600; font-size:0.9em">{{ legislationPart.table.title | uppercase}}</span><br/>
+                  <table class="table table-bordered table-condensed">
+                      <thead>
+                        <tr>
+                          <th ng-repeat = "heading in legislationPart.table.tableHeaders">{{heading}}</th>
+                          <th>Actions</th>
+                        </tr>
+
+                      </thead>
+
+
+                      <tr ng-repeat = "data in legislationPart.table.content">
+                        <td ng-repeat = "heading in legislationPart.table.tableHeaders">
+
+                          <span editable-text="data[heading]" e-name="name" e-form="rowform" e-required>
+                            {{ data[heading] || 'empty' }}
+                          </span>
+                        </td>
+                        <td style="white-space: nowrap">
+                          <!-- form -->
+                          <form editable-form name="rowform" onbeforesave="saveUser($data, user.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == user">
+                            <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-sm btn-primary">
+                              Save
+                            </button>
+                            <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-sm btn-default">
+                              Cancel
+                            </button>
+                          </form>
+                          <div class="buttons" ng-show="!rowform.$visible">
+                            <button class="btn btn-sm btn-primary" ng-click="rowform.$show()">Edit</button>
+                            <button class="btn btn-sm btn-danger" ng-click="removeUser($index)">Delete</button>
+                          </div>
+                        </td>
+                      </tr>
+                  </table>
+
+
+              </div>
+
+
+          </div>
         </div>
- 

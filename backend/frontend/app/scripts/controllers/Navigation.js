@@ -29,6 +29,7 @@ angular
     console.info("Year Menu", yearMenu);
     LegislationType.find(
       function(types) {
+        var types = types.data;
         types.forEach(function(type){
           legislationTypes.push({
             label: type.name,

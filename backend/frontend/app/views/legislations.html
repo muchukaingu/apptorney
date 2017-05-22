@@ -40,7 +40,7 @@
             <div class="panel-heading" style="background-color:#137ad4">
 						 <h3 style="color:#ffffff; margin-top:5px">Legislation Management</h3>
 
-								<a class="pull-right" style="color:#add8e6; border:#none; font-size:1.2em; border-radius:5px; margin-top:-32px" ng-click = "newLegislation()" data-toggle="modal" data-target="#addLegislationModal"><i class="fa fa-plus"></i></a>
+								<a class="pull-right" style="color:#add8e6; border:#none; font-size:1.2em; border-radius:5px; margin-top:-32px" ng-click = "newLegislation()" data-toggle="modal" data-target="#legislationModal"><i class="fa fa-plus"></i></a>
 					 </div>
 					 <div class="panel-body">
 
@@ -126,10 +126,6 @@
 													{{legislation.capturedBy.firstName + ' ' + legislation.capturedBy.lastName}}
                       </span>
                     </td>
-
-
-
-
                     <td style="white-space: nowrap">
                       <!-- form -->
                       <form editable-form name="rowform"  ng-show="rowform.$visible" class="form-buttons form-inline" >
@@ -144,7 +140,7 @@
                           <!-- <a class="editItem" onclick="assignMentorModal(this)" ><i class="fa fa-edit"></i></a> -->
 
 
-													<a data-user="Admin" class="editItem" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#addLegislationModal" ng-click = "openLegislation(legislation)" ><i class="fa fa-edit"></i></a>
+													<a data-user="Admin" class="editItem"  data-backdrop="static" data-keyboard="false"  ng-click = "openLegislation(legislation)" ><i class="fa fa-edit"></i></a>
                           <!--a class="viewItem" ng-click = "deleteLegislation(legislation.id)"><i class="fa fa-trash-o"></i></a-->
 
                           <!-- <a class="deleteItem" data-user="Admin" onclick="deleteEstimate(this,'itemID','Estimates.php','deleteEstimates','cleanRow', 'Estimates')"><i class="fa fa-trash-o"></i></a> -->
@@ -160,7 +156,7 @@
         </div>
       </div>
 			<ng-include src="'templates/legislation-modal.html'"></ng-include>
-			<ng-include src="'templates/view-legislation-modal.html'"></ng-include>
-
-
+			<div ng-if="!opened" style="font-size:1.2em; position: absolute; margin-left:-150px; left:50%; top:50%; z-index:10000; background-color:#ffffff; padding:30px; border-radius:5px">
+				<i class='fa fa-fw fa-sun-o fa-spin'></i>Loading. Please wait...
+			</div>
 </div>

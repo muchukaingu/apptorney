@@ -59,6 +59,8 @@ angular
     'ngAnimate',
     'dndLists',
     'angularFileUpload',
+    'papa-promise',
+    'ngFileUpload'
   ])
   .controller('MainController', ['$rootScope', '$scope', '$global', '$timeout', 'progressLoader', '$location', 'Appuser', function ($rootScope, $scope, $global, $timeout, progressLoader, $location, Appuser) {
     $scope.style_fixedHeader = $global.get('fixedHeader');
@@ -277,6 +279,7 @@ angular
               if(next.toString().split('#')[1] == '/login') { // Need a way to know where this is going
 
               } else {
+                  console.log("not authenticated", Appuser);
                   $location.path("/login");
               }
           }

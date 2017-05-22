@@ -4634,7 +4634,6 @@ module.factory(
          * </em>
          */
         "find": {
-          isArray: true,
           url: urlBase + "/cases",
           method: "GET"
         },
@@ -12586,7 +12585,6 @@ module.factory(
          * </em>
          */
         "find": {
-          isArray: true,
           url: urlBase + "/partTypes",
           method: "GET"
         },
@@ -13543,7 +13541,6 @@ module.factory(
          * </em>
          */
         "find": {
-          isArray: true,
           url: urlBase + "/legislations",
           method: "GET"
         },
@@ -14658,7 +14655,6 @@ module.factory(
          * </em>
          */
         "find": {
-          isArray: true,
           url: urlBase + "/legislationTypes",
           method: "GET"
         },

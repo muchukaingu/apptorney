@@ -10,10 +10,11 @@ angular.module('apptorney')
         return dtfilter+suffix;
       };
   })
-  .controller('LegislationController', function($rootScope,$scope, $filter, Legislation, LegislationType, LegislationPart, PartType, $location, $global, datetime, $routeParams, filterFilter, baseURL){
+  .controller('LegislationController', function($rootScope,$scope, $filter, Legislation, LegislationType, LegislationPart, PartType, $location, $global, datetime, $routeParams, filterFilter, baseURL, Papa, $q){
 
     $scope.selectedType = "";
     $scope.selected = false;
+    $scope.opened = true;
     $scope.legislation = {};
     $scope.legislationPart = {};
     $scope.returned = false;
@@ -34,9 +35,11 @@ angular.module('apptorney')
 
 
 
+
     $scope.loadLegislationTypes = function(){
-      $scope.legislationTypes =  LegislationType.find(
-        function(list) {
+      LegislationType.find(
+        function(res) {
+          $scope.legislationTypes =  res.data;
           $scope.legislationTypesReturned = true;
           $scope.showLegislationTypes = true;
         },
@@ -45,8 +48,9 @@ angular.module('apptorney')
     }
 
     $scope.loadLegislationPartTypes = function(){
-      $scope.legislationPartTypes =  PartType.find(
-        function(list) {
+      PartType.find(
+        function(res) {
+          $scope.legislationPartTypes =  res.data;
           $scope.legislationPartTypesReturned = true;
           $scope.showLegislationPartTypes = true;
         },
@@ -56,6 +60,7 @@ angular.module('apptorney')
 
     $scope.loadLegislationTypes();
     $scope.loadLegislationPartTypes();
+
 
     $scope.saveLegislationType = function(){
       LegislationType.upsert($scope.legislationType,
@@ -106,9 +111,8 @@ angular.module('apptorney')
             }
 
             Legislation.upsert($scope.legislation,
-              function(legislation){
-                console.log("Saved");
-
+              function(res){
+                var legislation = res.data;
                 $scope.saveStatus = 2;
                 setTimeout(function(){ $scope.saveStatus = 0; console.log("Save Status = " + $scope.saveStatus); $("#applicationForm").click(); }, 10000);
                 $scope.openLegislation(legislation);
@@ -185,36 +189,43 @@ angular.module('apptorney')
 
 
 
+    $scope.loadLegislations = function(){
 
-    $scope.legislations = Legislation.find({
-      filter:{include: {
-        relation: 'capturedBy', // include the owner object
-        scope: { // further filter the owner object
-          fields: ['firstName','lastName'] // only show two fields
-        }
-      },
-      fields:{
-        legislationParts:false,
-        enactment: false,
-        generalTitle: false,
-        preamble:false
-      }}},
-      function(list) {
-        //console.log(list);
-        console.log($routeParams.id);
-        $scope.legislations = filterFilter($scope.legislations, $routeParams.id);
-        $scope.returned = true;
-        $scope.showLegislations = true;
-      },
-      function(errorResponse) { }
-    );
+        Legislation.find({
+          filter:{include: {
+            relation: 'capturedBy', // include the owner object
+            scope: { // further filter the owner object
+              fields: ['firstName','lastName'] // only show two fields
+            }
+          },
+          fields:{
+            legislationParts:false,
+            enactment: false,
+            generalTitle: false,
+            preamble:false
+          }}},
+          function(res) {
+            $scope.legislations = res.data;
+            $scope.legislations = filterFilter($scope.legislations, $routeParams.id);
+            $scope.returned = true;
+            $scope.showLegislations = true;
 
-    $scope.completedLegislations = [];
-    $scope.legislations.forEach(function(legislation){
-      if (legislation.completionStatus == true){
-        $scope.completedLegislations.push(legislation);
-      }
-    });
+            $scope.completedLegislations = [];
+            $scope.legislations.forEach(function(legislation){
+              if (legislation.completionStatus == true){
+                $scope.completedLegislations.push(legislation);
+              }
+            });
+          },
+          function(errorResponse) { }
+        );
+    }
+
+    $scope.loadLegislations();
+
+
+
+
 
 
 
@@ -232,68 +243,72 @@ angular.module('apptorney')
 
 
     $scope.openLegislation = function(legislation){
-      $scope.models = {
-       selected: null
-      };
+      $scope.opened = false;
+      $("#legislationModal").modal();
+        $scope.models = {
+         selected: null
+        };
 
-      $scope.viewMode = true;
-      Legislation.find({
-        filter:{where: {
-          id: legislation.id
-        }
-        }},
-        function(list) {
-
-          var instance = list[0];
-
-          angular.forEach(instance, function(value, key){
-            $scope.legislation[key] = value;
-          });
-
-
-          $scope.legislationTypes.forEach(function(type){
-            if(type.id == $scope.legislation.legislationType){
-              $scope.selected = true;
-              $scope.selectedType = type.name;
-            }
-          })
-          if(typeof $scope.legislation.dateOfAssent == 'string'){
-            $scope.legislation.dateOfAssent = $scope.legislation.dateOfAssent.substring(0,10);
-            var parser = datetime("yyyy-MM-dd");
-
-            $scope.legislation.dateOfAssent = parser.parse($scope.legislation.dateOfAssent).getDate();
-
+        $scope.viewMode = true;
+        Legislation.find({
+          filter:{where: {
+            id: legislation.id
           }
-          $scope.returned = true;
-          $scope.showLegislations = true;
-        },
-        function(errorResponse) { }
-      );
+          }},
+          function(list) {
+
+            var instance = list.data[0];
+
+            angular.forEach(instance, function(value, key){
+              $scope.legislation[key] = value;
+            });
 
 
-      $scope.showParts = true;
-      $scope.parts_returned = true;
+            $scope.legislationTypes.forEach(function(type){
+              if(type.id == $scope.legislation.legislationType){
+                $scope.selected = true;
+                $scope.selectedType = type.name;
+              }
+            })
+            if(typeof $scope.legislation.dateOfAssent == 'string'){
+              $scope.legislation.dateOfAssent = $scope.legislation.dateOfAssent.substring(0,10);
+              var parser = datetime("yyyy-MM-dd");
 
-      /*$scope.legislationParts =  Legislation.legislationParts({id:legislation.id, filter: {order: 'orderIndex ASC'}},
-        function(parts) {
-          //var i = 0;
-          parts.forEach(function(part){
-            part.viewMode = false;
-            part.orderIndex = parseInt(part.orderIndex);
+              $scope.legislation.dateOfAssent = parser.parse($scope.legislation.dateOfAssent).getDate();
 
-            //part.orderIndex = i;
-            //i++;
-          });
+            }
+            $scope.opened = true;
+            //$scope.showLegislations = true;
+          },
+          function(errorResponse) { }
+        );
 
 
-          $scope.showParts = true;
-          $scope.parts_returned = true;
-          $scope.opened = true;
-          //$filter('orderBy')(parts,'orderIndex');
+        $scope.showParts = true;
+        $scope.parts_returned = true;
 
-        },
-        function(errorResponse) { }
-      ); */
+        /*$scope.legislationParts =  Legislation.legislationParts({id:legislation.id, filter: {order: 'orderIndex ASC'}},
+          function(parts) {
+            //var i = 0;
+            parts.forEach(function(part){
+              part.viewMode = false;
+              part.orderIndex = parseInt(part.orderIndex);
+
+              //part.orderIndex = i;
+              //i++;
+            });
+
+
+            $scope.showParts = true;
+            $scope.parts_returned = true;
+            $scope.opened = true;
+            //$filter('orderBy')(parts,'orderIndex');
+
+          },
+          function(errorResponse) { }
+        ); */
+
+
 
 
 
@@ -403,6 +418,52 @@ angular.module('apptorney')
         $scope.legislationPart.table.content = [{}];
         $scope.legislationPart.table.tableHeaders = ["column1","column2","column3"];
         $scope.legislationPart.table.title = "Table Heading";
+
+      }
+
+
+    }
+
+    $scope.uploadTable = function($files){
+
+      if($files !== null && $files.length > 0) {
+          $scope.loading = true;
+          $scope.message = "Generating table. Please wait...";
+
+
+          var message = 'Thanks for ';
+          for(var file in $files) {
+              console.log("files", $files[file]);
+
+
+              Papa.parse($files[file], {header:true})
+              .then(function(result){
+
+                 var headers = [];
+                 angular.forEach(result.data[0], function(value, key){
+                   headers.push(key);
+                 });
+                 console.log(result.data);
+                 $scope.legislationPart.table = {
+                   content:result.data,
+                   tableHeaders: headers
+                 };
+                 $scope.loading = false;
+                 $scope.legislationPart.attachmentType = "table";
+                 $scope.legislationPart.showTable = true;
+
+
+
+
+
+                 console.log($scope.legislationPart);
+              })
+              .catch(function(){})
+              .finally(function(){});
+
+          }
+
+
 
       }
 

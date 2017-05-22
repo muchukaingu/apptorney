@@ -89,13 +89,15 @@ angular.module('apptorney')
 
       $scope.loginResult = Appuser.login($scope.user,
         function(res){
-          var user = res.data.user;
+          var user = res.user;
+
           $global.set('user', user);
           $scope.status.message = "Login Successful.";
           if (user.userType == 4){
             $location.path('/cases');
           }
           else{
+            console.log("User", user);
             $location.path('/dashboard');
           }
 

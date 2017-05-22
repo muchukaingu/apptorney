@@ -46,7 +46,9 @@
     "angular-ui-select": "^0.18.1",
     "selectize": "^0.12.1",
     "angular-drag-and-drop-lists": "^1.4.0",
-    "angular-file-upload": "^2.3.4"
+    "angular-file-upload": "^2.3.4",
+    "angular-papa-promise": "^0.0.4",
+    "ng-file-upload": "~12.0.1"
   },
   "resolutions": {
     "jquery": "~1.11.0",

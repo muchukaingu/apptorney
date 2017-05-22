@@ -377,10 +377,10 @@ angular.module('apptorney')
 
                   }
                 }},
-                  function(cases) {
+                  function(res) {
                      //$scope.cases = filterFilter($scope.cases, "!primaryDeletion");
                     $scope.searching = false;
-                    $scope.cases = cases;
+                    $scope.cases = res.data;
 
 
 
@@ -699,8 +699,8 @@ angular.module('apptorney')
                   id: aCase.id
                 }
                 }},
-                function(list) {
-                  var instance = list[0];
+                function(res) {
+                  var instance = res.data[0];
                   console.info("Returned: ", instance);
                    angular.forEach(instance, function(value, key){
                      $scope.case[key] = value;

@@ -2297,7 +2297,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                          </form>\n" +
     "                          <div class=\"buttons\" ng-show=\"!rowform.$visible\">\n" +
     "                            <button class=\"btn btn-sm btn-primary\" ng-click=\"rowform.$show()\">Edit</button>\n" +
-    "                            <button class=\"btn btn-sm btn-danger\" ng-click=\"removeUser($index)\">Delete</button>\n" +
+    "                            <button class=\"btn btn-sm btn-danger\" ng-click=\"legislationPart.table.content.splice($index,1)\">Delete</button>\n" +
     "                          </div>\n" +
     "                        </td>\n" +
     "                      </tr>\n" +

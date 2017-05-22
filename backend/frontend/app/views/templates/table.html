@@ -34,7 +34,7 @@
               </div>
           </div>
         </div-->
-        <div class="container-fluid" ng-if="legislationPart.showTable">
+        <div class="container-fluid" ng-if="legislationPart.showTable" ng-controller="TablesEditableController">
 
           <div class="row" ng-switch="colState">
 
@@ -52,7 +52,7 @@
                   <table class="table table-bordered table-condensed">
                       <thead>
                         <tr>
-                          <th ng-repeat = "heading in legislationPart.table.tableHeaders">{{heading}}</th>
+                          <th ng-repeat = "heading in legislationPart.table.tableHeaders">{{heading}} <a href="javascript:;" ng-click="removeColumn($index)"><i class="fa fa-trash-o text-danger"></i></a></th>
                           <th>Actions</th>
                         </tr>
 
@@ -78,7 +78,7 @@
                           </form>
                           <div class="buttons" ng-show="!rowform.$visible">
                             <button class="btn btn-sm btn-primary" ng-click="rowform.$show()">Edit</button>
-                            <button class="btn btn-sm btn-danger" ng-click="legislationPart.table.content.splice($index,1)">Delete</button> 
+                            <button class="btn btn-sm btn-danger" ng-click="removeData($index)">Delete</button>
                           </div>
                         </td>
                       </tr>

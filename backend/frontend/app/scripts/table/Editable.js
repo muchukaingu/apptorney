@@ -31,8 +31,9 @@ angular
     };
 
     // remove data
-    $scope.removeData = function(index) {
-      $scope.data.splice(index, 1);
+    $scope.removeData = function(index){
+      console.info("removing row");
+      $scope.legislationPart.table.content.splice(index, 1);
     };
 
     // add data
@@ -106,12 +107,13 @@ angular
 
     // Remove a column from table
     $scope.removeColumn = function(index) {
-        for(var i = 0; i < $scope.data.length; i++) {
-            delete $scope.data[i][$scope.page[index]];
-        }
+        // for(var i = 0; i < $scope.data.length; i++) {
+        //     delete $scope.data[i][$scope.page[index]];
+        // }
 
-        $scope.page.splice(index, 1);
-        $scope.createTable();
+        console.info("removing column");
+
+        $scope.legislationPart.table.tableHeaders.splice(index, 1);
     };
 
     // Edit a column from table
@@ -154,12 +156,6 @@ angular
     $scope.initViewable = function () {
         $scope.createViewableTable();
     }
-
-
-    $scope.$watch('page', function () {
-      $scope.createTable();
-
-    });
 
   }])
   .controller('TablesViewableController', ['$scope', '$filter', '$compile', function ($scope, $filter, $compile) {

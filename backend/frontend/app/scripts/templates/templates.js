@@ -2253,7 +2253,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "              </div>\n" +
     "          </div>\n" +
     "        </div-->\n" +
-    "        <div class=\"container-fluid\" ng-if=\"legislationPart.showTable\">\n" +
+    "        <div class=\"container-fluid\" ng-if=\"legislationPart.showTable\" ng-controller=\"TablesEditableController\">\n" +
     "\n" +
     "          <div class=\"row\" ng-switch=\"colState\">\n" +
     "\n" +
@@ -2271,7 +2271,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                  <table class=\"table table-bordered table-condensed\">\n" +
     "                      <thead>\n" +
     "                        <tr>\n" +
-    "                          <th ng-repeat = \"heading in legislationPart.table.tableHeaders\">{{heading}}</th>\n" +
+    "                          <th ng-repeat = \"heading in legislationPart.table.tableHeaders\">{{heading}} <a href=\"javascript:;\" ng-click=\"removeColumn($index)\"><i class=\"fa fa-trash-o text-danger\"></i></a></th>\n" +
     "                          <th>Actions</th>\n" +
     "                        </tr>\n" +
     "\n" +
@@ -2297,7 +2297,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                          </form>\n" +
     "                          <div class=\"buttons\" ng-show=\"!rowform.$visible\">\n" +
     "                            <button class=\"btn btn-sm btn-primary\" ng-click=\"rowform.$show()\">Edit</button>\n" +
-    "                            <button class=\"btn btn-sm btn-danger\" ng-click=\"legislationPart.table.content.splice($index,1)\">Delete</button> \n" +
+    "                            <button class=\"btn btn-sm btn-danger\" ng-click=\"removeData($index)\">Delete</button>\n" +
     "                          </div>\n" +
     "                        </td>\n" +
     "                      </tr>\n" +

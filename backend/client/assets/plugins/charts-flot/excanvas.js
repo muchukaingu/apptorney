@@ -319,7 +319,7 @@ if (!document.createElement('canvas').getContext) {
     lavenderblush: '#FFF0F5',
     lawngreen: '#7CFC00',
     lemonchiffon: '#FFFACD',
-    lightblue: '#ADD8E6',
+    lightblue: '#ffffff',
     lightcoral: '#F08080',
     lightcyan: '#E0FFFF',
     lightgoldenrodyellow: '#FAFAD2',

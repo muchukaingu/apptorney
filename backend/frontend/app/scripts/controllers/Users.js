@@ -93,8 +93,8 @@ angular.module('apptorney')
 
           $global.set('user', user);
           $scope.status.message = "Login Successful.";
-          if (user.userType == 4){
-            $location.path('/cases');
+          if (user.userType == 2){
+            $location.path('/legislations');
           }
           else{
             console.log("User", user);

@@ -142,5 +142,9 @@
   "container": {
     "dataSource": "storage",
     "public": true
+  },
+  "dashboard": {
+    "dataSource": "storage",
+    "public": true
   }
 }

@@ -636,7 +636,7 @@
 		green: "#008000",
 		indigo: "#4b0082",
 		khaki: "#f0e68c",
-		lightblue: "#add8e6",
+		lightblue: "#ffffff",
 		lightcyan: "#e0ffff",
 		lightgreen: "#90ee90",
 		lightgrey: "#d3d3d3",

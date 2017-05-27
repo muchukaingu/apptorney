@@ -53,6 +53,10 @@
     "legislationParts":{
       "type": ["legislationPart"],
       "required": false
+    },
+    "duplicateCount": {
+      "type": "number",
+      "required": false
     }
   },
   "validations": [],

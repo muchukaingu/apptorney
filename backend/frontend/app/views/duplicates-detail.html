@@ -31,7 +31,7 @@
 
           <div class="panel panel-primary" style="margin-top:-35px">
             <div class="panel-heading" style="background-color:#000000">
-						 <h3 style="color:#ffffff; margin-top:5px">Legislation Management</h3>
+						 <h3 style="color:#ffffff; margin-top:5px">Duplicates Cleanup</h3>
 
 								<a class="pull-right" style="color:#ffffff; border:#none; font-size:1.2em; border-radius:5px; margin-top:-32px" ng-click = "newLegislation()" data-toggle="modal" data-target="#legislationModal"><i class="fa fa-plus"></i></a>
 					 </div>
@@ -46,48 +46,75 @@
 
             <div class="input-icon right mb10">
                   <i class="fa fa-search"></i>
-                  <input type="text" ng-model="query" class="form-control" placeholder="Search..." id="Search" ng-keydown = "searchForLegislations($event)">
+                  <input type="text" ng-model="query" class="form-control" placeholder="Search..." id="Search">
             </div>
                 <table id="casesTbl" class="table table-condensed">
                   <tr style="background-color: #E8E9EC" class="tableHeaders">
-                    <td style="width:15%">
-	                    <a ng-click="sortType = 'legislationNumber'; sortReverse = !sortReverse">
+                    <td style="width:10%">
+	                    <a ng-click="sortType = 'caseNumber'; sortReverse = !sortReverse">
 		                    Legislation Number
-		                    <span ng-show="sortType == 'legislationNumber' && !sortReverse" class="fa fa-caret-up"></span>
-		                    <span ng-show="sortType == 'legislationNumber' && sortReverse" class="fa fa-caret-down"></span>
+		                    <span ng-show="sortType == 'caseNumber' && !sortReverse" class="fa fa-caret-up"></span>
+		                    <span ng-show="sortType == 'caseNumber' && sortReverse" class="fa fa-caret-down"></span>
 	                    </a>
 		            </td>
-                    <td style="width:50%">
-	                    <a ng-click="sortType = 'legislationName'; sortReverse = !sortReverse">
+                    <td style="width:30%">
+	                    <a ng-click="sortType = 'name'; sortReverse = !sortReverse">
 		                    Legislation Name
-		                    <span ng-show="sortType == 'legislationName' && !sortReverse" class="fa fa-caret-up"></span>
-		                    <span ng-show="sortType == 'legislationName' && sortReverse" class="fa fa-caret-down"></span>
+		                    <span ng-show="sortType == 'name' && !sortReverse" class="fa fa-caret-up"></span>
+		                    <span ng-show="sortType == 'name' && sortReverse" class="fa fa-caret-down"></span>
 	                    </a>
 					</td>
-                    <td style="width:15%">
-	                    <a ng-click="sortType = 'dateOfAssent'; sortReverse = !sortReverse">
+                    <td style="width:5%">
+	                    <a ng-click="sortType = 'coram'; sortReverse = !sortReverse">
 	                    	Year
-							<span ng-show="sortType == 'dateOfAssent' && !sortReverse" class="fa fa-caret-up"></span>
-							<span ng-show="sortType == 'dateOfAssent' && sortReverse" class="fa fa-caret-down"></span>
+							<span ng-show="sortType == 'coram' && !sortReverse" class="fa fa-caret-up"></span>
+							<span ng-show="sortType == 'coram' && sortReverse" class="fa fa-caret-down"></span>
 	                    </a>
 
 	                </td>
 
 
-									<td style="width:30%">
-										<a ng-click="sortType = 'legislation.capturedBy.firstName'; sortReverse = !sortReverse">
-											Captured By
-						<span ng-show="sortType == 'legislation.capturedBy.firstName' && !sortReverse" class="fa fa-caret-up"></span>
-						<span ng-show="sortType == 'legislation.capturedBy.firstName' && sortReverse" class="fa fa-caret-down"></span>
+									<td style="width:10%">
+										<a ng-click="sortType = 'coram'; sortReverse = !sortReverse">
+											Completed
+						<span ng-show="sortType == 'coram' && !sortReverse" class="fa fa-caret-up"></span>
+						<span ng-show="sortType == 'coram' && sortReverse" class="fa fa-caret-down"></span>
 										</a>
 
 								</td>
+
+								<td style="width:10%">
+									<a ng-click="sortType = 'coram'; sortReverse = !sortReverse">
+										# of Components
+					<span ng-show="sortType == 'coram' && !sortReverse" class="fa fa-caret-up"></span>
+					<span ng-show="sortType == 'coram' && sortReverse" class="fa fa-caret-down"></span>
+									</a>
+
+							</td>
+
+                <td style="width:10%">
+                  <a ng-click="sortType = 'coram'; sortReverse = !sortReverse">
+                    References
+          <span ng-show="sortType == 'coram' && !sortReverse" class="fa fa-caret-up"></span>
+          <span ng-show="sortType == 'coram' && sortReverse" class="fa fa-caret-down"></span>
+                  </a>
+
+              </td>
+
+							<td style="width:15%">
+								<a ng-click="sortType = 'coram'; sortReverse = !sortReverse">
+									Captured By
+				<span ng-show="sortType == 'coram' && !sortReverse" class="fa fa-caret-up"></span>
+				<span ng-show="sortType == 'coram' && sortReverse" class="fa fa-caret-down"></span>
+								</a>
+
+						</td>
 
 
 
                     <td style="width:5%">Actions</td>
                   </tr>
-                  <tr id="rowTmp_Est" ng-repeat="legislation in legislations | orderBy:sortType:sortReverse" >
+                  <tr id="rowTmp_Est" ng-repeat="legislation in legislations | filter:query | orderBy:sortType:sortReverse" >
                       <td class="editables">
 
                       <span class="editable"  name="applicationID" form="rowform" onchange="editItem(this,'itemID')"
@@ -116,9 +143,29 @@
 										<td class="editables">
 
                       <span class="editable"  name="email" form="rowform" onchange="editItem(this,'itemID')" required>
-													{{legislation.capturedBy.firstName + ' ' + legislation.capturedBy.lastName}}
+													{{legislation.completionStatus?"Yes":"No"}}
                       </span>
                     </td>
+
+										<td class="editables">
+
+                      <span class="editable"  name="email" form="rowform" onchange="editItem(this,'itemID')" required>
+													{{legislation.legislationParts.length}}
+                      </span>
+                    </td>
+
+                    <td class="editables">
+
+                      <span class="editable"  name="email" form="rowform" onchange="editItem(this,'itemID')" required>
+													{{legislation.caseLegislations.length}}
+                      </span>
+                    </td>
+										<td class="editables">
+
+											<span class="editable"  name="email" form="rowform" onchange="editItem(this,'itemID')" required>
+													{{legislation.capturedBy.firstName + " " + legislation.capturedBy.lastName}}
+											</span>
+										</td>
                     <td style="white-space: nowrap">
                       <!-- form -->
                       <form editable-form name="rowform"  ng-show="rowform.$visible" class="form-buttons form-inline" >
@@ -134,14 +181,14 @@
 
 
 													<a data-user="Admin" class="editItem"  data-backdrop="static" data-keyboard="false"  ng-click = "openLegislation(legislation)" ><i class="fa fa-edit"></i></a>
-                          <!--a class="viewItem" ng-click = "deleteLegislation(legislation.id)"><i class="fa fa-trash-o"></i></a-->
+                          <a class="viewItem" ng-click = "deleteLegislation(legislation)"><i class="fa fa-trash-o"></i></a>
 
                           <!-- <a class="deleteItem" data-user="Admin" onclick="deleteEstimate(this,'itemID','Estimates.php','deleteEstimates','cleanRow', 'Estimates')"><i class="fa fa-trash-o"></i></a> -->
                       </div>
                     </td>
                   </tr>
                 </table>
-                <div ng-if="!showLegislations && !returned" style="position: relative; left: 50%; margin-left: -100px; height: 50px; margin-top: 40px"><i class='fa fa-fw fa-sun-o fa-spin'></i> {{message}}</div>
+                <div ng-if="!showLegislations" style="position: relative; left: 50%; margin-left: -100px; height: 50px; margin-top: 40px"><i ng-if="!returned" class='fa fa-fw fa-sun-o fa-spin'></i> {{message}}</div>
 								<div ng-if="legislations.length == 0 && returned" style="position: relative; left: 48%; margin-left: -100px; height: 50px; margin-top: 40px">No legislations of this type found. Click <a data-toggle="modal" data-target="#addLegislationModal">here</a> to create one.</div>
 
 							</div>
@@ -152,6 +199,4 @@
 			<div ng-if="!opened" style="font-size:1.2em; position: absolute; margin-left:-150px; left:50%; top:50%; z-index:10000; background-color:#ffffff; padding:30px; border-radius:5px">
 				<i class='fa fa-fw fa-sun-o fa-spin'></i>Loading. Please wait...
 			</div>
-
-			<pagination total-items="totalItems" max-size="10" items-per-page="numberOfItemsPerPage" ng-model="currentPage" ng-change="pageChanged()"></pagination>
 </div>

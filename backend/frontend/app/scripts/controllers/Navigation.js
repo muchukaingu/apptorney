@@ -111,11 +111,27 @@ angular
               }
             ]
         },
+        {
+            label:"System Cleanup",
+            iconClasses:"fa fa-files-o",
+            url: '#/cleanup'
+        },
 
         {
             label:"Trash",
             iconClasses:"fa fa-trash-o",
-            url: '#/trash'
+            children: [
+              {
+                label:"Cases",
+                iconClasses:"fa fa-gavel",
+                url: '#/trash/cases'
+              },
+              {
+                label:"Legislations",
+                iconClasses:"fa fa-file-text",
+                url: '#/trash/legislations'
+              }
+            ]
         }
     ];
 

@@ -1354,8 +1354,8 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                            <span style=\"font-weight:600\">{{ part.number }} {{ part.title }}</span> <br>\n" +
     "                            <span ng-if=\"part.content !== undefined\" style=\"white-space: pre-wrap;\" ng-bind-html=\"part.content\"></span>\n" +
     "                            <ng-include src=\"'templates/table-viewable.html'\"></ng-include>\n" +
-    "                            <span ng-if=\"part.file.type.substring(0,5)=='image'\"><img ng-src=\"{{ baseURL+part.file.url }}\" width=\"150px\" /></span><br> <!--change hard coding to server URL -->\n" +
-    "                            <span ng-if=\"part.file.type.substring(0,5)!=='image' && part.file !== undefined\"><a target=\"_blank\" ng-href=\"{{ baseURL+part.file.url }}\">{{part.title}} File</a></span><br> <!--change hard coding to server URL -->\n" +
+    "                            <span ng-if=\"part.file.data.type.substring(0,5)=='image'\"><img ng-src=\"{{ baseURL+part.file.data.url }}\" width=\"150px\" /></span><br> <!--change hard coding to server URL -->\n" +
+    "                            <span ng-if=\"part.file.data.type.substring(0,5)!=='image' && part.file !== undefined\"><a target=\"_blank\" ng-href=\"{{ baseURL+part.file.data.url }}\">{{part.title}} File</a></span><br> <!--change hard coding to server URL -->\n" +
     "                            <ul>\n" +
     "                              <p ng-repeat=\"part in part.subParts\" ng-include=\"'items_view_renderer.html'\">&emsp;</p>\n" +
     "                            </ul>\n" +
@@ -1435,8 +1435,8 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "                          <div class=\"col-xs-12\" style=\"margin-top:-18px; margin-bottom:15px\">\n" +
     "\n" +
-    "                            <span ng-if=\"legislationPart.file.type.substring(0,5)=='image'\"><img ng-src=\"{{ baseURL+legislationPart.file.url }}\" width=\"150px\" /></span><br> <!--change hard coding to server URL -->\n" +
-    "                            <span ng-if=\"legislationPart.file.type.substring(0,5)!=='image' && legislationPart.file !== undefined\"><a target=\"_blank\" ng-href=\"{{ baseURL+legislationPart.file.url }}\">{{legislationPart.title}} File</a></span><br> <!--change hard coding to server URL -->\n" +
+    "                            <span ng-if=\"legislationPart.file.data.type.substring(0,5)=='image'\"><img ng-src=\"{{ baseURL+legislationPart.file.data.url }}\" width=\"150px\" /></span><br> <!--change hard coding to server URL -->\n" +
+    "                            <span ng-if=\"legislationPart.file.data.type.substring(0,5)!=='image' && legislationPart.file !== undefined\"><a target=\"_blank\" ng-href=\"{{ baseURL+legislationPart.file.data.url }}\">{{legislationPart.title}} File</a></span><br> <!--change hard coding to server URL -->\n" +
     "                          </div>\n" +
     "\n" +
     "                    \t    <div class=\"col-xs-3 pull-left\" >\n" +

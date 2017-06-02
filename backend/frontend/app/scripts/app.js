@@ -146,8 +146,8 @@ angular
 
 
     // Change the URL where to access the LoopBack REST API server
-    LoopBackResourceProvider.setUrlBase('http://circuit.cloudapp.net:3001/api'); //Important: Comment for production
-    //  LoopBackResourceProvider.setUrlBase('http://localhost:3009/api'); //Important: Comment for production
+    //LoopBackResourceProvider.setUrlBase('http://circuit.cloudapp.net:3001/api'); //Important: Comment for production
+     LoopBackResourceProvider.setUrlBase('http://192.168.8.113:3009/api'); //Important: Comment for production
 
     $routeProvider
       .when('/', {
@@ -162,8 +162,17 @@ angular
       .when('/works', {
         templateUrl: 'views/works.html',
       })
-      .when('/trash', {
+      .when('/trash/cases', {
         templateUrl: 'views/trash-cases.html',
+      })
+      .when('/trash/legislations', {
+        templateUrl: 'views/trash-legislations.html',
+      })
+      .when('/cleanup', {
+        templateUrl: 'views/duplicates.html',
+      })
+      .when('/cleanup/:id', {
+        templateUrl: 'views/duplicates-detail.html',
       })
       .when('/courts', {
         templateUrl: 'views/courts.html',

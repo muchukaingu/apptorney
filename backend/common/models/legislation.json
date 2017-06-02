@@ -57,6 +57,11 @@
     "duplicateCount": {
       "type": "number",
       "required": false
+    },
+    "deleted":{
+      "type":"boolean",
+      "required": false,
+      "default":false
     }
   },
   "validations": [],
@@ -70,8 +75,16 @@
       "type": "belongsTo",
       "model": "appuser",
       "foreignKey": ""
+    },
+    "caseLegislations":{
+      "type": "hasMany",
+      "model": "caseLegislations",
+      "foreignKey": "legislationId"
     }
 
+  },
+  "scope":{
+    "include":["caseLegislations", "capturedBy"]
   },
   "acls": [],
   "methods": {}

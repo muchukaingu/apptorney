@@ -1445,7 +1445,7 @@ module.factory(
          * </em>
          */
         "find": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/advocates",
           method: "GET"
         },
@@ -2566,7 +2566,7 @@ module.factory(
          * </em>
          */
         "find": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/areaOfLaws",
           method: "GET"
         },
@@ -3402,7 +3402,7 @@ module.factory(
          * </em>
          */
         "find": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/caseLegislations",
           method: "GET"
         },
@@ -3611,6 +3611,65 @@ module.factory(
         "createChangeStream": {
           url: urlBase + "/caseLegislations/change-stream",
           method: "POST"
+        },
+
+        // INTERNAL. Use Legislation.caseLegislations.findById() instead.
+        "::findById::legislation::caseLegislations": {
+          params: {
+          'fk': '@fk'
+          },
+          url: urlBase + "/legislations/:id/caseLegislations/:fk",
+          method: "GET"
+        },
+
+        // INTERNAL. Use Legislation.caseLegislations.destroyById() instead.
+        "::destroyById::legislation::caseLegislations": {
+          params: {
+          'fk': '@fk'
+          },
+          url: urlBase + "/legislations/:id/caseLegislations/:fk",
+          method: "DELETE"
+        },
+
+        // INTERNAL. Use Legislation.caseLegislations.updateById() instead.
+        "::updateById::legislation::caseLegislations": {
+          params: {
+          'fk': '@fk'
+          },
+          url: urlBase + "/legislations/:id/caseLegislations/:fk",
+          method: "PUT"
+        },
+
+        // INTERNAL. Use Legislation.caseLegislations() instead.
+        "::get::legislation::caseLegislations": {
+          isArray: true,
+          url: urlBase + "/legislations/:id/caseLegislations",
+          method: "GET"
+        },
+
+        // INTERNAL. Use Legislation.caseLegislations.create() instead.
+        "::create::legislation::caseLegislations": {
+          url: urlBase + "/legislations/:id/caseLegislations",
+          method: "POST"
+        },
+
+        // INTERNAL. Use Legislation.caseLegislations.createMany() instead.
+        "::createMany::legislation::caseLegislations": {
+          isArray: true,
+          url: urlBase + "/legislations/:id/caseLegislations",
+          method: "POST"
+        },
+
+        // INTERNAL. Use Legislation.caseLegislations.destroyAll() instead.
+        "::delete::legislation::caseLegislations": {
+          url: urlBase + "/legislations/:id/caseLegislations",
+          method: "DELETE"
+        },
+
+        // INTERNAL. Use Legislation.caseLegislations.count() instead.
+        "::count::legislation::caseLegislations": {
+          url: urlBase + "/legislations/:id/caseLegislations/count",
+          method: "GET"
         },
       }
     );
@@ -4633,7 +4692,7 @@ module.factory(
          * </em>
          */
         "find": {
-          isArray: false,
+          isArray: true,
           url: urlBase + "/cases",
           method: "GET"
         },
@@ -13878,6 +13937,33 @@ module.factory(
           method: "PUT"
         },
 
+        // INTERNAL. Use Legislation.caseLegislations.findById() instead.
+        "prototype$__findById__caseLegislations": {
+          params: {
+          'fk': '@fk'
+          },
+          url: urlBase + "/legislations/:id/caseLegislations/:fk",
+          method: "GET"
+        },
+
+        // INTERNAL. Use Legislation.caseLegislations.destroyById() instead.
+        "prototype$__destroyById__caseLegislations": {
+          params: {
+          'fk': '@fk'
+          },
+          url: urlBase + "/legislations/:id/caseLegislations/:fk",
+          method: "DELETE"
+        },
+
+        // INTERNAL. Use Legislation.caseLegislations.updateById() instead.
+        "prototype$__updateById__caseLegislations": {
+          params: {
+          'fk': '@fk'
+          },
+          url: urlBase + "/legislations/:id/caseLegislations/:fk",
+          method: "PUT"
+        },
+
         // INTERNAL. Use Legislation.capturedBy() instead.
         "prototype$__get__capturedBy": {
           url: urlBase + "/legislations/:id/capturedBy",
@@ -13906,6 +13992,31 @@ module.factory(
         // INTERNAL. Use Legislation.cases.count() instead.
         "prototype$__count__cases": {
           url: urlBase + "/legislations/:id/cases/count",
+          method: "GET"
+        },
+
+        // INTERNAL. Use Legislation.caseLegislations() instead.
+        "prototype$__get__caseLegislations": {
+          isArray: true,
+          url: urlBase + "/legislations/:id/caseLegislations",
+          method: "GET"
+        },
+
+        // INTERNAL. Use Legislation.caseLegislations.create() instead.
+        "prototype$__create__caseLegislations": {
+          url: urlBase + "/legislations/:id/caseLegislations",
+          method: "POST"
+        },
+
+        // INTERNAL. Use Legislation.caseLegislations.destroyAll() instead.
+        "prototype$__delete__caseLegislations": {
+          url: urlBase + "/legislations/:id/caseLegislations",
+          method: "DELETE"
+        },
+
+        // INTERNAL. Use Legislation.caseLegislations.count() instead.
+        "prototype$__count__caseLegislations": {
+          url: urlBase + "/legislations/:id/caseLegislations/count",
           method: "GET"
         },
 
@@ -14368,6 +14479,40 @@ module.factory(
 
         /**
          * @ngdoc method
+         * @name apiServices.Legislation#namesakes
+         * @methodOf apiServices.Legislation
+         *
+         * @description
+         *
+         * <em>
+         * (The remote method definition does not provide any description.)
+         * </em>
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{string=}` -
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * Data properties:
+         *
+         *  - `namesakes` – `{Object=}` -
+         */
+        "namesakes": {
+          url: urlBase + "/legislations/namesakes",
+          method: "GET"
+        },
+
+        /**
+         * @ngdoc method
          * @name apiServices.Legislation#summary
          * @methodOf apiServices.Legislation
          *
@@ -14398,6 +14543,76 @@ module.factory(
          */
         "summary": {
           url: urlBase + "/legislations/summary",
+          method: "GET"
+        },
+
+        /**
+         * @ngdoc method
+         * @name apiServices.Legislation#viewLegislations
+         * @methodOf apiServices.Legislation
+         *
+         * @description
+         *
+         * <em>
+         * (The remote method definition does not provide any description.)
+         * </em>
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *   This method does not accept any parameters.
+         *   Supply an empty object or omit this argument altogether.
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * Data properties:
+         *
+         *  - `legislations` – `{Object=}` -
+         */
+        "viewLegislations": {
+          url: urlBase + "/legislations/notdeleted",
+          method: "GET"
+        },
+
+        /**
+         * @ngdoc method
+         * @name apiServices.Legislation#viewTrash
+         * @methodOf apiServices.Legislation
+         *
+         * @description
+         *
+         * <em>
+         * (The remote method definition does not provide any description.)
+         * </em>
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *   This method does not accept any parameters.
+         *   Supply an empty object or omit this argument altogether.
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * Data properties:
+         *
+         *  - `trash` – `{Object=}` -
+         */
+        "viewTrash": {
+          url: urlBase + "/legislations/trash",
           method: "GET"
         },
 
@@ -14992,6 +15207,307 @@ module.factory(
         R.cases.updateById = function() {
           var TargetResource = $injector.get("Case");
           var action = TargetResource["::updateById::legislation::cases"];
+          return action.apply(R, arguments);
+        };
+    /**
+     * @ngdoc object
+     * @name apiServices.Legislation.caseLegislations
+     * @header apiServices.Legislation.caseLegislations
+     * @object
+     * @description
+     *
+     * The object `Legislation.caseLegislations` groups methods
+     * manipulating `CaseLegislations` instances related to `Legislation`.
+     *
+     * Call {@link apiServices.Legislation#caseLegislations Legislation.caseLegislations()}
+     * to query all related instances.
+     */
+
+
+        /**
+         * @ngdoc method
+         * @name apiServices.Legislation#caseLegislations
+         * @methodOf apiServices.Legislation
+         *
+         * @description
+         *
+         * Queries caseLegislations of legislation.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - PersistedModel id
+         *
+         *  - `filter` – `{object=}` -
+         *
+         * @param {function(Array.<Object>,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Array.<Object>} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `CaseLegislations` object.)
+         * </em>
+         */
+        R.caseLegislations = function() {
+          var TargetResource = $injector.get("CaseLegislations");
+          var action = TargetResource["::get::legislation::caseLegislations"];
+          return action.apply(R, arguments);
+        };
+
+        /**
+         * @ngdoc method
+         * @name apiServices.Legislation.caseLegislations#count
+         * @methodOf apiServices.Legislation.caseLegislations
+         *
+         * @description
+         *
+         * Counts caseLegislations of legislation.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - PersistedModel id
+         *
+         *  - `where` – `{object=}` - Criteria to match model instances
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * Data properties:
+         *
+         *  - `count` – `{number=}` -
+         */
+        R.caseLegislations.count = function() {
+          var TargetResource = $injector.get("CaseLegislations");
+          var action = TargetResource["::count::legislation::caseLegislations"];
+          return action.apply(R, arguments);
+        };
+
+        /**
+         * @ngdoc method
+         * @name apiServices.Legislation.caseLegislations#create
+         * @methodOf apiServices.Legislation.caseLegislations
+         *
+         * @description
+         *
+         * Creates a new instance in caseLegislations of this model.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - PersistedModel id
+         *
+         * @param {Object} postData Request data.
+         *
+         * This method expects a subset of model properties as request parameters.
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `CaseLegislations` object.)
+         * </em>
+         */
+        R.caseLegislations.create = function() {
+          var TargetResource = $injector.get("CaseLegislations");
+          var action = TargetResource["::create::legislation::caseLegislations"];
+          return action.apply(R, arguments);
+        };
+
+        /**
+         * @ngdoc method
+         * @name apiServices.Legislation.caseLegislations#createMany
+         * @methodOf apiServices.Legislation.caseLegislations
+         *
+         * @description
+         *
+         * Creates a new instance in caseLegislations of this model.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - PersistedModel id
+         *
+         * @param {Object} postData Request data.
+         *
+         * This method expects a subset of model properties as request parameters.
+         *
+         * @param {function(Array.<Object>,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Array.<Object>} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `CaseLegislations` object.)
+         * </em>
+         */
+        R.caseLegislations.createMany = function() {
+          var TargetResource = $injector.get("CaseLegislations");
+          var action = TargetResource["::createMany::legislation::caseLegislations"];
+          return action.apply(R, arguments);
+        };
+
+        /**
+         * @ngdoc method
+         * @name apiServices.Legislation.caseLegislations#destroyAll
+         * @methodOf apiServices.Legislation.caseLegislations
+         *
+         * @description
+         *
+         * Deletes all caseLegislations of this model.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - PersistedModel id
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * This method returns no data.
+         */
+        R.caseLegislations.destroyAll = function() {
+          var TargetResource = $injector.get("CaseLegislations");
+          var action = TargetResource["::delete::legislation::caseLegislations"];
+          return action.apply(R, arguments);
+        };
+
+        /**
+         * @ngdoc method
+         * @name apiServices.Legislation.caseLegislations#destroyById
+         * @methodOf apiServices.Legislation.caseLegislations
+         *
+         * @description
+         *
+         * Delete a related item by id for caseLegislations.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - PersistedModel id
+         *
+         *  - `fk` – `{*}` - Foreign key for caseLegislations
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * This method returns no data.
+         */
+        R.caseLegislations.destroyById = function() {
+          var TargetResource = $injector.get("CaseLegislations");
+          var action = TargetResource["::destroyById::legislation::caseLegislations"];
+          return action.apply(R, arguments);
+        };
+
+        /**
+         * @ngdoc method
+         * @name apiServices.Legislation.caseLegislations#findById
+         * @methodOf apiServices.Legislation.caseLegislations
+         *
+         * @description
+         *
+         * Find a related item by id for caseLegislations.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - PersistedModel id
+         *
+         *  - `fk` – `{*}` - Foreign key for caseLegislations
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `CaseLegislations` object.)
+         * </em>
+         */
+        R.caseLegislations.findById = function() {
+          var TargetResource = $injector.get("CaseLegislations");
+          var action = TargetResource["::findById::legislation::caseLegislations"];
+          return action.apply(R, arguments);
+        };
+
+        /**
+         * @ngdoc method
+         * @name apiServices.Legislation.caseLegislations#updateById
+         * @methodOf apiServices.Legislation.caseLegislations
+         *
+         * @description
+         *
+         * Update a related item by id for caseLegislations.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - PersistedModel id
+         *
+         *  - `fk` – `{*}` - Foreign key for caseLegislations
+         *
+         * @param {Object} postData Request data.
+         *
+         * This method expects a subset of model properties as request parameters.
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `CaseLegislations` object.)
+         * </em>
+         */
+        R.caseLegislations.updateById = function() {
+          var TargetResource = $injector.get("CaseLegislations");
+          var action = TargetResource["::updateById::legislation::caseLegislations"];
           return action.apply(R, arguments);
         };
 
@@ -15862,7 +16378,7 @@ module.factory(
          * </em>
          */
         "find": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/works",
           method: "GET"
         },
@@ -16546,7 +17062,7 @@ module.factory(
          * </em>
          */
         "find": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/appearances",
           method: "GET"
         },
@@ -17224,7 +17740,7 @@ module.factory(
          * </em>
          */
         "find": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/plaintiffSynonyms",
           method: "GET"
         },
@@ -17822,7 +18338,7 @@ module.factory(
          * </em>
          */
         "find": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/defendantSynonyms",
           method: "GET"
         },
@@ -18420,7 +18936,7 @@ module.factory(
          * </em>
          */
         "find": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/jurisdictions",
           method: "GET"
         },
@@ -19018,7 +19534,7 @@ module.factory(
          * </em>
          */
         "find": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/locations",
           method: "GET"
         },
@@ -19616,7 +20132,7 @@ module.factory(
          * </em>
          */
         "find": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/courtDivisions",
           method: "GET"
         },
@@ -20629,7 +21145,7 @@ module.factory(
          * </em>
          */
         "find": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/appusers",
           method: "GET"
         },
@@ -22111,7 +22627,7 @@ module.factory(
          * </em>
          */
         "find": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/tables",
           method: "GET"
         },
@@ -22669,7 +23185,7 @@ module.factory(
          * </em>
          */
         "getFiles": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/containers/:container/files",
           method: "GET"
         },
@@ -22902,7 +23418,7 @@ module.factory(
          * </em>
          */
         "getContainers": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/dashboards",
           method: "GET"
         },
@@ -23047,7 +23563,7 @@ module.factory(
          * </em>
          */
         "getFiles": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/dashboards/:container/files",
           method: "GET"
         },
@@ -23415,7 +23931,7 @@ module.factory(
          * </em>
          */
         "find": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/dashboards",
           method: "GET"
         },

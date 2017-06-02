@@ -17,6 +17,7 @@
     "loopback-component-storage": "^1.10.0",
     "loopback-connector-mongodb": "^1.15.2",
     "loopback-datasource-juggler": "^2.39.0",
+    "loopback-softdelete-mixin": "0.0.6",
     "serve-favicon": "^2.0.1"
   },
   "devDependencies": {

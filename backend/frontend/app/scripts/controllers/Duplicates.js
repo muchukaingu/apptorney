@@ -10,8 +10,8 @@ angular.module('apptorney')
         return dtfilter+suffix;
       };
   })
-  .controller('LegislationController', function($rootScope,$scope, $filter, Legislation, LegislationType, LegislationPart, PartType, $location, $global, datetime, $routeParams, filterFilter, baseURL, Papa, $q){
-    $scope.currentPage = 1;
+  .controller('DuplicatesController', function($rootScope,$scope, $filter, Legislation, LegislationType, LegislationPart, PartType, $location, $global, datetime, $routeParams, filterFilter, baseURL, Papa, $q){
+
     $scope.selectedType = "";
     $scope.selected = false;
     $scope.opened = true;
@@ -133,62 +133,6 @@ angular.module('apptorney')
 
 
 
-    $scope.deleteLegislation = function(legislationID){
-
-        Legislation.deleteById({ id: legislationID })
-        .$promise
-        .then(function() {
-          //console.log('deleted');
-          $scope.legislations.forEach(function(legislation){
-            if(legislation.id == legislationID){
-              $scope.legislations.splice($scope.legislations.indexOf(legislation),1);
-
-            }
-          });
-        });
-
-
-
-    }
-
-
-
-
-    $scope.deleteLegislationType = function(legislationTypeID){
-      LegislationType.deleteById({ id: legislationTypeID })
-      .$promise
-      .then(function() {
-        //console.log('deleted');
-        $scope.legislationTypes.forEach(function(legislationType){
-          if(legislationType.id == legislationTypeID){
-            $scope.legislationTypes.splice($scope.legislationTypes.indexOf(legislationType),1);
-
-          }
-        });
-      });
-
-    }
-
-
-
-
-    $scope.deleteLegislationPartType = function(legislationPartTypeID){
-      PartType.deleteById({ id: legislationPartTypeID })
-      .$promise
-      .then(function() {
-        //console.log('deleted');
-        $scope.legislationPartTypes.forEach(function(legislationPartType){
-          if(legislationPartType.id == legislationPartTypeID){
-            $scope.legislationPartTypes.splice($scope.legislationPartTypes.indexOf(legislationPartType),1);
-
-          }
-        });
-      });
-
-    }
-
-
-
     $scope.deleteLegislation = function(legislation){
 
       bootbox.confirm({
@@ -241,114 +185,64 @@ angular.module('apptorney')
 
 
 
-    $scope.loadLegislations = function(type){
-        $scope.sortType = "legislationName";
-        $scope.returned = false;
-        $scope.showLegislations = false;
-        if(type=="all"){
-          Legislation.viewLegislations({limit:50,skip:$scope.currentPage-1, query:$scope.query, type:$routeParams.id},
-            function(res) {
-              $scope.legislations = res.data.legislations;
-              $scope.numberOfItemsPerPage = 50;
-              $scope.totalItems = $scope.query?res.data.legislations.length:res.data.count;
-              // $scope.legislations = filterFilter($scope.legislations, $routeParams.id);
-              $scope.returned = true;
-              $scope.showLegislations = true;
 
-              $scope.completedLegislations = [];
-              $scope.legislations.forEach(function(legislation){
-                if (legislation.completionStatus == true){
-                  $scope.completedLegislations.push(legislation);
-                }
-              });
-            },
-            function(errorResponse) { }
-          );
-        }
-        else if (type=="duplicates"){
-          Legislation.getDuplicates({limit:100,skip:$scope.currentPage-1, query:$scope.query},
-            function(res) {
-              $scope.legislations = res.data.duplicates;
-              $scope.numberOfItemsPerPage = res.data.duplicates.length;
-              $scope.totalItems = res.data.uniqueCount;
-              // $scope.legislations = filterFilter($scope.legislations, $routeParams.id);
-              $scope.returned = true;
-              $scope.showLegislations = true;
+    $scope.deleteLegislationType = function(legislationTypeID){
+      LegislationType.deleteById({ id: legislationTypeID })
+      .$promise
+      .then(function() {
+        //console.log('deleted');
+        $scope.legislationTypes.forEach(function(legislationType){
+          if(legislationType.id == legislationTypeID){
+            $scope.legislationTypes.splice($scope.legislationTypes.indexOf(legislationType),1);
 
-              $scope.completedLegislations = [];
-              $scope.legislations.forEach(function(legislation){
-                if (legislation.completionStatus == true){
-                  $scope.completedLegislations.push(legislation);
-                }
-              });
-            },
-            function(errorResponse) { }
-          );
-        }
-
-        else if(type=="occurences"){
-          Legislation.namesakes({id: $routeParams.id},
-            function(res) {
-              console.log(res.data);
-              $scope.legislations = res.data.namesakes;
-              $scope.returned = true;
-              $scope.showLegislations = true;
-
-              $scope.completedLegislations = [];
-              $scope.legislations.forEach(function(legislation){
-                if (legislation.completionStatus == true){
-                  $scope.completedLegislations.push(legislation);
-                }
-              });
-
-            },
-            function(errorResponse) { }
-          );
-        }
-
+          }
+        });
+      });
 
     }
 
-    console.log($location.path());
 
-    if($location.path().indexOf("/legislations") !== -1){
-        $scope.loadLegislations("all");
+
+
+    $scope.deleteLegislationPartType = function(legislationPartTypeID){
+      PartType.deleteById({ id: legislationPartTypeID })
+      .$promise
+      .then(function() {
+        //console.log('deleted');
+        $scope.legislationPartTypes.forEach(function(legislationPartType){
+          if(legislationPartType.id == legislationPartTypeID){
+            $scope.legislationPartTypes.splice($scope.legislationPartTypes.indexOf(legislationPartType),1);
+
+          }
+        });
+      });
+
     }
-    else if($location.path()=="/cleanup"){
-        $scope.loadLegislations("duplicates");
+
+
+
+    $scope.loadLegislations = function(){
+
+        Legislation.getDuplicates({},
+          function(res) {
+            $scope.legislations = res.data.duplicates;
+            $scope.legislations = filterFilter($scope.legislations, $routeParams.id);
+            $scope.returned = true;
+            $scope.showLegislations = true;
+
+            $scope.completedLegislations = [];
+            $scope.legislations.forEach(function(legislation){
+              if (legislation.completionStatus == true){
+                $scope.completedLegislations.push(legislation);
+              }
+            });
+          },
+          function(errorResponse) { }
+        );
     }
-    else {
-      $scope.loadLegislations("occurences");
+    if($location.path()=="/cleanup"){
+        $scope.loadLegislations();
     }
-
-    $scope.$watch("currentPage", function(){
-      $scope.legislations = [];
-      if ($location.path()=="/cleanup"){
-        console.log("watching.....");
-        $scope.loadLegislations("duplicates");
-      }
-      else if($location.path().indexOf("/legislations") !== -1){
-        $scope.loadLegislations("all");
-      }
-
-    });
-
-
-    $scope.searchForLegislations = function(event){
-         $scope.returned = false;
-         $scope.showLegislations = false;
-         $scope.message = "Waiting for Return Key...";
-         $scope.legislations = [];
-         if(event.which === 13 && $location.path().indexOf("/cleanup") !== -1){
-           $scope.message = "Searching for "+$scope.query+"...";
-           $scope.loadLegislations("duplicates");
-         }
-         else if(event.which === 13 && $location.path().indexOf("/legislation") !== -1){
-           $scope.message = "Searching for "+$scope.query+"...";
-           $scope.loadLegislations("all");
-         }
-
-     }
 
 
 
@@ -373,6 +267,7 @@ angular.module('apptorney')
 
     $scope.openLegislation = function(legislation){
       $scope.opened = false;
+      console.log(legislation.legislationName);
       $("#legislationModal").modal();
         $scope.models = {
          selected: null
@@ -387,7 +282,7 @@ angular.module('apptorney')
           function(list) {
 
             var instance = list.data[0];
-
+            console.log(instance);
             angular.forEach(instance, function(value, key){
               $scope.legislation[key] = value;
             });
@@ -553,10 +448,6 @@ angular.module('apptorney')
 
     }
 
-    $scope.showDuplicatesDetail = function(legislation){
-      $location.path('/cleanup/'+legislation.id);
-    }
-
     $scope.uploadTable = function($files){
 
       if($files !== null && $files.length > 0) {
@@ -601,6 +492,32 @@ angular.module('apptorney')
       }
 
 
+    }
+
+    $scope.showDuplicatesDetail = function(legislation){
+      $location.path('/cleanup/'+legislation.id);
+      console.log(legislation);
+
+    }
+
+    if($location.path() !== "/cleanup"){
+      Legislation.namesakes({id: $routeParams.id},
+        function(res) {
+          console.log(res.data);
+          $scope.legislations = res.data.namesakes;
+          $scope.returned = true;
+          $scope.showLegislations = true;
+
+          $scope.completedLegislations = [];
+          $scope.legislations.forEach(function(legislation){
+            if (legislation.completionStatus == true){
+              $scope.completedLegislations.push(legislation);
+            }
+          });
+
+        },
+        function(errorResponse) { }
+      );
     }
 
 

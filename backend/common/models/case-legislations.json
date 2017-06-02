@@ -17,6 +17,9 @@
       "foreignKey": "legislationId"
     }
   },
+  "scope":{
+    "include":"case"
+  },
   "acls": [],
   "methods": {}
 }

@@ -141,6 +141,10 @@ module.exports = function(Legislation) {
    * @callback {Function} cb The callback function
    */
   Legislation.viewLegislations = function(skip,limit, query, type, cb){
+    console.log("Skip":skip);
+    console.log("Limit":limit);
+    console.log("Query":query);
+    console.log("Type":type);
     var query = query?{legislationName: {like: '.*'+ query +'.*', options:'i'}}:undefined;
     function callback(error, data){
       Legislation.find({where:{legislationType:type}}, function(err, legislations){
@@ -150,7 +154,7 @@ module.exports = function(Legislation) {
       })
 
     }
-    Legislation.find({order:'legislationName ASC', limit:50, skip:skip*50, where:{and:[query, {legislationType:type}]}}, function(err, legislations){ 
+    Legislation.find({order:'legislationName ASC', limit:50, skip:skip*50, where:{and:[{deleted:{neq:true}}, query, {legislationType:type}]}}, function(err, legislations){
       callback(null,legislations);
       //console.log(legislations.length);
     })

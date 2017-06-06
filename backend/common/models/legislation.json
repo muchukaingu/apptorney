@@ -20,7 +20,7 @@
     },
     "legislationNumber": {
       "type": "string",
-      "required": false 
+      "required": false
     },
     "dateOfAssent": {
       "type": "date",
@@ -82,9 +82,6 @@
       "foreignKey": "legislationId"
     }
 
-  },
-  "scope":{
-    "include":["caseLegislations", "capturedBy"]
   },
   "acls": [],
   "methods": {}

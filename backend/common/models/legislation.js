@@ -154,7 +154,7 @@ module.exports = function(Legislation) {
       })
 
     }
-    Legislation.find({limit:10, skip:skip*10, where:{legislationType:type}}, function(err, legislations){
+    Legislation.find({where:{legislationType:type}}, function(err, legislations){
       console.log("Legislations", legislations.length);
       console.log("Errorxxx", err);
       //callback(null,legislations);

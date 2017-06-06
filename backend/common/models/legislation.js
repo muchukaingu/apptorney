@@ -147,7 +147,7 @@ module.exports = function(Legislation) {
     console.log("Type",type);
     var query = query?{legislationName: {like: '.*'+ query +'.*', options:'i'}}:undefined;
     function callback(error, data){
-      Legislation.find({where:{legislationType:type}}, function(err, legislations){
+      Legislation.find({filter:{where:{legislationType:type}}}, function(err, legislations){
         var count = legislations.length;
         console.log("Count", legislations.length);
         cb(null,data, count);

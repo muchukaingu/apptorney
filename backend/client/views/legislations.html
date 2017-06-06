@@ -46,7 +46,7 @@
 
             <div class="input-icon right mb10">
                   <i class="fa fa-search"></i>
-                  <input type="text" ng-model="query" class="form-control" placeholder="Search..." id="Search" ng-keydown = "searchForLegislations($event)">
+                  <input type="text" ng-model="query" class="form-control" placeholder="Search..." id="Search" ng-keydown = "searchForLegislations($event)" ng-model-options="{debounce : 1500} ">
             </div>
                 <table id="casesTbl" class="table table-condensed">
                   <tr style="background-color: #E8E9EC" class="tableHeaders">
@@ -75,7 +75,7 @@
 
 
 									<td style="width:30%">
-										<a ng-click="sortType = 'legislation.capturedBy.firstName'; sortReverse = !sortReverse">
+										<a ng-click="sortType = 'capturedBy.firstName'; sortReverse = !sortReverse">
 											Captured By
 						<span ng-show="sortType == 'legislation.capturedBy.firstName' && !sortReverse" class="fa fa-caret-up"></span>
 						<span ng-show="sortType == 'legislation.capturedBy.firstName' && sortReverse" class="fa fa-caret-down"></span>

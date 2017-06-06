@@ -335,20 +335,26 @@ angular.module('apptorney')
 
 
     $scope.searchForLegislations = function(event){
+         $scope.legislations = [];
          $scope.returned = false;
          $scope.showLegislations = false;
-         $scope.message = "Waiting for Return Key...";
-         $scope.legislations = [];
-         if(event.which === 13 && $location.path().indexOf("/cleanup") !== -1){
-           $scope.message = "Searching for "+$scope.query+"...";
-           $scope.loadLegislations("duplicates");
-         }
-         else if(event.which === 13 && $location.path().indexOf("/legislation") !== -1){
-           $scope.message = "Searching for "+$scope.query+"...";
-           $scope.loadLegislations("all");
-         }
+         $scope.message = "Searching...";
 
      }
+
+
+     $scope.$watch("query", function(){
+       console.log($scope.query);
+
+
+       if($location.path().indexOf("/cleanup") !== -1){
+         $scope.loadLegislations("duplicates");
+       }
+       else if($location.path().indexOf("/legislation") !== -1){
+         //$scope.message = "Searching...";
+         $scope.loadLegislations("all");
+       }
+     });
 
 
 

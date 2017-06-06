@@ -154,7 +154,7 @@ module.exports = function(Legislation) {
       })
 
     }
-    Legislation.find({order:'legislationName ASC', limit:50, skip:skip*50, where:{and:[{deleted:{neq:true}}, query, {legislationType:type}]}}, function(err, legislations){
+    Legislation.find({order:'legislationName ASC', limit:50, skip:skip*50, where:{and:[{deleted:{neq:true}}, {legislationType:type}]}}, function(err, legislations){
       console.log("Legislations", legislations);
       console.log("Error", err);
       //callback(null,legislations);

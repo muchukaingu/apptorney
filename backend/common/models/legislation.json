@@ -20,7 +20,7 @@
     },
     "legislationNumber": {
       "type": "string",
-      "required": false
+      "required": false 
     },
     "dateOfAssent": {
       "type": "date",

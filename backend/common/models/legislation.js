@@ -154,9 +154,9 @@ module.exports = function(Legislation) {
       })
 
     }
-    Legislation.find({order:'legislationName ASC', limit:50, skip:skip*50, where:{legislationType:type}}, function(err, legislations){
+    Legislation.find({order:'legislationName ASC', limit:10, skip:skip*10, where:{legislationType:type}}, function(err, legislations){
       console.log("Legislations", legislations);
-      console.log("Errorx", err);
+      console.log("Errorxxx", err);
       //callback(null,legislations);
       //console.log(legislations.length);
     })

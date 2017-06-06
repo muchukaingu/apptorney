@@ -141,10 +141,10 @@ module.exports = function(Legislation) {
    * @callback {Function} cb The callback function
    */
   Legislation.viewLegislations = function(skip,limit, query, type, cb){
-    console.log("Skip":skip);
-    console.log("Limit":limit);
-    console.log("Query":query);
-    console.log("Type":type);
+    console.log("Skip",skip);
+    console.log("Limit",limit);
+    console.log("Query",query);
+    console.log("Type",type);
     var query = query?{legislationName: {like: '.*'+ query +'.*', options:'i'}}:undefined;
     function callback(error, data){
       Legislation.find({where:{legislationType:type}}, function(err, legislations){

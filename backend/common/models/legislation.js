@@ -18,6 +18,7 @@ module.exports = function(Legislation) {
 
     var query = query?{legislationName: {like: '.*'+ query +'.*', options:'i'}}:undefined;
     Legislation.find({order:'legislationName ASC', limit:200, skip:skip*200, where:{and:[{deleted:{neq:true}}, query]}}, function(err, legislations) {
+      console.log("Duplicates",legislations.length)
       var duplicates = [];
       function callback(err, res){
 
@@ -154,7 +155,8 @@ module.exports = function(Legislation) {
       })
 
     }
-    Legislation.find({order:'legislationName ASC', limit:50, skip:skip*50, filter:{where:{and:[{deleted:{neq:true}}, query, {legislationType:type}]}}}, function(err, legislations){
+    //Legislation.find({order:'legislationName ASC', limit:50, skip:skip*50, filter:{where:{and:[{deleted:{neq:true}}, query, {legislationType:type}]}}}, function(err, legislations){
+    Legislation.find({order:'legislationName ASC', limit:200, skip:skip*200, where:{and:[{deleted:{neq:true}}, query]}}, function(err, legislations) {
       console.log("Legislations", legislations.length);
       console.log("Error", err);
       callback(null,legislations);

@@ -163,7 +163,7 @@ module.exports = function(Legislation) {
       where:{
         and:[
           {and:[{deleted:{neq:true}}, query]},
-          {legislationType:type}
+          {legislationType:"'"+type+"'"}
         ]
       }},
       function(err, legislations) {

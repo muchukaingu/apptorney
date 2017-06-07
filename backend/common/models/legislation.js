@@ -156,19 +156,23 @@ module.exports = function(Legislation) {
 
     }
     //Legislation.find({order:'legislationName ASC', limit:50, skip:skip*50, filter:{where:{and:[{deleted:{neq:true}}, query, {legislationType:type}]}}}, function(err, legislations){
+    var whereClause = {and:[{deleted:{neq:true}}, query]};
+    var whereClauseWithType = {
+      and:[
+        {and:[{deleted:{neq:true}}, query]},
+        {legislationType:"'"+type+"'"}
+      ]
+    };
     Legislation.find({
       order:'legislationName ASC',
       limit:200,
       skip:skip*200,
-      where:{
-        and:[
-          {and:[{deleted:{neq:true}}, query]},
-          {legislationType:"'"+type+"'"}
-        ]
-      }},
+      where: whereClause
+      },
       function(err, legislations) {
       console.log("Legislations", legislations.length);
       console.log("Error", err);
+      console.log("whereClauseWithType", whereClauseWithType);
       callback(null,legislations);
       //console.log(legislations.length);
     })

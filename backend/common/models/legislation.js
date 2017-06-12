@@ -141,28 +141,22 @@ module.exports = function(Legislation) {
    *
    * @callback {Function} cb The callback function
    */
-  Legislation.viewLegislations = function(skip,limit, query, type, cb){
+   Legislation.viewLegislations = function(skip,limit, query, type, cb){
     console.log("Skip",skip);
     console.log("Limit",limit);
     console.log("Query",query);
     console.log("Type",type);
     var query = query?{legislationName: {like: '.*'+ query +'.*', options:'i'}}:undefined;
     function callback(error, data){
-      Legislation.find({filter:{where:{legislationType:type}}}, function(err, legislations){
+      Legislation.find({where:{legislationType:{like: '.*'+ type +'.*', options:'i'}}}, function(err, legislations){
         var count = legislations.length;
         console.log("Count", legislations.length);
         cb(null,data, count);
       })
 
     }
-    //Legislation.find({order:'legislationName ASC', limit:50, skip:skip*50, filter:{where:{and:[{deleted:{neq:true}}, query, {legislationType:type}]}}}, function(err, legislations){
-    var whereClause = {and:[{deleted:{neq:true}}, query]};
-    var whereClauseWithType = {
-      and:[
-        {and:[{deleted:{neq:true}}, query]},
-        {legislationType:"'"+type+"'"}
-      ]
-    };
+
+    var whereClause = {and:[{deleted:{neq:true}}, query,{legislationType:{like: '.*'+ type +'.*', options:'i'} }]};
     Legislation.find({
       order:'legislationName ASC',
       limit:200,
@@ -170,13 +164,10 @@ module.exports = function(Legislation) {
       where: whereClause
       },
       function(err, legislations) {
-      console.log("Legislations", legislations.length);
-      console.log("Error", err);
-      console.log("whereClauseWithType", whereClauseWithType);
-      callback(null,legislations);
-      //console.log(legislations.length);
-    })
+        callback(null,legislations);
+      });
   }
+
 
   /**
    * Lists all legislations that have been soft deleted

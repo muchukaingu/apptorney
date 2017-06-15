@@ -147,8 +147,10 @@ module.exports = function(Legislation) {
     console.log("Query",query);
     console.log("Type",type);
     var query = query?{legislationName: {like: '.*'+ query +'.*', options:'i'}}:undefined;
+    var whereClause = {and:[{deleted:{neq:true}}, query,{legislationType:{like: '.*'+ type +'.*', options:'i'} }]};
+
     function callback(error, data){
-      Legislation.find({where:{legislationType:{like: '.*'+ type +'.*', options:'i'}}}, function(err, legislations){
+      Legislation.find({where:whereClause}, function(err, legislations){
         var count = legislations.length;
         console.log("Count", legislations.length);
         cb(null,data, count);
@@ -156,7 +158,6 @@ module.exports = function(Legislation) {
 
     }
 
-    var whereClause = {and:[{deleted:{neq:true}}, query,{legislationType:{like: '.*'+ type +'.*', options:'i'} }]};
     Legislation.find({
       order:'legislationName ASC',
       limit:200,

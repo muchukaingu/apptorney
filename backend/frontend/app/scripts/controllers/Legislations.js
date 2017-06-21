@@ -265,6 +265,26 @@ angular.module('apptorney')
             function(errorResponse) { }
           );
         }
+        else if(type=="search"){
+          Legislation.search({term:$scope.query},
+            function(res) {
+              $scope.legislations = res.data.legislations;
+              $scope.numberOfItemsPerPage = 50;
+              $scope.totalItems = $scope.query?res.data.legislations.length:res.data.count;
+              // $scope.legislations = filterFilter($scope.legislations, $routeParams.id);
+              $scope.returned = true;
+              $scope.showLegislations = true;
+
+              $scope.completedLegislations = [];
+              $scope.legislations.forEach(function(legislation){
+                if (legislation.completionStatus == true){
+                  $scope.completedLegislations.push(legislation);
+                }
+              });
+            },
+            function(errorResponse) { }
+          );
+        }
         else if (type=="duplicates"){
           Legislation.getDuplicates({limit:100,skip:$scope.currentPage-1, query:$scope.query},
             function(res) {
@@ -352,7 +372,8 @@ angular.module('apptorney')
        }
        else if($location.path().indexOf("/legislation") !== -1){
          //$scope.message = "Searching...";
-         $scope.loadLegislations("all");
+         //$scope.loadLegislations("all");
+         $scope.loadLegislations("search");
        }
      });
 

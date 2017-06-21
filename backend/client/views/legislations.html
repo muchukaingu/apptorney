@@ -46,7 +46,7 @@
 
             <div class="input-icon right mb10">
                   <i class="fa fa-search"></i>
-                  <input type="text" ng-model="query" class="form-control" placeholder="Search..." id="Search" ng-keydown = "searchForLegislations($event)" ng-model-options="{debounce : 1500} ">
+                  <input type="text" ng-model="query" class="form-control" placeholder="Search..." id="Search" ng-keydown = "searchForLegislations($event)" ng-model-options="{debounce : 500} ">
             </div>
                 <table id="casesTbl" class="table table-condensed">
                   <tr style="background-color: #E8E9EC" class="tableHeaders">
@@ -116,7 +116,7 @@
 										<td class="editables">
 
                       <span class="editable"  name="email" form="rowform" onchange="editItem(this,'itemID')" required>
-													{{legislation.capturedBy.firstName + ' ' + legislation.capturedBy.lastName}}
+													{{(legislation.capturedBy.length > 0)? legislation.capturedBy[0].firstName + ' ' + legislation.capturedBy[0].lastName : legislation.capturedBy.firstName + ' ' + legislation.capturedBy.lastName}}
                       </span>
                     </td>
                     <td style="white-space: nowrap">

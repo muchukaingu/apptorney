@@ -136,6 +136,75 @@ module.exports = function(Legislation) {
     });
   }
 
+
+  /**
+   * Gets all unique occurences based on Legislation Name
+   *
+   * @callback {Function} cb The callback function
+   */
+  Legislation.search = function(term, cb){
+    var legislationCollection = Legislation.getDataSource().connector.collection("legislation");
+    legislationCollection.aggregate([
+        {$match:{$text:{$search:"\""+term+"\""}}},
+        {
+           $lookup:{
+                 from: "appuser",
+                 localField: "capturedById",
+                 foreignField: "_id",
+                 as: "capturedBy"
+           }
+        }
+      ],
+      function(err, legislations) {
+        if(err){
+
+        }
+        else{
+          legislations.map(function(legislation){
+            legislation.id = legislation._id;
+            delete legislation["_id"];
+
+          });
+          cb(null, legislations)
+          /*legislations = legislations.toArray(function(err, legislations){
+            //console.log("Count", legislations);
+            legislations.map(function(legislation){
+              legislation.id = legislation._id;
+              delete legislation["_id"];
+
+            });
+            cb(null, legislations)
+          });
+          */
+
+        }
+
+      });
+  }
+
+
+  /**
+   * Gets all unique occurences based on Legislation Name
+   *
+   * @callback {Function} cb The callback function
+   */
+  Legislation.flexisearch = function(term, cb){
+    var legislationCollection = Legislation.getDataSource().connector.collection("legislation");
+    legislationCollection.find({$text:{$search:term}}, function(err, legislations) {
+      if(err){
+
+      }
+      else{
+        legislations = legislations.toArray(function(err, legislations){
+          //console.log("Count", legislations);
+          cb(null, legislations)
+        });
+
+      }
+
+    });
+  }
+
   /**
    * Lists all legislations that have not been soft deleted
    *
@@ -216,6 +285,21 @@ module.exports = function(Legislation) {
       http: {path: '/namesakes', verb: 'get'},
       accepts: {arg: 'id', type: 'string'},
       returns: {arg: 'namesakes', type: 'Object'}
+  });
+
+  Legislation.remoteMethod(
+    'search',{
+      http: {path: '/search', verb: 'get'},
+      accepts: {arg: 'term', type: 'string'},
+      returns: {arg: 'legislations', type: 'Object'}
+  });
+
+
+  Legislation.remoteMethod(
+    'flexisearch',{
+      http: {path: '/flexisearch', verb: 'get'},
+      accepts: {arg: 'term', type: 'string'},
+      returns: {arg: 'legislations', type: 'Object'}
   });
 
   Legislation.remoteMethod(

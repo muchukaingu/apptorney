@@ -204,7 +204,7 @@ module.factory(
          * </em>
          */
         "prototype$__get__accessTokens": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/Users/:id/accessTokens",
           method: "GET"
         },
@@ -382,7 +382,7 @@ module.factory(
          * </em>
          */
         "createMany": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/Users",
           method: "POST"
         },
@@ -521,7 +521,7 @@ module.factory(
          * </em>
          */
         "find": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/Users",
           method: "GET"
         },
@@ -1211,7 +1211,7 @@ module.factory(
 
         // INTERNAL. Use Advocate.appearance() instead.
         "prototype$__get__appearance": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/advocates/:id/appearance",
           method: "GET"
         },
@@ -1306,7 +1306,7 @@ module.factory(
          * </em>
          */
         "createMany": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/advocates",
           method: "POST"
         },
@@ -1685,7 +1685,7 @@ module.factory(
 
         // INTERNAL. Use LawFirm.advocates() instead.
         "::get::lawFirm::advocates": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/lawFirms/:id/advocates",
           method: "GET"
         },
@@ -1698,7 +1698,7 @@ module.factory(
 
         // INTERNAL. Use LawFirm.advocates.createMany() instead.
         "::createMany::lawFirm::advocates": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/lawFirms/:id/advocates",
           method: "POST"
         },
@@ -2427,7 +2427,7 @@ module.factory(
          * </em>
          */
         "createMany": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/areaOfLaws",
           method: "POST"
         },
@@ -2791,7 +2791,7 @@ module.factory(
 
         // INTERNAL. Use AreaOfLaw.parent.createMany() instead.
         "::createMany::areaOfLaw::parent": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/areaOfLaws/:id/parent",
           method: "POST"
         },
@@ -3263,7 +3263,7 @@ module.factory(
          * </em>
          */
         "createMany": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/caseLegislations",
           method: "POST"
         },
@@ -3642,7 +3642,7 @@ module.factory(
 
         // INTERNAL. Use Legislation.caseLegislations() instead.
         "::get::legislation::caseLegislations": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/legislations/:id/caseLegislations",
           method: "GET"
         },
@@ -3655,7 +3655,7 @@ module.factory(
 
         // INTERNAL. Use Legislation.caseLegislations.createMany() instead.
         "::createMany::legislation::caseLegislations": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/legislations/:id/caseLegislations",
           method: "POST"
         },
@@ -4325,7 +4325,7 @@ module.factory(
          * </em>
          */
         "prototype$__get__casesReferedTo": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/cases/:id/casesReferedTo",
           method: "GET"
         },
@@ -4433,7 +4433,7 @@ module.factory(
 
         // INTERNAL. Use Case.legislationsReferedTo() instead.
         "prototype$__get__legislationsReferedTo": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/cases/:id/legislationsReferedTo",
           method: "GET"
         },
@@ -4458,7 +4458,7 @@ module.factory(
 
         // INTERNAL. Use Case.workReferedTo() instead.
         "prototype$__get__workReferedTo": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/cases/:id/workReferedTo",
           method: "GET"
         },
@@ -4553,7 +4553,7 @@ module.factory(
          * </em>
          */
         "createMany": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/cases",
           method: "POST"
         },
@@ -4692,7 +4692,7 @@ module.factory(
          * </em>
          */
         "find": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/cases",
           method: "GET"
         },
@@ -5011,7 +5011,7 @@ module.factory(
 
         // INTERNAL. Use Citation.case.createMany() instead.
         "::createMany::citation::case": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/citations/:id/case",
           method: "POST"
         },
@@ -5057,7 +5057,7 @@ module.factory(
 
         // INTERNAL. Use Legislation.cases() instead.
         "::get::legislation::cases": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/legislations/:id/cases",
           method: "GET"
         },
@@ -5070,7 +5070,7 @@ module.factory(
 
         // INTERNAL. Use Legislation.cases.createMany() instead.
         "::createMany::legislation::cases": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/legislations/:id/cases",
           method: "POST"
         },
@@ -5116,7 +5116,7 @@ module.factory(
 
         // INTERNAL. Use Appuser.cases() instead.
         "::get::appuser::cases": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/appusers/:id/cases",
           method: "GET"
         },
@@ -5129,7 +5129,7 @@ module.factory(
 
         // INTERNAL. Use Appuser.cases.createMany() instead.
         "::createMany::appuser::cases": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/appusers/:id/cases",
           method: "POST"
         },
@@ -6472,7 +6472,7 @@ module.factory(
          * </em>
          */
         "createMany": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/caseCases",
           method: "POST"
         },
@@ -6611,7 +6611,7 @@ module.factory(
          * </em>
          */
         "find": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/caseCases",
           method: "GET"
         },
@@ -7148,7 +7148,7 @@ module.factory(
          * </em>
          */
         "createMany": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/caseWorks",
           method: "POST"
         },
@@ -7287,7 +7287,7 @@ module.factory(
          * </em>
          */
         "find": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/caseWorks",
           method: "GET"
         },
@@ -7812,7 +7812,7 @@ module.factory(
          * </em>
          */
         "createMany": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/citationDescriptions",
           method: "POST"
         },
@@ -7951,7 +7951,7 @@ module.factory(
          * </em>
          */
         "find": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/citationDescriptions",
           method: "GET"
         },
@@ -8428,7 +8428,7 @@ module.factory(
          * </em>
          */
         "createMany": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/citations",
           method: "POST"
         },
@@ -8567,7 +8567,7 @@ module.factory(
          * </em>
          */
         "find": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/citations",
           method: "GET"
         },
@@ -9172,7 +9172,7 @@ module.factory(
 
         // INTERNAL. Use Court.divisions() instead.
         "prototype$__get__divisions": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/courts/:id/divisions",
           method: "GET"
         },
@@ -9267,7 +9267,7 @@ module.factory(
          * </em>
          */
         "createMany": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/courts",
           method: "POST"
         },
@@ -9406,7 +9406,7 @@ module.factory(
          * </em>
          */
         "find": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/courts",
           method: "GET"
         },
@@ -10166,7 +10166,7 @@ module.factory(
          * </em>
          */
         "createMany": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/enactments",
           method: "POST"
         },
@@ -10305,7 +10305,7 @@ module.factory(
          * </em>
          */
         "find": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/enactments",
           method: "GET"
         },
@@ -10758,7 +10758,7 @@ module.factory(
          * </em>
          */
         "createMany": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/files",
           method: "POST"
         },
@@ -10897,7 +10897,7 @@ module.factory(
          * </em>
          */
         "find": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/files",
           method: "GET"
         },
@@ -11344,7 +11344,7 @@ module.factory(
 
         // INTERNAL. Use LawFirm.advocates() instead.
         "prototype$__get__advocates": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/lawFirms/:id/advocates",
           method: "GET"
         },
@@ -11439,7 +11439,7 @@ module.factory(
          * </em>
          */
         "createMany": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/lawFirms",
           method: "POST"
         },
@@ -11578,7 +11578,7 @@ module.factory(
          * </em>
          */
         "find": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/lawFirms",
           method: "GET"
         },
@@ -12344,7 +12344,7 @@ module.factory(
          * </em>
          */
         "createMany": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/legislationParts",
           method: "POST"
         },
@@ -12483,7 +12483,7 @@ module.factory(
          * </em>
          */
         "find": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/legislationParts",
           method: "GET"
         },
@@ -12723,7 +12723,7 @@ module.factory(
 
         // INTERNAL. Use PartType.legislationParts() instead.
         "::get::partType::legislationParts": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/partTypes/:id/legislationParts",
           method: "GET"
         },
@@ -12736,7 +12736,7 @@ module.factory(
 
         // INTERNAL. Use PartType.legislationParts.createMany() instead.
         "::createMany::partType::legislationParts": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/partTypes/:id/legislationParts",
           method: "POST"
         },
@@ -12988,7 +12988,7 @@ module.factory(
 
         // INTERNAL. Use PartType.legislationParts() instead.
         "prototype$__get__legislationParts": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/partTypes/:id/legislationParts",
           method: "GET"
         },
@@ -13083,7 +13083,7 @@ module.factory(
          * </em>
          */
         "createMany": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/partTypes",
           method: "POST"
         },
@@ -13222,7 +13222,7 @@ module.factory(
          * </em>
          */
         "find": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/partTypes",
           method: "GET"
         },
@@ -13972,7 +13972,7 @@ module.factory(
 
         // INTERNAL. Use Legislation.cases() instead.
         "prototype$__get__cases": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/legislations/:id/cases",
           method: "GET"
         },
@@ -13997,7 +13997,7 @@ module.factory(
 
         // INTERNAL. Use Legislation.caseLegislations() instead.
         "prototype$__get__caseLegislations": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/legislations/:id/caseLegislations",
           method: "GET"
         },
@@ -14092,7 +14092,7 @@ module.factory(
          * </em>
          */
         "createMany": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/legislations",
           method: "POST"
         },
@@ -14455,8 +14455,11 @@ module.factory(
          *
          * @param {Object=} parameters Request parameters.
          *
-         *   This method does not accept any parameters.
-         *   Supply an empty object or omit this argument altogether.
+         *  - `skip` – `{number=}` -
+         *
+         *  - `limit` – `{number=}` -
+         *
+         *  - `query` – `{string=}` -
          *
          * @param {function(Object,Object)=} successCb
          *   Success callback with two arguments: `value`, `responseHeaders`.
@@ -14471,6 +14474,8 @@ module.factory(
          * Data properties:
          *
          *  - `duplicates` – `{Object=}` -
+         *
+         *  - `uniqueCount` – `{Object=}` -
          */
         "getDuplicates": {
           url: urlBase + "/legislations/duplicates",
@@ -14508,6 +14513,74 @@ module.factory(
          */
         "namesakes": {
           url: urlBase + "/legislations/namesakes",
+          method: "GET"
+        },
+
+        /**
+         * @ngdoc method
+         * @name apiServices.Legislation#search
+         * @methodOf apiServices.Legislation
+         *
+         * @description
+         *
+         * <em>
+         * (The remote method definition does not provide any description.)
+         * </em>
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `term` – `{string=}` -
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * Data properties:
+         *
+         *  - `legislations` – `{Object=}` -
+         */
+        "search": {
+          url: urlBase + "/legislations/search",
+          method: "GET"
+        },
+
+        /**
+         * @ngdoc method
+         * @name apiServices.Legislation#flexisearch
+         * @methodOf apiServices.Legislation
+         *
+         * @description
+         *
+         * <em>
+         * (The remote method definition does not provide any description.)
+         * </em>
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `term` – `{string=}` -
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * Data properties:
+         *
+         *  - `legislations` – `{Object=}` -
+         */
+        "flexisearch": {
+          url: urlBase + "/legislations/search",
           method: "GET"
         },
 
@@ -14559,8 +14632,13 @@ module.factory(
          *
          * @param {Object=} parameters Request parameters.
          *
-         *   This method does not accept any parameters.
-         *   Supply an empty object or omit this argument altogether.
+         *  - `skip` – `{number=}` -
+         *
+         *  - `limit` – `{number=}` -
+         *
+         *  - `query` – `{string=}` -
+         *
+         *  - `type` – `{string=}` -
          *
          * @param {function(Object,Object)=} successCb
          *   Success callback with two arguments: `value`, `responseHeaders`.
@@ -14575,6 +14653,8 @@ module.factory(
          * Data properties:
          *
          *  - `legislations` – `{Object=}` -
+         *
+         *  - `count` – `{Object=}` -
          */
         "viewLegislations": {
           url: urlBase + "/legislations/notdeleted",
@@ -14678,7 +14758,7 @@ module.factory(
 
         // INTERNAL. Use Case.legislationsReferedTo() instead.
         "::get::case::legislationsReferedTo": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/cases/:id/legislationsReferedTo",
           method: "GET"
         },
@@ -14691,7 +14771,7 @@ module.factory(
 
         // INTERNAL. Use Case.legislationsReferedTo.createMany() instead.
         "::createMany::case::legislationsReferedTo": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/cases/:id/legislationsReferedTo",
           method: "POST"
         },
@@ -14737,7 +14817,7 @@ module.factory(
 
         // INTERNAL. Use Appuser.legislations() instead.
         "::get::appuser::legislations": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/appusers/:id/legislations",
           method: "GET"
         },
@@ -14750,7 +14830,7 @@ module.factory(
 
         // INTERNAL. Use Appuser.legislations.createMany() instead.
         "::createMany::appuser::legislations": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/appusers/:id/legislations",
           method: "POST"
         },
@@ -15647,7 +15727,7 @@ module.factory(
          * </em>
          */
         "createMany": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/legislationTypes",
           method: "POST"
         },
@@ -16239,7 +16319,7 @@ module.factory(
          * </em>
          */
         "createMany": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/works",
           method: "POST"
         },
@@ -16645,7 +16725,7 @@ module.factory(
 
         // INTERNAL. Use Case.workReferedTo() instead.
         "::get::case::workReferedTo": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/cases/:id/workReferedTo",
           method: "GET"
         },
@@ -16658,7 +16738,7 @@ module.factory(
 
         // INTERNAL. Use Case.workReferedTo.createMany() instead.
         "::createMany::case::workReferedTo": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/cases/:id/workReferedTo",
           method: "POST"
         },
@@ -16923,7 +17003,7 @@ module.factory(
          * </em>
          */
         "createMany": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/appearances",
           method: "POST"
         },
@@ -17329,7 +17409,7 @@ module.factory(
 
         // INTERNAL. Use Advocate.appearance() instead.
         "::get::advocate::appearance": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/advocates/:id/appearance",
           method: "GET"
         },
@@ -17342,7 +17422,7 @@ module.factory(
 
         // INTERNAL. Use Advocate.appearance.createMany() instead.
         "::createMany::advocate::appearance": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/advocates/:id/appearance",
           method: "POST"
         },
@@ -17601,7 +17681,7 @@ module.factory(
          * </em>
          */
         "createMany": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/plaintiffSynonyms",
           method: "POST"
         },
@@ -18199,7 +18279,7 @@ module.factory(
          * </em>
          */
         "createMany": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/defendantSynonyms",
           method: "POST"
         },
@@ -18797,7 +18877,7 @@ module.factory(
          * </em>
          */
         "createMany": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/jurisdictions",
           method: "POST"
         },
@@ -19395,7 +19475,7 @@ module.factory(
          * </em>
          */
         "createMany": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/locations",
           method: "POST"
         },
@@ -19993,7 +20073,7 @@ module.factory(
          * </em>
          */
         "createMany": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/courtDivisions",
           method: "POST"
         },
@@ -20378,7 +20458,7 @@ module.factory(
 
         // INTERNAL. Use Court.divisions() instead.
         "::get::court::divisions": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/courts/:id/divisions",
           method: "GET"
         },
@@ -20391,7 +20471,7 @@ module.factory(
 
         // INTERNAL. Use Court.divisions.createMany() instead.
         "::createMany::court::divisions": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/courts/:id/divisions",
           method: "POST"
         },
@@ -20778,7 +20858,7 @@ module.factory(
          * </em>
          */
         "prototype$__get__accessTokens": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/appusers/:id/accessTokens",
           method: "GET"
         },
@@ -20886,7 +20966,7 @@ module.factory(
 
         // INTERNAL. Use Appuser.cases() instead.
         "prototype$__get__cases": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/appusers/:id/cases",
           method: "GET"
         },
@@ -20911,7 +20991,7 @@ module.factory(
 
         // INTERNAL. Use Appuser.legislations() instead.
         "prototype$__get__legislations": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/appusers/:id/legislations",
           method: "GET"
         },
@@ -21006,7 +21086,7 @@ module.factory(
          * </em>
          */
         "createMany": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/appusers",
           method: "POST"
         },
@@ -22488,7 +22568,7 @@ module.factory(
          * </em>
          */
         "createMany": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/tables",
           method: "POST"
         },
@@ -23040,7 +23120,7 @@ module.factory(
          * </em>
          */
         "getContainers": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/containers",
           method: "GET"
         },
@@ -23792,7 +23872,7 @@ module.factory(
          * </em>
          */
         "createMany": {
-          isArray: true,
+          isArray: false,
           url: urlBase + "/dashboards",
           method: "POST"
         },

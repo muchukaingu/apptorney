@@ -5,6 +5,7 @@ angular
   .controller('NavigationController', ['LegislationType', '$scope', '$location', '$timeout', '$global', '$rootScope', 'Appuser', function (LegislationType, $scope, $location, $timeout, $global, $rootScope, Appuser) {
     var legislationTypes = [];
     var yearMenu = [];
+    var menu;
 
 
     for (var year = 1900; year<2018; year++){
@@ -41,99 +42,132 @@ angular
       function(errorResponse) { }
     );
 
-    $scope.menu = [
-        {
-            label: 'Dashboard',
-            iconClasses: 'fa fa-home',
-            url: '#/dashboard'
-        },
-        {
-            label:"Cases",
-            iconClasses:"fa fa-gavel",
-            url: '#/cases',
-            children: yearMenu
-        },
-        {
-            label:"Legislations",
-            iconClasses:"fa fa-file-text",
-            children: legislationTypes
-        },
 
-        {
-            label:"Work References",
-            iconClasses:"fa fa-book",
-            url: '#/works'
-        },
+    Appuser.getCurrent(function(res){
+      $scope.menu = [];
+      $rootScope.user = res;
 
-        {
-            label:"Admin",
-            iconClasses:"fa fa-cog",
-            children: [
-              {
-                label:"Areas of Law",
-                iconClasses:"fa fa-square",
-                url: '#/areas-of-law'
-              },
-              {
-                label:"Courts",
-                iconClasses:"fa fa-institution",
-                url: '#/courts'
-              },
-              {
-                label:"Jurisdictions",
-                iconClasses:"fa fa-file",
-                url: '#/jurisdictions'
-              },
-              {
-                label:"Locations",
-                iconClasses:"fa fa-map-marker",
-                url: '#/locations'
-              },
-              {
-                label:"Legislation Types",
-                iconClasses:"fa fa-bars",
-                url: '#/legislationtypes'
-              },
-              {
-                label:"Legislation Part Types",
-                iconClasses:"fa fa-th",
-                url: '#/legislationparttypes'
-              },
-              {
-                label:"Plaintiff Synonyms",
-                iconClasses:"fa fa-book",
-                url: '#/plaintiffsynonyms'
-              },
-              {
-                label:"Defendant Synonyms",
-                iconClasses:"fa fa-book",
-                url: '#/defendantsynonyms'
-              }
-            ]
-        },
-        {
-            label:"System Cleanup",
-            iconClasses:"fa fa-files-o",
-            url: '#/cleanup'
-        },
 
-        {
-            label:"Trash",
-            iconClasses:"fa fa-trash-o",
-            children: [
-              {
-                label:"Cases",
-                iconClasses:"fa fa-gavel",
-                url: '#/trash/cases'
-              },
-              {
+      if($rootScope.user){
+        console.info('User in Scope', $rootScope.user);
+
+
+          var unauthorised = [];
+
+         if($rootScope.user.userType == 4){
+            $scope.menu = [{
                 label:"Legislations",
                 iconClasses:"fa fa-file-text",
-                url: '#/trash/legislations'
-              }
-            ]
-        }
-    ];
+                children: legislationTypes
+            }];
+
+
+          }
+          else {
+            $scope.menu = [{
+                label: 'Dashboard',
+                iconClasses: 'fa fa-home',
+                url: '#/dashboard'
+            },
+            {
+                label:"Cases",
+                iconClasses:"fa fa-gavel",
+                url: '#/cases',
+                children: yearMenu
+            },
+            {
+                label:"Legislations",
+                iconClasses:"fa fa-file-text",
+                children: legislationTypes
+            },
+
+            {
+                label:"Work References",
+                iconClasses:"fa fa-book",
+                url: '#/works'
+            },
+
+            {
+                label:"Admin",
+                iconClasses:"fa fa-cog",
+                children: [
+                  {
+                    label:"Areas of Law",
+                    iconClasses:"fa fa-square",
+                    url: '#/areas-of-law'
+                  },
+                  {
+                    label:"Courts",
+                    iconClasses:"fa fa-institution",
+                    url: '#/courts'
+                  },
+                  {
+                    label:"Jurisdictions",
+                    iconClasses:"fa fa-file",
+                    url: '#/jurisdictions'
+                  },
+                  {
+                    label:"Locations",
+                    iconClasses:"fa fa-map-marker",
+                    url: '#/locations'
+                  },
+                  {
+                    label:"Legislation Types",
+                    iconClasses:"fa fa-bars",
+                    url: '#/legislationtypes'
+                  },
+                  {
+                    label:"Legislation Part Types",
+                    iconClasses:"fa fa-th",
+                    url: '#/legislationparttypes'
+                  },
+                  {
+                    label:"Plaintiff Synonyms",
+                    iconClasses:"fa fa-book",
+                    url: '#/plaintiffsynonyms'
+                  },
+                  {
+                    label:"Defendant Synonyms",
+                    iconClasses:"fa fa-book",
+                    url: '#/defendantsynonyms'
+                  }
+                ]
+            },
+            {
+                label:"System Cleanup",
+                iconClasses:"fa fa-files-o",
+                url: '#/cleanup'
+            },
+
+            {
+                label:"Trash",
+                iconClasses:"fa fa-trash-o",
+                children: [
+                  {
+                    label:"Cases",
+                    iconClasses:"fa fa-gavel",
+                    url: '#/trash/cases'
+                  },
+                  {
+                    label:"Legislations",
+                    iconClasses:"fa fa-file-text",
+                    url: '#/trash/legislations'
+                  }
+                ]
+            }
+          ];
+          }
+
+          console.info('menu', menu);
+
+          setParent ($scope.menu, null);
+
+      }
+
+
+    }, function(err){})
+
+
 
     var setParent = function (children, parent) {
         angular.forEach(children, function (child) {
@@ -154,7 +188,7 @@ angular
       }
     };
 
-    setParent ($scope.menu, null);
+
 
     $scope.openItems = [];
     $scope.selectedItems = [];
@@ -204,33 +238,7 @@ angular
       $scope.selectedFromNavMenu = false;
     });
 
-    Appuser.getCurrent(function(res){
-      $rootScope.user = res;
 
-
-      if($rootScope.user){
-        console.info('User in Scope', $rootScope.user);
-        var menu = $scope.menu;
-
-
-
-         if($rootScope.user.userType == 4){
-           angular.forEach(menu, function (child) {
-               if(child.label !== "Cases"){
-                 console.log(child.label);
-                 menu.splice(menu.indexOf(child),1);
-               }
-
-            });
-
-
-          }
-          //console.info('menu', menu);
-
-      }
-
-
-    }, function(err){})
 
 
 

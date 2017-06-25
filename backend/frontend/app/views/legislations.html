@@ -12,7 +12,12 @@
 
 </div>
 
+
+
 <div class="container-fluid" ng-controller="LegislationController">
+		<div ng-if="!opened" style="font-size:1.2em; position: absolute; margin-left:-150px; left:50%; top:50%; z-index:10000; background-color:#ffffff; padding:30px; border-radius:5px">
+			<i class='fa fa-fw fa-sun-o fa-spin'></i>Loading. Please wait...
+		</div>
     <div class="row" style="position: relative; top: -80px">
 	    <div class="col-xs-3 pull-right text-right" >
 		    <div class="btn-group" data-dropdown>
@@ -149,9 +154,7 @@
         </div>
       </div>
 			<ng-include src="'templates/legislation-modal.html'"></ng-include>
-			<div ng-if="!opened" style="font-size:1.2em; position: absolute; margin-left:-150px; left:50%; top:50%; z-index:10000; background-color:#ffffff; padding:30px; border-radius:5px">
-				<i class='fa fa-fw fa-sun-o fa-spin'></i>Loading. Please wait...
-			</div>
+
 
 			<pagination total-items="totalItems" max-size="10" items-per-page="numberOfItemsPerPage" ng-model="currentPage" ng-change="pageChanged()"></pagination>
 </div>

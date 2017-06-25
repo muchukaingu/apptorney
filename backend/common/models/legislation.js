@@ -96,6 +96,41 @@ module.exports = function(Legislation) {
 
 
   /**
+   * Create access token for the logged in user. This method can be overridden to
+   * customize how access tokens are generated
+   *
+   * @callback {Function} cb The callback function
+   */
+
+  Legislation.mergeDuplicates = function(id, cb){
+    var callback = function(error, legislation){
+      Legislation.find(
+        {where:{and:[{deleted:{neq:true}}, {legislationName:legislation.legislationName}]},
+        filter:{ include: {
+            relation: 'capturedBy', // include the owner object
+            scope: { // further filter the owner object
+              fields: ['firstName','lastName'] // only show two fields
+            }
+          },
+          fields:{
+            legislationParts:false,
+            enactment: false,
+            generalTitle: false,
+            preamble:false
+          }
+        },
+
+      },function(err, legislations){
+        cb(null,legislations);
+      });
+    }
+    Legislation.findById(id,function(err, legislation){
+      callback(null,legislation)
+    });
+  }
+
+
+  /**
    * Shows completion summary of legislations
    *
    * @callback {Function} cb The callback function

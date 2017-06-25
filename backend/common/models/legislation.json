@@ -34,10 +34,6 @@
       "type": "string",
       "required": false
     },
-    "parentLegislation": {
-      "type": "string",
-      "required": false
-    },
     "yearOfAmendment": {
       "type": "number",
       "required": false
@@ -80,11 +76,17 @@
       "type": "hasMany",
       "model": "caseLegislations",
       "foreignKey": "legislationId"
+    },
+    "parentLegislation":{
+      "type": "belongsTo",
+      "model": "legislation",
+      "foreignKey": "parentLegislation"
     }
+
 
   },
   "scope":{
-    "include":["caseLegislations", "capturedBy"]
+    "include":["caseLegislations", "capturedBy", "parentLegislation"]
   },
   "acls": [],
   "methods": {}

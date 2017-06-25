@@ -28,6 +28,7 @@ angular.module('apptorney')
     $scope.showLegislationPartTypes = false;
     $scope.saveStatus = 0;
     $scope.baseURL = baseURL.replace("/api/",""); //Hack to show images and file links in Legislation
+    $scope.parents = [];
 
 
 
@@ -338,6 +339,7 @@ angular.module('apptorney')
         $scope.loadLegislations("duplicates");
     }
     else {
+      console.log("No match", $location.path());
       $scope.loadLegislations("occurences");
     }
 
@@ -355,6 +357,7 @@ angular.module('apptorney')
 
 
     $scope.searchForLegislations = function(event){
+         console.log("Searching for ", $scope.query);
          $scope.legislations = [];
          $scope.returned = false;
          $scope.showLegislations = false;
@@ -367,10 +370,7 @@ angular.module('apptorney')
        console.log($scope.query);
 
 
-       if($location.path().indexOf("/cleanup") !== -1){
-         $scope.loadLegislations("duplicates");
-       }
-       else if($location.path().indexOf("/legislation") !== -1){
+       if($location.path().indexOf("/legislation") !== -1){
          //$scope.message = "Searching...";
          //$scope.loadLegislations("all");
          $scope.loadLegislations("search");
@@ -628,6 +628,19 @@ angular.module('apptorney')
       }
 
 
+    }
+
+    $scope.mergeDuplicates = function(){
+      console.log("Merging Duplicates For: ", $scope.legislation);
+    }
+
+    $scope.searchForParent = function(term){
+      Legislation.search({term:term},
+        function(res) {
+          $scope.parents = res.data.legislations;
+        },
+        function(errorResponse) { }
+      );
     }
 
 

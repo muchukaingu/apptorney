@@ -1164,12 +1164,24 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "        \t\t      </ul>\n" +
     "        \t\t    </div>\n" +
     "              </div>\n" +
+    "\n" +
     "              <div class=\"col-xs-12 col-md-6 form-group\">\n" +
     "                <input id=\"legislation-number\" name=\"legislation-number\" type=\"text\" class=\"form-control\" ng-model=\"legislation.legislationNumber\" ng-minlength=2 ng-focus placeholder=\"Legislation Number\"/>\n" +
     "                <div class=\"text-danger\" ng-show=\"form.$submitted && form.legislation-number.$invalid || form.legislation-number.$dirty && form.legislation-number.$invalid && !form.legislation-number.$focused\">\n" +
     "                  <span ng-show=\"form.legislation-number.$error.required\">Legislation Number is required</span>\n" +
     "                  <span ng-show=\"form.legislation-number.$error.minlength\">Legislation Number is required to be at least 2 characters long</span>\n" +
     "                </div>\n" +
+    "              </div>\n" +
+    "              <div class=\"col-xs-12 col-md-12 form-group\">\n" +
+    "                <ui-select ng-model=\"legislation.parentLegislation\" theme=\"selectize\">\n" +
+    "                    <ui-select-match placeholder=\"Search for Parent Legislation...\">{{$select.selected.legislationName}}</ui-select-match>\n" +
+    "                        <ui-select-choices repeat=\"parent.id as parent in parents track by $index\"\n" +
+    "                                 refresh=\"searchForParent($select.search)\"\n" +
+    "                                 refresh-delay=\"0\">\n" +
+    "                                 <span ng-bind-html=\"parent.legislationName | highlight: $select.search\"></span>\n" +
+    "                        </ui-select-choices>\n" +
+    "\n" +
+    "                </ui-select>\n" +
     "              </div>\n" +
     "            </div>\n" +
     "            <div class=\"row\">\n" +
@@ -1310,6 +1322,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "          </h4>\n" +
     "          <p  id=\"WelcomeMessage\" style=\"margin-left:8px; margin-top:-10px; font-size:1.2em\">\n" +
     "            <span style=\"font-weight:600\">{{legislation.legislationName}} </span><br />\n" +
+    "            <span style=\"font-weight:600\" class=\"text-warning\">Parent Legislation: {{legislation.parentLegislation.legislationName}} </span><br />\n" +
     "            Enacted by {{legislation.enactment}}<br />\n" +
     "            Assented on {{legislation.dateOfAssent | date:'MMMM d, yyyy'}}\n" +
     "          </p>\n" +
@@ -1385,7 +1398,14 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "      </div>\n" +
     "  </div>\n" +
     "  <div class=\"modal-footer\" style=\"\" ng-if=\"returned\">\n" +
-    "    <button id=\"submit\" ng-click=\"saveLegislation()\" type=\"submit\" class=\"btn btn-primary-alt pull-right\" ng-class=\"{'btn btn-primary-alt pull-right':(saveStatus==0), 'btn btn-primary pull-right':(saveStatus == 1), 'btn btn-success pull-right':(saveStatus == 2)} \"  style=\"width:120px\"><i ng-if=\"saveStatus==1\" class='fa fa-fw fa-sun-o fa-spin'></i>{{(saveStatus==0)?'Save Legislation':(saveStatus==1)?'Saving...':'Saved'}}</button>\n" +
+    "    <div class=\"row\">\n" +
+    "      <div class=\"col-xs-12 col-md-8\"></div>\n" +
+    "      <div class=\"col-xs-12 col-md-2\"><button id=\"submit\" ng-click=\"mergeDuplicates()\" type=\"submit\" class=\"btn btn-success-alt pull-right btn-block\" ><i ng-if=\"saveStatus==1\" class='fa fa-fw fa-sun-o fa-spin'></i>{{(saveStatus==0)?'Mark as Primary':(saveStatus==1)?'Marking...':'Primary'}}</button></div>\n" +
+    "      <div class=\"col-xs-12 col-md-2\"><button id=\"submit\" ng-click=\"saveLegislation()\" type=\"submit\" class=\"btn btn-primary-alt pull-right\" ng-class=\"{'btn btn-primary-alt btn-block pull-right':(saveStatus==0), 'btn btn-primary btn-block pull-right':(saveStatus == 1), 'btn btn-success btn-block pull-right':(saveStatus == 2)} \"><i ng-if=\"saveStatus==1\" class='fa fa-fw fa-sun-o fa-spin'></i>{{(saveStatus==0)?'Save Legislation':(saveStatus==1)?'Saving...':'Saved'}}</button></div>\n" +
+    "\n" +
+    "    </div>\n" +
+    "\n" +
+    "\n" +
     "  </div>\n" +
     "</div>\n"
   );

@@ -43,7 +43,7 @@
     "pnotify": "sciactive/pnotify#~2.0.1",
     "angular-datetime": "^3.2.2",
     "ng-focus-if": "^1.0.7",
-    "angular-ui-select": "^0.18.1",
+    "angular-ui-select": "^0.19.8",
     "selectize": "^0.12.1",
     "angular-drag-and-drop-lists": "^1.4.0",
     "angular-file-upload": "^2.3.4",

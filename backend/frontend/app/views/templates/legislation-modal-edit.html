@@ -34,12 +34,24 @@
         		      </ul>
         		    </div>
               </div>
+
               <div class="col-xs-12 col-md-6 form-group">
                 <input id="legislation-number" name="legislation-number" type="text" class="form-control" ng-model="legislation.legislationNumber" ng-minlength=2 ng-focus placeholder="Legislation Number"/>
                 <div class="text-danger" ng-show="form.$submitted && form.legislation-number.$invalid || form.legislation-number.$dirty && form.legislation-number.$invalid && !form.legislation-number.$focused">
                   <span ng-show="form.legislation-number.$error.required">Legislation Number is required</span>
                   <span ng-show="form.legislation-number.$error.minlength">Legislation Number is required to be at least 2 characters long</span>
                 </div>
+              </div>
+              <div class="col-xs-12 col-md-12 form-group">
+                <ui-select ng-model="legislation.parentLegislation" theme="selectize">
+                    <ui-select-match placeholder="Search for Parent Legislation...">{{$select.selected.legislationName}}</ui-select-match>
+                        <ui-select-choices repeat="parent.id as parent in parents track by $index"
+                                 refresh="searchForParent($select.search)"
+                                 refresh-delay="0">
+                                 <span ng-bind-html="parent.legislationName | highlight: $select.search"></span>
+                        </ui-select-choices>
+
+                </ui-select>
               </div>
             </div>
             <div class="row">

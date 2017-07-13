@@ -1400,7 +1400,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "  <div class=\"modal-footer\" style=\"\" ng-if=\"returned\">\n" +
     "    <div class=\"row\">\n" +
     "      <div class=\"col-xs-12 col-md-8\"></div>\n" +
-    "      <div class=\"col-xs-12 col-md-2\"><button id=\"submit\" ng-click=\"mergeDuplicates()\" type=\"submit\" class=\"btn btn-success-alt pull-right btn-block\" ><i ng-if=\"saveStatus==1\" class='fa fa-fw fa-sun-o fa-spin'></i>{{(saveStatus==0)?'Mark as Primary':(saveStatus==1)?'Marking...':'Primary'}}</button></div>\n" +
+    "    <div class=\"col-xs-12 col-md-2\"><button id=\"submit\" ng-click=\"mergeDuplicates()\" type=\"submit\" class=\"btn btn-primary-alt pull-right\" ng-class=\"{'btn btn-primary-alt btn-block pull-right':(mergeStatus==0), 'btn btn-primary btn-block pull-right':(mergeStatus == 1), 'btn btn-success btn-block pull-right':(mergeStatus == 2)} \"><i ng-if=\"mergeStatus==1\" class='fa fa-fw fa-sun-o fa-spin'></i>{{(mergeStatus==0)?'Mark as Primary':(mergeStatus==1)?'Marking...':'Primary'}}</button></div>\n" +
     "      <div class=\"col-xs-12 col-md-2\"><button id=\"submit\" ng-click=\"saveLegislation()\" type=\"submit\" class=\"btn btn-primary-alt pull-right\" ng-class=\"{'btn btn-primary-alt btn-block pull-right':(saveStatus==0), 'btn btn-primary btn-block pull-right':(saveStatus == 1), 'btn btn-success btn-block pull-right':(saveStatus == 2)} \"><i ng-if=\"saveStatus==1\" class='fa fa-fw fa-sun-o fa-spin'></i>{{(saveStatus==0)?'Save Legislation':(saveStatus==1)?'Saving...':'Saved'}}</button></div>\n" +
     "\n" +
     "    </div>\n" +

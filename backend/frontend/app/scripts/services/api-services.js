@@ -13964,6 +13964,18 @@ module.factory(
           method: "PUT"
         },
 
+        // INTERNAL. Use Legislation.parentLegislation() instead.
+        "prototype$__get__parentLegislation": {
+          url: urlBase + "/legislations/:id/parentLegislation",
+          method: "GET"
+        },
+
+        // INTERNAL. Use Legislation.legislationType() instead.
+        "prototype$__get__legislationType": {
+          url: urlBase + "/legislations/:id/legislationType",
+          method: "GET"
+        },
+
         // INTERNAL. Use Legislation.capturedBy() instead.
         "prototype$__get__capturedBy": {
           url: urlBase + "/legislations/:id/capturedBy",
@@ -14518,6 +14530,40 @@ module.factory(
 
         /**
          * @ngdoc method
+         * @name apiServices.Legislation#mergeDuplicates
+         * @methodOf apiServices.Legislation
+         *
+         * @description
+         *
+         * <em>
+         * (The remote method definition does not provide any description.)
+         * </em>
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{string=}` -
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * Data properties:
+         *
+         *  - `result` – `{Object=}` -
+         */
+        "mergeDuplicates": {
+          url: urlBase + "/legislations/merge",
+          method: "GET"
+        },
+
+        /**
+         * @ngdoc method
          * @name apiServices.Legislation#search
          * @methodOf apiServices.Legislation
          *
@@ -14580,7 +14626,7 @@ module.factory(
          *  - `legislations` – `{Object=}` -
          */
         "flexisearch": {
-          url: urlBase + "/legislations/search",
+          url: urlBase + "/legislations/flexisearch",
           method: "GET"
         },
 
@@ -14785,6 +14831,12 @@ module.factory(
         // INTERNAL. Use Case.legislationsReferedTo.count() instead.
         "::count::case::legislationsReferedTo": {
           url: urlBase + "/cases/:id/legislationsReferedTo/count",
+          method: "GET"
+        },
+
+        // INTERNAL. Use Legislation.parentLegislation() instead.
+        "::get::legislation::parentLegislation": {
+          url: urlBase + "/legislations/:id/parentLegislation",
           method: "GET"
         },
 
@@ -15593,6 +15645,78 @@ module.factory(
 
         /**
          * @ngdoc method
+         * @name apiServices.Legislation#parentLegislation
+         * @methodOf apiServices.Legislation
+         *
+         * @description
+         *
+         * Fetches belongsTo relation parentLegislation.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - PersistedModel id
+         *
+         *  - `refresh` – `{boolean=}` -
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `Legislation` object.)
+         * </em>
+         */
+        R.parentLegislation = function() {
+          var TargetResource = $injector.get("Legislation");
+          var action = TargetResource["::get::legislation::parentLegislation"];
+          return action.apply(R, arguments);
+        };
+
+        /**
+         * @ngdoc method
+         * @name apiServices.Legislation#legislationType
+         * @methodOf apiServices.Legislation
+         *
+         * @description
+         *
+         * Fetches belongsTo relation legislationType.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - PersistedModel id
+         *
+         *  - `refresh` – `{boolean=}` -
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `LegislationType` object.)
+         * </em>
+         */
+        R.legislationType = function() {
+          var TargetResource = $injector.get("LegislationType");
+          var action = TargetResource["::get::legislation::legislationType"];
+          return action.apply(R, arguments);
+        };
+
+        /**
+         * @ngdoc method
          * @name apiServices.Legislation#capturedBy
          * @methodOf apiServices.Legislation
          *
@@ -16075,6 +16199,12 @@ module.factory(
         "createChangeStream": {
           url: urlBase + "/legislationTypes/change-stream",
           method: "POST"
+        },
+
+        // INTERNAL. Use Legislation.legislationType() instead.
+        "::get::legislation::legislationType": {
+          url: urlBase + "/legislations/:id/legislationType",
+          method: "GET"
         },
       }
     );

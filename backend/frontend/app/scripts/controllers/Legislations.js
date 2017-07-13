@@ -29,6 +29,7 @@ angular.module('apptorney')
     $scope.saveStatus = 0;
     $scope.baseURL = baseURL.replace("/api/",""); //Hack to show images and file links in Legislation
     $scope.parents = [];
+    $scope.mergeStatus = 0;
 
 
 
@@ -327,16 +328,40 @@ angular.module('apptorney')
           );
         }
 
+        else if (type == "trash"){
+          console.log("Loading trash...");
+          Legislation.viewTrash(
+            function(res) {
+              console.log(res.data);
+              $scope.legislations = res.data.trash;
+              $scope.returned = true;
+              $scope.showLegislations = true;
+
+              $scope.completedLegislations = [];
+              $scope.legislations.forEach(function(legislation){
+                if (legislation.completionStatus == true){
+                  $scope.completedLegislations.push(legislation);
+                }
+              });
+
+            },
+            function(errorResponse) { }
+          );
+        }
+
 
     }
 
     console.log($location.path());
 
-    if($location.path().indexOf("/legislations") !== -1){
+    if($location.path().indexOf("/legislations/") !== -1){
         $scope.loadLegislations("all");
     }
     else if($location.path()=="/cleanup"){
         $scope.loadLegislations("duplicates");
+    }
+    else if($location.path()=="/trash/legislations"){
+        $scope.loadLegislations("trash");
     }
     else {
       console.log("No match", $location.path());
@@ -348,6 +373,9 @@ angular.module('apptorney')
       if ($location.path()=="/cleanup"){
         console.log("watching.....");
         $scope.loadLegislations("duplicates");
+      }
+      else if($location.path()=="/trash/legislations"){
+          $scope.loadLegislations("trash");
       }
       else if($location.path().indexOf("/legislations") !== -1){
         $scope.loadLegislations("all");
@@ -370,7 +398,7 @@ angular.module('apptorney')
        console.log($scope.query);
 
 
-       if($location.path().indexOf("/legislation") !== -1){
+       if($location.path().indexOf("/legislation") !== -1 && $scope.query !== undefined){
          //$scope.message = "Searching...";
          //$scope.loadLegislations("all");
          $scope.loadLegislations("search");
@@ -631,7 +659,21 @@ angular.module('apptorney')
     }
 
     $scope.mergeDuplicates = function(){
-      console.log("Merging Duplicates For: ", $scope.legislation);
+      $scope.mergeStatus = 1;
+
+      Legislation.mergeDuplicates({id:$scope.legislation.id},
+        function(res){
+          console.log("Merged Legislations For: " + $scope.legislation.legislationName);
+          $scope.mergeStatus = 2;
+          $scope.legislations = filterFilter($scope.legislations, $scope.legislation.id);
+          $scope.legislation = undefined;
+          
+
+        },
+        function(err){
+          console.error("Error occured");
+        }
+      )
     }
 
     $scope.searchForParent = function(term){

@@ -1,18 +1,9 @@
 <div id="page-heading">
-	<ol class="breadcrumb">
-        <li><a href="#/dashboard">Dashboard</a></li>
-        <li class="active">Legislations</li>
-    </ol>
-
-
-
-
-
-
-
+			<ol class="breadcrumb">
+			    <li><a href="#/dashboard">Dashboard</a></li>
+			    <li class="active">Legislations</li>
+			</ol>
 </div>
-
-
 
 <div class="container-fluid" ng-controller="LegislationController">
 		<div ng-if="!opened" style="font-size:1.2em; position: absolute; margin-left:-150px; left:50%; top:50%; z-index:10000; background-color:#ffffff; padding:30px; border-radius:5px">
@@ -55,28 +46,28 @@
             </div>
                 <table id="casesTbl" class="table table-condensed">
                   <tr style="background-color: #E8E9EC" class="tableHeaders">
-                    <td style="width:15%">
-	                    <a ng-click="sortType = 'legislationNumber'; sortReverse = !sortReverse">
-		                    Legislation Number
-		                    <span ng-show="sortType == 'legislationNumber' && !sortReverse" class="fa fa-caret-up"></span>
-		                    <span ng-show="sortType == 'legislationNumber' && sortReverse" class="fa fa-caret-down"></span>
-	                    </a>
+                <td style="width:15%">
+                  <a ng-click="sortType = 'legislationNumber'; sortReverse = !sortReverse">
+                    Legislation Number
+                    <span ng-show="sortType == 'legislationNumber' && !sortReverse" class="fa fa-caret-up"></span>
+                    <span ng-show="sortType == 'legislationNumber' && sortReverse" class="fa fa-caret-down"></span>
+                  </a>
 		            </td>
-                    <td style="width:50%">
-	                    <a ng-click="sortType = 'legislationName'; sortReverse = !sortReverse">
-		                    Legislation Name
-		                    <span ng-show="sortType == 'legislationName' && !sortReverse" class="fa fa-caret-up"></span>
-		                    <span ng-show="sortType == 'legislationName' && sortReverse" class="fa fa-caret-down"></span>
-	                    </a>
-					</td>
-                    <td style="width:15%">
-	                    <a ng-click="sortType = 'dateOfAssent'; sortReverse = !sortReverse">
-	                    	Year
-							<span ng-show="sortType == 'dateOfAssent' && !sortReverse" class="fa fa-caret-up"></span>
-							<span ng-show="sortType == 'dateOfAssent' && sortReverse" class="fa fa-caret-down"></span>
-	                    </a>
+                <td style="width:50%">
+                  <a ng-click="sortType = 'legislationName'; sortReverse = !sortReverse">
+                    Legislation Name
+                    <span ng-show="sortType == 'legislationName' && !sortReverse" class="fa fa-caret-up"></span>
+                    <span ng-show="sortType == 'legislationName' && sortReverse" class="fa fa-caret-down"></span>
+                  </a>
+								</td>
+                <td style="width:15%">
+                  <a ng-click="sortType = 'dateOfAssent'; sortReverse = !sortReverse">
+                  	Year
+										<span ng-show="sortType == 'dateOfAssent' && !sortReverse" class="fa fa-caret-up"></span>
+										<span ng-show="sortType == 'dateOfAssent' && sortReverse" class="fa fa-caret-down"></span>
+                  </a>
 
-	                </td>
+              	</td>
 
 
 									<td style="width:30%">

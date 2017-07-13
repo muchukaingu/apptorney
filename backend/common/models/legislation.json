@@ -81,12 +81,17 @@
       "type": "belongsTo",
       "model": "legislation",
       "foreignKey": "parentLegislation"
+    },
+    "legislationType":{
+      "type": "belongsTo",
+      "model": "legislationType",
+      "foreignKey": "legislationType"
     }
 
 
   },
   "scope":{
-    "include":["caseLegislations", "capturedBy", "parentLegislation"]
+    "include":["caseLegislations", "capturedBy", "parentLegislation", "legislationType"]
   },
   "acls": [],
   "methods": {}

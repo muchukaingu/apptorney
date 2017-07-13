@@ -103,25 +103,46 @@ module.exports = function(Legislation) {
    */
 
   Legislation.mergeDuplicates = function(id, cb){
+    var app = Legislation.app;
+    var CaseLegislations = app.models.caseLegislations;
+
+
     var callback = function(error, legislation){
-      Legislation.find(
-        {where:{and:[{deleted:{neq:true}}, {legislationName:legislation.legislationName}]},
-        filter:{ include: {
-            relation: 'capturedBy', // include the owner object
-            scope: { // further filter the owner object
-              fields: ['firstName','lastName'] // only show two fields
+
+      Legislation.find({
+          where:{and:[{deleted:{neq:true}}, {legislationName:legislation.legislationName}]},
+          filter:{include: {
+              relation: 'capturedBy', // include the owner object
+              scope: { // further filter the owner object
+                fields: ['firstName','lastName'] // only show two fields
+              }
+            },
+            fields:{
+              legislationParts:false,
+              enactment: false,
+              generalTitle: false,
+              preamble:false
             }
           },
-          fields:{
-            legislationParts:false,
-            enactment: false,
-            generalTitle: false,
-            preamble:false
-          }
         },
+        function(err, legislations){
 
-      },function(err, legislations){
-        cb(null,legislations);
+          for(var i=0; i<legislations.length; i++){
+            // console.log(legislations[i].legislationName);
+            if(String(legislations[i].id) !== String(legislation.id)){
+              console.log(legislations[i].id + " | " + String(legislation.id));
+              CaseLegislations.updateAll({legislationId:legislations[i].id},{legislationId:legislation.id}, function(err, info){
+                // console.log(info.count);
+                // console.log(info);
+              });
+
+              Legislation.updateAll({id:legislations[i].id},{deleted:true}, function(err, info){
+                console.log("deleted",info);
+              });
+            }
+
+          }
+          cb(null,legislation.id);
       });
     }
     Legislation.findById(id,function(err, legislation){
@@ -320,6 +341,14 @@ module.exports = function(Legislation) {
       http: {path: '/namesakes', verb: 'get'},
       accepts: {arg: 'id', type: 'string'},
       returns: {arg: 'namesakes', type: 'Object'}
+  });
+
+
+  Legislation.remoteMethod(
+    'mergeDuplicates',{
+      http: {path: '/merge', verb: 'get'},
+      accepts: {arg: 'id', type: 'string'},
+      returns: {arg: 'result', type: 'Object'}
   });
 
   Legislation.remoteMethod(

@@ -64,6 +64,15 @@
 		                    <span ng-show="sortType == 'name' && sortReverse" class="fa fa-caret-down"></span>
 	                    </a>
 					</td>
+
+					<td style="width:5%">
+						<a ng-click="sortType = 'dateOfAssent'; sortReverse = !sortReverse">
+							Legislation Type
+		<span ng-show="sortType == 'dateOfAssent' && !sortReverse" class="fa fa-caret-up"></span>
+		<span ng-show="sortType == 'dateOfAssent' && sortReverse" class="fa fa-caret-down"></span>
+						</a>
+
+				</td>
                     <td style="width:5%">
 	                    <a ng-click="sortType = 'coram'; sortReverse = !sortReverse">
 	                    	Year
@@ -72,6 +81,8 @@
 	                    </a>
 
 	                </td>
+
+
 
 
 									<td style="width:10%">
@@ -133,12 +144,20 @@
 
                     </td>
 
+										<td class="editables">
+
+											<span class="editable"  name="type" form="rowform" onchange="editItem(this,'itemID')" required>
+													{{legislation.legislationType.name}}
+											</span>
+										</td>
+
                     <td class="editables">
 
                       <span class="editable"  name="email" form="rowform" onchange="editItem(this,'itemID')" required>
 													{{legislation.dateOfAssent | date : "yyyy"}}
                       </span>
                     </td>
+
 
 										<td class="editables">
 

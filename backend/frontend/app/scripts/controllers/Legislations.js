@@ -666,8 +666,8 @@ angular.module('apptorney')
           console.log("Merged Legislations For: " + $scope.legislation.legislationName);
           $scope.mergeStatus = 2;
           $scope.legislations = filterFilter($scope.legislations, $scope.legislation.id);
-          $scope.legislation = undefined;
-          
+          //$scope.legislation = undefined;
+
 
         },
         function(err){

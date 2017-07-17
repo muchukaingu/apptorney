@@ -173,6 +173,9 @@ angular
         templateUrl: 'views/duplicates.html',
       })
       .when('/cleanup/:id', {
+        templateUrl: 'views/duplicates.html',
+      })
+      .when('/cleanup/detail/:legislationTypeID/:legislationID', {
         templateUrl: 'views/duplicates-detail.html',
       })
       .when('/courts', {

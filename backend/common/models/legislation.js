@@ -14,9 +14,10 @@ module.exports = function(Legislation) {
    *
    * @callback {Function} cb The callback function
    */
-  Legislation.getDuplicates = function(skip,limit, query, cb){
+  Legislation.getDuplicates = function(skip,limit, type, cb){
 
-    var query = query?{legislationName: {like: '.*'+ query +'.*', options:'i'}}:undefined;
+    //var query = query?{legislationName: {like: '.*'+ query +'.*', options:'i'}}:undefined;
+    var query = {legislationType: {like: '.*'+ type +'.*', options:'i'}};
     Legislation.find({order:'legislationName ASC', limit:200, skip:skip*200, where:{and:[{deleted:{neq:true}}, query]}}, function(err, legislations) {
       console.log("Duplicates",legislations.length)
       var duplicates = [];
@@ -67,10 +68,18 @@ module.exports = function(Legislation) {
    * @callback {Function} cb The callback function
    */
 
-  Legislation.namesakes = function(id, cb){
+  Legislation.namesakes = function(id, type, cb){
+    var query = {legislationType: {like: '.*'+ type +'.*', options:'i'}};
+
     var callback = function(error, legislation){
+      var year = new Date(legislation.dateOfAssent).getFullYear();
+
+      var startDate = new Date(year+'-01-01T24:00:00.000Z');
+      var endDate = new Date(year+'-12-31T23:59:00.000Z');
+      var yearQuery = {dateOfAssent: {between: [startDate,endDate]}};
+      console.log(yearQuery);
       Legislation.find(
-        {where:{and:[{deleted:{neq:true}}, {legislationName:legislation.legislationName}]},
+        {where:{and:[{deleted:{neq:true}}, {legislationName:legislation.legislationName}, query, yearQuery]},
         filter:{ include: {
             relation: 'capturedBy', // include the owner object
             scope: { // further filter the owner object
@@ -328,7 +337,7 @@ module.exports = function(Legislation) {
       accepts:[
         {arg: 'skip', type: 'number'},
         {arg: 'limit', type: 'number'},
-        {arg: 'query', type: 'string'}
+        {arg: 'type', type: 'string'}
       ],
       returns: [
         {arg: 'duplicates', type: 'Object'},
@@ -339,7 +348,10 @@ module.exports = function(Legislation) {
   Legislation.remoteMethod(
     'namesakes',{
       http: {path: '/namesakes', verb: 'get'},
-      accepts: {arg: 'id', type: 'string'},
+      accepts:[
+        {arg: 'id', type: 'string'},
+        {arg: 'type', type: 'string'}
+      ],
       returns: {arg: 'namesakes', type: 'Object'}
   });
 

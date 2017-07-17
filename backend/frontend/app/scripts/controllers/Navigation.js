@@ -4,6 +4,7 @@ angular
   .module('theme.navigation-controller', [])
   .controller('NavigationController', ['LegislationType', '$scope', '$location', '$timeout', '$global', '$rootScope', 'Appuser', function (LegislationType, $scope, $location, $timeout, $global, $rootScope, Appuser) {
     var legislationTypes = [];
+    var legislationTypesForCleanup = [];
     var yearMenu = [];
     var menu;
 
@@ -36,6 +37,12 @@ angular
             label: type.name,
             iconClasses: "fa fa-file",
             url:"#/legislations/"+type.id
+          });
+
+          legislationTypesForCleanup.push({
+            label: type.name,
+            iconClasses: "fa fa-file",
+            url:"#/cleanup/"+type.id
           })
         })
       },
@@ -136,7 +143,7 @@ angular
             {
                 label:"System Cleanup",
                 iconClasses:"fa fa-files-o",
-                url: '#/cleanup'
+                children: legislationTypesForCleanup
             },
 
             {

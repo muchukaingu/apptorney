@@ -288,7 +288,7 @@ angular.module('apptorney')
           );
         }
         else if (type=="duplicates"){
-          Legislation.getDuplicates({limit:100,skip:$scope.currentPage-1, query:$scope.query},
+          Legislation.getDuplicates({limit:100,skip:$scope.currentPage-1, /*query:$scope.query*/ type:$routeParams.id},
             function(res) {
               $scope.legislations = res.data.duplicates;
               $scope.numberOfItemsPerPage = res.data.duplicates.length;
@@ -309,7 +309,7 @@ angular.module('apptorney')
         }
 
         else if(type=="occurences"){
-          Legislation.namesakes({id: $routeParams.id},
+          Legislation.namesakes({id: $routeParams.legislationID, type:$routeParams.legislationTypeID},
             function(res) {
               console.log(res.data);
               $scope.legislations = res.data.namesakes;
@@ -357,7 +357,10 @@ angular.module('apptorney')
     if($location.path().indexOf("/legislations/") !== -1){
         $scope.loadLegislations("all");
     }
-    else if($location.path()=="/cleanup"){
+    else if($location.path().indexOf("/cleanup/detail") !== -1){
+        $scope.loadLegislations("occurences");
+    }
+    else if($location.path().indexOf("/cleanup/") !== -1){
         $scope.loadLegislations("duplicates");
     }
     else if($location.path()=="/trash/legislations"){
@@ -609,7 +612,7 @@ angular.module('apptorney')
     }
 
     $scope.showDuplicatesDetail = function(legislation){
-      $location.path('/cleanup/'+legislation.id);
+      $location.path('/cleanup/detail/'+legislation.legislationType.id+'/'+legislation.id);
     }
 
     $scope.uploadTable = function($files){

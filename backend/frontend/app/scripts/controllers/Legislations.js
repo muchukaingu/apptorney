@@ -373,7 +373,7 @@ angular.module('apptorney')
 
     $scope.$watch("currentPage", function(){
       $scope.legislations = [];
-      if ($location.path()=="/cleanup"){
+      if($location.path().indexOf("/cleanup/") !== -1){
         console.log("watching.....");
         $scope.loadLegislations("duplicates");
       }
@@ -710,7 +710,7 @@ angular.module('apptorney')
                 function(res){
                   console.log("Restored: ", res);
                   $scope.legislations.splice($scope.legislations.indexOf(legislation),1);
-                  
+
                 }
               );
               console.log('This was logged in the callback: ' + result);

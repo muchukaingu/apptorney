@@ -9,6 +9,8 @@ module.exports = function(Legislation) {
 
   // MODEL FUNCTIONS ##############################################################################################
 
+
+
   /**
    * Lists all duplicated legislations with the number of duplicate occurences
    *

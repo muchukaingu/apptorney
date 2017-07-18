@@ -14471,7 +14471,7 @@ module.factory(
          *
          *  - `limit` – `{number=}` -
          *
-         *  - `query` – `{string=}` -
+         *  - `type` – `{string=}` -
          *
          * @param {function(Object,Object)=} successCb
          *   Success callback with two arguments: `value`, `responseHeaders`.
@@ -14508,6 +14508,8 @@ module.factory(
          * @param {Object=} parameters Request parameters.
          *
          *  - `id` – `{string=}` -
+         *
+         *  - `type` – `{string=}` -
          *
          * @param {function(Object,Object)=} successCb
          *   Success callback with two arguments: `value`, `responseHeaders`.
@@ -14559,6 +14561,40 @@ module.factory(
          */
         "mergeDuplicates": {
           url: urlBase + "/legislations/merge",
+          method: "GET"
+        },
+
+        /**
+         * @ngdoc method
+         * @name apiServices.Legislation#restoreFromTrash
+         * @methodOf apiServices.Legislation
+         *
+         * @description
+         *
+         * <em>
+         * (The remote method definition does not provide any description.)
+         * </em>
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{string=}` -
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * Data properties:
+         *
+         *  - `result` – `{Object=}` -
+         */
+        "restoreFromTrash": {
+          url: urlBase + "/legislations/restore",
           method: "GET"
         },
 

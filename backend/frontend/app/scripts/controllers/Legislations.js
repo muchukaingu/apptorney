@@ -688,6 +688,47 @@ angular.module('apptorney')
       );
     }
 
+    $scope.restoreLegislation = function(legislation){
+
+
+      bootbox.confirm({
+         message: "Are you sure you want to restore the legislation <strong>" + legislation.legislationName + "</strong>?",
+         buttons: {
+             confirm: {
+                 label: 'Yes',
+                 className: 'btn-success'
+             },
+             cancel: {
+                 label: 'Cancel',
+                 className: 'btn-primary'
+             }
+         },
+         callback: function (result) {
+
+            if (result == true){
+              Legislation.restoreFromTrash({id:legislation.id},
+                function(res){
+                  console.log("Restored: ", res);
+                  $scope.legislations.splice($scope.legislations.indexOf(legislation),1);
+                  
+                }
+              );
+              console.log('This was logged in the callback: ' + result);
+            }
+            else {
+              console.log("deletion cancelled");
+            }
+
+
+         }
+     });
+
+
+
+
+
+    }
+
 
 
   });

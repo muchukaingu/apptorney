@@ -18,7 +18,7 @@ module.exports = function(Legislation) {
 
     //var query = query?{legislationName: {like: '.*'+ query +'.*', options:'i'}}:undefined;
     var query = {legislationType: {like: '.*'+ type +'.*', options:'i'}};
-    Legislation.find({order:'legislationName ASC', limit:200, skip:skip*200, where:{and:[{deleted:{neq:true}}, query]}}, function(err, legislations) {
+    Legislation.find({order:['legislationName ASC', 'dateOfAssent ASC'], limit:200, skip:skip*200, where:{and:[{deleted:{neq:true}}, query]}}, function(err, legislations) {
       console.log("Duplicates",legislations.length)
       var duplicates = [];
       function callback(err, res){
@@ -42,11 +42,16 @@ module.exports = function(Legislation) {
       }
 
       for (var i = 0; i < arr.length; i++) {
+          // var prevDate = (i==0)?(new Date(arr[i].dateOfAssent).getFullYear()):(new Date(arr[i - 1].dateOfAssent).getFullYear());
+          // var currDate = new Date(arr[i].dateOfAssent).getFullYear();
+          // console.log(currDate);
+
           if (i == 0){
             distinctIndexArray.push(arr[i].legislationName);
             distinctArray.push(arr[i]);
           }
-          else if (arr[i - 1].legislationName !== arr[i].legislationName) {
+          else if (arr[i - 1].legislationName !== arr[i].legislationName /*&& prevDate !== currDate*/ ) {
+
               distinctIndexArray.push(arr[i].legislationName);
               distinctArray.push(arr[i]);
           }
@@ -156,6 +161,21 @@ module.exports = function(Legislation) {
     }
     Legislation.findById(id,function(err, legislation){
       callback(null,legislation)
+    });
+  }
+
+
+  /**
+   * Restore deleted items from trash
+   *
+   *
+   * @callback {Function} cb The callback function
+   */
+
+  Legislation.restoreFromTrash = function(id, cb){
+    Legislation.updateAll({id:id},{deleted:false}, function(err, info){
+      console.log("Restored from trash: ",info);
+      cb(null, info);
     });
   }
 
@@ -359,6 +379,13 @@ module.exports = function(Legislation) {
   Legislation.remoteMethod(
     'mergeDuplicates',{
       http: {path: '/merge', verb: 'get'},
+      accepts: {arg: 'id', type: 'string'},
+      returns: {arg: 'result', type: 'Object'}
+  });
+
+  Legislation.remoteMethod(
+    'restoreFromTrash',{
+      http: {path: '/restore', verb: 'get'},
       accepts: {arg: 'id', type: 'string'},
       returns: {arg: 'result', type: 'Object'}
   });

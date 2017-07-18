@@ -150,6 +150,10 @@ module.exports = function(Legislation) {
                 // console.log(info);
               });
 
+              Legislation.updateAll({parentLegislation:legislations[i].id},{parentLegislation:legislation.id}, function(err, info){
+                console.log("Updated Parent Legislation",info);
+              });
+
               Legislation.updateAll({id:legislations[i].id},{deleted:true}, function(err, info){
                 console.log("deleted",info);
               });

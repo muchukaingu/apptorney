@@ -185,6 +185,71 @@ module.exports = function(Legislation) {
     });
   }
 
+  /**
+   * Restore deleted items from trash
+   *
+   *
+   * @callback {Function} cb The callback function
+   */
+  Legislation.repareLegislationType = function (cb){
+    var whereClause = {legislationType:"577d66caa856154683e6c2c0"};
+    var whereClause = {and:[{deleted:{neq:true}},{legislationType:{like: '.*'+ "577d66caa856154683e6c2c0" +'.*', options:'i'} }]};
+    Legislation.updateAll({'legislationType.id':"58f6213db9aab46a3d769e73"},{legislationType:"58f6213db9aab46a3d769e73"}, function(err, legislations){
+      console.log("To repare: ",legislations.length);
+      // cb(null, legislations.length);
+    });
+
+    Legislation.updateAll({'legislationType.id':"577d66e6a856154683e6c2c1"},{legislationType:"577d66e6a856154683e6c2c1"}, function(err, legislations){
+      console.log("To repare: ",legislations.length);
+      // cb(null, legislations.length);
+    });
+
+    Legislation.updateAll({'legislationType.id':"577d66fca856154683e6c2c2"},{legislationType:"577d66fca856154683e6c2c2"}, function(err, legislations){
+      console.log("To repare: ",legislations.length);
+      // cb(null, legislations.length);
+    });
+
+    Legislation.updateAll({'legislationType.id':"57f5284b070211bef785a619"},{legislationType:"57f5284b070211bef785a619"}, function(err, legislations){
+      console.log("To repare: ",legislations.length);
+      // cb(null, legislations.length);
+    });
+
+    Legislation.updateAll({'legislationType.id':"591c4ac83af81692cc952f3c"},{legislationType:"591c4ac83af81692cc952f3c"}, function(err, legislations){
+      console.log("To repare: ",legislations.length);
+      // cb(null, legislations.length);
+    });
+
+    Legislation.updateAll({'legislationType.id':"577d66caa856154683e6c2c0"},{legislationType:"577d66caa856154683e6c2c0"}, function(err, legislations){
+      console.log("To repare: ",legislations.length);
+      // cb(null, legislations.length);
+    });
+
+
+
+    Legislation.find({where:whereClause}, function(err, legislations){
+      console.log("Acts: ", legislations.length);
+      var legislationType = legislations[0];
+      console.log("Legislation Type: ",legislationType.legislationType);
+    });
+
+
+    var legislationCollection = Legislation.getDataSource().connector.collection("legislation");
+    legislationCollection.distinct('legislationType', function(err, types) {
+      if(err){
+
+      }
+      else{
+        // var count = legislations.length;
+        // cb(null, data, count)
+        console.log("Types: ", types)
+        var strange = types[4];
+        var normal = types[0];
+        console.log(strange + "|"+normal);
+      }
+
+    });
+  }
+
 
   /**
    * Shows completion summary of legislations
@@ -436,6 +501,13 @@ module.exports = function(Legislation) {
     'viewTrash',{
       http: {path: '/trash', verb: 'get'},
       returns: {arg: 'trash', type: 'Object'}
+  });
+
+
+  Legislation.remoteMethod(
+    'repareLegislationType',{
+      http: {path: '/repare', verb: 'get'},
+      returns: {arg: 'info', type: 'Object'}
   });
 
 

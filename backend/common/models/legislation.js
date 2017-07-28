@@ -192,7 +192,7 @@ module.exports = function(Legislation) {
    * @callback {Function} cb The callback function
    */
   Legislation.repareLegislationType = function (cb){
-    var whereClause = {legislationType:"577d66caa856154683e6c2c0"};
+    // var whereClause = {legislationType:"577d66caa856154683e6c2c0"};
     var whereClause = {and:[{deleted:{neq:true}},{legislationType:{like: '.*'+ "577d66caa856154683e6c2c0" +'.*', options:'i'} }]};
     Legislation.updateAll({'legislationType.id':"58f6213db9aab46a3d769e73"},{legislationType:"58f6213db9aab46a3d769e73"}, function(err, legislations){
       console.log("To repare: ",legislations.length);
@@ -221,10 +221,10 @@ module.exports = function(Legislation) {
 
     Legislation.updateAll({'legislationType.id':"577d66caa856154683e6c2c0"},{legislationType:"577d66caa856154683e6c2c0"}, function(err, legislations){
       console.log("To repare: ",legislations.length);
-      // cb(null, legislations.length);
+      cb(null, legislations.length);
     });
 
-
+    /*
 
     Legislation.find({where:whereClause}, function(err, legislations){
       console.log("Acts: ", legislations.length);
@@ -248,6 +248,8 @@ module.exports = function(Legislation) {
       }
 
     });
+
+    */
   }
 
 

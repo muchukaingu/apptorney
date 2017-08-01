@@ -73,14 +73,14 @@
 
 	                </td>
 
-                <!--td style="width:15%">
+                <td style="width:15%">
                   <a ng-click="sortType = 'duplicateCount'; sortReverse = !sortReverse">
                     Occurences
           <span ng-show="sortType == 'duplicateCount' && !sortReverse" class="fa fa-caret-up"></span>
           <span ng-show="sortType == 'duplicateCount' && sortReverse" class="fa fa-caret-down"></span>
                   </a>
 
-              </td-->
+              </td>
 
 
 
@@ -92,7 +92,7 @@
                       <td class="editables">
 
                       <span class="editable"  name="applicationID" form="rowform" onchange="editItem(this,'itemID')"
-                        required>{{legislation.legislationNumber}}
+                        required>{{legislation.fields.legislationNumber}}
 
                       </span>
 
@@ -101,7 +101,7 @@
                     <td class="editables">
 
                       <span class="editable" name="applicantname" form="rowform" onchange="editItem(this,'itemID')"
-                        required>{{legislation.legislationName}}
+                        required>{{legislation.fields.legislationName}}
 
                       </span>
 
@@ -110,17 +110,17 @@
                     <td class="editables">
 
                       <span class="editable"  name="email" form="rowform" onchange="editItem(this,'itemID')" required>
-													{{legislation.dateOfAssent | date : "yyyy"}}
+													{{legislation.fields.year}}
                       </span>
                     </td>
 
 
-                    <!--td class="editables">
+                    <td class="editables">
 
                       <span class="editable"  name="email" form="rowform" onchange="editItem(this,'itemID')" required>
-													{{legislation.duplicateCount}}
+													{{legislation.count}}
                       </span>
-                    </td-->
+                    </td>
 
                   </tr>
 

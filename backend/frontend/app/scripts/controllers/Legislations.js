@@ -309,7 +309,7 @@ angular.module('apptorney')
         }
 
         else if(type=="occurences"){
-          Legislation.namesakes({id: $routeParams.legislationID, type:$routeParams.legislationTypeID},
+          Legislation.namesakes({id: JSON.stringify($rootScope.legislation.uniqueIds), type:$routeParams.legislationTypeID},
             function(res) {
               console.log(res.data);
               $scope.legislations = res.data.namesakes;
@@ -612,7 +612,8 @@ angular.module('apptorney')
     }
 
     $scope.showDuplicatesDetail = function(legislation){
-      $location.path('/cleanup/detail/'+legislation.legislationType.id+'/'+legislation.id);
+      $rootScope.legislation = legislation;
+      $location.path('/cleanup/detail/1/1');
     }
 
     $scope.uploadTable = function($files){

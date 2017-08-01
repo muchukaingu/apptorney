@@ -375,10 +375,11 @@ module.exports = function(Legislation) {
    *
    * @callback {Function} cb The callback function
    */
-  Legislation.search = function(term, cb){
+  Legislation.search = function(term, type, cb){
     var legislationCollection = Legislation.getDataSource().connector.collection("legislation");
     legislationCollection.aggregate([
-        {$match:{$text:{$search:"\""+term+"\""}}},
+        {$match: {$and:[{ "legislationType": { $eq: type } }, { "deleted": { $eq: false } }, {$text:{$search:"\""+term+"\""}}]} },
+        //{$match:{$text:{$search:"\""+term+"\""}}},
         {
            $lookup:{
                  from: "appuser",
@@ -541,7 +542,10 @@ module.exports = function(Legislation) {
   Legislation.remoteMethod(
     'search',{
       http: {path: '/search', verb: 'get'},
-      accepts: {arg: 'term', type: 'string'},
+      accepts:[
+        {arg: 'term', type: 'string'},
+        {arg: 'type', type: 'string'}
+      ],
       returns: {arg: 'legislations', type: 'Object'}
   });
 

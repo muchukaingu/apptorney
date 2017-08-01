@@ -268,7 +268,7 @@ angular.module('apptorney')
           );
         }
         else if(type=="search"){
-          Legislation.search({term:$scope.query},
+          Legislation.search({term:$scope.query, type:$routeParams.id},
             function(res) {
               $scope.legislations = res.data.legislations;
               $scope.numberOfItemsPerPage = 50;

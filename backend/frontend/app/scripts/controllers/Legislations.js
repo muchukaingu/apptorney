@@ -357,8 +357,9 @@ angular.module('apptorney')
     if($location.path().indexOf("/legislations/") !== -1){
         $scope.loadLegislations("all");
     }
-    else if($location.path().indexOf("/cleanup/detail") !== -1){
+    else if($location.path().indexOf("/cleanup/detail/1/1") !== -1){
         $scope.loadLegislations("occurences");
+
     }
     else if($location.path().indexOf("/cleanup/") !== -1){
         $scope.loadLegislations("duplicates");
@@ -373,11 +374,11 @@ angular.module('apptorney')
 
     $scope.$watch("currentPage", function(){
       $scope.legislations = [];
-      if($location.path().indexOf("/cleanup/") !== -1){
+      /*if($location.path().indexOf("/cleanup/") !== -1){
         console.log("watching.....");
         $scope.loadLegislations("duplicates");
-      }
-      else if($location.path()=="/trash/legislations"){
+      }*/
+      if($location.path()=="/trash/legislations"){
           $scope.loadLegislations("trash");
       }
       else if($location.path().indexOf("/legislations") !== -1){

@@ -20,7 +20,7 @@ module.exports = function(Legislation) {
       { "$match": {$and:[{ "legislationType": { $eq: type } }, { "deleted": { $eq: false } }]} },
       {
           "$group": {
-              "_id": { "legislationName": "$legislationName", "legislationNumber": "$legislationNumber", "year":{$year:"$dateOfAssent"}},
+              "_id": { "legislationName": {$toUpper:"$legislationName"}, "legislationNumber": "$legislationNumber", "year":{$year:"$dateOfAssent"}},
               "uniqueIds": { "$addToSet": "$_id" },
               "count": { "$sum": 1 }
           }
@@ -141,7 +141,7 @@ module.exports = function(Legislation) {
       },
 
     },function(err, legislations){
-      
+
       cb(null,legislations);
     });
 

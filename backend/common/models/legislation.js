@@ -378,7 +378,7 @@ module.exports = function(Legislation) {
   Legislation.search = function(term, type, cb){
     var legislationCollection = Legislation.getDataSource().connector.collection("legislation");
     legislationCollection.aggregate([
-        {$match: {$and:[{ "legislationType": { $eq: type } }, { "deleted": { $eq: false } }, {$text:{$search:"\""+term+"\""}}]} },
+        {$match: {$and:[{ "legislationType": { $eq: type } }, { "deleted": { $eq: !true } }, {$text:{$search:"\""+term+"\""}}]} },
         //{$match:{$text:{$search:"\""+term+"\""}}},
         {
            $lookup:{
@@ -479,7 +479,7 @@ module.exports = function(Legislation) {
    * @callback {Function} cb The callback function
    */
   Legislation.viewTrash = function(cb){
-    var callback = function(error, legislations){
+    /*var callback = function(error, legislations){
       var deleted = [];
       for (var i = 0; i < legislations.length; i++){
         if(legislations[i].deleted == true){
@@ -491,10 +491,10 @@ module.exports = function(Legislation) {
       }
 
 
-    }
+    }*/
 
     Legislation.find({where:{deleted:true}} ,function(err, legislations){
-      callback(null,legislations);
+      cb(null,legislations);
     });
   }
 

@@ -444,6 +444,9 @@ angular.module('apptorney')
           }
           }},
           function(list) {
+            angular.forEach($scope.legislation, function(value, key){
+              $scope.legislation[key] = undefined;
+            });
 
             var instance = list.data[0];
 

@@ -1224,17 +1224,15 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                </div>\n" +
     "              </div>\n" +
     "              <div class=\"col-xs-12 col-md-4 form-group\" ng-if = \"selectedType !=='Schedule'\">\n" +
-    "                <input id=\"volumeNumber\" name=\"volumeNumber\" type=\"text\" class=\"form-control\" ng-model=\"legislation.volumeNumber\" ng-minlength=2 ng-focus placeholder=\"Volume Number\" />\n" +
+    "                <input id=\"volumeNumber\" name=\"volumeNumber\" type=\"text\" class=\"form-control\" ng-model=\"legislation.volumeNumber\" ng-focus placeholder=\"Volume Number\" />\n" +
     "                <div class=\"text-danger\" ng-show=\"form.$submitted && form.volumeNumber.$invalid || form.volumeNumber.$dirty && form.volumeNumber.$invalid && !form.volumeNumber.$focused\">\n" +
     "                  <span ng-show=\"form.volumeNumber.$error.required\">Volume Number is required</span>\n" +
-    "                  <span ng-show=\"form.volumeNumber.$error.minlength\">Volume Number is required to be at least 2 characters long</span>\n" +
     "                </div>\n" +
     "              </div>\n" +
     "              <div class=\"col-xs-12 col-md-4 form-group\" ng-if = \"selectedType !=='Schedule'\">\n" +
-    "                <input id=\"chapter-number\" name=\"chapter-number\" type=\"text\" class=\"form-control\" ng-model=\"legislation.chapterNumber\" ng-minlength=2 ng-focus placeholder=\"Chapter Number\"/>\n" +
+    "                <input id=\"chapter-number\" name=\"chapter-number\" type=\"text\" class=\"form-control\" ng-model=\"legislation.chapterNumber\" ng-focus placeholder=\"Chapter Number\"/>\n" +
     "                <div class=\"text-danger\" ng-show=\"form.$submitted && form.chapter-number.$invalid || form.chapter-number.$dirty && form.chapter-number.$invalid && !form.chapter-number.$focused\">\n" +
     "                  <span ng-show=\"form.chapter-number.$error.required\">Chapter Number is required</span>\n" +
-    "                  <span ng-show=\"form.chapter-number.$error.minlength\">Chapter Number is required to be at least 2 characters long</span>\n" +
     "                </div>\n" +
     "              </div>\n" +
     "            </div>\n" +

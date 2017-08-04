@@ -1166,10 +1166,9 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "              </div>\n" +
     "\n" +
     "              <div class=\"col-xs-12 col-md-6 form-group\">\n" +
-    "                <input id=\"legislation-number\" name=\"legislation-number\" type=\"text\" class=\"form-control\" ng-model=\"legislation.legislationNumber\" ng-minlength=2 ng-focus placeholder=\"Legislation Number\"/>\n" +
+    "                <input id=\"legislation-number\" name=\"legislation-number\" type=\"text\" class=\"form-control\" ng-model=\"legislation.legislationNumber\" ng-focus placeholder=\"Legislation Number\"/>\n" +
     "                <div class=\"text-danger\" ng-show=\"form.$submitted && form.legislation-number.$invalid || form.legislation-number.$dirty && form.legislation-number.$invalid && !form.legislation-number.$focused\">\n" +
     "                  <span ng-show=\"form.legislation-number.$error.required\">Legislation Number is required</span>\n" +
-    "                  <span ng-show=\"form.legislation-number.$error.minlength\">Legislation Number is required to be at least 2 characters long</span>\n" +
     "                </div>\n" +
     "              </div>\n" +
     "              <div class=\"col-xs-12 col-md-12 form-group\">\n" +

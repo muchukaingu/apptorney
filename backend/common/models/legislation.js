@@ -461,7 +461,7 @@ module.exports = function(Legislation) {
 
     }
 
-    Legislation.find({
+    Legislation.find({ 
       order:'legislationName ASC',
       limit:200,
       skip:skip*200,
@@ -472,7 +472,7 @@ module.exports = function(Legislation) {
             fields: ['id'] // only show two fields
           }
       }
-      
+
       },
       function(err, legislations) {
         callback(null,legislations);

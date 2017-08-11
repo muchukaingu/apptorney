@@ -288,7 +288,7 @@ angular.module('apptorney')
         console.log($location.path())
 
         if ($location.path().indexOf('/legislations/') !== -1) {
-            $scope.loadLegislations('all')
+            //$scope.loadLegislations('all')
         } else if ($location.path().indexOf('/cleanup/detail/1/1') !== -1) {
             $scope.loadLegislations('occurences')
         } else if ($location.path().indexOf('/cleanup/') !== -1) {
@@ -327,6 +327,7 @@ angular.module('apptorney')
             if ($location.path().indexOf('/legislation') !== -1 && $scope.query !== undefined) {
                 // $scope.message = "Searching..."
                 // $scope.loadLegislations("all")
+                console.log("Searching...");
                 $scope.loadLegislations('search')
             }
         })

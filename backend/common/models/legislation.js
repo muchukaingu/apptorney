@@ -465,7 +465,14 @@ module.exports = function(Legislation) {
       order:'legislationName ASC',
       limit:200,
       skip:skip*200,
-      where: whereClause
+      where: whereClause,
+      include: {
+          relation: 'caseLegislations', // include the owner object
+          scope: { // further filter the owner object
+            fields: ['id'] // only show two fields
+          }
+      }
+      
       },
       function(err, legislations) {
         callback(null,legislations);
@@ -573,8 +580,8 @@ module.exports = function(Legislation) {
         {arg: 'type', type: 'string'}
       ],
       returns: [
-        {arg: 'legislations', type: 'Object'},
-        {arg: 'count', type: 'Object'}
+        {arg: 'legislations', type: 'array'},
+        {arg: 'count', type: 'number'}
       ]
   });
 

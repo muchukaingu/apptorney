@@ -86,7 +86,7 @@
 
   },
   "scope":{
-    "include":["caseLegislations", "capturedBy"]
+    "include":["capturedBy"]
   },
   "acls": [],
   "methods": {}

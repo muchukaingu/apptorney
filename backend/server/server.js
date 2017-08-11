@@ -1,13 +1,13 @@
 var loopback = require('loopback');
 var boot = require('loopback-boot');
-var zlib = require('zlib');
-var compression = require('compression');
+// var zlib = require('zlib');
+// var compression = require('compression');
 
 var path = require('path');
 
 var app = module.exports = loopback();
 
-app.use(loopback.compress());
+// app.use(loopback.compress());
 
 app.use(loopback.static(path.resolve(__dirname, '../client')));
 

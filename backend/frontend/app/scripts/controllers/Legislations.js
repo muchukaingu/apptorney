@@ -191,10 +191,10 @@ angular.module('apptorney')
             $scope.returned = false
             $scope.showLegislations = false
             if (type == 'all') {
-                Legislation.viewLegislations({ limit: 50, skip: $scope.currentPage - 1, query: $scope.query, type: $routeParams.id },
+                Legislation.viewLegislations({ limit: 200, skip: $scope.currentPage - 1, query: $scope.query, type: $routeParams.id },
                     function(res) {
                         $scope.legislations = res.data.legislations
-                        $scope.numberOfItemsPerPage = 50
+                        $scope.numberOfItemsPerPage = 200
                         $scope.totalItems = $scope.query ? res.data.legislations.length : res.data.count
                             // $scope.legislations = filterFilter($scope.legislations, $routeParams.id)
                         $scope.returned = true
@@ -213,7 +213,7 @@ angular.module('apptorney')
                 Legislation.search({ term: $scope.query, type: $routeParams.id },
                     function(res) {
                         $scope.legislations = res.data.legislations
-                        $scope.numberOfItemsPerPage = 50
+                        $scope.numberOfItemsPerPage = 200
                         $scope.totalItems = $scope.query ? res.data.legislations.length : res.data.count
                             // $scope.legislations = filterFilter($scope.legislations, $routeParams.id)
                         $scope.returned = true

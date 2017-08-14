@@ -445,7 +445,7 @@ module.exports = function(Legislation) {
    * @callback {Function} cb The callback function
    */
    Legislation.viewLegislations = function(skip,limit, query, type, cb){
-    console.log("Skip",skip);
+    console.log("Skip",skip*200);
     console.log("Limit",limit);
     console.log("Query",query);
     console.log("Type",type);
@@ -461,7 +461,7 @@ module.exports = function(Legislation) {
 
     }
 
-    Legislation.find({ 
+    Legislation.find({
       order:'legislationName ASC',
       limit:200,
       skip:skip*200,
@@ -475,6 +475,7 @@ module.exports = function(Legislation) {
 
       },
       function(err, legislations) {
+        console.log("Legislations Length ", legislations.length);
         callback(null,legislations);
       });
   }

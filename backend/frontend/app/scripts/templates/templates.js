@@ -850,6 +850,20 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                  </panel>\n" +
     "              </div>\n" +
     "\n" +
+    "              <div class=\"col-xs-12\">\n" +
+    "                <panel heading=\"Legislations Referred To\" >\n" +
+    "                  <panel-controls>\n" +
+    "                        <a href=\"\"><panel-control-collapse class=\"fa fa-chevron-down\"></panel-control-collapse></a>\n" +
+    "                  </panel-controls>\n" +
+    "                    <ol>\n" +
+    "                      <li ng-repeat=\"ref in case.legislationsReferedTo\">\n" +
+    "                        {{ref.legislationName}}\n" +
+    "                      </li>\n" +
+    "                    </ol>\n" +
+    "                  </panel>\n" +
+    "              </div>\n" +
+    "\n" +
+    "\n" +
     "\n" +
     "              <div class=\"col-xs-12\">\n" +
     "                <panel heading=\"Cases Referred To\" >\n" +

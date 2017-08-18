@@ -126,6 +126,12 @@ module.exports = function(Legislation) {
 
     Legislation.find(
       {where:{or:IDs},
+      include: {
+          relation: 'caseLegislations', // include the owner object
+          scope: { // further filter the owner object
+            fields: ['id'] // only show two fields
+          }
+      },
       filter:{ include: {
           relation: 'capturedBy', // include the owner object
           scope: { // further filter the owner object
@@ -196,10 +202,7 @@ module.exports = function(Legislation) {
   Legislation.mergeDuplicates = function(id, cb){
     var app = Legislation.app;
     var CaseLegislations = app.models.caseLegislations;
-
-
     var callback = function(error, legislation){
-
       Legislation.find({
           where:{and:[{deleted:{neq:true}}, {legislationName:legislation.legislationName}]},
           filter:{include: {
@@ -217,25 +220,21 @@ module.exports = function(Legislation) {
           },
         },
         function(err, legislations){
-
           for(var i=0; i<legislations.length; i++){
             // console.log(legislations[i].legislationName);
             if(String(legislations[i].id) !== String(legislation.id)){
               console.log(legislations[i].id + " | " + String(legislation.id));
               CaseLegislations.updateAll({legislationId:legislations[i].id},{legislationId:legislation.id}, function(err, info){
                 // console.log(info.count);
-                // console.log(info);
+                console.log(info);
               });
-
               Legislation.updateAll({parentLegislation:legislations[i].id},{parentLegislation:legislation.id}, function(err, info){
                 console.log("Updated Parent Legislation",info);
               });
-
               Legislation.updateAll({id:legislations[i].id},{deleted:true}, function(err, info){
                 console.log("deleted",info);
               });
             }
-
           }
           cb(null,legislation.id);
       });
@@ -244,7 +243,6 @@ module.exports = function(Legislation) {
       callback(null,legislation)
     });
   }
-
 
   /**
    * Restore deleted items from trash

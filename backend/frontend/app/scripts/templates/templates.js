@@ -1186,6 +1186,13 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                </div>\n" +
     "              </div>\n" +
     "              <div class=\"col-xs-12 col-md-12 form-group\">\n" +
+    "                  <textarea id=\"legislationNumbers\" name=\"legislationNumbers\" type=\"text\" style=\"height: 90px\" min-word-count=\"2\"  class=\"form-control\" ng-model=\"legislation.legislationNumbers\"  ng-minlength=2 ng-focus placeholder=\"Legislation Numbers\"/>\n" +
+    "                  <div class=\"text-danger\" ng-show=\"form.$submitted && form.legislationNumbers.$invalid || form.legislationNumbers.$dirty && form.legislationNumbers.$invalid && !form.legislationNumbers.$focused\">\n" +
+    "                    <span ng-show=\"form.legislationNumbers.$error.required\">Legislation Numbers field is required</span>\n" +
+    "                    <span ng-show=\"form.legislationNumbers.$error.minlength\">Legislation Numbers field is required to be at least 2 characters long</span>\n" +
+    "                  </div>\n" +
+    "              </div>\n" +
+    "              <div class=\"col-xs-12 col-md-12 form-group\">\n" +
     "                <ui-select ng-model=\"legislation.parentLegislation\" theme=\"selectize\">\n" +
     "                    <ui-select-match placeholder=\"Search for Parent Legislation...\">{{$select.selected.legislationName}}</ui-select-match>\n" +
     "                        <ui-select-choices repeat=\"parent.id as parent in parents track by $index\"\n" +
@@ -1353,6 +1360,16 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                      <div class=\"row\">\n" +
     "                          <div class=\"col-lg-12\">\n" +
     "                            {{legislation.preamble}}\n" +
+    "                          </div>\n" +
+    "                      </div>\n" +
+    "                    </panel>\n" +
+    "                    <panel heading=\"\">\n" +
+    "                      <panel-controls>\n" +
+    "                            <a href=\"\"><panel-control-collapse class=\"fa fa-chevron-down\"></panel-control-collapse></a>\n" +
+    "                      </panel-controls>\n" +
+    "                      <div class=\"row\">\n" +
+    "                          <div class=\"col-lg-12\" style=\"white-space: pre-wrap;\" ng-bind-html=\"legislation.legislationNumbers\">\n" +
+    "                          \n" +
     "                          </div>\n" +
     "                      </div>\n" +
     "                    </panel>\n" +

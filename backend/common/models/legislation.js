@@ -264,65 +264,32 @@ module.exports = function(Legislation) {
    *
    * @callback {Function} cb The callback function
    */
-  Legislation.repareLegislationType = function (cb){
-    // var whereClause = {legislationType:"577d66caa856154683e6c2c0"};
-    var whereClause = {and:[{deleted:{neq:true}},{legislationType:{like: '.*'+ "577d66caa856154683e6c2c0" +'.*', options:'i'} }]};
-    Legislation.updateAll({'legislationType.id':"58f6213db9aab46a3d769e73"},{legislationType:"58f6213db9aab46a3d769e73"}, function(err, legislations){
-      console.log("To repare: ",legislations.length);
-      // cb(null, legislations.length);
-    });
+  Legislation.repareParagraphs = function (cb){
+    Legislation.find({}, (err,legislations) => {
+      console.log('Length ', legislations.length);
+      for(let i = 0; i < legislations.length-1; i++){
+        let legislation = legislations[i];
+        let parts = legislation.legislationParts?legislation.legislationParts:[];
+        // console.log('Parts Length', parts.length)
+        let counter = 0;
+        for (let j = 0; j < parts.length-1; j++){
+          let part = parts[j];
+          if(part.content){
+            for (let s = 0; s < part.content.length-1; s++ ){
+              if (part.content.indexOf('\n')!==-1){
+                let newLineIndex = part.content.indexOf('\n');
+                if(newLineIndex - 1 !== ';' && newLineIndex - 1 !== '.' && newLineIndex - 1 !== ':' && newLineIndex - 1 !== ';' && newLineIndex - 1 !== '-'){
+                  (counter < 10)?console.log('To fix', part.content):{};
+                  //console.log('COUNTER', counter);
+                  counter++;
 
-    Legislation.updateAll({'legislationType.id':"577d66e6a856154683e6c2c1"},{legislationType:"577d66e6a856154683e6c2c1"}, function(err, legislations){
-      console.log("To repare: ",legislations.length);
-      // cb(null, legislations.length);
-    });
-
-    Legislation.updateAll({'legislationType.id':"577d66fca856154683e6c2c2"},{legislationType:"577d66fca856154683e6c2c2"}, function(err, legislations){
-      console.log("To repare: ",legislations.length);
-      // cb(null, legislations.length);
-    });
-
-    Legislation.updateAll({'legislationType.id':"57f5284b070211bef785a619"},{legislationType:"57f5284b070211bef785a619"}, function(err, legislations){
-      console.log("To repare: ",legislations.length);
-      // cb(null, legislations.length);
-    });
-
-    Legislation.updateAll({'legislationType.id':"591c4ac83af81692cc952f3c"},{legislationType:"591c4ac83af81692cc952f3c"}, function(err, legislations){
-      console.log("To repare: ",legislations.length);
-      // cb(null, legislations.length);
-    });
-
-    Legislation.updateAll({'legislationType.id':"577d66caa856154683e6c2c0"},{legislationType:"577d66caa856154683e6c2c0"}, function(err, legislations){
-      console.log("To repare: ",legislations.length);
-      cb(null, legislations.length);
-    });
-
-    /*
-
-    Legislation.find({where:whereClause}, function(err, legislations){
-      console.log("Acts: ", legislations.length);
-      var legislationType = legislations[0];
-      console.log("Legislation Type: ",legislationType.legislationType);
-    });
-
-
-    var legislationCollection = Legislation.getDataSource().connector.collection("legislation");
-    legislationCollection.distinct('legislationType', function(err, types) {
-      if(err){
-
+                }
+              }
+            }
+          };
+        }
       }
-      else{
-        // var count = legislations.length;
-        // cb(null, data, count)
-        console.log("Types: ", types)
-        var strange = types[4];
-        var normal = types[0];
-        console.log(strange + "|"+normal);
-      }
-
     });
-
-    */
   }
 
 

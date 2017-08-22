@@ -42,6 +42,13 @@
                 </div>
               </div>
               <div class="col-xs-12 col-md-12 form-group">
+                  <textarea id="legislationNumbers" name="legislationNumbers" type="text" style="height: 90px" min-word-count="2"  class="form-control" ng-model="legislation.legislationNumbers"  ng-minlength=2 ng-focus placeholder="Legislation Numbers"/>
+                  <div class="text-danger" ng-show="form.$submitted && form.legislationNumbers.$invalid || form.legislationNumbers.$dirty && form.legislationNumbers.$invalid && !form.legislationNumbers.$focused">
+                    <span ng-show="form.legislationNumbers.$error.required">Legislation Numbers field is required</span>
+                    <span ng-show="form.legislationNumbers.$error.minlength">Legislation Numbers field is required to be at least 2 characters long</span>
+                  </div>
+              </div>
+              <div class="col-xs-12 col-md-12 form-group">
                 <ui-select ng-model="legislation.parentLegislation" theme="selectize">
                     <ui-select-match placeholder="Search for Parent Legislation...">{{$select.selected.legislationName}}</ui-select-match>
                         <ui-select-choices repeat="parent.id as parent in parents track by $index"

@@ -199,49 +199,50 @@ module.exports = function(Legislation) {
    * @callback {Function} cb The callback function
    */
 
-  Legislation.mergeDuplicates = function(id, cb){
+  Legislation.mergeDuplicates = function(id, primary, cb){
     var app = Legislation.app;
     var CaseLegislations = app.models.caseLegislations;
-    var callback = function(error, legislation){
-      Legislation.find({
-          where:{and:[{deleted:{neq:true}}, {legislationName:legislation.legislationName}]},
-          filter:{include: {
-              relation: 'capturedBy', // include the owner object
-              scope: { // further filter the owner object
-                fields: ['firstName','lastName'] // only show two fields
-              }
-            },
-            fields:{
-              legislationParts:false,
-              enactment: false,
-              generalTitle: false,
-              preamble:false
-            }
-          },
-        },
-        function(err, legislations){
-          for(var i=0; i<legislations.length; i++){
-            // console.log(legislations[i].legislationName);
-            if(String(legislations[i].id) !== String(legislation.id)){
-              console.log(legislations[i].id + " | " + String(legislation.id));
-              CaseLegislations.updateAll({legislationId:legislations[i].id},{legislationId:legislation.id}, function(err, info){
-                // console.log(info.count);
-                console.log(info);
-              });
-              Legislation.updateAll({parentLegislation:legislations[i].id},{parentLegislation:legislation.id}, function(err, info){
-                console.log("Updated Parent Legislation",info);
-              });
-              Legislation.updateAll({id:legislations[i].id},{deleted:true}, function(err, info){
-                console.log("deleted",info);
-              });
-            }
-          }
-          cb(null,legislation.id);
-      });
-    }
-    Legislation.findById(id,function(err, legislation){
-      callback(null,legislation)
+    var IDs = [];
+    id.forEach(function(id){
+      var legislationId = {
+        id:id
+      };
+      IDs.push(legislationId);
     });
+
+    Legislation.find({
+        where:{or:IDs},
+        filter:{
+          fields:{
+            legislationParts:false,
+            enactment: false,
+            generalTitle: false,
+            preamble:false
+          }
+        },
+      },
+      function(err, legislations){
+        console.log("Legislatgions to merge ", legislations);
+        for(var i=0; i<legislations.length; i++){
+          console.log("To merge",legislations.length);
+          console.log(legislations[i].legislationName);
+          if(String(legislations[i].id) !== String(primary)){
+            console.log(legislations[i].id + " | " + String(primary));
+            CaseLegislations.updateAll({legislationId:legislations[i].id},{legislationId:primary}, function(err, info){
+              // console.log(info.count);
+              console.log(info);
+            });
+            Legislation.updateAll({parentLegislation:legislations[i].id},{parentLegislation:primary}, function(err, info){
+              console.log("Updated Parent Legislation",info);
+            });
+            Legislation.updateAll({id:legislations[i].id},{deleted:true}, function(err, info){
+              console.log("deleted",info);
+            });
+          }
+        }
+        cb(null,primary);
+    });
+
   }
 
   /**
@@ -501,7 +502,10 @@ module.exports = function(Legislation) {
   Legislation.remoteMethod(
     'mergeDuplicates',{
       http: {path: '/merge', verb: 'get'},
-      accepts: {arg: 'id', type: 'string'},
+      accepts:[
+        {arg: 'id', type: 'array'},
+        {arg: 'primary', type: 'string'}
+      ],
       returns: {arg: 'result', type: 'Object'}
   });
 

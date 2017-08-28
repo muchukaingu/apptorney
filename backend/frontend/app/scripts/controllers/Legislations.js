@@ -548,7 +548,7 @@ angular.module('apptorney')
         $scope.mergeDuplicates = function() {
             $scope.mergeStatus = 1
 
-            Legislation.mergeDuplicates({ id: $scope.legislation.id },
+            Legislation.mergeDuplicates({ id: JSON.stringify($rootScope.legislation.uniqueIds), primary: $scope.legislation.id },
                 function(res) {
                     console.log('Merged Legislations For: ' + $scope.legislation.legislationName)
                     $scope.mergeStatus = 2

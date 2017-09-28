@@ -507,11 +507,11 @@
   </div>
   <div class="modal-footer" style="">
     <div class="row">
-      <div class = "form-group col-xs-3 col-xs-offset-9">
+      <div class="col-xs-12 col-md-8"></div>
+      <div class="col-xs-12 col-md-2"><button id="submit" ng-click="mergeDuplicates()" type="submit" class="btn btn-primary-alt pull-right btn-block btn-md" ng-class="{'btn btn-primary-alt btn-block pull-right':(mergeStatus==0), 'btn btn-primary btn-block pull-right':(mergeStatus == 1), 'btn btn-success btn-block pull-right':(mergeStatus == 2)} "><i ng-if="mergeStatus==1" class='fa fa-fw fa-sun-o fa-spin'></i>{{(mergeStatus==0)?'Mark as Primary':(mergeStatus==1)?'Marking...':'Primary'}}</button></div>
+      <div class="col-xs-12 col-md-2"><button id="submit" type="submit" class="btn btn-primary-alt btn-block btn-md" style="" ng-click="saveCase()" ng-class="{'btn btn-primary-alt pull-right':(saveStatus==0), 'btn btn-primary pull-right':(saveStatus == 1), 'btn btn-success pull-right':(saveStatus == 2)} "  style="width:120px"><i ng-if="saveStatus==1" class='fa fa-fw fa-sun-o fa-spin'></i>{{(saveStatus==0)?'Save Case':(saveStatus==1)?'Saving...':'Saved'}}</button></div>
 
-        <button id="submit" type="submit" class="btn btn-primary-alt btn-block btn-md" style="" ng-click="saveCase()" ng-class="{'btn btn-primary-alt pull-right':(saveStatus==0), 'btn btn-primary pull-right':(saveStatus == 1), 'btn btn-success pull-right':(saveStatus == 2)} "  style="width:120px"><i ng-if="saveStatus==1" class='fa fa-fw fa-sun-o fa-spin'></i>{{(saveStatus==0)?'Save Case':(saveStatus==1)?'Saving...':'Saved'}}</button>
-
-      </div>
+    </div>
     </div>
 
    </div>

@@ -583,11 +583,11 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "  </div>\n" +
     "  <div class=\"modal-footer\" style=\"\">\n" +
     "    <div class=\"row\">\n" +
-    "      <div class = \"form-group col-xs-3 col-xs-offset-9\">\n" +
+    "      <div class=\"col-xs-12 col-md-8\"></div>\n" +
+    "      <div class=\"col-xs-12 col-md-2\"><button id=\"submit\" ng-click=\"mergeDuplicates()\" type=\"submit\" class=\"btn btn-primary-alt pull-right btn-block btn-md\" ng-class=\"{'btn btn-primary-alt btn-block pull-right':(mergeStatus==0), 'btn btn-primary btn-block pull-right':(mergeStatus == 1), 'btn btn-success btn-block pull-right':(mergeStatus == 2)} \"><i ng-if=\"mergeStatus==1\" class='fa fa-fw fa-sun-o fa-spin'></i>{{(mergeStatus==0)?'Mark as Primary':(mergeStatus==1)?'Marking...':'Primary'}}</button></div>\n" +
+    "      <div class=\"col-xs-12 col-md-2\"><button id=\"submit\" type=\"submit\" class=\"btn btn-primary-alt btn-block btn-md\" style=\"\" ng-click=\"saveCase()\" ng-class=\"{'btn btn-primary-alt pull-right':(saveStatus==0), 'btn btn-primary pull-right':(saveStatus == 1), 'btn btn-success pull-right':(saveStatus == 2)} \"  style=\"width:120px\"><i ng-if=\"saveStatus==1\" class='fa fa-fw fa-sun-o fa-spin'></i>{{(saveStatus==0)?'Save Case':(saveStatus==1)?'Saving...':'Saved'}}</button></div>\n" +
     "\n" +
-    "        <button id=\"submit\" type=\"submit\" class=\"btn btn-primary-alt btn-block btn-md\" style=\"\" ng-click=\"saveCase()\" ng-class=\"{'btn btn-primary-alt pull-right':(saveStatus==0), 'btn btn-primary pull-right':(saveStatus == 1), 'btn btn-success pull-right':(saveStatus == 2)} \"  style=\"width:120px\"><i ng-if=\"saveStatus==1\" class='fa fa-fw fa-sun-o fa-spin'></i>{{(saveStatus==0)?'Save Case':(saveStatus==1)?'Saving...':'Saved'}}</button>\n" +
-    "\n" +
-    "      </div>\n" +
+    "    </div>\n" +
     "    </div>\n" +
     "\n" +
     "   </div>\n" +

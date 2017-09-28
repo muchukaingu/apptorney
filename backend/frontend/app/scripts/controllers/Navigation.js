@@ -143,7 +143,19 @@ angular
             {
                 label:"System Cleanup",
                 iconClasses:"fa fa-files-o",
-                children: legislationTypesForCleanup
+                children: [
+                  {
+                    label:"Legislations",
+                    iconClasses:"fa fa-file-text",
+                    children: legislationTypesForCleanup
+
+                  },
+                  {
+                    label:"Cases",
+                    iconClasses: "fa fa-gavel",
+                    url: "#/cleanup-cases"
+                  }
+                ]
             },
 
             {

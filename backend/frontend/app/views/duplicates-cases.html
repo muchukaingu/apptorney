@@ -1,0 +1,140 @@
+<div id="page-heading">
+	<ol class="breadcrumb">
+        <li><a href="#/dashboard">Dashboard</a></li>
+        <li class="active">Legislations</li>
+    </ol>
+
+
+
+
+
+
+
+</div>
+
+<div class="container-fluid" ng-controller="CasesController">
+    <div class="row" style="position: relative; top: -80px">
+	    <div class="col-xs-3 pull-right text-right" >
+		    <div class="btn-group" data-dropdown>
+		      <button type="button" class="btn btn-default-alt dropdown-toggle alt-border" id="stageSelector">
+		        <span ng-if="!filtered">Filter Applications by Stage</span><span ng-if="filtered">Selected Stage:</span>  &nbsp;
+		        <i class="fa fa-caret-down"></i>
+		      </button>
+		      <ul class="dropdown-menu" role="menu" style="text-align: right;">
+		         <li ng-repeat="stage in stages"><a class="dropdown-toggle" ></a></li>
+		      </ul>
+		    </div>
+	    </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+
+          <div class="panel panel-primary" style="margin-top:-35px">
+            <div class="panel-heading" style="background-color:#000000">
+						 <h3 style="color:#ffffff; margin-top:5px">Duplicates Cleanup</h3>
+
+								<a class="pull-right" style="color:#ffffff; border:#none; font-size:1.2em; border-radius:5px; margin-top:-32px" ng-click = "newLegislation()" data-toggle="modal" data-target="#legislationModal"><i class="fa fa-plus"></i></a>
+					 </div>
+					 <div class="panel-body">
+
+        <form   enctype="multipart/form-data" accept-charset="utf-8" hidden="true"
+        method="post" action=""  name="caseUpload">
+              <input type="hidden" name="uploadApplications">
+              <input type="file" required="true" onchange="checkUpload(event)" id="applicationFile"  name="application" />
+              <input type="submit"  value="upload"  id="uploadApplicationBtn">
+          </form>
+
+            <div class="input-icon right mb10">
+                  <i class="fa fa-search"></i>
+                  <input type="text" ng-model="query" class="form-control" placeholder="Search..." id="Search" ng-keydown = "searchForLegislations($event)">
+            </div>
+                <table id="casesTbl" class="table table-condensed">
+                  <tr style="background-color: #E8E9EC" class="tableHeaders">
+                    <td style="width:20%">
+	                    <a ng-click="sortType = 'legislationNumber'; sortReverse = !sortReverse">
+		                    Case Number
+		                    <span ng-show="sortType == 'legislationNumber' && !sortReverse" class="fa fa-caret-up"></span>
+		                    <span ng-show="sortType == 'legislationNumber' && sortReverse" class="fa fa-caret-down"></span>
+	                    </a>
+		            </td>
+                    <td style="width:60%">
+	                    <a ng-click="sortType = 'legislationName'; sortReverse = !sortReverse">
+		                    Case Name
+		                    <span ng-show="sortType == 'legislationName' && !sortReverse" class="fa fa-caret-up"></span>
+		                    <span ng-show="sortType == 'legislationName' && sortReverse" class="fa fa-caret-down"></span>
+	                    </a>
+					</td>
+                    <td style="width:5%">
+	                    <a ng-click="sortType = 'dateOfAssent'; sortReverse = !sortReverse">
+	                    	Year
+							<span ng-show="sortType == 'dateOfAssent' && !sortReverse" class="fa fa-caret-up"></span>
+							<span ng-show="sortType == 'dateOfAssent' && sortReverse" class="fa fa-caret-down"></span>
+	                    </a>
+
+	                </td>
+
+                <td style="width:15%">
+                  <a ng-click="sortType = 'duplicateCount'; sortReverse = !sortReverse">
+                    Occurences
+          <span ng-show="sortType == 'duplicateCount' && !sortReverse" class="fa fa-caret-up"></span>
+          <span ng-show="sortType == 'duplicateCount' && sortReverse" class="fa fa-caret-down"></span>
+                  </a>
+
+              </td>
+
+
+
+
+                  </tr>
+
+                  <tr id="rowTmp_Est" ng-repeat="case in cases | orderBy:sortType:sortReverse" ng-click = "showDuplicatesDetail(case)" style="cursor:pointer" >
+
+                      <td class="editables">
+
+                      <span class="editable"  name="applicationID" form="rowform" onchange="editItem(this,'itemID')"
+                        required>{{case.fields.caseNumber}}
+
+                      </span>
+
+                    </td>
+
+                    <td class="editables">
+
+                      <span class="editable" name="applicantname" form="rowform" onchange="editItem(this,'itemID')"
+                        required>{{case.fields.name}}
+
+                      </span>
+
+                    </td>
+
+                    <td class="editables">
+
+                      <span class="editable"  name="email" form="rowform" onchange="editItem(this,'itemID')" required>
+													{{case.fields.citation.year}}
+                      </span>
+                    </td>
+
+
+                    <td class="editables">
+
+                      <span class="editable"  name="email" form="rowform" onchange="editItem(this,'itemID')" required>
+													{{case.count}}
+                      </span>
+                    </td>
+
+                  </tr>
+
+                </table>
+                <div ng-if="!showLegislations" style="position: relative; left: 50%; margin-left: -100px; height: 50px; margin-top: 40px"><i ng-if="!returned" class='fa fa-fw fa-sun-o fa-spin'></i> {{message}}</div>
+								<div ng-if="legislations.length == 0 && returned" style="position: relative; left: 48%; margin-left: -100px; height: 50px; margin-top: 40px">No legislations of this type found. Click <a data-toggle="modal" data-target="#addLegislationModal">here</a> to create one.</div>
+
+							</div>
+					</div>
+        </div>
+      </div>
+			<ng-include src="'templates/legislation-modal.html'"></ng-include>
+			<div ng-if="!opened" style="font-size:1.2em; position: absolute; margin-left:-150px; left:50%; top:50%; z-index:10000; background-color:#ffffff; padding:30px; border-radius:5px">
+				<i class='fa fa-fw fa-sun-o fa-spin'></i>Loading. Please wait...
+			</div>
+      <pagination total-items="totalItems" max-size="10" items-per-page="numberOfItemsPerPage" ng-model="currentPage" ng-change="pageChanged()"></pagination>
+</div>

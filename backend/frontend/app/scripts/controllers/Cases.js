@@ -8,7 +8,7 @@ angular.module('apptorney')
       }
   };
 })
-.controller('CasesController',function ($bootbox,$scope, $timeout, Court, Case, Legislation, Work,CaseLegislations, CaseCases, CaseWorks, AreaOfLaw,Jurisdiction, Location, baseURL, filterFilter,$routeParams) {
+.controller('CasesController',function ($rootScope, $bootbox, $scope, $location, $timeout, Court, Case, Legislation, Work,CaseLegislations, CaseCases, CaseWorks, AreaOfLaw,Jurisdiction, Location, baseURL, filterFilter,$routeParams) {
     //console.log("xxx---->");//
 
 
@@ -19,7 +19,7 @@ angular.module('apptorney')
 
 
 
-
+         $scope.opened = true
          $scope.message = "Loading data. Please wait...";
          $scope.filtered = false;
          $scope.saved = false;
@@ -49,6 +49,7 @@ angular.module('apptorney')
          $scope.caseReferences = [];
          $scope.legislationReferences = [];
          $scope.workReferences = [];
+         $scope.mergeStatus = 0;
 
 
          $scope.courts = [];
@@ -125,7 +126,22 @@ angular.module('apptorney')
 
 
 
+         $scope.mergeDuplicates = function() {
+             $scope.mergeStatus = 1
 
+             Case.mergeDuplicates({ id: JSON.stringify($rootScope.caseInstance.uniqueIds), primary: $scope.case.id },
+                 function(res) {
+                     console.log('Merged Cases For: ' + $scope.case.name)
+                     $scope.mergeStatus = 2
+                     $scope.cases = filterFilter($scope.cases, $scope.case.id)
+                         // $scope.legislation = undefined
+
+                 },
+                 function(err) {
+                     console.error('Error occured')
+                 }
+             )
+         }
 
 
 
@@ -335,12 +351,72 @@ angular.module('apptorney')
 
 
          $scope.$watch('$routeParams',function(){
+
            var newEvent = {};
            if (!isNaN(parseInt($routeParams.year))){
              newEvent.which = 13;
              $scope.searchForCases(newEvent);
            }
+           if ($location.path().indexOf('/cleanup-cases/detail') !== -1) {
+               console.log("Route Params xxxxxxxxxxxx ", $routeParams.year);
+               $scope.loadCases('occurences')
+           }
+           else if ($location.path().indexOf('/cleanup-cases') !== -1) {
+               console.log("Route Params xxxxxxxxxxxx ", $routeParams.year);
+               $scope.loadCases('duplicates')
+           }
+           else if ($location.path() == '/trash/cases') {
+               $scope.loadCases('trash')
+           }
          });
+
+         $scope.loadCases = function(type){
+
+           if (type == 'duplicates') {
+               Case.getDuplicates({ limit: 100, skip: 0, /*query:$scope.query*/ },
+                   function(res) {
+                       $scope.cases = res.data.duplicates
+                       $scope.numberOfItemsPerPage = res.data.duplicates.length
+                       $scope.totalItems = res.data.uniqueCount
+                           // $scope.legislations = filterFilter($scope.legislations, $routeParams.id)
+                       $scope.returned = true
+                       $scope.showCases = true
+
+                   },
+                   function(errorResponse) {}
+               )
+           }
+           else if (type == 'occurences') {
+             Case.namesakes({ id: JSON.stringify($rootScope.caseInstance.uniqueIds)},
+                 function(res) {
+                     console.log(res.data)
+                     $scope.cases = res.data.namesakes
+                     $scope.returned = true
+                     $scope.showCases = true
+                 },
+                 function(errorResponse) {}
+             )
+           }
+           else if (type == 'trash') {
+               console.log('Loading trash...')
+               Case.viewTrash(
+                   function(res) {
+                       console.log(res.data)
+                       $scope.cases = res.data.trash
+                       $scope.returned = true
+                       $scope.showCases = true
+
+
+                   },
+                   function(errorResponse) {}
+               )
+           }
+         }
+
+         $scope.showDuplicatesDetail = function(caseInstance) {
+             $rootScope.caseInstance = caseInstance
+             $location.path('/cleanup-cases/detail')
+         }
 
          $scope.searchForCases = function(event){
               if(event.which === 13){
@@ -653,7 +729,7 @@ angular.module('apptorney')
 
 
               $scope.case = aCase;
-
+              $('#addCaseModal').modal();
               $scope.viewMode = true;
               Case.find({
                 filter:{include: [{

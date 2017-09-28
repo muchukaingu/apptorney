@@ -11,12 +11,8 @@ module.exports = function(Legislation) {
    * @callback {Function} cb The callback function
    */
   Legislation.getDuplicates = function(skip,limit, type, cb){
-
     var legislationCollection = Legislation.getDataSource().connector.collection("legislation");
-
     legislationCollection.aggregate([
-      //{ "$match": { "deleted": { $eq: false } } },
-      // { "$match": { "legislationType": { $eq: type } } },
       { "$match": {$and:[{ "legislationType": { $eq: type } }, { "deleted": { $eq: false } }]} },
       {
           "$group": {
@@ -40,70 +36,8 @@ module.exports = function(Legislation) {
 
         });
         cb(null, legislations)
-        /*legislations = legislations.toArray(function(err, legislations){
-          //console.log("Count", legislations);
-          legislations.map(function(legislation){
-            legislation.id = legislation._id;
-            delete legislation["_id"];
-
-          });
-          cb(null, legislations)
-        });
-        */
-
       }
-
     });
-
-
-    //   //var query = query?{legislationName: {like: '.*'+ query +'.*', options:'i'}}:undefined;
-    //   var query = {legislationType: {like: '.*'+ type +'.*', options:'i'}};
-    //   Legislation.find({order:['legislationName ASC', 'dateOfAssent ASC'], limit:200, skip:skip*200, where:{and:[{deleted:{neq:true}}, query]}}, function(err, legislations) {
-    //     console.log("Duplicates",legislations.length)
-    //     var duplicates = [];
-    //     function callback(err, res){
-    //
-    //       var data = res;
-    //       data.forEach(function(elem){
-    //         if (elem.duplicateCount > 1){
-    //           duplicates.push(elem);
-    //         }
-    //       });
-    //
-    //       Legislation.uniqueCount(duplicates, cb);
-    //     }
-    //     var distinctIndexArray = [];
-    //     var distinctArray = [];
-    //     var duplicatesArray = [];
-    //     var arr = legislations;
-    //
-    //     for (var i = 0; i < arr.length; i++){
-    //       arr[i].duplicateCount = 1;
-    //     }
-    //
-    //     for (var i = 0; i < arr.length; i++) {
-    //         // var prevDate = (i==0)?(new Date(arr[i].dateOfAssent).getFullYear()):(new Date(arr[i - 1].dateOfAssent).getFullYear());
-    //         // var currDate = new Date(arr[i].dateOfAssent).getFullYear();
-    //         // console.log(currDate);
-    //
-    //         if (i == 0){
-    //           distinctIndexArray.push(arr[i].legislationName);
-    //           distinctArray.push(arr[i]);
-    //         }
-    //         else if (arr[i - 1].legislationName !== arr[i].legislationName /*&& prevDate !== currDate*/ ) {
-    //
-    //             distinctIndexArray.push(arr[i].legislationName);
-    //             distinctArray.push(arr[i]);
-    //         }
-    //         else {
-    //             duplicatesArray.push(arr[i]);
-    //             distinctArray[distinctIndexArray.indexOf(arr[i].legislationName)].duplicateCount++;
-    //         }
-    //         if(i==arr.length-1){
-    //           callback(null,distinctArray);
-    //         }
-    //     }
-    //   });
   }
 
   /**
@@ -222,7 +156,7 @@ module.exports = function(Legislation) {
         },
       },
       function(err, legislations){
-        console.log("Legislatgions to merge ", legislations);
+        console.log()
         for(var i=0; i<legislations.length; i++){
           console.log("To merge",legislations.length);
           console.log(legislations[i].legislationName);
@@ -390,19 +324,26 @@ module.exports = function(Legislation) {
    */
   Legislation.flexisearch = function(term, cb){
     var legislationCollection = Legislation.getDataSource().connector.collection("legislation");
-    legislationCollection.find({$text:{$search:term}}, function(err, legislations) {
-      if(err){
+    legislationCollection.aggregate([
+        {$match: {$and:[{ "deleted": { $eq: !true } }, {$text:{$search:term}}]}},
+        {$project:{ score: { $meta: "textScore" } }}
 
-      }
-      else{
-        legislations = legislations.toArray(function(err, legislations){
-          //console.log("Count", legislations);
+      ]).sort( { score: { $meta: "textScore" } } ,
+      function(err, legislations) {
+        if(err){
+
+        }
+        else{
+          legislations.map(function(legislation){
+            legislation.id = legislation._id;
+            delete legislation["_id"];
+          });
           cb(null, legislations)
-        });
+        }
 
-      }
+      });
 
-    });
+
   }
 
   /**

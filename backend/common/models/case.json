@@ -265,6 +265,11 @@
       "foreignKey": "caseId",
       "through": "caseCases",
       "keyThrough":"caseReferedToId"
+    },
+    "caseCases":{
+      "type": "hasMany",
+      "model": "caseCases",
+      "foreignKey": "caseReferedToId"
     }
 
 

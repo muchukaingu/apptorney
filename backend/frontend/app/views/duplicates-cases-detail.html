@@ -126,6 +126,15 @@
 
 						</td>
 
+						<td style="width:15%">
+							<a ng-click="sortType = 'coram'; sortReverse = !sortReverse">
+								File Size
+			<span ng-show="sortType == 'coram' && !sortReverse" class="fa fa-caret-up"></span>
+			<span ng-show="sortType == 'coram' && sortReverse" class="fa fa-caret-down"></span>
+							</a>
+
+					</td>
+
 
 
                     <td style="width:5%">Actions</td>
@@ -194,6 +203,12 @@
 													{{case.capturedBy.firstName + " " + case.capturedBy.lastName}}
 											</span>
 										</td>
+										<td class="editables">
+
+                      <span class="editable"  name="email" form="rowform" onchange="editItem(this,'itemID')" required>
+													{{case.size}}
+                      </span>
+                    </td>
                     <td style="white-space: nowrap">
                       <!-- form -->
                       <form editable-form name="rowform"  ng-show="rowform.$visible" class="form-buttons form-inline" >

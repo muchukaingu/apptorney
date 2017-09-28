@@ -99,8 +99,8 @@ module.exports = function(Case) {
    * @callback {Function} cb The callback function
    */
   Case.namesakes = function(id, cb){
-    var bson = require("bson");
-    var BSON = new bson.BSONPure.BSON();
+    //var bson = require("bson");
+    //var BSON = new bson.BSONPure.BSON();
     var IDs = [];
     id.forEach(function(id){
       var caseId = {
@@ -131,8 +131,10 @@ module.exports = function(Case) {
       },
     },function(err, cases){
       cases.forEach(function(caseInstance){
-        caseInstance.size =  Math.round(BSON.calculateObjectSize(caseInstance)/(1024))+"KB";
-        console.log(caseInstance.id, Math.round(caseInstance.size/(1024))+"KB")
+        // caseInstance.size =  Math.round(BSON.calculateObjectSize(caseInstance)/(1024))+"KB";
+        // console.log(caseInstance.id, Math.round(caseInstance.size/(1024))+"KB")
+        caseInstance.size =  JSON.stringify(caseInstance).length
+        console.log(caseInstance.id, caseInstance.size)
       })
       cb(null,cases);
     });

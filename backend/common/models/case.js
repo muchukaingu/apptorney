@@ -55,6 +55,48 @@ module.exports = function(Case) {
   });
 
 
+  /**
+   * Lists all cases that have not been soft deleted
+   *
+   * @callback {Function} cb The callback function
+   */
+   Case.viewCases = function(skip,limit, query, type, cb){
+    console.log("Skip",skip*200);
+    console.log("Limit",limit);
+    console.log("Query",query);
+    console.log("Type",type);
+    var query = query?{legislationName: {like: '.*'+ query +'.*', options:'i'}}:undefined;
+    var whereClause = {and:[{deleted:{neq:true}}, query,{legislationType:{like: '.*'+ type +'.*', options:'i'} }]};
+
+    function callback(error, data){
+      Legislation.find({where:whereClause}, function(err, legislations){
+        var count = legislations.length;
+        console.log("Count", legislations.length);
+        cb(null,data, count);
+      })
+
+    }
+
+    Legislation.find({
+      order:'legislationName ASC',
+      limit:200,
+      skip:skip*200,
+      where: whereClause,
+      include: {
+          relation: 'caseLegislations', // include the owner object
+          scope: { // further filter the owner object
+            fields: ['id'] // only show two fields
+          }
+      }
+
+      },
+      function(err, legislations) {
+        console.log("Legislations Length ", legislations.length);
+        callback(null,legislations);
+      });
+  }
+
+
 
 
   /**

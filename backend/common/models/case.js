@@ -275,7 +275,7 @@ module.exports = function(Case) {
 
 
 
-Case.observe('before save', function clearReferences(ctx, next) {
+/*Case.observe('before save', function clearReferences(ctx, next) {
 
       var app = Case.app;
 
@@ -301,7 +301,7 @@ Case.observe('before save', function clearReferences(ctx, next) {
 
       next();
 });
-
+*/
 
 
 

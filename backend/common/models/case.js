@@ -54,45 +54,103 @@ module.exports = function(Case) {
       returns: {arg: 'trash', type: 'Object'}
   });
 
+  Case.remoteMethod(
+    'viewCases',{
+      http: {path: '/notdeleted', verb: 'get'},
+      accepts:[
+        {arg: 'skip', type: 'number'},
+        {arg: 'limit', type: 'number'},
+        {arg: 'query', type: 'string'},
+        {arg: 'year', type: 'number'}
+      ],
+      returns: [
+        {arg: 'cases', type: 'array'},
+        {arg: 'count', type: 'number'}
+      ]
+  });
+
+
+  Case.remoteMethod(
+    'flexisearch',{
+      http: {path: '/flexisearch', verb: 'get'},
+      accepts: {arg: 'term', type: 'string'},
+      returns: {arg: 'cases', type: 'Object'}
+  });
+
+
+  /**
+   * Searches for cases based on mongo's $text index
+   *
+   * @callback {Function} cb The callback function
+   */
+  Case.flexisearch = function(term, cb){
+    var caseCollection = Case.getDataSource().connector.collection("case");
+    caseCollection.aggregate([
+        {$match: {$and:[{ "deleted": { $eq: !true } }, {$text:{$search:"\""+term+"\""}}]}},
+        {$project:{ score: { $meta: "textScore" }, name:true }}
+
+      ],
+      function(err, cases) {
+        if(err){
+
+        }
+        else{
+          cases.map(function(caseInstance){
+            caseInstance.id = caseInstance._id;
+            delete caseInstance["_id"];
+          });
+          cb(null, cases)
+        }
+
+      });
+
+
+  }
+
 
   /**
    * Lists all cases that have not been soft deleted
    *
    * @callback {Function} cb The callback function
    */
-   Case.viewCases = function(skip,limit, query, type, cb){
+   Case.viewCases = function(skip,limit, query, year, cb){
     console.log("Skip",skip*200);
     console.log("Limit",limit);
     console.log("Query",query);
-    console.log("Type",type);
-    var query = query?{legislationName: {like: '.*'+ query +'.*', options:'i'}}:undefined;
-    var whereClause = {and:[{deleted:{neq:true}}, query,{legislationType:{like: '.*'+ type +'.*', options:'i'} }]};
+    console.log("Year",year);
+    var query = query?{name: {like: '.*'+ query +'.*', options:'i'}}:undefined;
+    var yearQuery = year?{'citation.year':year}:undefined;
+    //var whereClause = {and:[{deleted:{neq:true}}, query, yearQuery]};
+    var whereClause = {or:[
+      {and:[{name: {like: '.*'+year+'.*'}},{deleted:{neq:true}}]},{and:[yearQuery, {deleted:{neq:true}}]}, {and:[{caseNumber: {like: '.*'+year+'.*'}},{deleted:{neq:true}}]}
+    ]};
+
 
     function callback(error, data){
-      Legislation.find({where:whereClause}, function(err, legislations){
-        var count = legislations.length;
-        console.log("Count", legislations.length);
+      Case.find({where:whereClause}, function(err, cases){
+        var count = cases.length;
+        console.log("Count", cases.length);
         cb(null,data, count);
       })
 
     }
 
-    Legislation.find({
-      order:'legislationName ASC',
+    Case.find({
+      order:'name ASC',
       limit:200,
       skip:skip*200,
       where: whereClause,
       include: {
-          relation: 'caseLegislations', // include the owner object
+          relation: 'caseCases', // include the owner object
           scope: { // further filter the owner object
             fields: ['id'] // only show two fields
           }
       }
 
       },
-      function(err, legislations) {
-        console.log("Legislations Length ", legislations.length);
-        callback(null,legislations);
+      function(err, cases) {
+        console.log("Where Clause ", whereClause);
+        callback(null,cases);
       });
   }
 

@@ -50,6 +50,8 @@ angular.module('apptorney')
          $scope.legislationReferences = [];
          $scope.workReferences = [];
          $scope.mergeStatus = 0;
+         $scope.sortType = 'name'
+         
 
 
          $scope.courts = [];

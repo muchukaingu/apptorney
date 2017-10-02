@@ -87,7 +87,13 @@ module.exports = function(Case) {
     var caseCollection = Case.getDataSource().connector.collection("case");
     caseCollection.aggregate([
         {$match: {$and:[{ "deleted": { $eq: !true } }, {$text:{$search:"\""+term+"\""}}]}},
-        {$project:{ score: { $meta: "textScore" }, name:true }}
+        {$project:{
+          score: { $meta: "textScore" },
+          name:true,
+          summaryOfRuling:true
+
+        }},
+        { $sort: { score: { $meta: "textScore" }, name: -1 } }
 
       ],
       function(err, cases) {

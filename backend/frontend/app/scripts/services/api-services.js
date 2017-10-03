@@ -5168,6 +5168,116 @@ module.factory(
           method: "GET"
         },
 
+        /**
+         * @ngdoc method
+         * @name apiServices.Case#viewCases
+         * @methodOf apiServices.Case
+         *
+         * @description
+         *
+         * <em>
+         * (The remote method definition does not provide any description.)
+         * </em>
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `skip` – `{number=}` -
+         *
+         *  - `limit` – `{number=}` -
+         *
+         *  - `query` – `{string=}` -
+         *
+         *  - `year` – `{number=}` -
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * Data properties:
+         *
+         *  - `cases` – `{*=}` -
+         *
+         *  - `count` – `{number=}` -
+         */
+        "viewCases": {
+          url: urlBase + "/cases/notdeleted",
+          method: "GET"
+        },
+
+        /**
+         * @ngdoc method
+         * @name apiServices.Case#flexisearch
+         * @methodOf apiServices.Case
+         *
+         * @description
+         *
+         * <em>
+         * (The remote method definition does not provide any description.)
+         * </em>
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `term` – `{string=}` -
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * Data properties:
+         *
+         *  - `cases` – `{Object=}` -
+         */
+        "flexisearch": {
+          url: urlBase + "/cases/flexisearch",
+          method: "GET"
+        },
+
+        /**
+         * @ngdoc method
+         * @name apiServices.Case#viewCase
+         * @methodOf apiServices.Case
+         *
+         * @description
+         *
+         * <em>
+         * (The remote method definition does not provide any description.)
+         * </em>
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{string=}` -
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * Data properties:
+         *
+         *  - `cases` – `{Object=}` -
+         */
+        "viewCase": {
+          url: urlBase + "/cases/viewCase",
+          method: "GET"
+        },
+
         // INTERNAL. Use CaseLegislations.case() instead.
         "::get::caseLegislations::case": {
           url: urlBase + "/caseLegislations/:id/case",

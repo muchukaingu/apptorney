@@ -77,6 +77,13 @@ module.exports = function(Case) {
       returns: {arg: 'cases', type: 'Object'}
   });
 
+  Case.remoteMethod(
+    'viewCase',{
+      http: {path: '/viewCase', verb: 'get'},
+      accepts: {arg: 'id', type: 'string'},
+      returns: {arg: 'cases', type: 'Object'}
+  });
+
 
   /**
    * Searches for cases based on mongo's $text index
@@ -157,6 +164,58 @@ module.exports = function(Case) {
       function(err, cases) {
         console.log("Where Clause ", whereClause);
         callback(null,cases);
+      });
+  }
+
+
+  /**
+   * Lists all cases that have not been soft deleted
+   *
+   * @callback {Function} cb The callback function
+   */
+   Case.viewCase = function(id, cb){
+    Case.findById(id,
+      {include: [{
+        relation: 'plaintiffSynonym', // include the owner object
+        scope: { // further filter the owner object
+          fields: ['synonym'] // only show two fields
+        }},
+        {relation: 'defendantSynonym', // include the owner object
+        scope: { // further filter the owner object
+          fields: ['synonym'] // only show two fields
+        }},
+        {relation: 'court', // include the owner object
+        scope: { // further filter the owner object
+          fields: ['name'] // only show two fields
+        }},
+        {relation: 'location', // include the owner object
+        scope: { // further filter the owner object
+          fields: ['name'] // only show two fields
+        }},
+        {relation: 'jurisdiction', // include the owner object
+        scope: { // further filter the owner object
+          fields: ['name'] // only show two fields
+        }},
+        {relation: 'legislationsReferedTo', // include the owner object
+        scope: { // further filter the owner object
+          fields: ['legislationName'] // only show two fields
+        }},
+        {relation: 'casesReferedTo', // include the owner object
+        scope: { // further filter the owner object
+          fields: ['name'] // only show two fields
+        }},
+        {relation: 'workReferedTo', // include the owner object
+        scope: { // further filter the owner object
+          fields: ['name'] // only show two fields
+        }},
+        {relation: 'areaOfLaw', // include the owner object
+        scope: { // further filter the owner object
+          fields: ['name'] // only show two fields
+        }}
+      ]},
+
+      function(err, cases) {
+        cb(null,cases);
       });
   }
 

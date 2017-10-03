@@ -133,6 +133,16 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "        <form id =\"applicationForm\" name=\"form\" class=\"css-form\" ng-submit=\"saveApplication()\" novalidate ng-if=\"!viewMode\">\n" +
     "                  <div class=\"row\">\n" +
+    "                    <div class=\"col-xs-12 form-group\">\n" +
+    "                      <input id=\"name\" name=\"name\" type=\"text\" class=\"form-control\" ng-model=\"case.name\" ng-minlength=2 ng-focus placeholder=\"Case Name\"/>\n" +
+    "                      <div class=\"text-danger\" ng-show=\"form.$submitted && form.name.$invalid || form.name.$dirty && form.name.$invalid && !form.name.$focused\">\n" +
+    "                        <span><i class=\"fa fa-exclamation-circle\"></i></span>\n" +
+    "                        <span ng-show=\"form.name.$error.required\">Case Name is required</span>\n" +
+    "                        <span ng-show=\"form.name.$error.minlength\">Case Name is required to be at least 2 characters long</span>\n" +
+    "\n" +
+    "                      </div>\n" +
+    "                    </div>\n" +
+    "\n" +
     "                    <div class=\"col-xs-6 form-group\">\n" +
     "                      <input id=\"caseNumber\" name=\"caseNumber\" type=\"text\" class=\"form-control\" ng-model=\"case.caseNumber\" ng-minlength=2 ng-focus placeholder=\"Case Number\"/>\n" +
     "                      <div class=\"text-danger\" ng-show=\"form.$submitted && form.caseNumber.$invalid || form.caseNumber.$dirty && form.caseNumber.$invalid && !form.caseNumber.$focused\">\n" +
@@ -146,7 +156,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "                      <ui-select ng-model=\"case.areaOfLaw\" theme=\"selectize\" title=\"Area of Law\" id=\"areaOfLaw\">\n" +
     "                          <ui-select-match placeholder=\"Area of Law\">{{$select.selected.name}}</ui-select-match>\n" +
-    "                          <ui-select-choices repeat=\"area in areasOfLaw | filter:$select.search\">\n" +
+    "                          <ui-select-choices repeat=\"area in areasOfLaw.data | filter:$select.search\">\n" +
     "                            <span ng-bind-html=\"area.name | highlight: $select.search\"></span>\n" +
     "\n" +
     "                          </ui-select-choices>\n" +
@@ -170,7 +180,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                                    <div class=\"form-group\" >\n" +
     "                                      <ui-select ng-model=\"case.plaintiffSynonym\" theme=\"selectize\" title=\"Court\" id=\"court\">\n" +
     "                                          <ui-select-match placeholder=\"Synonym for Accuser\">{{$select.selected.synonym}}</ui-select-match>\n" +
-    "                                          <ui-select-choices repeat=\"synonym in plaintiffSynonyms | filter:$select.search\">\n" +
+    "                                          <ui-select-choices repeat=\"synonym in plaintiffSynonyms.data | filter:$select.search\">\n" +
     "                                            <span ng-bind-html=\"synonym.synonym | highlight: $select.search\"></span>\n" +
     "\n" +
     "                                          </ui-select-choices>\n" +
@@ -186,7 +196,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "                            <div>\n" +
     "\n" +
-    "                                <input ng-repeat=\"plaintiff in case.plaintiffs\"  id=\"plaintiff\" name=\"plaintiff\" type=\"text\" class=\"form-control\" ng-model=\"plaintiff.name\" ng-minlength=2 ng-focus required placeholder=\"Name of Plaintiff\" ng-keydown = \"addPlaintiff($event)\" ng-style=\"{'margin-bottom':(case.parties.plaintiffs.length == 1)?'0px':'10px'}\"/>\n" +
+    "                                <input ng-repeat=\"plaintiff in case.plaintiffs.data\"  id=\"plaintiff\" name=\"plaintiff\" type=\"text\" class=\"form-control\" ng-model=\"plaintiff.name\" ng-minlength=2 ng-focus required placeholder=\"Name of Plaintiff\" ng-keydown = \"addPlaintiff($event)\" ng-style=\"{'margin-bottom':(case.parties.plaintiffs.length == 1)?'0px':'10px'}\"/>\n" +
     "                                <div class=\"text-danger\" ng-show=\"form.$submitted && form.plaintiff.$invalid || form.plaintiff.$dirty && form.plaintiff.$invalid && !form.plaintiff.$focused\">\n" +
     "\n" +
     "                                  <span ng-show=\"form.plaintiff.$error.required\">Name of Plaintiff is required</span>\n" +
@@ -208,7 +218,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                                    <div class=\"form-group\" >\n" +
     "                                      <ui-select ng-model=\"case.defendantSynonym\" theme=\"selectize\" title=\"Court\" id=\"court\">\n" +
     "                                          <ui-select-match placeholder=\"Synonym for Accused\">{{$select.selected.synonym}}</ui-select-match>\n" +
-    "                                          <ui-select-choices repeat=\"synonym in defendantSynonyms | filter:$select.search\">\n" +
+    "                                          <ui-select-choices repeat=\"synonym in defendantSynonyms.data | filter:$select.search\">\n" +
     "                                            <span ng-bind-html=\"synonym.synonym | highlight: $select.search\"></span>\n" +
     "\n" +
     "                                          </ui-select-choices>\n" +
@@ -219,7 +229,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "                              </div>\n" +
     "                            <div >\n" +
-    "                                <input ng-repeat=\"defendant in case.defendants\"  id=\"defendant\" name=\"defendant\" type=\"text\" class=\"form-control\" ng-model=\"defendant.name\" ng-minlength=2 ng-focus required placeholder=\"Name of Defendant\" ng-keydown = \"addDefendant($event)\" ng-style=\"{'margin-bottom':(case.parties.defendants.length == 1)?'0px':'10px'}\"/>\n" +
+    "                                <input ng-repeat=\"defendant in case.defendants.data\"  id=\"defendant\" name=\"defendant\" type=\"text\" class=\"form-control\" ng-model=\"defendant.name\" ng-minlength=2 ng-focus required placeholder=\"Name of Defendant\" ng-keydown = \"addDefendant($event)\" ng-style=\"{'margin-bottom':(case.parties.defendants.length == 1)?'0px':'10px'}\"/>\n" +
     "                                <div class=\"text-danger\" ng-show=\"form.$submitted && form.defendant.$invalid || form.defendant.$dirty && form.defendant.$invalid && !form.defendant.$focused\">\n" +
     "\n" +
     "                                  <span ng-show=\"form.defendant.$error.required\">Name of Defendant is required</span>\n" +
@@ -395,7 +405,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                             <div class=\"col-xs-3 form-group\" >\n" +
     "                               <ui-select ng-model=\"case.court\" theme=\"selectize\" title=\"Court\" id=\"court\">\n" +
     "                                   <ui-select-match placeholder=\"Court\">{{$select.selected.name}}</ui-select-match>\n" +
-    "                                   <ui-select-choices repeat=\"court in courts | filter:$select.search\" ng-click = \"divisionsForCourt(court.id)\">\n" +
+    "                                   <ui-select-choices repeat=\"court in courts.data | filter:$select.search\" ng-click = \"divisionsForCourt(court.id)\">\n" +
     "                                     <span ng-bind-html=\"court.name | highlight: $select.search\"></span>\n" +
     "\n" +
     "                                   </ui-select-choices>\n" +
@@ -406,7 +416,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                             <div class=\"col-xs-3 form-group\">\n" +
     "                               <ui-select ng-model=\"case.division\" theme=\"selectize\">\n" +
     "                                   <ui-select-match placeholder=\"Court Division\">{{$select.selected.name}}</ui-select-match>\n" +
-    "                                   <ui-select-choices repeat=\"division in divisions | filter: $select.search\">\n" +
+    "                                   <ui-select-choices repeat=\"division in divisions.data | filter: $select.search\">\n" +
     "                                     <span ng-bind-html=\"division.name | highlight: $select.search\"></span>\n" +
     "\n" +
     "                                   </ui-select-choices>\n" +
@@ -419,7 +429,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                             <div class=\"col-xs-3 form-group\">\n" +
     "                               <ui-select ng-model=\"case.location\" theme=\"selectize\">\n" +
     "                                   <ui-select-match placeholder=\"Location\">{{$select.selected.name}}</ui-select-match>\n" +
-    "                                   <ui-select-choices repeat=\"location in locations | filter: $select.search\">\n" +
+    "                                   <ui-select-choices repeat=\"location in locations.data | filter: $select.search\">\n" +
     "                                     <span ng-bind-html=\"location.name | highlight: $select.search\"></span>\n" +
     "\n" +
     "                                   </ui-select-choices>\n" +
@@ -429,7 +439,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                             <div class=\"col-xs-3 form-group\">\n" +
     "                               <ui-select ng-model=\"case.jurisdiction\" theme=\"selectize\">\n" +
     "                                   <ui-select-match placeholder=\"Jurisdiction\">{{$select.selected.name}}</ui-select-match>\n" +
-    "                                   <ui-select-choices repeat=\"jurisdiction in jurisdictions | filter: $select.search\">\n" +
+    "                                   <ui-select-choices repeat=\"jurisdiction in jurisdictions.data | filter: $select.search\">\n" +
     "                                     <span ng-bind-html=\"jurisdiction.name | highlight: $select.search\"></span>\n" +
     "\n" +
     "                                   </ui-select-choices>\n" +

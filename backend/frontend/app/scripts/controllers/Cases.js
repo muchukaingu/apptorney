@@ -643,9 +643,9 @@ angular.module('apptorney')
          $scope.saveCase = function(){
                  //console.info("Case Details", $scope.case);
                  $scope.saveStatus = 1;
-                 $scope.case.name = $scope.generateName($scope.case);
                  Case.upsert($scope.case,
-                     function(aCase){
+                     function(res){
+                       /*
                          $scope.case.legislationsReferedTo.forEach(function(legislation){
                            CaseLegislations.create({
                              caseId: aCase.id,
@@ -672,6 +672,8 @@ angular.module('apptorney')
 
                          })
 
+                         */
+
                          $scope.saveStatus = 2;
                          setTimeout(function(){ $scope.saveStatus = 0; $("#applicationForm").click(); }, 10000);
 
@@ -684,7 +686,9 @@ angular.module('apptorney')
                            $scope.cases.push(aCase);
 
                          }
-                         $scope.openCase(aCase);
+
+                         $scope.openCase(res.data);
+
 
 
                      },
@@ -726,6 +730,7 @@ angular.module('apptorney')
          }
 
 
+         /*
 
          $scope.openCase = function(aCase){
 
@@ -807,6 +812,17 @@ angular.module('apptorney')
 
 
 
+         }
+
+         */
+
+         $scope.openCase = function(caseInstance){
+           Case.viewCase({id:caseInstance.id}, function(res){
+             $scope.case = res.data.cases;
+             $('#addCaseModal').modal();
+             $scope.viewMode = true;
+             $scope.case.isNew = false; // Don't add to the cases list view
+           })
          }
 
          $scope.addCaseReference = function(aCase){

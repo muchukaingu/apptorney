@@ -125,16 +125,14 @@
                   </tr>
 
                 </table>
-                <div ng-if="!showLegislations" style="position: relative; left: 50%; margin-left: -100px; height: 50px; margin-top: 40px"><i ng-if="!returned" class='fa fa-fw fa-sun-o fa-spin'></i> {{message}}</div>
-								<div ng-if="legislations.length == 0 && returned" style="position: relative; left: 48%; margin-left: -100px; height: 50px; margin-top: 40px">No legislations of this type found. Click <a data-toggle="modal" data-target="#addLegislationModal">here</a> to create one.</div>
+                <div ng-if="!showCases" style="position: relative; left: 50%; margin-left: -100px; height: 50px; margin-top: 40px"><i ng-if="!returned" class='fa fa-fw fa-sun-o fa-spin'></i> {{message}}</div>
+								<div ng-if="cases.length == 0 && returned" style="position: relative; left: 48%; margin-left: -100px; height: 50px; margin-top: 40px">No duplicates found.</div>
 
 							</div>
 					</div>
         </div>
       </div>
 			<ng-include src="'templates/legislation-modal.html'"></ng-include>
-			<div ng-if="!opened" style="font-size:1.2em; position: absolute; margin-left:-150px; left:50%; top:50%; z-index:10000; background-color:#ffffff; padding:30px; border-radius:5px">
-				<i class='fa fa-fw fa-sun-o fa-spin'></i>Loading. Please wait...
-			</div>
+
       <pagination total-items="totalItems" max-size="10" items-per-page="numberOfItemsPerPage" ng-model="currentPage" ng-change="pageChanged()"></pagination>
 </div>

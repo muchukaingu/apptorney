@@ -97,13 +97,16 @@ module.exports = function(Case) {
         {$project:{
           score: { $meta: "textScore" },
           name:true,
-          summaryOfRuling:true
+          judgement:true,
+          summaryOfRuling:true,
+          summaryOfFacts:true
 
         }},
         { $sort: { score: { $meta: "textScore" }, name: -1 } }
 
       ],
       function(err, cases) {
+        console.log(err)
         if(err){
 
         }

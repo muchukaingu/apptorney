@@ -326,9 +326,16 @@ module.exports = function(Legislation) {
     var legislationCollection = Legislation.getDataSource().connector.collection("legislation");
     legislationCollection.aggregate([
         {$match: {$and:[{ "deleted": { $eq: !true } }, {$text:{$search:term}}]}},
-        {$project:{ score: { $meta: "textScore" } }}
+        {$project:{
+          score: { $meta: "textScore" },
+          legislationName:true,
+          preamble:true,
+          legislationParts:true
 
-      ]).sort( { score: { $meta: "textScore" } } ,
+        }},
+        { $sort: { score: { $meta: "textScore" }, legislationName: -1 } }
+
+      ] ,
       function(err, legislations) {
         if(err){
 

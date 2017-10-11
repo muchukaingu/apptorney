@@ -14,6 +14,8 @@ class CasesTableViewController: UITableViewController {
     var searchResultsController = UITableViewController()
     let debouncer = Debouncer(interval:1.0)
     var cases = [Case]()
+    var messageLabel:UILabel = UILabel(frame: CGRect(x: 0,y: 0, width: 200, height: 100)) as UILabel
+   
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,6 +61,14 @@ class CasesTableViewController: UITableViewController {
         // 1. UITableView Customisation
         //self.tableView.separatorStyle=UITableViewCellSeparatorStyle.none //remove separators before search
         self.tableView.tableFooterView = UIView(frame: CGRect.zero) //remove trailing separators after content
+        let margin:CGFloat = 38.0
+        messageLabel.center.x = self.view.center.x + margin
+        messageLabel.center.y = self.view.center.y - 50.0
+        messageLabel.text="Loading..."
+        messageLabel.textColor = UIColor.gray
+        messageLabel.isHidden=true
+        messageLabel.sizeToFit()
+        self.view.addSubview(messageLabel)
         
         
         
@@ -171,13 +181,17 @@ class CasesTableViewController: UITableViewController {
 extension CasesTableViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
+        self.cases = []
+        self.tableView.reloadData()
+        self.messageLabel.text = ""
         if self.searchController.searchBar.text == "" {
-            self.cases = []
-            self.tableView.reloadData()
+            
         }
         else {
             UIApplication.shared.isNetworkActivityIndicatorVisible = true
             debouncer.callback = {
+                self.messageLabel.text = "Searching..."
+                
                 
                 // Send the debounced network request here
                 let searchTerm = self.searchController.searchBar.text
@@ -186,7 +200,16 @@ extension CasesTableViewController: UISearchResultsUpdating {
                     print("callback")
                     self.cases = cases
                     print(self.cases)
+                    if self.cases.count == 0 {
+                        self.messageLabel.text = "No match found"
+                        self.messageLabel.sizeToFit()
+                        self.messageLabel.isHidden = false
+                    }
+                    else {
+                        //self.messageLabel.isHidden = true
+                    }
                     self.tableView.reloadData()
+                    self.messageLabel.text = ""
                     UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 })
             }

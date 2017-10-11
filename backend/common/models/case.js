@@ -1,4 +1,5 @@
 module.exports = function(Case) {
+  const {ObjectId} = require('mongodb'); // or ObjectID
 
 
   Case.remoteMethod(
@@ -94,12 +95,23 @@ module.exports = function(Case) {
     var caseCollection = Case.getDataSource().connector.collection("case");
     caseCollection.aggregate([
         {$match: {$and:[{ "deleted": { $eq: !true } }, {$text:{$search:"\""+term+"\""}}]}},
+        /*{
+           $lookup:{
+                 from: "areaOfLaw",
+                 localField: "areaOfLawId",
+                 foreignField: "_id",
+                 as: "area"
+           }
+        },*/ //Comment out when areaOfLawId foreign key is converted to ObjectId in case model
         {$project:{
           score: { $meta: "textScore" },
+          caseNumber: true,
           name:true,
           judgement:true,
           summaryOfRuling:true,
-          summaryOfFacts:true
+          summaryOfFacts:true,
+          citation:true,
+          areaOfLawId:true
 
         }},
         { $sort: { score: { $meta: "textScore" }, name: -1 } }
@@ -111,11 +123,31 @@ module.exports = function(Case) {
 
         }
         else{
+          var counter = 0;
           cases.map(function(caseInstance){
             caseInstance.id = caseInstance._id;
+            var citation = caseInstance.citation.year+"/"+caseInstance.citation.code+"/"+caseInstance.citation.pageNumber;
+            caseInstance.referenceNumber = (!caseInstance.caseNumber&& caseInstance.citation.year && caseInstance.citation.code && caseInstance.citation.pageNumber)?citation:caseInstance.caseNumber;
+            // caseInstance.areaOfLaw = caseInstance.areaOfLawName.name;
             delete caseInstance["_id"];
+            delete caseInstance["citation"];
+            delete caseInstance["caseNumber"];
+
+            //### TEMPORAL AREA OF LAW FIX --> Due to performance issues this should be addressed by changing areaOfLawId in Case Model to ObjectId type so that $lookup op can work
+            var app = Case.app;
+            var Areas = app.models.areaOfLaw;
+            Areas.findById(ObjectId(caseInstance.areaOfLawId), function(err, area){
+              caseInstance.area = (area==null)?"":area.name;
+              counter++;
+              if(counter == cases.length){
+                cb(null, cases)
+              }
+            })
+            //### END OF TEMPORAL AREA OF LAW FIX
+
           });
-          cb(null, cases)
+
+
         }
 
       });

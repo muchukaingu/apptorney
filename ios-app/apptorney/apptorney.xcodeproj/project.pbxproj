@@ -13,6 +13,7 @@
 		8D1A3C161ACB5785003CF9E1 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D1A3C151ACB5785003CF9E1 /* SWRevealViewController.m */; };
 		8D1A3C191ACC6E57003CF9E1 /* MenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1A3C181ACC6E57003CF9E1 /* MenuTableViewController.swift */; };
 		8D1A3C1C1ACC7038003CF9E1 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1A3C1B1ACC7038003CF9E1 /* Store.swift */; };
+		8D1FFEA71F8E438D00398738 /* CaseDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1FFEA61F8E438D00398738 /* CaseDetailsViewController.swift */; };
 		8D284A261AC9876B005AF1AB /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D284A251AC9876B005AF1AB /* CustomTextField.swift */; };
 		8D4B47E21F5DAC62009DF5ED /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8DD147BB1AA3A27500B2A098 /* Info.plist */; };
 		8D6514D81C494C2800F5EDE0 /* StoresTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6514D71C494C2800F5EDE0 /* StoresTableViewCell.swift */; };
@@ -122,6 +123,7 @@
 		8D1A3C151ACB5785003CF9E1 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
 		8D1A3C181ACC6E57003CF9E1 /* MenuTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuTableViewController.swift; sourceTree = "<group>"; };
 		8D1A3C1B1ACC7038003CF9E1 /* Store.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
+		8D1FFEA61F8E438D00398738 /* CaseDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseDetailsViewController.swift; sourceTree = "<group>"; };
 		8D284A251AC9876B005AF1AB /* CustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		8D6514D71C494C2800F5EDE0 /* StoresTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoresTableViewCell.swift; sourceTree = "<group>"; };
 		8D6ABA811C4C623F00D6EDFA /* Department.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Department.swift; sourceTree = "<group>"; };
@@ -475,6 +477,7 @@
 			isa = PBXGroup;
 			children = (
 				8D86924E1F6C111300625FE8 /* CasesTableViewController.swift */,
+				8D1FFEA61F8E438D00398738 /* CaseDetailsViewController.swift */,
 			);
 			name = Cases;
 			sourceTree = "<group>";
@@ -765,6 +768,7 @@
 				8D284A261AC9876B005AF1AB /* CustomTextField.swift in Sources */,
 				8D8048971F56AFC000B2832C /* Appuser.swift in Sources */,
 				8D963CFF1F666F0200105EDE /* HomeLargeCollectionViewCell.swift in Sources */,
+				8D1FFEA71F8E438D00398738 /* CaseDetailsViewController.swift in Sources */,
 				8DC5BDD31F6E477200F356C1 /* LegislationsTableViewController.swift in Sources */,
 				8D1A3C161ACB5785003CF9E1 /* SWRevealViewController.m in Sources */,
 				8DC5BDD51F6E482B00F356C1 /* LegislationPart.swift in Sources */,

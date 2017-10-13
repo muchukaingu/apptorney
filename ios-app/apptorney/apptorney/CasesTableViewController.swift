@@ -173,6 +173,27 @@ class CasesTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+
+        
+        if segue.identifier == "showCaseDetails" {
+            if let indexPath = self.tableView.indexPathForSelectedRow {
+                print("in segue, mofo")
+                let destinationController = segue.destination as!
+                CaseDetailsViewController
+                destinationController.caseInstance = self.cases[(indexPath as NSIndexPath).row]
+                print(self.cases[(indexPath as NSIndexPath).row])
+               
+                //destinationController.delegate = self
+                
+                
+                
+            }
+        }
+        
+        
+    }
 
 }
 
@@ -207,9 +228,10 @@ extension CasesTableViewController: UISearchResultsUpdating {
                     }
                     else {
                         //self.messageLabel.isHidden = true
+                        self.messageLabel.text = ""
                     }
                     self.tableView.reloadData()
-                    self.messageLabel.text = ""
+                    
                     UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 })
             }

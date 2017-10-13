@@ -860,21 +860,21 @@ Please check your API Settings or Network Connection and try again.</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" rowHeight="169" id="XJU-vG-zUm" customClass="CustomTableViewCell" customModule="apptorney" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="Cell" rowHeight="169" id="XJU-vG-zUm" customClass="CustomTableViewCell" customModule="apptorney" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="169"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="XJU-vG-zUm" id="ily-xM-uxO">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="168.66666666666666"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="381" height="168.66666666666666"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Case Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dvn-55-FrU">
-                                            <rect key="frame" x="8" y="13" width="386" height="20"/>
+                                            <rect key="frame" x="8" y="13" width="353" height="20"/>
                                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Judgement" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FYh-pl-ujq">
-                                            <rect key="frame" x="8" y="54" width="386" height="17"/>
+                                            <rect key="frame" x="8" y="54" width="353" height="17"/>
                                             <fontDescription key="fontDescription" type="system" weight="thin" pointSize="14"/>
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
@@ -900,10 +900,11 @@ Please check your API Settings or Network Connection and try again.</string>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="END-a8-wtW" firstAttribute="leading" secondItem="JWl-0e-FcM" secondAttribute="trailing" constant="3" id="5PW-G7-CwO"/>
+                                        <constraint firstItem="FYh-pl-ujq" firstAttribute="top" secondItem="END-a8-wtW" secondAttribute="bottom" constant="2" id="7en-a9-4ZM"/>
                                         <constraint firstItem="YPb-yO-L8z" firstAttribute="leading" secondItem="ily-xM-uxO" secondAttribute="leadingMargin" id="A5G-Gf-Ku3"/>
                                         <constraint firstAttribute="trailing" secondItem="dvn-55-FrU" secondAttribute="trailing" constant="20" id="Bl2-sd-1Tu"/>
                                         <constraint firstItem="FYh-pl-ujq" firstAttribute="leading" secondItem="ily-xM-uxO" secondAttribute="leadingMargin" id="Esl-N4-XNQ"/>
-                                        <constraint firstItem="JWl-0e-FcM" firstAttribute="centerY" secondItem="YPb-yO-L8z" secondAttribute="centerY" id="KUp-9j-NHR"/>
+                                        <constraint firstItem="JWl-0e-FcM" firstAttribute="top" secondItem="dvn-55-FrU" secondAttribute="bottom" constant="1.2" id="N61-fo-RYj"/>
                                         <constraint firstItem="END-a8-wtW" firstAttribute="top" secondItem="YPb-yO-L8z" secondAttribute="top" id="hiT-7f-8WN"/>
                                         <constraint firstItem="JWl-0e-FcM" firstAttribute="leading" secondItem="YPb-yO-L8z" secondAttribute="trailing" constant="3" id="kD8-6t-93s"/>
                                         <constraint firstItem="dvn-55-FrU" firstAttribute="leading" secondItem="ily-xM-uxO" secondAttribute="leadingMargin" id="l0B-Yp-EHg"/>
@@ -918,6 +919,7 @@ Please check your API Settings or Network Connection and try again.</string>
                                     <outlet property="smallSubTitleLeft" destination="YPb-yO-L8z" id="ZwS-0U-ca1"/>
                                     <outlet property="smallSubTitleRight" destination="END-a8-wtW" id="RtS-Jd-1Zx"/>
                                     <outlet property="subTitleLabel" destination="FYh-pl-ujq" id="JqR-P3-vsA"/>
+                                    <segue destination="kkc-jL-Hf5" kind="push" identifier="showCaseDetails" id="kFw-tA-fxo"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -930,7 +932,66 @@ Please check your API Settings or Network Connection and try again.</string>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0oe-Z6-xCA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="817" y="3506"/>
+            <point key="canvasLocation" x="796" y="3420"/>
+        </scene>
+        <!--Case Details-->
+        <scene sceneID="SDE-xF-qIe">
+            <objects>
+                <viewController id="kkc-jL-Hf5" customClass="CaseDetailsViewController" customModule="apptorney" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="zpe-97-cHH"/>
+                        <viewControllerLayoutGuide type="bottom" id="66v-uE-SiR"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="A5o-Id-Zbi">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PLq-XM-CCy">
+                                <rect key="frame" x="0.0" y="64" width="414" height="623"/>
+                                <subviews>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="pBl-dv-isZ">
+                                        <rect key="frame" x="20" y="46" width="374" height="531"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                        <dataDetectorType key="dataDetectorTypes" lookupSuggestion="YES"/>
+                                    </textView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Judgement" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pch-Yq-gAE">
+                                        <rect key="frame" x="20" y="20" width="91" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="pBl-dv-isZ" secondAttribute="bottom" id="E1L-KC-hPJ"/>
+                                    <constraint firstItem="pBl-dv-isZ" firstAttribute="leading" secondItem="PLq-XM-CCy" secondAttribute="leading" constant="20" id="HYo-dN-M2i"/>
+                                    <constraint firstItem="Pch-Yq-gAE" firstAttribute="top" secondItem="PLq-XM-CCy" secondAttribute="top" constant="20" id="JWl-xk-v9P"/>
+                                    <constraint firstItem="Pch-Yq-gAE" firstAttribute="leading" secondItem="PLq-XM-CCy" secondAttribute="leading" constant="20" id="KTy-CV-Rjy"/>
+                                    <constraint firstItem="pBl-dv-isZ" firstAttribute="centerX" secondItem="PLq-XM-CCy" secondAttribute="centerX" id="Pl2-cN-uSA"/>
+                                    <constraint firstAttribute="trailing" secondItem="pBl-dv-isZ" secondAttribute="trailing" constant="20" id="Thw-r0-p3C"/>
+                                    <constraint firstItem="pBl-dv-isZ" firstAttribute="top" secondItem="Pch-Yq-gAE" secondAttribute="bottom" constant="5" id="xgJ-UO-oun"/>
+                                    <constraint firstItem="pBl-dv-isZ" firstAttribute="centerY" secondItem="PLq-XM-CCy" secondAttribute="centerY" id="zN8-19-fOg"/>
+                                </constraints>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="PLq-XM-CCy" firstAttribute="leading" secondItem="A5o-Id-Zbi" secondAttribute="leading" id="Awl-Ni-t3A"/>
+                            <constraint firstItem="PLq-XM-CCy" firstAttribute="top" secondItem="zpe-97-cHH" secondAttribute="bottom" id="D4C-kA-yja"/>
+                            <constraint firstAttribute="trailing" secondItem="PLq-XM-CCy" secondAttribute="trailing" id="DjV-aq-1zK"/>
+                            <constraint firstItem="66v-uE-SiR" firstAttribute="top" secondItem="PLq-XM-CCy" secondAttribute="bottom" id="hnf-GV-oae"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Case Details" largeTitleDisplayMode="never" id="Oox-tI-ogP"/>
+                    <connections>
+                        <outlet property="judgement" destination="pBl-dv-isZ" id="5dk-Dp-tUr"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="d1y-12-Olo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1115" y="4211"/>
         </scene>
         <!--Settings-->
         <scene sceneID="Zja-8M-JLz">

@@ -181,7 +181,7 @@ class CasesTableViewController: UITableViewController {
             if let indexPath = self.tableView.indexPathForSelectedRow {
                 print("in segue, mofo")
                 let destinationController = segue.destination as!
-                CaseDetailsViewController
+                CaseDetailsTableViewController
                 destinationController.caseInstance = self.cases[(indexPath as NSIndexPath).row]
                 print(self.cases[(indexPath as NSIndexPath).row])
                

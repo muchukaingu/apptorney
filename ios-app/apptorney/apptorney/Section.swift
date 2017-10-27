@@ -10,12 +10,16 @@ import Foundation
 
 struct Section {
     var name: String!
-    var expanded: Bool!
+    var isCollapsed: Bool!
     var height:CGFloat?
+    var isCollapsible:Bool?
     
-    init(name: String, expanded: Bool, height: CGFloat?) {
+    
+    init(name: String, isCollapsed: Bool, height: CGFloat?) {
         self.name = name
-        self.expanded = expanded
+        self.isCollapsed = isCollapsed
         self.height = height ?? 55.0
+        self.isCollapsible = true
+        
     }
 }

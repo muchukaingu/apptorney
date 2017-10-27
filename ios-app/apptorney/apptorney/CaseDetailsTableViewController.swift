@@ -9,7 +9,7 @@
 
 import UIKit
 
-class CaseDetailsTableViewController: UITableViewController, ExpandableHeaderViewDelegate {
+class CaseDetailsTableViewController: UITableViewController {
     
     var caseInstance:Case!
     
@@ -20,11 +20,11 @@ class CaseDetailsTableViewController: UITableViewController, ExpandableHeaderVie
     
     var sections = [
         Section(name: "Summary of Ruling",
-                expanded: true, height:0.0),
+                isCollapsed: false, height:0.0),
         Section(name: "Summary of Facts",
-                expanded: false, height:0.0),
+                isCollapsed: true, height:0.0),
         Section(name: "Judgment",
-                expanded: false, height:0.0)
+                isCollapsed: true, height:0.0)
     ]
     
     
@@ -37,8 +37,9 @@ class CaseDetailsTableViewController: UITableViewController, ExpandableHeaderVie
     func configureUIControls () { //for cutomising controls on the UI
         
         self.tableView.tableFooterView = UIView(frame: CGRect.zero) //remove trailing separators after content
-        let nib = UINib(nibName: "ExpandableHeaderView", bundle: nil)
-        self.tableView.register(nib, forHeaderFooterViewReuseIdentifier: "ExpandableHeaderView")
+        //let nib = UINib(nibName: "ExpandableHeaderView", bundle: nil)
+        //self.tableView.register(nib, forHeaderFooterViewReuseIdentifier: "ExpandableHeaderView")
+        self.tableView.register(HeaderView.nib, forHeaderFooterViewReuseIdentifier: HeaderView.identifier)
 
     }
     
@@ -78,68 +79,92 @@ class CaseDetailsTableViewController: UITableViewController, ExpandableHeaderVie
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 1
+        let item = sections[section]
+        guard item.isCollapsible! else {
+            return 1
+        }
+        
+        if item.isCollapsed {
+            return 0
+        } else {
+            return 1
+        }
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count
     }
     
-    /*override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let  headerCell = tableView.dequeueReusableCell(withIdentifier: "HeaderCell")
-        
-        switch (section) {
-        case 0:
-            headerCell?.textLabel?.text = "Summary of Ruling";
-            
-        case 1:
-            headerCell?.textLabel?.text = "Summary of Facts";
-            
-        case 2:
-            headerCell?.textLabel?.text = "Judgment";
-            
-
-        default:
-            headerCell?.textLabel?.text = "Other";
-        }
-        
-        return headerCell
-    }*/
+   
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = ExpandableHeaderView()
-        header.customInit(title: sections[section].name, section: section, delegate: self)
-        return header
+        /*
+         let header = ExpandableHeaderView()
+         header.customInit(title: sections[section].name, section: section, delegate: self)
+         return header
+         */
+        if let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: HeaderView.identifier) as? HeaderView {
+            let item = sections[section]
+            
+            headerView.section = item
+            headerView.sectionID = section
+            headerView.delegate = self
+            return headerView
+        }
+        return UIView()
+        
     }
     
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 45.0
     }
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    /*
+     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         //let cell = tableView.dequeueReusableCell(withIdentifier: "DetailCell", for: indexPath) as! CaseDetailsTableViewCell
         
         
-        if (sections[indexPath.section].expanded) {
+        if (sections[indexPath.section].isCollapsed) {
             print(sections[indexPath.row].height!)
             return sections[indexPath.row].height!
         } else {
             return 0
         }
     }
-    
-    func toggleSection(header: ExpandableHeaderView, section: Int) {
-        sections[section].expanded = !sections[section].expanded
+     */
+
+}
+
+extension CaseDetailsTableViewController: HeaderViewDelegate {
+    func toggleSection(header: HeaderView, section: Int) {
+        print("header tapped")
+       
+        
+        let item = sections[section]
+        if item.isCollapsible! {
+            
+            // Toggle collapse
+            let collapsed = !item.isCollapsed
+            sections[section].isCollapsed = collapsed
+            print(item.isCollapsed)
+            header.setCollapsed(collapsed: collapsed)
+            
+            // Adjust the number of the rows inside the section
+            tableView.beginUpdates()
+            self.tableView?.reloadSections([section], with: .fade)
+            tableView.endUpdates()
+        }
+        
+        // collapse all expanded sections apart from tapped
         for i in 0..<sections.count  {
-            if i != section && sections[section].expanded==true {
-                sections[i].expanded = false
+            if i != section && sections[section].isCollapsed==false {
+                sections[i].isCollapsed = true
+                tableView.beginUpdates()
+                self.tableView?.reloadSections([i], with: .fade)
+                tableView.endUpdates()
             }
         }
-        tableView.beginUpdates()
-        
-        tableView.reloadRows(at: [IndexPath(row: 0, section: section)], with: .automatic)
-        
-        tableView.endUpdates()
-    }
 
+
+    }
 }

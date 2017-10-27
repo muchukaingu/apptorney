@@ -64,6 +64,8 @@
 		8DB842031C4ED2620084BE72 /* SegmentedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB842021C4ED2620084BE72 /* SegmentedTableViewCell.swift */; };
 		8DB842081C4EE8CD0084BE72 /* DepartmentSummaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB842071C4EE8CD0084BE72 /* DepartmentSummaryCell.swift */; };
 		8DBC4F641AA953EB0093F6CA /* HeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DBC4F631AA953EB0093F6CA /* HeaderTableViewCell.swift */; };
+		8DC24FCD1FA36BFE00551A4D /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC24FC91FA36BFE00551A4D /* HeaderView.swift */; };
+		8DC24FCE1FA387E300551A4D /* HeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8DC24FCC1FA36BFE00551A4D /* HeaderView.xib */; };
 		8DC5BDD11F6D623200F356C1 /* Debouncer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC5BDD01F6D623200F356C1 /* Debouncer.swift */; };
 		8DC5BDD31F6E477200F356C1 /* LegislationsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC5BDD21F6E477200F356C1 /* LegislationsTableViewController.swift */; };
 		8DC5BDD51F6E482B00F356C1 /* LegislationPart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC5BDD41F6E482A00F356C1 /* LegislationPart.swift */; };
@@ -179,6 +181,8 @@
 		8DB842021C4ED2620084BE72 /* SegmentedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SegmentedTableViewCell.swift; path = ../SegmentedTableViewCell.swift; sourceTree = "<group>"; };
 		8DB842071C4EE8CD0084BE72 /* DepartmentSummaryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DepartmentSummaryCell.swift; sourceTree = "<group>"; };
 		8DBC4F631AA953EB0093F6CA /* HeaderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderTableViewCell.swift; sourceTree = "<group>"; };
+		8DC24FC91FA36BFE00551A4D /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
+		8DC24FCC1FA36BFE00551A4D /* HeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HeaderView.xib; sourceTree = "<group>"; };
 		8DC5BDD01F6D623200F356C1 /* Debouncer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debouncer.swift; sourceTree = "<group>"; };
 		8DC5BDD21F6E477200F356C1 /* LegislationsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegislationsTableViewController.swift; sourceTree = "<group>"; };
 		8DC5BDD41F6E482A00F356C1 /* LegislationPart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegislationPart.swift; sourceTree = "<group>"; };
@@ -254,6 +258,8 @@
 		8D6C0CDE1AACE63B00D01ABF /* Custom TableView Cells */ = {
 			isa = PBXGroup;
 			children = (
+				8DC24FC91FA36BFE00551A4D /* HeaderView.swift */,
+				8DC24FCC1FA36BFE00551A4D /* HeaderView.xib */,
 				8DB3CE8E1E1C5FDD002D9DD7 /* Open_Sans */,
 				8DD147DE1AA3A43600B2A098 /* CustomTableViewCell.swift */,
 				8D92B5C11F9F8E7200D4B6E4 /* ExpandableHeaderView.swift */,
@@ -633,6 +639,7 @@
 				8D8048D71F580CF000B2832C /* Torus-SemiBold.otf in Resources */,
 				8DDADA3A1E23F815004B578F /* fontawesome-webfont.ttf in Resources */,
 				8D8048E61F580CF900B2832C /* OpenSans-Regular.ttf in Resources */,
+				8DC24FCE1FA387E300551A4D /* HeaderView.xib in Resources */,
 				8D8048E31F580CF900B2832C /* OpenSans-Italic.ttf in Resources */,
 				8D8048E71F580CF900B2832C /* OpenSans-Semibold.ttf in Resources */,
 				8D8048E81F580CF900B2832C /* OpenSans-SemiboldItalic.ttf in Resources */,
@@ -789,6 +796,7 @@
 				8D1FFEA71F8E438D00398738 /* CaseDetailsTableViewController.swift in Sources */,
 				8DC5BDD31F6E477200F356C1 /* LegislationsTableViewController.swift in Sources */,
 				8D1A3C161ACB5785003CF9E1 /* SWRevealViewController.m in Sources */,
+				8DC24FCD1FA36BFE00551A4D /* HeaderView.swift in Sources */,
 				8DC5BDD51F6E482B00F356C1 /* LegislationPart.swift in Sources */,
 				8D03B8F81AA54D80002A53F1 /* ProductDetailsTableViewCell.swift in Sources */,
 				8D8692591F6C536C00625FE8 /* WorkReference.swift in Sources */,

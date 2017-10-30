@@ -272,7 +272,7 @@ module.exports = function(Case) {
       {"$match": {$and:[{"deleted": { $eq: false }} ]}},
       {
           "$group": {
-              "_id": { "name": {$toUpper:"$name"}, "caseNumber": "$caseNumber", "citation":"$citation"},
+              "_id": { "name": {$toUpper:"$name"}, "caseNumber": {$toUpper:"$caseNumber"}},
               "uniqueIds": { "$addToSet": "$_id" },
               "count": { "$sum": 1 }
           }

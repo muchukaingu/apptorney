@@ -1,9 +1,10 @@
 {
   "name": "caseLegislations",
   "base": "PersistedModel",
-  "properties": {
-
+  "scope": {
+    "include": "case"
   },
+  "properties": {},
   "validations": [],
   "relations": {
     "case": {
@@ -16,9 +17,6 @@
       "model": "legislation",
       "foreignKey": "legislationId"
     }
-  },
-  "scope":{
-    "include":"case"
   },
   "acls": [],
   "methods": {}

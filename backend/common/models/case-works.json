@@ -1,9 +1,7 @@
 {
   "name": "caseWorks",
   "base": "PersistedModel",
-  "properties": {
-
-  },
+  "properties": {},
   "validations": [],
   "relations": {
     "case": {

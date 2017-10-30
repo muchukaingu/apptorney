@@ -65,7 +65,6 @@
     "dataSource": "apptorney",
     "public": true
   },
-
   "court": {
     "dataSource": "apptorney",
     "public": true
@@ -78,7 +77,6 @@
     "dataSource": "apptorney",
     "public": true
   },
-
   "lawFirm": {
     "dataSource": "apptorney",
     "public": true
@@ -127,7 +125,6 @@
     "dataSource": "apptorney",
     "public": true
   },
-
   "party": {
     "dataSource": "apptorney",
     "public": false

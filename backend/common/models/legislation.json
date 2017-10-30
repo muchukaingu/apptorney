@@ -5,6 +5,11 @@
   "options": {
     "validateUpsert": true
   },
+  "scope": {
+    "include": [
+      "capturedBy"
+    ]
+  },
   "properties": {
     "generalTitle": {
       "type": "string",
@@ -50,18 +55,20 @@
       "type": "string",
       "required": false
     },
-    "legislationParts":{
-      "type": ["legislationPart"],
+    "legislationParts": {
+      "type": [
+        "legislationPart"
+      ],
       "required": false
     },
     "duplicateCount": {
       "type": "number",
       "required": false
     },
-    "deleted":{
-      "type":"boolean",
+    "deleted": {
+      "type": "boolean",
       "required": false,
-      "default":false
+      "default": false
     }
   },
   "validations": [],
@@ -71,26 +78,21 @@
       "model": "case",
       "foreignKey": ""
     },
-    "capturedBy":{
+    "capturedBy": {
       "type": "belongsTo",
       "model": "appuser",
       "foreignKey": ""
     },
-    "caseLegislations":{
+    "caseLegislations": {
       "type": "hasMany",
       "model": "caseLegislations",
       "foreignKey": "legislationId"
     },
-    "parentLegislation":{
+    "parentLegislation": {
       "type": "belongsTo",
       "model": "legislation",
       "foreignKey": "parentLegislation"
     }
-
-
-  },
-  "scope":{
-    "include":["capturedBy"]
   },
   "acls": [],
   "methods": {}

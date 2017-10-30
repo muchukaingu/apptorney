@@ -2,20 +2,16 @@
   "name": "caseCases",
   "base": "PersistedModel",
   "idInjection": true,
-  "properties": {
-
-  },
+  "properties": {},
   "validations": [],
   "relations": {
     "case": {
       "type": "belongsTo",
       "model": "case"
-
     },
     "caseReferedTo": {
       "type": "belongsTo",
       "model": "case"
-
     }
   },
   "acls": [],

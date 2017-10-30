@@ -1,0 +1,29 @@
+type: bluemix
+server:
+  displayName: United Kingdom
+  name: eu-gb
+  host: eu.apiconnect.ibmcloud.com
+org:
+  id: 59f61c850cf28f414442055f
+  name: circuit-business-solutions-dev
+  displayName: Circuit Business Solutions (dev)
+  orgType: apiProvider
+  status: active
+  advPortalOverride: true
+  extUaaAuthenticated: false
+  requiresSSLClientCertCheck: false
+  dormant: false
+  url: 'https://eu.apiconnect.ibmcloud.com/v1/orgs/59f61c850cf28f414442055f'
+  externalOrgId: 0749b07e-74b0-46f4-a270-3967058ea3c2
+  externalInviteOverride: 'https://console.bluemix.net/apis/catalog/invitation?env_id=ibm:yp:eu-gb'
+  externalSpaceId: 0749b07e-74b0-46f4-a270-3967058ea3c2
+  externalNativeOrgId: 80fb18ea-a128-4b99-9d53-ff0b728b194b
+catalog:
+  none: true
+space:
+  none: true
+app:
+  new: true
+  name: apptorney
+id: f554a0eb-4cb0-4286-8215-0c44eceead76
+target: 1.0.0

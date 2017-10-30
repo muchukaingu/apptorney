@@ -19,18 +19,19 @@
       "required": true
     },
     "subParts": {
-      "type": ["legislationPart"],
+      "type": [
+        "legislationPart"
+      ],
       "required": true
     },
-    "table":{
-      "type":"table",
-      "required":true
+    "table": {
+      "type": "table",
+      "required": true
     },
-    "file":{
+    "file": {
       "type": "file",
       "required": false
     }
-
   },
   "validations": [],
   "relations": {
@@ -39,7 +40,6 @@
       "model": "partType",
       "foreignKey": "partType"
     }
-
   },
   "acls": [],
   "methods": {}

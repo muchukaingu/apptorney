@@ -72,6 +72,28 @@ angular.module('apptorney')
          $scope.itemsPerPage = 100;
          $scope.totalCases = 0;
 
+         $scope.showReferences = function(references) {
+           var ids = []
+            references.forEach(function(reference){
+              console.log(reference.caseId)
+              ids.push(reference.caseId)
+
+            })
+
+            Case.namesakes({ id: JSON.stringify(ids)},
+                function(res) {
+                    console.log(res.data)
+                    $scope.cases = res.data.namesakes
+                    $scope.returned = true
+                    $scope.showCases = true
+                },
+                function(errorResponse) {}
+            )
+
+
+
+         }
+
 
          $scope.toggleView = function(){
            if ($scope.viewMode == false){

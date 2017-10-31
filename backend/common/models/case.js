@@ -317,7 +317,7 @@ module.exports = function(Case) {
       include: {
           relation: 'caseCases', // include the owner object
           scope: { // further filter the owner object
-            fields: ['id'] // only show two fields
+            //fields: ['id'] // only show two fields
           }
       },
       filter:{ include: {

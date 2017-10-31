@@ -194,7 +194,7 @@
                     <td class="editables">
 
                       <span class="editable"  name="email" form="rowform" onchange="editItem(this,'itemID')" required>
-													{{case.caseCases.length}}
+													  <a ng-click="showReferences(case.caseCases)">{{case.caseCases.length}}</a>
                       </span>
                     </td>
 										<td class="editables">

@@ -50,11 +50,11 @@
               </div>
               <div class="col-xs-12 col-md-12 form-group">
                 <ui-select ng-model="legislation.parentLegislation" theme="selectize">
-                    <ui-select-match placeholder="Search for Parent Legislation...">{{$select.selected.legislationName}}</ui-select-match>
+                    <ui-select-match placeholder="Search for Parent Legislation...">{{$select.selected.legislationName + ' ('+ $select.selected.legislationType.name + ')'}}</ui-select-match>
                         <ui-select-choices repeat="parent.id as parent in parents track by $index"
                                  refresh="searchForParent($select.search)"
                                  refresh-delay="0">
-                                 <span ng-bind-html="parent.legislationName | highlight: $select.search"></span>
+                                 <span ng-bind-html="parent.legislationName + + ' ('+ parent.legislationType.name + ')' | highlight: $select.search"></span>
                         </ui-select-choices>
 
                 </ui-select>

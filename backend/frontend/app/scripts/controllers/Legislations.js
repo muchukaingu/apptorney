@@ -563,7 +563,7 @@ angular.module('apptorney')
         }
 
         $scope.searchForParent = function(term) {
-            Legislation.search({ term: term },
+            Legislation.flexisearch({ term: term },
                 function(res) {
                     $scope.parents = res.data.legislations
                 },

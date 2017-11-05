@@ -2,7 +2,7 @@
 
 
 module.exports = function(Legislation) {
-  const {ObjectId} = require('mongodb'); // or ObjectID
+
   // MODEL FUNCTIONS ##############################################################################################
 
   /**
@@ -326,20 +326,11 @@ module.exports = function(Legislation) {
     var legislationCollection = Legislation.getDataSource().connector.collection("legislation");
     legislationCollection.aggregate([
         {$match: {$and:[{ "deleted": { $eq: !true } }, {$text:{$search:term}}]}},
-        {
-           $lookup:{
-                 from: "legislationType",
-                 localField: "legislationType",
-                 foreignField: "_id",
-                 as: "legislationType"
-           }
-        },
         {$project:{
           score: { $meta: "textScore" },
           legislationName:true,
           preamble:true,
-          legislationParts:true,
-          legislationType:true
+          legislationParts:true
 
         }},
         { $sort: { score: { $meta: "textScore" }, legislationName: -1 } }
@@ -352,10 +343,7 @@ module.exports = function(Legislation) {
         else{
           legislations.map(function(legislation){
             legislation.id = legislation._id;
-            legislation.legislationType = legislation.legislationType[0];
-            legislation.legislationType.id = legislation.legislationType._id;
             delete legislation["_id"];
-            delete legislation.legislationType["_id"];
           });
           cb(null, legislations)
         }
@@ -374,12 +362,12 @@ module.exports = function(Legislation) {
     console.log("Skip",skip*200);
     console.log("Limit",limit);
     console.log("Query",query);
-    console.log("Type ObjectId",ObjectId(type));
+    console.log("Type",type);
     var query = query?{legislationName: {like: '.*'+ query +'.*', options:'i'}}:undefined;
-    var whereClause = {and:[{deleted:{neq:true}}, query,{legislationType:ObjectId(type) }]};
+    var whereClause = {and:[{deleted:{neq:true}}, query,{legislationType:{like: '.*'+ type +'.*', options:'i'} }]};
 
     function callback(error, data){
-      Legislation.find({filter:{where:whereClause}}, function(err, legislations){
+      Legislation.find({where:whereClause}, function(err, legislations){
         var count = legislations.length;
         console.log("Count", legislations.length);
         cb(null,data, count);
@@ -391,7 +379,7 @@ module.exports = function(Legislation) {
       order:'legislationName ASC',
       limit:200,
       skip:skip*200,
-      filter:{where: whereClause},
+      where: whereClause,
       include: {
           relation: 'caseLegislations', // include the owner object
           scope: { // further filter the owner object

@@ -1203,12 +1203,12 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                  </div>\n" +
     "              </div>\n" +
     "              <div class=\"col-xs-12 col-md-12 form-group\">\n" +
-    "                <ui-select ng-model=\"legislation.parentLegislation\" theme=\"selectize\">\n" +
-    "                    <ui-select-match placeholder=\"Search for Parent Legislation...\">{{$select.selected.legislationName}}</ui-select-match>\n" +
+    "                <ui-select ng-model=\"legislation.parentLegislation\" theme=\"selectize\" ng-model-options=\"{ debounce: 1000 }\">\n" +
+    "                    <ui-select-match placeholder=\"Search for Parent Legislation...\">{{$select.selected.legislationName + ' | <em>' + parent.legislationType + '</em>'}}</ui-select-match>\n" +
     "                        <ui-select-choices repeat=\"parent.id as parent in parents track by $index\"\n" +
     "                                 refresh=\"searchForParent($select.search)\"\n" +
     "                                 refresh-delay=\"0\">\n" +
-    "                                 <span ng-bind-html=\"parent.legislationName | highlight: $select.search\"></span>\n" +
+    "                                 <span ng-bind-html=\"parent.legislationName + ' | <em>' + parent.legislationType + '</em>' | highlight: $select.search\"></span>\n" +
     "                        </ui-select-choices>\n" +
     "\n" +
     "                </ui-select>\n" +

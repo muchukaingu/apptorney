@@ -49,12 +49,12 @@
                   </div>
               </div>
               <div class="col-xs-12 col-md-12 form-group">
-                <ui-select ng-model="legislation.parentLegislation" theme="selectize">
-                    <ui-select-match placeholder="Search for Parent Legislation...">{{$select.selected.legislationName}}</ui-select-match>
+                <ui-select ng-model="legislation.parentLegislation" theme="selectize" ng-model-options="{ debounce: 1000 }">
+                    <ui-select-match placeholder="Search for Parent Legislation...">{{$select.selected.legislationName + ' | <em>' + parent.legislationType + '</em>'}}</ui-select-match>
                         <ui-select-choices repeat="parent.id as parent in parents track by $index"
                                  refresh="searchForParent($select.search)"
                                  refresh-delay="0">
-                                 <span ng-bind-html="parent.legislationName | highlight: $select.search"></span>
+                                 <span ng-bind-html="parent.legislationName + ' | <em>' + parent.legislationType + '</em>' | highlight: $select.search"></span>
                         </ui-select-choices>
 
                 </ui-select>

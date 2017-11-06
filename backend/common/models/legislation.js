@@ -2,6 +2,7 @@
 
 
 module.exports = function(Legislation) {
+  const {ObjectId} = require('mongodb'); // or ObjectID
 
   // MODEL FUNCTIONS ##############################################################################################
 
@@ -330,7 +331,8 @@ module.exports = function(Legislation) {
           score: { $meta: "textScore" },
           legislationName:true,
           preamble:true,
-          legislationParts:true
+          legislationParts:true,
+          legislationType:true
 
         }},
         { $sort: { score: { $meta: "textScore" }, legislationName: -1 } }
@@ -341,11 +343,26 @@ module.exports = function(Legislation) {
 
         }
         else{
+          //### TEMPORAL AREA OF LAW FIX --> Due to performance issues this should be addressed by changing areaOfLawId in Case Model to ObjectId type so that $lookup op can work
+          var app = Legislation.app;
+          var legislationTypes = app.models.legislationType;
+          var counter = 0;
           legislations.map(function(legislation){
+            console.log(legislation.legislationType);
             legislation.id = legislation._id;
             delete legislation["_id"];
+            legislationTypes.findById(ObjectId(legislation.legislationType), function(err, type){
+              legislation.legislationType = type.name;
+              counter++;
+              if(counter == legislations.length){
+                cb(null,legislations);
+              }
+            })
+
           });
-          cb(null, legislations)
+
+          //### END OF TEMPORAL AREA OF LAW FIX
+
         }
 
       });
@@ -389,8 +406,27 @@ module.exports = function(Legislation) {
 
       },
       function(err, legislations) {
-        console.log("Legislations Length ", legislations.length);
-        callback(null,legislations);
+        //### TEMPORAL AREA OF LAW FIX --> Due to performance issues this should be addressed by changing areaOfLawId in Case Model to ObjectId type so that $lookup op can work
+        var app = Legislation.app;
+        var legislationTypes = app.models.legislationType;
+        var counter = 0;
+        console.log(legislations.length)
+        legislations.map(function(legislation){
+          console.log(legislation.legislationName)
+          legislationTypes.findById(ObjectId(legislation.legislationType), function(err, type){
+            legislation.legislationType = type.name;
+            counter++;
+            if(counter == legislations.length){
+              callback(null,legislations);
+            }
+          })
+
+        });
+
+        //### END OF TEMPORAL AREA OF LAW FIX
+
+
+
       });
   }
 

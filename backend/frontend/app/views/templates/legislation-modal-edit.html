@@ -50,7 +50,7 @@
               </div>
               <div class="col-xs-12 col-md-12 form-group">
                 <ui-select ng-model="legislation.parentLegislation" theme="selectize" ng-model-options="{ debounce: 1000 }">
-                    <ui-select-match placeholder="Search for Parent Legislation...">{{$select.selected.legislationName + ' | <em>' + parent.legislationType + '</em>'}}</ui-select-match>
+                    <ui-select-match placeholder="Search for Parent Legislation...">{{$select.selected.legislationName + ' | ' + $select.selected.legislationType }}</ui-select-match>
                         <ui-select-choices repeat="parent.id as parent in parents track by $index"
                                  refresh="searchForParent($select.search)"
                                  refresh-delay="0">

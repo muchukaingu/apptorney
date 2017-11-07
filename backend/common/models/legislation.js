@@ -348,10 +348,16 @@ module.exports = function(Legislation) {
           var legislationTypes = app.models.legislationType;
           var counter = 0;
           legislations.map(function(legislation){
-            console.log(legislation.legislationType);
+
             legislation.id = legislation._id;
             delete legislation["_id"];
             legislationTypes.findById(ObjectId(legislation.legislationType), function(err, type){
+              if(err){
+                console.log("Error ", err);
+              }
+              if (type==null){
+                console.log("Offending Legislation ", legislation.legislationName + " / " +legislation.id);
+              }
               legislation.legislationType = type.name;
               counter++;
               if(counter == legislations.length){

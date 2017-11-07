@@ -7,7 +7,15 @@
   },
   "scope": {
     "include": [
-      "capturedBy"
+      "capturedBy",
+      {
+        "relation":"parentLegislation",
+        "scope":{
+          "fields":["id", "legislationName", "legislationType"]
+        }
+      }
+
+
     ]
   },
   "properties": {

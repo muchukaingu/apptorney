@@ -12,6 +12,7 @@
         "relation":"parentLegislation",
         "scope":{
           "fields":["id", "legislationName", "legislationType"]
+          
         }
       }
 

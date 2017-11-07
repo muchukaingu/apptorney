@@ -409,6 +409,7 @@ module.exports = function(Legislation) {
             fields: ['id'] // only show two fields
           }
       }
+      
 
       },
       function(err, legislations) {

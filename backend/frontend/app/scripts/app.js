@@ -142,11 +142,15 @@ angular
             progressLoader.end();
         });
     }])
-    .config(['$provide', '$routeProvider', 'LoopBackResourceProvider', function($provide, $routeProvider, LoopBackResourceProvider) {
+    .config(['$provide', '$routeProvider', 'LoopBackResourceProvider', '$httpProvider', function($provide, $routeProvider, LoopBackResourceProvider, $httpProvider) {
+
+        $httpProvider.defaults.headers.common['X-IBM-Client-ID'] = '6f423f6d-5514-4c5f-bf5c-0f0ce138d523'
+        $httpProvider.defaults.headers.common['X-IBM-Client-Secret'] = '273733c1-f6c0-4f1f-ae1d-cd01c92676a2'
 
 
         // Change the URL where to access the LoopBack REST API server
-        LoopBackResourceProvider.setUrlBase('http://circuit.cloudapp.net:3001/api'); //Important: Comment for test
+        LoopBackResourceProvider.setUrlBase('https://circuitbusiness-apptorney.eu-gb.mybluemix.net/api'); //Important: Comment for test
+        //LoopBackResourceProvider.setUrlBase('http://circuit.cloudapp.net:3001/api'); //Important: Comment for test
         // LoopBackResourceProvider.setUrlBase('http://circuitbusiness-test.cloudapp.net:3001/api'); //Important: Comment for production
         // LoopBackResourceProvider.setUrlBase('http://localhost:3009/api'); //Important: Comment for production
 

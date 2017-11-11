@@ -191,7 +191,7 @@ angular.module('apptorney')
             $scope.returned = false
             $scope.showLegislations = false
             if (type == 'all') {
-                Legislation.viewLegislations({ limit: 200, skip: $scope.currentPage - 1, query: $scope.query, type: $routeParams.id },
+                Legislation.viewLegislations({type: $routeParams.id, term: $scope.currentPage - 1 },
                     function(res) {
                         $scope.legislations = res.data.legislations
                         $scope.numberOfItemsPerPage = 200

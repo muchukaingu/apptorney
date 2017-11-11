@@ -15377,11 +15377,7 @@ module.factory(
          *
          * @param {Object=} parameters Request parameters.
          *
-         *  - `skip` – `{number=}` -
-         *
-         *  - `limit` – `{number=}` -
-         *
-         *  - `query` – `{string=}` -
+         *  - `term` – `{string=}` -
          *
          *  - `type` – `{string=}` -
          *
@@ -15402,7 +15398,7 @@ module.factory(
          *  - `count` – `{number=}` -
          */
         "viewLegislations": {
-          url: urlBase + "/legislations/notdeleted",
+          url: urlBase + "/legislations/viewLegislations",
           method: "GET"
         },
 

@@ -381,18 +381,12 @@ module.exports = function(Legislation) {
    *
    * @callback {Function} cb The callback function
    */
-   Legislation.viewLegislations = function(skip,limit, query, type, cb){
-    console.log("Skip",skip*200);
-    console.log("Limit",limit);
-    console.log("Query",query);
-    console.log("Type",type);
-    var query = query?{legislationName: {like: '.*'+ query +'.*', options:'i'}}:undefined;
-    var whereClause = {and:[{deleted:{neq:true}}, query,{legislationType:{like: '.*'+ type +'.*', options:'i'} }]};
+   Legislation.viewLegislations = function(term, type, cb){
+    var whereClause = {and:[{deleted:{neq:true}},{legislationType:{like: '.*'+ type +'.*', options:'i'} }]};
 
     function callback(error, data){
       Legislation.find({where:whereClause}, function(err, legislations){
         var count = legislations.length;
-        console.log("Count", legislations.length);
         cb(null,data, count);
       })
 
@@ -401,7 +395,7 @@ module.exports = function(Legislation) {
     Legislation.find({
       order:'legislationName ASC',
       limit:200,
-      skip:skip*200,
+      skip:term*200,
       where: whereClause,
       include: {
           relation: 'caseLegislations', // include the owner object
@@ -409,7 +403,7 @@ module.exports = function(Legislation) {
             fields: ['id'] // only show two fields
           }
       }
-      
+
 
       },
       function(err, legislations) {
@@ -417,9 +411,7 @@ module.exports = function(Legislation) {
         var app = Legislation.app;
         var legislationTypes = app.models.legislationType;
         var counter = 0;
-        console.log(legislations.length)
         legislations.map(function(legislation){
-          console.log(legislation.legislationName)
           legislationTypes.findById(ObjectId(legislation.legislationType), function(err, type){
             legislation.legislationType = type.name;
             counter++;
@@ -533,11 +525,9 @@ module.exports = function(Legislation) {
 
   Legislation.remoteMethod(
     'viewLegislations',{
-      http: {path: '/notdeleted', verb: 'get'},
+      http: {path: '/viewLegislations', verb: 'get'},
       accepts:[
-        {arg: 'skip', type: 'number'},
-        {arg: 'limit', type: 'number'},
-        {arg: 'query', type: 'string'},
+        {arg: 'term', type: 'number'}, //term is a placeholder for skip
         {arg: 'type', type: 'string'}
       ],
       returns: [

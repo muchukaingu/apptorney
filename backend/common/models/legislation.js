@@ -385,8 +385,7 @@ module.exports = function(Legislation) {
     var whereClause = {and:[{deleted:{neq:true}},{legislationType:{like: '.*'+ type +'.*', options:'i'} }]};
 
     function callback(error, data){
-      Legislation.find({where:whereClause}, function(err, legislations){
-        var count = legislations.length;
+      Legislation.count(whereClause, function(err, count){
         cb(null,data, count);
       })
 

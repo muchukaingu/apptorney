@@ -1208,7 +1208,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                        <ui-select-choices repeat=\"parent.id as parent in parents track by $index\"\n" +
     "                                 refresh=\"searchForParent($select.search)\"\n" +
     "                                 refresh-delay=\"0\">\n" +
-    "                                 <span ng-bind-html=\"parent.legislationName + ' | <em>' + parent.legislationType + '</em>' | highlight: $select.search\"></span>\n" +
+    "                                 <span ng-bind-html=\"parent.legislationNumbers + ' | ' + parent.legislationName + ' | ' + parent.year + ' | <em>' + parent.legislationType + '</em>' | highlight: $select.search\"></span>\n" +
     "                        </ui-select-choices>\n" +
     "\n" +
     "                </ui-select>\n" +

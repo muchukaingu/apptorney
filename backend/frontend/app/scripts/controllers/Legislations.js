@@ -566,6 +566,11 @@ angular.module('apptorney')
             Legislation.flexisearch({ term: term },
                 function(res) {
                     $scope.parents = res.data.legislations
+                    $scope.parents.forEach(function(parent){
+                      parent.year = new Date(parent.dateOfAssent).getFullYear()
+                      parent.legislationNumbers = parent.legislationNumbers?parent.legislationNumbers:parent.legislationNumber
+                      // console.log(parent.year)
+                    });
                 },
                 function(errorResponse) {}
             )

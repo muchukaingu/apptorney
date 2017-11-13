@@ -332,7 +332,10 @@ module.exports = function(Legislation) {
           legislationName:true,
           preamble:true,
           legislationParts:true,
-          legislationType:true
+          legislationType:true,
+          dateOfAssent:true,
+          legislationNumber:true,
+          legislationNumbers:true
 
         }},
         { $sort: { score: { $meta: "textScore" }, legislationName: -1 } }

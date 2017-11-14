@@ -350,6 +350,8 @@ module.exports = function(Legislation) {
           var app = Legislation.app;
           var legislationTypes = app.models.legislationType;
           var counter = 0;
+          cb(null,legislations);
+          /*
           legislations.map(function(legislation){
 
             legislation.id = legislation._id;
@@ -368,7 +370,7 @@ module.exports = function(Legislation) {
               }
             })
 
-          });
+          });*/
 
           //### END OF TEMPORAL AREA OF LAW FIX
 

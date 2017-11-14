@@ -4,19 +4,14 @@
     "connector": "memory"
   },
   "apptorney": {
-    "url": "${MONGODB_CONNECTION_URL}",
+    "host": "localhost",
+    "port": 27017,
+    "url": "",
     "database": "apptorney",
+    "password": "",
     "name": "apptorney",
-    "connector": "mongodb",
-    "ssl": true,
-    "server": {
-      "auto_reconnect": true,
-      "reconnectTries": 100,
-      "reconnectInterval": 1000,
-      "sslValidate": false,
-      "checkServerIdentity": false,
-      "sslCA": "${ca_certificate_base64}"
-    }
+    "user": "",
+    "connector": "mongodb"
   },
   "transient": {
     "name": "transient",

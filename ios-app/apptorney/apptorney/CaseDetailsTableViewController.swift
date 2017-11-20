@@ -132,6 +132,9 @@ class CaseDetailsTableViewController: UITableViewController {
         }
     }
      */
+    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        print("Yebo Yes")
+    }
 
 }
 

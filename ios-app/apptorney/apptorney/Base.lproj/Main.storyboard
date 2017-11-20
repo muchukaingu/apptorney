@@ -800,13 +800,13 @@ Please check your API Settings or Network Connection and try again.</string>
                                     <rect key="frame" x="0.0" y="0.0" width="381" height="71.666666666666671"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tbP-G8-T3J">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Legislation Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tbP-G8-T3J">
                                             <rect key="frame" x="8" y="13" width="386" height="19.666666666666664"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Barcode" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zmk-of-9wQ">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Preamble" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zmk-of-9wQ">
                                             <rect key="frame" x="8" y="34.666666666666664" width="386" height="17"/>
                                             <fontDescription key="fontDescription" type="system" weight="thin" pointSize="14"/>
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -825,8 +825,8 @@ Please check your API Settings or Network Connection and try again.</string>
                                     <constraint firstAttribute="trailing" secondItem="tbP-G8-T3J" secondAttribute="trailing" constant="20" id="FbE-tn-kf0"/>
                                 </constraints>
                                 <connections>
-                                    <outlet property="barcode" destination="zmk-of-9wQ" id="H42-H3-axc"/>
-                                    <outlet property="itemDescription" destination="tbP-G8-T3J" id="Q7E-24-6xM"/>
+                                    <outlet property="mainLabel" destination="tbP-G8-T3J" id="UER-Vo-wEZ"/>
+                                    <outlet property="subTitleLabel" destination="zmk-of-9wQ" id="UD3-IW-zKK"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

@@ -298,7 +298,7 @@ class LoginViewController: UIViewController, SettingsTableViewControllerDelegate
                 self.loginButton.transform = CGAffineTransform(translationX: 0, y: -215.0)
                 self.txtUserName.transform = CGAffineTransform(translationX: 0, y: -45.0)
                 self.txtPassword.transform = CGAffineTransform(translationX: 0, y: -45.0)
-                self.lineView.transform = CGAffineTransform(translationX: 0, y: -45.0)
+                //self.lineView.transform = CGAffineTransform(translationX: 0, y: -45.0)
                 //self.tableView.transform = CGAffineTransform(translationX: 0, y: self.tableYPoint)
             }, completion:nil)
         }

@@ -14,7 +14,7 @@ class LegislationsTableViewController: UITableViewController {
     
     var searchController: UISearchController!
     var searchResultsController = UITableViewController()
-    let debouncer = Debouncer(interval:1.0)
+    let debouncer = Debouncer(interval:0.5)
     var legislations = [Legislation]()
 
     override func viewDidLoad() {
@@ -156,6 +156,8 @@ class LegislationsTableViewController: UITableViewController {
 extension LegislationsTableViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
+        self.legislations = []
+        self.tableView.reloadData()
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         debouncer.callback = {
             // Send the debounced network request here

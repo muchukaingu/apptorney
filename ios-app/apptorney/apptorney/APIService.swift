@@ -12,14 +12,19 @@ protocol APIServiceDelegate: class {
 
 class APIService {
     
-    static let urlBase          = "http://circuit.cloudapp.net:3001/api"
+    static let urlBase          = "https://circuitbusiness-apptorney.eu-gb.mybluemix.net/api"
     static let appUsersURL      = urlBase + "/appusers"
     static let casesURL         = urlBase + "/cases"
     weak var delegate: APIServiceDelegate?
     
     func get(endPoint:String, parameters:Any, completionHandler:@escaping (Any?, Error?)->Void){
         let parameters: Parameters = parameters as! Parameters
-        Alamofire.request(APIService.urlBase + endPoint, method: .get, parameters: parameters).responseJSON { response in
+        let headers = [
+            "X-IBM-Client-ID": "6f423f6d-5514-4c5f-bf5c-0f0ce138d523",
+            "X-IBM-Client-Secret": "273733c1-f6c0-4f1f-ae1d-cd01c92676a2"
+        ]
+
+        Alamofire.request(APIService.urlBase + endPoint, method: .get, parameters: parameters, headers: headers).responseJSON { response in
             print(response.result)
             if let JSON = response.result.value {
                 //let error: Error?

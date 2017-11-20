@@ -48,7 +48,7 @@ class Legislation: Decodable  {
         let api = APIService()
         var legislations = [Legislation]()
        
-        api.get(endPoint: "/legislations/flexisearch", parameters: ["term":term!], completionHandler: { (result, error) in
+        api.get(endPoint: "/legislations/mobilesearch", parameters: ["term":term!], completionHandler: { (result, error) in
             
             if error != nil {
                 print(error!)

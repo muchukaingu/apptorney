@@ -54,7 +54,7 @@
                         <ui-select-choices repeat="parent.id as parent in parents track by $index"
                                  refresh="searchForParent($select.search)"
                                  refresh-delay="0">
-                                 <span ng-bind-html="parent.legislationName + ' | <em>' + parent.legislationType + '</em>' | highlight: $select.search"></span>
+                                 <span ng-bind-html="parent.legislationNumbers + ' | ' + parent.legislationName + ' | ' + parent.year + ' | <em>' + parent.legislationType + '</em>' | highlight: $select.search"></span>
                         </ui-select-choices>
 
                 </ui-select>

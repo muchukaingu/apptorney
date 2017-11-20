@@ -11,8 +11,8 @@
       {
         "relation":"parentLegislation",
         "scope":{
-          "fields":["id", "legislationName", "legislationType"]
-          
+          "fields":["id", "legislationName", "legislationType", "deleted"]
+
         }
       }
 

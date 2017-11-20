@@ -1350,7 +1350,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "          </h4>\n" +
     "          <p  id=\"WelcomeMessage\" style=\"margin-left:8px; margin-top:-10px; font-size:1.2em\">\n" +
     "            <span style=\"font-weight:600\">{{legislation.legislationName}} </span><br />\n" +
-    "            <span style=\"font-weight:600\" class=\"text-warning\">Parent Legislation: {{legislation.parentLegislation.legislationName}} </span><br />\n" +
+    "            <span style=\"font-weight:600\" class=\"text-warning\" ng-if=\"legislation.parentLegislation !== undefined\">Parent Legislation: {{legislation.parentLegislation.legislationName + ' | Deleted = '}} {{legislation.parentLegislation.deleted?\"Yes\":\"No\"}}</span><br />\n" +
     "            Enacted by {{legislation.enactment}}<br />\n" +
     "            Assented on {{legislation.dateOfAssent | date:'MMMM d, yyyy'}}\n" +
     "          </p>\n" +
@@ -1379,7 +1379,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                      </panel-controls>\n" +
     "                      <div class=\"row\">\n" +
     "                          <div class=\"col-lg-12\" style=\"white-space: pre-wrap;\" ng-bind-html=\"legislation.legislationNumbers\">\n" +
-    "                          \n" +
+    "\n" +
     "                          </div>\n" +
     "                      </div>\n" +
     "                    </panel>\n" +

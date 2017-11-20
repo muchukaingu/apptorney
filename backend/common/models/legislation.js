@@ -350,8 +350,8 @@ module.exports = function(Legislation) {
           var app = Legislation.app;
           var legislationTypes = app.models.legislationType;
           var counter = 0;
-          cb(null,legislations);
-          /*
+
+
           legislations.map(function(legislation){
 
             legislation.id = legislation._id;
@@ -370,7 +370,7 @@ module.exports = function(Legislation) {
               }
             })
 
-          });*/
+          });
 
           //### END OF TEMPORAL AREA OF LAW FIX
 
@@ -459,6 +459,68 @@ module.exports = function(Legislation) {
     });
   }
 
+
+  /**
+   * Gets all unique occurences based on Legislation Name
+   *
+   * @callback {Function} cb The callback function
+   */
+  Legislation.mobilesearch = function(term, cb){
+    var legislationCollection = Legislation.getDataSource().connector.collection("legislation");
+    legislationCollection.aggregate([
+        {$match: {$and:[{ "deleted": { $eq: !true } }, {$text:{$search:term}}]}},
+        {$project:{
+          score: { $meta: "textScore" },
+          legislationName:true,
+          preamble:true,
+          dateOfAssent:true,
+          legislationNumber:true
+
+
+        }},
+        { $sort: { score: { $meta: "textScore" }, legislationName: -1 } }
+
+      ] ,
+      function(err, legislations) {
+        if(err){
+
+        }
+        else{
+          //### TEMPORAL AREA OF LAW FIX --> Due to performance issues this should be addressed by changing areaOfLawId in Case Model to ObjectId type so that $lookup op can work
+          var app = Legislation.app;
+          var legislationTypes = app.models.legislationType;
+          var counter = 0;
+          cb(null,legislations);
+          /*
+          legislations.map(function(legislation){
+
+            legislation.id = legislation._id;
+            delete legislation["_id"];
+            legislationTypes.findById(ObjectId(legislation.legislationType), function(err, type){
+              if(err){
+                console.log("Error ", err);
+              }
+              if (type==null){
+                console.log("Offending Legislation ", legislation.legislationName + " / " +legislation.id);
+              }
+              legislation.legislationType = type.name;
+              counter++;
+              if(counter == legislations.length){
+                cb(null,legislations);
+              }
+            })
+
+          });*/
+
+          //### END OF TEMPORAL AREA OF LAW FIX
+
+        }
+
+      });
+
+
+  }
+
   // REMOTE METHODS ##############################################################################################
 
   Legislation.remoteMethod(
@@ -517,6 +579,13 @@ module.exports = function(Legislation) {
   Legislation.remoteMethod(
     'flexisearch',{
       http: {path: '/flexisearch', verb: 'get'},
+      accepts: {arg: 'term', type: 'string'},
+      returns: {arg: 'legislations', type: 'Object'}
+  });
+
+  Legislation.remoteMethod(
+    'mobilesearch',{
+      http: {path: '/mobilesearch', verb: 'get'},
       accepts: {arg: 'term', type: 'string'},
       returns: {arg: 'legislations', type: 'Object'}
   });

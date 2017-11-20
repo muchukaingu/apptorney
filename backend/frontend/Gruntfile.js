@@ -108,7 +108,7 @@ module.exports = function (grunt) {
       },
       dist: {
         options: {
-          base: '../client'
+          base: '../../front-end-app/views'
         }
       }
     },
@@ -138,8 +138,8 @@ module.exports = function (grunt) {
           dot: true,
           src: [
             '.tmp',
-            '../client/*',
-            '!../client/.git*'
+            '../../front-end-app/views/*',
+            '!../../front-end-app/views/.git*'
           ]
         }]
       },
@@ -185,10 +185,10 @@ module.exports = function (grunt) {
       dist: {
         files: {
           src: [
-            '../client/scripts/{,*/}*.js',
-            '../client/assets/css/{,*/}*.css',
-            '../client/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
-            '../client/styles/fonts/*'
+            '../../front-end-app/views/scripts/{,*/}*.js',
+            '../../front-end-app/views/assets/css/{,*/}*.css',
+            '../../front-end-app/views/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
+            '../../front-end-app/views/styles/fonts/*'
           ]
         }
       }
@@ -200,7 +200,7 @@ module.exports = function (grunt) {
     useminPrepare: {
       html: '<%= yeoman.app %>/index.html',
       options: {
-        dest: '../client',
+        dest: '../../front-end-app/views',
         flow: {
           html: {
             steps: {
@@ -215,10 +215,10 @@ module.exports = function (grunt) {
 
     // Performs rewrites based on rev and the useminPrepare configuration
     usemin: {
-      html: ['../client/{,*/}*.html'],
-      css: ['../client/assets/css/{,*/}*.css'],
+      html: ['../../front-end-app/views/{,*/}*.html'],
+      css: ['../../front-end-app/views/assets/css/{,*/}*.css'],
       options: {
-        assetsDirs: ['../client']
+        assetsDirs: ['../../front-end-app/views']
       }
     },
 
@@ -238,7 +238,7 @@ module.exports = function (grunt) {
           expand: true,
           cwd: '<%= yeoman.app %>/images',
           src: '{,*/}*.{png,jpg,jpeg,gif}',
-          dest: '../client/images'
+          dest: '../../front-end-app/views/images'
         }]
       }
     },
@@ -249,7 +249,7 @@ module.exports = function (grunt) {
           expand: true,
           cwd: '<%= yeoman.app %>/images',
           src: '{,*/}*.svg',
-          dest: '../client/images'
+          dest: '../../front-end-app/views/images'
         }]
       }
     },
@@ -264,9 +264,9 @@ module.exports = function (grunt) {
         },
         files: [{
           expand: true,
-          cwd: '../client',
+          cwd: '../../front-end-app/views',
           src: ['*.html', 'views/{,*/}*.html'],
-          dest: '../client'
+          dest: '../../front-end-app/views'
         }]
       }
     },
@@ -288,7 +288,7 @@ module.exports = function (grunt) {
     // Replace Google CDN references
     cdnify: {
       dist: {
-        html: ['../client/*.html']
+        html: ['../../front-end-app/views/*.html']
       }
     },
 
@@ -299,7 +299,7 @@ module.exports = function (grunt) {
           expand: true,
           dot: true,
           cwd: '<%= yeoman.app %>',
-          dest: '../client',
+          dest: '../../front-end-app/views',
           src: [
             '*.{ico,png,txt}',
             '.htaccess',
@@ -320,7 +320,7 @@ module.exports = function (grunt) {
         }, {
           expand: true,
           cwd: '.tmp/images',
-          dest: '../client/images',
+          dest: '../../front-end-app/views/images',
           src: ['generated/*']
         }]
       },
@@ -402,7 +402,7 @@ module.exports = function (grunt) {
     // cssmin: {
     //   dist: {
     //     files: {
-    //       '../client/styles/main.css': [
+    //       '../../front-end-app/views/styles/main.css': [
     //         '.tmp/styles/{,*/}*.css',
     //         '<%= yeoman.app %>/styles/{,*/}*.css'
     //       ]
@@ -412,8 +412,8 @@ module.exports = function (grunt) {
     // uglify: {
     //   dist: {
     //     files: {
-    //       '../client/scripts/scripts.js': [
-    //         '../client/scripts/scripts.js'
+    //       '../../front-end-app/views/scripts/scripts.js': [
+    //         '../../front-end-app/views/scripts/scripts.js'
     //       ]
     //     }
     //   }
@@ -436,7 +436,7 @@ module.exports = function (grunt) {
       },
       dist: {
         files: {
-          '../client/index.html': ['../client/index.html']
+          '../../front-end-app/views/index.html': ['../../front-end-app/views/index.html']
         }
       }
     },

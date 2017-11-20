@@ -12,7 +12,7 @@
           </h4>
           <p  id="WelcomeMessage" style="margin-left:8px; margin-top:-10px; font-size:1.2em">
             <span style="font-weight:600">{{legislation.legislationName}} </span><br />
-            <span style="font-weight:600" class="text-warning">Parent Legislation: {{legislation.parentLegislation.legislationName}} </span><br />
+            <span style="font-weight:600" class="text-warning" ng-if="legislation.parentLegislation !== undefined">Parent Legislation: {{legislation.parentLegislation.legislationName + ' | Deleted = '}} {{legislation.parentLegislation.deleted?"Yes":"No"}}</span><br />
             Enacted by {{legislation.enactment}}<br />
             Assented on {{legislation.dateOfAssent | date:'MMMM d, yyyy'}}
           </p>
@@ -41,7 +41,7 @@
                       </panel-controls>
                       <div class="row">
                           <div class="col-lg-12" style="white-space: pre-wrap;" ng-bind-html="legislation.legislationNumbers">
-                          
+
                           </div>
                       </div>
                     </panel>

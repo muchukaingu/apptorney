@@ -12,24 +12,33 @@ import UIKit
 class CaseDetailsTableViewController: UITableViewController {
     
     var caseInstance:Case!
-    
+    var preliminaryCaseData:Case!
     //@IBOutlet weak var judgementHeight: NSLayoutConstraint!
+    var heightDiscount:CGFloat = 0
     
-    
+    var loaded = false
     @IBOutlet weak var judgement: UITextView!
     
     var sections = [
+        Section(name: "",
+                isCollapsed: false, height:0.0, isCollapsible: false),
         Section(name: "Summary of Ruling",
-                isCollapsed: false, height:0.0),
+                isCollapsed: true, height:0.0, isCollapsible: true),
         Section(name: "Summary of Facts",
-                isCollapsed: true, height:0.0),
+                isCollapsed: true, height:0.0, isCollapsible: true),
         Section(name: "Judgment",
-                isCollapsed: true, height:0.0)
+                isCollapsed: true, height:0.0, isCollapsible: true),
+        Section(name: "Cases Referenced",
+                isCollapsed: true, height:0.0, isCollapsible: true),
+        Section(name: "Legislations Referenced",
+                isCollapsed: true, height:0.0, isCollapsible: true)
     ]
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //self.tableView.isHidden = true
+        self.preliminaryCaseData = self.caseInstance
         self.populateCase()
         self.configureUIControls()
     }
@@ -49,32 +58,83 @@ class CaseDetailsTableViewController: UITableViewController {
     }
     
     private func populateCase(){
-        self.title = caseInstance.name?.capitalized
+        let caseId = caseInstance.caseId
+        Case.loadCase(caseId: caseId, completionHandler:{(aCase,error) in
+            
+            print("aCase Court \(aCase.court!["name"] ?? "")")
+            self.caseInstance = aCase
+            print(self.caseInstance)
+            self.loaded = true
+            self.tableView.reloadData()
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+        })
         
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cellIndetifier = "DetailCell"
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) as! CaseDetailsTableViewCell
+        //let cellIndetifier = "DetailCell"
+        //let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) as! CaseDetailsTableViewCell
         let index = (indexPath as NSIndexPath).section
         switch (index){
             case 0:
+                
+                let cellIndetifier = "SummaryCell"
+                let summarycell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) as! CaseDetailsSummaryCell
+                //cell.textLabel?.text = "Name of Case"
+                summarycell.firstLabel?.text = preliminaryCaseData.area?.capitalized
+                summarycell.secondLabel?.text = caseInstance.caseNumber!
+                let court = caseInstance.court?["name"] ?? ""
+                //let courtDivision = caseInstance.courtDivision?["name"] ?? ""
+                let jurisdiction = caseInstance.jurisdiction?["name"]?.capitalized ?? ""
+                let location = caseInstance.location?["name"] ?? ""
+              
+                summarycell.thirdLabel?.text = caseInstance.name?.capitalized
+                if summarycell.thirdLabel.text!.count < 28{
+                    heightDiscount = 30
+                }
+                
+                summarycell.fourthLabel?.text = court + " | " + jurisdiction + " Jurisdiction | " + location
+                summarycell.fifthLabel?.text = caseInstance.coram ?? ""
+                let border:UIView = UIView(frame: CGRect(x: 20,y: 125 - heightDiscount,width: self.tableView.bounds.width-40, height: 1))
+                border.backgroundColor = UIColor(red: 2.0/255, green: 160.0/255, blue: 243.0/255, alpha: 1.0)
+                summarycell.addSubview(border)
+                print("Number of Lines in Label \(summarycell.thirdLabel.numberOfLines)")
+                
+            
+              
+                
+                //summarycell.fourthLabel?.text = location
+                //cell.fifthLabel?.text = preliminaryCaseData.area!.uppercased() + " | " + preliminaryCaseData.caseNumber!
+                return summarycell
+                //let insets: UIEdgeInsets = cell.mainText.textContainerInset
+            
+            case 1:
+                let cellIndetifier = "DetailCell"
+                let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) as! CaseDetailsTableViewCell
                 cell.mainText?.text = caseInstance.summaryOfRuling
                 //let insets: UIEdgeInsets = cell.mainText.textContainerInset
+                return cell
            
-            case 1:
+            case 2:
+                let cellIndetifier = "DetailCell"
+                let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) as! CaseDetailsTableViewCell
                 cell.mainText?.text = caseInstance.summaryOfFacts
                 print(cell.mainText.frame.size.height)
-            case 2:
+                return cell
+            case 3:
+                let cellIndetifier = "DetailCell"
+                let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) as! CaseDetailsTableViewCell
                 cell.mainText?.text = caseInstance.judgement
                 print(cell.mainText.frame.size.height)
+                return cell
             
             default:
                 print("")
+                return UITableViewCell()
         }
-        let size: CGSize = cell.mainText.sizeThatFits(CGSize(width: cell.mainText.frame.size.width, height: CGFloat.greatestFiniteMagnitude))
-        sections[0].height = size.height
-        return cell
+        //let size: CGSize = cell.mainText.sizeThatFits(CGSize(width: cell.mainText.frame.size.width, height: CGFloat.greatestFiniteMagnitude))
+        //sections[0].height = size.height
+        //return retu
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -92,6 +152,9 @@ class CaseDetailsTableViewController: UITableViewController {
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
+        if !loaded{
+            return 0
+        }
         return sections.count
     }
     
@@ -117,7 +180,7 @@ class CaseDetailsTableViewController: UITableViewController {
     
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 45.0
+        return 30.0
     }
     /*
      override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -132,6 +195,21 @@ class CaseDetailsTableViewController: UITableViewController {
         }
     }
      */
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.section == 0 {
+             return UITableViewAutomaticDimension + 136 - heightDiscount
+        } else {
+             return UITableViewAutomaticDimension
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.section == 0 {
+            return UITableViewAutomaticDimension + 136 - heightDiscount
+        } else {
+            return UITableViewAutomaticDimension
+        }
+    }
     override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         print("Yebo Yes")
     }

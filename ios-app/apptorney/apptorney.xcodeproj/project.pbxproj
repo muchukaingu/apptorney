@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		12CCB4FEAD0D3AEFE59CF845 /* Pods_apptorneyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EED2EE42ECFF12F2BE9CB39B /* Pods_apptorneyTests.framework */; };
 		4FA9DC7F03C393727AC4E618 /* Pods_apptorney.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B59FFDFFDF2784D5629A457 /* Pods_apptorney.framework */; };
+		8D03361A1FC2FDCE007F9DC9 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0336191FC2FDCD007F9DC9 /* String+Extensions.swift */; };
+		8D0336201FC37357007F9DC9 /* UILabel+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D03361F1FC37357007F9DC9 /* UILabel+Extensions.swift */; };
 		8D03B8F81AA54D80002A53F1 /* ProductDetailsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D03B8F71AA54D80002A53F1 /* ProductDetailsTableViewCell.swift */; };
 		8D1A3C161ACB5785003CF9E1 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D1A3C151ACB5785003CF9E1 /* SWRevealViewController.m */; };
 		8D1A3C191ACC6E57003CF9E1 /* MenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1A3C181ACC6E57003CF9E1 /* MenuTableViewController.swift */; };
@@ -61,6 +63,8 @@
 		8D9F05CD1C56CFDC0002A085 /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9F05CC1C56CFDC0002A085 /* CategoryTableViewCell.swift */; };
 		8DB3CE8F1E1C5FDE002D9DD7 /* Open_Sans in Resources */ = {isa = PBXBuildFile; fileRef = 8DB3CE8E1E1C5FDD002D9DD7 /* Open_Sans */; };
 		8DB40C441ACA0C59002A8181 /* ErrorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB40C431ACA0C59002A8181 /* ErrorViewController.swift */; };
+		8DB4E6BC1FC604BE004523E1 /* CaseDetailsSummaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB4E6BB1FC604BE004523E1 /* CaseDetailsSummaryCell.swift */; };
+		8DB4E6C01FC61D17004523E1 /* Court.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB4E6BF1FC61D17004523E1 /* Court.swift */; };
 		8DB842031C4ED2620084BE72 /* SegmentedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB842021C4ED2620084BE72 /* SegmentedTableViewCell.swift */; };
 		8DB842081C4EE8CD0084BE72 /* DepartmentSummaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB842071C4EE8CD0084BE72 /* DepartmentSummaryCell.swift */; };
 		8DBC4F641AA953EB0093F6CA /* HeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DBC4F631AA953EB0093F6CA /* HeaderTableViewCell.swift */; };
@@ -124,6 +128,8 @@
 /* Begin PBXFileReference section */
 		1057A0479D2B3D63B2B46761 /* Pods-apptorney App Store.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-apptorney App Store.debug.xcconfig"; path = "Pods/Target Support Files/Pods-apptorney App Store/Pods-apptorney App Store.debug.xcconfig"; sourceTree = "<group>"; };
 		5B59FFDFFDF2784D5629A457 /* Pods_apptorney.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_apptorney.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D0336191FC2FDCD007F9DC9 /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
+		8D03361F1FC37357007F9DC9 /* UILabel+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extensions.swift"; sourceTree = "<group>"; };
 		8D03B8F71AA54D80002A53F1 /* ProductDetailsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductDetailsTableViewCell.swift; sourceTree = "<group>"; };
 		8D1A3C131ACB5784003CF9E1 /* MR-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MR-Bridging-Header.h"; sourceTree = "<group>"; };
 		8D1A3C141ACB5785003CF9E1 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
@@ -178,6 +184,8 @@
 		8D9F05CC1C56CFDC0002A085 /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
 		8DB3CE8E1E1C5FDD002D9DD7 /* Open_Sans */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Open_Sans; sourceTree = "<group>"; };
 		8DB40C431ACA0C59002A8181 /* ErrorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorViewController.swift; sourceTree = "<group>"; };
+		8DB4E6BB1FC604BE004523E1 /* CaseDetailsSummaryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseDetailsSummaryCell.swift; sourceTree = "<group>"; };
+		8DB4E6BF1FC61D17004523E1 /* Court.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Court.swift; sourceTree = "<group>"; };
 		8DB842021C4ED2620084BE72 /* SegmentedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SegmentedTableViewCell.swift; path = ../SegmentedTableViewCell.swift; sourceTree = "<group>"; };
 		8DB842071C4EE8CD0084BE72 /* DepartmentSummaryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DepartmentSummaryCell.swift; sourceTree = "<group>"; };
 		8DBC4F631AA953EB0093F6CA /* HeaderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderTableViewCell.swift; sourceTree = "<group>"; };
@@ -278,6 +286,7 @@
 				8DE5FA211AC3009E00B23C66 /* StatusTableViewCell.swift */,
 				8D92B5BF1F9F818E00D4B6E4 /* CaseDetailsTableViewCell.swift */,
 				8DC5F38E1FA126BF0042C239 /* CustomImageTitleTableViewCell.swift */,
+				8DB4E6BB1FC604BE004523E1 /* CaseDetailsSummaryCell.swift */,
 			);
 			name = "Custom TableView Cells";
 			sourceTree = "<group>";
@@ -314,6 +323,8 @@
 				8D8048931F56AD3E00B2832C /* APIService */,
 				8DD147C31AA3A27500B2A098 /* Images.xcassets */,
 				8D80489C1F58079100B2832C /* Fonts */,
+				8D0336191FC2FDCD007F9DC9 /* String+Extensions.swift */,
+				8D03361F1FC37357007F9DC9 /* UILabel+Extensions.swift */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -385,6 +396,7 @@
 				8D86925B1F6C547400625FE8 /* Citation.swift */,
 				8DC5BDD01F6D623200F356C1 /* Debouncer.swift */,
 				8DC5BDD41F6E482A00F356C1 /* LegislationPart.swift */,
+				8DB4E6BF1FC61D17004523E1 /* Court.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -776,6 +788,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D8048991F56BACB00B2832C /* APIService.swift in Sources */,
+				8DB4E6C01FC61D17004523E1 /* Court.swift in Sources */,
 				8D6C0CE01AACE7A400D01ABF /* LoginViewController.swift in Sources */,
 				8DB842081C4EE8CD0084BE72 /* DepartmentSummaryCell.swift in Sources */,
 				8D6C0CE21AACEA2300D01ABF /* SettingsTableViewController.swift in Sources */,
@@ -787,6 +800,7 @@
 				8D6ABA871C4C80D100D6EDFA /* DepartmentTableViewCell.swift in Sources */,
 				8D8692491F681F3C00625FE8 /* ScrollTableViewCell.swift in Sources */,
 				8D1A3C191ACC6E57003CF9E1 /* MenuTableViewController.swift in Sources */,
+				8D0336201FC37357007F9DC9 /* UILabel+Extensions.swift in Sources */,
 				8DB842031C4ED2620084BE72 /* SegmentedTableViewCell.swift in Sources */,
 				8D8692521F6C137A00625FE8 /* Case.swift in Sources */,
 				8DD147DF1AA3A43600B2A098 /* CustomTableViewCell.swift in Sources */,
@@ -798,6 +812,7 @@
 				8D1A3C161ACB5785003CF9E1 /* SWRevealViewController.m in Sources */,
 				8DC24FCD1FA36BFE00551A4D /* HeaderView.swift in Sources */,
 				8DC5BDD51F6E482B00F356C1 /* LegislationPart.swift in Sources */,
+				8DB4E6BC1FC604BE004523E1 /* CaseDetailsSummaryCell.swift in Sources */,
 				8D03B8F81AA54D80002A53F1 /* ProductDetailsTableViewCell.swift in Sources */,
 				8D8692591F6C536C00625FE8 /* WorkReference.swift in Sources */,
 				8D8049001F5A831600B2832C /* SettingsVC.swift in Sources */,
@@ -807,6 +822,7 @@
 				8DD147E51AA3A7BF00B2A098 /* DataManager.swift in Sources */,
 				8D8692561F6C531400625FE8 /* Legislation.swift in Sources */,
 				8DD147BD1AA3A27500B2A098 /* AppDelegate.swift in Sources */,
+				8D03361A1FC2FDCE007F9DC9 /* String+Extensions.swift in Sources */,
 				8D6B49541AAB76960066F2CB /* SimpleCell.swift in Sources */,
 				8DBC4F641AA953EB0093F6CA /* HeaderTableViewCell.swift in Sources */,
 				8D86925C1F6C547400625FE8 /* Citation.swift in Sources */,

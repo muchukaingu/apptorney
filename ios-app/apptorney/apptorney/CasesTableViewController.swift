@@ -12,7 +12,7 @@ class CasesTableViewController: UITableViewController {
     
     var searchController: UISearchController!
     var searchResultsController = UITableViewController()
-    let debouncer = Debouncer(interval:1.0)
+    let debouncer = Debouncer(interval:0.7)
     var cases = [Case]()
     var messageLabel:UILabel = UILabel(frame: CGRect(x: 0,y: 0, width: 200, height: 100)) as UILabel
    
@@ -100,11 +100,11 @@ class CasesTableViewController: UITableViewController {
         
         
         // Configure the cell...
-        cell.mainLabel.text = caseInstance.name?.capitalized
-        cell.subTitleLabel.text = caseInstance.judgement
+        cell.mainLabel.setHTMLFromString(text: caseInstance.name?.capitalized ?? "")
+        cell.subTitleLabel.setHTMLFromString(text: caseInstance.searchHighlight ?? "")
         cell.smallSubTitleLeft.text = caseInstance.area?.capitalized
         cell.smallSubTitleLeft.sizeToFit()
-        cell.smallSubTitleRight.text = caseInstance.referenceNumber
+        cell.smallSubTitleRight.text = caseInstance.caseNumber
         cell.subTitleLabel.sizeToFit()
         
         
@@ -115,7 +115,7 @@ class CasesTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 110.0
+        return 160.0
     }
     
 
@@ -183,7 +183,7 @@ class CasesTableViewController: UITableViewController {
                 let destinationController = segue.destination as!
                 CaseDetailsTableViewController
                 destinationController.caseInstance = self.cases[(indexPath as NSIndexPath).row]
-                print(self.cases[(indexPath as NSIndexPath).row])
+                print(self.cases[(indexPath as NSIndexPath).row].caseId)
                
                 //destinationController.delegate = self
                 

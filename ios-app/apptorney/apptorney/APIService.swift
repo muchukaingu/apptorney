@@ -25,7 +25,7 @@ class APIService {
         ]
 
         Alamofire.request(APIService.urlBase + endPoint, method: .get, parameters: parameters, headers: headers).responseJSON { response in
-            print(response.result)
+          
             if let JSON = response.result.value {
                 //let error: Error?
                 let result = JSON

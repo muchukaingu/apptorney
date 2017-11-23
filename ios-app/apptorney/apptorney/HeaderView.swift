@@ -22,6 +22,7 @@ class HeaderView: UITableViewHeaderFooterView {
             
             titleLabel?.text = section.name
             setCollapsed(collapsed: section.isCollapsed)
+            arrowLabel?.isHidden = !section.isCollapsible!
         }
     }
     

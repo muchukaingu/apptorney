@@ -16,6 +16,7 @@ class CaseDetailsSummaryCell: UITableViewCell {
     @IBOutlet weak var thirdLabel: UILabel!
     @IBOutlet weak var fourthLabel: UILabel!
     @IBOutlet weak var fifthLabel: UILabel!
+    @IBOutlet weak var sixthLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

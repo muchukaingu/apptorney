@@ -175,24 +175,14 @@ class CasesTableViewController: UITableViewController {
     */
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-
-        
         if segue.identifier == "showCaseDetails" {
             if let indexPath = self.tableView.indexPathForSelectedRow {
                 print("in segue, mofo")
                 let destinationController = segue.destination as!
                 CaseDetailsTableViewController
                 destinationController.caseInstance = self.cases[(indexPath as NSIndexPath).row]
-                print(self.cases[(indexPath as NSIndexPath).row].caseId)
-               
-                //destinationController.delegate = self
-                
-                
-                
             }
         }
-        
-        
     }
 
 }

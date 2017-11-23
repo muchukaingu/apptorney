@@ -139,16 +139,26 @@ class LegislationsTableViewController: UITableViewController {
         return true
     }
     */
-
     /*
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    //override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
     }
     */
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showLegislationDetails" {
+            if let indexPath = self.tableView.indexPathForSelectedRow {
+                print("in segue, mofo")
+                let destinationController = segue.destination as!
+                LegislationDetailsTableViewController
+                destinationController.legislationInstance = self.legislations[(indexPath as NSIndexPath).row]
+            }
+        }
+    }
 
 }
 
@@ -165,7 +175,12 @@ extension LegislationsTableViewController: UISearchResultsUpdating {
             
             Legislation.search(term: searchTerm, completionHandler:{(legislations,error) in
                 self.legislations = legislations
-                print(self.legislations)
+             
+                
+                for legislation in self.legislations {
+                    //print(legislation.legislationParts)
+                }
+                
                 self.tableView.reloadData()
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
             })

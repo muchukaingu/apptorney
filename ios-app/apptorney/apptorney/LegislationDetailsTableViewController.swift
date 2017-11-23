@@ -1,18 +1,21 @@
 //
-//  CaseDetailsViewController.swift
+//  LegislationDetailsTableView.swift
 //  apptorney
 //
-//  Created by Muchu Kaingu on 10/11/17.
+//  Created by Muchu Kaingu on 11/23/17.
 //  Copyright © 2017 Muchu Kaingu. All rights reserved.
 //
 
-
 import UIKit
 
-class CaseDetailsTableViewController: UITableViewController {
+class LegislationDetailsTableViewController: UITableViewController {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: false)
+    }
     
-    var caseInstance:Case!
-    var preliminaryCaseData:Case!
+    var legislationInstance:Legislation!
+    var preliminaryCaseData:Legislation!
     //@IBOutlet weak var judgementHeight: NSLayoutConstraint!
     var heightDiscount:CGFloat = 0
     let messageFrame = UIView()
@@ -25,26 +28,14 @@ class CaseDetailsTableViewController: UITableViewController {
     
     var sections = [
         Section(name: "",
-                isCollapsed: false, height:0.0, isCollapsible: false),
-        Section(name: "Summary of Ruling",
-                isCollapsed: true, height:0.0, isCollapsible: true),
-        Section(name: "Summary of Facts",
-                isCollapsed: true, height:0.0, isCollapsible: true),
-        Section(name: "Judgment",
-                isCollapsed: true, height:0.0, isCollapsible: true),
-        Section(name: "Cases Referenced",
-                isCollapsed: true, height:0.0, isCollapsible: true),
-        Section(name: "Legislations Referenced",
-                isCollapsed: true, height:0.0, isCollapsible: true)
+                isCollapsed: false, height:0.0, isCollapsible: false)
     ]
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        activityIndicator("Loading Case")
-        //self.tableView.isHidden = true
-        self.preliminaryCaseData = self.caseInstance
-        self.populateCase()
+        activityIndicator("Loading Legislation")
+        self.populateLegislation()
         self.configureUIControls()
     }
     
@@ -54,21 +45,13 @@ class CaseDetailsTableViewController: UITableViewController {
         //let nib = UINib(nibName: "ExpandableHeaderView", bundle: nil)
         //self.tableView.register(nib, forHeaderFooterViewReuseIdentifier: "ExpandableHeaderView")
         self.tableView.register(HeaderView.nib, forHeaderFooterViewReuseIdentifier: HeaderView.identifier)
-
+        
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.setNavigationBarHidden(false, animated: false)
-    }
-    
-    private func populateCase(){
-        let caseId = caseInstance.caseId
-        Case.loadCase(caseId: caseId, completionHandler:{(aCase,error) in
-            
-            print("aCase Court \(aCase.court!["name"] ?? "")")
-            self.caseInstance = aCase
-            print(self.caseInstance)
+    private func populateLegislation(){
+        let legislationId = legislationInstance._id
+        Legislation.loadLegislation(legislationId: legislationId, completionHandler:{(legislation,error) in
+            self.legislationInstance = legislation
             self.removeIndicator()
             self.loaded = true
             self.tableView.reloadData()
@@ -82,65 +65,74 @@ class CaseDetailsTableViewController: UITableViewController {
         //let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) as! CaseDetailsTableViewCell
         let index = (indexPath as NSIndexPath).section
         switch (index){
-            case 0:
-                
-                let cellIndetifier = "SummaryCell"
-                let summarycell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) as! CaseDetailsSummaryCell
-                //cell.textLabel?.text = "Name of Case"
-                summarycell.firstLabel?.text = preliminaryCaseData.area?.capitalized
-                summarycell.secondLabel?.text = caseInstance.caseNumber!
-                let court = caseInstance.court?["name"] ?? ""
-                //let courtDivision = caseInstance.courtDivision?["name"] ?? ""
-                let jurisdiction = caseInstance.jurisdiction?["name"]?.capitalized ?? ""
-                let location = caseInstance.location?["name"] ?? ""
-              
-                summarycell.thirdLabel?.text = caseInstance.name?.capitalized
-                if summarycell.thirdLabel.text!.count < 28{
-                    heightDiscount = 30
-                }
-                
-                summarycell.fourthLabel?.text = court + " | " + jurisdiction + " Jurisdiction | " + location
-                summarycell.fifthLabel?.text = caseInstance.coram ?? ""
-                let border:UIView = UIView(frame: CGRect(x: 20,y: 125 - heightDiscount,width: self.tableView.bounds.width-40, height: 1))
-                border.backgroundColor = UIColor(red: 2.0/255, green: 160.0/255, blue: 243.0/255, alpha: 1.0)
-                summarycell.addSubview(border)
-                print("Number of Lines in Label \(summarycell.thirdLabel.numberOfLines)")
-                
+        case 0:
             
-              
-                
-                //summarycell.fourthLabel?.text = location
-                //cell.fifthLabel?.text = preliminaryCaseData.area!.uppercased() + " | " + preliminaryCaseData.caseNumber!
-                return summarycell
-                //let insets: UIEdgeInsets = cell.mainText.textContainerInset
+            let cellIndetifier = "SummaryCell"
+            let summarycell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) as! CaseDetailsSummaryCell
+            summarycell.firstLabel?.text = legislationInstance.legislationType!
+            //summarycell.secondLabel?.text = legislationInstance.legislationNumbers ?? legislationInstance.legislationNumber
+            summarycell.secondLabel?.text = "Year of Assent | \(legislationInstance.dateOfAssent!.prefix(4)) \n Year of Amendment | \(legislationInstance.yearOfAmendment!)"
+            let volume = legislationInstance.volumeNumber ?? ""
+            let chapter = legislationInstance.chapterNumber ?? ""
+        
+            if volume.count == 0 && chapter.count == 0 {
+                summarycell.fourthLabel?.text = ""
+            }
+            else {
+                let volumeDetails = "Volume " + volume + " | Chapter " + chapter
+                summarycell.fourthLabel?.text = volumeDetails
+            }
+            summarycell.fifthLabel?.text = legislationInstance.enactment
+            summarycell.sixthLabel?.text = legislationInstance.preamble
             
-            case 1:
-                let cellIndetifier = "DetailCell"
-                let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) as! CaseDetailsTableViewCell
-                cell.mainText?.text = caseInstance.summaryOfRuling
-                //let insets: UIEdgeInsets = cell.mainText.textContainerInset
-                return cell
-           
-            case 2:
-                let cellIndetifier = "DetailCell"
-                let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) as! CaseDetailsTableViewCell
-                cell.mainText?.text = caseInstance.summaryOfFacts
-                print(cell.mainText.frame.size.height)
-                return cell
-            case 3:
-                let cellIndetifier = "DetailCell"
-                let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) as! CaseDetailsTableViewCell
-                cell.mainText?.text = caseInstance.judgement
-                print(cell.mainText.frame.size.height)
-                return cell
+            //let jurisdiction = legislationInstance.jurisdiction?["name"]?.capitalized ?? ""
+            //let location = legislationInstance.location?["name"] ?? ""
             
-            default:
-                print("")
-                return UITableViewCell()
+            summarycell.thirdLabel?.text = legislationInstance.legislationName?.capitalized
+            if summarycell.thirdLabel.text!.count < 28{
+                heightDiscount = 30
+            }
+            
+            //summarycell.fourthLabel?.text = court + " | " + jurisdiction + " Jurisdiction | " + location
+            //summarycell.fifthLabel?.text = legislationInstance.coram ?? ""
+            let border:UIView = UIView(frame: CGRect(x: 20,y: 185 - heightDiscount,width: self.tableView.bounds.width-40, height: 1))
+            border.backgroundColor = UIColor(red: 2.0/255, green: 160.0/255, blue: 243.0/255, alpha: 1.0)
+            summarycell.addSubview(border)
+            print("Number of Lines in Label \(summarycell.thirdLabel.numberOfLines)")
+            
+            
+            
+            
+            //summarycell.fourthLabel?.text = location
+            //cell.fifthLabel?.text = preliminaryCaseData.area!.uppercased() + " | " + preliminaryCaseData.caseNumber!
+            return summarycell
+            //let insets: UIEdgeInsets = cell.mainText.textContainerInset
+            
+        case 1:
+            let cellIndetifier = "DetailCell"
+            let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) as! CaseDetailsTableViewCell
+            //cell.mainText?.text = legislationInstance.summaryOfRuling
+            //let insets: UIEdgeInsets = cell.mainText.textContainerInset
+            return cell
+            
+        case 2:
+            let cellIndetifier = "DetailCell"
+            let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) as! CaseDetailsTableViewCell
+            //cell.mainText?.text = legislationInstance.summaryOfFacts
+            print(cell.mainText.frame.size.height)
+            return cell
+        case 3:
+            let cellIndetifier = "DetailCell"
+            let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) as! CaseDetailsTableViewCell
+            //cell.mainText?.text = legislationInstance.judgement
+            print(cell.mainText.frame.size.height)
+            return cell
+            
+        default:
+            print("")
+            return UITableViewCell()
         }
-        //let size: CGSize = cell.mainText.sizeThatFits(CGSize(width: cell.mainText.frame.size.width, height: CGFloat.greatestFiniteMagnitude))
-        //sections[0].height = size.height
-        //return retu
+  
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -164,7 +156,7 @@ class CaseDetailsTableViewController: UITableViewController {
         return sections.count
     }
     
-   
+    
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         /*
@@ -190,28 +182,28 @@ class CaseDetailsTableViewController: UITableViewController {
     }
     /*
      override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        //let cell = tableView.dequeueReusableCell(withIdentifier: "DetailCell", for: indexPath) as! CaseDetailsTableViewCell
-        
-        
-        if (sections[indexPath.section].isCollapsed) {
-            print(sections[indexPath.row].height!)
-            return sections[indexPath.row].height!
-        } else {
-            return 0
-        }
-    }
+     //let cell = tableView.dequeueReusableCell(withIdentifier: "DetailCell", for: indexPath) as! CaseDetailsTableViewCell
+     
+     
+     if (sections[indexPath.section].isCollapsed) {
+     print(sections[indexPath.row].height!)
+     return sections[indexPath.row].height!
+     } else {
+     return 0
+     }
+     }
      */
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
-             return UITableViewAutomaticDimension + 136 - heightDiscount
+            return UITableViewAutomaticDimension + 190 - heightDiscount
         } else {
-             return UITableViewAutomaticDimension
+            return UITableViewAutomaticDimension
         }
     }
     
     override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
-            return UITableViewAutomaticDimension + 136 - heightDiscount
+            return UITableViewAutomaticDimension + 190 - heightDiscount
         } else {
             return UITableViewAutomaticDimension
         }
@@ -226,12 +218,12 @@ class CaseDetailsTableViewController: UITableViewController {
         activityIndicator.removeFromSuperview()
         effectView.removeFromSuperview()
         
-        strLabel = UILabel(frame: CGRect(x: 50, y: 0, width: 160, height: 46))
+        strLabel = UILabel(frame: CGRect(x: 50, y: 0, width: 200, height: 46))
         strLabel.text = title
         strLabel.font = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.medium)
         strLabel.textColor = UIColor(white: 0.9, alpha: 0.7)
         
-        effectView.frame = CGRect(x: view.frame.midX - strLabel.frame.width/2, y: view.frame.midY - 40 - strLabel.frame.height/2 , width: 160, height: 46)
+        effectView.frame = CGRect(x: view.frame.midX - strLabel.frame.width/2, y: view.frame.midY - 40 - strLabel.frame.height/2 , width: 200, height: 46)
         effectView.layer.cornerRadius = 15
         effectView.layer.masksToBounds = true
         
@@ -249,13 +241,13 @@ class CaseDetailsTableViewController: UITableViewController {
         activityIndicator.removeFromSuperview()
         effectView.removeFromSuperview()
     }
-
+    
 }
 
-extension CaseDetailsTableViewController: HeaderViewDelegate {
+extension LegislationDetailsTableViewController: HeaderViewDelegate {
     func toggleSection(header: HeaderView, section: Int) {
         print("header tapped")
-       
+        
         
         let item = sections[section]
         if item.isCollapsible! {
@@ -281,7 +273,9 @@ extension CaseDetailsTableViewController: HeaderViewDelegate {
                 tableView.endUpdates()
             }
         }
-
-
+        
+        
     }
 }
+
+

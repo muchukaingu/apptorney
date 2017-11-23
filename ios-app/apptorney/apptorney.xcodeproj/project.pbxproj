@@ -27,6 +27,8 @@
 		8D6C0CE21AACEA2300D01ABF /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6C0CE11AACEA2300D01ABF /* SettingsTableViewController.swift */; };
 		8D6C0CE41AACFA5600D01ABF /* SimpleButtonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6C0CE31AACFA5600D01ABF /* SimpleButtonTableViewCell.swift */; };
 		8D7F06FB1C45993600B4DCEB /* beep-07.wav in Resources */ = {isa = PBXBuildFile; fileRef = 8D7F06FA1C45993600B4DCEB /* beep-07.wav */; };
+		8D7F888F1FC725740077C489 /* Legislation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7F888E1FC725740077C489 /* Legislation.swift */; };
+		8D7F88911FC743970077C489 /* LegislationDetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7F88901FC743970077C489 /* LegislationDetailsTableViewController.swift */; };
 		8D8048971F56AFC000B2832C /* Appuser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D8048961F56AFC000B2832C /* Appuser.swift */; };
 		8D8048991F56BACB00B2832C /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D8048951F56AD6E00B2832C /* APIService.swift */; };
 		8D8048D31F580CF000B2832C /* Torus-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 8D8048D01F5808C400B2832C /* Torus-Bold.otf */; };
@@ -51,7 +53,6 @@
 		8D86924C1F68718400625FE8 /* HomeItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D86924B1F68718400625FE8 /* HomeItem.swift */; };
 		8D86924F1F6C111300625FE8 /* CasesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D86924E1F6C111300625FE8 /* CasesTableViewController.swift */; };
 		8D8692521F6C137A00625FE8 /* Case.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D8692511F6C137A00625FE8 /* Case.swift */; };
-		8D8692561F6C531400625FE8 /* Legislation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D8692551F6C531400625FE8 /* Legislation.swift */; };
 		8D8692591F6C536C00625FE8 /* WorkReference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D8692581F6C536C00625FE8 /* WorkReference.swift */; };
 		8D86925C1F6C547400625FE8 /* Citation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D86925B1F6C547400625FE8 /* Citation.swift */; };
 		8D92B5C01F9F818E00D4B6E4 /* CaseDetailsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D92B5BF1F9F818E00D4B6E4 /* CaseDetailsTableViewCell.swift */; };
@@ -148,6 +149,8 @@
 		8D6C0CE31AACFA5600D01ABF /* SimpleButtonTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleButtonTableViewCell.swift; sourceTree = "<group>"; };
 		8D6EBA221E1477C70038B111 /* CryptoSwift.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CryptoSwift.xcodeproj; path = CryptoSwift/CryptoSwift.xcodeproj; sourceTree = SOURCE_ROOT; };
 		8D7F06FA1C45993600B4DCEB /* beep-07.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "beep-07.wav"; sourceTree = "<group>"; };
+		8D7F888E1FC725740077C489 /* Legislation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Legislation.swift; sourceTree = "<group>"; };
+		8D7F88901FC743970077C489 /* LegislationDetailsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegislationDetailsTableViewController.swift; sourceTree = "<group>"; };
 		8D8048951F56AD6E00B2832C /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		8D8048961F56AFC000B2832C /* Appuser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Appuser.swift; sourceTree = "<group>"; };
 		8D8048C11F58086A00B2832C /* OpenSans-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-BoldItalic.ttf"; sourceTree = "<group>"; };
@@ -172,7 +175,6 @@
 		8D86924B1F68718400625FE8 /* HomeItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeItem.swift; sourceTree = "<group>"; };
 		8D86924E1F6C111300625FE8 /* CasesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CasesTableViewController.swift; sourceTree = "<group>"; };
 		8D8692511F6C137A00625FE8 /* Case.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Case.swift; sourceTree = "<group>"; };
-		8D8692551F6C531400625FE8 /* Legislation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Legislation.swift; sourceTree = "<group>"; };
 		8D8692581F6C536C00625FE8 /* WorkReference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkReference.swift; sourceTree = "<group>"; };
 		8D86925B1F6C547400625FE8 /* Citation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Citation.swift; sourceTree = "<group>"; };
 		8D92B5BF1F9F818E00D4B6E4 /* CaseDetailsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseDetailsTableViewCell.swift; sourceTree = "<group>"; };
@@ -391,12 +393,12 @@
 				8D8692511F6C137A00625FE8 /* Case.swift */,
 				8D86924B1F68718400625FE8 /* HomeItem.swift */,
 				8D8048961F56AFC000B2832C /* Appuser.swift */,
-				8D8692551F6C531400625FE8 /* Legislation.swift */,
 				8D8692581F6C536C00625FE8 /* WorkReference.swift */,
 				8D86925B1F6C547400625FE8 /* Citation.swift */,
 				8DC5BDD01F6D623200F356C1 /* Debouncer.swift */,
 				8DC5BDD41F6E482A00F356C1 /* LegislationPart.swift */,
 				8DB4E6BF1FC61D17004523E1 /* Court.swift */,
+				8D7F888E1FC725740077C489 /* Legislation.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -519,6 +521,7 @@
 			isa = PBXGroup;
 			children = (
 				8DC5BDD21F6E477200F356C1 /* LegislationsTableViewController.swift */,
+				8D7F88901FC743970077C489 /* LegislationDetailsTableViewController.swift */,
 			);
 			name = Legislations;
 			sourceTree = "<group>";
@@ -811,6 +814,7 @@
 				8DC5BDD31F6E477200F356C1 /* LegislationsTableViewController.swift in Sources */,
 				8D1A3C161ACB5785003CF9E1 /* SWRevealViewController.m in Sources */,
 				8DC24FCD1FA36BFE00551A4D /* HeaderView.swift in Sources */,
+				8D7F88911FC743970077C489 /* LegislationDetailsTableViewController.swift in Sources */,
 				8DC5BDD51F6E482B00F356C1 /* LegislationPart.swift in Sources */,
 				8DB4E6BC1FC604BE004523E1 /* CaseDetailsSummaryCell.swift in Sources */,
 				8D03B8F81AA54D80002A53F1 /* ProductDetailsTableViewCell.swift in Sources */,
@@ -820,7 +824,7 @@
 				8DE5FA221AC3009E00B23C66 /* StatusTableViewCell.swift in Sources */,
 				8DC5BDD11F6D623200F356C1 /* Debouncer.swift in Sources */,
 				8DD147E51AA3A7BF00B2A098 /* DataManager.swift in Sources */,
-				8D8692561F6C531400625FE8 /* Legislation.swift in Sources */,
+				8D7F888F1FC725740077C489 /* Legislation.swift in Sources */,
 				8DD147BD1AA3A27500B2A098 /* AppDelegate.swift in Sources */,
 				8D03361A1FC2FDCE007F9DC9 /* String+Extensions.swift in Sources */,
 				8D6B49541AAB76960066F2CB /* SimpleCell.swift in Sources */,

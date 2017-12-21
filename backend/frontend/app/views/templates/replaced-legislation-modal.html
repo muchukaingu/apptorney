@@ -61,7 +61,7 @@
                     </tr>
                     <tr id="rowTmp_Est" ng-repeat="legislation in legislationReferences | filter:queries.legislationReferencesQuery | orderBy:sortType:sortReverse">
                         <td class="editables">
-                            <input type="checkbox" ng-change="addReplacedLegislations(legislation)" ng-model="legislation.selected">
+                            <input type="checkbox" ng-change="addReplacedLegislations(legislation)" ng-model="legislation.selectedReplacedLegislations">
                         </td>
                         <td class="editables">
                             <span class="editable" name="applicantname" form="rowform" onchange="editItem(this,'itemID')" required>{{legislation.legislationNumbers}}</span>

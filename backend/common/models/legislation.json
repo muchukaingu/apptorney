@@ -1,108 +1,113 @@
 {
-  "name": "legislation",
-  "base": "PersistedModel",
-  "idInjection": true,
-  "options": {
-    "validateUpsert": true
-  },
-  "scope": {
-    "include": [
-      "capturedBy",
-      {
-        "relation":"parentLegislation",
-        "scope":{
-          "fields":["id", "legislationName", "legislationType", "deleted"]
+    "name": "legislation",
+    "base": "PersistedModel",
+    "idInjection": true,
+    "options": {
+        "validateUpsert": true
+    },
+    "scope": {
+        "include": [
+            "capturedBy",
+            {
+                "relation": "parentLegislation",
+                "scope": {
+                    "fields": ["id", "legislationName", "legislationType", "deleted"]
 
+                }
+            }
+
+
+        ]
+    },
+    "properties": {
+        "generalTitle": {
+            "type": "string",
+            "required": false
+        },
+        "chapterNumber": {
+            "type": "string",
+            "required": false
+        },
+        "legislationName": {
+            "type": "string",
+            "required": true
+        },
+        "legislationNumber": {
+            "type": "string",
+            "required": false
+        },
+        "legislationNumbers": {
+            "type": "string",
+            "required": false
+        },
+        "dateOfAssent": {
+            "type": "date",
+            "required": false
+        },
+        "preamble": {
+            "type": "string",
+            "required": false
+        },
+        "enactment": {
+            "type": "string",
+            "required": false
+        },
+        "yearOfAmendment": {
+            "type": "number",
+            "required": false
+        },
+        "volumeNumber": {
+            "type": "string",
+            "required": false
+        },
+        "legislationType": {
+            "type": "string",
+            "required": false
+        },
+        "legislationParts": {
+            "type": [
+                "legislationPart"
+            ],
+            "required": false
+        },
+        "duplicateCount": {
+            "type": "number",
+            "required": false
+        },
+        "deleted": {
+            "type": "boolean",
+            "required": false,
+            "default": false
         }
-      }
-
-
-    ]
-  },
-  "properties": {
-    "generalTitle": {
-      "type": "string",
-      "required": false
     },
-    "chapterNumber": {
-      "type": "string",
-      "required": false
+    "validations": [],
+    "relations": {
+        "cases": {
+            "type": "hasMany",
+            "model": "case",
+            "foreignKey": ""
+        },
+        "capturedBy": {
+            "type": "belongsTo",
+            "model": "appuser",
+            "foreignKey": ""
+        },
+        "caseLegislations": {
+            "type": "hasMany",
+            "model": "caseLegislations",
+            "foreignKey": "legislationId"
+        },
+        "amendedLegislations": {
+            "type": "referencesMany",
+            "model": "legislation",
+            "foreignKey": "amendedLegislations"
+        },
+        "parentLegislation": {
+            "type": "belongsTo",
+            "model": "legislation",
+            "foreignKey": "parentLegislation"
+        }
     },
-    "legislationName": {
-      "type": "string",
-      "required": true
-    },
-    "legislationNumber": {
-      "type": "string",
-      "required": false
-    },
-    "legislationNumbers": {
-      "type": "string",
-      "required": false
-    },
-    "dateOfAssent": {
-      "type": "date",
-      "required": false
-    },
-    "preamble": {
-      "type": "string",
-      "required": false
-    },
-    "enactment": {
-      "type": "string",
-      "required": false
-    },
-    "yearOfAmendment": {
-      "type": "number",
-      "required": false
-    },
-    "volumeNumber": {
-      "type": "string",
-      "required": false
-    },
-    "legislationType": {
-      "type": "string",
-      "required": false
-    },
-    "legislationParts": {
-      "type": [
-        "legislationPart"
-      ],
-      "required": false
-    },
-    "duplicateCount": {
-      "type": "number",
-      "required": false
-    },
-    "deleted": {
-      "type": "boolean",
-      "required": false,
-      "default": false
-    }
-  },
-  "validations": [],
-  "relations": {
-    "cases": {
-      "type": "hasMany",
-      "model": "case",
-      "foreignKey": ""
-    },
-    "capturedBy": {
-      "type": "belongsTo",
-      "model": "appuser",
-      "foreignKey": ""
-    },
-    "caseLegislations": {
-      "type": "hasMany",
-      "model": "caseLegislations",
-      "foreignKey": "legislationId"
-    },
-    "parentLegislation": {
-      "type": "belongsTo",
-      "model": "legislation",
-      "foreignKey": "parentLegislation"
-    }
-  },
-  "acls": [],
-  "methods": {}
+    "acls": [],
+    "methods": {}
 }

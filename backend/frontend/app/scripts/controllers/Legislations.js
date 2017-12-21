@@ -656,4 +656,16 @@ angular.module('apptorney')
             $scope.legislation.replacedLegislations.push(legislation);
         }
 
+
+        $scope.openAmendedLegislation = function() {
+            $scope.legislationReferences = [];
+            $scope.queries.legislationReferencesQuery = "";
+            $('#amendedLegislationsModal').modal();
+        }
+        $scope.openReplacedLegislation = function() {
+            $scope.legislationReferences = [];
+            $scope.queries.legislationReferencesQuery = "";
+            $('#replacedLegislationsModal').modal();
+        }
+
     })

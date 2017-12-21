@@ -677,7 +677,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                    </tr>\n" +
     "                    <tr id=\"rowTmp_Est\" ng-repeat=\"legislation in legislationReferences | filter:queries.legislationReferencesQuery | orderBy:sortType:sortReverse\">\n" +
     "                        <td class=\"editables\">\n" +
-    "                            <input type=\"checkbox\" ng-change=\"addAmendedLegislations(legislation)\" ng-model=\"legislation.selected\">\n" +
+    "                            <input type=\"checkbox\" ng-change=\"addAmendedLegislations(legislation)\" ng-model=\"legislation.selectedAmendedLegislations\">\n" +
     "                        </td>\n" +
     "                        <td class=\"editables\">\n" +
     "                            <span class=\"editable\" name=\"applicantname\" form=\"rowform\" onchange=\"editItem(this,'itemID')\" required>{{legislation.legislationNumbers}}</span>\n" +
@@ -1316,7 +1316,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "<div class=\"col-xs-10\">Amended Legislations</div>\n" +
     "<div class=\"col-xs-2 pull-right\">\n" +
-    "    <a class=\"pull-right\" style=\"color:#d3d3d3; border:#none; font-size:1.2em; border-radius:5px; margin-top:-2px\" data-toggle=\"modal\" data-target=\"#amendedLegislationsModal\"><i class=\"fa fa-plus\"></i></a>\n" +
+    "    <a class=\"pull-right\" style=\"color:#d3d3d3; border:#none; font-size:1.2em; border-radius:5px; margin-top:-2px\" ng-click=\"openAmendedLegislation()\"><i class=\"fa fa-plus\"></i></a>\n" +
     "</div>\n" +
     "<div class=\"col-xs-12 form-group\">\n" +
     "\n" +
@@ -1340,7 +1340,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "<div class=\"col-xs-10\">Replaced Legislations</div>\n" +
     "<div class=\"col-xs-2 pull-right\">\n" +
-    "    <a class=\"pull-right\" style=\"color:#d3d3d3; border:#none; font-size:1.2em; border-radius:5px; margin-top:-2px\" data-toggle=\"modal\" data-target=\"#replacedLegislationsModal\">\n" +
+    "    <a class=\"pull-right\" style=\"color:#d3d3d3; border:#none; font-size:1.2em; border-radius:5px; margin-top:-2px\" ng-click=\"openReplacedLegislation()\">\n" +
     "        <i class=\"fa fa-plus\"></i>\n" +
     "    </a>\n" +
     "</div>\n" +
@@ -2135,7 +2135,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                    </tr>\n" +
     "                    <tr id=\"rowTmp_Est\" ng-repeat=\"legislation in legislationReferences | filter:queries.legislationReferencesQuery | orderBy:sortType:sortReverse\">\n" +
     "                        <td class=\"editables\">\n" +
-    "                            <input type=\"checkbox\" ng-change=\"addReplacedLegislations(legislation)\" ng-model=\"legislation.selected\">\n" +
+    "                            <input type=\"checkbox\" ng-change=\"addReplacedLegislations(legislation)\" ng-model=\"legislation.selectedReplacedLegislations\">\n" +
     "                        </td>\n" +
     "                        <td class=\"editables\">\n" +
     "                            <span class=\"editable\" name=\"applicantname\" form=\"rowform\" onchange=\"editItem(this,'itemID')\" required>{{legislation.legislationNumbers}}</span>\n" +

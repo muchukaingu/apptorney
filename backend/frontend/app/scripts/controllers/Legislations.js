@@ -15,7 +15,9 @@ angular.module('apptorney')
         $scope.selectedType = ''
         $scope.selected = false
         $scope.opened = true
-        $scope.legislation = {}
+        $scope.legislation = {};
+        $scope.legislation.amendedLegislations = [];
+        $scope.legislation.replacedLegislations = [];
         $scope.legislationPart = {}
         $scope.returned = false
         $scope.showLegislations = false
@@ -30,6 +32,8 @@ angular.module('apptorney')
         $scope.baseURL = baseURL.replace('/api/', '') // Hack to show images and file links in Legislation
         $scope.parents = []
         $scope.mergeStatus = 0
+        $scope.queries = {};
+        $scope.legislationReferences = [];
 
         $scope.loadLegislationTypes = function() {
             LegislationType.find(
@@ -191,7 +195,7 @@ angular.module('apptorney')
             $scope.returned = false
             $scope.showLegislations = false
             if (type == 'all') {
-                Legislation.viewLegislations({type: $routeParams.id, term: $scope.currentPage - 1 },
+                Legislation.viewLegislations({ type: $routeParams.id, term: $scope.currentPage - 1 },
                     function(res) {
                         $scope.legislations = res.data.legislations
                         $scope.numberOfItemsPerPage = 200
@@ -378,7 +382,9 @@ angular.module('apptorney')
                         $scope.legislation.dateOfAssent = parser.parse($scope.legislation.dateOfAssent).getDate()
                     }
                     $scope.opened = true
-                        // $scope.showLegislations = true
+                    $scope.legislation.amendedLegislations = [];
+                    $scope.legislation.replacedLegislations = [];
+                    // $scope.showLegislations = true
                 },
                 function(errorResponse) {}
             )
@@ -566,10 +572,10 @@ angular.module('apptorney')
             Legislation.flexisearch({ term: term },
                 function(res) {
                     $scope.parents = res.data.legislations
-                    $scope.parents.forEach(function(parent){
-                      parent.year = new Date(parent.dateOfAssent).getFullYear()
-                      parent.legislationNumbers = parent.legislationNumbers?parent.legislationNumbers:parent.legislationNumber
-                      // console.log(parent.year)
+                    $scope.parents.forEach(function(parent) {
+                        parent.year = new Date(parent.dateOfAssent).getFullYear()
+                        parent.legislationNumbers = parent.legislationNumbers ? parent.legislationNumbers : parent.legislationNumber
+                            // console.log(parent.year)
                     });
                 },
                 function(errorResponse) {}
@@ -615,4 +621,39 @@ angular.module('apptorney')
                 function(errorResponse) {}
             )
         }
+
+        $scope.$watch('queries.legislationReferencesQuery', function() {
+            $scope.gettingLegislationReferences = false;
+
+            var term = $scope.queries.legislationReferencesQuery;
+            if ($scope.gettingLegislationReferences == false && term.length > 3) {
+                console.log(term);
+                $scope.gettingLegislationReferences = true;
+                Legislation.flexisearch({ term: term },
+                    function(res) {
+                        $scope.legislationReferences = res.data.legislations;
+                        $scope.legislationReferences.forEach(function(ref) {
+                            ref.year = new Date(ref.dateOfAssent).getFullYear()
+                            ref.legislationNumbers = ref.legislationNumbers ? ref.legislationNumbers : ref.legislationNumber
+                                // console.log(parent.year)
+                        });
+                        $scope.gettingLegislationReferences = false;
+                    },
+                    function(errorResponse) {}
+                );
+
+            }
+        });
+
+
+        $scope.addAmendedLegislations = function(legislation) {
+            //$scope.legislation.amendingLegislations = [];
+            $scope.legislation.amendedLegislations.push(legislation);
+        }
+
+        $scope.addReplacedLegislations = function(legislation) {
+            //$scope.legislation.amendingLegislations = [];
+            $scope.legislation.replacedLegislations.push(legislation);
+        }
+
     })

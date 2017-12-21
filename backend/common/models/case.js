@@ -79,10 +79,25 @@ module.exports = function(Case) {
   });
 
   Case.remoteMethod(
+    'mobilesearch',{
+      http: {path: '/mobilesearch', verb: 'get'},
+      accepts: {arg: 'term', type: 'string'},
+      returns: {arg: 'cases', type: 'Object'}
+  });
+
+  Case.remoteMethod(
     'viewCase',{
       http: {path: '/viewCase', verb: 'get'},
       accepts: {arg: 'id', type: 'string'},
       returns: {arg: 'cases', type: 'Object'}
+  });
+
+
+  Case.remoteMethod(
+    'mobileViewCase',{
+      http: {path: '/mobileviewcase', verb: 'get'},
+      accepts: {arg: 'id', type: 'string'},
+      returns: {arg: 'caseInstance', type: 'Object'}
   });
 
 
@@ -157,6 +172,77 @@ module.exports = function(Case) {
       });
 
 
+  }
+
+  Case.mobilesearch = function(term, cb){
+    var elasticsearch = require('elasticsearch');
+    let client = new elasticsearch.Client({
+    	host:'https://portal-ssl1774-1.bmix-lon-yp-07bcfc2b-8df0-4892-bfc5-849b558a672f.muchu-bmix-circuitbusiness-com.composedb.com:21319/',
+    	httpAuth:'admin:JJWKUQSGLKEPDGXK'
+    });
+    var searchParams = {
+      index: 'case',
+      size: 100,
+      body: {
+
+        	query : {
+                multi_match: { query: term, fields:["name", "judgement", "summaryOfFacts", "summaryOfRuling", "areaOfLaw"] }
+          },
+        	highlight : {
+                fields : {
+
+
+                    "*":{ "pre_tags" : ["<strong>"], "post_tags" : ["</strong>"] }
+                }
+            },
+            _source:["name", "areaOfLaw", "caseNumber", "_id"]
+
+      }
+    };
+
+  	client.search(searchParams).then(function(resp) {
+  		//console.log(resp.hits);
+  		let results = [];
+  		resp.hits.hits.forEach(function(h) {
+        var highlight = h.highlight;
+        var highlights = "...";
+        //console.log(highlight);
+        if (highlight.name !== undefined){
+          h._source.name = "<b>" + highlight.name[0] + "</b>";
+        }
+        else {
+          h._source.name = "<b>" + h._source.name + "</b>";
+        }
+        if (highlight.summaryOfRuling !== undefined){
+          highlight.summaryOfRuling.forEach(function(ruling){
+            highlights = highlights + ruling + "...";
+          });
+          highlights = "<b>Summary of Ruling: </b>" + highlights + "<br>";
+        }
+
+        if (highlight.summaryOfFacts !== undefined){
+          highlight.summaryOfFacts.forEach(function(facts){
+            highlights = highlights + facts + "...";
+          });
+          highlights = (highlight.summaryOfRuling == undefined)? "<b>Summary of Facts: </b>" + highlights:highlights + "<b>Summary of Facts: </b>" + highlights + "<br>";
+        }
+
+        if (highlight.judgement !== undefined){
+          highlight.judgement.forEach(function(judgement){
+            highlights = highlights + judgement + "...";
+          });
+          highlights = (highlight.summaryOfRuling == undefined && highlight.summaryOfFacts == undefined)? "<b>Judgment: </b>" + highlights:highlights + "<b>Judgment: </b>" + highlights + "<br>";
+        }
+
+
+        h._source.highlight = highlights.length==3?undefined:highlights;
+        h._source._id = h._id;
+  			results.push(h._source);
+  		});
+  		cb(null, results);
+  	}, function(err) {
+  		throw new Error(err);
+  	});
   }
 
 
@@ -254,9 +340,129 @@ module.exports = function(Case) {
       ]},
 
       function(err, cases) {
+        var judges = "";
+        var judgeCount = 0;
+        cases.coram.forEach(function(judge){
+          judges = (judgeCount==cases.coram.length-1)?judges + judge.name: judges + judge.name + " | ";
+          judgeCount++;
+        });
+        cases.judges = judges;
         cb(null,cases);
       });
   }
+
+
+  /**
+   * Provides data for view on Mobile
+   *
+   * @callback {Function} cb The callback function
+   */
+  Case.mobileViewCase = function(id, cb){
+    var caseCollection = Case.getDataSource().connector.collection("case");
+    caseCollection.aggregate([
+        {$match: {$and:[{ "deleted": { $eq: !true } }, {_id:ObjectId(id)}]}},
+        {
+           $lookup:{
+                 from: "court",
+                 localField: "courtId",
+                 foreignField: "_id",
+                 as: "court"
+           }
+
+        },
+        {
+          $lookup:{
+                from: "courtDivision",
+                localField: "courtDivisionId",
+                foreignField: "_id",
+                as: "courtDivision"
+          }
+        },
+        {
+          $lookup:{
+                from: "location",
+                localField: "locationId",
+                foreignField: "_id",
+                as: "location"
+          }
+        },
+        {
+          $lookup:{
+                from: "jurisdiction",
+                localField: "jurisdictionId",
+                foreignField: "_id",
+                as: "jurisdiction"
+          }
+        },
+        {$project:{
+          score: { $meta: "textScore" },
+          caseNumber: true,
+          name:true,
+          judgement:true,
+          summaryOfRuling:true,
+          summaryOfFacts:true,
+          citation:true,
+          areaOfLawId:true,
+          court:true,
+          courtDivision:true,
+          location:true,
+          jurisdiction:true,
+          coram:true,
+          _id:true
+
+        }},
+        { $sort: { score: { $meta: "textScore" }, name: -1 } }
+
+      ],
+      function(err, cases) {
+        console.log(err)
+        if(err){
+
+        }
+        else{
+          var counter = 0;
+          cases.map(function(caseInstance){
+
+            var citation = caseInstance.citation.year+"/"+caseInstance.citation.code+"/"+caseInstance.citation.pageNumber;
+            caseInstance.referenceNumber = (!caseInstance.caseNumber&& caseInstance.citation.year && caseInstance.citation.code && caseInstance.citation.pageNumber)?citation:caseInstance.caseNumber;
+            caseInstance.court = caseInstance.court[0].name;
+            caseInstance.courtDivision = caseInstance.courtDivision.length>0?caseInstance.courtDivision[0].name:undefined;
+            caseInstance.jurisdiction = caseInstance.jurisdiction.length>0?caseInstance.jurisdiction[0].name:undefined;
+            caseInstance.location = caseInstance.location[0].name;
+
+
+
+            // caseInstance.areaOfLaw = caseInstance.areaOfLawName.name;
+
+            delete caseInstance["citation"];
+            delete caseInstance["caseNumber"];
+
+            //### TEMPORAL AREA OF LAW FIX --> Due to performance issues this should be addressed by changing areaOfLawId in Case Model to ObjectId type so that $lookup op can work
+            var app = Case.app;
+            var Areas = app.models.areaOfLaw;
+            Areas.findById(ObjectId(caseInstance.areaOfLawId), function(err, area){
+              caseInstance.area = (area==null)?"":area.name;
+              counter++;
+              if(counter == cases.length){
+                cb(null, cases)
+              }
+            })
+            //### END OF TEMPORAL AREA OF LAW FIX
+
+          });
+
+          if(counter==0 && cases.length == 0){
+            cb(null, cases)
+          }
+
+
+        }
+
+      });
+
+  }
+
+
 
 
 

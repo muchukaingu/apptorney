@@ -80,6 +80,15 @@
 
                             </td>
 
+                            <td style="width:30%">
+                                <a ng-click="sortType = 'capturedBy.firstName'; sortReverse = !sortReverse">
+                      Linked
+            <span ng-show="sortType == 'legislation.capturedBy.firstName' && !sortReverse" class="fa fa-caret-up"></span>
+            <span ng-show="sortType == 'legislation.capturedBy.firstName' && sortReverse" class="fa fa-caret-down"></span>
+                    </a>
+
+                            </td>
+
 
 
                             <td style="width:5%">Actions</td>
@@ -114,6 +123,14 @@
 													{{(legislation.capturedBy.length > 0)? legislation.capturedBy[0].firstName + ' ' + legislation.capturedBy[0].lastName : legislation.capturedBy.firstName + ' ' + legislation.capturedBy.lastName}}
                       </span>
                             </td>
+
+                            <td class="editables">
+
+                                <span class="editable" name="email" form="rowform" onchange="editItem(this,'itemID')" required>
+													{{(legislation.parentLegislation == undefined)? 'No' : 'Yes'}}
+                      </span>
+                            </td>
+
                             <td style="white-space: nowrap">
                                 <!-- form -->
                                 <form editable-form name="rowform" ng-show="rowform.$visible" class="form-buttons form-inline">

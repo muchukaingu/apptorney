@@ -96,6 +96,21 @@ angular.module('apptorney')
                 $scope.legislation.capturedById = $rootScope.user.id
             }
 
+            $scope.legislation.replacedLegislationIds = [];
+            $scope.legislation.amendedLegislationIds = [];
+
+            $scope.legislation.amendedLegislations.map(function(legislation) {
+                $scope.legislation.amendedLegislationIds.push(legislation.id);
+            });
+
+            $scope.legislation.replacedLegislations.map(function(legislation) {
+                $scope.legislation.replacedLegislationIds.push(legislation.id);
+            });
+
+            $scope.legislation.amendedLegislations = undefined;
+            $scope.legislation.replacedLegislations = undefined;
+
+
             Legislation.upsert($scope.legislation,
                     function(res) {
                         var legislation = res.data
@@ -344,6 +359,7 @@ angular.module('apptorney')
         }
 
         $scope.openLegislation = function(legislation) {
+            console.log(legislation);
             $scope.opened = false
             $('#legislationModal').modal()
             $scope.models = {
@@ -382,8 +398,7 @@ angular.module('apptorney')
                         $scope.legislation.dateOfAssent = parser.parse($scope.legislation.dateOfAssent).getDate()
                     }
                     $scope.opened = true
-                    $scope.legislation.amendedLegislations = [];
-                    $scope.legislation.replacedLegislations = [];
+
                     // $scope.showLegislations = true
                 },
                 function(errorResponse) {}

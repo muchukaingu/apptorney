@@ -697,7 +697,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "\n" +
     "                <div ng-if=\"legislationReferences.length == 0 && queries.legislationReferencesQuery.length < 5 || legislationReferences.length == 0 && queries.legislationReferencesQuery == undefined\" style=\"position: relative; left: 30%; margin-left: -50px; height: 50px; margin-top: 40px\"><i ng-if=\"!returned\" class='fa fa-fw fa-sun-o fa-spin'></i> Type the first 5 characters in the name of the legislation to begin.</div>\n" +
-    "                <div ng-if=\"queries.legislationReferencesQuery.length > 4 && (legislationReferences|filter:queries.legislationReferencesQuery).length == 0 && legislationReferences.length == 0\" style=\"position: relative; left: 50%; margin-left: -50px; height: 50px; margin-top: 40px\"><i class='fa fa-fw fa-sun-o fa-spin'></i>Searching for Legislations. Please Wait...</div>\n" +
+    "                <div ng-if=\"queries.legislationReferencesQuery.length > 4 && (legislationReferences|filter:queries.legislationReferencesQuery).length == 0 && legislationReferences.length == 0\" style=\"position: relative; left: 50%; margin-left: -150px; height: 50px; margin-top: 40px\"><i class='fa fa-fw fa-sun-o fa-spin'></i>Searching for Legislations. Please Wait...</div>\n" +
     "                <div ng-if=\"queries.legislationReferencesQuery.length > 4 && (legislationReferences|filter:queries.legislationReferencesQuery).length == 0 && legislationReferences.length > 0\" style=\"position: relative; left: 32%; margin-left: -50px; height: 50px; margin-top: 40px\"><i ng-if=\"!returned\" class='fa fa-fw fa-sun-o fa-spin'></i> No matches found. </div>\n" +
     "\n" +
     "            </div>\n" +
@@ -2083,7 +2083,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "            <div class=\"modal-body\" style=\"margin-bottom: none; padding-top: 10px; border-bottom:none; height:600px; overflow-y: auto;\">\n" +
     "\n" +
-    "                <h2>Select Amending Legislations</h2>\n" +
+    "                <h2>Select Replaced Legislations</h2>\n" +
     "                <div class=\"input-icon right mb10\">\n" +
     "                    <i class=\"fa fa-search\"></i>\n" +
     "                    <input type=\"text\" ng-model=\"queries.legislationReferencesQuery\" class=\"form-control\" placeholder=\"Search...\" id=\"Search\" ng-model-options=\"{ debounce: 1000 }\">\n" +

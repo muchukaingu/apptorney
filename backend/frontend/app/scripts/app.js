@@ -149,10 +149,10 @@ angular
 
 
         // Change the URL where to access the LoopBack REST API server
-        LoopBackResourceProvider.setUrlBase('https://circuitbusiness-apptorney.eu-gb.mybluemix.net/api'); //Important: Comment for test
+        //LoopBackResourceProvider.setUrlBase('https://circuitbusiness-apptorney.eu-gb.mybluemix.net/api'); //Important: Comment for test
         //LoopBackResourceProvider.setUrlBase('http://circuit.cloudapp.net:3001/api'); //Important: Comment for test
         // LoopBackResourceProvider.setUrlBase('http://circuitbusiness-test.cloudapp.net:3001/api'); //Important: Comment for production
-        // LoopBackResourceProvider.setUrlBase('http://localhost:3009/api'); //Important: Comment for production
+        LoopBackResourceProvider.setUrlBase('http://localhost:3009/api'); //Important: Comment for production
 
         $routeProvider
             .when('/', {

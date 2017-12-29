@@ -1,0 +1,20 @@
+{
+  "name": "caseWorks",
+  "base": "PersistedModel",
+  "properties": {},
+  "validations": [],
+  "relations": {
+    "case": {
+      "type": "belongsTo",
+      "model": "case",
+      "foreignKey": "caseId"
+    },
+    "work": {
+      "type": "belongsTo",
+      "model": "work",
+      "foreignKey": "workId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

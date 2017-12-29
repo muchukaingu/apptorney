@@ -5,17 +5,17 @@
     "validateUpsert": true
   },
   "properties": {
-    "advocate":{
-      "type":"string",
-      "required":true
+    "advocate": {
+      "type": "string",
+      "required": true
     },
-    "lawFirm":{
-      "type":"string",
-      "required":true
+    "lawFirm": {
+      "type": "string",
+      "required": true
     }
   },
   "validations": [],
-
+  "relations": {},
   "acls": [],
   "methods": {}
 }

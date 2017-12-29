@@ -30,8 +30,8 @@
                     <div class="row">
 
 
-                        <div class="col-md-3 col-sm-5" ng-controller = "CasesController">
-                            <a class="info-tiles tiles-primary dashboard-tiles" href="#">
+                        <div class="col-md-4 col-sm-5" ng-controller = "CasesController">
+                            <a class="info-tiles tiles-primary dashboard-tiles" href="#/cases">
                                 <div class="tiles-heading">
                                     <div class="pull-left">Cases</div>
                                     <div class="pull-right">Performance &nbsp<span id="target"></span>&nbsp/&nbsp <span id="application"></span></div>
@@ -39,28 +39,37 @@
 
 
 
-                                <div style="height:100px;" class="tiles-body">
+                                <div style="height:250px;" class="tiles-body">
 	                                <div class="row">
-	                                    <div class="col-xs-2 pull-left"><i style="font-size:40pt; position:relative; top:-1px" class="fa fa-file-text"></i></div>
-	                                    <div class="col-xs-10" style="font-size: 0.6em">
-		                                    <div class="row">
-		                                        <div class="col-xs-3 col-sm-5" style="font-size: 1em">Complete</div>
-		                                        <div class="col-xs-2 text-left" id="online" style="font-size: 1em">{{}}</div>
-		                                    </div>
-		                                    <div class="row">
-		                                        <div class="col-xs-3 col-sm-5" style="font-size: 1em">Incomplete</div>
-		                                        <div class="col-xs-2 text-left" id="manual" style="font-size: 1em">{{}}</div>
-		                                    </div>
-
-	                                    </div>
+	                                    <div class="col-xs-2 pull-left"><i style="font-size:40pt;" class="fa fa-gavel"></i></div>
+                                      <div class="col-xs-10 pull-right text-right">
+                                          <span style="font-size:40pt; position: relative; top:-20px" class="packages" id="total">
+                                                {{summary.totalCases}}
+                                          </span>
+                                      </div>
 	                                </div>
 	                                <div class="row">
-                                        <div style=" position:relative; bottom:65px; right:15px;" class="pull-right">
+                                    <div class="col-xs-12" style="font-size: 0.6em">
+                                      <div class="row">
+                                          <div class="col-xs-3" style="font-size: 1em">Complete</div>
+                                          <div class="col-xs-9 text-right pull-right" id="online" style="font-size: 1em">{{summary.completedCases}}</div>
+                                      </div>
+                                      <div class="row text-warning" >
+                                          <div class="col-xs-3" style="font-size: 1em">Incomplete</div>
+                                          <div class="col-xs-9 text-right pull-right" id="manual" style="font-size: 1em">{{summary.incompleteCases}}</div>
+                                      </div>
+                                      <div class="row">
+                                          <div class="col-xs-3" style="font-size: 1em">Verified</div>
+                                          <div class="col-xs-5 text-right pull-right" id="manual" style="font-size: 1em">{{}}</div>
+                                      </div>
+                                      <div class="row">
+                                          <div class="col-xs-6" style="font-size: 1em">Auto Generated</div>
+                                          <div class="col-xs-5 text-right pull-right" id="manual" style="font-size: 1em">{{}}</div>
+                                      </div>
 
-                                            <span style="font-size:40pt;" class="packages" id="total">
-                                                  {{cases.length}}
-                                            </span>
-                                        </div>
+
+                                    </div>
+
 	                                </div>
 
 
@@ -76,72 +85,46 @@
 
 
 
-                        <div class="col-md-3 col-sm-5" >
-                            <a class="info-tiles tiles-primary dashboard-tiles" href="#">
+                        <div class="col-md-4 col-sm-5" >
+                            <a class="info-tiles tiles-midnightblue dashboard-tiles" href="#legislations">
                                 <div class="tiles-heading">
-                                    <div class="pull-left">Acts</div>
+                                    <div class="pull-left">Legislations</div>
                                     <div class="pull-right"><span id="penetration">{{(legislationSummary.completedLegislations*100/legislationSummary.totalLegislations) | number:2}}%</span>&nbsp<span id="application"></span></div>
                                 </div>
-                                <div style="height:100px;" class="tiles-body">
-	                                <div class="row">
-	                                    <div class="col-xs-2 pull-left"><i style="font-size:40pt; position:relative; top:-1px" class="fa fa-file-text"></i></div>
-	                                    <div class="col-xs-10" style="font-size: 0.6em">
-		                                    <div class="row">
-		                                        <div class="col-xs-3 col-sm-4" style="font-size: 1em">Complete</div>
-		                                        <div class="col-xs-2 text-left" id="online" style="font-size: 1em">{{legislationSummary.completedLegislations}}</div>
-		                                    </div>
-		                                    <div class="row">
-		                                        <div class="col-xs-3 col-sm-4" style="font-size: 1em">Incomplete</div>
-		                                        <div class="col-xs-2 text-left" id="manual" style="font-size: 1em">{{legislationSummary.incompleteLegislations}}</div>
-		                                    </div>
-
-	                                    </div>
-	                                </div>
-	                                <div class="row">
-                                        <div style=" position:relative; bottom:65px; right:15px;" class="pull-right">
-
-                                            <span style="font-size:40pt;" class="packages" id="total">
-                                                  {{legislationSummary.totalLegislations}}
-                                            </span>
-                                        </div>
-	                                </div>
 
 
 
-
-                                </div>
-                            </a>
-                        </div>
-
-
-                        <div class="col-md-3 col-sm-5" >
-                            <a class="info-tiles tiles-primary dashboard-tiles" href="#">
-                                <div class="tiles-heading">
-                                    <div class="pull-left">Subsidiary Legislations</div>
-                                    <div class="pull-right"><span id="penetration"></span>&nbsp<span id="application"></span></div>
-                                </div>
-                                <div style="height:100px;" class="tiles-body">
+                                <div style="height:250px;" class="tiles-body">
                                   <div class="row">
-                                      <div class="col-xs-2 pull-left"><i style="font-size:40pt; position:relative; top:-1px" class="fa fa-file"></i></div>
-                                      <div class="col-xs-10" style="font-size: 0.6em">
-                                        <div class="row">
-                                            <div class="col-xs-3 col-sm-4" style="font-size: 1em">Complete</div>
-                                            <div class="col-xs-2 text-left" id="online" style="font-size: 1em">0</div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-xs-3 col-sm-4" style="font-size: 1em">Incomplete</div>
-                                            <div class="col-xs-2 text-left" id="manual" style="font-size: 1em">0</div>
-                                        </div>
-
+                                      <div class="col-xs-2 pull-left"><i style="font-size:40pt;" class="fa fa-file-text"></i></div>
+                                      <div class="col-xs-10 pull-right text-right">
+                                          <span style="font-size:40pt; position: relative; top:-20px" class="packages" id="total">
+                                                {{summary.totalLegislations}}
+                                          </span>
                                       </div>
                                   </div>
                                   <div class="row">
-                                        <div style=" position:relative; bottom:65px; right:15px;" class="pull-right">
+                                    <div class="col-xs-12" style="font-size: 0.6em">
+                                      <div class="row">
+                                          <div class="col-xs-6" style="font-size: 1em">Complete</div>
+                                          <div class="col-xs-5 text-right pull-right" id="online" style="font-size: 1em">{{summary.completedLegislations}}</div>
+                                      </div>
+                                      <div class="row text-warning" >
+                                          <div class="col-xs-6" style="font-size: 1em">Incomplete</div>
+                                          <div class="col-xs-5 text-right pull-right" id="manual" style="font-size: 1em">{{summary.incompleteLegislations}}</div>
+                                      </div>
+                                      <div class="row">
+                                          <div class="col-xs-6" style="font-size: 1em">Verified</div>
+                                          <div class="col-xs-5 text-right pull-right" id="manual" style="font-size: 1em">{{}}</div>
+                                      </div>
+                                      <div class="row">
+                                          <div class="col-xs-6" style="font-size: 1em">Auto Generated</div>
+                                          <div class="col-xs-5 text-right pull-right" id="manual" style="font-size: 1em">{{}}</div>
+                                      </div>
 
-                                            <span style="font-size:40pt;" class="packages" id="total">
-                                                  0
-                                            </span>
-                                        </div>
+
+                                    </div>
+
                                   </div>
 
 
@@ -151,34 +134,48 @@
                             </a>
                         </div>
 
-                        <div class="col-md-3 col-sm-5">
-                            <a class="info-tiles tiles-primary dashboard-tiles" href="#">
+
+
+
+                        <div class="col-md-4 col-sm-5">
+                            <a class="info-tiles tiles-green dashboard-tiles" href="#">
                                 <div class="tiles-heading">
                                     <div class="pull-left">Users</div>
                                     <div class="pull-right"><span id="penetration"></span>&nbsp<span id="application"></span></div>
                                 </div>
-                                <div style="height:100px;" class="tiles-body">
-                                  <div class="row">
-                                      <div class="col-xs-2 pull-left"><i style="font-size:40pt; position:relative; top:-1px" class="fa fa-user"></i></div>
-                                      <div class="col-xs-10" style="font-size: 0.6em">
-                                        <div class="row">
-                                            <div class="col-xs-3 col-sm-3" style="font-size: 1em"></div>
-                                            <div class="col-xs-2 text-left" id="online" style="font-size: 1em"></div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-xs-3 col-sm-3" style="font-size: 1em"></div>
-                                            <div class="col-xs-2 text-left" id="manual" style="font-size: 1em"></div>
-                                        </div>
 
+
+                                <div style="height:250px;" class="tiles-body">
+                                  <div class="row">
+                                      <div class="col-xs-2 pull-left"><i style="font-size:40pt;" class="fa fa-file-text"></i></div>
+                                      <div class="col-xs-10 pull-right text-right">
+                                          <span style="font-size:40pt; position: relative; top:-20px" class="packages" id="total">
+                                                {{userPerformance.length}}
+                                          </span>
                                       </div>
                                   </div>
                                   <div class="row">
-                                        <div style=" position:relative; bottom:65px; right:15px;" class="pull-right">
+                                    <div class="col-xs-12" style="font-size: 0.6em">
+                                      <div class="row">
+                                          <div class="col-xs-3 col-sm-7" style="font-size: 1em">Active</div>
+                                          <div class="col-xs-5 text-right pull-right" id="online" style="font-size: 1em">{{}}</div>
+                                      </div>
+                                      <div class="row text-warning" >
+                                          <div class="col-xs-3 col-sm-7" style="font-size: 1em">Inactive</div>
+                                          <div class="col-xs-5 text-right pull-right" id="manual" style="font-size: 1em">{{}}</div>
+                                      </div>
+                                      <div class="row">
+                                          <div class="col-xs-3 col-sm-7" style="font-size: 1em">Internal</div>
+                                          <div class="col-xs-5 text-right pull-right" id="manual" style="font-size: 1em">{{}}</div>
+                                      </div>
+                                      <div class="row">
+                                          <div class="col-xs-3 col-sm-7" style="font-size: 1em">External</div>
+                                          <div class="col-xs-5 text-right pull-right" id="manual" style="font-size: 1em">{{}}</div>
+                                      </div>
 
-                                            <span style="font-size:40pt;" class="packages" id="total">
-                                                  {{userPerformance.length}}
-                                            </span>
-                                        </div>
+
+                                    </div>
+
                                   </div>
 
 

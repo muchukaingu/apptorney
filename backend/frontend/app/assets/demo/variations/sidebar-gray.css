@@ -5,7 +5,7 @@
   background-color: #e6e9ee;
 }
 #sidebar > li.active > a {
-  background-color: #137ad4;
+  background-color: #000000;
 }
 #sidebar > li.active > a,
 body.collapse-leftbar #sidebar > li.active:hover > a {
@@ -96,7 +96,7 @@ body.collapse-leftbar #search.keep-open > a:hover {
 #horizontal-navbar .navbar-nav li.active > a i,
 #horizontal-navbar .navbar-nav li.active > a:hover,
 #horizontal-navbar .navbar-nav li.active > a:hover i {
-  background-color: #137ad4;
+  background-color: #000000;
   color: #ffffff;
 }
 #horizontal-navbar .navbar-nav li a:hover,

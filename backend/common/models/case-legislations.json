@@ -1,0 +1,23 @@
+{
+  "name": "caseLegislations",
+  "base": "PersistedModel",
+  "scope": {
+    "include": "case"
+  },
+  "properties": {},
+  "validations": [],
+  "relations": {
+    "case": {
+      "type": "belongsTo",
+      "model": "case",
+      "foreignKey": "caseId"
+    },
+    "legislation": {
+      "type": "belongsTo",
+      "model": "legislation",
+      "foreignKey": "legislationId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

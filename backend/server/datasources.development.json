@@ -1,0 +1,27 @@
+{
+  "db": {
+    "name": "db",
+    "connector": "memory"
+  },
+  "apptorney": {
+    "host": "localhost",
+    "port": 27017,
+    "url": "",
+    "database": "apptorney",
+    "password": "",
+    "name": "apptorney",
+    "user": "",
+    "connector": "mongodb"
+  },
+  "transient": {
+    "name": "transient",
+    "connector": "transient"
+  },
+  "storage": {
+    "name": "storage",
+    "connector": "loopback-component-storage",
+    "provider": "azure",
+    "storageAccount": "circuit8875",
+    "storageAccessKey": "9y2v59hJxU0UTjAMCP47jyCPWKZxSKgxB3AVBMXvUQ8VA6aH0nhXb8vxpSYtwtBceA0+RxKRkl0XH4G55ufopA=="
+  }
+}

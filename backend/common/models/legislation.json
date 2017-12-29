@@ -1,74 +1,133 @@
 {
-  "name": "legislation",
-  "base": "PersistedModel",
-  "idInjection": true,
-  "options": {
-    "validateUpsert": true
-  },
-  "properties": {
-    "generalTitle": {
-      "type": "string",
-      "required": true
+    "name": "legislation",
+    "base": "PersistedModel",
+    "idInjection": true,
+    "options": {
+        "validateUpsert": true
     },
-    "chapterNumber": {
-      "type": "string",
-      "required": false
-    },
-    "legislationName": {
-      "type": "string",
-      "required": true
-    },
-    "legislationNumber": {
-      "type": "string",
-      "required": false
-    },
-    "dateOfAssent": {
-      "type": "date",
-      "required": true
-    },
-    "preamble": {
-      "type": "string",
-      "required": false
-    },
-    "enactment": {
-      "type": "string",
-      "required": true
-    },
-    "parentLegislation": {
-      "type": "string",
-      "required": false
-    },
-    "yearOfAmendment": {
-      "type": "number",
-      "required": false
-    },
-    "volumeNumber": {
-      "type": "string",
-      "required": false
-    },
-    "legislationType": {
-      "type": "string",
-      "required": true
-    },
-    "legislationParts":{
-      "type": ["legislationPart"],
-      "required": false
-    }
-  },
-  "validations": [],
-  "relations": {
-    "cases": {
-      "type": "hasMany",
-      "model": "case",
-      "foreignKey": ""
-    },
-    "capturedBy":{
-      "type": "belongsTo",
-      "model": "appuser",
-      "foreignKey": ""
-    }
+    "scope": {
+        "include": [
+            "capturedBy",
+            {
+                "relation": "parentLegislation",
+                "scope": {
+                    "fields": ["id", "legislationName", "legislationType", "deleted"]
 
-  },
-  "acls": [],
-  "methods": {}
+                }
+            },
+            {
+                "relation": "amendedLegislations",
+                "scope": {
+                    "fields": ["id", "legislationName"]
+
+                }
+            },
+            {
+                "relation": "replacedLegislations",
+                "scope": {
+                    "fields": ["id", "legislationName"]
+
+                }
+            }
+
+
+        ]
+    },
+    "properties": {
+        "generalTitle": {
+            "type": "string",
+            "required": false
+        },
+        "chapterNumber": {
+            "type": "string",
+            "required": false
+        },
+        "legislationName": {
+            "type": "string",
+            "required": true
+        },
+        "legislationNumber": {
+            "type": "string",
+            "required": false
+        },
+        "legislationNumbers": {
+            "type": "string",
+            "required": false
+        },
+        "dateOfAssent": {
+            "type": "date",
+            "required": false
+        },
+        "preamble": {
+            "type": "string",
+            "required": false
+        },
+        "enactment": {
+            "type": "string",
+            "required": false
+        },
+        "yearOfAmendment": {
+            "type": "number",
+            "required": false
+        },
+        "volumeNumber": {
+            "type": "string",
+            "required": false
+        },
+        "legislationType": {
+            "type": "string",
+            "required": false
+        },
+        "legislationParts": {
+            "type": [
+                "legislationPart"
+            ],
+            "required": false
+        },
+        "duplicateCount": {
+            "type": "number",
+            "required": false
+        },
+        "deleted": {
+            "type": "boolean",
+            "required": false,
+            "default": false
+        }
+    },
+    "validations": [],
+    "relations": {
+        "cases": {
+            "type": "hasMany",
+            "model": "case",
+            "foreignKey": ""
+        },
+        "capturedBy": {
+            "type": "belongsTo",
+            "model": "appuser",
+            "foreignKey": ""
+        },
+        "caseLegislations": {
+            "type": "hasMany",
+            "model": "caseLegislations",
+            "foreignKey": "legislationId"
+        },
+        "amendedLegislations": {
+            "type": "referencesMany",
+            "model": "legislation",
+            "foreignKey": "amendedLegislationIds"
+        },
+
+        "replacedLegislations": {
+            "type": "referencesMany",
+            "model": "legislation",
+            "foreignKey": "replacedLegislationIds"
+        },
+        "parentLegislation": {
+            "type": "belongsTo",
+            "model": "legislation",
+            "foreignKey": "parentLegislation"
+        }
+    },
+    "acls": [],
+    "methods": {}
 }

@@ -11,11 +11,14 @@
       "required": true
     },
     "content": {
-      "type": ["Object"],
+      "type": [
+        "Object"
+      ],
       "required": true
     }
   },
   "validations": [],
+  "relations": {},
   "acls": [],
   "methods": {}
 }

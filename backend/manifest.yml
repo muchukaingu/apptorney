@@ -1,0 +1,9 @@
+path: .
+memory: 512M
+instances: 8
+domain: eu-gb.mybluemix.net
+name: apptorney
+host: apptorney-frontend
+disk_quota: 1G
+env:
+  NODE_ENV: bluemix

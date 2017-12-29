@@ -8,8 +8,8 @@ angular.module('apptorney')
       }
   };
 })
-.controller('CasesController',function ($scope, $timeout, Court, Case, AreaOfLaw,Jurisdiction, Location, baseURL, filterFilter) {
-    console.log("xxx---->");
+.controller('CasesController',function ($rootScope, $bootbox, $scope, $location, $timeout, Court, Case, Legislation, Work,CaseLegislations, CaseCases, CaseWorks, AreaOfLaw,Jurisdiction, Location, baseURL, filterFilter,$routeParams) {
+    //console.log("xxx---->");//
 
 
 
@@ -19,7 +19,7 @@ angular.module('apptorney')
 
 
 
-
+         $scope.opened = true
          $scope.message = "Loading data. Please wait...";
          $scope.filtered = false;
          $scope.saved = false;
@@ -41,6 +41,18 @@ angular.module('apptorney')
          $scope.case.appearancesForPlaintiffs = [];
          $scope.case.parties.selectedPlaintiffAdvocates = [];
          $scope.legislations = [];
+         $scope.saveStatus = 0;
+         $scope.caseStab = {};
+         $scope.legislationStab = {};
+         $scope.workStab = {};
+         $scope.queries={};
+         $scope.caseReferences = [];
+         $scope.legislationReferences = [];
+         $scope.workReferences = [];
+         $scope.mergeStatus = 0;
+         $scope.sortType = 'fields.name'
+
+
 
          $scope.courts = [];
          $scope.court = {};
@@ -56,57 +68,435 @@ angular.module('apptorney')
          $scope.areasOfLaw = [];
 
          $scope.case.coram = [];
+         $scope.totalPages = 0;
+         $scope.itemsPerPage = 100;
+         $scope.totalCases = 0;
+
+         $scope.showReferences = function(references) {
+           var ids = []
+            references.forEach(function(reference){
+              console.log(reference.caseId)
+              ids.push(reference.caseId)
+
+            })
+
+            Case.namesakes({ id: JSON.stringify(ids)},
+                function(res) {
+                    console.log(res.data)
+                    $scope.cases = res.data.namesakes
+                    $scope.returned = true
+                    $scope.showCases = true
+                },
+                function(errorResponse) {}
+            )
 
 
-         $scope.cases = Case.find({
-           filter:{include: {
-             relation: 'areaOfLaw', // include the owner object
-             scope: { // further filter the owner object
-               fields: ['name','id'] // only show two fields
-             }
-           }}},
-           function(cases) {
 
-             cases.forEach(function(aCase){
-               Court.find({id:aCase.courtId},
-                 function(court){
-                  aCase.court = court[0].name;
-                  console.log(court);
+         }
+
+
+         $scope.toggleView = function(){
+           if ($scope.viewMode == false){
+             $scope.viewMode = true;
+           }
+           else {
+             $scope.viewMode = false;
+           }
+         }
+
+
+
+         $scope.deleteCase = function (aCase) {
+             bootbox.confirm({
+                message: "Are you sure you want to delete the case <strong>" + aCase.name + "</strong>?",
+                buttons: {
+                    confirm: {
+                        label: 'Yes',
+                        className: 'btn-danger'
+                    },
+                    cancel: {
+                        label: 'Cancel',
+                        className: 'btn-primary'
+                    }
+                },
+                callback: function (result) {
+
+                    aCase.primaryDeletion = 1;
+                    aCase.secondaryDeletion = 0;
+                    aCase.deleteFlag = 1; //Used to notify API that delete button has been clicked
+
+                    Case.upsert(aCase,
+                      function(deleted){
+                        console.log("Deletion was Successful");
+                        $scope.cases.splice($scope.cases.indexOf(aCase),1);
+                      },
+                      function(error){
+
+                      }
+                    )
+
+
+
+
+
+                    console.log('This was logged in the callback: ' + result);
+                }
+            });
+
+
+
+
+         };
+
+
+
+         $scope.mergeDuplicates = function() {
+             $scope.mergeStatus = 1
+
+             Case.mergeDuplicates({ id: JSON.stringify($rootScope.caseInstance.uniqueIds), primary: $scope.case.id },
+                 function(res) {
+                     console.log('Merged Cases For: ' + $scope.case.name)
+                     $scope.mergeStatus = 2
+                     $scope.cases = filterFilter($scope.cases, $scope.case.id)
+                         // $scope.legislation = undefined
+
                  },
-                 function(err){}
-               );
-               aCase.accuser = "";
-               aCase.accused = "";
-               if(aCase.plaintiffs.length > 1){
-                 aCase.accuser = aCase.plaintiffs[0].name + " and Others";
-               }
-               else {
-                 aCase.accuser = aCase.plaintiffs[0].name;
-               }
-
-               if(aCase.defendants.length > 1){
-                 aCase.accused = aCase.defendants[0].name + " and Others";
-               }
-               else {
-                 aCase.accused = aCase.defendants[0].name;
-               }
-
-               aCase.name = aCase.accuser + " Vs. "+aCase.accused;
-
-             });
+                 function(err) {
+                     console.error('Error occured')
+                 }
+             )
+         }
 
 
 
-             $scope.cases = cases;
 
 
 
-             $scope.returned = true;
-             $scope.showCases = true;
 
-           },
-           function(errorResponse) { }
-         );
+
+         $scope.createStab = function(newCase){
+
+           if (typeof newCase === 'string'){
+             var plaintiff = "";
+             var defendant = "";
+             var separator = 0;
+             if (newCase.indexOf("Vs")!==-1){
+               separator = newCase.indexOf("Vs");
+             }
+             else if (newCase.indexOf("vs")!==-1){
+               separator = newCase.indexOf("vs");
+             }
+             else if (newCase.indexOf("VS")!==-1){
+               separator = newCase.indexOf("VS");
+             }
+
+             //console.info("Separator is ", separator);
+             plaintiff = newCase.substring(0,separator-1);
+             defendant = newCase.substring(separator+3, newCase.length);
+
+             $scope.caseStab.plaintiffs = [];
+             $scope.caseStab.defendants = [];
+
+             $scope.caseStab.plaintiffs.push({name:plaintiff});
+             $scope.caseStab.defendants.push({name:defendant});
+             $scope.caseStab.name = newCase;
+             $scope.caseStab.autogenerated = true;
+
+
+
+             //console.info("Stab is", $scope.caseStab);
+           }
+
+         }
+
+
+
+
+
+
+
+
+
+         $scope.saveStab = function(event){
+           //console.info("This is the detected text", $scope.queries.caseReferencesQuery);
+           $scope.createStab($scope.queries.caseReferencesQuery);
+           if(event.which === 13){
+              //console.log("Savng Stab...");
+
+              Case.upsert($scope.caseStab,
+                  function(aCase){
+                      var caseArray = [];
+
+
+
+
+                      $scope.caseReferences = Case.find({
+                                 filter:{fields:{
+                                    defendants:true,
+                                    plaintiffs:true,
+                                    id:true
+
+                                 },
+                                 where: {
+                                   id: aCase.id
+                                 }
+                               }},
+                                 function(cases) {
+
+                                   cases.forEach(function(aCase){
+
+                                     aCase.accuser = "";
+                                     aCase.accused = "";
+                                     if(aCase.plaintiffs.length > 1){
+                                       aCase.accuser = aCase.plaintiffs[0].name + " and Others";
+                                     }
+                                     else {
+                                       aCase.accuser = aCase.plaintiffs[0].name;
+                                     }
+
+                                     if(aCase.defendants.length > 1){
+                                       aCase.accused = aCase.defendants[0].name + " and Others";
+                                     }
+                                     else {
+                                       aCase.accused = aCase.defendants[0].name;
+                                     }
+
+                                     aCase.name = aCase.accuser + " Vs "+aCase.accused;
+
+                                   });
+
+                                   //console.info("Retained | Returned Case References", aCase);
+
+                                 },
+                                 function(errorResponse) { }
+                               );
+
+                  },
+                  function(error){
+
+                  }
+              );
+
+
+           }
+
+         }
+
+
+         $scope.createLegislationStab = function(newLegislation){
+           if (typeof newLegislation === 'string'){
+             $scope.legislationStab.legislationName = newLegislation;
+             $scope.legislationStab.autogenerated = true;
+
+           }
+         }
+
+         $scope.saveLegislationStab = function(event){
+            $scope.createLegislationStab($scope.queries.legislationReferencesQuery);
+            if(event.which === 13){
+              Legislation.upsert($scope.legislationStab,
+                  function(legislation){
+                    $scope.legislationReferences.push(legislation);
+                    //$scope.case.legislationsReferedTo.push(legislation);
+                  },
+                  function(error){
+
+                  }
+              )
+            }
+         }
+
+
+         $scope.createWorkStab = function(newWork){
+           if (typeof newWork === 'string'){
+             $scope.workStab.name = newWork;
+             $scope.workStab.autogenerated = true;
+
+           }
+         }
+
+         $scope.saveWorkStab = function(event){
+            $scope.createWorkStab($scope.queries.workReferencesQuery);
+            if(event.which === 13){
+              Work.upsert($scope.workStab,
+                  function(work){
+                    $scope.workReferences.push(work);
+                    //$scope.case.legislationsReferedTo.push(legislation);
+                  },
+                  function(error){
+
+                  }
+              )
+            }
+         }
+
+
+
+
+
+         $scope.getTotalCases = function(){
+           Case.count({}, function(result){
+             $scope.totalCases = result.count;
+             $scope.totalPages = Math.ceil($scope.totalCases/$scope.itemsPerPage);
+             //console.info("Total number of pages = ", $scope.totalPages);
+           },function(error){});
+         }
+
+        $scope.getTotalCases();
+
+
+         $scope.newCase = function(){
+           console.info("new case created");
+           $scope.case = {};
+           $scope.case.isNew = true;
+           console.info($scope.case.isNew);
+
+           $scope.case.parties = {};
+           $scope.case.citation = {};
+           $scope.case.defendants = [];
+           $scope.case.plaintiffs = [];
+           $scope.case.coram = [];
+           $scope.plaintiff = {};
+           $scope.defendant = {};
+           $scope.appearance = {};
+           $scope.judge = {};
+           $scope.case.appearancesForDefendants = [];
+           $scope.case.appearancesForPlaintiffs = [];
+           $scope.case.parties.selectedPlaintiffAdvocates = [];
+           $scope.case.legislationsReferedTo = [];
+           $scope.case.workReferedTo = [];
+           $scope.case.casesReferedTo = [];
+           $scope.addCaseParties();
+
+         }
+
+         $scope.searching = false;
+
+
+
+         $scope.$watch('$routeParams',function(){
+
+           var newEvent = {};
+           if (!isNaN(parseInt($routeParams.year))){
+             newEvent.which = 13;
+             $scope.searchForCases(newEvent);
+           }
+           if ($location.path().indexOf('/cleanup-cases/detail') !== -1) {
+               console.log("Route Params xxxxxxxxxxxx ", $routeParams.year);
+               $scope.loadCases('occurences')
+           }
+           else if ($location.path().indexOf('/cleanup-cases') !== -1) {
+               console.log("Route Params xxxxxxxxxxxx ", $routeParams.year);
+               $scope.loadCases('duplicates')
+           }
+           else if ($location.path() == '/trash/cases') {
+               $scope.loadCases('trash')
+           }
+         });
+
+         $scope.loadCases = function(type){
+
+           if (type == 'duplicates') {
+               Case.getDuplicates({ limit: 100, skip: 0, /*query:$scope.query*/ },
+                   function(res) {
+                       $scope.cases = res.data.duplicates
+                       $scope.numberOfItemsPerPage = res.data.duplicates.length
+                       $scope.totalItems = res.data.uniqueCount
+                           // $scope.legislations = filterFilter($scope.legislations, $routeParams.id)
+                       $scope.returned = true
+                       $scope.showCases = true
+
+                   },
+                   function(errorResponse) {}
+               )
+           }
+           else if (type == 'occurences') {
+             Case.namesakes({ id: JSON.stringify($rootScope.caseInstance.uniqueIds)},
+                 function(res) {
+                     console.log(res.data)
+                     $scope.cases = res.data.namesakes
+                     $scope.returned = true
+                     $scope.showCases = true
+                 },
+                 function(errorResponse) {}
+             )
+           }
+           else if (type == 'trash') {
+               console.log('Loading trash...')
+               Case.viewTrash(
+                   function(res) {
+                       console.log(res.data)
+                       $scope.cases = res.data.trash
+                       $scope.returned = true
+                       $scope.showCases = true
+
+
+                   },
+                   function(errorResponse) {}
+               )
+           }
+         }
+
+         $scope.showDuplicatesDetail = function(caseInstance) {
+             $rootScope.caseInstance = caseInstance
+             $location.path('/cleanup-cases/detail')
+         }
+
+         $scope.searchForCases = function(event){
+              if(event.which === 13){
+                $scope.searching = true;
+                var yearFilter = {};
+                console.log(parseInt($scope.query));
+                if (!isNaN(parseInt($scope.query))){
+                  yearFilter = {'citation.year':parseInt($scope.query)};
+                }
+                else {
+
+                  if (!isNaN(parseInt($routeParams.year))){
+                    yearFilter = {'citation.year':parseInt($routeParams.year)};
+                  }
+                  else {
+                    yearFilter = {'capturedBy':$scope.query};
+                  }
+                }
+
+                $scope.cases = Case.find({
+                  filter:{where: {
+                    or:[
+                      {and:[{name: {like: '.*'+($scope.query || $routeParams.year)+'.*'}},{deleted:{neq:true}}]},{and:[yearFilter, {deleted:{neq:true}}]}, {and:[{caseNumber: {like: '.*'+($scope.query || $routeParams.year)+'.*'}},{deleted:{neq:true}}]}
+                    ]
+                  },
+                  fields:{
+                     id:true,
+                     name:true,
+                     caseNumber:true,
+                     completionStatus:true,
+                     autoGenerated:true,
+                     citation:true,
+                     deleted:true
+
+                  }
+                }},
+                  function(res) {
+                     //$scope.cases = filterFilter($scope.cases, "!primaryDeletion");
+                    $scope.searching = false;
+                    $scope.cases = res.data;
+
+
+
+                    $scope.returned = true;
+                    $scope.showCases = true;
+
+                  },
+                  function(errorResponse) { }
+                );
+              }
+
+          }
+
+
+
+
 
 
          $scope.addCaseParties = function(){
@@ -166,7 +556,7 @@ angular.module('apptorney')
 
          $scope.areasOfLaw = AreaOfLaw.find(
            function(list) {
-             console.log(list);
+             //console.log(list);
              $scope.areasReturned = true;
              $scope.showAreas = true;
            },
@@ -174,7 +564,7 @@ angular.module('apptorney')
          );
 
          $scope.saveAreaOfLaw = function(){
-           console.log($scope.areaOfLaw);
+           //console.log($scope.areaOfLaw);
            AreaOfLaw.upsert($scope.areaOfLaw,
              function(area){
                $scope.areasOfLaw.push(area);
@@ -191,7 +581,7 @@ angular.module('apptorney')
 
          $scope.locations = Location.find(
            function(list) {
-             console.log(list);
+             //console.log(list);
              $scope.locationsReturned = true;
              $scope.showLocations = true;
            },
@@ -199,7 +589,7 @@ angular.module('apptorney')
          );
 
          $scope.saveLocation = function(){
-           console.log($scope.location);
+           //console.log($scope.location);
            Location.upsert($scope.location,
              function(location){
                $scope.locations.push(location);
@@ -218,7 +608,7 @@ angular.module('apptorney')
            Location.deleteById({ id: locationID })
            .$promise
            .then(function() {
-             //console.log('deleted');
+             ////console.log('deleted');
              $scope.locations.forEach(function(location){
                if(location.id == locationID){
                  $scope.locations.splice($scope.locations.indexOf(location),1);
@@ -232,7 +622,7 @@ angular.module('apptorney')
 
          $scope.jurisdictions = Jurisdiction.find(
            function(list) {
-             console.log(list);
+             //console.log(list);
              $scope.jurisdictionsReturned = true;
              $scope.showJurisdictions = true;
            },
@@ -240,7 +630,7 @@ angular.module('apptorney')
          );
 
          $scope.saveJurisdiction = function(){
-           console.log($scope.jurisdiction);
+           //console.log($scope.jurisdiction);
            Jurisdiction.upsert($scope.jurisdiction,
              function(jurisdiction){
                $scope.jurisdictions.push(jurisdiction);
@@ -259,7 +649,7 @@ angular.module('apptorney')
            Jurisdiction.deleteById({ id: jurisdictionID })
            .$promise
            .then(function() {
-             //console.log('deleted');
+             ////console.log('deleted');
              $scope.jurisdictions.forEach(function(jurisdiction){
                if(jurisdiction.id == jurisdictionID){
                  $scope.jurisdictions.splice($scope.jurisdictions.indexOf(jurisdiction),1);
@@ -273,31 +663,376 @@ angular.module('apptorney')
 
 
          $scope.saveCase = function(){
-
+                 //console.info("Case Details", $scope.case);
+                 $scope.saveStatus = 1;
                  Case.upsert($scope.case,
-                   function(aCase){
-                     console.log(aCase);
-                     $scope.cases.push(aCase);
-                     console.log($scope.cases);
-                   },
-                   function(errorResponse){
+                     function(res){
+                       /*
+                         $scope.case.legislationsReferedTo.forEach(function(legislation){
+                           CaseLegislations.create({
+                             caseId: aCase.id,
+                             legislationId: legislation.id
+                           }, function(res){}, function(err){});
 
-                   }
+                         });
+
+                         $scope.case.casesReferedTo.forEach(function(reference){
+                           CaseCases.create({
+                             caseId: aCase.id,
+                             caseReferedToId: reference.id
+                           }, function(res){}, function(err){});
+
+                         })
+
+                         $scope.case.workReferedTo.forEach(function(reference){
+                           CaseWorks.create({
+                             caseId: aCase.id,
+                             workId: reference.id
+                           }, function(res){}, function(err){});
+
+
+
+                         })
+
+                         */
+
+                         $scope.saveStatus = 2;
+                         setTimeout(function(){ $scope.saveStatus = 0; $("#applicationForm").click(); }, 10000);
+
+
+
+
+                         console.info($scope.case.isNew);
+
+                         if($scope.case.isNew == true){
+                           $scope.cases.push(aCase);
+
+                         }
+
+                         $scope.openCase(res.data);
+
+
+
+                     },
+                     function(errorResponse){
+
+                     }
                  );
 
 
-                 $("#addCaseModal").modal("hide");
-
 
 
          }
 
+
+
+
+
+
+
+         $scope.generateName = function(aCase){
+           console.log(aCase);
+            aCase.accuser = "";
+            aCase.accused = "";
+            if(aCase.plaintiffs.length > 1){
+              aCase.accuser = aCase.plaintiffs[0].name + " and Others";
+            }
+            else {
+              aCase.accuser = aCase.plaintiffs[0].name;
+            }
+
+            if(aCase.defendants.length > 1){
+              aCase.accused = aCase.defendants[0].name + " and Others";
+            }
+            else {
+              aCase.accused = aCase.defendants[0].name;
+            }
+
+            return aCase.name = aCase.accuser + " Vs. "+aCase.accused;
+         }
+
+
+         /*
 
          $scope.openCase = function(aCase){
-           $scope.case = aCase;
-           $scope.case.citation.year = parseInt($scope.case.citation.year);
-           console.log($scope.case.citation.year);
+
+
+              $scope.case = aCase;
+              $('#addCaseModal').modal();
+              $scope.viewMode = true;
+              Case.find({
+                filter:{include: [{
+                  relation: 'plaintiffSynonym', // include the owner object
+                  scope: { // further filter the owner object
+                    fields: ['synonym'] // only show two fields
+                  }},
+                  {relation: 'defendantSynonym', // include the owner object
+                  scope: { // further filter the owner object
+                    fields: ['synonym'] // only show two fields
+                  }},
+                  {relation: 'court', // include the owner object
+                  scope: { // further filter the owner object
+                    fields: ['name'] // only show two fields
+                  }},
+                  {relation: 'location', // include the owner object
+                  scope: { // further filter the owner object
+                    fields: ['name'] // only show two fields
+                  }},
+                  {relation: 'jurisdiction', // include the owner object
+                  scope: { // further filter the owner object
+                    fields: ['name'] // only show two fields
+                  }},
+                  {relation: 'legislationsReferedTo', // include the owner object
+                  scope: { // further filter the owner object
+                    fields: ['legislationName'] // only show two fields
+                  }},
+                  {relation: 'casesReferedTo', // include the owner object
+                  scope: { // further filter the owner object
+                    fields: ['plaintiffs','defendants'] // only show two fields
+                  }},
+                  {relation: 'workReferedTo', // include the owner object
+                  scope: { // further filter the owner object
+                    fields: ['name'] // only show two fields
+                  }},
+                  {relation: 'areaOfLaw', // include the owner object
+                  scope: { // further filter the owner object
+                    fields: ['name'] // only show two fields
+                  }}
+                ],
+
+                where: {
+                  id: aCase.id
+                }
+                }},
+                function(res) {
+                  var instance = res.data[0];
+                  console.info("Returned: ", instance);
+                   angular.forEach(instance, function(value, key){
+                     $scope.case[key] = value;
+                   });
+
+
+
+
+                  $scope.case.isNew = false;
+                  $scope.case.citation.year = parseInt($scope.case.citation.year);
+
+                  //Generate Names for Reference Field in view
+
+                  $scope.case.casesReferedTo.forEach(function(reference){
+                    reference.name=$scope.generateName(reference);
+                    //console.info("Case reference",  reference);
+                  });
+
+                  $scope.returned = true;
+
+                },
+                function(errorResponse) { }
+              );
+
+
+
+
+
          }
+
+         */
+
+         $scope.openCase = function(caseInstance){
+           Case.viewCase({id:caseInstance.id}, function(res){
+             $scope.case = res.data.cases;
+             $('#addCaseModal').modal();
+             $scope.viewMode = true;
+             $scope.case.isNew = false; // Don't add to the cases list view
+           })
+         }
+
+         $scope.addCaseReference = function(aCase){
+           $scope.case.casesReferedTo.push(aCase);
+         }
+
+
+         $scope.addLegislationReference = function(legislation){
+           $scope.case.legislationsReferedTo.push(legislation);
+         }
+
+
+         $scope.addWorkReference = function(work){
+           $scope.case.workReferedTo.push(work);
+         }
+
+
+         $scope.saveReview = function(){
+           $("#caseReviewModal").modal("hide");
+         }
+
+
+
+
+
+
+
+
+
+         $scope.gettingCaseReferences = false;
+         $scope.gettingLegislationReferences = false;
+         $scope.gettingWorkReferences = false;
+         $scope.gettingCases = false;
+
+
+         /*$scope.$watch('query', function () {
+              if($scope.query.length < 5){
+                  $scope.gettingCases = false;
+                  $scope.cases = [];
+
+              }
+              else if($scope.query.length >= 5 &&  $scope.gettingCases == false){
+                  $scope.gettingCases = true;
+                  $scope.cases = Case.find({
+                             filter:{fields:{
+                                name:true,
+                                id:true
+
+                             }
+
+                           }},
+                             function(work) {},
+                             function(error){}
+                 );
+
+              }
+
+
+
+
+
+          });
+
+          */
+
+
+
+
+
+
+         $scope.$watch('queries.caseReferencesQuery', function () {
+              if($scope.queries.caseReferencesQuery.length < 5){
+                  $scope.gettingCaseReferences = false;
+                  $scope.caseReferences = [];
+
+              }
+              else if($scope.queries.caseReferencesQuery.length >= 5 &&  $scope.gettingCaseReferences == false){
+                  $scope.gettingCaseReferences = true;
+                  $scope.caseReferences = Case.find({
+                           filter:{fields:{
+                              defendants:true,
+                              plaintiffs:true,
+                              id:true
+
+                           }
+
+                         }},
+                         function(cases) {
+
+                             cases.forEach(function(aCase){
+
+                               aCase.accuser = "";
+                               aCase.accused = "";
+                               if(aCase.plaintiffs.length > 1){
+                                 aCase.accuser = aCase.plaintiffs[0].name + " and Others";
+                               }
+                               else {
+                                 aCase.accuser = aCase.plaintiffs[0].name;
+                               }
+
+                               if(aCase.defendants.length > 1){
+                                 aCase.accused = aCase.defendants[0].name + " and Others";
+                               }
+                               else {
+                                 aCase.accused = aCase.defendants[0].name;
+                               }
+
+                               aCase.name = aCase.accuser + " Vs. "+aCase.accused;
+
+                             });
+
+                             //console.info("Case References", $scope.caseReferences);
+
+                           },
+                           function(errorResponse) { }
+                         );
+
+              }
+
+
+
+
+
+          });
+
+
+          $scope.$watch('queries.legislationReferencesQuery', function () {
+               if($scope.queries.legislationReferencesQuery.length < 5){
+                   $scope.gettingLegislationReferences = false;
+                   $scope.legislationReferences = [];
+
+               }
+               else if($scope.queries.legislationReferencesQuery.length >= 5 &&  $scope.gettingLegislationReferences == false){
+                   $scope.gettingLegislationReferences = true;
+                   $scope.legislationReferences = Legislation.find({
+                              filter:{fields:{
+                                 legislationName:true,
+                                 id:true
+
+                              }
+
+                            }},
+                              function(legislations) {},
+                              function(error){}
+                  );
+
+               }
+
+
+
+
+
+           });
+
+
+           $scope.$watch('queries.workReferencesQuery', function () {
+                if($scope.queries.workReferencesQuery.length < 5){
+                    $scope.gettingWorkReferences = false;
+                    $scope.workReferences = [];
+
+                }
+                else if($scope.queries.workReferencesQuery.length >= 5 &&  $scope.gettingWorkReferences == false){
+                    $scope.gettingWorkReferences = true;
+                    $scope.workReferences = Work.find({
+                               filter:{fields:{
+                                  name:true,
+                                  id:true
+
+                               }
+
+                             }},
+                               function(work) {},
+                               function(error){}
+                   );
+
+                }
+
+
+
+
+
+            });
+
+
+
+
+
+
 
 
 
@@ -314,7 +1049,7 @@ angular.module('apptorney')
 
   var openAddAreaOfLaw = function(){
     //$("#addAreaOfLawModal").modal();
-    console.log("opened");
+    //console.log("opened");
     $('#addAreaOfLawModal').appendTo("body").modal('show');
   }
 

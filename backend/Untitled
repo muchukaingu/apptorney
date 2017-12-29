@@ -1,0 +1,39 @@
+db.legislation.find({}).forEach(function(legislation) {
+     db.legislation.update(
+         { "_id": legislation._id },
+         { "$set": { "legislationName": legislation.legislationName.toUpperCase() } }
+     );
+ });
+
+
+db.legislation.find({$and:[{legislationName:{$not:/^THE.*/}}, {legislationType:"577d66caa856154683e6c2c0"}]}).forEach(function(legislation){
+  db.legislation.update(
+         { "_id": legislation._id },
+         { "$set": { "legislationName": ("THE "+legislation.legislationName) } }
+  );
+})
+
+db.legislation.updateMany({legislationType:ObjectId("577d66caa856154683e6c2c0")},{$set:{legislationType:"577d66caa856154683e6c2c0"}})
+db.legislation.updateMany({legislationType:ObjectId("577d66e6a856154683e6c2c1")},{$set:{legislationType:"577d66e6a856154683e6c2c1"}})
+db.legislation.updateMany({legislationType:ObjectId("577d66fca856154683e6c2c2")},{$set:{legislationType:"577d66fca856154683e6c2c2"}})
+db.legislation.updateMany({legislationType:ObjectId("57f5265a070211bef785a615")},{$set:{legislationType:"57f5265a070211bef785a615"}})
+db.legislation.updateMany({legislationType:ObjectId("57f52669070211bef785a616")},{$set:{legislationType:"57f52669070211bef785a616"}})
+db.legislation.updateMany({legislationType:ObjectId("57f5267a070211bef785a617")},{$set:{legislationType:"57f5267a070211bef785a617"}})
+db.legislation.updateMany({legislationType:ObjectId("57f527b8070211bef785a618")},{$set:{legislationType:"57f527b8070211bef785a618"}})
+db.legislation.updateMany({legislationType:ObjectId("57f5284b070211bef785a619")},{$set:{legislationType:"57f5284b070211bef785a619"}})
+db.legislation.updateMany({legislationType:ObjectId("58f6213db9aab46a3d769e73")},{$set:{legislationType:"58f6213db9aab46a3d769e73"}})
+db.legislation.updateMany({legislationType:ObjectId("591c4ac83af81692cc952f3c")},{$set:{legislationType:"591c4ac83af81692cc952f3c"}})
+db.legislation.updateMany({legislationType:ObjectId("592e79fd759881b460a8495d")},{$set:{legislationType:"592e79fd759881b460a8495d"}})
+db.legislation.updateMany({legislationType:ObjectId("594bbd080d6500773e2cc6b2")},{$set:{legislationType:"594bbd080d6500773e2cc6b2"}})
+db.legislation.updateMany({legislationType:ObjectId("594fbd4b7664733c9a7da302")},{$set:{legislationType:"594fbd4b7664733c9a7da302"}})
+db.legislation.updateMany({legislationType:ObjectId("595345c2dd373fcb49df426c")},{$set:{legislationType:"595345c2dd373fcb49df426c"}})
+db.legislation.updateMany({legislationType:ObjectId("595cc0bd83ff4f1637d8cd5a")},{$set:{legislationType:"595cc0bd83ff4f1637d8cd5a"}})
+db.legislation.updateMany({legislationType:ObjectId("5982f641fefae422c4ca8675")},{$set:{legislationType:"5982f641fefae422c4ca8675"}})
+db.legislation.updateMany({legislationType:ObjectId("598978adbe0d4f0197376605")},{$set:{legislationType:"598978adbe0d4f0197376605"}})
+db.legislation.updateMany({legislationType:ObjectId("599be5f48482e0018a28b3ae")},{$set:{legislationType:"599be5f48482e0018a28b3ae"}})
+db.legislation.updateMany({legislationType:ObjectId("591c4ac83af81692cc952f3c")},{$set:{legislationType:"591c4ac83af81692cc952f3c"}})
+db.legislation.updateMany({legislationType:ObjectId("591c4ac83af81692cc952f3c")},{$set:{legislationType:"591c4ac83af81692cc952f3c"}})
+
+
+
+{ "acknowledged" : true, "matchedCount" : 2, "modifiedCount" : 2 }

@@ -11,16 +11,21 @@ angular.module('apptorney')
 
 
 
+    $scope.loadWorkReferences = function(type) {
+      Work.find(
+        function(res) {
+          $scope.works = res.data;
+
+          $scope.returned = true;
+          $scope.showWorks = true;
+        },
+        function(errorResponse) { }
+      );
+    }
+
+    $scope.loadWorkReferences();
 
 
-    $scope.works = Work.find(
-      function(list) {
-        console.log(list);
-        $scope.returned = true;
-        $scope.showWorks = true;
-      },
-      function(errorResponse) { }
-    );
 
     $scope.saveWork = function(){
       console.log($scope.work);

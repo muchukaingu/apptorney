@@ -89,13 +89,22 @@ angular.module('apptorney')
 
       $scope.loginResult = Appuser.login($scope.user,
         function(res){
-          $global.set('user', res.user);
+          var user = res.user;
+
+          $global.set('user', user);
           $scope.status.message = "Login Successful.";
-          $location.path('/dashboard');
+          if (user.userType == 2){
+            $location.path('/legislations');
+          }
+          else{
+            console.log("User", user);
+            $location.path('/dashboard');
+          }
+
           console.log("success...");
           $scope.authenticating = false;
           $rootScope.isLoggedIn = true;
-          $rootScope.user = res.user;
+          $rootScope.user = user;
           console.log($rootScope.user);
         },
         function(res){
@@ -107,7 +116,7 @@ angular.module('apptorney')
       )
     }
 
-    
+
 
     $scope.$watchCollection('user', function() {
       console.log("Mambo!");

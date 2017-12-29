@@ -11,7 +11,7 @@ angular.module('theme.vector_maps', [])
           enableZoom: true,
           showTooltip: true,
           values: sample_data,
-          scaleColors: ['#90c2e3', '#137ad4'],
+          scaleColors: ['#90c2e3', '#000000'],
           normalizeFunction: 'polynomial'
       };
 

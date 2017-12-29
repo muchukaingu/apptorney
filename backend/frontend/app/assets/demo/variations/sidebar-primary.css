@@ -2,7 +2,7 @@
 #page-container,
 #page-leftbar,
 .focusedform {
-  background-color: #137ad4;
+  background-color: #000000;
 }
 #sidebar > li.active > a {
   background-color: #63b7e6;
@@ -70,7 +70,7 @@ body.collapse-leftbar #search.keep-open > a:hover {
   color: #ffffff !important;
 }
 #horizontal-navbar {
-  background-color: #137ad4;
+  background-color: #000000;
 }
 #horizontal-navbar .navbar-nav > .open > a {
   background: #5ba3d4;
@@ -105,7 +105,7 @@ body.collapse-leftbar #search.keep-open > a:hover {
   color: #cfeefc;
 }
 nav.navbar {
-  background: #137ad4;
+  background: #000000;
 }
 nav.navbar .navbar-toggle,
 nav.navbar .navbar-toggle:hover,

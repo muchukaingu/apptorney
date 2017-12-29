@@ -6,57 +6,187 @@
     "validateUpsert": true
   },
   "properties": {
-
     "caseNumber": {
       "type": "string",
-      "required": true
+      "required": false,
+      "label": "Case Number",
+      "table_index": 0,
+      "editor_index": 0,
+      "detail_index": 0
     },
-
+    "name": {
+      "type": "string",
+      "required": false,
+      "label": "Case Name",
+      "table_index": 0,
+      "editor_index": 0,
+      "detail_index": 0
+    },
     "plaintiffs": {
-      "type": ["party"]
+      "type": [
+        "party"
+      ],
+      "labelSource": "plaintiffSynonym",
+      "table_index": 0,
+      "editor_index": 0,
+      "detail_index": 0
     },
     "defendants": {
-      "type": ["party"]
+      "type": [
+        "party"
+      ],
+      "labelSource": "defendantSynonym",
+      "table_index": 0,
+      "editor_index": 0,
+      "detail_index": 0
     },
-
-
-    "appearancesForPlaintiffs": ["appearance"],
-    "appearancesForDefendants": ["appearance"],
-
+    "appearancesForPlaintiffs": {
+      "type": [
+        "appearance"
+      ],
+      "label": "Appearances for /labelSource/",
+      "labelSource": "plaintiffSynonym",
+      "table_index": 0,
+      "editor_index": 0,
+      "detail_index": 0
+    },
+    "appearancesForDefendants": {
+      "type": [
+        "appearance"
+      ],
+      "label": "Appearances for /labelSource/",
+      "labelSource": "defendantSynonym",
+      "table_index": 0,
+      "editor_index": 0,
+      "detail_index": 0
+    },
     "coram": {
-      "type": ["party"],
-      "required": false
+      "type": [
+        "party"
+      ],
+      "required": false,
+      "label": "Coram",
+      "table_index": 0,
+      "editor_index": 0,
+      "detail_index": 0
     },
-
-    "citation":"citation",
-    "legislationsReferedTo": {
-      "type": ["string"]
+    "citation": {
+      "type": "citation",
+      "required": false,
+      "label": "Citation",
+      "table_index": 0,
+      "editor_index": 0,
+      "detail_index": 0
     },
-    "casesReferedTo": {
-      "type": ["string"]
-    },
-
-    "workReferredTo": {
-      "type": ["string"]
-    },
-
-
-
     "summaryOfFacts": {
       "type": "string",
-      "required": true
+      "required": false,
+      "label": "Summary of Facts",
+      "table_index": 0,
+      "editor_index": 0,
+      "detail_index": 0
     },
-
+    "primaryDeletion": {
+      "type": "number",
+      "required": false,
+      "default": 0
+    },
     "summaryOfRuling": {
       "type": "string",
-      "required": true
+      "required": false,
+      "label": "Summary of Ruling",
+      "table_index": 0,
+      "editor_index": 0,
+      "detail_index": 0
     },
-
     "judgement": {
       "type": "string",
-      "required": true
+      "required": false,
+      "label": "Judgement",
+      "table_index": 0,
+      "editor_index": 0,
+      "detail_index": 0
+    },
+    "court": {
+      "type": "string",
+      "required": false,
+      "label": "Court",
+      "table_index": 0,
+      "editor_index": 0,
+      "detail_index": 0
+    },
+    "courtDivision": {
+      "type": "string",
+      "required": false,
+      "label": "Court Division",
+      "table_index": 0,
+      "editor_index": 0,
+      "detail_index": 0
+    },
+    "location": {
+      "type": "string",
+      "required": false,
+      "label": "Location",
+      "table_index": 0,
+      "editor_index": 0,
+      "detail_index": 0
+    },
+    "jurisdiction": {
+      "type": "string",
+      "required": false,
+      "label": "Jurisdiction",
+      "table_index": 0,
+      "editor_index": 0,
+      "detail_index": 0
+    },
+    "areaOfLaw": {
+      "type": "string",
+      "required": false,
+      "label": "Area of Law",
+      "table_index": 0,
+      "editor_index": 0,
+      "detail_index": 0
+    },
+    "plaintiffSynonym": {
+      "type": "string",
+      "required": false,
+      "labelFor": "xxx",
+      "table_index": 0,
+      "editor_index": 0,
+      "detail_index": 0
+    },
+    "defendantSynonym": {
+      "type": "string",
+      "required": false,
+      "labelFor": "xxx",
+      "table_index": 0,
+      "editor_index": 0,
+      "detail_index": 0
+    },
+    "workReferedTo": {
+      "type": "string",
+      "required": false,
+      "label": "Work Referred To",
+      "table_index": 0,
+      "editor_index": 0,
+      "detail_index": 0
+    },
+    "legislationReferedTo": {
+      "type": "string",
+      "required": false,
+      "label": "Legislation Referred To",
+      "table_index": 0,
+      "editor_index": 0,
+      "detail_index": 0
+    },
+    "casesReferedTo": {
+      "type": "string",
+      "required": false,
+      "label": "Cases Referred To",
+      "table_index": 0,
+      "editor_index": 0,
+      "detail_index": 0
     }
-
   },
   "validations": [],
   "relations": {
@@ -80,13 +210,11 @@
       "model": "jurisdiction",
       "foreignKey": ""
     },
-
     "areaOfLaw": {
       "type": "belongsTo",
       "model": "areaOfLaw",
       "foreignKey": ""
     },
-
     "plaintiffSynonym": {
       "type": "belongsTo",
       "model": "plaintiffSynonyms",
@@ -96,8 +224,31 @@
       "type": "belongsTo",
       "model": "defendantSynonyms",
       "foreignKey": ""
+    },
+    "workReferedTo": {
+      "type": "hasMany",
+      "model": "work",
+      "foreignKey": "caseId",
+      "through": "caseWorks"
+    },
+    "legislationsReferedTo": {
+      "type": "hasMany",
+      "model": "legislation",
+      "foreignKey": "caseId",
+      "through": "caseLegislations"
+    },
+    "casesReferedTo": {
+      "type": "hasMany",
+      "model": "case",
+      "foreignKey": "caseId",
+      "through": "caseCases",
+      "keyThrough": "caseReferedToId"
+    },
+    "caseCases": {
+      "type": "hasMany",
+      "model": "caseCases",
+      "foreignKey": "caseReferedToId"
     }
-
   },
   "acls": [],
   "methods": {}

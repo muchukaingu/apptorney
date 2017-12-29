@@ -1,11 +1,17 @@
 var loopback = require('loopback');
 var boot = require('loopback-boot');
+// var zlib = require('zlib');
+var compression = require('compression');
 
 var path = require('path');
 
 var app = module.exports = loopback();
 
+app.use(loopback.compress());
+
 app.use(loopback.static(path.resolve(__dirname, '../client')));
+
+
 
 
 app.start = function() {
@@ -18,6 +24,8 @@ app.start = function() {
       var explorerPath = app.get('loopback-component-explorer').mountPath;
       console.log('Browse your REST API at %s%s', baseUrl, explorerPath);
     }
+
+
   });
 };
 

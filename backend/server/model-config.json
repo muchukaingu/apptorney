@@ -9,6 +9,7 @@
     "mixins": [
       "loopback/common/mixins",
       "loopback/server/mixins",
+      "../node_modules/loopback-softdelete-mixin",
       "../common/mixins",
       "./mixins"
     ]
@@ -40,7 +41,19 @@
     "dataSource": "apptorney",
     "public": true
   },
+  "caseLegislations": {
+    "dataSource": "apptorney",
+    "public": true
+  },
   "case": {
+    "dataSource": "apptorney",
+    "public": true
+  },
+  "caseCases": {
+    "dataSource": "apptorney",
+    "public": true
+  },
+  "caseWorks": {
     "dataSource": "apptorney",
     "public": true
   },
@@ -52,12 +65,15 @@
     "dataSource": "apptorney",
     "public": true
   },
-
   "court": {
     "dataSource": "apptorney",
     "public": true
   },
   "enactment": {
+    "dataSource": "apptorney",
+    "public": true
+  },
+  "file": {
     "dataSource": "apptorney",
     "public": true
   },
@@ -109,7 +125,6 @@
     "dataSource": "apptorney",
     "public": true
   },
-
   "party": {
     "dataSource": "apptorney",
     "public": false
@@ -120,6 +135,14 @@
   },
   "table": {
     "dataSource": "apptorney",
+    "public": true
+  },
+  "container": {
+    "dataSource": "storage",
+    "public": true
+  },
+  "dashboard": {
+    "dataSource": "storage",
     "public": true
   }
 }

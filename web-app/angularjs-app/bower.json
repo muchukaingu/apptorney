@@ -30,7 +30,7 @@
         "bootbox.js": "https://github.com/makeusabrew/bootbox.git#4.2.0",
         "jquery-autosize": "1.18.9",
         "jquery-validation": "*",
-        "stepy": "https://github.com/wbotelhos/stepy#1.2.0",
+        "stepy": "https://github.com/wbotelhos/stepy.git#1.2.0",
         "jquery.inputmask": "3.0.0",
         "Chart.js": "1.0.1-beta.2",
         "jquery.pulsate": "*",

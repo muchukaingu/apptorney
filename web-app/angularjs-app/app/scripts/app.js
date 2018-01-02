@@ -157,15 +157,15 @@ angular
             },
             vars: {
                 development: {
-                    apiUrl: 'http://localhost:3009/api'
+                    apiUrl: '//localhost:3009/api'
                 },
                 test: {
-                    apiUrl: 'apptorney-backend-test.eu-gb.mybluemix.net/api',
+                    apiUrl: '//apptorney-backend-test.eu-gb.mybluemix.net/api',
                     clientID: 'e7aebcd3-ea44-4b68-89e7-821817a1b5f6',
                     clientSecret: 'fb67bc04-b06d-402f-be8b-d4969279b11b'
                 },
                 production: {
-                    apiUrl: 'https://circuitbusiness-apptorney.eu-gb.mybluemix.net/api',
+                    apiUrl: '//circuitbusiness-apptorney.eu-gb.mybluemix.net/api',
                     clientID: '6f423f6d-5514-4c5f-bf5c-0f0ce138d523',
                     clientSecret: '273733c1-f6c0-4f1f-ae1d-cd01c92676a2'
                 },

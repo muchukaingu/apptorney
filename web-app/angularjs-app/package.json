@@ -2,7 +2,7 @@
     "name": "themes",
     "version": "0.0.0",
     "dependencies": {
-        "karma": "~0.13.0"
+
     },
     "devDependencies": {
         "karma": "~0.13.0",

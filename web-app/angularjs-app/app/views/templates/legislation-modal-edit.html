@@ -64,7 +64,7 @@
 
 <!-----------------Amending Legislation-------------->
 
-<div class="col-xs-10">Amended Legislations</div>
+<div class="col-xs-10">Amendments</div>
 <div class="col-xs-2 pull-right">
     <a class="pull-right" style="color:#d3d3d3; border:#none; font-size:1.2em; border-radius:5px; margin-top:-2px" ng-click="openAmendedLegislation()"><i class="fa fa-plus"></i></a>
 </div>
@@ -72,7 +72,7 @@
 
 
     <ui-select multiple tagging="createLegislationStab" ng-keydown="saveLegislationStab($event)" ng-model="legislation.amendedLegislations" theme="bootstrap">
-        <ui-select-match placeholder="Select Amended Legislations...">{{$item.legislationName}} {{$item.dateOfAssent | date : 'yyyy'}}</ui-select-match>
+        <ui-select-match placeholder="Select Amendments...">{{$item.legislationName}} {{$item.dateOfAssent | date : 'yyyy'}}</ui-select-match>
         <ui-select-choices repeat="legislation in legislations | filter: $select.search">
             <span ng-bind-html="legislation.legislationNumber | highlight: $select.search"></span>&nbsp;-
             <span ng-bind-html="legislation.legislationName | highlight: $select.search"></span>
@@ -88,7 +88,7 @@
 
 <!-----------------Amending Legislation-------------->
 
-<div class="col-xs-10">Replaced Legislations</div>
+<div class="col-xs-10">Repeals and Replaces</div>
 <div class="col-xs-2 pull-right">
     <a class="pull-right" style="color:#d3d3d3; border:#none; font-size:1.2em; border-radius:5px; margin-top:-2px" ng-click="openReplacedLegislation()">
         <i class="fa fa-plus"></i>
@@ -98,7 +98,7 @@
 
 
     <ui-select multiple tagging="createLegislationStab" ng-keydown="saveLegislationStab($event)" ng-model="legislation.replacedLegislations" theme="bootstrap">
-        <ui-select-match placeholder="Select Replaced Legislations...">{{$item.legislationName}} {{$item.dateOfAssent | date : 'yyyy'}}</ui-select-match>
+        <ui-select-match placeholder="Select Legislations that are Repealed and Replaced...">{{$item.legislationName}} {{$item.dateOfAssent | date : 'yyyy'}}</ui-select-match>
         <ui-select-choices repeat="legislation in legislations | filter: $select.search">
             <span ng-bind-html="legislation.legislationNumber | highlight: $select.search"></span>&nbsp;-
             <span ng-bind-html="legislation.legislationName | highlight: $select.search"></span>

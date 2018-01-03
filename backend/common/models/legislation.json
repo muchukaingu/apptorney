@@ -122,6 +122,11 @@
             "model": "legislation",
             "foreignKey": "replacedLegislationIds"
         },
+        "repealedLegislations": {
+            "type": "referencesMany",
+            "model": "legislation",
+            "foreignKey": "repealedLegislationIds"
+        },
         "parentLegislation": {
             "type": "belongsTo",
             "model": "legislation",

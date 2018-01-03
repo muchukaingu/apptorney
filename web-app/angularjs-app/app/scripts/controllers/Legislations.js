@@ -15,9 +15,10 @@ angular.module('apptorney')
         $scope.selectedType = ''
         $scope.selected = false
         $scope.opened = true
-        $scope.legislation = {};
-        $scope.legislation.amendedLegislations = [];
-        $scope.legislation.replacedLegislations = [];
+        $scope.legislation = {}
+        $scope.legislation.amendedLegislations = []
+        $scope.legislation.replacedLegislations = []
+        $scope.legislation.repealedLegislations = []
         $scope.legislationPart = {}
         $scope.returned = false
         $scope.showLegislations = false
@@ -32,8 +33,8 @@ angular.module('apptorney')
         $scope.baseURL = baseURL.replace('/api/', '') // Hack to show images and file links in Legislation
         $scope.parents = []
         $scope.mergeStatus = 0
-        $scope.queries = {};
-        $scope.legislationReferences = [];
+        $scope.queries = {}
+        $scope.legislationReferences = []
 
         $scope.loadLegislationTypes = function() {
             LegislationType.find(
@@ -96,20 +97,25 @@ angular.module('apptorney')
                 $scope.legislation.capturedById = $rootScope.user.id
             }
 
-            $scope.legislation.replacedLegislationIds = [];
-            $scope.legislation.amendedLegislationIds = [];
+            $scope.legislation.replacedLegislationIds = []
+            $scope.legislation.amendedLegislationIds = []
+            $scope.legislation.repealedLegislationIds = []
 
             $scope.legislation.amendedLegislations.map(function(legislation) {
-                $scope.legislation.amendedLegislationIds.push(legislation.id);
-            });
+                $scope.legislation.amendedLegislationIds.push(legislation.id)
+            })
 
             $scope.legislation.replacedLegislations.map(function(legislation) {
-                $scope.legislation.replacedLegislationIds.push(legislation.id);
-            });
+                $scope.legislation.replacedLegislationIds.push(legislation.id)
+            })
 
-            $scope.legislation.amendedLegislations = undefined;
-            $scope.legislation.replacedLegislations = undefined;
+            $scope.legislation.repealedLegislations.map(function(legislation) {
+                $scope.legislation.repealedLegislationIds.push(legislation.id)
+            })
 
+            $scope.legislation.amendedLegislations = undefined
+            $scope.legislation.replacedLegislations = undefined
+            $scope.legislation.repealedLegislations = undefined
 
             Legislation.upsert($scope.legislation,
                     function(res) {
@@ -307,7 +313,7 @@ angular.module('apptorney')
         console.log($location.path())
 
         if ($location.path().indexOf('/legislations/') !== -1) {
-            //$scope.loadLegislations('all')
+            // $scope.loadLegislations('all')
         } else if ($location.path().indexOf('/cleanup/detail/1/1') !== -1) {
             $scope.loadLegislations('occurences')
         } else if ($location.path().indexOf('/cleanup/') !== -1) {
@@ -346,7 +352,7 @@ angular.module('apptorney')
             if ($location.path().indexOf('/legislation') !== -1 && $scope.query !== undefined) {
                 // $scope.message = "Searching..."
                 // $scope.loadLegislations("all")
-                console.log("Searching...");
+                console.log('Searching...')
                 $scope.loadLegislations('search')
             }
         })
@@ -359,7 +365,7 @@ angular.module('apptorney')
         }
 
         $scope.openLegislation = function(legislation) {
-            console.log(legislation);
+            console.log(legislation)
             $scope.opened = false
             $('#legislationModal').modal()
             $scope.models = {
@@ -591,7 +597,7 @@ angular.module('apptorney')
                         parent.year = new Date(parent.dateOfAssent).getFullYear()
                         parent.legislationNumbers = parent.legislationNumbers ? parent.legislationNumbers : parent.legislationNumber
                             // console.log(parent.year)
-                    });
+                    })
                 },
                 function(errorResponse) {}
             )
@@ -630,7 +636,7 @@ angular.module('apptorney')
             legislation.legislationType = '598978adbe0d4f0197376605'
             Legislation.upsert(legislation,
                 function(res) {
-                    console.log("Returned Data", res.data)
+                    console.log('Returned Data', res.data)
                     $scope.legislations.splice($scope.legislations.indexOf(legislation), 1)
                 },
                 function(errorResponse) {}
@@ -638,49 +644,45 @@ angular.module('apptorney')
         }
 
         $scope.$watch('queries.legislationReferencesQuery', function() {
-            $scope.gettingLegislationReferences = false;
+            $scope.gettingLegislationReferences = false
 
-            var term = $scope.queries.legislationReferencesQuery;
+            var term = $scope.queries.legislationReferencesQuery
             if ($scope.gettingLegislationReferences == false && term.length > 3) {
-                console.log(term);
-                $scope.gettingLegislationReferences = true;
+                console.log(term)
+                $scope.gettingLegislationReferences = true
                 Legislation.flexisearch({ term: term },
                     function(res) {
-                        $scope.legislationReferences = res.data.legislations;
+                        $scope.legislationReferences = res.data.legislations
                         $scope.legislationReferences.forEach(function(ref) {
                             ref.year = new Date(ref.dateOfAssent).getFullYear()
                             ref.legislationNumbers = ref.legislationNumbers ? ref.legislationNumbers : ref.legislationNumber
                                 // console.log(parent.year)
-                        });
-                        $scope.gettingLegislationReferences = false;
+                        })
+                        $scope.gettingLegislationReferences = false
                     },
                     function(errorResponse) {}
-                );
-
+                )
             }
-        });
-
+        })
 
         $scope.addAmendedLegislations = function(legislation) {
-            //$scope.legislation.amendingLegislations = [];
-            $scope.legislation.amendedLegislations.push(legislation);
+            // $scope.legislation.amendingLegislations = []
+            $scope.legislation.amendedLegislations.push(legislation)
         }
 
         $scope.addReplacedLegislations = function(legislation) {
-            //$scope.legislation.amendingLegislations = [];
-            $scope.legislation.replacedLegislations.push(legislation);
+            // $scope.legislation.amendingLegislations = []
+            $scope.legislation.replacedLegislations.push(legislation)
         }
-
 
         $scope.openAmendedLegislation = function() {
-            $scope.legislationReferences = [];
-            $scope.queries.legislationReferencesQuery = "";
-            $('#amendedLegislationsModal').modal();
+            $scope.legislationReferences = []
+            $scope.queries.legislationReferencesQuery = ''
+            $('#amendedLegislationsModal').modal()
         }
         $scope.openReplacedLegislation = function() {
-            $scope.legislationReferences = [];
-            $scope.queries.legislationReferencesQuery = "";
-            $('#replacedLegislationsModal').modal();
+            $scope.legislationReferences = []
+            $scope.queries.legislationReferencesQuery = ''
+            $('#replacedLegislationsModal').modal()
         }
-
     })

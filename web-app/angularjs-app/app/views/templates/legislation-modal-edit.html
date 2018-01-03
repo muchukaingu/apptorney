@@ -112,6 +112,32 @@
 
 <!---------------------------------------------------->
 
+<!-----------------Amending Legislation-------------->
+
+<div class="col-xs-10">Repeals</div>
+<div class="col-xs-2 pull-right">
+    <a class="pull-right" style="color:#d3d3d3; border:#none; font-size:1.2em; border-radius:5px; margin-top:-2px" ng-click="openRepealedLegislation()">
+        <i class="fa fa-plus"></i>
+    </a>
+</div>
+<div class="col-xs-12 form-group">
+
+
+    <ui-select multiple tagging="createLegislationStab" ng-keydown="saveLegislationStab($event)" ng-model="legislation.repealedLegislations" theme="bootstrap">
+        <ui-select-match placeholder="Select Legislations that are Repealed">{{$item.legislationName}} {{$item.dateOfAssent | date : 'yyyy'}}</ui-select-match>
+        <ui-select-choices repeat="legislation in legislations | filter: $select.search">
+            <span ng-bind-html="legislation.legislationNumber | highlight: $select.search"></span>&nbsp;-
+            <span ng-bind-html="legislation.legislationName | highlight: $select.search"></span>
+            <small ng-bind-html="legislation.dateOfAssent | date : 'yyyy' | highlight: $select.search"></small>
+        </ui-select-choices>
+    </ui-select>
+
+</div>
+
+
+
+<!---------------------------------------------------->
+
 </div>
 <div class="row">
     <div class="col-xs-12 col-md-12 form-group">

@@ -685,4 +685,10 @@ angular.module('apptorney')
             $scope.queries.legislationReferencesQuery = ''
             $('#replacedLegislationsModal').modal()
         }
+
+        $scope.openRepealedLegislation = function() {
+            $scope.legislationReferences = []
+            $scope.queries.legislationReferencesQuery = ''
+            $('#replacedLegislationsModal').modal()
+        }
     })

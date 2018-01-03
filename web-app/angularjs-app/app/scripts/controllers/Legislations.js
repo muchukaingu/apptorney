@@ -678,6 +678,7 @@ angular.module('apptorney')
         $scope.addRepealedLegislations = function(legislation) {
             // $scope.legislation.amendingLegislations = []
             console.log(legislation)
+            $scope.legislation.repealedLegislations = ($scope.legislation.repealedLegislations == undefined) ? [] : $scope.legislation.repealedLegislations
             $scope.legislation.repealedLegislations.push(legislation)
         }
 

@@ -675,6 +675,11 @@ angular.module('apptorney')
             $scope.legislation.replacedLegislations.push(legislation)
         }
 
+        $scope.addRepealedLegislations = function(legislation) {
+            // $scope.legislation.amendingLegislations = []
+            $scope.legislation.repealedLegislations.push(legislation)
+        }
+
         $scope.openAmendedLegislation = function() {
             $scope.legislationReferences = []
             $scope.queries.legislationReferencesQuery = ''
@@ -689,6 +694,6 @@ angular.module('apptorney')
         $scope.openRepealedLegislation = function() {
             $scope.legislationReferences = []
             $scope.queries.legislationReferencesQuery = ''
-            $('#replacedLegislationsModal').modal()
+            $('#repealedLegislationsModal').modal()
         }
     })

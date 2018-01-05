@@ -28,7 +28,15 @@
                     "fields": ["id", "legislationName"]
 
                 }
+            },
+            {
+                "relation": "repealedLegislations",
+                "scope": {
+                    "fields": ["id", "legislationName"]
+
+                }
             }
+
 
 
         ]
@@ -121,6 +129,11 @@
             "type": "referencesMany",
             "model": "legislation",
             "foreignKey": "replacedLegislationIds"
+        },
+        "repealedLegislations": {
+            "type": "referencesMany",
+            "model": "legislation",
+            "foreignKey": "repealedLegislationIds"
         },
         "parentLegislation": {
             "type": "belongsTo",

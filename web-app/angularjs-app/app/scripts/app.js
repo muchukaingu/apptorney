@@ -349,7 +349,7 @@ angular
                     function(res) {
                         $rootScope.user = res;
                         $rootScope.user.env = envService.get();
-                        console.log($rootScope.user.env);
+                        console.log("The current environment is ... " + $rootScope.user.env);
                     },
                     function(err) {
 

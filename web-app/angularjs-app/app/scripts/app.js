@@ -335,7 +335,7 @@ angular
                 redirectTo: '/'
             });
     }])
-    .run(function($rootScope, $location, Appuser) {
+    .run(function($rootScope, $location, Appuser, envService) {
         $rootScope.$on('$locationChangeStart', function(event, next) {
             if (!Appuser.isAuthenticated()) {
                 if (next.toString().split('#')[1] == '/login') { // Need a way to know where this is going
@@ -345,7 +345,16 @@ angular
                     $location.path("/login");
                 }
             } else {
-                Appuser.getCurrent(function(res) { $rootScope.user = res; }, function(err) {})
+                Appuser.getCurrent(
+                    function(res) {
+                        $rootScope.user = res;
+                        $rootScope.user.env = envService.get();
+                        console.log($rootScope.user.env);
+                    },
+                    function(err) {
+
+                    }
+                );
             }
         });
     });

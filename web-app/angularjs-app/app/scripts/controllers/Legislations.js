@@ -100,18 +100,18 @@ angular.module('apptorney')
             $scope.legislation.replacedLegislationIds = []
             $scope.legislation.amendedLegislationIds = []
             $scope.legislation.repealedLegislationIds = []
-            if ($scope.legislation.amendedLegislations !== undefined && $scope.legislation.addAmendedLegislations.length > 0) {
+            if ($scope.legislation.amendedLegislations !== undefined || $scope.legislation.addAmendedLegislations.length > 0) {
                 $scope.legislation.amendedLegislations.map(function(legislation) {
                     $scope.legislation.amendedLegislationIds.push(legislation.id)
                 })
             }
 
-            if ($scope.legislation.replacedLegislations !== undefined && $scope.legislation.replacedLegislations.length > 0) {
+            if ($scope.legislation.replacedLegislations !== undefined || $scope.legislation.replacedLegislations.length > 0) {
                 $scope.legislation.replacedLegislations.map(function(legislation) {
                     $scope.legislation.replacedLegislationIds.push(legislation.id)
                 })
             }
-            if ($scope.legislation.repealedLegislations !== undefined && $scope.legislation.repealedLegislations.length > 0) {
+            if ($scope.legislation.repealedLegislations !== undefined || $scope.legislation.repealedLegislations.length > 0) {
                 $scope.legislation.repealedLegislations.map(function(legislation) {
                     $scope.legislation.repealedLegislationIds.push(legislation.id)
                 })

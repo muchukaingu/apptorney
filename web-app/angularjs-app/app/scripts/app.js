@@ -60,7 +60,8 @@ angular
         'dndLists',
         'angularFileUpload',
         'papa-promise',
-        'ngFileUpload'
+        'ngFileUpload',
+        'environment'
     ])
     .controller('MainController', ['$rootScope', '$scope', '$global', '$timeout', 'progressLoader', '$location', 'Appuser', function($rootScope, $scope, $global, $timeout, progressLoader, $location, Appuser) {
         $scope.style_fixedHeader = $global.get('fixedHeader');
@@ -142,17 +143,55 @@ angular
             progressLoader.end();
         });
     }])
-    .config(['$provide', '$routeProvider', 'LoopBackResourceProvider', '$httpProvider', function($provide, $routeProvider, LoopBackResourceProvider, $httpProvider) {
+    .config(['$provide', '$routeProvider', 'LoopBackResourceProvider', '$httpProvider', 'envServiceProvider', function($provide, $routeProvider, LoopBackResourceProvider, $httpProvider, envServiceProvider) {
 
         $httpProvider.defaults.headers.common['X-IBM-Client-ID'] = '6f423f6d-5514-4c5f-bf5c-0f0ce138d523'
         $httpProvider.defaults.headers.common['X-IBM-Client-Secret'] = '273733c1-f6c0-4f1f-ae1d-cd01c92676a2'
 
+        envServiceProvider.config({
+            domains: {
+                development: ['localhost'],
+                production: ['apptorney-frontend.eu-gb.mybluemix.net'],
+                test: ['apptorney-frontend-test.eu-gb.mybluemix.net'],
+                // anotherStage: ['domain1', 'domain2'] 
+            },
+            vars: {
+                development: {
+                    apiUrl: '//localhost:3009/api'
+                },
+                test: {
+                    apiUrl: '//apptorney-backend-test.eu-gb.mybluemix.net/api',
+                    clientID: 'e7aebcd3-ea44-4b68-89e7-821817a1b5f6',
+                    clientSecret: 'fb67bc04-b06d-402f-be8b-d4969279b11b'
+                },
+                production: {
+                    apiUrl: '//circuitbusiness-apptorney.eu-gb.mybluemix.net/api',
+                    clientID: '6f423f6d-5514-4c5f-bf5c-0f0ce138d523',
+                    clientSecret: '273733c1-f6c0-4f1f-ae1d-cd01c92676a2'
+                },
+                defaults: {
+                    apiUrl: '//api.default.com/v1',
+                    staticUrl: '//static.default.com'
+                }
+            }
+        });
+
+
+        // run the environment check, so the comprobation is made 
+        // before controllers and services are built 
+        envServiceProvider.check();
+        console.log(envServiceProvider.read('apiUrl'));
+
+        //Set API Auth
+
+        $httpProvider.defaults.headers.common['X-IBM-Client-ID'] = envServiceProvider.read('clientID');
+        $httpProvider.defaults.headers.common['X-IBM-Client-Secret'] = envServiceProvider.read('clientSecret');
 
         // Change the URL where to access the LoopBack REST API server
-        //LoopBackResourceProvider.setUrlBase('https://circuitbusiness-apptorney.eu-gb.mybluemix.net/api'); //Important: Comment for test
+        LoopBackResourceProvider.setUrlBase(envServiceProvider.read('apiUrl')); //Important: Comment for test
         //LoopBackResourceProvider.setUrlBase('http://circuit.cloudapp.net:3001/api'); //Important: Comment for test
         // LoopBackResourceProvider.setUrlBase('http://circuitbusiness-test.cloudapp.net:3001/api'); //Important: Comment for production
-        LoopBackResourceProvider.setUrlBase('http://localhost:3009/api'); //Important: Comment for production
+        //LoopBackResourceProvider.setUrlBase('http://localhost:3009/api'); //Important: Comment for production
 
         $routeProvider
             .when('/', {

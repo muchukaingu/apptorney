@@ -625,7 +625,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "            <div class=\"modal-body\" style=\"margin-bottom: none; padding-top: 10px; border-bottom:none; height:600px; overflow-y: auto;\">\n" +
     "\n" +
-    "                <h2>Select Amending Legislations</h2>\n" +
+    "                <h2>Select Amended Legislations</h2>\n" +
     "                <div class=\"input-icon right mb10\">\n" +
     "                    <i class=\"fa fa-search\"></i>\n" +
     "                    <input type=\"text\" ng-model=\"queries.legislationReferencesQuery\" class=\"form-control\" placeholder=\"Search...\" id=\"Search\" ng-model-options=\"{ debounce: 1000 }\">\n" +

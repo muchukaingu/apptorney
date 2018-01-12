@@ -6,17 +6,29 @@
         <div class="row">
 
             <div class="col-lg-12">
-                {{case.court.name}}
+                Court | {{case.court.name}}, {{case.jurisdiction.name}}
             </div>
             <div class="col-xs-12" ng-repeat="judge in case.coram">
-                {{judge.name}}
+                Coram | {{judge.name}}
             </div>
             <div class="col-xs-12">
-                {{case.citation.code}}/{{case.citation.number}}/{{case.citation.year}}
+                Appearances for {{case.plaintiffSynonym}}
+                <ul>
+                    <li ng-repeat="appearance in appearancesForPlaintiffs">Advocate: {{appearance.advocate}}, <em>Law Firm: {{appearance.lawFirm}}</em></li>
+                </ul>
+            </div>
+            <div class="col-xs-12">
+                Appearances for {{case.defendantSynonym}}
+                <ul>
+                    <li ng-repeat="appearance in appearancesForDefendants">Advocate: {{appearance.advocate}}, <em>Law Firm: {{appearance.lawFirm}}</em></li>
+                </ul>
+            </div>
+            <div class="col-xs-12">
+                Cause Number | {{case.citation.code}}/{{case.citation.number}}/{{case.citation.year}}
             </div>
 
             <div class="col-xs-12">
-                Flynote (Area of Law): {{case.areaOfLaw.name}}
+                Flynote (Area of Law) | {{case.areaOfLaw.name}}
             </div>
 
             <div class="col-xs-12">

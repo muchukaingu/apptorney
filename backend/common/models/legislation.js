@@ -499,63 +499,128 @@ module.exports = function(Legislation) {
      * @callback {Function} cb The callback function
      */
     Legislation.mobilesearch = function(term, cb) {
-        var legislationCollection = Legislation.getDataSource().connector.collection("legislation");
-        legislationCollection.aggregate([
-                { $match: { $and: [{ "deleted": { $eq: !true } }, { $text: { $search: term } }] } },
-                {
-                    $project: {
-                        score: { $meta: "textScore" },
-                        legislationName: true,
-                        preamble: true,
-                        dateOfAssent: true,
-                        legislationNumber: true,
-                        legislationParts: true
+        var elasticsearch = require('elasticsearch');
+        let client = new elasticsearch.Client({
+            host: 'https://portal-ssl1774-1.bmix-lon-yp-07bcfc2b-8df0-4892-bfc5-849b558a672f.muchu-bmix-circuitbusiness-com.composedb.com:21319/',
+            httpAuth: 'admin:JJWKUQSGLKEPDGXK'
+        });
+        var searchParams = {
+            index: 'legislation',
+            size: 100,
+            body: {
+
+                query: {
+                    multi_match: { query: term, fields: ["generalTitle", "legislationNumbers", "legislationNumber", "preamble", "legislationName"] }
+                },
+                highlight: {
+                    fields: {
 
 
-
+                        "*": { "pre_tags": ["<strong>"], "post_tags": ["</strong>"] }
                     }
                 },
-                { $sort: { score: { $meta: "textScore" }, legislationName: -1 } }
+                _source: ["legislationName", "legislationNumbers", "legislationNumber", "_id"]
 
-            ],
-            function(err, legislations) {
-                if (err) {
+            }
+        };
 
+        client.search(searchParams).then(function(resp) {
+            //console.log(resp.hits);
+            let results = [];
+            resp.hits.hits.forEach(function(h) {
+                var highlight = h.highlight;
+                var highlights = "...";
+                //console.log(highlight);
+                /*
+                if (highlight.name !== undefined) {
+                    h._source.name = "<b>" + highlight.name[0] + "</b>";
                 } else {
-                    //### TEMPORAL AREA OF LAW FIX --> Due to performance issues this should be addressed by changing areaOfLawId in Case Model to ObjectId type so that $lookup op can work
-                    var app = Legislation.app;
-                    var legislationTypes = app.models.legislationType;
-                    var counter = 0;
-                    cb(null, legislations);
-                    /*
-                    legislations.map(function(legislation){
-
-                      legislation.id = legislation._id;
-                      delete legislation["_id"];
-                      legislationTypes.findById(ObjectId(legislation.legislationType), function(err, type){
-                        if(err){
-                          console.log("Error ", err);
-                        }
-                        if (type==null){
-                          console.log("Offending Legislation ", legislation.legislationName + " / " +legislation.id);
-                        }
-                        legislation.legislationType = type.name;
-                        counter++;
-                        if(counter == legislations.length){
-                          cb(null,legislations);
-                        }
-                      })
-
-                    });*/
-
-                    //### END OF TEMPORAL AREA OF LAW FIX
-
+                    h._source.name = "<b>" + h._source.name + "</b>";
+                }
+                if (highlight.summaryOfRuling !== undefined) {
+                    highlight.summaryOfRuling.forEach(function(ruling) {
+                        highlights = highlights + ruling + "...";
+                    });
+                    highlights = "<b>Summary of Ruling: </b>" + highlights + "<br>";
                 }
 
+                if (highlight.summaryOfFacts !== undefined) {
+                    highlight.summaryOfFacts.forEach(function(facts) {
+                        highlights = highlights + facts + "...";
+                    });
+                    highlights = (highlight.summaryOfRuling == undefined) ? "<b>Summary of Facts: </b>" + highlights : highlights + "<b>Summary of Facts: </b>" + highlights + "<br>";
+                }
+
+                if (highlight.judgement !== undefined) {
+                    highlight.judgement.forEach(function(judgement) {
+                        highlights = highlights + judgement + "...";
+                    });
+                    highlights = (highlight.summaryOfRuling == undefined && highlight.summaryOfFacts == undefined) ? "<b>Judgment: </b>" + highlights : highlights + "<b>Judgment: </b>" + highlights + "<br>";
+                }
+
+
+                h._source.highlight = highlights.length == 3 ? undefined : highlights;
+                h._source._id = h._id;
+                results.push(h._source);
+                */
             });
-
-
+            cb(null, results);
+        }, function(err) {
+            throw new Error(err);
+        });
     }
+
+    /* Legislation.mobilesearch = function(term, cb) {
+       var legislationCollection = Legislation.getDataSource().connector.collection("legislation");
+       legislationCollection.aggregate([
+               { $match: { $and: [{ "deleted": { $eq: !true } }, { $text: { $search: term } }] } },
+               {
+                   $project: {
+                       score: { $meta: "textScore" },
+                       legislationName: true,
+                       preamble: true,
+                       dateOfAssent: true,
+                       legislationNumber: true,
+                       legislationParts: true
+
+
+
+                   }
+               },
+               { $sort: { score: { $meta: "textScore" }, legislationName: -1 } }
+
+           ],
+           function(err, legislations) {
+               if (err) {
+
+               } else {
+                   //### TEMPORAL AREA OF LAW FIX --> Due to performance issues this should be addressed by changing areaOfLawId in Case Model to ObjectId type so that $lookup op can work
+                   var app = Legislation.app;
+                   var legislationTypes = app.models.legislationType;
+                   var counter = 0;
+                   cb(null, legislations);
+                   /*
+                   legislations.map(function(legislation){
+
+                     legislation.id = legislation._id;
+                     delete legislation["_id"];
+                     legislationTypes.findById(ObjectId(legislation.legislationType), function(err, type){
+                       if(err){
+                         console.log("Error ", err);
+                       }
+                       if (type==null){
+                         console.log("Offending Legislation ", legislation.legislationName + " / " +legislation.id);
+                       }
+                       legislation.legislationType = type.name;
+                       counter++;
+                       if(counter == legislations.length){
+                         cb(null,legislations);
+                       }
+                     })
+
+                   });*/
+
+    //### END OF TEMPORAL AREA OF LAW FIX
 
     // REMOTE METHODS ##############################################################################################
 

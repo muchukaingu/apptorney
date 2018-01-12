@@ -14,13 +14,13 @@
             <div class="col-xs-12">
                 Appearances for {{case.plaintiffSynonym}}
                 <ul>
-                    <li ng-repeat="appearance in appearancesForPlaintiffs">Advocate: {{appearance.advocate}}, <em>Law Firm: {{appearance.lawFirm}}</em></li>
+                    <li ng-repeat="appearance in case.appearancesForPlaintiffs">Advocate: {{appearance.advocate}}, <em>Law Firm: {{appearance.lawFirm}}</em></li>
                 </ul>
             </div>
             <div class="col-xs-12">
                 Appearances for {{case.defendantSynonym}}
                 <ul>
-                    <li ng-repeat="appearance in appearancesForDefendants">Advocate: {{appearance.advocate}}, <em>Law Firm: {{appearance.lawFirm}}</em></li>
+                    <li ng-repeat="appearance in case.appearancesForDefendants">Advocate: {{appearance.advocate}}, <em>Law Firm: {{appearance.lawFirm}}</em></li>
                 </ul>
             </div>
             <div class="col-xs-12">
@@ -34,7 +34,7 @@
             <div class="col-xs-12">
                 Areas of Law
                 <ul>
-                    <li ng-repeat="area in areasOfLaw">{{area.name}}</li>
+                    <li ng-repeat="area in case.areasOfLaw">{{area.name}}</li>
                 </ul>
             </div>
 

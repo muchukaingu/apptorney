@@ -19,7 +19,9 @@
                     <div class="col-sm-10">
                         <h4 ng-if="!viewMode" style="font-weight: 100;"><span id="CustomerHeading">&nbsp;&nbsp;Add Case <button ng-click="toggleView()" class="btn-primary-alt btn-xs">View</button></span></h4>
                         <h4 ng-if="viewMode" style="font-weight: 100;"><span id="CustomerHeading">&nbsp;&nbsp;{{case.caseNumber}} <button ng-click="toggleView()" class="btn-primary-alt btn-xs">{{viewMode?"Edit":"View"}}</button></span> </h4>
-
+                        <div class="col-xs-12">
+                            Citation | {{case.citation.code}}/{{case.citation.number}}/{{case.citation.year}}
+                        </div>
 
                         <p id="WelcomeMessage" style="margin-left:8px; margin-top:-10px" ng-if="!viewMode">
                             Please ensure that you fill in all the mandatory sections (marked with an asterisk, *) in the form.

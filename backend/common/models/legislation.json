@@ -135,11 +135,6 @@
             "model": "legislation",
             "foreignKey": "repealedLegislationIds"
         },
-        "areasOfLaw": {
-            "type": "referencesMany",
-            "model": "areaOfLaw",
-            "foreignKey": "areasOfLawIds"
-        },
         "parentLegislation": {
             "type": "belongsTo",
             "model": "legislation",

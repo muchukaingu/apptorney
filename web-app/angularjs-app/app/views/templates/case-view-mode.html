@@ -12,13 +12,13 @@
                 Coram | {{judge.name}}
             </div>
             <div class="col-xs-12">
-                Appearances for {{case.plaintiffSynonym}}
+                Appearances for {{case.plaintiffSynonym.synonym}}
                 <ul>
                     <li ng-repeat="appearance in case.appearancesForPlaintiffs">Advocate: {{appearance.advocate}}, <em>Law Firm: {{appearance.lawFirm}}</em></li>
                 </ul>
             </div>
             <div class="col-xs-12">
-                Appearances for {{case.defendantSynonym}}
+                Appearances for {{case.defendantSynonym.synonym}}
                 <ul>
                     <li ng-repeat="appearance in case.appearancesForDefendants">Advocate: {{appearance.advocate}}, <em>Law Firm: {{appearance.lawFirm}}</em></li>
                 </ul>

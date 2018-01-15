@@ -1,5 +1,5 @@
 path: .
-memory: 512M
+memory: 1024M
 instances: 8
 domain: eu-gb.mybluemix.net
 name: apptorney

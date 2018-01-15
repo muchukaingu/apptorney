@@ -342,7 +342,7 @@ module.exports = function(Case) {
             function(err, cases) {
                 var judges = ''
                 var judgeCount = 0
-                if (cases.coram !== undefined || cases.coram.length > 0) {
+                if (cases.coram !== undefined) {
                     cases.coram.forEach(function(judge) {
                         judges = (judgeCount == cases.coram.length - 1) ? judges + judge.name : judges + judge.name + ' | '
                         judgeCount++

@@ -53,6 +53,13 @@ module.exports = function(Dashboard) {
         })
 
         Case.count({
+            and: [{ deleted: { neq: true } }, { completionStatus: { neq: false } }]
+        }, function(err, count) {
+            summary.completeCases = count
+            callback(null, summary)
+        })
+
+        Case.count({
             and: [{ deleted: { neq: true } }, { isStub: { neq: true } }]
         }, function(err, count) {
             summary.caseStubs = count

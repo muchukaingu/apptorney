@@ -15,7 +15,7 @@ module.exports = function(Dashboard) {
         var callbackCalls = 0
 
         function callback(err, data) {
-            if (callbackCalls == 5) {
+            if (callbackCalls == 6) {
                 cb(err, data)
             }
             callbackCalls++

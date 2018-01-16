@@ -1,46 +1,59 @@
 <div id="caseReviewModal" class="modal fade" style="z-index:3000; background-color:rgba(0, 0, 0, 0.5);">
-  <div class="modal-dialog" style="width:30%;padding-left: 2%;padding-right: 2%; ">
-    <div class="modal-content" style="margin-top: 8%">
-      <div class="modal-header">
-          <button type="button" id="closeModal" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <div class="modal-dialog" style="width:30%;padding-left: 2%;padding-right: 2%; ">
+        <div class="modal-content" style="margin-top: 8%">
+            <div class="modal-header">
+                <button type="button" id="closeModal" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 
-        <h3 style="font-weight: 100;"><span id="CustomerHeading">&nbsp&nbspReview Case</span></h3>
+                <h3 style="font-weight: 100;"><span id="CustomerHeading">&nbsp&nbspReview Case</span></h3>
 
-      </div>
+            </div>
 
-      <div class="modal-body" style="margin-bottom: none; padding-top: 0px; border-bottom:none">
+            <div class="modal-body" style="margin-bottom: none; padding-top: 0px; border-bottom:none">
 
-        <!-- Start Form-->
+                <!-- Start Form-->
 
-              <form id ="applicationForm" name="form" class="css-form" ng-submit="saveApplication()" novalidate>
-                  <div class="row">
+                <form id="applicationForm" name="form" class="css-form" ng-submit="saveApplication()" novalidate>
+                    <div class="row">
 
 
-                    <div class="col-xs-12 form-group">
-                        <div class="col-sm-9" style="padding-top:4px; margin-top:20px; font-size:1.2em">Is Case Complete?</div><div style="padding-top:4px; margin-top:20px; font-size:1.3em; position:relative; left:-10px" class="col-sm-3"><toggle-switch on-label = "Yes" off-label="No" model="case.completionStatus" class="success" ><toggle-switch></div>
-                        <div class="col-sm-9" style="padding-top:4px; margin-top:5px; font-size:1.2em">Have You Reviewed Case?</div><div style="padding-top:4px; margin-top:5px; font-size:1.3em; position:relative; left:-10px" class="col-sm-3"><toggle-switch on-label = "Yes" off-label="No" model="case.primaryReview" class="success" ><toggle-switch></div>
-                        <div class="col-sm-9" style="padding-top:4px; margin-top:5px; font-size:1.2em">Have You Reviewed Case?</div><div style="padding-top:4px; margin-top:5px; font-size:1.3em; position:relative; left:-10px" class="col-sm-3"><toggle-switch on-label = "Yes" off-label="No" model="case.secondaryReview" class="success" ><toggle-switch></div>
+                        <div class="col-xs-12 form-group">
+                            <div class="col-sm-9" style="padding-top:4px; margin-top:20px; font-size:1.2em">Is Case Complete?</div>
+                            <div style="padding-top:4px; margin-top:20px; font-size:1.3em; position:relative; left:-10px" class="col-sm-3">
+                                <toggle-switch on-label="Yes" off-label="No" model="case.completionStatus" class="success">
+                                    <toggle-switch>
+                            </div>
+                            <div ng-if="user.userType==2" class="col-sm-9" style="padding-top:4px; margin-top:5px; font-size:1.2em">Have You Reviewed Case?</div>
+                            <div ng-if="user.userType<2" class="col-sm-9" style="padding-top:4px; margin-top:5px; font-size:1.2em">Primary Review</div>
+                            <div style="padding-top:4px; margin-top:5px; font-size:1.3em; position:relative; left:-10px" class="col-sm-3">
+                                <toggle-switch on-label="Yes" off-label="No" model="case.primaryReview" class="success">
+                                    <toggle-switch>
+                            </div>
+                            <div ng-if="user.userType<2" class="col-sm-9" style="padding-top:4px; margin-top:5px; font-size:1.2em">Have You Reviewed Case?</div>
+                            <div ng-if="user.userType<2" style="padding-top:4px; margin-top:5px; font-size:1.3em; position:relative; left:-10px" class="col-sm-3">
+                                <toggle-switch on-label="Yes" off-label="No" model="case.secondaryReview" class="success">
+                                    <toggle-switch>
+                            </div>
+
+                        </div>
+
+
 
                     </div>
 
 
 
-                  </div>
+                </form>
+
+            </div>
+            <div class="modal-footer" style="border-top:none">
+                <div class="form-group">
+                    <button id="submit" type="submit" class="btn btn-primary-alt pull-right" style="width:120px" ng-click="saveReview()">Review</button>
 
 
+                    <div id="submitAppMsg" class="pull-left" style="font-size: larger; position: relative; top: 5px"></div>
+                </div>
 
-            </form>
-
-   </div>
-   <div class="modal-footer" style="border-top:none">
-     <div class = "form-group">
-       <button id="submit" type="submit" class="btn btn-primary-alt pull-right"  style="width:120px" ng-click="saveReview()">Review</button>
-
-
-       <div id="submitAppMsg" class="pull-left" style="font-size: larger; position: relative; top: 5px"></div>
-     </div>
-
+            </div>
+        </div>
     </div>
- </div>
-</div>
 </div>

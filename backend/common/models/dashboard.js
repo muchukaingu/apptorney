@@ -60,7 +60,7 @@ module.exports = function(Dashboard) {
         })
 
         Case.count({
-            and: [{ deleted: { neq: true } }, { isStub: { neq: true } }]
+            and: [{ deleted: { neq: true } }, { isStub: { neq: false } }]
         }, function(err, count) {
             summary.caseStubs = count
             callback(null, summary)

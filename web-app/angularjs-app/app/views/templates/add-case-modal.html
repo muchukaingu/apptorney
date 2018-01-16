@@ -19,7 +19,7 @@
                     <div class="col-sm-9">
                         <h4 ng-if="!viewMode" style="font-weight: 100;"><span>&nbsp;&nbsp;Add Case </span></h4>
                         <h4 ng-if="viewMode" style="font-weight: 100;"><span>&nbsp;&nbsp;{{case.caseNumber}} </span></h4>
-                        <h4 ng-if="viewMode" style="font-weight: 100;"><span ng-if="case.appealNumber !== undefined || case.appealNumber !==''">{{case.appealNumber}}</span></h4>
+                        <h4 ng-if="viewMode" style="font-weight: 100; margin-top:-5px"><span ng-if="case.appealNumber !== undefined || case.appealNumber !==''">&nbsp;&nbsp;{{case.appealNumber}}</span></h4>
 
                         <p style="margin-left:8px; margin-top:-10px" ng-if="!viewMode">
                             Please ensure that you fill in all the mandatory sections (marked with an asterisk, *) in the form.

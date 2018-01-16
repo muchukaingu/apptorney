@@ -1,103 +1,103 @@
 {
-  "name": "appuser",
-  "base": "User",
-  "idInjection": true,
-  "options": {
-    "validateUpsert": true
-  },
-  "inheritAcls": false,
-  "properties": {
-    "target": {
-      "type": "number",
-      "required": false
-    }
-  },
-  "validations": [],
-  "relations": {
-    "cases": {
-      "type": "hasMany",
-      "model": "case",
-      "foreignKey": ""
+    "name": "appuser",
+    "base": "User",
+    "idInjection": true,
+    "options": {
+        "injectOptionsFromRemoteContext": true,
+        "validateUpsert": true
     },
-    "legislations": {
-      "type": "hasMany",
-      "model": "legislation",
-      "foreignKey": ""
-    }
-  },
-  "acls": [
-    {
-      "principalType": "ROLE",
-      "principalId": "$everyone",
-      "permission": "ALLOW",
-      "property": "performance"
+    "inheritAcls": false,
+    "properties": {
+        "target": {
+            "type": "number",
+            "required": false
+        }
     },
-    {
-      "principalType": "ROLE",
-      "principalId": "$everyone",
-      "permission": "ALLOW",
-      "property": "count"
+    "validations": [],
+    "relations": {
+        "cases": {
+            "type": "hasMany",
+            "model": "case",
+            "foreignKey": ""
+        },
+        "legislations": {
+            "type": "hasMany",
+            "model": "legislation",
+            "foreignKey": ""
+        }
     },
-    {
-      "principalType": "ROLE",
-      "principalId": "$everyone",
-      "permission": "ALLOW",
-      "property": "update"
-    },
-    {
-      "principalType": "ROLE",
-      "permission": "DENY",
-      "principal": "$everyone"
-    },
-    {
-      "principalType": "ROLE",
-      "principalId": "$everyone",
-      "permission": "ALLOW",
-      "property": "create"
-    },
-    {
-      "principalType": "ROLE",
-      "principalId": "$owner",
-      "permission": "ALLOW",
-      "property": "deleteById"
-    },
-    {
-      "principalType": "ROLE",
-      "principalId": "$everyone",
-      "permission": "ALLOW",
-      "property": "login"
-    },
-    {
-      "principalType": "ROLE",
-      "principalId": "$everyone",
-      "permission": "ALLOW",
-      "property": "logout"
-    },
-    {
-      "principalType": "ROLE",
-      "principalId": "$owner",
-      "permission": "ALLOW",
-      "property": "findById"
-    },
-    {
-      "principalType": "ROLE",
-      "principalId": "$owner",
-      "permission": "ALLOW",
-      "property": "updateAttributes"
-    },
-    {
-      "principalType": "ROLE",
-      "principalId": "$everyone",
-      "permission": "ALLOW",
-      "property": "confirm"
-    },
-    {
-      "accessType": "EXECUTE",
-      "principalType": "ROLE",
-      "principalId": "$everyone",
-      "permission": "ALLOW",
-      "property": "resetPassword"
-    }
-  ],
-  "methods": {}
+    "acls": [{
+            "principalType": "ROLE",
+            "principalId": "$everyone",
+            "permission": "ALLOW",
+            "property": "performance"
+        },
+        {
+            "principalType": "ROLE",
+            "principalId": "$everyone",
+            "permission": "ALLOW",
+            "property": "count"
+        },
+        {
+            "principalType": "ROLE",
+            "principalId": "$everyone",
+            "permission": "ALLOW",
+            "property": "update"
+        },
+        {
+            "principalType": "ROLE",
+            "permission": "DENY",
+            "principal": "$everyone"
+        },
+        {
+            "principalType": "ROLE",
+            "principalId": "$everyone",
+            "permission": "ALLOW",
+            "property": "create"
+        },
+        {
+            "principalType": "ROLE",
+            "principalId": "$owner",
+            "permission": "ALLOW",
+            "property": "deleteById"
+        },
+        {
+            "principalType": "ROLE",
+            "principalId": "$everyone",
+            "permission": "ALLOW",
+            "property": "login"
+        },
+        {
+            "principalType": "ROLE",
+            "principalId": "$everyone",
+            "permission": "ALLOW",
+            "property": "logout"
+        },
+        {
+            "principalType": "ROLE",
+            "principalId": "$owner",
+            "permission": "ALLOW",
+            "property": "findById"
+        },
+        {
+            "principalType": "ROLE",
+            "principalId": "$owner",
+            "permission": "ALLOW",
+            "property": "updateAttributes"
+        },
+        {
+            "principalType": "ROLE",
+            "principalId": "$everyone",
+            "permission": "ALLOW",
+            "property": "confirm"
+        },
+        {
+            "accessType": "EXECUTE",
+            "principalType": "ROLE",
+            "principalId": "$everyone",
+            "permission": "ALLOW",
+            "property": "resetPassword"
+        }
+    ],
+    "methods": {}
 }

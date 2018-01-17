@@ -51,6 +51,15 @@
 
 
                             </div>
+                            <div class="col-xs-12 form-group">
+
+                                <div style="padding-top:4px; margin-top:2px; font-size:1.3em; position:relative; left:-10px" class="col-sm-9">
+                                    <toggle-switch on-label="Yes" off-label="No" model="case.reported" class="primary" knob-label="Reported">
+                                        <toggle-switch>
+                                </div>
+
+
+                            </div>
 
 
 
@@ -450,7 +459,7 @@
 
 
                                     <ui-select multiple tagging="createLegislationStab" ng-keydown="saveLegislationStab($event)" ng-model="case.legislationsReferedTo" theme="bootstrap">
-                                        <ui-select-match placeholder="Select Legislations Referred To...">{{$item.legislationName}} {{$item.dateOfAssent | date : 'yyyy'}}</ui-select-match>
+                                        <ui-select-match placeholder="Select Legislations Referred To...">{{$item.legislationName}} {{$item.dateOfAssent | date : 'yyyy'}} <em>{{$item.deleted?'deleted':''}}</em></ui-select-match>
                                         <ui-select-choices repeat="legislation in legislations | filter: $select.search">
                                             <span ng-bind-html="legislation.legislationNumber | highlight: $select.search"></span>&nbsp;-
                                             <span ng-bind-html="legislation.legislationName | highlight: $select.search"></span>
@@ -467,7 +476,7 @@
 
 
                                     <ui-select multiple tagging="createStab" ng-keydown="saveStab($event)" ng-model="case.casesReferedTo" theme="bootstrap">
-                                        <ui-select-match placeholder="Select Cases Referred To...">{{$item.name}}</ui-select-match>
+                                        <ui-select-match placeholder="Select Cases Referred To...">{{$item.name}} <em>{{$item.deleted?'deleted':''}}</em></ui-select-match>
                                         <ui-select-choices repeat="case in caseReferences | filter: $select.search">
                                             <span ng-bind-html="case.name | highlight: $select.search"></span>
                                             <small ng-bind-html="case.citation.year | highlight: $select.search"></small>
@@ -483,7 +492,7 @@
 
 
                                     <ui-select multiple tagging ng-model="case.workReferedTo" theme="bootstrap">
-                                        <ui-select-match placeholder="Select Works Referred To...">{{$item.name}}</ui-select-match>
+                                        <ui-select-match placeholder="Select Works Referred To...">{{$item.name}} <em>{{$item.deleted?'deleted':''}}</em></ui-select-match>
                                         <ui-select-choices repeat="work in works | filter: $select.search">
                                             <span ng-bind-html="work.name | highlight: $select.search"></span>
 

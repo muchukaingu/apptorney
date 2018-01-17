@@ -226,8 +226,7 @@
         },
         "notes": {
             "type": "string",
-            "required": false,
-            "default": false
+            "required": false
         }
 
     },

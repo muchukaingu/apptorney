@@ -1035,8 +1035,10 @@ angular.module('apptorney')
         });
 
 
-        $scope.createAreaOfLaw = function(area) {
-            console.log(area);
+        $scope.createAreaOfLaw = function(event) {
+            if (event.which === 13) {
+                console.log(area);
+            }
         }
 
 

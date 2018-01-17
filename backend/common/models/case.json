@@ -227,6 +227,11 @@
         "notes": {
             "type": "string",
             "required": false
+        },
+        "reported": {
+            "type": "boolean",
+            "required": false,
+            "default": false
         }
 
     },

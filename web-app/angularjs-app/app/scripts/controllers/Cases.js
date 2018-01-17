@@ -561,7 +561,7 @@ angular.module('apptorney')
             //console.log($scope.areaOfLaw);
             AreaOfLaw.upsert($scope.areaOfLaw,
                 function(area) {
-                    $scope.areasOfLaw.push(area);
+                    $scope.areasOfLaw.data.push(area);
                 },
                 function(errorResponse) {
 

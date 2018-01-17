@@ -1035,6 +1035,11 @@ angular.module('apptorney')
         });
 
 
+        $scope.createAreaOfLaw = function(area) {
+            console.log(area);
+        }
+
+
 
 
 

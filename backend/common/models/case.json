@@ -23,6 +23,14 @@
             "editor_index": 0,
             "detail_index": 0
         },
+        "appealNumber": {
+            "type": "string",
+            "required": false,
+            "label": "Appeal Number",
+            "table_index": 0,
+            "editor_index": 0,
+            "detail_index": 0
+        },
         "name": {
             "type": "string",
             "required": false,
@@ -96,9 +104,9 @@
             "detail_index": 0
         },
         "primaryDeletion": {
-            "type": "number",
+            "type": "boolean",
             "required": false,
-            "default": 0
+            "default": false
         },
         "summaryOfRuling": {
             "type": "string",
@@ -195,7 +203,37 @@
             "table_index": 0,
             "editor_index": 0,
             "detail_index": 0
+        },
+        "primaryReview": {
+            "type": "boolean",
+            "required": false,
+            "default": false
+        },
+        "secondayReview": {
+            "type": "boolean",
+            "required": false,
+            "default": false
+        },
+        "isStub": {
+            "type": "boolean",
+            "required": false,
+            "default": false
+        },
+        "completionStatus": {
+            "type": "boolean",
+            "required": false,
+            "default": false
+        },
+        "notes": {
+            "type": "string",
+            "required": false
+        },
+        "reported": {
+            "type": "boolean",
+            "required": false,
+            "default": false
         }
+
     },
     "validations": [],
     "relations": {
@@ -220,6 +258,16 @@
             "foreignKey": ""
         },
         "areaOfLaw": {
+            "type": "belongsTo",
+            "model": "areaOfLaw",
+            "foreignKey": ""
+        },
+        "subAreaOfLaw": {
+            "type": "belongsTo",
+            "model": "areaOfLaw",
+            "foreignKey": ""
+        },
+        "specificAreaOfLaw": {
             "type": "belongsTo",
             "model": "areaOfLaw",
             "foreignKey": ""

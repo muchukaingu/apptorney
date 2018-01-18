@@ -561,7 +561,7 @@ angular.module('apptorney')
             //console.log($scope.areaOfLaw);
             AreaOfLaw.upsert($scope.areaOfLaw,
                 function(area) {
-                    $scope.areasOfLaw.push(area);
+                    $scope.areasOfLaw.data.push(area);
                 },
                 function(errorResponse) {
 
@@ -660,6 +660,7 @@ angular.module('apptorney')
             //console.info("Case Details", $scope.case);
             $scope.saveStatus = 1;
             $scope.case.areasOfLawIds = [];
+            $scope.case.areaOfLawId = $scope.case.areaOfLaw.id;
             if ($scope.case.areasOfLaw !== undefined || $scope.case.areasOfLaw.length > 0) {
                 $scope.case.areasOfLaw.map(function(caseInstance) {
                     $scope.case.areasOfLawIds.push(caseInstance.id)
@@ -1032,6 +1033,13 @@ angular.module('apptorney')
 
 
         });
+
+
+        $scope.createAreaOfLaw = function(event) {
+            if (event.which === 13) {
+                console.log(area);
+            }
+        }
 
 
 

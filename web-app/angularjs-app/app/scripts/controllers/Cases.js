@@ -660,7 +660,7 @@ angular.module('apptorney')
             //console.info("Case Details", $scope.case);
             $scope.saveStatus = 1;
             $scope.case.areasOfLawIds = [];
-            $scope.case.areaOfLawId = $scope.case.areaOfLaw.id;
+            $scope.case.areaOfLawId = $scope.case.areaOfLaw ? $scope.case.areaOfLaw.id : "";
             if ($scope.case.areasOfLaw !== undefined || $scope.case.areasOfLaw.length > 0) {
                 $scope.case.areasOfLaw.map(function(caseInstance) {
                     $scope.case.areasOfLawIds.push(caseInstance.id)

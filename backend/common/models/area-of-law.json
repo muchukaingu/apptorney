@@ -5,6 +5,15 @@
     "options": {
         "validateUpsert": true
     },
+    "scope": {
+        "include": [{
+            "relation": "parent",
+            "scope": {
+                "fields": ["id", "name"]
+
+            }
+        }]
+    },
     "properties": {
         "name": {
             "type": "string",
@@ -16,7 +25,7 @@
         "parent": {
             "type": "hasOne",
             "model": "areaOfLaw",
-            "foreignKey": ""
+            "foreignKey": "parentId"
         }
     },
     "acls": [],

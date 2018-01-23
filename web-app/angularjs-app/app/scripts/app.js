@@ -169,6 +169,11 @@ angular
                     clientID: '6f423f6d-5514-4c5f-bf5c-0f0ce138d523',
                     clientSecret: '273733c1-f6c0-4f1f-ae1d-cd01c92676a2'
                 },
+                staging: {
+                    apiUrl: '//apptorney-backend-test.eu-gb.mybluemix.net/api',
+                    clientID: 'e7aebcd3-ea44-4b68-89e7-821817a1b5f6',
+                    clientSecret: 'fb67bc04-b06d-402f-be8b-d4969279b11b'
+                },
                 defaults: {
                     apiUrl: '//api.default.com/v1',
                     staticUrl: '//static.default.com'

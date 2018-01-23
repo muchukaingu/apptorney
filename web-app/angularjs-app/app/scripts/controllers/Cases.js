@@ -846,7 +846,7 @@ angular.module('apptorney')
         $scope.openCase = function(caseInstance) {
             Case.viewCase({ id: caseInstance.id }, function(res) {
                 $scope.case = res.data.cases;
-                $('#addCaseModal').modal();
+                $('#addCaseModal').modal("show");
                 $scope.viewMode = true;
                 $scope.case.isNew = false; // Don't add to the cases list view
             })

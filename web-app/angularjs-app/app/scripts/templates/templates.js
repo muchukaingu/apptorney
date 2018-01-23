@@ -74,7 +74,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
 
 
   $templateCache.put('templates/add-case-modal.html',
-    "<div id=\"addCaseModal\" class=\"modal\" style=\"z-index:2000;\">\n" +
+    "<div id=\"addCaseModal\" class=\"modal fade\" style=\"z-index:2000;\">\n" +
     "    <div class=\"modal-dialog\" style=\"width:65%;padding-left: 2%;padding-right: 2%;\">\n" +
     "        <div class=\"modal-content\" style=\"margin-top: 8%\">\n" +
     "\n" +
@@ -794,7 +794,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
 
 
   $templateCache.put('templates/area-of-law-modal.html',
-    "<div id=\"addAreaOfLawModal\" class=\"modal\" style=\"z-index:3000; background-color:rgba(0, 0, 0, 0.5);\">\n" +
+    "<div id=\"addAreaOfLawModal\" class=\"modal fade\" style=\"z-index:3000; background-color:rgba(0, 0, 0, 0.5);\">\n" +
     "    <div class=\"modal-dialog\" style=\"width:50%;padding-left: 2%;padding-right: 2%; \">\n" +
     "        <div class=\"modal-content\" style=\"margin-top: 8%\">\n" +
     "            <div class=\"modal-header\" style=\"border-bottom:none\">\n" +

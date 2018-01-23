@@ -794,57 +794,57 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
 
 
   $templateCache.put('templates/area-of-law-modal.html',
-    "<div id=\"addAreaOfLawModal\" class=\"modal fade\" style=\"z-index:3000; background-color:rgba(0, 0, 0, 0.5);\">\n" +
-    "  <div class=\"modal-dialog\" style=\"width:50%;padding-left: 2%;padding-right: 2%; \">\n" +
-    "    <div class=\"modal-content\" style=\"margin-top: 8%\">\n" +
-    "      <div class=\"modal-header\" style=\"border-bottom:none\">\n" +
-    "          <button type=\"button\" id=\"closeModal\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>\n" +
+    "<div id=\"addAreaOfLawModal\" class=\"modal\" style=\"z-index:3000; background-color:rgba(0, 0, 0, 0.5);\">\n" +
+    "    <div class=\"modal-dialog\" style=\"width:50%;padding-left: 2%;padding-right: 2%; \">\n" +
+    "        <div class=\"modal-content\" style=\"margin-top: 8%\">\n" +
+    "            <div class=\"modal-header\" style=\"border-bottom:none\">\n" +
+    "                <button type=\"button\" id=\"closeModal\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>\n" +
     "\n" +
-    "        <h4 style=\"font-weight: 100;\"><span id=\"CustomerHeading\">&nbsp&nbspAdd Area of Law</span></h4>\n" +
-    "        <p id=\"WelcomeMessage\" style=\"margin-left:12px\">\n" +
-    "          Please ensure that you fill in all the mandatory sections in the form.\n" +
-    "        </p>\n" +
-    "      </div>\n" +
+    "                <h4 style=\"font-weight: 100;\"><span id=\"CustomerHeading\">&nbsp&nbspAdd Area of Law</span></h4>\n" +
+    "                <p id=\"WelcomeMessage\" style=\"margin-left:12px\">\n" +
+    "                    Please ensure that you fill in all the mandatory sections in the form.\n" +
+    "                </p>\n" +
+    "            </div>\n" +
     "\n" +
-    "      <div class=\"modal-body\" style=\"margin-bottom: none; padding-top: 0px; border-bottom:none\">\n" +
+    "            <div class=\"modal-body\" style=\"margin-bottom: none; padding-top: 0px; border-bottom:none\">\n" +
     "\n" +
-    "        <!-- Start Form-->\n" +
+    "                <!-- Start Form-->\n" +
     "\n" +
-    "              <form id =\"applicationForm\" name=\"form\" class=\"css-form\" ng-submit=\"saveApplication()\" novalidate>\n" +
-    "                  <div class=\"row\">\n" +
+    "                <form id=\"applicationForm\" name=\"form\" class=\"css-form\" ng-submit=\"saveApplication()\" novalidate>\n" +
+    "                    <div class=\"row\">\n" +
     "\n" +
     "\n" +
-    "                    <div class=\"col-xs-12 form-group\">\n" +
-    "                      <input id=\"area-name\" name=\"area-name\" type=\"text\" class=\"form-control\" ng-model=\"areaOfLaw.name\" ng-minlength=2 ng-focus required placeholder=\"Name of Area\"/>\n" +
-    "                      <div class=\"text-danger\" ng-show=\"form.$submitted && form.name.$invalid || form.name.$dirty && form.name.$invalid && !form.name.$focused\">\n" +
+    "                        <div class=\"col-xs-12 form-group\">\n" +
+    "                            <input id=\"area-name\" name=\"area-name\" type=\"text\" class=\"form-control\" ng-model=\"areaOfLaw.name\" ng-minlength=2 ng-focus required placeholder=\"Name of Area\" />\n" +
+    "                            <div class=\"text-danger\" ng-show=\"form.$submitted && form.name.$invalid || form.name.$dirty && form.name.$invalid && !form.name.$focused\">\n" +
     "\n" +
-    "                        <span ng-show=\"form.name.$error.required\">Name of Area is required</span>\n" +
-    "                        <span ng-show=\"form.name.$error.minlength\">Name of Area is required to be at least 2 characters long</span>\n" +
+    "                                <span ng-show=\"form.name.$error.required\">Name of Area is required</span>\n" +
+    "                                <span ng-show=\"form.name.$error.minlength\">Name of Area is required to be at least 2 characters long</span>\n" +
     "\n" +
-    "                      </div>\n" +
+    "                            </div>\n" +
+    "                        </div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
     "                    </div>\n" +
     "\n" +
+    "                    <div class=\"form-group\">\n" +
+    "                        <button id=\"submit\" type=\"submit\" class=\"btn btn-primary-alt pull-right\" style=\"width:120px\" ng-click=\"saveAreaOfLaw()\">Save</button>\n" +
     "\n" +
     "\n" +
-    "                  </div>\n" +
+    "                        <div id=\"submitAppMsg\" class=\"pull-left\" style=\"font-size: larger; position: relative; top: 5px\"></div>\n" +
+    "                    </div>\n" +
     "\n" +
-    "                  <div class = \"form-group\">\n" +
-    "                    <button id=\"submit\" type=\"submit\" class=\"btn btn-primary-alt pull-right\"  style=\"width:120px\" ng-click=\"saveAreaOfLaw()\">Save</button>\n" +
+    "                </form>\n" +
     "\n" +
-    "\n" +
-    "                    <div id=\"submitAppMsg\" class=\"pull-left\" style=\"font-size: larger; position: relative; top: 5px\"></div>\n" +
-    "                  </div>\n" +
-    "\n" +
-    "            </form>\n" +
-    "\n" +
-    "   </div>\n" +
-    "   <div class=\"modal-footer\" style=\"border-top:none\">\n" +
+    "            </div>\n" +
+    "            <div class=\"modal-footer\" style=\"border-top:none\">\n" +
     "\n" +
     "\n" +
+    "            </div>\n" +
+    "        </div>\n" +
     "    </div>\n" +
-    " </div>\n" +
-    "</div>\n" +
-    "</div>\n"
+    "</div>"
   );
 
 

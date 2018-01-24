@@ -60,7 +60,7 @@
 
 
                     </tr>
-                    <tr id="rowTmp_Est" ng-repeat="legislation in legislationReferences.data.legislations | filter:queries.legislationReferencesQuery | orderBy:sortType:sortReverse">
+                    <tr id="rowTmp_Est" ng-repeat="legislation in legislationReferences | filter:queries.legislationReferencesQuery | orderBy:sortType:sortReverse">
                         <td class="editables">
 
                             <input type="checkbox" ng-change="addLegislationReference(legislation)" ng-model="legislation.selected">

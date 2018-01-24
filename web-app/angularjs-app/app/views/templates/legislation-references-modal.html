@@ -42,6 +42,14 @@
 
                         <td style="width:45%">
                             <a ng-click="sortType = 'name'; sortReverse = !sortReverse">
+                Legislation Type
+                <span ng-show="sortType == 'name' && !sortReverse" class="fa fa-caret-up"></span>
+                <span ng-show="sortType == 'name' && sortReverse" class="fa fa-caret-down"></span>
+              </a>
+                        </td>
+
+                        <td style="width:45%">
+                            <a ng-click="sortType = 'name'; sortReverse = !sortReverse">
                Year
                 <span ng-show="sortType == 'name' && !sortReverse" class="fa fa-caret-up"></span>
                 <span ng-show="sortType == 'name' && sortReverse" class="fa fa-caret-down"></span>
@@ -52,7 +60,7 @@
 
 
                     </tr>
-                    <tr id="rowTmp_Est" ng-repeat="legislation in legislationReferences.data | filter:queries.legislationReferencesQuery | orderBy:sortType:sortReverse">
+                    <tr id="rowTmp_Est" ng-repeat="legislation in legislationReferences.data.legislations | filter:queries.legislationReferencesQuery | orderBy:sortType:sortReverse">
                         <td class="editables">
 
                             <input type="checkbox" ng-change="addLegislationReference(legislation)" ng-model="legislation.selected">
@@ -75,6 +83,16 @@
               </span>
 
                         </td>
+
+                        <td class="editables">
+
+                            <span class="editable" name="applicantname" form="rowform" onchange="editItem(this,'itemID')" required>{{legislation.legislationType}}
+
+              </span>
+
+                        </td>
+
+
 
 
                         <td class="editables">

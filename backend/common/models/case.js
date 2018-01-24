@@ -135,12 +135,12 @@ module.exports = function(Case) {
                     var counter = 0
                     cases.map(function(caseInstance) {
                         caseInstance.id = caseInstance._id
-                        var citation = caseInstance.citation.year + '/' + caseInstance.citation.code + '/' + caseInstance.citation.pageNumber
-                        caseInstance.referenceNumber = (!caseInstance.caseNumber && caseInstance.citation.year && caseInstance.citation.code && caseInstance.citation.pageNumber) ? citation : caseInstance.caseNumber
+                        caseInstance.citation = caseInstance.citation.year + '/' + caseInstance.citation.code + '/' + caseInstance.citation.pageNumber
+                            //caseInstance.referenceNumber = (!caseInstance.caseNumber && caseInstance.citation.year && caseInstance.citation.code && caseInstance.citation.pageNumber) ? citation : caseInstance.caseNumber
                             // caseInstance.areaOfLaw = caseInstance.areaOfLawName.name
                         delete caseInstance['_id']
                         delete caseInstance['citation']
-                        delete caseInstance['caseNumber']
+                            // delete caseInstance['caseNumber']
 
                         // ### TEMPORAL AREA OF LAW FIX --> Due to performance issues this should be addressed by changing areaOfLawId in Case Model to ObjectId type so that $lookup op can work
                         var app = Case.app

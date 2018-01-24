@@ -1,0 +1,620 @@
+<div id="addCaseModal" class="modal fade" style="z-index:2000;">
+    <div class="modal-dialog" style="width:65%;padding-left: 2%;padding-right: 2%;">
+        <div class="modal-content" style="margin-top: 8%">
+
+
+
+
+
+
+
+
+            <!--New heading... -->
+
+
+            <div class="modal-header" style="margin-bottom:20px">
+
+                <button type="button" id="closeModal" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <div class="row">
+                    <div class="col-sm-9">
+                        <h4 ng-if="!viewMode" style="font-weight: 100;"><span>&nbsp;&nbsp;Add Case </span></h4>
+                        <h4 ng-if="viewMode" style="font-weight: 100;"><span>&nbsp;&nbsp;{{case.caseNumber}} </span></h4>
+                        <h4 ng-if="viewMode" style="font-weight: 100; margin-top:-10px"><span ng-if="case.appealNumber !== undefined || case.appealNumber !==''">&nbsp;&nbsp;{{case.appealNumber}}</span></h4>
+
+                        <p style="margin-left:8px; margin-top:-10px" ng-if="!viewMode">
+                            Please ensure that you fill in all the mandatory sections (marked with an asterisk, *) in the form.
+                        </p>
+                        <p style="margin-left:8px; margin-top:-10px; font-size:1.2em" ng-if="viewMode">
+                            <span style="font-weight:600">{{case.name}} </span><br />
+                            <span style="font-weight:600">
+                                {{case.citation.year}}/{{case.citation.code}}/{{case.citation.pageNumber}}
+                            </span>
+                            <span class="text-success" style="font-weight:600" ng-if="case.secondaryReview">Reviewed</span><br />
+
+
+                        </p>
+                    </div>
+
+                    <div class="col-sm-3">
+                        <div class="row">
+                            <!--div class="col-sm-12"><toggle-switch on-label = "Reported" off-label="Unreported" model="case.reported" class="primary" knob-label="Status"><toggle-switch></div-->
+                            <!--div class="col-sm-4" style="padding-top:4px; font-size:1.3em">Complete</div><div class="col-sm-8"><toggle-switch on-label = "Yes" off-label="No" model="case.completionStatus" class="success" knob-label="Status"><toggle-switch></div-->
+                            <div class="col-sm-6"><button ng-click="toggleView()" class="btn btn-primary-alt btn-block">{{viewMode?"Edit":"View"}}</button></div>
+                            <div class="col-sm-6 pull-right"><button data-toggle="modal" data-target="#caseReviewModal" class="btn btn-primary-alt btn-block">Review</button></div>
+
+                            <div class="col-xs-12 form-group">
+
+                                <div style="padding-top:4px; margin-top:2px; font-size:1.3em; position:relative; left:-10px" class="col-sm-9">
+                                    <toggle-switch on-label="Yes" off-label="No" model="case.isStub" class="primary switch-large" knob-label="Stub" style="width:195px; height:80%">
+                                        <toggle-switch>
+                                </div>
+                                <div style="padding-top:4px; margin-top:2px; font-size:1.3em; position:relative; left:-10px" class="col-sm-9">
+                                    <toggle-switch on-label="Yes" off-label="No" model="case.reported" class="primary switch" knob-label="Reported" style="width:195px;height:80%">
+                                        <toggle-switch>
+                                </div>
+
+
+                            </div>
+
+
+
+
+
+
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+
+
+
+
+
+
+
+            <div class="modal-body" style="margin-bottom: none; padding-top: 0px; border-bottom:none">
+
+                <!-- Start Form-->
+
+                <form id="applicationForm" name="form" class="css-form" ng-submit="saveApplication()" novalidate ng-if="!viewMode">
+                    <div class="row">
+                        <div class="col-xs-12 form-group">
+                            <input id="name" name="name" type="text" class="form-control" ng-model="case.name" ng-minlength=2 ng-focus placeholder="Case Name" />
+                            <div class="text-danger" ng-show="form.$submitted && form.name.$invalid || form.name.$dirty && form.name.$invalid && !form.name.$focused">
+                                <span><i class="fa fa-exclamation-circle"></i></span>
+                                <span ng-show="form.name.$error.required">Case Name is required</span>
+                                <span ng-show="form.name.$error.minlength">Case Name is required to be at least 2 characters long</span>
+
+                            </div>
+                        </div>
+
+                        <div class="col-xs-6 form-group">
+                            <input id="caseNumber" name="caseNumber" type="text" class="form-control" ng-model="case.caseNumber" ng-minlength=2 ng-focus placeholder="Case Number" />
+                            <div class="text-danger" ng-show="form.$submitted && form.caseNumber.$invalid || form.caseNumber.$dirty && form.caseNumber.$invalid && !form.caseNumber.$focused">
+                                <span><i class="fa fa-exclamation-circle"></i></span>
+                                <span ng-show="form.caseNumber.$error.required">Case Number is required</span>
+                                <span ng-show="form.caseNumber.$error.minlength">Case Number is required to be at least 2 characters long</span>
+
+                            </div>
+                        </div>
+
+                        <div class="col-xs-6 form-group">
+                            <input id="appealNumber" name="appealNumber" type="text" class="form-control" ng-model="case.appealNumber" ng-minlength=2 ng-focus placeholder="Appeal Number" />
+                            <div class="text-danger" ng-show="form.$submitted && form.appealNumber.$invalid || form.appealNumber.$dirty && form.appealNumber.$invalid && !form.appealNumber.$focused">
+                                <span><i class="fa fa-exclamation-circle"></i></span>
+                                <span ng-show="form.appealNumber.$error.required">Appeal Number is required</span>
+                                <span ng-show="form.appealNumber.$error.minlength">Appeal Number is required to be at least 2 characters long</span>
+
+                            </div>
+                        </div>
+
+
+                        <div class="col-xs-6 form-group">
+
+                            <ui-select ng-model="case.areaOfLaw" theme="selectize" title="Area of Law" id="areaOfLaw" tagging="createAreaOfLaw" ng-keydown="createAreaOfLaw($event)">
+                                <ui-select-match placeholder="Area of Law">{{$select.selected.name}}</ui-select-match>
+                                <ui-select-choices repeat="area in areasOfLaw.data | filter:$select.search">
+                                    <span ng-bind-html="area.name | highlight: $select.search"></span>
+
+                                </ui-select-choices>
+                            </ui-select>
+
+
+                        </div>
+
+                        <div class="col-xs-10">Areas of Law</div>
+
+                        <div class="col-xs-12 form-group">
+
+
+                            <ui-select multiple tagging="createAreaOfLaw" ng-keydown="createAreaOfLaw($event)" ng-model="case.areasOfLaw" theme="bootstrap">
+                                <ui-select-match placeholder="Select Areas of Law...">{{$item.name}}</ui-select-match>
+                                <ui-select-choices repeat="area in areasOfLaw.data | filter: $select.search">
+
+                                    <span ng-bind-html="area.name | highlight: $select.search"></span>
+
+                                </ui-select-choices>
+                            </ui-select>
+
+                        </div>
+
+
+
+
+                        <div class="col-xs-12" ng-style="{'text-align':(case.parties.plaintiffs.length == 0 && case.parties.defendants.length == 0)?'center':'left'}" style="border:1px dashed #d3d3d3; border-radius:5px; height:auto; color:#d3d3d3; padding-top:20px; padding-bottom:0px; width:97%; margin-left:12px; margin-bottom:20px;">
+                            <!-- <a ng-click="addCaseParties()"><i style="font-size:2em; position:absolute; top:20px; right:20px; z-index:10000" class="fa fa-plus"></i></a> -->
+                            <br/>
+
+                            <div class="row" style="padding-bottom:20px">
+
+
+                                <div class="col-xs-6" style="margin-top:-35px">
+
+
+                                    <div ng-controller="SynonymController" style="margin-top:10px">
+
+
+                                        <div class="form-group">
+                                            <ui-select ng-model="case.plaintiffSynonym" theme="selectize" title="Court" id="court">
+                                                <ui-select-match placeholder="Synonym for Accuser">{{$select.selected.synonym}}</ui-select-match>
+                                                <ui-select-choices repeat="synonym in plaintiffSynonyms.data | filter:$select.search">
+                                                    <span ng-bind-html="synonym.synonym | highlight: $select.search"></span>
+
+                                                </ui-select-choices>
+                                            </ui-select>
+
+                                        </div>
+
+
+                                    </div>
+
+
+
+
+                                    <div>
+
+                                        <input ng-repeat="plaintiff in case.plaintiffs.data" id="plaintiff" name="plaintiff" type="text" class="form-control" ng-model="plaintiff.name" ng-minlength=2 ng-focus required placeholder="Name of Plaintiff" ng-keydown="addPlaintiff($event)" ng-style="{'margin-bottom':(case.parties.plaintiffs.length == 1)?'0px':'10px'}"
+                                        />
+                                        <div class="text-danger" ng-show="form.$submitted && form.plaintiff.$invalid || form.plaintiff.$dirty && form.plaintiff.$invalid && !form.plaintiff.$focused">
+
+                                            <span ng-show="form.plaintiff.$error.required">Name of Plaintiff is required</span>
+                                            <span ng-show="form.plaintiff.$error.minlength">Name of Plaintiff is required to be at least 2 characters long</span>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                                <div class="col-xs-6" style="margin-top:-35px">
+
+
+
+                                    <div ng-controller="SynonymController" style="margin-top:10px">
+
+
+                                        <div class="form-group">
+                                            <ui-select ng-model="case.defendantSynonym" theme="selectize" title="Court" id="court">
+                                                <ui-select-match placeholder="Synonym for Accused">{{$select.selected.synonym}}</ui-select-match>
+                                                <ui-select-choices repeat="synonym in defendantSynonyms.data | filter:$select.search">
+                                                    <span ng-bind-html="synonym.synonym | highlight: $select.search"></span>
+
+                                                </ui-select-choices>
+                                            </ui-select>
+
+                                        </div>
+
+
+                                    </div>
+                                    <div>
+                                        <input ng-repeat="defendant in case.defendants.data" id="defendant" name="defendant" type="text" class="form-control" ng-model="defendant.name" ng-minlength=2 ng-focus required placeholder="Name of Defendant" ng-keydown="addDefendant($event)" ng-style="{'margin-bottom':(case.parties.defendants.length == 1)?'0px':'10px'}"
+                                        />
+                                        <div class="text-danger" ng-show="form.$submitted && form.defendant.$invalid || form.defendant.$dirty && form.defendant.$invalid && !form.defendant.$focused">
+
+                                            <span ng-show="form.defendant.$error.required">Name of Defendant is required</span>
+                                            <span ng-show="form.defendant.$error.minlength">Name of Defendant is required to be at least 2 characters long</span>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="row" style="border-top:1px dashed #d3d3d3; background-color:#f9f9f9; padding-bottom:20px;">
+
+
+                                <div class="col-xs-6" style="margin-top:0px">
+                                    <h4 ng-if="case.plaintiffSynonym">Appearances{{+" for "+case.plaintiffSynonym.synonym+"s"}}</h4>
+                                    <h4 ng-if="!case.plaintiffSynonym">Appearances</h4>
+                                    <div ng-repeat="appearance in case.appearancesForPlaintiffs">
+
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                <input id="plaintiffAdvocate" name="plaintiffAdvocate" type="text" class="form-control" ng-model="appearance.advocate" ng-minlength=2 ng-focus required placeholder="Advocate" ng-keydown="" ng-style="{'margin-bottom':(case.parties.plaintiffAdvocates.length == 1)?'0px':'10px'}"
+                                                />
+
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <input id="plaintiffFirm" name="plaintiffFirm" type="text" class="form-control" ng-model="appearance.lawFirm" ng-minlength=2 ng-focus required placeholder="Law Firm" ng-keydown="addPlaintiffAdvocate($event)" ng-style="{'margin-bottom':(case.parties.plaintiffAdvocates.length == 1)?'0px':'10px'}"
+                                                />
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-xs-6 text-danger" ng-show="form.$submitted && form.plaintiffAdvocate.$invalid || form.plaintiffAdvocate.$dirty && form.plaintiffAdvocate.$invalid && !form.plaintiffAdvocate.$focused">
+
+                                            <span ng-show="form.plaintiffAdvocate.$error.required">Name of Advocate is required</span>
+                                            <span ng-show="form.plaintiffAdvocate.$error.minlength">Name of Advocate is required to be at least 2 characters long</span>
+
+                                        </div>
+
+                                        <div class="col-xs-6 text-danger pull-right" ng-show="form.$submitted && form.plaintiffFirm.$invalid || form.plaintiffFirm.$dirty && form.plaintiffFirm.$invalid && !form.plaintiffFirm.$focused">
+
+                                            <span ng-show="form.plaintiffFirm.$error.required">Name of Law Firm is required</span>
+                                            <span ng-show="form.plaintiffFirm.$error.minlength">Name of Law Firm is required to be at least 2 characters long</span>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                                <div class="col-xs-6" style="margin-top:0px">
+
+
+
+                                    <h4 ng-if="case.defendantSynonym">Appearances{{+" for "+case.defendantSynonym.synonym+"s"}}</h4>
+                                    <h4 ng-if="!case.defendantSynonym">Appearances</h4>
+                                    <div ng-repeat="appearance in case.appearancesForDefendants">
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                <input id="defendantAdvocate" name="defendantAdvocate" type="text" class="form-control" ng-model="appearance.advocate" ng-minlength=2 ng-focus required placeholder="Advocate" ng-keydown="" ng-style="{'margin-bottom':(case.parties.defendantAdvocates.length == 1)?'0px':'10px'}"
+                                                />
+
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <input id="defendantFirm" name="defendantFirm" type="text" class="form-control" ng-model="appearance.lawFirm" ng-minlength=2 ng-focus required placeholder="Law Firm" ng-keydown="addDefendantAdvocate($event)" ng-style="{'margin-bottom':(case.parties.defendantAdvocates.length == 1)?'0px':'10px'}"
+                                                />
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-6 text-danger" ng-show="form.$submitted && form.defendantAdvocate.$invalid || form.defendantAdvocate.$dirty && form.defendantAdvocate.$invalid && !form.defendantAdvocate.$focused">
+
+                                            <span ng-show="form.defendantAdvocate.$error.required">Name of Advocate is required</span>
+                                            <span ng-show="form.defendantAdvocate.$error.minlength">Name of Advocate is required to be at least 2 characters long</span>
+
+                                        </div>
+                                        <div class="col-xs-6 text-danger pull-right" ng-show="form.$submitted && form.defendantFirm.$invalid || form.defendantFirm.$dirty && form.defendantFirm.$invalid && !form.defendantFirm.$focused">
+
+                                            <span ng-show="form.defendantFirm.$error.required">Name of Law Firm is required</span>
+                                            <span ng-show="form.defendantFirm.$error.minlength">Name of Law Firm is required to be at least 2 characters long</span>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <span ng-show="case.parties.plaintiffs.length == 0 && case.parties.defendants.length == 0" style="font-size:1.5em; font-weight:100">Add Parties</span>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+
+
+
+                        <div class="col-xs-12" style="border:1px dashed #d3d3d3; border-radius:5px; height:auto; color:#d3d3d3; padding-top:10px; padding-bottom:20px; width:97%; margin-left:12px; margin-bottom:20px;">
+                            <h4>Coram</h4>
+                            <input ng-repeat="judge in case.coram" id="judge" name="judge" type="text" class="form-control" ng-model="judge.name" ng-minlength=2 ng-focus required placeholder="Name of Judge" ng-keydown="addJudge($event)" ng-style="{'margin-bottom':(case.coram.length == 1)?'0px':'10px'}"
+                            />
+                            <div class="text-danger" ng-show="form.$submitted && form.coram.$invalid || form.coram.$dirty && form.coram.$invalid && !form.coram.$focused">
+
+                                <span ng-show="form.coram.$error.required">Name of Judge is required</span>
+                                <span ng-show="form.coram.$error.minlength">Name of Judge is required to be at least 2 characters long</span>
+
+                            </div>
+                        </div>
+
+
+
+
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-12" style="border:1px dashed #d3d3d3; border-radius:5px; height:auto; color:#d3d3d3; padding-top:10px; padding-bottom:20px; width:97%; margin-left:12px; margin-bottom:20px;">
+                            <h4>Citation Details</h4>
+                            <div class="row">
+
+                                <div class="col-xs-3 form-group">
+                                    <input id="citation-number" type="text" class="form-control " ng-model="case.citation.number" name="citation-number" ng-minlength=1 ng-focus placeholder="Citation Number" />
+                                    <div class="alert alert-danger" ng-show="form.$submitted && form.contactNumber.$invalid || form.contactNumber.$dirty && form.contactNumber.$invalid && !form.contactNumberNumber.$focused">
+
+                                        <span ng-show="form.citation-number.$error.required">Citation Number is required</span>
+                                        <span ng-show="form.citation-number.$error.minlength">Citation Number is required to be at least 2 characters long.</span>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-3 form-group">
+                                    <input id="citation-year" type="number" class="form-control " ng-model="case.citation.year" name="citation-year" ng-minlength=2 optional ng-focus placeholder="Citation Year" />
+                                    <div class="text-danger" ng-show="form.$submitted && form.citation-year.$invalid || form.citation-year.$dirty && form.citation-year.$invalid && !form.citation-year.$focused">
+
+                                        <span ng-show="form.citation-year.$error.required">Citation Year is required.</span>
+                                        <span ng-show="form.citation-year.$error.minlength">Citation Year is required to be at least 2 characters long.</span>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-xs-3 form-group">
+                                    <input id="citation-code" name="citation-code" type="text" class="form-control " ng-model="case.citation.code" ng-minlength=2 optional ng-focus placeholder="Citation Code" />
+                                    <div class="alert alert-danger" ng-show="form.$submitted && form.citation-code.$invalid || form.citation-code.$dirty && form.citation-code.$invalid && !form.citation-code.$focused">
+
+
+                                        <span ng-show="form.citation-code.$error.required">Citation Code is required.</span>
+                                        <span ng-show="form.citation-code.$error.minlength">Citation Year is required to be at least 2 characters long.</span>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-3 form-group">
+                                    <input id="citation-page-number" name="citation-page-number" type="number" class="form-control " ng-model="case.citation.pageNumber" ng-minlength=1 optional ng-focus placeholder="Citation Page Number" />
+                                    <div class="text-danger" ng-show="form.$submitted && form.citation-page-number.$invalid || form.citation-page-number.$dirty && form.citation-page-number.$invalid && !form.citation-page-number.$focused">
+
+
+                                        <span ng-show="form.citation-page-number.$error.required">Citation Page Number is required.</span>
+                                        <span ng-show="form.citation-page-number.$error.minlength">Citation Page Number is required to be at least 2 characters long.</span>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-xs-12" style="border:1px dashed #d3d3d3; border-radius:5px; height:auto; color:#d3d3d3; padding-top:10px; padding-bottom:20px; width:97%; margin-left:12px; margin-bottom:20px;">
+                            <h4>Court Details</h4>
+                            <div class="row">
+                                <div ng-controller="CourtController">
+
+
+                                    <div class="col-xs-3 form-group">
+                                        <ui-select ng-model="case.court" theme="selectize" title="Court" id="court">
+                                            <ui-select-match placeholder="Court">{{$select.selected.name}}</ui-select-match>
+                                            <ui-select-choices repeat="court in courts.data | filter:$select.search" ng-click="divisionsForCourt(court.id)">
+                                                <span ng-bind-html="court.name | highlight: $select.search"></span>
+
+                                            </ui-select-choices>
+                                        </ui-select>
+
+                                    </div>
+
+                                    <div class="col-xs-3 form-group">
+                                        <ui-select ng-model="case.division" theme="selectize">
+                                            <ui-select-match placeholder="Court Division">{{$select.selected.name}}</ui-select-match>
+                                            <ui-select-choices repeat="division in divisions.data | filter: $select.search">
+                                                <span ng-bind-html="division.name | highlight: $select.search"></span>
+
+                                            </ui-select-choices>
+                                        </ui-select>
+                                    </div>
+
+                                </div>
+
+
+                                <div class="col-xs-3 form-group">
+                                    <ui-select ng-model="case.location" theme="selectize">
+                                        <ui-select-match placeholder="Location">{{$select.selected.name}}</ui-select-match>
+                                        <ui-select-choices repeat="location in locations.data | filter: $select.search">
+                                            <span ng-bind-html="location.name | highlight: $select.search"></span>
+
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+
+                                <div class="col-xs-3 form-group">
+                                    <ui-select ng-model="case.jurisdiction" theme="selectize">
+                                        <ui-select-match placeholder="Jurisdiction">{{$select.selected.name}}</ui-select-match>
+                                        <ui-select-choices repeat="jurisdiction in jurisdictions.data | filter: $select.search">
+                                            <span ng-bind-html="jurisdiction.name | highlight: $select.search"></span>
+
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-12" style="border:1px dashed #d3d3d3; border-radius:5px; height:auto; color:#d3d3d3; padding-top:10px; padding-bottom:20px; width:97%; margin-left:12px; margin-bottom:20px;">
+                            <h4>References</h4>
+                            <div class="row">
+
+
+
+
+
+
+                                <div class="col-xs-10">Legislations</div>
+                                <div class="col-xs-2 pull-right">
+                                    <a class="pull-right" style="color:#d3d3d3; border:#none; font-size:1.2em; border-radius:5px; margin-top:-2px" data-toggle="modal" data-target="#legislationReferencesModal"><i class="fa fa-plus"></i></a>
+                                </div>
+                                <div class="col-xs-12 form-group">
+
+
+                                    <ui-select multiple tagging="createLegislationStab" ng-keydown="saveLegislationStab($event)" ng-model="case.legislationsReferedTo" theme="bootstrap">
+                                        <ui-select-match placeholder="Select Legislations Referred To...">{{$item.legislationName}} {{$item.dateOfAssent | date : 'yyyy'}} <em>{{$item.deleted?'deleted':''}}</em></ui-select-match>
+                                        <ui-select-choices repeat="legislation in legislations | filter: $select.search">
+                                            <span ng-bind-html="legislation.legislationNumber | highlight: $select.search"></span>&nbsp;-
+                                            <span ng-bind-html="legislation.legislationName | highlight: $select.search"></span>
+                                            <small ng-bind-html="legislation.dateOfAssent | date : 'yyyy' | highlight: $select.search"></small>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+
+                                <div class="col-xs-10">Cases</div>
+                                <div class="col-xs-2 pull-right">
+                                    <a class="pull-right" style="color:#d3d3d3; border:#none; font-size:1.2em; border-radius:5px; margin-top:-2px" data-toggle="modal" data-target="#caseReferencesModal"><i class="fa fa-plus"></i></a>
+                                </div>
+                                <div class="col-xs-12 form-group">
+
+
+                                    <ui-select multiple tagging="createStab" ng-keydown="saveStab($event)" ng-model="case.casesReferedTo" theme="bootstrap">
+                                        <ui-select-match placeholder="Select Cases Referred To...">{{$item.name}} <em>{{$item.deleted?'deleted':''}}</em></ui-select-match>
+                                        <ui-select-choices repeat="case in caseReferences | filter: $select.search">
+                                            <span ng-bind-html="case.name | highlight: $select.search"></span>
+                                            <small ng-bind-html="case.citation.year | highlight: $select.search"></small>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+
+                                <div class="col-xs-10">Works</div>
+                                <div class="col-xs-2 pull-right">
+                                    <a class="pull-right" style="color:#d3d3d3; border:#none; font-size:1.2em; border-radius:5px; margin-top:-2px" data-toggle="modal" data-target="#workReferencesModal"><i class="fa fa-plus"></i></a>
+                                </div>
+                                <div class="col-xs-12 form-group">
+
+
+                                    <ui-select multiple tagging ng-model="case.workReferedTo" theme="bootstrap">
+                                        <ui-select-match placeholder="Select Works Referred To...">{{$item.name}} <em>{{$item.deleted?'deleted':''}}</em></ui-select-match>
+                                        <ui-select-choices repeat="work in works | filter: $select.search">
+                                            <span ng-bind-html="work.name | highlight: $select.search"></span>
+
+                                        </ui-select-choices>
+                                    </ui-select>
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-xs-12" style="border:1px dashed #d3d3d3; border-radius:5px; height:auto; color:#d3d3d3; padding-top:10px; padding-bottom:20px; width:97%; margin-left:12px; margin-bottom:20px;">
+                            <h4>Ruling</h4>
+                            <div class="row">
+                                <div class="col-xs-12 col-md-6 form-group">
+                                    <textarea id="summaryOfFacts" name="summaryOfFacts" type="text" style="height: 90px" min-word-count="2" class="form-control" ng-model="case.summaryOfFacts" ng-minlength=2 required ng-focus placeholder="Summary of Facts" />
+                                    <div class="text-danger" ng-show="form.$submitted && form.summaryOfFacts.$invalid || form.summaryOfFacts.$dirty && form.summaryOfFacts.$invalid && !form.summaryOfFacts.$focused">
+
+                                        <span ng-show="form.summaryOfFacts.$error.required">Summary of Facts is required</span>
+                                        <span ng-show="form.summaryOfFacts.$error.minlength">Summary of Facts is required to be at least 2 characters long</span>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-12 col-md-6 form-group">
+                                    <textarea id="summaryOfRuling" name="summaryOfRuling" type="text" style="height: 90px" min-word-count="2" class="form-control" ng-model="case.summaryOfRuling" ng-minlength=2 required ng-focus placeholder="Summary of Ruling" />
+                                    <div class="text-danger" ng-show="form.$submitted && form.summaryOfRuling.$invalid || form.summaryOfRuling.$dirty && form.summaryOfRuling.$invalid && !form.summaryOfRuling.$focused">
+
+                                        <span ng-show="form.summaryOfRuling.$error.required">Summary of Ruling is required</span>
+                                        <span ng-show="form.summaryOfRuling.$error.minlength">Summary of Ruling is required to be at least 2 characters long</span>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-12 form-group">
+                                    <textarea ng-model="case.judgement" id="judgement" name="judgement" type="text" style="height: 90px" min-word-count="2" max-word-count="100" class="form-control" ng-minlength=2 required ng-focus placeholder="Judgement" />
+                                    <div class="text-danger" ng-show="form.$submitted && form.judgement.$invalid || form.judgement.$dirty && form.judgement.$invalid && !form.judgement.$focused">
+
+                                        <span ng-show="form.judgement.$error.required">Judgement is required</span>
+                                        <span ng-show="form.judgement.$error.minlength">Judgement is required to be at least 2 characters long</span>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="col-xs-12" style="border:1px dashed #d3d3d3; border-radius:5px; height:auto; color:#d3d3d3; padding-top:10px; padding-bottom:20px; width:97%; margin-left:12px; margin-bottom:20px;">
+                            <h4>Notes</h4>
+                            <div class="row">
+                                <div class="col-xs-12 form-group">
+                                    <textarea ng-model="case.notes" id="notes" name="notes" type="text" style="height: 90px" min-word-count="2" max-word-count="100" class="form-control" ng-focus placeholder="Notes (Not visible to end user)" />
+
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+
+                    </div>
+
+
+
+
+
+
+
+
+                </form>
+                <!--End Form-->
+
+                <!--div class="row">
+
+              <div class="col-xs-12">
+
+                <panel heading="Case Details" >
+                  <panel-controls>
+                        <a href=""><panel-control-collapse class="fa fa-chevron-down"></panel-control-collapse></a>
+
+
+
+                  </panel-controls>
+                  <div class="row">
+
+                      <div class="col-lg-12">
+                        Area of Law: {{case.areaOfLaw}}
+                      </div>
+                  </div>
+                </panel>
+
+
+            </div>
+        </div-->
+
+
+                <ng-include src="'templates/case-view-mode.html'"></ng-include>
+
+
+                <!--  </div>  -->
+
+            </div>
+            <div class="modal-footer" style="">
+                <div class="row">
+                    <div class="col-xs-12 col-md-8"></div>
+                    <div class="col-xs-12 col-md-2"><button id="submit" ng-click="mergeDuplicates()" type="submit" class="btn btn-primary-alt pull-right btn-block btn-md" ng-class="{'btn btn-primary-alt btn-block pull-right':(mergeStatus==0), 'btn btn-primary btn-block pull-right':(mergeStatus == 1), 'btn btn-success btn-block pull-right':(mergeStatus == 2)} "><i ng-if="mergeStatus==1" class='fa fa-fw fa-sun-o fa-spin'></i>{{(mergeStatus==0)?'Mark as Primary':(mergeStatus==1)?'Marking...':'Primary'}}</button></div>
+                    <div class="col-xs-12 col-md-2"><button id="submit" type="submit" class="btn btn-primary-alt btn-block btn-md" style="" ng-click="saveCase()" ng-class="{'btn btn-primary-alt pull-right':(saveStatus==0), 'btn btn-primary pull-right':(saveStatus == 1), 'btn btn-success pull-right':(saveStatus == 2)} "
+                            style="width:120px"><i ng-if="saveStatus==1" class='fa fa-fw fa-sun-o fa-spin'></i>{{(saveStatus==0)?'Save Case':(saveStatus==1)?'Saving...':'Saved'}}</button></div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</div>
+
+<ng-include src="'templates/case-references-modal.html'"></ng-include>
+<ng-include src="'templates/legislation-references-modal.html'"></ng-include>
+<ng-include src="'templates/work-references-modal.html'"></ng-include>
+<ng-include src="'templates/case-review-modal.html'"></ng-include>

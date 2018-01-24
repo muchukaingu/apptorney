@@ -1,0 +1,66 @@
+<div id="addLegislationPart" class="modal fade" style="z-index:3000; background-color:rgba(0, 0, 0, 0.5);">
+    <div class="modal-dialog" style="width:50%;padding-left: 2%;padding-right: 2%; ">
+        <div class="modal-content" style="margin-top: 8%">
+              <div class="modal-header" style="border-bottom:none">
+                  <button type="button" id="closeModal" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                  <h4 style="font-weight: 100;"><span id="CustomerHeading">&nbsp;&nbsp;Edit {{legislationPart.title}}</span></h4>
+                  <p id="WelcomeMessage" style="margin-left:12px">Please ensure that you fill in all the mandatory sections in the form.</p>
+              </div>
+              <div class="modal-body" style="margin-bottom: none; padding-top: 0px; border-bottom:none">
+                  <!-- Start Form-->
+                  <form id ="applicationForm" name="form" class="css-form" novalidate>
+                      <div class="row">
+                          <div class="col-xs-12 col-md-3 form-group">
+                              <input id="court-name" name="court-name" type="text" class="form-control" ng-model="legislationPart.number" ng-focus placeholder="Number" ng-if="legislationPart.level"/>
+                          </div>
+                          <div class="" ng-class="(legislationPart.level)?'col-xs-12 col-md-9 form-group':'col-xs-12 col-md-12 form-group'">
+                              <input id="court-name" name="court-name" type="text" class="form-control" ng-model="legislationPart.title" ng-minlength=2 ng-focus required placeholder="Title"/>
+                              <div class="text-danger" ng-show="form.$submitted && form.court-name.$invalid || form.court-name.$dirty && form.court-name.$invalid && !form.court-name.$focused">
+                                  <span ng-show="form.court-name.$error.required">Title is required</span>
+                                  <span ng-show="form.court-name.$error.minlength">Title is required to be at least 2 characters long</span>
+                              </div>
+                          </div>
+                          <div class="col-xs-12 col-md-12 form-group">
+                              <textarea id="preamble" name="preamble" type="text" style="height: 90px; width:100%"; min-word-count="2"  class="form-control" ng-model="legislationPart.content"  ng-minlength=2 required ng-focus placeholder="Content *"/>
+                              <div class="text-danger" ng-show="form.$submitted && form.preamble.$invalid || form.preamble.$dirty && form.preamble.$invalid && !form.preamble.$focused">
+                                <span ng-show="form.preamble.$error.required">Content is required</span>
+                                <span ng-show="form.preamble.$error.minlength">Content is required to be at least 2 characters long</span>
+                              </div>
+                          </div>
+
+                          <div class="col-xs-12" style="margin-top:-18px; margin-bottom:15px">
+
+                            <span ng-if="legislationPart.file.data.type.substring(0,5)=='image'"><img ng-src="{{ baseURL+legislationPart.file.data.url }}" width="150px" /></span><br> <!--change hard coding to server URL -->
+                            <span ng-if="legislationPart.file.data.type.substring(0,5)!=='image' && legislationPart.file !== undefined"><a target="_blank" ng-href="{{ baseURL+legislationPart.file.data.url }}">{{legislationPart.title}} File</a></span><br> <!--change hard coding to server URL -->
+                          </div>
+
+                    	    <div class="col-xs-3 pull-left" >
+                      		    <div class="btn-group" data-dropdown>
+                      		      <button type="button" class="btn btn-default-alt dropdown-toggle alt-border" id="stageSelector">
+                      		        <span ng-if="!filtered">{{(legislationPart.file==undefined)?"Add":"Replace"}} Attachment</span>
+                      		        <i class="fa fa-caret-down"></i>
+                      		      </button>
+                      		      <ul class="dropdown-menu" role="menu" style="text-align: left; position:relative; left:1px; padding-right:21px">
+                                   <li><a class="dropdown-toggle" ng-click="addTable(); legislationPart.attachmentType = 'table'"><i class="fa fa-th"></i>&nbsp;&nbsp;Add Table&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+                                   <li><a class="dropdown-toggle" ngf-select="uploadTable($files)" ngf-multiple="false" ngf-accept="'.csv'"><i class="fa fa-th"></i>&nbsp;&nbsp;Upload Table&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+
+                                   <li><a class="dropdown-toggle" data-toggle="modal" ng-click="legislationPart.attachmentType = 'file'"><i class="fa fa-image"></i></i>&nbsp;&nbsp;Add File&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+                      		         <!--li ng-repeat="type in legislationTypes"><a class="dropdown-toggle" ng-click="itemselected(stage)"><i class="fa fa-file"></i>&nbsp;&nbsp;Add {{type.name}}&nbsp;&nbsp;&nbsp;&nbsp;</a></li-->
+                      		      </ul>
+                      		    </div>
+                    	    </div>
+                          <div class="col-xs-12 pull-left" ng-if="legislationPart.attachmentType == 'file'" style="margin-top:10px" ng-controller = "TestController">
+                            <ng-include src="'templates/file-manager.html'"></ng-include>
+                          </div>
+                      </div>
+                  </form>
+                  <!-- End Form-->
+                  <div class="" style="position: relative; left: 50%; margin-left: -150px; height: 50px; margin-top: 40px; font-size:1.2em" ng-if="loading">
+                    <i class='fa fa-fw fa-sun-o fa-spin'></i> {{message}}
+                  </div>
+                  <ng-include src="'templates/table.html'"></ng-include>
+              </div>
+              <div class="modal-footer" style="border-top:none"></div>
+        </div>
+    </div>
+</div>

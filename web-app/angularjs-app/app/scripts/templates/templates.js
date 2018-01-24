@@ -904,6 +904,9 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\t\t                    <span ng-show=\"sortType == 'caseNumber' && sortReverse\" class=\"fa fa-caret-down\"></span>\n" +
     "\t                    </a>\n" +
     "                        </td>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
     "                        <td style=\"width:35%\">\n" +
     "                            <a ng-click=\"sortType = 'name'; sortReverse = !sortReverse\">\n" +
     "\t\t                    Name\n" +
@@ -914,7 +917,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "                        <td style=\"width:10%\">\n" +
     "                            <a ng-click=\"sortType = 'areaOfLaw'; sortReverse = !sortReverse\">\n" +
-    "\t\t                    Citation Year\n" +
+    "\t\t                    Citation\n" +
     "\t\t                    <span ng-show=\"sortType == 'areaOfLaw' && !sortReverse\" class=\"fa fa-caret-up\"></span>\n" +
     "\t\t                    <span ng-show=\"sortType == 'areaOfLaw' && sortReverse\" class=\"fa fa-caret-down\"></span>\n" +
     "\t                    </a>\n" +
@@ -946,7 +949,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "                        <td class=\"editables\">\n" +
     "\n" +
-    "                            <span class=\"editable\" name=\"applicantname\" form=\"rowform\" onchange=\"editItem(this,'itemID')\" required>{{case.citation.year}}</span>\n" +
+    "                            <span class=\"editable\" name=\"applicantname\" form=\"rowform\" onchange=\"editItem(this,'itemID')\" required>{{case.citation}}</span>\n" +
     "\n" +
     "                        </td>\n" +
     "\n" +

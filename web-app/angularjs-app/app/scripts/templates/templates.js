@@ -1980,6 +1980,14 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "                        <td style=\"width:45%\">\n" +
     "                            <a ng-click=\"sortType = 'name'; sortReverse = !sortReverse\">\n" +
+    "                Legislation Type\n" +
+    "                <span ng-show=\"sortType == 'name' && !sortReverse\" class=\"fa fa-caret-up\"></span>\n" +
+    "                <span ng-show=\"sortType == 'name' && sortReverse\" class=\"fa fa-caret-down\"></span>\n" +
+    "              </a>\n" +
+    "                        </td>\n" +
+    "\n" +
+    "                        <td style=\"width:45%\">\n" +
+    "                            <a ng-click=\"sortType = 'name'; sortReverse = !sortReverse\">\n" +
     "               Year\n" +
     "                <span ng-show=\"sortType == 'name' && !sortReverse\" class=\"fa fa-caret-up\"></span>\n" +
     "                <span ng-show=\"sortType == 'name' && sortReverse\" class=\"fa fa-caret-down\"></span>\n" +
@@ -1990,7 +1998,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "\n" +
     "                    </tr>\n" +
-    "                    <tr id=\"rowTmp_Est\" ng-repeat=\"legislation in legislationReferences.data | filter:queries.legislationReferencesQuery | orderBy:sortType:sortReverse\">\n" +
+    "                    <tr id=\"rowTmp_Est\" ng-repeat=\"legislation in legislationReferences | filter:queries.legislationReferencesQuery | orderBy:sortType:sortReverse\">\n" +
     "                        <td class=\"editables\">\n" +
     "\n" +
     "                            <input type=\"checkbox\" ng-change=\"addLegislationReference(legislation)\" ng-model=\"legislation.selected\">\n" +
@@ -2013,6 +2021,16 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "              </span>\n" +
     "\n" +
     "                        </td>\n" +
+    "\n" +
+    "                        <td class=\"editables\">\n" +
+    "\n" +
+    "                            <span class=\"editable\" name=\"applicantname\" form=\"rowform\" onchange=\"editItem(this,'itemID')\" required>{{legislation.legislationType}}\n" +
+    "\n" +
+    "              </span>\n" +
+    "\n" +
+    "                        </td>\n" +
+    "\n" +
+    "\n" +
     "\n" +
     "\n" +
     "                        <td class=\"editables\">\n" +

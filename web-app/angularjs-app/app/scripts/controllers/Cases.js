@@ -798,6 +798,7 @@ angular.module('apptorney')
                     Legislation.flexisearch({ term: term },
                         function(res) {
                             $scope.legislationReferences = res.data.legislations
+                            console.log("res", $scope.legislationReferences)
                             $scope.legislationReferences.forEach(function(ref) {
                                 ref.year = new Date(ref.dateOfAssent).getFullYear()
                                 ref.legislationNumbers = ref.legislationNumbers ? ref.legislationNumbers : ref.legislationNumber

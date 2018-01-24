@@ -937,7 +937,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "                        <td class=\"editables\">\n" +
     "\n" +
-    "                            <span class=\"editable\" name=\"applicantname\" form=\"rowform\" onchange=\"editItem(this,'itemID')\" required>{{case.referenceNumber}}</span>\n" +
+    "                            <span class=\"editable\" name=\"applicantname\" form=\"rowform\" onchange=\"editItem(this,'itemID')\" required>{{case.caseNumber}}</span>\n" +
     "\n" +
     "                        </td>\n" +
     "\n" +

@@ -897,19 +897,34 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                        </a>\n" +
     "                        </td>\n" +
     "\n" +
-    "                        <td style=\"width:45%\">\n" +
+    "                        <td style=\"width:15%\">\n" +
+    "                            <a ng-click=\"sortType = 'caseNumber'; sortReverse = !sortReverse\">\n" +
+    "\t\t                    Case Number\n" +
+    "\t\t                    <span ng-show=\"sortType == 'caseNumber' && !sortReverse\" class=\"fa fa-caret-up\"></span>\n" +
+    "\t\t                    <span ng-show=\"sortType == 'caseNumber' && sortReverse\" class=\"fa fa-caret-down\"></span>\n" +
+    "\t                    </a>\n" +
+    "                        </td>\n" +
+    "                        <td style=\"width:35%\">\n" +
     "                            <a ng-click=\"sortType = 'name'; sortReverse = !sortReverse\">\n" +
-    "                          Name of Case\n" +
-    "                          <span ng-show=\"sortType == 'name' && !sortReverse\" class=\"fa fa-caret-up\"></span>\n" +
-    "                          <span ng-show=\"sortType == 'name' && sortReverse\" class=\"fa fa-caret-down\"></span>\n" +
-    "                        </a>\n" +
+    "\t\t                    Name\n" +
+    "\t\t                    <span ng-show=\"sortType == 'name' && !sortReverse\" class=\"fa fa-caret-up\"></span>\n" +
+    "\t\t                    <span ng-show=\"sortType == 'name' && sortReverse\" class=\"fa fa-caret-down\"></span>\n" +
+    "\t                    </a>\n" +
+    "                        </td>\n" +
+    "\n" +
+    "                        <td style=\"width:10%\">\n" +
+    "                            <a ng-click=\"sortType = 'areaOfLaw'; sortReverse = !sortReverse\">\n" +
+    "\t\t                    Citation Year\n" +
+    "\t\t                    <span ng-show=\"sortType == 'areaOfLaw' && !sortReverse\" class=\"fa fa-caret-up\"></span>\n" +
+    "\t\t                    <span ng-show=\"sortType == 'areaOfLaw' && sortReverse\" class=\"fa fa-caret-down\"></span>\n" +
+    "\t                    </a>\n" +
     "                        </td>\n" +
     "\n" +
     "\n" +
     "\n" +
     "\n" +
     "                    </tr>\n" +
-    "                    <tr id=\"rowTmp_Est\" ng-repeat=\"case in caseReferences.data | filter:queries.caseReferencesQuery | orderBy:sortType:sortReverse\">\n" +
+    "                    <tr id=\"rowTmp_Est\" ng-repeat=\"case in caseReferences | filter:queries.caseReferencesQuery | orderBy:sortType:sortReverse\">\n" +
     "                        <td class=\"editables\">\n" +
     "\n" +
     "                            <input type=\"checkbox\" ng-change=\"addCaseReference(case)\" ng-model=\"case.selected\">\n" +
@@ -919,9 +934,19 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "                        <td class=\"editables\">\n" +
     "\n" +
-    "                            <span class=\"editable\" name=\"applicantname\" form=\"rowform\" onchange=\"editItem(this,'itemID')\" required>{{case.name}}\n" +
+    "                            <span class=\"editable\" name=\"applicantname\" form=\"rowform\" onchange=\"editItem(this,'itemID')\" required>{{case.caseNumber}}</span>\n" +
     "\n" +
-    "                        </span>\n" +
+    "                        </td>\n" +
+    "\n" +
+    "                        <td class=\"editables\">\n" +
+    "\n" +
+    "                            <span class=\"editable\" name=\"applicantname\" form=\"rowform\" onchange=\"editItem(this,'itemID')\" required>{{case.name}}</span>\n" +
+    "\n" +
+    "                        </td>\n" +
+    "\n" +
+    "                        <td class=\"editables\">\n" +
+    "\n" +
+    "                            <span class=\"editable\" name=\"applicantname\" form=\"rowform\" onchange=\"editItem(this,'itemID')\" required>{{case.citation.year}}</span>\n" +
     "\n" +
     "                        </td>\n" +
     "\n" +

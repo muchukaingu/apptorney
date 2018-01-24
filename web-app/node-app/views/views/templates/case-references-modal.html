@@ -26,19 +26,34 @@
                         </a>
                         </td>
 
-                        <td style="width:45%">
+                        <td style="width:15%">
+                            <a ng-click="sortType = 'caseNumber'; sortReverse = !sortReverse">
+		                    Case Number
+		                    <span ng-show="sortType == 'caseNumber' && !sortReverse" class="fa fa-caret-up"></span>
+		                    <span ng-show="sortType == 'caseNumber' && sortReverse" class="fa fa-caret-down"></span>
+	                    </a>
+                        </td>
+                        <td style="width:35%">
                             <a ng-click="sortType = 'name'; sortReverse = !sortReverse">
-                          Name of Case
-                          <span ng-show="sortType == 'name' && !sortReverse" class="fa fa-caret-up"></span>
-                          <span ng-show="sortType == 'name' && sortReverse" class="fa fa-caret-down"></span>
-                        </a>
+		                    Name
+		                    <span ng-show="sortType == 'name' && !sortReverse" class="fa fa-caret-up"></span>
+		                    <span ng-show="sortType == 'name' && sortReverse" class="fa fa-caret-down"></span>
+	                    </a>
+                        </td>
+
+                        <td style="width:10%">
+                            <a ng-click="sortType = 'areaOfLaw'; sortReverse = !sortReverse">
+		                    Citation Year
+		                    <span ng-show="sortType == 'areaOfLaw' && !sortReverse" class="fa fa-caret-up"></span>
+		                    <span ng-show="sortType == 'areaOfLaw' && sortReverse" class="fa fa-caret-down"></span>
+	                    </a>
                         </td>
 
 
 
 
                     </tr>
-                    <tr id="rowTmp_Est" ng-repeat="case in caseReferences.data | filter:queries.caseReferencesQuery | orderBy:sortType:sortReverse">
+                    <tr id="rowTmp_Est" ng-repeat="case in caseReferences | filter:queries.caseReferencesQuery | orderBy:sortType:sortReverse">
                         <td class="editables">
 
                             <input type="checkbox" ng-change="addCaseReference(case)" ng-model="case.selected">
@@ -48,9 +63,19 @@
 
                         <td class="editables">
 
-                            <span class="editable" name="applicantname" form="rowform" onchange="editItem(this,'itemID')" required>{{case.name}}
+                            <span class="editable" name="applicantname" form="rowform" onchange="editItem(this,'itemID')" required>{{case.caseNumber}}</span>
 
-                        </span>
+                        </td>
+
+                        <td class="editables">
+
+                            <span class="editable" name="applicantname" form="rowform" onchange="editItem(this,'itemID')" required>{{case.name}}</span>
+
+                        </td>
+
+                        <td class="editables">
+
+                            <span class="editable" name="applicantname" form="rowform" onchange="editItem(this,'itemID')" required>{{case.citation.year}}</span>
 
                         </td>
 

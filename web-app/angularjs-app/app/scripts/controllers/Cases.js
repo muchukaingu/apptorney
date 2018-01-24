@@ -743,43 +743,22 @@ angular.module('apptorney')
 
         $scope.$watch('queries.caseReferencesQuery', function() {
             if ($scope.queries.caseReferencesQuery) {
-                if ($scope.queries.caseReferencesQuery.length < 5) {
-                    $scope.gettingCaseReferences = false
-                    $scope.caseReferences = []
-                } else if ($scope.queries.caseReferencesQuery.length >= 5 && $scope.gettingCaseReferences == false) {
+                $scope.gettingCaseReferences = false
+
+                var term = $scope.queries.caseReferencesQuery
+                if ($scope.gettingCaseReferences == false && term.length > 3) {
+                    console.log(term)
                     $scope.gettingCaseReferences = true
-                    $scope.caseReferences = Case.find({
-                            filter: {
-                                fields: {
-                                    defendants: true,
-                                    plaintiffs: true,
-                                    id: true
-
-                                }
-
-                            }
-                        },
-                        function(cases) {
-                            cases.forEach(function(aCase) {
-                                aCase.accuser = ''
-                                aCase.accused = ''
-                                if (aCase.plaintiffs.length > 1) {
-                                    aCase.accuser = aCase.plaintiffs[0].name + ' and Others'
-                                } else {
-                                    aCase.accuser = aCase.plaintiffs[0].name
-                                }
-
-                                if (aCase.defendants.length > 1) {
-                                    aCase.accused = aCase.defendants[0].name + ' and Others'
-                                } else {
-                                    aCase.accused = aCase.defendants[0].name
-                                }
-
-                                aCase.name = aCase.accuser + ' Vs. ' + aCase.accused
-                            })
-
-                            // console.info("Case References", $scope.caseReferences)
-
+                    Case.flexisearch({ term: term },
+                        function(res) {
+                            $scope.caseReferences = res.data.cases
+                            console.log('res', $scope.caseReferences)
+                                /* $scope.caseReferences.forEach(function(ref) {
+                                     ref.year = new Date(ref.dateOfAssent).getFullYear()
+                                     ref.legislationNumbers = ref.legislationNumbers ? ref.legislationNumbers : ref.legislationNumber
+                                         // console.log(parent.year)
+                                 })*/
+                            $scope.gettingCaseReferences = false
                         },
                         function(errorResponse) {}
                     )
@@ -798,7 +777,7 @@ angular.module('apptorney')
                     Legislation.flexisearch({ term: term },
                         function(res) {
                             $scope.legislationReferences = res.data.legislations
-                            console.log("res", $scope.legislationReferences)
+                            console.log('res', $scope.legislationReferences)
                             $scope.legislationReferences.forEach(function(ref) {
                                 ref.year = new Date(ref.dateOfAssent).getFullYear()
                                 ref.legislationNumbers = ref.legislationNumbers ? ref.legislationNumbers : ref.legislationNumber
@@ -814,23 +793,24 @@ angular.module('apptorney')
 
         $scope.$watch('queries.workReferencesQuery', function() {
             if ($scope.queries.workReferencesQuery) {
-                if ($scope.queries.workReferencesQuery.length < 5) {
-                    $scope.gettingWorkReferences = false
-                    $scope.workReferences = []
-                } else if ($scope.queries.workReferencesQuery.length >= 5 && $scope.gettingWorkReferences == false) {
-                    $scope.gettingWorkReferences = true
-                    $scope.workReferences = Work.find({
-                            filter: {
-                                fields: {
-                                    name: true,
-                                    id: true
+                $scope.gettingLegislationReferences = false
 
-                                }
-
-                            }
+                var term = $scope.queries.legislationReferencesQuery
+                if ($scope.gettingLegislationReferences == false && term.length > 3) {
+                    console.log(term)
+                    $scope.gettingLegislationReferences = true
+                    Legislation.flexisearch({ term: term },
+                        function(res) {
+                            $scope.legislationReferences = res.data.legislations
+                            console.log('res', $scope.legislationReferences)
+                            $scope.legislationReferences.forEach(function(ref) {
+                                ref.year = new Date(ref.dateOfAssent).getFullYear()
+                                ref.legislationNumbers = ref.legislationNumbers ? ref.legislationNumbers : ref.legislationNumber
+                                    // console.log(parent.year)
+                            })
+                            $scope.gettingLegislationReferences = false
                         },
-                        function(work) {},
-                        function(error) {}
+                        function(errorResponse) {}
                     )
                 }
             }

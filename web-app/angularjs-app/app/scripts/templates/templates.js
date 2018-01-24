@@ -90,7 +90,9 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "            <div class=\"modal-header\" style=\"margin-bottom:20px\">\n" +
     "\n" +
-    "                <button type=\"button\" id=\"closeModal\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>\n" +
+    "                <button type=\"button\" id=\"closeModal\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\"><i class=\"fa fa-times\"></i></button>\n" +
+    "                <button type=\"button\" id=\"closeModal\" class=\"close\" ng-click=\"toggleView()\" aria-hidden=\"true\"><i ng-class=\"{'fa fa-pencil':viewMode,'fa fa-bars':!viewMode}\"></i></button>\n" +
+    "                <button type=\"button\" id=\"closeModal\" class=\"close\" data-toggle=\"modal\" data-target=\"#caseReviewModal\" aria-hidden=\"true\"><i class=\"fa fa-check\"></i></button>\n" +
     "                <div class=\"row\">\n" +
     "                    <div class=\"col-sm-9\">\n" +
     "                        <h4 ng-if=\"!viewMode\" style=\"font-weight: 100;\"><span>&nbsp;&nbsp;Add Case </span></h4>\n" +
@@ -115,16 +117,15 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                        <div class=\"row\">\n" +
     "                            <!--div class=\"col-sm-12\"><toggle-switch on-label = \"Reported\" off-label=\"Unreported\" model=\"case.reported\" class=\"primary\" knob-label=\"Status\"><toggle-switch></div-->\n" +
     "                            <!--div class=\"col-sm-4\" style=\"padding-top:4px; font-size:1.3em\">Complete</div><div class=\"col-sm-8\"><toggle-switch on-label = \"Yes\" off-label=\"No\" model=\"case.completionStatus\" class=\"success\" knob-label=\"Status\"><toggle-switch></div-->\n" +
-    "                            <div class=\"col-sm-6\"><button ng-click=\"toggleView()\" class=\"btn btn-primary-alt btn-block\">{{viewMode?\"Edit\":\"View\"}}</button></div>\n" +
-    "                            <div class=\"col-sm-6 pull-right\"><button data-toggle=\"modal\" data-target=\"#caseReviewModal\" class=\"btn btn-primary-alt btn-block\">Review</button></div>\n" +
+    "\n" +
     "\n" +
     "                            <div class=\"col-xs-12 form-group\">\n" +
     "\n" +
-    "                                <div style=\"padding-top:4px; margin-top:2px; font-size:1.3em; position:relative; left:-10px\" class=\"col-sm-9\">\n" +
+    "                                <div style=\"padding-top:4px; margin-top:2px; font-size:1.3em; position:relative; left:-10px\" class=\"col-sm-12\">\n" +
     "                                    <toggle-switch on-label=\"Yes\" off-label=\"No\" model=\"case.isStub\" class=\"primary switch-large\" knob-label=\"Stub\" style=\"width:195px; height:80%\">\n" +
     "                                        <toggle-switch>\n" +
     "                                </div>\n" +
-    "                                <div style=\"padding-top:4px; margin-top:2px; font-size:1.3em; position:relative; left:-10px\" class=\"col-sm-9\">\n" +
+    "                                <div style=\"padding-top:4px; margin-top:2px; font-size:1.3em; position:relative; left:-10px\" class=\"col-sm-12\">\n" +
     "                                    <toggle-switch on-label=\"Yes\" off-label=\"No\" model=\"case.reported\" class=\"primary switch\" knob-label=\"Reported\" style=\"width:195px;height:80%\">\n" +
     "                                        <toggle-switch>\n" +
     "                                </div>\n" +
@@ -869,64 +870,63 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
 
   $templateCache.put('templates/case-references-modal.html',
     "<div id=\"caseReferencesModal\" class=\"modal fade\" style=\"z-index:4000; background-color: rgba(0,0,0,0.5);\">\n" +
-    "  <div class=\"modal-dialog\" style=\"width:40%;padding-left: 2%;padding-right: 2%;\">\n" +
-    "    <div class=\"modal-content\" style=\"margin-top: 8%\">\n" +
+    "    <div class=\"modal-dialog\" style=\"width:40%;padding-left: 2%;padding-right: 2%;\">\n" +
+    "        <div class=\"modal-content\" style=\"margin-top: 8%\">\n" +
     "\n" +
     "\n" +
     "\n" +
     "\n" +
     "\n" +
     "\n" +
-    "  <div class=\"modal-body\" style=\"margin-bottom: none; padding-top: 10px; border-bottom:none; height:600px; overflow-y: auto;\">\n" +
+    "            <div class=\"modal-body\" style=\"margin-bottom: none; padding-top: 10px; border-bottom:none; height:600px; overflow-y: auto;\">\n" +
     "\n" +
     "\n" +
     "\n" +
-    "              <h2>Select Cases Referred To</h2>\n" +
-    "              <div class=\"input-icon right mb10\">\n" +
+    "                <h2>Select Cases Referred To</h2>\n" +
+    "                <div class=\"input-icon right mb10\">\n" +
     "                    <i class=\"fa fa-search\"></i>\n" +
-    "                    <input type=\"text\" ng-model=\"queries.caseReferencesQuery\" class=\"form-control\" placeholder=\"Search...\" id=\"Search\" ng-keydown = \"saveStab($event)\">\n" +
-    "              </div>\n" +
-    "                  <table id=\"casesTbl\" class=\"table table-condensed\">\n" +
+    "                    <input type=\"text\" ng-model=\"queries.caseReferencesQuery\" class=\"form-control\" placeholder=\"Search...\" id=\"Search\" ng-keydown=\"saveStab($event)\">\n" +
+    "                </div>\n" +
+    "                <table id=\"casesTbl\" class=\"table table-condensed\">\n" +
     "                    <tr style=\"background-color: #E8E9EC\" class=\"tableHeaders\">\n" +
-    "                      <td style=\"width:5%\">\n" +
-    "                        <a ng-click=\"sortType = 'caseNumber'; sortReverse = !sortReverse\">\n" +
+    "                        <td style=\"width:5%\">\n" +
+    "                            <a ng-click=\"sortType = 'caseNumber'; sortReverse = !sortReverse\">\n" +
     "                          Selected\n" +
     "                          <span ng-show=\"sortType == 'caseNumber' && !sortReverse\" class=\"fa fa-caret-up\"></span>\n" +
     "                          <span ng-show=\"sortType == 'caseNumber' && sortReverse\" class=\"fa fa-caret-down\"></span>\n" +
     "                        </a>\n" +
-    "                      </td>\n" +
+    "                        </td>\n" +
     "\n" +
-    "                      <td style=\"width:45%\">\n" +
-    "                        <a ng-click=\"sortType = 'name'; sortReverse = !sortReverse\">\n" +
+    "                        <td style=\"width:45%\">\n" +
+    "                            <a ng-click=\"sortType = 'name'; sortReverse = !sortReverse\">\n" +
     "                          Name of Case\n" +
     "                          <span ng-show=\"sortType == 'name' && !sortReverse\" class=\"fa fa-caret-up\"></span>\n" +
     "                          <span ng-show=\"sortType == 'name' && sortReverse\" class=\"fa fa-caret-down\"></span>\n" +
     "                        </a>\n" +
-    "            </td>\n" +
+    "                        </td>\n" +
     "\n" +
     "\n" +
     "\n" +
     "\n" +
     "                    </tr>\n" +
-    "                    <tr id=\"rowTmp_Est\" ng-repeat=\"case in caseReferences | filter:queries.caseReferencesQuery | orderBy:sortType:sortReverse\" >\n" +
-    "                      <td class=\"editables\">\n" +
+    "                    <tr id=\"rowTmp_Est\" ng-repeat=\"case in caseReferences.data | filter:queries.caseReferencesQuery | orderBy:sortType:sortReverse\">\n" +
+    "                        <td class=\"editables\">\n" +
     "\n" +
-    "                          <input type=\"checkbox\" ng-change = \"addCaseReference(case)\" ng-model = \"case.selected\">\n" +
+    "                            <input type=\"checkbox\" ng-change=\"addCaseReference(case)\" ng-model=\"case.selected\">\n" +
     "\n" +
-    "                       </td>\n" +
+    "                        </td>\n" +
     "\n" +
     "\n" +
-    "                      <td class=\"editables\">\n" +
+    "                        <td class=\"editables\">\n" +
     "\n" +
-    "                        <span class=\"editable\" name=\"applicantname\" form=\"rowform\" onchange=\"editItem(this,'itemID')\"\n" +
-    "                          required>{{case.name}}\n" +
+    "                            <span class=\"editable\" name=\"applicantname\" form=\"rowform\" onchange=\"editItem(this,'itemID')\" required>{{case.name}}\n" +
     "\n" +
     "                        </span>\n" +
     "\n" +
-    "                      </td>\n" +
+    "                        </td>\n" +
     "\n" +
     "                    </tr>\n" +
-    "                  </table>\n" +
+    "                </table>\n" +
     "\n" +
     "\n" +
     "\n" +
@@ -934,15 +934,15 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "\n" +
     "\n" +
-    "            <div ng-if=\"caseReferences.length == 0 && queries.caseReferencesQuery.length < 5 || caseReferences.length == 0 && queries.caseReferencesQuery == undefined\" style=\"position: relative; left: 30%; margin-left: -50px; height: 50px; margin-top: 40px\"><i ng-if=\"!returned\" class='fa fa-fw fa-sun-o fa-spin'></i> Type the first 5 characters in the name of the case to begin.</div>\n" +
-    "            <div ng-if=\"queries.caseReferencesQuery.length > 4 && (caseReferences|filter:queries.caseReferencesQuery).length == 0 && caseReferences.length == 0\" style=\"position: relative; left: 50%; margin-left: -50px; height: 50px; margin-top: 40px\"><i class='fa fa-fw fa-sun-o fa-spin'></i>Searching for Cases. Please Wait...</div>\n" +
-    "            <div ng-if=\"queries.caseReferencesQuery.length > 4 && (caseReferences|filter:queries.caseReferencesQuery).length == 0 && caseReferences.length > 0\" style=\"position: relative; left: 32%; margin-left: -50px; height: 50px; margin-top: 40px\"><i ng-if=\"!returned\" class='fa fa-fw fa-sun-o fa-spin'></i> No matches found. Press Enter to create Stub</div>\n" +
+    "                <div ng-if=\"caseReferences.length == 0 && queries.caseReferencesQuery.length < 5 || caseReferences.length == 0 && queries.caseReferencesQuery == undefined\" style=\"position: relative; left: 30%; margin-left: -50px; height: 50px; margin-top: 40px\"><i ng-if=\"!returned\" class='fa fa-fw fa-sun-o fa-spin'></i> Type the first 5 characters in the name of the case to begin.</div>\n" +
+    "                <div ng-if=\"queries.caseReferencesQuery.length > 4 && (caseReferences|filter:queries.caseReferencesQuery).length == 0 && caseReferences.length == 0\" style=\"position: relative; left: 50%; margin-left: -50px; height: 50px; margin-top: 40px\"><i class='fa fa-fw fa-sun-o fa-spin'></i>Searching for Cases. Please Wait...</div>\n" +
+    "                <div ng-if=\"queries.caseReferencesQuery.length > 4 && (caseReferences|filter:queries.caseReferencesQuery).length == 0 && caseReferences.length > 0\" style=\"position: relative; left: 32%; margin-left: -50px; height: 50px; margin-top: 40px\"><i ng-if=\"!returned\" class='fa fa-fw fa-sun-o fa-spin'></i> No matches found. Press Enter to create Stub</div>\n" +
+    "\n" +
+    "            </div>\n" +
     "\n" +
     "        </div>\n" +
-    "\n" +
-    "</div>\n" +
-    "</div>\n" +
-    "</div>\n"
+    "    </div>\n" +
+    "</div>"
   );
 
 
@@ -1937,74 +1937,106 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
 
   $templateCache.put('templates/legislation-references-modal.html',
     "<div id=\"legislationReferencesModal\" class=\"modal fade\" style=\"z-index:4000; background-color: rgba(0,0,0,0.5);\">\n" +
-    "  <div class=\"modal-dialog\" style=\"width:40%;padding-left: 2%;padding-right: 2%;\">\n" +
-    "    <div class=\"modal-content\" style=\"margin-top: 8%\">\n" +
+    "    <div class=\"modal-dialog\" style=\"width:40%;padding-left: 2%;padding-right: 2%;\">\n" +
+    "        <div class=\"modal-content\" style=\"margin-top: 8%\">\n" +
     "\n" +
     "\n" +
     "\n" +
     "\n" +
     "\n" +
     "\n" +
-    "  <div class=\"modal-body\" style=\"margin-bottom: none; padding-top: 10px; border-bottom:none; height:600px; overflow-y: auto;\" >\n" +
+    "            <div class=\"modal-body\" style=\"margin-bottom: none; padding-top: 10px; border-bottom:none; height:600px; overflow-y: auto;\">\n" +
     "\n" +
-    "    <h2>Select Legislations Referred To</h2>\n" +
-    "    <div class=\"input-icon right mb10\">\n" +
-    "          <i class=\"fa fa-search\"></i>\n" +
-    "          <input type=\"text\" ng-model=\"queries.legislationReferencesQuery\" class=\"form-control\" placeholder=\"Search...\" id=\"Search\" ng-keydown = \"saveLegislationStab($event)\">\n" +
-    "    </div>\n" +
-    "        <table id=\"casesTbl\" class=\"table table-condensed\">\n" +
-    "          <tr style=\"background-color: #E8E9EC\" class=\"tableHeaders\">\n" +
-    "            <td style=\"width:5%\">\n" +
-    "              <a ng-click=\"sortType = 'caseNumber'; sortReverse = !sortReverse\">\n" +
+    "                <h2>Select Legislations Referred To</h2>\n" +
+    "                <div class=\"input-icon right mb10\">\n" +
+    "                    <i class=\"fa fa-search\"></i>\n" +
+    "                    <input type=\"text\" ng-model=\"queries.legislationReferencesQuery\" class=\"form-control\" placeholder=\"Search...\" id=\"Search\" ng-keydown=\"saveLegislationStab($event)\" ng-model-options=\"{ debounce: 1000 }\">\n" +
+    "                </div>\n" +
+    "                <table id=\"casesTbl\" class=\"table table-condensed\">\n" +
+    "                    <tr style=\"background-color: #E8E9EC\" class=\"tableHeaders\">\n" +
+    "                        <td style=\"width:5%\">\n" +
+    "                            <a ng-click=\"sortType = 'caseNumber'; sortReverse = !sortReverse\">\n" +
     "                Selected\n" +
     "                <span ng-show=\"sortType == 'caseNumber' && !sortReverse\" class=\"fa fa-caret-up\"></span>\n" +
     "                <span ng-show=\"sortType == 'caseNumber' && sortReverse\" class=\"fa fa-caret-down\"></span>\n" +
     "              </a>\n" +
-    "            </td>\n" +
+    "                        </td>\n" +
     "\n" +
-    "            <td style=\"width:45%\">\n" +
-    "              <a ng-click=\"sortType = 'name'; sortReverse = !sortReverse\">\n" +
+    "                        <td style=\"width:45%\">\n" +
+    "                            <a ng-click=\"sortType = 'name'; sortReverse = !sortReverse\">\n" +
+    "                Legislation Numbers\n" +
+    "                <span ng-show=\"sortType == 'name' && !sortReverse\" class=\"fa fa-caret-up\"></span>\n" +
+    "                <span ng-show=\"sortType == 'name' && sortReverse\" class=\"fa fa-caret-down\"></span>\n" +
+    "              </a>\n" +
+    "                        </td>\n" +
+    "\n" +
+    "                        <td style=\"width:45%\">\n" +
+    "                            <a ng-click=\"sortType = 'name'; sortReverse = !sortReverse\">\n" +
     "                Name of Legislation\n" +
     "                <span ng-show=\"sortType == 'name' && !sortReverse\" class=\"fa fa-caret-up\"></span>\n" +
     "                <span ng-show=\"sortType == 'name' && sortReverse\" class=\"fa fa-caret-down\"></span>\n" +
     "              </a>\n" +
-    "  </td>\n" +
+    "                        </td>\n" +
+    "\n" +
+    "                        <td style=\"width:45%\">\n" +
+    "                            <a ng-click=\"sortType = 'name'; sortReverse = !sortReverse\">\n" +
+    "               Year\n" +
+    "                <span ng-show=\"sortType == 'name' && !sortReverse\" class=\"fa fa-caret-up\"></span>\n" +
+    "                <span ng-show=\"sortType == 'name' && sortReverse\" class=\"fa fa-caret-down\"></span>\n" +
+    "              </a>\n" +
+    "                        </td>\n" +
     "\n" +
     "\n" +
     "\n" +
     "\n" +
-    "          </tr>\n" +
-    "          <tr id=\"rowTmp_Est\" ng-repeat=\"legislation in legislationReferences | filter:queries.legislationReferencesQuery | orderBy:sortType:sortReverse\" >\n" +
-    "            <td class=\"editables\">\n" +
+    "                    </tr>\n" +
+    "                    <tr id=\"rowTmp_Est\" ng-repeat=\"legislation in legislationReferences.data | filter:queries.legislationReferencesQuery | orderBy:sortType:sortReverse\">\n" +
+    "                        <td class=\"editables\">\n" +
     "\n" +
-    "                <input type=\"checkbox\" ng-change = \"addLegislationReference(legislation)\" ng-model = \"legislation.selected\">\n" +
+    "                            <input type=\"checkbox\" ng-change=\"addLegislationReference(legislation)\" ng-model=\"legislation.selected\">\n" +
     "\n" +
-    "             </td>\n" +
+    "                        </td>\n" +
     "\n" +
+    "                        <td class=\"editables\">\n" +
     "\n" +
-    "            <td class=\"editables\">\n" +
-    "\n" +
-    "              <span class=\"editable\" name=\"applicantname\" form=\"rowform\" onchange=\"editItem(this,'itemID')\"\n" +
-    "                required>{{legislation.legislationName}}\n" +
+    "                            <span class=\"editable\" name=\"applicantname\" form=\"rowform\" onchange=\"editItem(this,'itemID')\" required>{{legislation.legislationNumbers}}\n" +
     "\n" +
     "              </span>\n" +
     "\n" +
-    "            </td>\n" +
-    "\n" +
-    "          </tr>\n" +
-    "        </table>\n" +
+    "                        </td>\n" +
     "\n" +
     "\n" +
-    "        <div ng-if=\"legislationReferences.length == 0 && queries.legislationReferencesQuery.length < 5 || legislationReferences.length == 0 && queries.legislationReferencesQuery == undefined\" style=\"position: relative; left: 30%; margin-left: -50px; height: 50px; margin-top: 40px\"><i ng-if=\"!returned\" class='fa fa-fw fa-sun-o fa-spin'></i> Type the first 5 characters in the name of the legislation to begin.</div>\n" +
-    "        <div ng-if=\"queries.legislationReferencesQuery.length > 4 && (legislationReferences|filter:queries.legislationReferencesQuery).length == 0 && legislationReferences.length == 0\" style=\"position: relative; left: 50%; margin-left: -50px; height: 50px; margin-top: 40px\"><i class='fa fa-fw fa-sun-o fa-spin'></i>Searching for Legislations. Please Wait...</div>\n" +
-    "        <div ng-if=\"queries.legislationReferencesQuery.length > 4 && (legislationReferences|filter:queries.legislationReferencesQuery).length == 0 && legislationReferences.length > 0\" style=\"position: relative; left: 32%; margin-left: -50px; height: 50px; margin-top: 40px\"><i ng-if=\"!returned\" class='fa fa-fw fa-sun-o fa-spin'></i> No matches found. Press Enter to create Stub</div>\n" +
+    "                        <td class=\"editables\">\n" +
     "\n" +
-    "  </div>\n" +
+    "                            <span class=\"editable\" name=\"applicantname\" form=\"rowform\" onchange=\"editItem(this,'itemID')\" required>{{legislation.legislationName}}\n" +
     "\n" +
-    "</div>\n" +
-    "</div>\n" +
+    "              </span>\n" +
     "\n" +
-    "</div>\n"
+    "                        </td>\n" +
+    "\n" +
+    "\n" +
+    "                        <td class=\"editables\">\n" +
+    "\n" +
+    "                            <span class=\"editable\" name=\"applicantname\" form=\"rowform\" onchange=\"editItem(this,'itemID')\" required>{{legislation.year}}\n" +
+    "\n" +
+    "              </span>\n" +
+    "\n" +
+    "                        </td>\n" +
+    "\n" +
+    "                    </tr>\n" +
+    "                </table>\n" +
+    "\n" +
+    "\n" +
+    "                <div ng-if=\"legislationReferences.length == 0 && queries.legislationReferencesQuery.length < 5 || legislationReferences.length == 0 && queries.legislationReferencesQuery == undefined\" style=\"position: relative; left: 30%; margin-left: -50px; height: 50px; margin-top: 40px\"><i ng-if=\"!returned\" class='fa fa-fw fa-sun-o fa-spin'></i> Type the first 5 characters in the name of the legislation to begin.</div>\n" +
+    "                <div ng-if=\"queries.legislationReferencesQuery.length > 4 && (legislationReferences|filter:queries.legislationReferencesQuery).length == 0 && legislationReferences.length == 0\" style=\"position: relative; left: 50%; margin-left: -150px; height: 50px; margin-top: 40px\"><i class='fa fa-fw fa-sun-o fa-spin'></i>Searching for Legislations. Please Wait...</div>\n" +
+    "                <div ng-if=\"queries.legislationReferencesQuery.length > 4 && (legislationReferences|filter:queries.legislationReferencesQuery).length == 0 && legislationReferences.length > 0\" style=\"position: relative; left: 32%; margin-left: -50px; height: 50px; margin-top: 40px\"><i ng-if=\"!returned\" class='fa fa-fw fa-sun-o fa-spin'></i> No matches found. Press Enter to create Stub</div>\n" +
+    "\n" +
+    "            </div>\n" +
+    "\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "\n" +
+    "</div>"
   );
 
 
@@ -3031,74 +3063,73 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
 
   $templateCache.put('templates/work-references-modal.html',
     "<div id=\"workReferencesModal\" class=\"modal fade\" style=\"z-index:4000; background-color: rgba(0,0,0,0.5);\">\n" +
-    "  <div class=\"modal-dialog\" style=\"width:40%;padding-left: 2%;padding-right: 2%;\">\n" +
-    "    <div class=\"modal-content\" style=\"margin-top: 8%\">\n" +
+    "    <div class=\"modal-dialog\" style=\"width:40%;padding-left: 2%;padding-right: 2%;\">\n" +
+    "        <div class=\"modal-content\" style=\"margin-top: 8%\">\n" +
     "\n" +
     "\n" +
     "\n" +
     "\n" +
     "\n" +
     "\n" +
-    "  <div class=\"modal-body\" style=\"margin-bottom: none; padding-top: 10px; border-bottom:none; height:600px; overflow-y: auto;\">\n" +
-    "    <h2>Select Work Referred To</h2>\n" +
-    "    <div class=\"input-icon right mb10\">\n" +
-    "          <i class=\"fa fa-search\"></i>\n" +
-    "          <input type=\"text\" ng-model=\"queries.workReferencesQuery\" class=\"form-control\" placeholder=\"Search...\" id=\"Search\" ng-keydown = \"saveWorkStab($event)\">\n" +
-    "    </div>\n" +
-    "        <table id=\"casesTbl\" class=\"table table-condensed\">\n" +
-    "          <tr style=\"background-color: #E8E9EC\" class=\"tableHeaders\">\n" +
-    "            <td style=\"width:5%\">\n" +
-    "              <a ng-click=\"sortType = 'caseNumber'; sortReverse = !sortReverse\">\n" +
+    "            <div class=\"modal-body\" style=\"margin-bottom: none; padding-top: 10px; border-bottom:none; height:600px; overflow-y: auto;\">\n" +
+    "                <h2>Select Work Referred To</h2>\n" +
+    "                <div class=\"input-icon right mb10\">\n" +
+    "                    <i class=\"fa fa-search\"></i>\n" +
+    "                    <input type=\"text\" ng-model=\"queries.workReferencesQuery\" class=\"form-control\" placeholder=\"Search...\" id=\"Search\" ng-keydown=\"saveWorkStab($event)\">\n" +
+    "                </div>\n" +
+    "                <table id=\"casesTbl\" class=\"table table-condensed\">\n" +
+    "                    <tr style=\"background-color: #E8E9EC\" class=\"tableHeaders\">\n" +
+    "                        <td style=\"width:5%\">\n" +
+    "                            <a ng-click=\"sortType = 'caseNumber'; sortReverse = !sortReverse\">\n" +
     "                Selected\n" +
     "                <span ng-show=\"sortType == 'caseNumber' && !sortReverse\" class=\"fa fa-caret-up\"></span>\n" +
     "                <span ng-show=\"sortType == 'caseNumber' && sortReverse\" class=\"fa fa-caret-down\"></span>\n" +
     "              </a>\n" +
-    "            </td>\n" +
+    "                        </td>\n" +
     "\n" +
-    "            <td style=\"width:45%\">\n" +
-    "              <a ng-click=\"sortType = 'name'; sortReverse = !sortReverse\">\n" +
+    "                        <td style=\"width:45%\">\n" +
+    "                            <a ng-click=\"sortType = 'name'; sortReverse = !sortReverse\">\n" +
     "                Name of Work\n" +
     "                <span ng-show=\"sortType == 'name' && !sortReverse\" class=\"fa fa-caret-up\"></span>\n" +
     "                <span ng-show=\"sortType == 'name' && sortReverse\" class=\"fa fa-caret-down\"></span>\n" +
     "              </a>\n" +
-    "  </td>\n" +
+    "                        </td>\n" +
     "\n" +
     "\n" +
     "\n" +
     "\n" +
-    "          </tr>\n" +
-    "          <tr id=\"rowTmp_Est\" ng-repeat=\"work in workReferences | filter:queries.workReferencesQuery | orderBy:sortType:sortReverse\" >\n" +
-    "            <td class=\"editables\">\n" +
+    "                    </tr>\n" +
+    "                    <tr id=\"rowTmp_Est\" ng-repeat=\"work in workReferences.data | filter:queries.workReferencesQuery | orderBy:sortType:sortReverse\">\n" +
+    "                        <td class=\"editables\">\n" +
     "\n" +
-    "              <input type=\"checkbox\" ng-change = \"addWorkReference(work)\" ng-model = \"work.selected\">\n" +
+    "                            <input type=\"checkbox\" ng-change=\"addWorkReference(work)\" ng-model=\"work.selected\">\n" +
     "\n" +
-    "             </td>\n" +
+    "                        </td>\n" +
     "\n" +
     "\n" +
-    "            <td class=\"editables\">\n" +
+    "                        <td class=\"editables\">\n" +
     "\n" +
-    "              <span class=\"editable\" name=\"applicantname\" form=\"rowform\" onchange=\"editItem(this,'itemID')\"\n" +
-    "                required>{{work.name}}\n" +
+    "                            <span class=\"editable\" name=\"applicantname\" form=\"rowform\" onchange=\"editItem(this,'itemID')\" required>{{work.name}}\n" +
     "\n" +
     "              </span>\n" +
     "\n" +
-    "            </td>\n" +
+    "                        </td>\n" +
     "\n" +
-    "          </tr>\n" +
-    "        </table>\n" +
-    "\n" +
-    "\n" +
-    "        <div ng-if=\"workReferences.length == 0 && queries.workReferencesQuery.length < 5 || workReferences.length == 0 && queries.workReferencesQuery == undefined\" style=\"position: relative; left: 30%; margin-left: -50px; height: 50px; margin-top: 40px\"><i ng-if=\"!returned\" class='fa fa-fw fa-sun-o fa-spin'></i> Type the first 5 characters in the name of the work to begin.</div>\n" +
-    "        <div ng-if=\"queries.workReferencesQuery.length > 4 && (workReferences|filter:queries.workReferencesQuery).length == 0 && workReferences.length == 0\" style=\"position: relative; left: 50%; margin-left: -50px; height: 50px; margin-top: 40px\"><i class='fa fa-fw fa-sun-o fa-spin'></i>Searching for Works. Please Wait...</div>\n" +
-    "        <div ng-if=\"queries.workReferencesQuery.length > 4 && (workReferences|filter:queries.workReferencesQuery).length == 0 && workReferences.length > 0\" style=\"position: relative; left: 32%; margin-left: -50px; height: 50px; margin-top: 40px\"><i ng-if=\"!returned\" class='fa fa-fw fa-sun-o fa-spin'></i> No matches found. Press Enter to create Stub</div>\n" +
+    "                    </tr>\n" +
+    "                </table>\n" +
     "\n" +
     "\n" +
+    "                <div ng-if=\"workReferences.length == 0 && queries.workReferencesQuery.length < 5 || workReferences.length == 0 && queries.workReferencesQuery == undefined\" style=\"position: relative; left: 30%; margin-left: -50px; height: 50px; margin-top: 40px\"><i ng-if=\"!returned\" class='fa fa-fw fa-sun-o fa-spin'></i> Type the first 5 characters in the name of the work to begin.</div>\n" +
+    "                <div ng-if=\"queries.workReferencesQuery.length > 4 && (workReferences|filter:queries.workReferencesQuery).length == 0 && workReferences.length == 0\" style=\"position: relative; left: 50%; margin-left: -50px; height: 50px; margin-top: 40px\"><i class='fa fa-fw fa-sun-o fa-spin'></i>Searching for Works. Please Wait...</div>\n" +
+    "                <div ng-if=\"queries.workReferencesQuery.length > 4 && (workReferences|filter:queries.workReferencesQuery).length == 0 && workReferences.length > 0\" style=\"position: relative; left: 32%; margin-left: -50px; height: 50px; margin-top: 40px\"><i ng-if=\"!returned\" class='fa fa-fw fa-sun-o fa-spin'></i> No matches found. Press Enter to create Stub</div>\n" +
     "\n" +
     "\n" +
-    "  </div>\n" +
     "\n" +
-    "</div>\n" +
-    "</div>\n" +
-    "</div>\n"
+    "\n" +
+    "            </div>\n" +
+    "\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "</div>"
   );
 }])

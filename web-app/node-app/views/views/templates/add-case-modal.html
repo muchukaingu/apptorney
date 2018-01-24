@@ -14,7 +14,9 @@
 
             <div class="modal-header" style="margin-bottom:20px">
 
-                <button type="button" id="closeModal" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <button type="button" id="closeModal" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
+                <button type="button" id="closeModal" class="close" ng-click="toggleView()" aria-hidden="true"><i ng-class="{'fa fa-pencil':viewMode,'fa fa-bars':!viewMode}"></i></button>
+                <button type="button" id="closeModal" class="close" data-toggle="modal" data-target="#caseReviewModal" aria-hidden="true"><i class="fa fa-check"></i></button>
                 <div class="row">
                     <div class="col-sm-9">
                         <h4 ng-if="!viewMode" style="font-weight: 100;"><span>&nbsp;&nbsp;Add Case </span></h4>
@@ -39,16 +41,15 @@
                         <div class="row">
                             <!--div class="col-sm-12"><toggle-switch on-label = "Reported" off-label="Unreported" model="case.reported" class="primary" knob-label="Status"><toggle-switch></div-->
                             <!--div class="col-sm-4" style="padding-top:4px; font-size:1.3em">Complete</div><div class="col-sm-8"><toggle-switch on-label = "Yes" off-label="No" model="case.completionStatus" class="success" knob-label="Status"><toggle-switch></div-->
-                            <div class="col-sm-6"><button ng-click="toggleView()" class="btn btn-primary-alt btn-block">{{viewMode?"Edit":"View"}}</button></div>
-                            <div class="col-sm-6 pull-right"><button data-toggle="modal" data-target="#caseReviewModal" class="btn btn-primary-alt btn-block">Review</button></div>
+
 
                             <div class="col-xs-12 form-group">
 
-                                <div style="padding-top:4px; margin-top:2px; font-size:1.3em; position:relative; left:-10px" class="col-sm-9">
+                                <div style="padding-top:4px; margin-top:2px; font-size:1.3em; position:relative; left:-10px" class="col-sm-12">
                                     <toggle-switch on-label="Yes" off-label="No" model="case.isStub" class="primary switch-large" knob-label="Stub" style="width:195px; height:80%">
                                         <toggle-switch>
                                 </div>
-                                <div style="padding-top:4px; margin-top:2px; font-size:1.3em; position:relative; left:-10px" class="col-sm-9">
+                                <div style="padding-top:4px; margin-top:2px; font-size:1.3em; position:relative; left:-10px" class="col-sm-12">
                                     <toggle-switch on-label="Yes" off-label="No" model="case.reported" class="primary switch" knob-label="Reported" style="width:195px;height:80%">
                                         <toggle-switch>
                                 </div>

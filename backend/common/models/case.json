@@ -7,12 +7,34 @@
     },
     "scope": {
         "include": [{
-            "relation": "areasOfLaw",
-            "scope": {
-                "fields": ["id", "name"]
+                "relation": "areasOfLaw",
+                "scope": {
+                    "fields": ["id", "name"]
 
+                }
+            },
+            {
+                "relation": "caseReferences",
+                "scope": {
+                    "fields": ["id", "name"]
+
+                }
+            },
+            {
+                "relation": "legislationReferences",
+                "scope": {
+                    "fields": ["id", "legislationName"]
+
+                }
+            },
+            {
+                "relation": "workReferences",
+                "scope": {
+                    "fields": ["id", "name"]
+
+                }
             }
-        }]
+        ]
     },
     "properties": {
         "caseNumber": {
@@ -310,6 +332,21 @@
             "type": "hasMany",
             "model": "caseCases",
             "foreignKey": "caseReferedToId"
+        },
+        "caseReferences": {
+            "type": "referencesMany",
+            "model": "case",
+            "foreignKey": "casesReferedToIds"
+        },
+        "legislationReferences": {
+            "type": "referencesMany",
+            "model": "legislation",
+            "foreignKey": "legislationsReferedToIds"
+        },
+        "workReferences": {
+            "type": "referencesMany",
+            "model": "work",
+            "foreignKey": "workReferedToIds"
         }
     },
     "acls": [],

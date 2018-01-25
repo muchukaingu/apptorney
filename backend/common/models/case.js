@@ -335,6 +335,12 @@ module.exports = function(Case) {
                         scope: { // further filter the owner object
                             fields: ['name'] // only show two fields
                         }
+                    },
+                    {
+                        relation: 'workReferences', // include the owner object
+                        scope: { // further filter the owner object
+                            fields: ['id', 'name'] // only show two fields
+                        }
                     }
                 ]
             },

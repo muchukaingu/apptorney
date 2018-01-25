@@ -297,19 +297,25 @@ module.exports = function(Case) {
                     {
                         relation: 'court', // include the owner object
                         scope: { // further filter the owner object
-                            fields: ['name'] // only show two fields
+                            fields: ['id', 'name'] // only show two fields
+                        }
+                    },
+                    {
+                        relation: 'courtDivision', // include the owner object
+                        scope: { // further filter the owner object
+                            fields: ['id', 'name'] // only show two fields
                         }
                     },
                     {
                         relation: 'location', // include the owner object
                         scope: { // further filter the owner object
-                            fields: ['name'] // only show two fields
+                            fields: ['id', 'name'] // only show two fields
                         }
                     },
                     {
                         relation: 'jurisdiction', // include the owner object
                         scope: { // further filter the owner object
-                            fields: ['name'] // only show two fields
+                            fields: ['id', 'name'] // only show two fields
                         }
                     },
                     {

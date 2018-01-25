@@ -565,10 +565,30 @@ angular.module('apptorney')
                 })
             }
 
+            if ($scope.case.court) {
+                $scope.case.courtId = $scope.case.court.id
+            }
+            if ($scope.case.division) {
+                $scope.case.courtDivisionId = $scope.case.division.id
+            }
+
+            if ($scope.case.jurisdiction) {
+                $scope.case.jurisdictionId = $scope.case.jurisdiction.id
+            }
+
+            if ($scope.case.location) {
+                $scope.case.locationId = $scope.case.location.id
+            }
+
             $scope.case.legislationsReferedTo = undefined
             $scope.case.casesReferedTo = undefined
             $scope.case.workReferedTo = undefined
             $scope.case.areasOfLaw = undefined
+            $scope.case.court = undefined
+            $scope.case.courtDivision = undefined
+            $scope.case.jurisdiction = undefined
+            $scope.case.location = undefined
+
             Case.upsert($scope.case,
                 function(res) {
                     /*
@@ -690,7 +710,7 @@ angular.module('apptorney')
                  var instance = res.data[0]
                  console.info("Returned: ", instance)
                   angular.forEach(instance, function(value, key){
-                    $scope.case[key] = value
+                     $scope.case[key] = value
                   })
 
                  $scope.case.isNew = false

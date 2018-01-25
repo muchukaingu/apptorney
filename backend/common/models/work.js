@@ -5,7 +5,8 @@ module.exports = function(Work) {
      * @callback {Function} cb The callback function
      */
     Work.flexisearch = function(term, cb) {
-        var workCollection = Work.getDataSource().connector.collection('work')
+        var workCollection = Work.getDataSource().connector.collection('work');
+        workCollection.updateMany({ "deleted": { "$exists": false } }, { $set: { deleted: false } });
         workCollection.createIndex({ name: "text" });
         workCollection.aggregate([
                 { $match: { $and: [{ 'deleted': { $eq: !true } }, { $text: { $search: '"' + term + '"' } }] } },

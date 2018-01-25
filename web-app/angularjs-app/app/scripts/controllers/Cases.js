@@ -717,6 +717,8 @@ angular.module('apptorney')
             Case.viewCase({ id: caseInstance.id }, function(res) {
                 $scope.case = res.data.cases
                 $scope.case.workReferedTo = $scope.case.workReferences ? $scope.case.workReferences : $scope.case.workReferedTo
+                $scope.case.casesReferedTo = $scope.case.caseReferences ? $scope.case.caseReferences : $scope.case.casesReferedTo
+                $scope.case.legislationsReferedTo = $scope.case.legislationReferences ? $scope.case.legislationReferences : $scope.case.legislationsReferedTo
                     // $('#addCaseModal').modal('show')
                 $('#addCaseModal').appendTo('body').modal('show')
                 $scope.viewMode = true

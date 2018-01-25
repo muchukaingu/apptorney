@@ -793,22 +793,17 @@ angular.module('apptorney')
 
         $scope.$watch('queries.workReferencesQuery', function() {
             if ($scope.queries.workReferencesQuery) {
-                $scope.gettingLegislationReferences = false
+                $scope.gettingWorkReferences = false
 
-                var term = $scope.queries.legislationReferencesQuery
-                if ($scope.gettingLegislationReferences == false && term.length > 3) {
+                var term = $scope.queries.workReferencesQuery
+                if ($scope.gettingWorkReferences == false && term.length > 3) {
                     console.log(term)
-                    $scope.gettingLegislationReferences = true
-                    Legislation.flexisearch({ term: term },
+                    $scope.gettingWorkReferences = true
+                    Work.flexisearch({ term: term },
                         function(res) {
-                            $scope.legislationReferences = res.data.legislations
-                            console.log('res', $scope.legislationReferences)
-                            $scope.legislationReferences.forEach(function(ref) {
-                                ref.year = new Date(ref.dateOfAssent).getFullYear()
-                                ref.legislationNumbers = ref.legislationNumbers ? ref.legislationNumbers : ref.legislationNumber
-                                    // console.log(parent.year)
-                            })
-                            $scope.gettingLegislationReferences = false
+                            $scope.workReferences = res.data.works
+                            console.log('res', $scope.workReferences)
+                            $scope.gettingWorkReferences = false
                         },
                         function(errorResponse) {}
                     )

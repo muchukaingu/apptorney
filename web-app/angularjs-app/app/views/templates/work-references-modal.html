@@ -11,7 +11,7 @@
                 <h2>Select Work Referred To</h2>
                 <div class="input-icon right mb10">
                     <i class="fa fa-search"></i>
-                    <input type="text" ng-model="queries.workReferencesQuery" class="form-control" placeholder="Search..." id="Search" ng-keydown="saveWorkStab($event)">
+                    <input type="text" ng-model="queries.workReferencesQuery" class="form-control" placeholder="Search..." id="Search" ng-keydown="saveWorkStab($event)" ng-model-options="{ debounce: 1000 }">
                 </div>
                 <table id="casesTbl" class="table table-condensed">
                     <tr style="background-color: #E8E9EC" class="tableHeaders">
@@ -35,7 +35,7 @@
 
 
                     </tr>
-                    <tr id="rowTmp_Est" ng-repeat="work in workReferences.data | filter:queries.workReferencesQuery | orderBy:sortType:sortReverse">
+                    <tr id="rowTmp_Est" ng-repeat="work in workReferences | filter:queries.workReferencesQuery | orderBy:sortType:sortReverse">
                         <td class="editables">
 
                             <input type="checkbox" ng-change="addWorkReference(work)" ng-model="work.selected">

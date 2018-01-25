@@ -3121,7 +3121,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                <h2>Select Work Referred To</h2>\n" +
     "                <div class=\"input-icon right mb10\">\n" +
     "                    <i class=\"fa fa-search\"></i>\n" +
-    "                    <input type=\"text\" ng-model=\"queries.workReferencesQuery\" class=\"form-control\" placeholder=\"Search...\" id=\"Search\" ng-keydown=\"saveWorkStab($event)\">\n" +
+    "                    <input type=\"text\" ng-model=\"queries.workReferencesQuery\" class=\"form-control\" placeholder=\"Search...\" id=\"Search\" ng-keydown=\"saveWorkStab($event)\" ng-model-options=\"{ debounce: 1000 }\">\n" +
     "                </div>\n" +
     "                <table id=\"casesTbl\" class=\"table table-condensed\">\n" +
     "                    <tr style=\"background-color: #E8E9EC\" class=\"tableHeaders\">\n" +
@@ -3145,7 +3145,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "\n" +
     "\n" +
     "                    </tr>\n" +
-    "                    <tr id=\"rowTmp_Est\" ng-repeat=\"work in workReferences.data | filter:queries.workReferencesQuery | orderBy:sortType:sortReverse\">\n" +
+    "                    <tr id=\"rowTmp_Est\" ng-repeat=\"work in workReferences | filter:queries.workReferencesQuery | orderBy:sortType:sortReverse\">\n" +
     "                        <td class=\"editables\">\n" +
     "\n" +
     "                            <input type=\"checkbox\" ng-change=\"addWorkReference(work)\" ng-model=\"work.selected\">\n" +

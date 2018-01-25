@@ -1176,7 +1176,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "            </div>\n" +
     "\n" +
     "            <div class=\"col-xs-12\">\n" +
-    "                <panel heading=\"Cases Referred To\">\n" +
+    "                <panel heading=\"Work Referred To\">\n" +
     "                    <panel-controls>\n" +
     "                        <a href=\"\">\n" +
     "                            <panel-control-collapse class=\"fa fa-chevron-down\"></panel-control-collapse>\n" +

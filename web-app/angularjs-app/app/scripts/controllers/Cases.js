@@ -540,6 +540,35 @@ angular.module('apptorney')
                     $scope.case.areasOfLawIds.push(caseInstance.id)
                 })
             }
+            // convert legislations to ids before saving
+            $scope.case.legislationsReferedToIds = []
+            if ($scope.case.legislationsReferedTo !== undefined || $scope.case.legislationsReferedTo.length > 0) {
+                $scope.case.legislationsReferedTo.map(function(legislation) {
+                    $scope.case.legislationsReferedToIds.push(legislation._id ? legislation._id : legislation.id)
+                })
+            }
+
+            // convert case references from cases to ids before saving
+
+            $scope.case.casesReferedToIds = []
+            if ($scope.case.casesReferedTo !== undefined || $scope.case.casesReferedTo.length > 0) {
+                $scope.case.casesReferedTo.map(function(caseInstance) {
+                    $scope.case.casesReferedToIds.push(caseInstance._id ? caseInstance._id : caseInstance.id)
+                })
+            }
+
+            // convert work references from work to ids fore saving
+            $scope.case.workReferedToIds = []
+            if ($scope.case.workReferedTo !== undefined || $scope.case.workReferedTo.length > 0) {
+                $scope.case.workReferedTo.map(function(work) {
+                    $scope.case.workReferedToIds.push(work._id ? work._id : work.id)
+                })
+            }
+
+            $scope.case.legislationsReferedTo = undefined
+            $scope.case.casesReferedTo = undefined
+            $scope.case.workReferedTo = undefined
+            $scope.case.areasOfLaw = undefined
             Case.upsert($scope.case,
                 function(res) {
                     /*
@@ -687,6 +716,7 @@ angular.module('apptorney')
         $scope.openCase = function(caseInstance) {
             Case.viewCase({ id: caseInstance.id }, function(res) {
                 $scope.case = res.data.cases
+                $scope.case.workReferedTo = $scope.case.workReferences ? $scope.case.workReferences : $scope.case.workReferedTo
                     // $('#addCaseModal').modal('show')
                 $('#addCaseModal').appendTo('body').modal('show')
                 $scope.viewMode = true
@@ -703,6 +733,7 @@ angular.module('apptorney')
         }
 
         $scope.addWorkReference = function(work) {
+            console.log(work)
             $scope.case.workReferedTo.push(work)
         }
 

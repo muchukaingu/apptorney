@@ -1990,7 +1990,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "              </a>\n" +
     "                        </td>\n" +
     "\n" +
-    "                        <td style=\"width:45%\">\n" +
+    "                        <td style=\"width:15%\">\n" +
     "                            <a ng-click=\"sortType = 'name'; sortReverse = !sortReverse\">\n" +
     "                Legislation Numbers\n" +
     "                <span ng-show=\"sortType == 'name' && !sortReverse\" class=\"fa fa-caret-up\"></span>\n" +
@@ -1998,7 +1998,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "              </a>\n" +
     "                        </td>\n" +
     "\n" +
-    "                        <td style=\"width:45%\">\n" +
+    "                        <td style=\"width:35%\">\n" +
     "                            <a ng-click=\"sortType = 'name'; sortReverse = !sortReverse\">\n" +
     "                Name of Legislation\n" +
     "                <span ng-show=\"sortType == 'name' && !sortReverse\" class=\"fa fa-caret-up\"></span>\n" +
@@ -2006,7 +2006,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "              </a>\n" +
     "                        </td>\n" +
     "\n" +
-    "                        <td style=\"width:45%\">\n" +
+    "                        <td style=\"width:10%\">\n" +
     "                            <a ng-click=\"sortType = 'name'; sortReverse = !sortReverse\">\n" +
     "                Legislation Type\n" +
     "                <span ng-show=\"sortType == 'name' && !sortReverse\" class=\"fa fa-caret-up\"></span>\n" +
@@ -2014,7 +2014,7 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "              </a>\n" +
     "                        </td>\n" +
     "\n" +
-    "                        <td style=\"width:45%\">\n" +
+    "                        <td style=\"width:10%\">\n" +
     "                            <a ng-click=\"sortType = 'name'; sortReverse = !sortReverse\">\n" +
     "               Year\n" +
     "                <span ng-show=\"sortType == 'name' && !sortReverse\" class=\"fa fa-caret-up\"></span>\n" +

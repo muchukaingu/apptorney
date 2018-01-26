@@ -1191,6 +1191,9 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "            </div>\n" +
     "\n" +
     "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
     "            <div class=\"col-xs-12\">\n" +
     "                <panel heading=\"Judgement\">\n" +
     "                    <panel-controls>\n" +
@@ -1200,6 +1203,18 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                    </panel-controls>\n" +
     "\n" +
     "                    <span style=\"white-space: pre-wrap;\" ng-bind-html=\"case.judgement\"></span>\n" +
+    "                </panel>\n" +
+    "            </div>\n" +
+    "\n" +
+    "\n" +
+    "            <div class=\"col-xs-12\">\n" +
+    "                <panel heading=\"Notes\">\n" +
+    "                    <panel-controls>\n" +
+    "                        <a href=\"\">\n" +
+    "                            <panel-control-collapse class=\"fa fa-chevron-down\"></panel-control-collapse>\n" +
+    "                        </a>\n" +
+    "                    </panel-controls>\n" +
+    "                    {{case.notes}}\n" +
     "                </panel>\n" +
     "            </div>\n" +
     "\n" +

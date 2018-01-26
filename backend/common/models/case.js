@@ -135,12 +135,12 @@ module.exports = function(Case) {
                     var counter = 0
                     cases.map(function(caseInstance) {
                         caseInstance.id = caseInstance._id
-                        var citation = caseInstance.citation.year + '/' + caseInstance.citation.code + '/' + caseInstance.citation.pageNumber
-                        caseInstance.referenceNumber = (!caseInstance.caseNumber && caseInstance.citation.year && caseInstance.citation.code && caseInstance.citation.pageNumber) ? citation : caseInstance.caseNumber
+                        caseInstance.citation = caseInstance.citation.year + '/' + caseInstance.citation.code + '/' + caseInstance.citation.pageNumber
+                            //caseInstance.referenceNumber = (!caseInstance.caseNumber && caseInstance.citation.year && caseInstance.citation.code && caseInstance.citation.pageNumber) ? citation : caseInstance.caseNumber
                             // caseInstance.areaOfLaw = caseInstance.areaOfLawName.name
                         delete caseInstance['_id']
-                        delete caseInstance['citation']
-                        delete caseInstance['caseNumber']
+                            // delete caseInstance['citation']
+                            // delete caseInstance['caseNumber']
 
                         // ### TEMPORAL AREA OF LAW FIX --> Due to performance issues this should be addressed by changing areaOfLawId in Case Model to ObjectId type so that $lookup op can work
                         var app = Case.app
@@ -297,19 +297,25 @@ module.exports = function(Case) {
                     {
                         relation: 'court', // include the owner object
                         scope: { // further filter the owner object
-                            fields: ['name'] // only show two fields
+                            fields: ['id', 'name'] // only show two fields
+                        }
+                    },
+                    {
+                        relation: 'courtDivision', // include the owner object
+                        scope: { // further filter the owner object
+                            fields: ['id', 'name'] // only show two fields
                         }
                     },
                     {
                         relation: 'location', // include the owner object
                         scope: { // further filter the owner object
-                            fields: ['name'] // only show two fields
+                            fields: ['id', 'name'] // only show two fields
                         }
                     },
                     {
                         relation: 'jurisdiction', // include the owner object
                         scope: { // further filter the owner object
-                            fields: ['name'] // only show two fields
+                            fields: ['id', 'name'] // only show two fields
                         }
                     },
                     {
@@ -334,6 +340,12 @@ module.exports = function(Case) {
                         relation: 'areaOfLaw', // include the owner object
                         scope: { // further filter the owner object
                             fields: ['name'] // only show two fields
+                        }
+                    },
+                    {
+                        relation: 'workReferences', // include the owner object
+                        scope: { // further filter the owner object
+                            fields: ['id', 'name'] // only show two fields
                         }
                     }
                 ]

@@ -519,7 +519,7 @@ module.exports = function(Legislation) {
                         "*": { "pre_tags": ["<strong>"], "post_tags": ["</strong>"] }
                     }
                 },
-                _source: ["legislationName", "legislationNumbers", "legislationNumber", "_id"]
+                _source: ["legislationName", "legislationNumbers", "legislationNumber", "_id", "preamble"]
 
             }
         };

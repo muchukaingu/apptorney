@@ -52,7 +52,10 @@ class LegislationDetailsTableViewController: UITableViewController {
         let legislationId = legislationInstance._id
         Legislation.loadLegislation(legislationId: legislationId, completionHandler:{(legislation,error) in
             self.legislationInstance = legislation
+           
             self.removeIndicator()
+        
+       
             self.loaded = true
             self.tableView.reloadData()
             UIApplication.shared.isNetworkActivityIndicatorVisible = false
@@ -137,6 +140,7 @@ class LegislationDetailsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
+        print(sections.count)
         let item = sections[section]
         guard item.isCollapsible! else {
             return 1
@@ -153,6 +157,7 @@ class LegislationDetailsTableViewController: UITableViewController {
         if !loaded{
             return 0
         }
+    
         return sections.count
     }
     
@@ -178,7 +183,7 @@ class LegislationDetailsTableViewController: UITableViewController {
     
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 30.0
+        return 40.0
     }
     /*
      override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

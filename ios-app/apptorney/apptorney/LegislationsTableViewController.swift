@@ -40,6 +40,12 @@ class LegislationsTableViewController: UITableViewController {
             self.searchController.searchResultsUpdater = self
             self.searchController.dimsBackgroundDuringPresentation = false
             
+            //search black screen fix
+            self.definesPresentationContext = true
+            self.searchController.searchResultsUpdater = self
+            self.searchController.dimsBackgroundDuringPresentation = false
+            self.searchController.definesPresentationContext = true
+            
         } else {
             // Fallback on earlier versions
             print("show normal bar")
@@ -90,8 +96,16 @@ class LegislationsTableViewController: UITableViewController {
         
         
         // Configure the cell...
-        cell.mainLabel.text = legislation.legislationName?.capitalized
-        cell.subTitleLabel.text = legislation.preamble
+        cell.mainLabel.setHTMLFromString(text: legislation.legislationName?.capitalized ?? "")
+        //cell.mainLabel.text = legislation.legislationName?.capitalized
+        var excerpt = ""
+        if legislation.searchHighlight == "..." {
+            excerpt = legislation.preamble ?? ""
+        }
+        else {
+            excerpt = legislation.searchHighlight!
+        }
+        cell.subTitleLabel.setHTMLFromString(text: excerpt)
         cell.subTitleLabel.sizeToFit()
         
         
@@ -174,6 +188,9 @@ extension LegislationsTableViewController: UISearchResultsUpdating {
             let searchTerm = self.searchController.searchBar.text
             
             Legislation.search(term: searchTerm, completionHandler:{(legislations,error) in
+                print("callback")
+                print(legislations.count)
+                print(error)
                 self.legislations = legislations
              
                 
@@ -194,3 +211,51 @@ extension LegislationsTableViewController: UISearchResultsUpdating {
     
 }
 
+//extension CasesTableViewController: UISearchResultsUpdating {
+//    
+//    func updateSearchResults(for searchController: UISearchController) {
+//        self.cases = []
+//        self.tableView.reloadData()
+//        self.messageLabel.text = ""
+//        if self.searchController.searchBar.text == "" {
+//            
+//        }
+//        else {
+//            UIApplication.shared.isNetworkActivityIndicatorVisible = true
+//            debouncer.callback = {
+//                self.messageLabel.text = "Searching..."
+//                
+//                
+//                // Send the debounced network request here
+//                let searchTerm = self.searchController.searchBar.text
+//                
+//                Case.search(term: searchTerm, completionHandler:{(cases,error) in
+//                    print("callback")
+//                    self.cases = cases
+//                    print(self.cases)
+//                    if self.cases.count == 0 {
+//                        self.messageLabel.text = "No match found"
+//                        self.messageLabel.sizeToFit()
+//                        self.messageLabel.isHidden = false
+//                    }
+//                    else {
+//                        //self.messageLabel.isHidden = true
+//                        self.messageLabel.text = ""
+//                    }
+//                    self.tableView.reloadData()
+//                    
+//                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
+//                })
+//            }
+//            
+//            debouncer.call()
+//        }
+//        
+//        
+//        
+//    }
+//    
+//    
+//}
+//
+//

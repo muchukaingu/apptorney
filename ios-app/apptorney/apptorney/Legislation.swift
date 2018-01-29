@@ -7,48 +7,42 @@
 //
 
 class Legislation: Codable {
-    let legislationNumber: String?
-    let legislationName: String?
-    let generalTitle: String?
-    let chapterNumber: String?
-    let legislationNumbers: String?
-    let dateOfAssent: String?
-    let preamble:String?
-    let enactment: String?
-    let yearOfAmendment: Int?
-    let volumeNumber: String?
-    let legislationType: String?
-    let legislationParts: [LegislationPart]?
-    let parentLegislation: String?
-    //let capturedBy: [String]?
-    //let capturedById: String?
-    let _id: String?
-    let deleted: Bool?
-    let score: Float?
+    var legislationNumber: String?
+    var legislationName: String?
+    var generalTitle: String?
+    var chapterNumber: String?
+    var legislationNumbers: String?
+    var dateOfAssent: String?
+    var preamble:String?
+    var enactment: String?
+    var yearOfAmendment: Int?
+    var volumeNumber: String?
+    var legislationType: String?
+    var searchHighlight: String?
+    var _id: String?
+   
     
-    struct LegislationPart: Codable {
-        let title:String?
-        let content:String?
-        let subParts:[LegislationPart]?
-        let table: Table?
-        //let file: String?
-        let showTable: Bool?
-        let level: Int?
-        let number: String?
-        let id: Int?
+    init(json: JSON?) {
+        self.legislationNumber = json!["legislationNumber"].string
+        self.legislationName = json!["legislationName"].string
+        self.generalTitle = json!["generalTitle"].string
+        self.chapterNumber = json!["chapterNumber"].string
+        self.legislationNumbers = json!["legislationNumbers"].string
+        self.dateOfAssent = json!["dateOfAssent"].string
+        self.yearOfAmendment = json!["yearOfAmendment"].int
+        self.volumeNumber = json!["volumeNumber"].string
+        self.preamble = json!["preamble"].string
+        self.enactment = json!["enactment"].string
+        self.volumeNumber = json!["volumeNumber"].string
+        self.searchHighlight = json!["highlight"].string
+        self._id = json!["_id"].string
         
-        struct Table: Codable {
-            let title: String?
-            let content:[TableContent]
-            struct TableContent: Codable {
-                let key:String?
-                let value:String?
-            }
-        }
     }
+    
     
     class func search(term:String?, completionHandler:@escaping ([Legislation], Error?)->Void){
         let api = APIService()
+        var legislations = [Legislation]()
         api.get(endPoint: "/legislations/mobilesearch", parameters: ["term":term!], completionHandler: { (result, error) in
             if error != nil {
                 print(error!)
@@ -56,12 +50,20 @@ class Legislation: Codable {
             else {
                 do {
                     let json = JSON(result!)["data"]["legislations"]
-                    let jsonDecoder = JSONDecoder()
-                    let legislations = try jsonDecoder.decode(Array<Legislation>.self, from: json.rawData())
-                    print(legislations)
+                    
+                    for data in json {
+                        let legislation = Legislation(json:data.1)
+                        legislations.append(legislation)
+                    }
+                    
+                    
+                    
+                    //let legislations = try JSONDecoder().decode([Legislation].self, from:json.rawData())
+                    //print(result)
                     completionHandler(legislations, nil)
+                    
                 } catch let error as NSError {
-                    print("Error: \(error)" )
+                    print("Error:" + error.localizedDescription)
                 }
                 
             }
@@ -87,5 +89,5 @@ class Legislation: Codable {
             }
         })
     }
-
+    
 }

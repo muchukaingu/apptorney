@@ -41,6 +41,13 @@ class CasesTableViewController: UITableViewController {
             self.searchController.searchResultsUpdater = self
             self.searchController.dimsBackgroundDuringPresentation = false
             
+            
+            //search black screen fix
+            self.definesPresentationContext = true
+            self.searchController.searchResultsUpdater = self
+            self.searchController.dimsBackgroundDuringPresentation = false
+            self.searchController.definesPresentationContext = true
+            
         } else {
             // Fallback on earlier versions
             print("show normal bar")

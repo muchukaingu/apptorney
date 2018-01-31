@@ -678,7 +678,7 @@ module.exports = function(Legislation) {
         'mobilesearch', {
             http: { path: '/mobilesearch', verb: 'get' },
             accepts: { arg: 'term', type: 'string' },
-            returns: { arg: 'legislations', type: 'Object' }
+            returns: { arg: 'legislations', type: 'Object', root: true }
         });
 
     Legislation.remoteMethod(

@@ -143,16 +143,19 @@ module.exports = function(Case) {
                             // delete caseInstance['caseNumber']
 
                         // ### TEMPORAL AREA OF LAW FIX --> Due to performance issues this should be addressed by changing areaOfLawId in Case Model to ObjectId type so that $lookup op can work
-                        var app = Case.app
-                        var Areas = app.models.areaOfLaw
-                        Areas.findById(ObjectId(caseInstance.areaOfLawId), function(err, area) {
-                                caseInstance.area = (area == null) ? '' : area.name
-                                counter++
-                                if (counter == cases.length) {
-                                    cb(null, cases)
-                                }
-                            })
-                            // ### END OF TEMPORAL AREA OF LAW FIX
+                        /* 
+                         var app = Case.app
+                         var Areas = app.models.areaOfLaw
+                         Areas.findById(ObjectId(caseInstance.areaOfLawId), function(err, area) {
+                                 caseInstance.area = (area == null) ? '' : area.name
+                                 counter++
+                                 if (counter == cases.length) {
+                                     cb(null, cases)
+                                 }
+                             })
+
+                             */
+                        // ### END OF TEMPORAL AREA OF LAW FIX
 
                     })
 

@@ -519,50 +519,40 @@ module.exports = function(Legislation) {
                         "*": { "pre_tags": ["<strong>"], "post_tags": ["</strong>"] }
                     }
                 },
-                _source: ["legislationName", "legislationNumbers", "legislationNumber", "_id"]
+                _source: ["legislationName", "legislationNumbers", "legislationNumber", "_id", "preamble"]
 
             }
         };
 
         client.search(searchParams).then(function(resp) {
-            //console.log(resp.hits);
+
             let results = [];
             resp.hits.hits.forEach(function(h) {
-                var highlight = h.highlight;
-                var highlights = "...";
-                //console.log(highlight);
-                /*
-                if (highlight.name !== undefined) {
-                    h._source.name = "<b>" + highlight.name[0] + "</b>";
+                var highlight = h.highlight
+                var highlights = '...'
+                    //console.log(highlight);
+                if (highlight.legislationName !== undefined) {
+                    h._source.legislationName = '<b>' + highlight.legislationName[0] + '</b>'
                 } else {
-                    h._source.name = "<b>" + h._source.name + "</b>";
-                }
-                if (highlight.summaryOfRuling !== undefined) {
-                    highlight.summaryOfRuling.forEach(function(ruling) {
-                        highlights = highlights + ruling + "...";
-                    });
-                    highlights = "<b>Summary of Ruling: </b>" + highlights + "<br>";
+                    h._source.legislationName = '<b>' + h._source.legislationName + '</b>'
                 }
 
-                if (highlight.summaryOfFacts !== undefined) {
-                    highlight.summaryOfFacts.forEach(function(facts) {
-                        highlights = highlights + facts + "...";
-                    });
-                    highlights = (highlight.summaryOfRuling == undefined) ? "<b>Summary of Facts: </b>" + highlights : highlights + "<b>Summary of Facts: </b>" + highlights + "<br>";
-                }
-
-                if (highlight.judgement !== undefined) {
-                    highlight.judgement.forEach(function(judgement) {
-                        highlights = highlights + judgement + "...";
-                    });
-                    highlights = (highlight.summaryOfRuling == undefined && highlight.summaryOfFacts == undefined) ? "<b>Judgment: </b>" + highlights : highlights + "<b>Judgment: </b>" + highlights + "<br>";
+                if (highlight.preamble !== undefined) {
+                    highlight.preamble.forEach(function(pre) {
+                        highlights = highlights + pre + '...'
+                    })
+                    highlights = '<b>Preamble: </b>' + highlights + '<br>'
                 }
 
 
-                h._source.highlight = highlights.length == 3 ? undefined : highlights;
+                if (highlight.legislationNumbers !== undefined) {
+                    h._source.legislationNumbers = highlight.legislationNumber[0] ? '<b>' + highlight.legislationNumbers[0] + ', ' + highlight.legislationNumber[0] + '</b>' : '<b>' + highlight.legislationNumbers[0] + '</b>'
+                }
+
+                h._source.highlight = highlights
                 h._source._id = h._id;
                 results.push(h._source);
-                */
+
             });
             cb(null, results);
         }, function(err) {
@@ -688,7 +678,7 @@ module.exports = function(Legislation) {
         'mobilesearch', {
             http: { path: '/mobilesearch', verb: 'get' },
             accepts: { arg: 'term', type: 'string' },
-            returns: { arg: 'legislations', type: 'Object' }
+            returns: { arg: 'legislations', type: 'Object', root: true }
         });
 
     Legislation.remoteMethod(

@@ -159,9 +159,7 @@ module.exports = function(Case) {
 
                     })
 
-                    if (counter == 0 && cases.length == 0) {
-                        cb(null, cases)
-                    }
+                    cb(null, cases);
                 }
             })
     }

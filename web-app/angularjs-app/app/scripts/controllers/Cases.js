@@ -536,14 +536,14 @@ angular.module('apptorney')
             $scope.saveStatus = 1
             $scope.case.areasOfLawIds = []
             $scope.case.areaOfLawId = $scope.case.areaOfLaw ? $scope.case.areaOfLaw.id : ''
-            if ($scope.case.areasOfLaw !== undefined || $scope.case.areasOfLaw.length > 0) {
+            if ($scope.case.areasOfLaw !== undefined && $scope.case.areasOfLaw.length > 0) {
                 $scope.case.areasOfLaw.map(function(caseInstance) {
                     $scope.case.areasOfLawIds.push(caseInstance.id)
                 })
             }
             // convert legislations to ids before saving
             $scope.case.legislationsReferedToIds = []
-            if ($scope.case.legislationsReferedTo !== undefined || $scope.case.legislationsReferedTo.length > 0) {
+            if ($scope.case.legislationsReferedTo !== undefined && $scope.case.legislationsReferedTo.length > 0) {
                 $scope.case.legislationsReferedTo.map(function(legislation) {
                     $scope.case.legislationsReferedToIds.push(legislation._id ? legislation._id : legislation.id)
                 })
@@ -552,7 +552,7 @@ angular.module('apptorney')
             // convert case references from cases to ids before saving
 
             $scope.case.casesReferedToIds = []
-            if ($scope.case.casesReferedTo !== undefined || $scope.case.casesReferedTo.length > 0) {
+            if ($scope.case.casesReferedTo !== undefined && $scope.case.casesReferedTo.length > 0) {
                 $scope.case.casesReferedTo.map(function(caseInstance) {
                     $scope.case.casesReferedToIds.push(caseInstance._id ? caseInstance._id : caseInstance.id)
                 })
@@ -560,7 +560,7 @@ angular.module('apptorney')
 
             // convert work references from work to ids fore saving
             $scope.case.workReferedToIds = []
-            if ($scope.case.workReferedTo !== undefined || $scope.case.workReferedTo.length > 0) {
+            if ($scope.case.workReferedTo !== undefined && $scope.case.workReferedTo.length > 0) {
                 $scope.case.workReferedTo.map(function(work) {
                     $scope.case.workReferedToIds.push(work._id ? work._id : work.id)
                 })

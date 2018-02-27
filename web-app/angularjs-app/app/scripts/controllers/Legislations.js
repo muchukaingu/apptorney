@@ -120,6 +120,7 @@ angular.module('apptorney')
             $scope.legislation.amendedLegislations = undefined
             $scope.legislation.replacedLegislations = undefined
             $scope.legislation.repealedLegislations = undefined
+            $scope.legislation.deleted = false
 
             Legislation.upsert($scope.legislation,
                     function(res) {

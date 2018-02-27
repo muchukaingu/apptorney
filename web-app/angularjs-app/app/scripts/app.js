@@ -150,7 +150,8 @@ angular
         envServiceProvider.config({
             domains: {
                 development: ['localhost'],
-                production: ['apptorney-frontend.eu-gb.mybluemix.net'],
+                // production: ['apptorney-frontend.eu-gb.mybluemix.net'],
+                production: ['apptorney.circuitbusiness.com'],
                 test: ['apptorney-frontend-test.eu-gb.mybluemix.net'],
                 staging: ['apptorney-frontend-staging.eu-gb.mybluemix.net'],
                 // anotherStage: ['domain1', 'domain2'] 

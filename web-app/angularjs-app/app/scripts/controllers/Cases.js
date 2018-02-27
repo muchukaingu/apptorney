@@ -589,6 +589,7 @@ angular.module('apptorney')
             $scope.case.courtDivision = undefined
             $scope.case.jurisdiction = undefined
             $scope.case.location = undefined
+            $scope.case.deleted = false
 
             Case.upsert($scope.case,
                 function(res) {

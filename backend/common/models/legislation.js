@@ -467,7 +467,7 @@ module.exports = function(Legislation) {
             size: 100,
             body: {
                 query: {
-                    multi_match: { query: term, fields: ['generalTitle', 'legislationNumbers', 'legislationNumber', 'preamble', 'legislationName'] }
+                    multi_match: { query: term, fields: ['generalTitle', 'legislationNumbers', 'legislationNumber', 'preamble', 'legislationName', 'flattenedParts'] }
                 },
                 highlight: {
                     fields: {
@@ -496,6 +496,13 @@ module.exports = function(Legislation) {
                         highlights = highlights + pre + '...'
                     })
                     highlights = '<b>Preamble: </b>' + highlights + '<br>'
+                }
+
+                if (highlight.flattenedParts !== undefined) {
+                    highlight.flattenedParts.forEach(function(pre) {
+                        highlights = highlights + pre + '...'
+                    })
+                    highlights = '<b>Content: </b>' + highlights + '<br>'
                 }
 
                 if (highlight.legislationNumbers !== undefined) {

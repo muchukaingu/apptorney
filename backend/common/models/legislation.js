@@ -517,15 +517,18 @@ module.exports = function(Legislation) {
      *
      * @callback {Function} cb The callback function
      */
-    Legislation.viewLegislationWithFlattenedParts = function(id, cb) {
+    Legislation.viewLegislationWithFlattenedParts = function(id, itr) {
         var flattenedJSON = ''
 
         function recursive(instance, parts) {
             for (var i = 0; i < parts.length; i++) {
                 flattenedJSON = flattenedJSON + ((parts[i].number) ? parts[i].number : '') + parts[i].title + '\n' + ((parts[i].content) ? parts[i].content + '\n' : '')
                 if (parts[i].title == instance.legislationParts[instance.legislationParts.length - 1].title) {
-                    instance.flattenParts = flattenedJSON
-                    cb(null, instance)
+                    instance.flattenedParts = flattenedJSON
+                    Legislation.upsert(instance, (err, res) => {
+                        console.log('update successful: ' + itr)
+                        return
+                    })
                 }
                 if (parts[i].subParts) {
                     var subparts = parts[i].subParts
@@ -535,18 +538,24 @@ module.exports = function(Legislation) {
         }
         Legislation.findById(id,
             function(err, legislation) {
-                // ### TEMPORAL AREA OF LAW FIX --> Due to performance issues this should be addressed by changing areaOfLawId in Case Model to ObjectId type so that $lookup op can work
-                var app = Legislation.app
-                var legislationTypes = app.models.legislationType
-                var counter = 0
                 var legislationParts = legislation.legislationParts
                 recursive(legislation, legislationParts)
-
-                /*legislationTypes.findById(ObjectId(legislation.legislationType), function(err, type) {
-                    legislation.legislationType = type.name
-                    cb(null, legislation)
-                })*/
             })
+    }
+
+    Legislation.flattenAllParts = function(cb) {
+        Legislation.find({ where: { deleted: false } }, function(err, legislations) {
+            for (var i = 0; i < legislations.length - 1; i++) {
+                var legislation = legislations[i]
+                if (i == legislations.length - 1) {
+                    cb(null, legislations.length)
+                } else {
+                    if (legislation.legislationParts && !legislation.flattenedParts) {
+                        Legislation.viewLegislationWithFlattenedParts(legislation.id, i)
+                    }
+                }
+            }
+        })
     }
 
     // REMOTE METHODS ##############################################################################################
@@ -659,6 +668,12 @@ module.exports = function(Legislation) {
             http: { path: '/viewLegislationWithFlattenedParts', verb: 'get' },
             accepts: { arg: 'id', type: 'string' },
             returns: { arg: 'legislation', type: 'Object' }
+        })
+
+    Legislation.remoteMethod(
+        'flattenAllParts', {
+            http: { path: '/flattenAllParts', verb: 'get' },
+            returns: { arg: 'legislation', type: 'number' }
         })
 
     // HOOKS ########################################################################################################

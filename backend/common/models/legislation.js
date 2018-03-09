@@ -543,8 +543,8 @@ module.exports = function(Legislation) {
             })
     }
 
-    Legislation.flattenAllParts = function(cb) {
-        Legislation.find({ where: { deleted: false } }, function(err, legislations) {
+    Legislation.flattenAllParts = function(type, cb) {
+        Legislation.find({ where: { deleted: false, legislationType: type } }, function(err, legislations) {
             for (var i = 0; i < legislations.length - 1; i++) {
                 var legislation = legislations[i]
                 if (i == legislations.length - 1) {
@@ -673,6 +673,7 @@ module.exports = function(Legislation) {
     Legislation.remoteMethod(
         'flattenAllParts', {
             http: { path: '/flattenAllParts', verb: 'get' },
+            accepts: { arg: 'type', type: 'string' },
             returns: { arg: 'legislation', type: 'number' }
         })
 

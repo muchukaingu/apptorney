@@ -1,0 +1,54 @@
+{
+    "name": "Customer",
+    "base": "PersistedModel",
+    "idInjection": true,
+    "options": {
+        "validateUpsert": true
+    },
+    "mixins": {
+        "TimeStamp": true
+    },
+    "properties": {
+        "firstName": {
+            "type": "string",
+            "required": false,
+            "default": ""
+        },
+        "lastName": {
+            "type": "string",
+            "required": false,
+            "default": ""
+        },
+        "emailAddress": {
+            "type": "string",
+            "index": {
+                "unique": true
+            }
+        },
+        "phoneNumber": {
+            "type": "string",
+            "index": {
+                "unique": true
+            }
+        },
+        "profilePicture": {
+            "type": "file",
+            "required": false
+        }
+    },
+    "validations": [],
+    "relations": {
+        "organization": {
+            "type": "belongsTo",
+            "model": "Organization",
+            "foreignKey": "employer"
+        },
+        "user": {
+            "type": "belongsTo",
+            "model": "Appuser",
+            "foreignKey": ""
+        }
+    },
+    "acls": [],
+    "methods": {}
+}

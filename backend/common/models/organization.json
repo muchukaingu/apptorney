@@ -1,0 +1,48 @@
+{
+  "name": "Organization",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "registrationNumber": {
+      "type": "string",
+      "required": true
+    },
+    "organizationName": {
+      "type": "string",
+      "required": true
+    },
+    "emailAddress": {
+      "type": "string",
+      "required": true
+    },
+    "phoneNumber": {
+      "type": "string",
+      "required": true
+    },
+    "contactPerson": {
+      "type": "string",
+      "required": true
+    },
+    "MOU": {
+      "type": "string",
+      "required": false
+    },
+    "physicalAddress": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "employees": {
+      "type": "hasMany",
+      "model": "Customer",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

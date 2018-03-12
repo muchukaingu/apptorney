@@ -565,6 +565,85 @@ module.exports = function(Legislation) {
         })
     }
 
+
+
+
+
+
+
+
+    Legislation.flattenParts = function(legislation) {
+        var flattenedJSON = ''
+        recursive(legislation)
+        console.log(legislation.id + ' ' + legislation.legislationName)
+
+        var callback = function(err, res) {
+            console.log("cb")
+        }
+
+
+        function recursive(legislation) {
+
+
+            for (var i = 0; i < legislation.legislationParts.length; i++) {
+
+                var content = ''
+
+                if (legislation.legislationParts[i].subParts && legislation.legislationParts[i].subParts.length > 0) {
+                    flattenSubItems(legislation.legislationParts[i], legislation.legislationParts[i].subParts, i)
+                        // console.log("after recursion", content)
+                    legislation.legislationParts[i].flatContentNew = content
+                    content = ''
+                }
+                if (i == legislation.legislationParts.length - 1) {
+                    Legislation.upsert(legislation, (err, res) => {
+                            // console.log('update successful: ')
+                            return
+                        })
+                        // console.log(legislation.legislationParts)
+
+                    // return
+                }
+
+            }
+
+            function flattenSubItems(part, parts, itr) {
+                // console.log("in recusive func")
+                for (var i = 0; i < parts.length; i++) {
+                    content = content + ((parts[i].number) ? parts[i].number : '') + parts[i].title + '\n' + ((parts[i].content) ? parts[i].content + '\n' : '')
+                    if (parts[i].subParts) {
+                        flattenSubItems(parts[i], parts[i].subParts)
+                    }
+
+                }
+                // part.flatContent = content
+                // console.log(part.flatContent)
+
+            }
+        }
+    }
+
+    Legislation.flattenAllLegislations = function(type, cb) {
+        Legislation.find({
+            where: {
+                deleted: false,
+                legislationType: type
+            }
+        }, function(err, legislations) {
+            for (var i = 0; i < legislations.length - 1; i++) {
+                var legislation = legislations[i]
+                if (i == legislations.length - 1) {
+                    cb(null, legislations.length)
+                } else {
+                    if (legislation.legislationParts) {
+                        Legislation.flattenParts(legislation)
+                    }
+                }
+            }
+        })
+    }
+
+
     // REMOTE METHODS ##############################################################################################
 
     Legislation.remoteMethod(
@@ -683,6 +762,24 @@ module.exports = function(Legislation) {
             accepts: { arg: 'type', type: 'string' },
             returns: { arg: 'legislation', type: 'number' }
         })
+
+
+    Legislation.remoteMethod(
+        'flattenAllLegislations', {
+            http: {
+                path: '/flattenAllLegislations',
+                verb: 'get'
+            },
+            accepts: {
+                arg: 'type',
+                type: 'string'
+            },
+            returns: {
+                arg: 'legislation',
+                type: 'number'
+            }
+        })
+
 
     // HOOKS ########################################################################################################
 

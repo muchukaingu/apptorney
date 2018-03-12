@@ -3,27 +3,22 @@
     "base": "User",
     "idInjection": true,
     "options": {
-        "injectOptionsFromRemoteContext": true,
         "validateUpsert": true
     },
-    "inheritAcls": false,
-    "properties": {
-        "target": {
-            "type": "number",
-            "required": false
-        }
+    "scope": {
+        "include": "customer"
     },
+    "inheritAcls": false,
+    "mixins": {
+        "TimeStamp": true
+    },
+    "properties": {},
     "validations": [],
     "relations": {
-        "cases": {
-            "type": "hasMany",
-            "model": "case",
-            "foreignKey": ""
-        },
-        "legislations": {
-            "type": "hasMany",
-            "model": "legislation",
-            "foreignKey": ""
+        "customer": {
+            "type": "hasOne",
+            "model": "Customer",
+            "foreignKey": "appuserId"
         }
     },
     "acls": [{
@@ -31,6 +26,12 @@
             "principalId": "$everyone",
             "permission": "ALLOW",
             "property": "performance"
+        },
+        {
+            "principalType": "ROLE",
+            "principalId": "$everyone",
+            "permission": "ALLOW",
+            "property": "confirmPhone"
         },
         {
             "principalType": "ROLE",
@@ -46,8 +47,14 @@
         },
         {
             "principalType": "ROLE",
+            "principalId": "$authenticated",
+            "permission": "ALLOW",
+            "property": "upsert"
+        },
+        {
+            "principalType": "ROLE",
             "permission": "DENY",
-            "principal": "$everyone"
+            "principal": "$unauthenticated"
         },
         {
             "principalType": "ROLE",
@@ -57,7 +64,7 @@
         },
         {
             "principalType": "ROLE",
-            "principalId": "$owner",
+            "principalId": "$authenticated",
             "permission": "ALLOW",
             "property": "deleteById"
         },
@@ -81,7 +88,19 @@
         },
         {
             "principalType": "ROLE",
-            "principalId": "$owner",
+            "principalId": "$authenticated",
+            "permission": "ALLOW",
+            "property": "find"
+        },
+        {
+            "principalType": "ROLE",
+            "principalId": "$authenticated",
+            "permission": "ALLOW",
+            "property": "alldata"
+        },
+        {
+            "principalType": "ROLE",
+            "principalId": "$authenticated",
             "permission": "ALLOW",
             "property": "updateAttributes"
         },

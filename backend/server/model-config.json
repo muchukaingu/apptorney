@@ -17,6 +17,9 @@
     "User": {
         "dataSource": "apptorney"
     },
+    "Email": {
+        "dataSource": "Email"
+    },
     "AccessToken": {
         "dataSource": "apptorney",
         "public": false

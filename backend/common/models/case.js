@@ -79,7 +79,7 @@ module.exports = function(Case) {
         'mobilesearch', {
             http: { path: '/mobilesearch', verb: 'get' },
             accepts: { arg: 'term', type: 'string' },
-            returns: { arg: 'cases', type: 'Object' }
+            returns: { arg: 'cases', type: 'Object', root: true }
         })
 
     Case.remoteMethod(

@@ -182,7 +182,7 @@ module.exports = function(Case) {
                         '*': { 'pre_tags': ['<strong>'], 'post_tags': ['</strong>'] }
                     }
                 },
-                _source: ['name', 'areaOfLaw', 'caseNumber', '_id']
+                _source: ['name', 'areaOfLaw', 'caseNumber', '_id', 'isStub']
 
             }
         }
@@ -191,38 +191,41 @@ module.exports = function(Case) {
             // console.log(resp.hits)
             let results = []
             resp.hits.hits.forEach(function(h) {
-                var highlight = h.highlight
-                var highlights = '...'
-                    // console.log(highlight)
-                if (highlight.name !== undefined) {
-                    h._source.name = '<b>' + highlight.name[0] + '</b>'
-                } else {
-                    h._source.name = '<b>' + h._source.name + '</b>'
-                }
-                if (highlight.summaryOfRuling !== undefined) {
-                    highlight.summaryOfRuling.forEach(function(ruling) {
-                        highlights = highlights + ruling + '...'
-                    })
-                    highlights = '<b>Summary of Ruling: </b>' + highlights + '<br>'
-                }
+                if (h._source.isStub == false) {
+                    var highlight = h.highlight
+                    var highlights = '...'
+                        // console.log(highlight)
+                    if (highlight.name !== undefined) {
+                        h._source.name = '<b>' + highlight.name[0] + '</b>'
+                    } else {
+                        h._source.name = '<b>' + h._source.name + '</b>'
+                    }
+                    if (highlight.summaryOfRuling !== undefined) {
+                        highlight.summaryOfRuling.forEach(function(ruling) {
+                            highlights = highlights + ruling + '...'
+                        })
+                        highlights = '<b>Summary of Ruling: </b>' + highlights + '<br>'
+                    }
 
-                if (highlight.summaryOfFacts !== undefined) {
-                    highlight.summaryOfFacts.forEach(function(facts) {
-                        highlights = highlights + facts + '...'
-                    })
-                    highlights = (highlight.summaryOfRuling == undefined) ? '<b>Summary of Facts: </b>' + highlights : highlights + '<b>Summary of Facts: </b>' + highlights + '<br>'
-                }
+                    if (highlight.summaryOfFacts !== undefined) {
+                        highlight.summaryOfFacts.forEach(function(facts) {
+                            highlights = highlights + facts + '...'
+                        })
+                        highlights = (highlight.summaryOfRuling == undefined) ? '<b>Summary of Facts: </b>' + highlights : highlights + '<b>Summary of Facts: </b>' + highlights + '<br>'
+                    }
 
-                if (highlight.judgement !== undefined) {
-                    highlight.judgement.forEach(function(judgement) {
-                        highlights = highlights + judgement + '...'
-                    })
-                    highlights = (highlight.summaryOfRuling == undefined && highlight.summaryOfFacts == undefined) ? '<b>Judgment: </b>' + highlights : highlights + '<b>Judgment: </b>' + highlights + '<br>'
-                }
+                    if (highlight.judgement !== undefined) {
+                        highlight.judgement.forEach(function(judgement) {
+                            highlights = highlights + judgement + '...'
+                        })
+                        highlights = (highlight.summaryOfRuling == undefined && highlight.summaryOfFacts == undefined) ? '<b>Judgment: </b>' + highlights : highlights + '<b>Judgment: </b>' + highlights + '<br>'
+                    }
 
-                h._source.highlight = highlights.length == 3 ? undefined : highlights
-                h._source._id = h._id
-                results.push(h._source)
+                    h._source.highlight = highlights.length == 3 ? undefined : highlights
+                    h._source._id = h._id
+                    results.push(h._source)
+
+                }
             })
             cb(null, results)
         }, function(err) {

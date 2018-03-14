@@ -174,6 +174,7 @@ module.exports = function(Case) {
             index: 'case',
             size: 100,
             body: {
+                sort: ["_score"],
                 query: {
                     multi_match: { query: term, fields: ['name', 'judgement', 'summaryOfFacts', 'summaryOfRuling', 'areaOfLaw'] }
                 },

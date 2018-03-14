@@ -12,9 +12,13 @@
 		8D03361A1FC2FDCE007F9DC9 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0336191FC2FDCD007F9DC9 /* String+Extensions.swift */; };
 		8D0336201FC37357007F9DC9 /* UILabel+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D03361F1FC37357007F9DC9 /* UILabel+Extensions.swift */; };
 		8D03B8F81AA54D80002A53F1 /* ProductDetailsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D03B8F71AA54D80002A53F1 /* ProductDetailsTableViewCell.swift */; };
+		8D0E3FE82056C5A200BBEFB8 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0E3FE72056C5A200BBEFB8 /* RegisterViewController.swift */; };
+		8D0E3FEB2057454B00BBEFB8 /* VerifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0E3FEA2057454B00BBEFB8 /* VerifyViewController.swift */; };
 		8D1A3C161ACB5785003CF9E1 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D1A3C151ACB5785003CF9E1 /* SWRevealViewController.m */; };
 		8D1A3C191ACC6E57003CF9E1 /* MenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1A3C181ACC6E57003CF9E1 /* MenuTableViewController.swift */; };
 		8D1A3C1C1ACC7038003CF9E1 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1A3C1B1ACC7038003CF9E1 /* Store.swift */; };
+		8D1C7D8920554A860064B43A /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1C7D8820554A860064B43A /* OnboardingViewController.swift */; };
+		8D1C7D8B20554AB00064B43A /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1C7D8A20554AB00064B43A /* OnboardingView.swift */; };
 		8D1FFEA71F8E438D00398738 /* CaseDetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1FFEA61F8E438D00398738 /* CaseDetailsTableViewController.swift */; };
 		8D284A261AC9876B005AF1AB /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D284A251AC9876B005AF1AB /* CustomTextField.swift */; };
 		8D4B47E21F5DAC62009DF5ED /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8DD147BB1AA3A27500B2A098 /* Info.plist */; };
@@ -62,6 +66,8 @@
 		8D9F05C21C5635AF0002A085 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9F05C11C5635AF0002A085 /* HomeViewController.swift */; };
 		8D9F05CA1C569C4D0002A085 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9F05C91C569C4D0002A085 /* Category.swift */; };
 		8D9F05CD1C56CFDC0002A085 /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9F05CC1C56CFDC0002A085 /* CategoryTableViewCell.swift */; };
+		8DA32BD7205583580077BAE3 /* PaperOnboarding.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DA32BD6205583580077BAE3 /* PaperOnboarding.framework */; };
+		8DA32BD8205583580077BAE3 /* PaperOnboarding.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8DA32BD6205583580077BAE3 /* PaperOnboarding.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8DB3CE8F1E1C5FDE002D9DD7 /* Open_Sans in Resources */ = {isa = PBXBuildFile; fileRef = 8DB3CE8E1E1C5FDD002D9DD7 /* Open_Sans */; };
 		8DB40C441ACA0C59002A8181 /* ErrorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB40C431ACA0C59002A8181 /* ErrorViewController.swift */; };
 		8DB4E6BC1FC604BE004523E1 /* CaseDetailsSummaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB4E6BB1FC604BE004523E1 /* CaseDetailsSummaryCell.swift */; };
@@ -114,12 +120,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		8D6EBA211E1476C70038B111 /* Embed Frameworks */ = {
+		8DA32BD9205583580077BAE3 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				8DA32BD8205583580077BAE3 /* PaperOnboarding.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -132,11 +139,16 @@
 		8D0336191FC2FDCD007F9DC9 /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		8D03361F1FC37357007F9DC9 /* UILabel+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extensions.swift"; sourceTree = "<group>"; };
 		8D03B8F71AA54D80002A53F1 /* ProductDetailsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductDetailsTableViewCell.swift; sourceTree = "<group>"; };
+		8D0E3FE72056C5A200BBEFB8 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		8D0E3FEA2057454B00BBEFB8 /* VerifyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyViewController.swift; sourceTree = "<group>"; };
 		8D1A3C131ACB5784003CF9E1 /* MR-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MR-Bridging-Header.h"; sourceTree = "<group>"; };
 		8D1A3C141ACB5785003CF9E1 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
 		8D1A3C151ACB5785003CF9E1 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
 		8D1A3C181ACC6E57003CF9E1 /* MenuTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuTableViewController.swift; sourceTree = "<group>"; };
 		8D1A3C1B1ACC7038003CF9E1 /* Store.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
+		8D1C7D8820554A860064B43A /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
+		8D1C7D8A20554AB00064B43A /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		8D1C7D8E20555C050064B43A /* PaperOnboarding.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PaperOnboarding.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/PaperOnboardingDemo-fywwnsouadrdfxewrsmzbhjugzvd/Build/Products/Debug-iphonesimulator/PaperOnboarding.framework"; sourceTree = "<group>"; };
 		8D1FFEA61F8E438D00398738 /* CaseDetailsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseDetailsTableViewController.swift; sourceTree = "<group>"; };
 		8D284A251AC9876B005AF1AB /* CustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		8D6514D71C494C2800F5EDE0 /* StoresTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoresTableViewCell.swift; sourceTree = "<group>"; };
@@ -184,6 +196,7 @@
 		8D9F05C11C5635AF0002A085 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		8D9F05C91C569C4D0002A085 /* Category.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		8D9F05CC1C56CFDC0002A085 /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
+		8DA32BD6205583580077BAE3 /* PaperOnboarding.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PaperOnboarding.framework; sourceTree = "<group>"; };
 		8DB3CE8E1E1C5FDD002D9DD7 /* Open_Sans */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Open_Sans; sourceTree = "<group>"; };
 		8DB40C431ACA0C59002A8181 /* ErrorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorViewController.swift; sourceTree = "<group>"; };
 		8DB4E6BB1FC604BE004523E1 /* CaseDetailsSummaryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseDetailsSummaryCell.swift; sourceTree = "<group>"; };
@@ -227,6 +240,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8DA32BD7205583580077BAE3 /* PaperOnboarding.framework in Frameworks */,
 				4FA9DC7F03C393727AC4E618 /* Pods_apptorney.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -255,6 +269,22 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		8D0E3FE42056C58A00BBEFB8 /* Register */ = {
+			isa = PBXGroup;
+			children = (
+				8D0E3FE72056C5A200BBEFB8 /* RegisterViewController.swift */,
+			);
+			name = Register;
+			sourceTree = "<group>";
+		};
+		8D0E3FE92057453100BBEFB8 /* Verify */ = {
+			isa = PBXGroup;
+			children = (
+				8D0E3FEA2057454B00BBEFB8 /* VerifyViewController.swift */,
+			);
+			name = Verify;
+			sourceTree = "<group>";
+		};
 		8D1A3C111ACB5758003CF9E1 /* SideBar */ = {
 			isa = PBXGroup;
 			children = (
@@ -263,6 +293,15 @@
 				8D1A3C131ACB5784003CF9E1 /* MR-Bridging-Header.h */,
 			);
 			name = SideBar;
+			sourceTree = "<group>";
+		};
+		8D1C7D8520554A250064B43A /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				8D1C7D8820554A860064B43A /* OnboardingViewController.swift */,
+				8D1C7D8A20554AB00064B43A /* OnboardingView.swift */,
+			);
+			name = Onboarding;
 			sourceTree = "<group>";
 		};
 		8D6C0CDE1AACE63B00D01ABF /* Custom TableView Cells */ = {
@@ -406,6 +445,7 @@
 		8D8C729A1DE250C400A25261 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8D1C7D8E20555C050064B43A /* PaperOnboarding.framework */,
 				5B59FFDFFDF2784D5629A457 /* Pods_apptorney.framework */,
 				9A05EB5E57B261BDC00A8CA7 /* Pods_apptorney_App_Store.framework */,
 				EED2EE42ECFF12F2BE9CB39B /* Pods_apptorneyTests.framework */,
@@ -416,6 +456,7 @@
 		8DD147AE1AA3A27500B2A098 = {
 			isa = PBXGroup;
 			children = (
+				8DA32BD6205583580077BAE3 /* PaperOnboarding.framework */,
 				8DFB15A41F54136500277AE3 /* Default-568h@2x.png */,
 				8DD147B91AA3A27500B2A098 /* apptorney */,
 				8DD147CF1AA3A27500B2A098 /* apptorneyTests */,
@@ -437,6 +478,7 @@
 		8DD147B91AA3A27500B2A098 /* apptorney */ = {
 			isa = PBXGroup;
 			children = (
+				8D1C7D8520554A250064B43A /* Onboarding */,
 				8D8692541F6C50CF00625FE8 /* Models */,
 				8D8048FE1F5A82EC00B2832C /* Settings */,
 				8D8048FA1F5A805D00B2832C /* Search */,
@@ -495,6 +537,8 @@
 		8DD8FB371F55AB0D00ADE135 /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
+				8D0E3FE92057453100BBEFB8 /* Verify */,
+				8D0E3FE42056C58A00BBEFB8 /* Register */,
 				8DD8FB391F55AB1F00ADE135 /* Login */,
 			);
 			name = Authentication;
@@ -536,10 +580,11 @@
 				B89F692F16052E191C368B99 /* [CP] Check Pods Manifest.lock */,
 				8DD147B31AA3A27500B2A098 /* Sources */,
 				8DD147B41AA3A27500B2A098 /* Frameworks */,
-				8DD147B51AA3A27500B2A098 /* Resources */,
-				8D6EBA211E1476C70038B111 /* Embed Frameworks */,
 				177CC93065CD7C609CB2AE96 /* [CP] Embed Pods Frameworks */,
 				76F548A2F296321B62B71BEF /* [CP] Copy Pods Resources */,
+				8DD147B51AA3A27500B2A098 /* Resources */,
+				8DA32BD9205583580077BAE3 /* Embed Frameworks */,
+				8DA32BDE20558C8C0077BAE3 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -732,6 +777,19 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-apptorneyTests/Pods-apptorneyTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		8DA32BDE20558C8C0077BAE3 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "echo \"Target architectures: $ARCHS\"\n\nAPP_PATH=\"${TARGET_BUILD_DIR}/${WRAPPER_NAME}\"\n\nfind \"$APP_PATH\" -name 'PaperOnboarding.framework' -type d | while read -r FRAMEWORK\ndo\nFRAMEWORK_EXECUTABLE_NAME=$(defaults read \"$FRAMEWORK/Info.plist\" CFBundleExecutable)\nFRAMEWORK_EXECUTABLE_PATH=\"$FRAMEWORK/$FRAMEWORK_EXECUTABLE_NAME\"\necho \"Executable is $FRAMEWORK_EXECUTABLE_PATH\"\necho $(lipo -info \"$FRAMEWORK_EXECUTABLE_PATH\")\n\nFRAMEWORK_TMP_PATH=\"$FRAMEWORK_EXECUTABLE_PATH-tmp\"\n\n# remove simulator's archs if location is not simulator's directory\ncase \"${TARGET_BUILD_DIR}\" in\n*\"iphonesimulator\")\necho \"No need to remove archs\"\n;;\n*)\nif $(lipo \"$FRAMEWORK_EXECUTABLE_PATH\" -verify_arch \"i386\") ; then\nlipo -output \"$FRAMEWORK_TMP_PATH\" -remove \"i386\" \"$FRAMEWORK_EXECUTABLE_PATH\"\necho \"i386 architecture removed\"\nrm \"$FRAMEWORK_EXECUTABLE_PATH\"\nmv \"$FRAMEWORK_TMP_PATH\" \"$FRAMEWORK_EXECUTABLE_PATH\"\nfi\nif $(lipo \"$FRAMEWORK_EXECUTABLE_PATH\" -verify_arch \"x86_64\") ; then\nlipo -output \"$FRAMEWORK_TMP_PATH\" -remove \"x86_64\" \"$FRAMEWORK_EXECUTABLE_PATH\"\necho \"x86_64 architecture removed\"\nrm \"$FRAMEWORK_EXECUTABLE_PATH\"\nmv \"$FRAMEWORK_TMP_PATH\" \"$FRAMEWORK_EXECUTABLE_PATH\"\nfi\n;;\nesac\n\necho \"Completed for executable $FRAMEWORK_EXECUTABLE_PATH\"\necho $(lipo -info \"$FRAMEWORK_EXECUTABLE_PATH\")\n\ndone";
+		};
 		B89F692F16052E191C368B99 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -798,6 +856,7 @@
 				8D8048FC1F5A80DF00B2832C /* SearchVC.swift in Sources */,
 				8D92B5C21F9F8E7200D4B6E4 /* ExpandableHeaderView.swift in Sources */,
 				8D6B1DB61C3A5F0700062C07 /* SwiftyJSON.swift in Sources */,
+				8D0E3FEB2057454B00BBEFB8 /* VerifyViewController.swift in Sources */,
 				8D9F05CD1C56CFDC0002A085 /* CategoryTableViewCell.swift in Sources */,
 				8DC5F38F1FA126BF0042C239 /* CustomImageTitleTableViewCell.swift in Sources */,
 				8D6ABA871C4C80D100D6EDFA /* DepartmentTableViewCell.swift in Sources */,
@@ -817,6 +876,7 @@
 				8D7F88911FC743970077C489 /* LegislationDetailsTableViewController.swift in Sources */,
 				8DC5BDD51F6E482B00F356C1 /* LegislationPart.swift in Sources */,
 				8DB4E6BC1FC604BE004523E1 /* CaseDetailsSummaryCell.swift in Sources */,
+				8D0E3FE82056C5A200BBEFB8 /* RegisterViewController.swift in Sources */,
 				8D03B8F81AA54D80002A53F1 /* ProductDetailsTableViewCell.swift in Sources */,
 				8D8692591F6C536C00625FE8 /* WorkReference.swift in Sources */,
 				8D8049001F5A831600B2832C /* SettingsVC.swift in Sources */,
@@ -829,6 +889,8 @@
 				8D03361A1FC2FDCE007F9DC9 /* String+Extensions.swift in Sources */,
 				8D6B49541AAB76960066F2CB /* SimpleCell.swift in Sources */,
 				8DBC4F641AA953EB0093F6CA /* HeaderTableViewCell.swift in Sources */,
+				8D1C7D8B20554AB00064B43A /* OnboardingView.swift in Sources */,
+				8D1C7D8920554A860064B43A /* OnboardingViewController.swift in Sources */,
 				8D86925C1F6C547400625FE8 /* Citation.swift in Sources */,
 				8D1A3C1C1ACC7038003CF9E1 /* Store.swift in Sources */,
 				8D6ABA821C4C623F00D6EDFA /* Department.swift in Sources */,
@@ -983,17 +1045,21 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = AB6D922033D8B4B3D6840B5D /* Pods-apptorney.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = apptorney/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.circuitbusiness.apptorney;
 				PRODUCT_NAME = apptorney;
 				PROVISIONING_PROFILE = "";
+				STRIP_INSTALLED_PRODUCT = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "apptorney/MR-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
@@ -1005,17 +1071,21 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C7DB55E644592CC9DC626DA5 /* Pods-apptorney.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = apptorney/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.circuitbusiness.apptorney;
 				PRODUCT_NAME = apptorney;
 				PROVISIONING_PROFILE = "";
+				STRIP_INSTALLED_PRODUCT = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "apptorney/MR-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1030,6 +1100,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -1052,6 +1123,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
+					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = MRTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";

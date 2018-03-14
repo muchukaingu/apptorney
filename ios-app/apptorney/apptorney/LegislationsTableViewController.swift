@@ -14,8 +14,16 @@ class LegislationsTableViewController: UITableViewController {
     
     var searchController: UISearchController!
     var searchResultsController = UITableViewController()
-    let debouncer = Debouncer(interval:0.5)
+    let debouncer = Debouncer(interval:2.0)
     var legislations = [Legislation]()
+    
+    var heightDiscount:CGFloat = 0
+    let messageFrame = UIView()
+    var activityIndicator = UIActivityIndicatorView()
+    var strLabel = UILabel()
+    var msgLabel = UILabel()
+    let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
+    var errorImage = UIImageView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,7 +46,7 @@ class LegislationsTableViewController: UITableViewController {
             navigationItem.searchController = searchController
             navigationItem.hidesSearchBarWhenScrolling = false
             self.searchController.searchResultsUpdater = self
-            self.searchController.dimsBackgroundDuringPresentation = false
+            self.searchController.dimsBackgroundDuringPresentation = true
             
             //search black screen fix
             self.definesPresentationContext = true
@@ -99,11 +107,11 @@ class LegislationsTableViewController: UITableViewController {
         cell.mainLabel.setHTMLFromString(text: legislation.legislationName?.capitalized ?? "")
         //cell.mainLabel.text = legislation.legislationName?.capitalized
         var excerpt = ""
-        if legislation.searchHighlight == "..." {
+        if legislation.highlight == "..." {
             excerpt = legislation.preamble ?? ""
         }
         else {
-            excerpt = legislation.searchHighlight!
+            excerpt = legislation.highlight!
         }
         cell.subTitleLabel.setHTMLFromString(text: excerpt)
         cell.subTitleLabel.sizeToFit()
@@ -173,6 +181,41 @@ class LegislationsTableViewController: UITableViewController {
             }
         }
     }
+    
+    
+    func activityIndicator(_ title: String) {
+       
+        strLabel.removeFromSuperview()
+        activityIndicator.removeFromSuperview()
+        effectView.removeFromSuperview()
+        
+        strLabel = UILabel(frame: CGRect(x: 48, y: 0, width: 150, height: 46))
+        strLabel.text = title
+        strLabel.font = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.medium)
+        strLabel.textColor = UIColor(white: 1.0, alpha: 0.9)
+        
+        effectView.frame = CGRect(x: view.frame.midX - strLabel.frame.width/2, y: view.frame.midY - 40 - strLabel.frame.height/2 , width: 150, height: 46)
+        effectView.layer.cornerRadius = 10
+        effectView.layer.masksToBounds = true
+        
+        activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .white)
+        activityIndicator.frame = CGRect(x: 5, y: 0, width: 46, height: 46)
+        activityIndicator.startAnimating()
+        
+        effectView.contentView.addSubview(activityIndicator)
+        effectView.contentView.addSubview(strLabel)
+        view.addSubview(effectView)
+        
+      
+    }
+    
+    func removeIndicator(){
+        UIScreen.main.brightness = CGFloat(1.0)
+       
+        strLabel.removeFromSuperview()
+        activityIndicator.removeFromSuperview()
+        effectView.removeFromSuperview()
+    }
 
 }
 
@@ -180,30 +223,58 @@ class LegislationsTableViewController: UITableViewController {
 extension LegislationsTableViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
-        self.legislations = []
-        self.tableView.reloadData()
-        UIApplication.shared.isNetworkActivityIndicatorVisible = true
-        debouncer.callback = {
-            // Send the debounced network request here
-            let searchTerm = self.searchController.searchBar.text
-            
-            Legislation.search(term: searchTerm, completionHandler:{(legislations,error) in
-                print("callback")
-                print(legislations.count)
-                print(error)
-                self.legislations = legislations
-             
-                
-                for legislation in self.legislations {
-                    //print(legislation.legislationParts)
-                }
-                
-                self.tableView.reloadData()
-                UIApplication.shared.isNetworkActivityIndicatorVisible = false
-            })
-        }
         
-        debouncer.call()
+        if self.searchController.searchBar.text == "" {
+            
+        }
+        else {
+            self.msgLabel.removeFromSuperview()
+            self.errorImage.removeFromSuperview()
+            self.legislations = []
+            self.tableView.reloadData()
+            UIApplication.shared.isNetworkActivityIndicatorVisible = true
+            activityIndicator("Searching...")
+            debouncer.callback = {
+                // Send the debounced network request here
+                let searchTerm = self.searchController.searchBar.text
+                
+                Legislation.search(term: searchTerm, completionHandler:{(legislations,error) in
+                    if legislations.count == 0 {
+                        self.msgLabel = UILabel(frame:CGRect(x: self.view.frame.midX -  134, y: self.view.frame.midY - 40 , width: 300, height: 46))
+                    
+                        self.msgLabel.text = "No results for \u{22}\(searchTerm! as String)\u{22}"
+                        self.msgLabel.sizeToFit()
+                        self.msgLabel.frame = CGRect(x: self.view.frame.midX -  self.msgLabel.frame.width/2, y: self.view.frame.midY - 40 , width: 300, height: 46)
+                        self.view.addSubview(self.msgLabel)
+                        self.msgLabel.font = UIFont.boldSystemFont(ofSize: 16.0)
+                        
+                        self.errorImage = UIImageView(frame:CGRect(x: self.view.frame.midX -  50, y: self.view.frame.midY - 140 , width: 100, height: 100))
+                        self.errorImage.image = UIImage(named: "law-lib")
+                        self.view.addSubview(self.errorImage)
+                    }
+                    else {
+                        self.msgLabel.removeFromSuperview()
+                        self.errorImage.removeFromSuperview()
+                    }
+                    print(legislations)
+                    print(legislations.count)
+                    print(error)
+                    self.legislations = legislations
+                    
+                    
+                    for legislation in self.legislations {
+                        //                    print(legislation.legislationParts)
+                    }
+                    self.removeIndicator()
+                    
+                    self.tableView.reloadData()
+                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                })
+            }
+            
+            debouncer.call()
+        }
+ 
         
         
     }

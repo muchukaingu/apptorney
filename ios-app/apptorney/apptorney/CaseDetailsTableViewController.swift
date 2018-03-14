@@ -25,17 +25,17 @@ class CaseDetailsTableViewController: UITableViewController {
     
     var sections = [
         Section(name: "",
-                isCollapsed: false, height:0.0, isCollapsible: false),
+                isCollapsed: false, height:0.0, isCollapsible: false, content:nil),
         Section(name: "Summary of Holding",
-                isCollapsed: true, height:0.0, isCollapsible: true),
+                isCollapsed: true, height:0.0, isCollapsible: true, content:nil),
         Section(name: "Summary of Facts",
-                isCollapsed: true, height:0.0, isCollapsible: true),
+                isCollapsed: true, height:0.0, isCollapsible: true, content:nil),
         Section(name: "Holding",
-                isCollapsed: true, height:0.0, isCollapsible: true),
+                isCollapsed: true, height:0.0, isCollapsible: true, content:nil),
         Section(name: "Cases Referenced",
-                isCollapsed: true, height:0.0, isCollapsible: true),
+                isCollapsed: true, height:0.0, isCollapsible: true, content:nil),
         Section(name: "Legislations Referenced",
-                isCollapsed: true, height:0.0, isCollapsible: true)
+                isCollapsed: true, height:0.0, isCollapsible: true, content:nil)
     ]
     
     
@@ -63,7 +63,7 @@ class CaseDetailsTableViewController: UITableViewController {
     }
     
     private func populateCase(){
-        let caseId = caseInstance.caseId
+        let caseId = caseInstance._id
         Case.loadCase(caseId: caseId, completionHandler:{(aCase,error) in
             
             print("aCase Court \(aCase.court!["name"] ?? "")")
@@ -87,7 +87,7 @@ class CaseDetailsTableViewController: UITableViewController {
                 let cellIndetifier = "SummaryCell"
                 let summarycell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) as! CaseDetailsSummaryCell
                 //cell.textLabel?.text = "Name of Case"
-                summarycell.firstLabel?.text = preliminaryCaseData.area?.capitalized
+                summarycell.firstLabel?.text = preliminaryCaseData.areaOfLaw?.capitalized
                 summarycell.secondLabel?.text = caseInstance.caseNumber!
                 let court = caseInstance.court?["name"] ?? ""
                 //let courtDivision = caseInstance.courtDivision?["name"] ?? ""

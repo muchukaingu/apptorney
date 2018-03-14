@@ -28,7 +28,7 @@ class LegislationDetailsTableViewController: UITableViewController {
     
     var sections = [
         Section(name: "",
-                isCollapsed: false, height:0.0, isCollapsible: false)
+                isCollapsed: false, height:0.0, isCollapsible: false, content:"")
     ]
     
     
@@ -48,12 +48,16 @@ class LegislationDetailsTableViewController: UITableViewController {
         
     }
     
+    
     private func populateLegislation(){
         let legislationId = legislationInstance._id
         Legislation.loadLegislation(legislationId: legislationId, completionHandler:{(legislation,error) in
             self.legislationInstance = legislation
-           
             self.removeIndicator()
+            for part in self.legislationInstance.legislationParts!{
+                self.sections.append(Section(name:part.title!.capitalized, isCollapsed: true, height:0.0, isCollapsible: true, content:part.flatContentNew))
+            }
+            
         
        
             self.loaded = true
@@ -72,9 +76,9 @@ class LegislationDetailsTableViewController: UITableViewController {
             
             let cellIndetifier = "SummaryCell"
             let summarycell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) as! CaseDetailsSummaryCell
-            summarycell.firstLabel?.text = legislationInstance.legislationType!
-            //summarycell.secondLabel?.text = legislationInstance.legislationNumbers ?? legislationInstance.legislationNumber
-            summarycell.secondLabel?.text = "Year of Assent | \(legislationInstance.dateOfAssent!.prefix(4)) \n Year of Amendment | \(legislationInstance.yearOfAmendment!)"
+                summarycell.firstLabel?.text = legislationInstance.legislationType ?? ""
+//            //summarycell.secondLabel?.text = legislationInstance.legislationNumbers ?? legislationInstance.legislationNumber
+//            summarycell.secondLabel?.text = "Year of Assent | \(legislationInstance.dateOfAssent!.prefix(4)) \n Year of Amendment | \(legislationInstance.yearOfAmendment!)"
             let volume = legislationInstance.volumeNumber ?? ""
             let chapter = legislationInstance.chapterNumber ?? ""
         
@@ -82,7 +86,14 @@ class LegislationDetailsTableViewController: UITableViewController {
                 summarycell.fourthLabel?.text = ""
             }
             else {
-                let volumeDetails = "Volume " + volume + " | Chapter " + chapter
+                var volumeDetails = "Volume " + volume + ", Chapter " + chapter
+                let amends = legislationInstance.yearOfAmendment ?? 0
+                if let assent = legislationInstance.dateOfAssent?.prefix(4) {
+                    volumeDetails = volumeDetails + " of \(assent)"
+                }
+                if amends != 0 {
+                    volumeDetails = volumeDetails + " (Amended in \(amends))"
+                }
                 summarycell.fourthLabel?.text = volumeDetails
             }
             summarycell.fifthLabel?.text = legislationInstance.enactment
@@ -101,7 +112,6 @@ class LegislationDetailsTableViewController: UITableViewController {
             let border:UIView = UIView(frame: CGRect(x: 20,y: 185 - heightDiscount,width: self.tableView.bounds.width-40, height: 1))
             border.backgroundColor = UIColor(red: 2.0/255, green: 160.0/255, blue: 243.0/255, alpha: 1.0)
             summarycell.addSubview(border)
-            print("Number of Lines in Label \(summarycell.thirdLabel.numberOfLines)")
             
             
             
@@ -110,37 +120,19 @@ class LegislationDetailsTableViewController: UITableViewController {
             //cell.fifthLabel?.text = preliminaryCaseData.area!.uppercased() + " | " + preliminaryCaseData.caseNumber!
             return summarycell
             //let insets: UIEdgeInsets = cell.mainText.textContainerInset
-            
-        case 1:
-            let cellIndetifier = "DetailCell"
-            let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) as! CaseDetailsTableViewCell
-            //cell.mainText?.text = legislationInstance.summaryOfRuling
-            //let insets: UIEdgeInsets = cell.mainText.textContainerInset
-            return cell
-            
-        case 2:
-            let cellIndetifier = "DetailCell"
-            let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) as! CaseDetailsTableViewCell
-            //cell.mainText?.text = legislationInstance.summaryOfFacts
-            print(cell.mainText.frame.size.height)
-            return cell
-        case 3:
-            let cellIndetifier = "DetailCell"
-            let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) as! CaseDetailsTableViewCell
-            //cell.mainText?.text = legislationInstance.judgement
-            print(cell.mainText.frame.size.height)
-            return cell
-            
+
         default:
-            print("")
-            return UITableViewCell()
+            let cellIndetifier = "DetailCell"
+            let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) as! CaseDetailsTableViewCell
+            cell.mainText?.text = sections[index].content
+            return cell
         }
   
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        print(sections.count)
+        
         let item = sections[section]
         guard item.isCollapsible! else {
             return 1
@@ -214,7 +206,7 @@ class LegislationDetailsTableViewController: UITableViewController {
         }
     }
     override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        print("Yebo Yes")
+       
     }
     
     func activityIndicator(_ title: String) {
@@ -251,16 +243,17 @@ class LegislationDetailsTableViewController: UITableViewController {
 
 extension LegislationDetailsTableViewController: HeaderViewDelegate {
     func toggleSection(header: HeaderView, section: Int) {
-        print("header tapped")
+       
         
         
         let item = sections[section]
+       
         if item.isCollapsible! {
             
             // Toggle collapse
             let collapsed = !item.isCollapsed
             sections[section].isCollapsed = collapsed
-            print(item.isCollapsed)
+            
             header.setCollapsed(collapsed: collapsed)
             
             // Adjust the number of the rows inside the section

@@ -11,17 +11,23 @@ import Foundation
 
 class Appuser {
     
-    var email:String?
+    var username:String?
     var password:String?
     var userId:String?
+    var firstName:String?
+    var lastName:String?
+    var phoneNumber: String?
+    var emailAddress: String?
     
     
-    func login(email:String?, password:String?, completionHandler:@escaping (Any, Error?)->Void){
+    func login(username:String?, password:String?, completionHandler:@escaping (Any, Error?)->Void){
+        print("logging in")
         let api = APIService()
         api.delegate = self
-        api.post(endPoint: "/appusers/login", parameters: ["email":email!, "password":password!], completionHandler: { (result, error) in
+        api.post(endPoint: "/appusers/login", parameters: ["username":username!, "password":password!], completionHandler: { (result, error) in
+            
             if error != nil {
-                print(error!)
+                completionHandler(false, error)
             }
             else {
                 struct loginResult {
@@ -31,14 +37,70 @@ class Appuser {
                     var userId: String
                 }
                 
-               let login = JSON(result)
-                if login["userId"] == nil{
+               completionHandler(true, nil)
+            }
+        })
+    }
+    
+    
+    func register(user:Appuser, completionHandler:@escaping (Any, Error?)->Void){
+        print("Registering")
+        let api = APIService()
+        api.delegate = self
+        api.post(endPoint: "/Customers", parameters: ["firstName":user.firstName! as String, "lastName":user.lastName! as String, "phoneNumber":user.phoneNumber! as String, "emailAddress":user.emailAddress! as String, "password":user.password! as String ], completionHandler: { (result, error) in
+         
+            if error != nil {
+                completionHandler(false, error)
+            }
+            else {
+                struct loginResult {
+                    var created: String
+                    var id: String
+                    var ttl: String
+                    var userId: String
+                }
+                
+                let res = JSON(result)
+                /*if login["userId"] == nil{
                     print("login failed")
                     completionHandler(false, NSError(domain:"Login Failed", code:100, userInfo:nil))
                 }
                 else{
                     completionHandler(true, nil)
+                }*/
+                print(res)
+                completionHandler(true, nil)
+            }
+        })
+    }
+    
+    
+    func verify(username:String?, token:String?, completionHandler:@escaping (Any, Error?)->Void){
+        let api = APIService()
+        api.delegate = self
+        api.getAsJSON(endPoint: "/appusers/confirmPhone", parameters: ["username": username!, "token": token!], completionHandler: { (result, error) in
+            
+            if error != nil {
+                completionHandler(false, error)
+            }
+            else {
+                struct loginResult {
+                    var created: String
+                    var id: String
+                    var ttl: String
+                    var userId: String
                 }
+                
+                let res = JSON(result)
+                /*if login["userId"] == nil{
+                 print("login failed")
+                 completionHandler(false, NSError(domain:"Login Failed", code:100, userInfo:nil))
+                 }
+                 else{
+                 completionHandler(true, nil)
+                 }*/
+                print(res)
+                completionHandler(true, nil)
             }
         })
     }

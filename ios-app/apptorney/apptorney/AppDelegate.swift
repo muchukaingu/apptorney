@@ -36,6 +36,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
        // UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(UIOffsetMake(0, -60), for:UIBarMetrics.default)
        
         //UIApplication.shared.statusBarStyle = .lightContent
+        window = UIWindow(frame: UIScreen.main.bounds)
+        
+        let sb = UIStoryboard(name: "Main", bundle: nil)
+        var initialViewController = sb.instantiateViewController(withIdentifier: "Onboarding")
+        
+        let userDefaults = UserDefaults.standard
+        
+        if userDefaults.bool(forKey: "onboardingComplete") {
+            
+            if userDefaults.bool(forKey: "loginComplete") {
+                initialViewController = sb.instantiateViewController(withIdentifier: "Home")
+            }
+            else if userDefaults.bool(forKey: "registrationComplete") {
+                initialViewController = sb.instantiateViewController(withIdentifier: "Login")
+            }
+            else {
+                initialViewController = sb.instantiateViewController(withIdentifier: "Register")
+            }
+        }
+        
+        
+        window?.rootViewController = initialViewController
+        window?.makeKeyAndVisible()
         
         return true
     }

@@ -12,9 +12,17 @@ class CasesTableViewController: UITableViewController {
     
     var searchController: UISearchController!
     var searchResultsController = UITableViewController()
-    let debouncer = Debouncer(interval:0.7)
+    let debouncer = Debouncer(interval:2.0)
     var cases = [Case]()
     var messageLabel:UILabel = UILabel(frame: CGRect(x: 0,y: 0, width: 200, height: 100)) as UILabel
+    
+    var heightDiscount:CGFloat = 0
+    let messageFrame = UIView()
+    var activityIndicator = UIActivityIndicatorView()
+    var strLabel = UILabel()
+    var msgLabel = UILabel()
+    let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
+    var errorImage = UIImageView()
    
     
     override func viewDidLoad() {
@@ -108,8 +116,8 @@ class CasesTableViewController: UITableViewController {
         
         // Configure the cell...
         cell.mainLabel.setHTMLFromString(text: caseInstance.name?.capitalized ?? "")
-        cell.subTitleLabel.setHTMLFromString(text: caseInstance.searchHighlight ?? "")
-        cell.smallSubTitleLeft.text = caseInstance.area?.capitalized
+        cell.subTitleLabel.setHTMLFromString(text: caseInstance.highlight ?? "")
+        cell.smallSubTitleLeft.text = caseInstance.areaOfLaw?.capitalized
         cell.smallSubTitleLeft.sizeToFit()
         cell.smallSubTitleRight.text = caseInstance.caseNumber
         cell.subTitleLabel.sizeToFit()
@@ -191,6 +199,40 @@ class CasesTableViewController: UITableViewController {
             }
         }
     }
+    
+    func activityIndicator(_ title: String) {
+        
+        strLabel.removeFromSuperview()
+        activityIndicator.removeFromSuperview()
+        effectView.removeFromSuperview()
+        
+        strLabel = UILabel(frame: CGRect(x: 48, y: 0, width: 150, height: 46))
+        strLabel.text = title
+        strLabel.font = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.medium)
+        strLabel.textColor = UIColor(white: 1.0, alpha: 0.9)
+        
+        effectView.frame = CGRect(x: view.frame.midX - strLabel.frame.width/2, y: view.frame.midY - 40 - strLabel.frame.height/2 , width: 150, height: 46)
+        effectView.layer.cornerRadius = 10
+        effectView.layer.masksToBounds = true
+        
+        activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .white)
+        activityIndicator.frame = CGRect(x: 5, y: 0, width: 46, height: 46)
+        activityIndicator.startAnimating()
+        
+        effectView.contentView.addSubview(activityIndicator)
+        effectView.contentView.addSubview(strLabel)
+        view.addSubview(effectView)
+        
+        
+    }
+    
+    func removeIndicator(){
+        UIScreen.main.brightness = CGFloat(1.0)
+        
+        strLabel.removeFromSuperview()
+        activityIndicator.removeFromSuperview()
+        effectView.removeFromSuperview()
+    }
 
 }
 
@@ -199,13 +241,16 @@ class CasesTableViewController: UITableViewController {
 extension CasesTableViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
-        self.cases = []
-        self.tableView.reloadData()
-        self.messageLabel.text = ""
+        
         if self.searchController.searchBar.text == "" {
             
         }
         else {
+            self.msgLabel.removeFromSuperview()
+            self.errorImage.removeFromSuperview()
+            self.cases = []
+            self.tableView.reloadData()
+            activityIndicator("Searching...")
             UIApplication.shared.isNetworkActivityIndicatorVisible = true
             debouncer.callback = {
                 self.messageLabel.text = "Searching..."
@@ -219,14 +264,24 @@ extension CasesTableViewController: UISearchResultsUpdating {
                     self.cases = cases
                     print(self.cases)
                     if self.cases.count == 0 {
-                        self.messageLabel.text = "No match found"
-                        self.messageLabel.sizeToFit()
-                        self.messageLabel.isHidden = false
+                        self.msgLabel = UILabel(frame:CGRect(x: self.view.frame.midX -  134, y: self.view.frame.midY - 40 , width: 300, height: 46))
+                        self.msgLabel.text = "No results for \u{22}\(searchTerm! as String)\u{22}"
+                        self.msgLabel.sizeToFit()
+                        self.msgLabel.frame = CGRect(x: self.view.frame.midX -  self.msgLabel.frame.width/2, y: self.view.frame.midY - 40 , width: 300, height: 46)
+                        self.view.addSubview(self.msgLabel)
+                        self.msgLabel.font = UIFont.boldSystemFont(ofSize: 17.0)
+                        
+                        self.errorImage = UIImageView(frame:CGRect(x: self.view.frame.midX -  48, y: self.view.frame.midY - 149.4 , width: 100, height: 109.4))
+                        self.errorImage.image = UIImage(named: "case-law")
+                        self.view.addSubview(self.errorImage)
                     }
                     else {
                         //self.messageLabel.isHidden = true
                         self.messageLabel.text = ""
+                        self.msgLabel.removeFromSuperview()
+                        self.errorImage.removeFromSuperview()
                     }
+                    self.removeIndicator()
                     self.tableView.reloadData()
                     
                     UIApplication.shared.isNetworkActivityIndicatorVisible = false

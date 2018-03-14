@@ -8,7 +8,7 @@
 
 import Foundation
 
-class WorkReference {
+class WorkReference: Decodable {
     var name: String?
     var author: String?
 }

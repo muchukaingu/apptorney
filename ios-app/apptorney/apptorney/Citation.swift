@@ -8,9 +8,9 @@
 
 import Foundation
 
-class Citation {
+class Citation: Decodable {
     var description: String?
-    var number: NSNumber?
+    var number: Int?
     var year: Int?
     var code: String?
     var pageNumber: Int?

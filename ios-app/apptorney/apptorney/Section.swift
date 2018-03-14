@@ -13,13 +13,15 @@ struct Section {
     var isCollapsed: Bool!
     var height:CGFloat?
     var isCollapsible:Bool?
+    var content: String?
     
     
-    init(name: String, isCollapsed: Bool, height: CGFloat?, isCollapsible:Bool) {
+    init(name: String, isCollapsed: Bool, height: CGFloat?, isCollapsible:Bool, content:String?) {
         self.name = name
         self.isCollapsed = isCollapsed
         self.height = height ?? 55.0
         self.isCollapsible = isCollapsible
+        self.content = content
         
     }
 }

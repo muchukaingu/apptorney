@@ -42,25 +42,25 @@ class LoginViewController: UIViewController, SettingsTableViewControllerDelegate
         
         super.viewDidLoad()
         UIApplication.shared.isStatusBarHidden = true
-        
+        self.loginButton.layer.cornerRadius = self.loginButton.frame.height/6
         self.registerForKeyboardNotifications()
         print(self.view.bounds.size.height)
         //check width of iphone
         
         if self.view.bounds.size.height < 568.0 {
-            moveToPoint = -155.0
+            moveToPoint = -185.0
         }
         else if self.view.bounds.size.height >= 568.0 && self.view.bounds.size.height < 667.0{
-            moveToPoint = -170.0
-        }
-        else if self.view.bounds.size.height == 667.0 && self.view.bounds.size.height < 736.0{
-            moveToPoint = -190.0
-        }
-        else if self.view.bounds.size.height == 736.0 {
             moveToPoint = -200.0
         }
+        else if self.view.bounds.size.height == 667.0 && self.view.bounds.size.height < 736.0{
+            moveToPoint = -220.0
+        }
+        else if self.view.bounds.size.height == 736.0 {
+            moveToPoint = -230.0
+        }
         else if self.view.bounds.size.height > 736.0 {
-            moveToPoint =  self.view.bounds.size.height / -3.7
+            moveToPoint =  self.view.bounds.size.height / -3.4
         }
 
         
@@ -74,7 +74,7 @@ class LoginViewController: UIViewController, SettingsTableViewControllerDelegate
             
 //            self.logoImageView.transform = CGAffineTransform(scaleX: 0.3, y: 0.3)
 //            self.logoImageView.transform = CGAffineTransform(translationX: 0, y: self.moveToPoint)
-            self.logoImageView.transform = CGAffineTransform.identity.translatedBy(x: 0, y: self.moveToPoint).scaledBy(x: 0.7, y: 0.7)
+            self.logoImageView.transform = CGAffineTransform.identity.translatedBy(x: 0, y: self.moveToPoint).scaledBy(x: 0.55, y: 0.55)
         }, completion:nil)
         
         
@@ -132,32 +132,14 @@ class LoginViewController: UIViewController, SettingsTableViewControllerDelegate
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
         
-        if segue.identifier == "Settings" {
-                let navigationController = segue.destination as! UINavigationController
-                let settingsViewController = navigationController.viewControllers[0] as! SettingsTableViewController
-                settingsViewController.delegate = self
-        
+        if segue.identifier == "Verification" {
             
-            
+            let destinationController = segue.destination as!
+            VerifyViewController
+            destinationController.username = self.txtUserName.text!
         }
         
-        
-        else if segue.identifier == "Login" {
-            let vc: SWRevealViewController = segue.destination as! SWRevealViewController
-            vc.firstdelegate = self
-
-        }
-        else if segue.identifier == "Error" {
-            let navigationController = segue.destination as! UINavigationController
-            let vc = navigationController.viewControllers[0] as! ErrorViewController
-            vc.delegate = self
-            vc.error = "Something went wrong. \r We were unable to connect you to the server. \r\r Please check your API Settings or Network Connection and try again."
-            let bg = createBlurredSnapshop()
-            vc.view.addSubview(bg)
-            vc.view.sendSubview(toBack: bg)
-            
-            
-        }
+       
 
     }
     
@@ -172,10 +154,15 @@ class LoginViewController: UIViewController, SettingsTableViewControllerDelegate
         self.loginButton.setTitle("Logging in...", for: .normal)
         let defaults: UserDefaults = UserDefaults.standard
         let user = Appuser()
-        user.login(email: txtUserName.text, password: txtPassword.text, completionHandler:{(result,error) in
-            self.performSegue(withIdentifier: "Login", sender: self)
+        user.login(username: txtUserName.text, password: txtPassword.text, completionHandler:{(result,error) in
+            
             if error != nil {
-                print(error!)
+                let retrievedError = error as! NSError
+                print(retrievedError.domain)
+                if retrievedError.domain == "LOGIN_FAILED_PHONE_NOT_VERIFIED"{
+                    self.performSegue(withIdentifier: "Verification", sender: self)
+                }
+                
                 self.showLoginError(errorText: "Log in failed. Please try again.")
                 self.loginSpinner.stopAnimating()
                 self.loginButton.setTitle("Log in", for: .normal)
@@ -184,6 +171,9 @@ class LoginViewController: UIViewController, SettingsTableViewControllerDelegate
             }
             else {
                 print("Log in successful")
+                let userDefaults = UserDefaults.standard
+                userDefaults.set(true, forKey: "loginComplete")
+                userDefaults.synchronize()
                 self.performSegue(withIdentifier: "Login", sender: self)
                 
             }
@@ -285,19 +275,19 @@ class LoginViewController: UIViewController, SettingsTableViewControllerDelegate
         else if self.view.bounds.size.height == 568.0 {
             tableYPoint = -15.0
             UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 1, initialSpringVelocity: 1.0, options: [], animations: {
-                self.loginButton.transform = CGAffineTransform(translationX: 0, y: -215.0)
-                self.txtUserName.transform = CGAffineTransform(translationX: 0, y: -45.0)
-                self.txtPassword.transform = CGAffineTransform(translationX: 0, y: -45.0)
-                self.lineView.transform = CGAffineTransform(translationX: 0, y: -45.0)
+//                self.loginButton.transform = CGAffineTransform(translationX: 0, y: -215.0)
+//                self.txtUserName.transform = CGAffineTransform(translationX: 0, y: -45.0)
+//                self.txtPassword.transform = CGAffineTransform(translationX: 0, y: -45.0)
+//                self.lineView.transform = CGAffineTransform(translationX: 0, y: -45.0)
                 //self.tableView.transform = CGAffineTransform(translationX: 0, y: self.tableYPoint)
                 }, completion:nil)
         }
 
         else if self.view.bounds.size.height == 667.0 {
             UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 1, initialSpringVelocity: 1.0, options: [], animations: {
-                self.loginButton.transform = CGAffineTransform(translationX: 0, y: -215.0)
-                self.txtUserName.transform = CGAffineTransform(translationX: 0, y: -45.0)
-                self.txtPassword.transform = CGAffineTransform(translationX: 0, y: -45.0)
+//                self.loginButton.transform = CGAffineTransform(translationX: 0, y: -215.0)
+//                self.txtUserName.transform = CGAffineTransform(translationX: 0, y: -45.0)
+//                self.txtPassword.transform = CGAffineTransform(translationX: 0, y: -45.0)
                 //self.lineView.transform = CGAffineTransform(translationX: 0, y: -45.0)
                 //self.tableView.transform = CGAffineTransform(translationX: 0, y: self.tableYPoint)
             }, completion:nil)
@@ -305,16 +295,16 @@ class LoginViewController: UIViewController, SettingsTableViewControllerDelegate
         else if self.view.bounds.size.height == 736.0 {
            
             UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 1, initialSpringVelocity: 1.0, options: [], animations: {
-                self.loginButton.transform = CGAffineTransform(translationX: 0, y: -226.0)
-                self.loginSpinner.transform = CGAffineTransform(translationX: 0, y: -226.0)
-                self.txtUserName.transform = CGAffineTransform(translationX: 0, y: -25.0)
-                self.txtPassword.transform = CGAffineTransform(translationX: 0, y: -25.0)
-//                self.signUpButton.titleLabel?.text = "Sign up"
-//                self.forgotButton.titleLabel?.text = "Forgot?"
-                self.signUpButton.setTitle("Sign up",for: .normal)
-                self.forgotButton.setTitle("Forgot?",for: .normal)
-                self.signUpButton.transform = CGAffineTransform(translationX: -38, y: -55.0)
-                self.forgotButton.transform = CGAffineTransform(translationX: 38, y: -99.0)
+//                self.loginButton.transform = CGAffineTransform(translationX: 0, y: -226.0)
+//                self.loginSpinner.transform = CGAffineTransform(translationX: 0, y: -226.0)
+//                self.txtUserName.transform = CGAffineTransform(translationX: 0, y: -25.0)
+//                self.txtPassword.transform = CGAffineTransform(translationX: 0, y: -25.0)
+////                self.signUpButton.titleLabel?.text = "Sign up"
+////                self.forgotButton.titleLabel?.text = "Forgot?"
+//                self.signUpButton.setTitle("Sign up",for: .normal)
+//                self.forgotButton.setTitle("Forgot?",for: .normal)
+//                self.signUpButton.transform = CGAffineTransform(translationX: -38, y: -55.0)
+//                self.forgotButton.transform = CGAffineTransform(translationX: 38, y: -99.0)
                
                 //self.tableView.transform = CGAffineTransform(translationX: 0, y: self.tableYPoint)
             }, completion:nil)
@@ -327,7 +317,7 @@ class LoginViewController: UIViewController, SettingsTableViewControllerDelegate
         
         if self.view.bounds.size.height == 568.0 {
             UIView.animate(withDuration: 1.0, delay: 0.0, usingSpringWithDamping: 1, initialSpringVelocity: 0.5, options: [], animations: {
-                self.loginButton.transform = CGAffineTransform(translationX: 0, y: 0.0)
+                //self.loginButton.transform = CGAffineTransform(translationX: 0, y: 0.0)
                 //self.tableView.transform = CGAffineTransform(translationX: 0, y: 0.0)
                 }, completion:nil)
         }
@@ -351,6 +341,9 @@ class LoginViewController: UIViewController, SettingsTableViewControllerDelegate
             
         }, completion:nil)
     }
+    
+    
+
 
 
     

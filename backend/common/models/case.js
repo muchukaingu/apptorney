@@ -188,7 +188,8 @@ module.exports = function(Case) {
                         '*': { 'pre_tags': ['<strong>'], 'post_tags': ['</strong>'] }
                     }
                 },
-                _source: ['name', 'areaOfLaw', 'caseNumber', '_id']
+                _source: ['name', 'areaOfLaw', 'caseNumber', '_id', 'judgement', 'summaryOfFacts', 'summaryOfRuling']
+
 
             }
         }
@@ -197,7 +198,7 @@ module.exports = function(Case) {
             // console.log(resp.hits)
             let results = []
             resp.hits.hits.forEach(function(h) {
-                if (h._source.judgement !== undefined && h._source.summaryOfFacts !== undefined && h._source.summaryOfRuling !== undefined) {
+                if (h._source.judgement == undefined && h._source.summaryOfFacts == undefined && h._source.summaryOfRuling == undefined) {} else {
                     var highlight = h.highlight
                     var highlights = '...'
                         // console.log(highlight)

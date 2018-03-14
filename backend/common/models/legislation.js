@@ -466,6 +466,11 @@ module.exports = function(Legislation) {
             index: 'legislation',
             size: 100,
             body: {
+                sort: [{
+                    '_score': {
+                        'order': 'desc'
+                    }
+                }],
                 query: {
                     multi_match: { query: term, fields: ['generalTitle', 'legislationNumbers', 'legislationNumber', 'preamble', 'legislationName', 'flattenedParts'] }
                 },
@@ -565,28 +570,17 @@ module.exports = function(Legislation) {
         })
     }
 
-
-
-
-
-
-
-
     Legislation.flattenParts = function(legislation) {
         var flattenedJSON = ''
         recursive(legislation)
         console.log(legislation.id + ' ' + legislation.legislationName)
 
         var callback = function(err, res) {
-            console.log("cb")
+            console.log('cb')
         }
 
-
         function recursive(legislation) {
-
-
             for (var i = 0; i < legislation.legislationParts.length; i++) {
-
                 var content = ''
 
                 if (legislation.legislationParts[i].subParts && legislation.legislationParts[i].subParts.length > 0) {
@@ -604,7 +598,6 @@ module.exports = function(Legislation) {
 
                     // return
                 }
-
             }
 
             function flattenSubItems(part, parts, itr) {
@@ -614,7 +607,6 @@ module.exports = function(Legislation) {
                     if (parts[i].subParts) {
                         flattenSubItems(parts[i], parts[i].subParts)
                     }
-
                 }
                 // part.flatContent = content
                 // console.log(part.flatContent)
@@ -642,7 +634,6 @@ module.exports = function(Legislation) {
             }
         })
     }
-
 
     // REMOTE METHODS ##############################################################################################
 
@@ -763,7 +754,6 @@ module.exports = function(Legislation) {
             returns: { arg: 'legislation', type: 'number' }
         })
 
-
     Legislation.remoteMethod(
         'flattenAllLegislations', {
             http: {
@@ -779,7 +769,6 @@ module.exports = function(Legislation) {
                 type: 'number'
             }
         })
-
 
     // HOOKS ########################################################################################################
 

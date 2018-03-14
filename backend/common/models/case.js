@@ -182,7 +182,7 @@ module.exports = function(Case) {
                         '*': { 'pre_tags': ['<strong>'], 'post_tags': ['</strong>'] }
                     }
                 },
-                _source: ['name', 'areaOfLaw', 'caseNumber', '_id', 'isStub']
+                _source: ['name', 'areaOfLaw', 'caseNumber', '_id']
 
             }
         }

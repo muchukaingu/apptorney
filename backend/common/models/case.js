@@ -174,7 +174,12 @@ module.exports = function(Case) {
             index: 'case',
             size: 100,
             body: {
-                sort: ["_score"],
+                sort: [{
+                    "_score": {
+                        "order": "desc"
+                    }
+                }],
+
                 query: {
                     multi_match: { query: term, fields: ['name', 'judgement', 'summaryOfFacts', 'summaryOfRuling', 'areaOfLaw'] }
                 },
@@ -192,7 +197,7 @@ module.exports = function(Case) {
             // console.log(resp.hits)
             let results = []
             resp.hits.hits.forEach(function(h) {
-                if (h._source.judgement !== "" && h._source.summaryOfFacts !== "" && h._source.summaryOfRuling !== "") {
+                if (h._source.judgement !== undefined && h._source.summaryOfFacts !== undefined && h._source.summaryOfRuling !== undefined) {
                     var highlight = h.highlight
                     var highlights = '...'
                         // console.log(highlight)

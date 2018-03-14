@@ -191,7 +191,7 @@ module.exports = function(Case) {
             // console.log(resp.hits)
             let results = []
             resp.hits.hits.forEach(function(h) {
-                if (h._source.isStub == false) {
+                if (h._source.judgement !== "" && h._source.summaryOfFacts !== "" && h._source.summaryOfRuling !== "") {
                     var highlight = h.highlight
                     var highlights = '...'
                         // console.log(highlight)

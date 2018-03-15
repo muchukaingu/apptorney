@@ -173,11 +173,13 @@ class LegislationsTableViewController: UITableViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showLegislationDetails" {
+            self.searchController.searchBar.resignFirstResponder()
             if let indexPath = self.tableView.indexPathForSelectedRow {
                 print("in segue, mofo")
                 let destinationController = segue.destination as!
                 LegislationDetailsTableViewController
                 destinationController.legislationInstance = self.legislations[(indexPath as NSIndexPath).row]
+                destinationController.searchText = self.searchController.searchBar.text!
             }
         }
     }
@@ -223,7 +225,7 @@ class LegislationsTableViewController: UITableViewController {
 extension LegislationsTableViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
-        
+        print("searching again")
         if self.searchController.searchBar.text == "" {
             
         }
@@ -239,6 +241,7 @@ extension LegislationsTableViewController: UISearchResultsUpdating {
                 let searchTerm = self.searchController.searchBar.text
                 
                 Legislation.search(term: searchTerm, completionHandler:{(legislations,error) in
+                    self.legislations = legislations
                     if legislations.count == 0 {
                         self.msgLabel = UILabel(frame:CGRect(x: self.view.frame.midX -  134, y: self.view.frame.midY - 40 , width: 300, height: 46))
                     
@@ -256,10 +259,10 @@ extension LegislationsTableViewController: UISearchResultsUpdating {
                         self.msgLabel.removeFromSuperview()
                         self.errorImage.removeFromSuperview()
                     }
-                    print(legislations)
+                   
                     print(legislations.count)
                     print(error)
-                    self.legislations = legislations
+                   
                     
                     
                     for legislation in self.legislations {

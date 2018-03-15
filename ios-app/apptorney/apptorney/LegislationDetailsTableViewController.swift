@@ -15,6 +15,7 @@ class LegislationDetailsTableViewController: UITableViewController {
     }
     
     var legislationInstance:Legislation!
+    var searchText:String = ""
     var preliminaryCaseData:Legislation!
     //@IBOutlet weak var judgementHeight: NSLayoutConstraint!
     var heightDiscount:CGFloat = 0
@@ -28,7 +29,7 @@ class LegislationDetailsTableViewController: UITableViewController {
     
     var sections = [
         Section(name: "",
-                isCollapsed: false, height:0.0, isCollapsible: false, content:"")
+                isCollapsed: false, height:0.0, isCollapsible: false, content:NSMutableAttributedString(string:""), highlighted:false)
     ]
     
     
@@ -55,7 +56,19 @@ class LegislationDetailsTableViewController: UITableViewController {
             self.legislationInstance = legislation
             self.removeIndicator()
             for part in self.legislationInstance.legislationParts!{
-                self.sections.append(Section(name:part.title!.capitalized, isCollapsed: true, height:0.0, isCollapsible: true, content:part.flatContentNew))
+                var attributedString = NSMutableAttributedString(string: part.flatContentNew ?? "")
+                let textInArray = [self.searchText.capitalized, self.searchText.lowercased(), self.searchText.uppercased()]
+                var count = 0
+                for text in textInArray {
+                    let result = attributedString.removeSpaces().highlightTarget(target: text, color: UIColor(hex:"f3a435"))
+                    attributedString = result.0
+                    if result.1 == 1 {
+                        count = count+1
+                    }
+                }
+                let highlighted = count > 0 ? true:false
+                
+                self.sections.append(Section(name:part.title?.uppercased() ?? "", isCollapsed: true, height:0.0, isCollapsible: true, content:attributedString, highlighted: highlighted ))
             }
             
         
@@ -110,7 +123,7 @@ class LegislationDetailsTableViewController: UITableViewController {
             //summarycell.fourthLabel?.text = court + " | " + jurisdiction + " Jurisdiction | " + location
             //summarycell.fifthLabel?.text = legislationInstance.coram ?? ""
             let border:UIView = UIView(frame: CGRect(x: 20,y: 185 - heightDiscount,width: self.tableView.bounds.width-40, height: 1))
-            border.backgroundColor = UIColor(red: 2.0/255, green: 160.0/255, blue: 243.0/255, alpha: 1.0)
+            border.backgroundColor = UIColor(red: 0.0/255, green: 0.0/255, blue: 0.0/255, alpha: 1.0)
             summarycell.addSubview(border)
             
             
@@ -124,7 +137,7 @@ class LegislationDetailsTableViewController: UITableViewController {
         default:
             let cellIndetifier = "DetailCell"
             let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) as! CaseDetailsTableViewCell
-            cell.mainText?.text = sections[index].content
+            cell.mainText?.attributedText = sections[index].content
             return cell
         }
   

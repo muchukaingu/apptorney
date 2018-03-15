@@ -21,6 +21,7 @@ class HeaderView: UITableViewHeaderFooterView {
             }
             
             titleLabel?.text = section.name
+            titleLabel?.textColor = section.highlighted! ? UIColor(hex: "f3a435"):UIColor.black
             setCollapsed(collapsed: section.isCollapsed)
             arrowLabel?.isHidden = !section.isCollapsible!
         }

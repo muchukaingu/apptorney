@@ -21,6 +21,8 @@
 		8D1C7D8B20554AB00064B43A /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1C7D8A20554AB00064B43A /* OnboardingView.swift */; };
 		8D1FFEA71F8E438D00398738 /* CaseDetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1FFEA61F8E438D00398738 /* CaseDetailsTableViewController.swift */; };
 		8D284A261AC9876B005AF1AB /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D284A251AC9876B005AF1AB /* CustomTextField.swift */; };
+		8D3B692C205A5D6600AED3F0 /* NSMutableAttributedString+Extend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3B692B205A5D6600AED3F0 /* NSMutableAttributedString+Extend.swift */; };
+		8D3B692E205A7B4600AED3F0 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3B692D205A7B4600AED3F0 /* UIColor+Extensions.swift */; };
 		8D4B47E21F5DAC62009DF5ED /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8DD147BB1AA3A27500B2A098 /* Info.plist */; };
 		8D6514D81C494C2800F5EDE0 /* StoresTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6514D71C494C2800F5EDE0 /* StoresTableViewCell.swift */; };
 		8D6ABA821C4C623F00D6EDFA /* Department.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6ABA811C4C623F00D6EDFA /* Department.swift */; };
@@ -151,6 +153,8 @@
 		8D1C7D8E20555C050064B43A /* PaperOnboarding.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PaperOnboarding.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/PaperOnboardingDemo-fywwnsouadrdfxewrsmzbhjugzvd/Build/Products/Debug-iphonesimulator/PaperOnboarding.framework"; sourceTree = "<group>"; };
 		8D1FFEA61F8E438D00398738 /* CaseDetailsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseDetailsTableViewController.swift; sourceTree = "<group>"; };
 		8D284A251AC9876B005AF1AB /* CustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		8D3B692B205A5D6600AED3F0 /* NSMutableAttributedString+Extend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Extend.swift"; sourceTree = "<group>"; };
+		8D3B692D205A7B4600AED3F0 /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
 		8D6514D71C494C2800F5EDE0 /* StoresTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoresTableViewCell.swift; sourceTree = "<group>"; };
 		8D6ABA811C4C623F00D6EDFA /* Department.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Department.swift; sourceTree = "<group>"; };
 		8D6ABA861C4C80D100D6EDFA /* DepartmentTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DepartmentTableViewCell.swift; sourceTree = "<group>"; };
@@ -304,6 +308,15 @@
 			name = Onboarding;
 			sourceTree = "<group>";
 		};
+		8D3B692A205A5D2400AED3F0 /* TextManipulation */ = {
+			isa = PBXGroup;
+			children = (
+				8D3B692B205A5D6600AED3F0 /* NSMutableAttributedString+Extend.swift */,
+				8D3B692D205A7B4600AED3F0 /* UIColor+Extensions.swift */,
+			);
+			name = TextManipulation;
+			sourceTree = "<group>";
+		};
 		8D6C0CDE1AACE63B00D01ABF /* Custom TableView Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -361,6 +374,7 @@
 		8D80489D1F5807C800B2832C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				8D3B692A205A5D2400AED3F0 /* TextManipulation */,
 				8D8048931F56AD3E00B2832C /* APIService */,
 				8DD147C31AA3A27500B2A098 /* Images.xcassets */,
 				8D80489C1F58079100B2832C /* Fonts */,
@@ -858,6 +872,7 @@
 				8D6B1DB61C3A5F0700062C07 /* SwiftyJSON.swift in Sources */,
 				8D0E3FEB2057454B00BBEFB8 /* VerifyViewController.swift in Sources */,
 				8D9F05CD1C56CFDC0002A085 /* CategoryTableViewCell.swift in Sources */,
+				8D3B692E205A7B4600AED3F0 /* UIColor+Extensions.swift in Sources */,
 				8DC5F38F1FA126BF0042C239 /* CustomImageTitleTableViewCell.swift in Sources */,
 				8D6ABA871C4C80D100D6EDFA /* DepartmentTableViewCell.swift in Sources */,
 				8D8692491F681F3C00625FE8 /* ScrollTableViewCell.swift in Sources */,
@@ -894,6 +909,7 @@
 				8D86925C1F6C547400625FE8 /* Citation.swift in Sources */,
 				8D1A3C1C1ACC7038003CF9E1 /* Store.swift in Sources */,
 				8D6ABA821C4C623F00D6EDFA /* Department.swift in Sources */,
+				8D3B692C205A5D6600AED3F0 /* NSMutableAttributedString+Extend.swift in Sources */,
 				8DD147E41AA3A7BF00B2A098 /* Product.swift in Sources */,
 				8D9F05C21C5635AF0002A085 /* HomeViewController.swift in Sources */,
 				8D92B5C41F9F906700D4B6E4 /* Section.swift in Sources */,

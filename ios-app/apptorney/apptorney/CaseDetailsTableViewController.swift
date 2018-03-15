@@ -25,17 +25,17 @@ class CaseDetailsTableViewController: UITableViewController {
     
     var sections = [
         Section(name: "",
-                isCollapsed: false, height:0.0, isCollapsible: false, content:nil),
+                isCollapsed: false, height:0.0, isCollapsible: false, content:nil, highlighted: false),
         Section(name: "Summary of Holding",
-                isCollapsed: true, height:0.0, isCollapsible: true, content:nil),
+                isCollapsed: true, height:0.0, isCollapsible: true, content:nil, highlighted: false),
         Section(name: "Summary of Facts",
-                isCollapsed: true, height:0.0, isCollapsible: true, content:nil),
+                isCollapsed: true, height:0.0, isCollapsible: true, content:nil, highlighted: false),
         Section(name: "Holding",
-                isCollapsed: true, height:0.0, isCollapsible: true, content:nil),
+                isCollapsed: true, height:0.0, isCollapsible: true, content:nil, highlighted: false),
         Section(name: "Cases Referenced",
-                isCollapsed: true, height:0.0, isCollapsible: true, content:nil),
+                isCollapsed: true, height:0.0, isCollapsible: true, content:nil, highlighted: false),
         Section(name: "Legislations Referenced",
-                isCollapsed: true, height:0.0, isCollapsible: true, content:nil)
+                isCollapsed: true, height:0.0, isCollapsible: true, content:nil, highlighted: false)
     ]
     
     

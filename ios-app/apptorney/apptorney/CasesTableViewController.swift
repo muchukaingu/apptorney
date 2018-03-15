@@ -191,6 +191,7 @@ class CasesTableViewController: UITableViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showCaseDetails" {
+            self.searchController.searchBar.resignFirstResponder()
             if let indexPath = self.tableView.indexPathForSelectedRow {
                 print("in segue, mofo")
                 let destinationController = segue.destination as!
@@ -241,7 +242,7 @@ class CasesTableViewController: UITableViewController {
 extension CasesTableViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
-        
+        print("searching again")
         if self.searchController.searchBar.text == "" {
             
         }

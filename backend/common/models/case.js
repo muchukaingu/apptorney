@@ -230,6 +230,11 @@ module.exports = function(Case) {
 
                     h._source.highlight = highlights.length == 3 ? undefined : highlights
                     h._source._id = h._id
+                    h._source.areaOfLaw = {
+                        "name": h._source.areaOfLaw,
+                        "_id": ""
+                    }
+
                     results.push(h._source)
 
                 }

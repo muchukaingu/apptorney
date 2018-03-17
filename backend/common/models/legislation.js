@@ -603,7 +603,10 @@ module.exports = function(Legislation) {
             function flattenSubItems(part, parts, itr) {
                 // console.log("in recusive func")
                 for (var i = 0; i < parts.length; i++) {
-                    content = content + ((parts[i].number) ? parts[i].number : '') + parts[i].title + '\n' + ((parts[i].content) ? parts[i].content + '\n' : '')
+                    var partNumber = (parts[i].number) ? parts[i].number : ''
+                    var title = (parts[i].title == undefined || parts[i].title == '') ? parts[i].number : '<h1>' + parts[i].number + parts[i].title + '</h1>'
+                    var partContent = (parts[i].title == undefined || parts[i].title == '') ? '<p>' + title + (parts[i].content ? parts[i].content + '</p>' : '</p>') : title + '<p>' + (parts[i].content ? parts[i].content + '</p>' : '</p>')
+                    content = content + partContent
                     if (parts[i].subParts) {
                         flattenSubItems(parts[i], parts[i].subParts)
                     }

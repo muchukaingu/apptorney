@@ -56,8 +56,9 @@ class LegislationDetailsTableViewController: UITableViewController {
             self.legislationInstance = legislation
             self.removeIndicator()
             for part in self.legislationInstance.legislationParts!{
-                var attributedString = NSMutableAttributedString(string: part.flatContentNew ?? "")
-                let textInArray = [self.searchText.capitalized, self.searchText.lowercased(), self.searchText.uppercased()]
+                //var attributedString = NSMutableAttributedString(string: part.flatContentNew ?? "")
+                let result = NSMutableAttributedString().setHTMLFromString(text: part.flatContentNew ?? "", target: self.searchText, color:UIColor(hex: "f3a435"))
+                /*let textInArray = [self.searchText.capitalized, self.searchText.lowercased(), self.searchText.uppercased()]
                 var count = 0
                 for text in textInArray {
                     let result = attributedString.removeSpaces().highlightTarget(target: text, color: UIColor(hex:"f3a435"))
@@ -66,9 +67,10 @@ class LegislationDetailsTableViewController: UITableViewController {
                         count = count+1
                     }
                 }
+ 
                 let highlighted = count > 0 ? true:false
-                
-                self.sections.append(Section(name:part.title?.uppercased() ?? "", isCollapsed: true, height:0.0, isCollapsible: true, content:attributedString, highlighted: highlighted ))
+                */
+                self.sections.append(Section(name:part.title?.uppercased() ?? "", isCollapsed: true, height:0.0, isCollapsible: true, content:result as! NSMutableAttributedString, highlighted: false ))
             }
             
         

@@ -2,6 +2,19 @@
 
 module.exports = function(Legislation) {
     const { ObjectId } = require('mongodb') // or ObjectID
+        // Configure a client instance
+    var KeenTracking = require('keen-tracking')
+
+    // This is your actual Project ID and Write Key
+    var client = new KeenTracking({
+        projectId: '5aaf4c58c9e77c0001692b2b',
+        writeKey: 'A730DDA82E082E47030F8A0C43F0E284BD5F445D9969108D5436E1416660AAE5819502658F77A48C2FDED30A4C9113C19BB5265C73F21713E6ED44AADFF35DF5E71EAB2C2A30EE05332027BF733D7615D1F34D4544F1B3A62FFDFA797A912A61'
+    })
+
+    // Record an event
+    client.recordEvent('pageviews', {
+        title: 'xxx'
+    })
 
     // MODEL FUNCTIONS ##############################################################################################
 
@@ -511,7 +524,7 @@ module.exports = function(Legislation) {
                 }
 
                 if (highlight.legislationNumbers !== undefined) {
-                    h._source.legislationNumbers = highlight.legislationNumber[0] ? '<b>' + highlight.legislationNumbers[0] + ', ' + highlight.legislationNumber[0] + '</b>' : '<b>' + highlight.legislationNumbers[0] + '</b>'
+                    h._source.legislationNumbers = highlight.legislationNumber ? '<b>' + highlight.legislationNumbers + ', ' + highlight.legislationNumber + '</b>' : '<b>' + highlight.legislationNumbers + '</b>'
                 }
 
                 h._source.highlight = highlights

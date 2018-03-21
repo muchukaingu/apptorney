@@ -485,14 +485,14 @@ module.exports = function(Legislation) {
                     }
                 }],
                 query: {
-                    multi_match: { query: term, fields: ['generalTitle', 'legislationNumbers', 'legislationNumber', 'preamble', 'legislationName', 'flattenedParts'] }
+                    multi_match: { query: term, fields: ['generalTitle', 'legislationNumbers', 'legislationNumber', 'preamble', 'legislationName', 'flattenedParts', 'isStub', 'deleted'] }
                 },
                 highlight: {
                     fields: {
                         '*': { 'pre_tags': ['<strong>'], 'post_tags': ['</strong>'] }
                     }
                 },
-                _source: ['legislationName', 'legislationNumbers', 'legislationNumber', '_id', 'preamble']
+                _source: ['legislationName', 'legislationNumbers', 'legislationNumber', '_id', 'preamble', 'flattenedParts', 'isStub', 'deleted']
 
             }
         }
@@ -500,6 +500,8 @@ module.exports = function(Legislation) {
         client.search(searchParams).then(function(resp) {
             let results = []
             resp.hits.hits.forEach(function(h) {
+                console.log('Deleted', h._source.deleted)
+                console.log('Parts', h._source.flattenedParts)
                 var highlight = h.highlight
                 var highlights = '...'
                     // console.log(highlight)

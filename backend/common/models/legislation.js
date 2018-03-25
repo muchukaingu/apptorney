@@ -503,7 +503,7 @@ module.exports = function(Legislation) {
                 console.log('Deleted', h._source.deleted)
                 console.log('Parts', h._source.flattenedParts)
                 var highlight = h.highlight
-                var highlights = '...'
+                var highlights = ''
                     // console.log(highlight)
                 if (highlight.legislationName !== undefined) {
                     h._source.legislationName = '<b>' + highlight.legislationName[0] + '</b>'

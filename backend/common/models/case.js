@@ -654,17 +654,41 @@ module.exports = function(Case) {
     }
 
     Case.fixAreas = function(cb) {
-        Case.find({}, function(err, cases) {
+
+        function callback(err, cases) {
+            var count = 0
             cases.forEach(function(aCase) {
-                if (aCase.areaOfLawId !== undefined && aCase.areaId == undefined) {
-                    aCase.areaId = aCase.areaOfLawId.toString()
-                    Case.upsert(aCase, function(err, data) {})
-                    console.log(aCase.areaId)
+
+                aCase.areaId = aCase.areaOfLawId.toString()
+                Case.upsert(aCase, function(err, data) {
+                    console.log(count, data.areaId)
+                    console.log("length", cases.length - 1)
+                    count++
+                    if (count == cases.length - 1) {
+                        console.log(cases.length)
+                        cb(null, "done")
+                    }
+
+                })
+
+
+
+
+            })
+
+
+
+        }
+        Case.find({}, function(err, cases) {
+            var fixable = []
+            cases.forEach(function(aCase) {
+                if (aCase.areaOfLawId !== undefined) {
+                    fixable.push(aCase)
                 }
 
             })
 
-            cb(null, 'done')
+            callback(null, fixable)
         })
     }
 

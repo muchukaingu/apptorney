@@ -9,6 +9,13 @@ module.exports = function(Case) {
     )
 
     Case.remoteMethod(
+        'fixAreas', {
+            http: { path: '/fixAreas', verb: 'get' },
+            returns: { arg: 'result', type: 'string' }
+        }
+    )
+
+    Case.remoteMethod(
         'summariseCasePeriods', {
             http: { path: '/summarisecaseperiods', verb: 'get' },
             returns: { arg: 'summary', type: ['object'] }
@@ -136,7 +143,7 @@ module.exports = function(Case) {
                     cases.map(function(caseInstance) {
                         caseInstance.id = caseInstance._id
                         caseInstance.citation = caseInstance.citation.year + '/' + caseInstance.citation.code + '/' + caseInstance.citation.pageNumber
-                            //caseInstance.referenceNumber = (!caseInstance.caseNumber && caseInstance.citation.year && caseInstance.citation.code && caseInstance.citation.pageNumber) ? citation : caseInstance.caseNumber
+                            // caseInstance.referenceNumber = (!caseInstance.caseNumber && caseInstance.citation.year && caseInstance.citation.code && caseInstance.citation.pageNumber) ? citation : caseInstance.caseNumber
                             // caseInstance.areaOfLaw = caseInstance.areaOfLawName.name
                         delete caseInstance['_id']
                             // delete caseInstance['citation']
@@ -159,7 +166,7 @@ module.exports = function(Case) {
 
                     })
 
-                    cb(null, cases);
+                    cb(null, cases)
                 }
             })
     }
@@ -175,8 +182,8 @@ module.exports = function(Case) {
             size: 100,
             body: {
                 sort: [{
-                    "_score": {
-                        "order": "desc"
+                    '_score': {
+                        'order': 'desc'
                     }
                 }],
 
@@ -189,7 +196,6 @@ module.exports = function(Case) {
                     }
                 },
                 _source: ['name', 'areaOfLaw', 'caseNumber', '_id', 'judgement', 'summaryOfFacts', 'summaryOfRuling']
-
 
             }
         }
@@ -231,12 +237,11 @@ module.exports = function(Case) {
                     h._source.highlight = highlights.length == 3 ? undefined : highlights
                     h._source._id = h._id
                     h._source.areaOfLaw = {
-                        "name": h._source.areaOfLaw,
-                        "_id": ""
+                        'name': h._source.areaOfLaw,
+                        '_id': ''
                     }
 
                     results.push(h._source)
-
                 }
             })
             cb(null, results)
@@ -374,7 +379,7 @@ module.exports = function(Case) {
                     cases.coram.forEach(function(judge) {
                         judges = (judgeCount == cases.coram.length - 1) ? judges + judge.name : judges + judge.name + ' | '
                         judgeCount++
-                    });
+                    })
                 }
 
                 cases.judges = judges
@@ -645,6 +650,18 @@ module.exports = function(Case) {
             })
 
             cb(null, names)
+        })
+    }
+
+    Case.fixAreas = function(cb) {
+        Case.find({}, function(err, cases) {
+            cases.forEach(function(aCase) {
+                aCase.areaId = aCase.id.toString()
+                Case.upsert(aCase, function(err, data) {})
+                    //console.log(aCase.areaId)
+            })
+
+            cb(null, 'done')
         })
     }
 

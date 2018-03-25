@@ -522,7 +522,7 @@ module.exports = function(Legislation) {
                     highlight.flattenedParts.forEach(function(pre) {
                         highlights = highlights + pre + '...'
                     })
-                    highlights = '<b>Content: </b>' + highlights + '<br>'
+                    highlights = highlights + '<br>'
                 }
 
                 if (highlight.legislationNumbers !== undefined) {

@@ -656,7 +656,7 @@ module.exports = function(Case) {
     Case.fixAreas = function(cb) {
         Case.find({}, function(err, cases) {
             cases.forEach(function(aCase) {
-                if (aCase.areaOfLawId !== undefined) {
+                if (aCase.areaOfLawId !== undefined && aCase.areaId == undefined) {
                     aCase.areaId = aCase.areaOfLawId.toString()
                     Case.upsert(aCase, function(err, data) {})
                     console.log(aCase.areaId)

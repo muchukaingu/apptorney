@@ -656,9 +656,9 @@ module.exports = function(Case) {
     Case.fixAreas = function(cb) {
         Case.find({}, function(err, cases) {
             cases.forEach(function(aCase) {
-                aCase.areaId = aCase.id.toString()
+                aCase.areaId = aCase.areaOfLawId.toString()
                 Case.upsert(aCase, function(err, data) {})
-                    //console.log(aCase.areaId)
+                console.log(aCase.areaId)
             })
 
             cb(null, 'done')

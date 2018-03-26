@@ -492,7 +492,7 @@ module.exports = function(Legislation) {
                         '*': { 'pre_tags': ['<strong>'], 'post_tags': ['</strong>'] }
                     }
                 },
-                _source: ['legislationName', 'legislationNumbers', 'legislationNumber', '_id', 'preamble', 'flattenedParts', 'isStub', 'deleted']
+                _source: ['legislationName', 'legislationNumbers', 'legislationNumber', '_id', 'preamble', 'flattenedParts', 'isStub', 'deleted', 'legislationType']
 
             }
         }

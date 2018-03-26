@@ -464,6 +464,34 @@ module.exports = function(Legislation) {
         })
     }
 
+    Legislation.fixTypes = function(cb) {
+        function callback(err, legislations) {
+            var count = 0
+            legislations.forEach(function(legislationInstance) {
+                legislationInstance.typeId = legislationInstance.legislationType.toString()
+                Legislation.upsert(legislationInstance, function(err, data) {
+                    console.log(count, data.typeId)
+                    console.log('length', legislations.length - 1)
+                    count++
+                    if (count == legislations.length - 1) {
+                        console.log(legislations.length)
+                        cb(null, 'done')
+                    }
+                })
+            })
+        }
+        Legislation.find({}, function(err, legislations) {
+            var fixable = []
+            legislations.forEach(function(legislationInstance) {
+                if (legislationInstance.legislationType !== undefined) {
+                    fixable.push(legislationInstance)
+                }
+            })
+
+            callback(null, fixable)
+        })
+    }
+
     /**
      * Gets all unique occurences based on Legislation Name
      *
@@ -492,7 +520,7 @@ module.exports = function(Legislation) {
                         '*': { 'pre_tags': ['<strong>'], 'post_tags': ['</strong>'] }
                     }
                 },
-                _source: ['legislationName', 'legislationNumbers', 'legislationNumber', '_id', 'preamble', 'flattenedParts', 'isStub', 'deleted', 'legislationType']
+                _source: ['legislationName', 'legislationNumbers', 'legislationNumber', '_id', 'preamble', 'flattenedParts', 'isStub', 'deleted', 'legislationType', 'volumeNumber', 'chapterNumber', 'dateOfAssent', 'yearOfAmendment', ]
 
             }
         }
@@ -500,8 +528,6 @@ module.exports = function(Legislation) {
         client.search(searchParams).then(function(resp) {
             let results = []
             resp.hits.hits.forEach(function(h) {
-                console.log('Deleted', h._source.deleted)
-                console.log('Parts', h._source.flattenedParts)
                 var highlight = h.highlight
                 var highlights = ''
                     // console.log(highlight)
@@ -787,6 +813,13 @@ module.exports = function(Legislation) {
                 type: 'number'
             }
         })
+
+    Legislation.remoteMethod(
+        'fixTypes', {
+            http: { path: '/fixTypes', verb: 'get' },
+            returns: { arg: 'result', type: 'string' }
+        }
+    )
 
     // HOOKS ########################################################################################################
 

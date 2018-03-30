@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class LegislationsTableViewController: UITableViewController {
     
@@ -14,8 +15,10 @@ class LegislationsTableViewController: UITableViewController {
     
     var searchController: UISearchController!
     var searchResultsController = UITableViewController()
-    let debouncer = Debouncer(interval:2.0)
+    let debouncer = Debouncer(interval:0.5)
     var legislations = [Legislation]()
+    
+    var legislationTypes = [LegislationType]()
     
     var heightDiscount:CGFloat = 0
     let messageFrame = UIView()
@@ -31,12 +34,25 @@ class LegislationsTableViewController: UITableViewController {
         configureUIControls()
         self.tableView.delegate = self
         self.tableView.dataSource = self
+        tableView.estimatedRowHeight = 80
+        tableView.rowHeight = UITableViewAutomaticDimension
+        loadLegislationTypes()
+        //tableView.rowHeight = UITableViewAutomaticDimension
+        self.searchController.searchBar.delegate = self
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
+    }
+    
+    func loadLegislationTypes(){
+        LegislationType.search(completionHandler:{(types,error) in
+            self.legislationTypes = types
+            self.tableView.reloadData()
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+        })
     }
     
     func setupNavBar(){
@@ -93,39 +109,68 @@ class LegislationsTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return self.legislations.count
+        return self.legislations.count == 0 ? self.legislationTypes.count : self.legislations.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cellIndetifier = "Cell"
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) as! CustomTableViewCell
-        let legislation = legislations[(indexPath as NSIndexPath).row]
-        
-        
-        // Configure the cell...
-        cell.mainLabel.setHTMLFromString(text: legislation.legislationName?.capitalized ?? "")
-        //cell.mainLabel.text = legislation.legislationName?.capitalized
-        var excerpt = ""
-        if legislation.highlight == "..." {
-            excerpt = legislation.preamble ?? ""
+       
+        //let cell: UITableViewCell
+        if legislations.count == 0 {
+            let cellIndetifier = "SummaryCell"
+            let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) as! SummaryTableViewCell
+            tableView.separatorStyle = .none
+            tableView.estimatedRowHeight = 80
+            tableView.rowHeight = UITableViewAutomaticDimension
+            let type = legislationTypes[(indexPath as NSIndexPath).row]
+            cell.name.text = type.name
+            cell.summary?.text = type.description
+            return cell
         }
         else {
-            excerpt = legislation.highlight!
+             let cellIndetifier = "Cell"
+            let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) as! CustomTableViewCell
+            let legislation = legislations[(indexPath as NSIndexPath).row]
+            
+             //tableView.separatorStyle = .singleLine
+             tableView.estimatedRowHeight = 80
+             tableView.rowHeight = UITableViewAutomaticDimension
+            tableView.separatorStyle = .none
+            
+            // Configure the cell...
+            cell.mainLabel.setHTMLFromString(text: legislation.legislationName?.uppercased() ?? "")
+            //cell.mainLabel.text = legislation.legislationName?.capitalized
+            var excerpt = ""
+            if legislation.highlight == "..." {
+                excerpt = legislation.preamble ?? ""
+            }
+            else {
+                excerpt = legislation.highlight!
+            }
+            cell.subTitleLabel.setHTMLFromString(text: excerpt)
+            cell.subTitleLabel.sizeToFit()
+            cell.smallSubTitleLeft.sizeToFit()
+            cell.smallSubTitleLeft.layer.masksToBounds = true
+            cell.smallSubTitleLeft.layer.cornerRadius = 4
+            
+            
+            
+            var volumeDetails = ""
+            let amends = legislation.yearOfAmendment ?? 0
+            
+            if amends != 0 {
+                volumeDetails = "Amended in \(amends)"
+            }
+            cell.smallSubTitleRight.text = volumeDetails
+            
+            
+            cell.smallSubTitleLeft.text = legislation.legislationType?.uppercased() ?? ""
+            cell.accessoryType = UITableViewCellAccessoryType.none
+            return cell
         }
-        cell.subTitleLabel.setHTMLFromString(text: excerpt)
-        cell.subTitleLabel.sizeToFit()
         
-        
-        cell.accessoryType = UITableViewCellAccessoryType.none
-        
-        return cell
+        //return cell
     }
-    
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 95.0
-    }
-    
 
     /*
     // Override to support conditional editing of the table view.
@@ -212,7 +257,7 @@ class LegislationsTableViewController: UITableViewController {
     }
     
     func removeIndicator(){
-        UIScreen.main.brightness = CGFloat(1.0)
+        //UIScreen.main.brightness = CGFloat(1.0)
        
         strLabel.removeFromSuperview()
         activityIndicator.removeFromSuperview()
@@ -225,26 +270,43 @@ class LegislationsTableViewController: UITableViewController {
 extension LegislationsTableViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
-        print("searching again")
+
+ 
+        
+        
+    }
+    
+    
+}
+
+extension LegislationsTableViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String){
+        let session = Alamofire.SessionManager.default.session
+        session.getAllTasks { tasks in
+            tasks.forEach { $0.cancel(); print("cancel-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx----------->") }
+        }
+        
         if self.searchController.searchBar.text == "" {
-            
+            self.legislations = []
+            self.tableView.reloadData()
+            tableView.separatorStyle = .none
+            tableView.rowHeight = 85
         }
         else {
             self.msgLabel.removeFromSuperview()
             self.errorImage.removeFromSuperview()
-            self.legislations = []
-            self.tableView.reloadData()
+           
             UIApplication.shared.isNetworkActivityIndicatorVisible = true
-            activityIndicator("Searching...")
+//            activityIndicator("Searching...")
             debouncer.callback = {
                 // Send the debounced network request here
                 let searchTerm = self.searchController.searchBar.text
                 
                 Legislation.search(term: searchTerm, completionHandler:{(legislations,error) in
                     self.legislations = legislations
-                    if legislations.count == 0 {
+                    if legislations.count == 0 && self.searchController.searchBar.text != "" {
                         self.msgLabel = UILabel(frame:CGRect(x: self.view.frame.midX -  134, y: self.view.frame.midY - 40 , width: 300, height: 46))
-                    
+                        
                         self.msgLabel.text = "No results for \u{22}\(searchTerm! as String)\u{22}"
                         self.msgLabel.sizeToFit()
                         self.msgLabel.frame = CGRect(x: self.view.frame.midX -  self.msgLabel.frame.width/2, y: self.view.frame.midY - 40 , width: 300, height: 46)
@@ -256,18 +318,14 @@ extension LegislationsTableViewController: UISearchResultsUpdating {
                         self.view.addSubview(self.errorImage)
                     }
                     else {
+                        self.searchController.searchBar.resignFirstResponder()
                         self.msgLabel.removeFromSuperview()
                         self.errorImage.removeFromSuperview()
                     }
-                   
+                    
                     print(legislations.count)
-                    print(error)
-                   
+                    print(error.debugDescription)
                     
-                    
-                    for legislation in self.legislations {
-                        //                    print(legislation.legislationParts)
-                    }
                     self.removeIndicator()
                     
                     self.tableView.reloadData()
@@ -277,59 +335,7 @@ extension LegislationsTableViewController: UISearchResultsUpdating {
             
             debouncer.call()
         }
- 
-        
-        
     }
-    
-    
-}
 
-//extension CasesTableViewController: UISearchResultsUpdating {
-//    
-//    func updateSearchResults(for searchController: UISearchController) {
-//        self.cases = []
-//        self.tableView.reloadData()
-//        self.messageLabel.text = ""
-//        if self.searchController.searchBar.text == "" {
-//            
-//        }
-//        else {
-//            UIApplication.shared.isNetworkActivityIndicatorVisible = true
-//            debouncer.callback = {
-//                self.messageLabel.text = "Searching..."
-//                
-//                
-//                // Send the debounced network request here
-//                let searchTerm = self.searchController.searchBar.text
-//                
-//                Case.search(term: searchTerm, completionHandler:{(cases,error) in
-//                    print("callback")
-//                    self.cases = cases
-//                    print(self.cases)
-//                    if self.cases.count == 0 {
-//                        self.messageLabel.text = "No match found"
-//                        self.messageLabel.sizeToFit()
-//                        self.messageLabel.isHidden = false
-//                    }
-//                    else {
-//                        //self.messageLabel.isHidden = true
-//                        self.messageLabel.text = ""
-//                    }
-//                    self.tableView.reloadData()
-//                    
-//                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
-//                })
-//            }
-//            
-//            debouncer.call()
-//        }
-//        
-//        
-//        
-//    }
-//    
-//    
-//}
-//
-//
+
+}

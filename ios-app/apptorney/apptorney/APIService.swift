@@ -18,36 +18,61 @@ class APIService {
     static let casesURL         = urlBase + "/cases"
     weak var delegate: APIServiceDelegate?
     
-    func get(endPoint:String, parameters:Any, completionHandler:@escaping (Data?, Error?)->Void){
-        let parameters: Parameters = parameters as! Parameters
+    func get(endPoint:String, parameters:Any?, completionHandler:@escaping (Data?, Error?)->Void){
         let headers = [
             "X-IBM-Client-ID": "6f423f6d-5514-4c5f-bf5c-0f0ce138d523", //production
             "X-IBM-Client-Secret": "273733c1-f6c0-4f1f-ae1d-cd01c92676a2" //production
-//            "X-IBM-Client-ID": "e7aebcd3-ea44-4b68-89e7-821817a1b5f6", //test
-//            "X-IBM-Client-Secret": "fb67bc04-b06d-402f-be8b-d4969279b11b" //test
-
+            //            "X-IBM-Client-ID": "e7aebcd3-ea44-4b68-89e7-821817a1b5f6", //test
+            //            "X-IBM-Client-Secret": "fb67bc04-b06d-402f-be8b-d4969279b11b" //test
+            
         ]
-
-        Alamofire.request(APIService.urlBase + endPoint, method: .get, parameters: parameters, headers: headers).responseData { response in
-          
-            if let data = response.result.value {
-                print(data)
-                let error = JSON(data)["error"]
-                if error != nil {
-                    completionHandler(nil, NSError(domain:error["code"].string!, code:error["statusCode"].int!, userInfo:nil))
-                    
+        if let parameters: Parameters = parameters as? Parameters {
+            Alamofire.request(APIService.urlBase + endPoint, method: .get, parameters: parameters, headers: headers).responseData { response in
+                
+                if let data = response.result.value {
+                    print(data)
+                    let error = JSON(data)["error"]
+                    if error != nil {
+                        completionHandler(nil, NSError(domain:error["code"].string!, code:error["statusCode"].int!, userInfo:nil))
+                        
+                    }
+                    else {
+                        let result = data
+                        completionHandler(result, nil)
+                    }
+                    //self.delegate?.APIServiceDidFinish(ApiService: self, result: JSON)
                 }
                 else {
-                    let result = data
-                    completionHandler(result, nil)
+                    print ("No data received")
                 }
-                //self.delegate?.APIServiceDidFinish(ApiService: self, result: JSON)
+                
             }
-            else {
-                print ("No data received")
+        } else {
+            Alamofire.request(APIService.urlBase + endPoint, method: .get, headers: headers).responseData { response in
+                
+                if let data = response.result.value {
+                    print(data)
+                    let error = JSON(data)["error"]
+                    if error != nil {
+                        completionHandler(nil, NSError(domain:error["code"].string!, code:error["statusCode"].int!, userInfo:nil))
+                        
+                    }
+                    else {
+                        let result = data
+                        completionHandler(result, nil)
+                    }
+                    //self.delegate?.APIServiceDidFinish(ApiService: self, result: JSON)
+                }
+                else {
+                    print ("No data received")
+                }
+                
             }
-            
         }
+       
+        
+
+       
     }
     
     
@@ -61,13 +86,17 @@ class APIService {
             
         ]
         
-        Alamofire.request(APIService.urlBase + endPoint, method: .get, parameters: parameters, headers: headers).responseJSON { response in
+        Alamofire.request(APIService.urlBase + endPoint, method: .get, parameters: parameters, headers: headers).validate().responseJSON { response in
             print(response)
+            
+            enum reponseError: Error {
+               
+                case error(String)
+            }
             if let data = response.result.value {
-                print(data)
                 let error = JSON(data)["error"]
-                if error != nil {
-                    completionHandler(nil, NSError(domain:error["code"].string!, code:error["statusCode"].int!, userInfo:nil))
+                if error.null == nil {
+                    completionHandler(nil, reponseError.error("xxx"))
                     
                 }
                 else {
@@ -93,22 +122,18 @@ class APIService {
             
         ]
 
-        Alamofire.request(APIService.urlBase + endPoint, method: .post, parameters: parameters, headers:headers).responseJSON { response in
-            if let data = response.result.value {
-                //let error: Error?
-                
-                let error = JSON(data)["error"]
-                if error != nil {
-                    completionHandler(nil, NSError(domain:error["code"].string!, code:error["statusCode"].int!, userInfo:nil))
-                
-                }
-                else {
-                    let result = data
-                    completionHandler(result, nil)
-                }
-                
-               
-                //self.delegate?.APIServiceDidFinish(ApiService: self, result: JSON)
+        Alamofire.request(APIService.urlBase + endPoint, method: .post, parameters: parameters, headers:headers).validate().responseJSON { response in
+            
+            
+            switch response.result {
+                case .success:
+                    print("Validation Successful")
+                    if let data = response.result.value {
+                        completionHandler(data, nil)
+                    }
+                case .failure(let error):
+                    completionHandler(nil, error)
+                    print(error)
             }
             
         }

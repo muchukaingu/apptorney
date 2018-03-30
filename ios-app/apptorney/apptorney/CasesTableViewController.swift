@@ -7,12 +7,13 @@
 //
 
 import UIKit
+import Alamofire
 
 class CasesTableViewController: UITableViewController {
     
     var searchController: UISearchController!
     var searchResultsController = UITableViewController()
-    let debouncer = Debouncer(interval:2.0)
+    let debouncer = Debouncer(interval:0.5)
     var cases = [Case]()
     var messageLabel:UILabel = UILabel(frame: CGRect(x: 0,y: 0, width: 200, height: 100)) as UILabel
     
@@ -23,21 +24,26 @@ class CasesTableViewController: UITableViewController {
     var msgLabel = UILabel()
     let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
     var errorImage = UIImageView()
-   
+    var areas = [AreaOfLaw]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavBar()
         configureUIControls()
+        tableView.rowHeight = 80
         self.tableView.delegate = self
         self.tableView.dataSource = self
-        
+        self.searchController.searchBar.delegate = self
+        loadAreasOfLaw()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+    }
+    
+    func loadAreasOfLaw(){
+        AreaOfLaw.search(completionHandler:{(areas,error) in
+            self.areas = areas
+            self.tableView.reloadData()
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+        })
     }
     
     func setupNavBar(){
@@ -104,90 +110,50 @@ class CasesTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return self.cases.count
+        return self.cases.count == 0 ? self.areas.count : self.cases.count
     }
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cellIndetifier = "Cell"
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) as! CustomTableViewCell
-        let caseInstance = cases[(indexPath as NSIndexPath).row]
         
-        
-        // Configure the cell...
-        cell.mainLabel.setHTMLFromString(text: caseInstance.name?.capitalized ?? "")
-        cell.subTitleLabel.setHTMLFromString(text: caseInstance.highlight ?? "")
-        cell.smallSubTitleLeft.text = caseInstance.areaOfLaw?.capitalized
-        cell.smallSubTitleLeft.sizeToFit()
-        cell.smallSubTitleRight.text = caseInstance.caseNumber
-        cell.subTitleLabel.sizeToFit()
-        
-        
-        
-        cell.accessoryType = UITableViewCellAccessoryType.none
-        
-        return cell
+        if cases.count == 0 {
+            let cellIndetifier = "SummaryCell"
+            let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) as! SummaryTableViewCell
+            tableView.separatorStyle = .none
+            let area = areas[(indexPath as NSIndexPath).row]
+            cell.name.text = area.name
+            return cell
+        }
+        else {
+            let cellIndetifier = "Cell"
+            let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) as! CustomTableViewCell
+            let caseInstance = cases[(indexPath as NSIndexPath).row]
+            tableView.estimatedRowHeight = 80
+            tableView.rowHeight = UITableViewAutomaticDimension
+            //tableView.rowHeight = 180
+            tableView.separatorStyle = .none
+            
+            // Configure the cell...
+            cell.mainLabel.setHTMLFromString(text: caseInstance.name ?? "")
+            cell.subTitleLabel.setHTMLFromString(text: caseInstance.highlight ?? caseInstance.summaryOfRuling ?? "")
+            cell.smallSubTitleLeft.text = caseInstance.areaOfLaw?.name?.uppercased()
+            cell.smallSubTitleLeft.sizeToFit()
+            let year = caseInstance.citation?.year ?? 0
+            let code = caseInstance.citation?.code ?? ""
+            let page = caseInstance.citation?.pageNumber ?? 0
+            let citationDetails = (caseInstance.caseNumber == "") ? "\(year)/ \(code)/ \(page)" : caseInstance.caseNumber
+            cell.smallSubTitleRight.text =  citationDetails?.uppercased()
+            cell.subTitleLabel.sizeToFit()
+            cell.smallSubTitleLeft.layer.masksToBounds = true
+            cell.smallSubTitleLeft.layer.cornerRadius = 4
+            cell.smallSubTitleRight.layer.masksToBounds = true
+            cell.smallSubTitleRight.layer.cornerRadius = 4
+            
+            cell.accessoryType = UITableViewCellAccessoryType.none
+            
+            return cell
+        }
     }
-    
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 160.0
-    }
-    
-
-    /*
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
-        return cell
-    }
-    */
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showCaseDetails" {
@@ -228,7 +194,7 @@ class CasesTableViewController: UITableViewController {
     }
     
     func removeIndicator(){
-        UIScreen.main.brightness = CGFloat(1.0)
+        //UIScreen.main.brightness = CGFloat(1.0)
         
         strLabel.removeFromSuperview()
         activityIndicator.removeFromSuperview()
@@ -242,18 +208,35 @@ class CasesTableViewController: UITableViewController {
 extension CasesTableViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
-        print("searching again")
+
+        
+        
+        
+    }
+    
+    
+}
+
+extension CasesTableViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String){
+        let session = Alamofire.SessionManager.default.session
+        session.getAllTasks { tasks in
+            tasks.forEach { $0.cancel(); print("cancel-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx----------->") }
+        }
+        //print("searching again")
         if self.searchController.searchBar.text == "" {
-            
+            self.cases = []
+            self.tableView.reloadData()
+            tableView.rowHeight = 85
         }
         else {
             self.msgLabel.removeFromSuperview()
             self.errorImage.removeFromSuperview()
-            self.cases = []
-            self.tableView.reloadData()
-            activityIndicator("Searching...")
-            UIApplication.shared.isNetworkActivityIndicatorVisible = true
+            
+            
             debouncer.callback = {
+                //self.activityIndicator("Searching...")
+                UIApplication.shared.isNetworkActivityIndicatorVisible = true
                 self.messageLabel.text = "Searching..."
                 
                 
@@ -264,7 +247,7 @@ extension CasesTableViewController: UISearchResultsUpdating {
                     print("callback")
                     self.cases = cases
                     print(self.cases)
-                    if self.cases.count == 0 {
+                    if self.cases.count == 0 && self.searchController.searchBar.text != ""{
                         self.msgLabel = UILabel(frame:CGRect(x: self.view.frame.midX -  134, y: self.view.frame.midY - 40 , width: 300, height: 46))
                         self.msgLabel.text = "No results for \u{22}\(searchTerm! as String)\u{22}"
                         self.msgLabel.sizeToFit()
@@ -277,6 +260,7 @@ extension CasesTableViewController: UISearchResultsUpdating {
                         self.view.addSubview(self.errorImage)
                     }
                     else {
+                        self.searchController.searchBar.resignFirstResponder()
                         //self.messageLabel.isHidden = true
                         self.messageLabel.text = ""
                         self.msgLabel.removeFromSuperview()
@@ -291,10 +275,6 @@ extension CasesTableViewController: UISearchResultsUpdating {
             
             debouncer.call()
         }
-        
-        
-        
+
     }
-    
-    
 }

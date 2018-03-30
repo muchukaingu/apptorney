@@ -10,26 +10,27 @@ import Foundation
 
 class Case: Decodable  {
     var _id: String?
+    var id: String?
     var referenceNumber: String?
     var name: String?
     var caseNumber: String?
     var highlight: String?
-    var plaintiffs: [String]?
-    var defendants: [String]?
-    var appearancesForPlaintiffs: [String]?
-    var appearancesForDefendants: [String]?
-    var coram:String?
+    var plaintiffs: [Party]?
+    var defendants: [Party]?
+    var appearancesForPlaintiffs: [Appearance]?
+    var appearancesForDefendants: [Appearance]?
+    var coram:[Coram]?
     var citation: Citation?
     var summaryOfFacts: String?
     var summaryOfRuling: String?
     var judgement: String?
-    var court: [String:String]?
-    var courtDivision: [String:String]?
-    var location: [String:String]?
-    var jurisdiction: [String:String]?
-    var areaOfLaw: String?
-    var plaintiffSynonym: String?
-    var defendantSynonym: String?
+    var court: Court?
+    var courtDivision: Division?
+    var location: Location?
+    var jurisdiction: Jurisdiction?
+    var areaOfLaw: AreaOfLaw?
+    var plaintiffSynonym: Synonym?
+    var defendantSynonym: Synonym?
     var workReferedTo:[WorkReference]?
     var legislationsReferedTo: [Legislation]?
     var casesReferedTo: [Case]?

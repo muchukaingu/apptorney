@@ -10,7 +10,7 @@ import Foundation
 
 class Citation: Decodable {
     var description: String?
-    var number: Int?
+    var number: String?
     var year: Int?
     var code: String?
     var pageNumber: Int?

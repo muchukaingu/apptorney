@@ -19,9 +19,14 @@ class HeaderView: UITableViewHeaderFooterView {
             guard let section = section else {
                 return
             }
+            let attrStr = NSMutableAttributedString(string: section.name)
             
-            titleLabel?.text = section.name
-            titleLabel?.textColor = section.highlighted! ? UIColor(hex: "f3a435"):UIColor.black
+            if section.highlighted! {
+                attrStr.addAttribute(NSAttributedStringKey.underlineStyle , value: NSUnderlineStyle.styleSingle.rawValue, range:NSMakeRange(0, attrStr.length))
+                attrStr.addAttribute(NSAttributedStringKey.underlineColor , value: UIColor(hex: "f3a435"), range:NSMakeRange(0, attrStr.length))
+            }
+            titleLabel?.attributedText = attrStr
+            //titleLabel?.textColor = section.highlighted! ? UIColor(hex: "f3a435"):UIColor.black
             setCollapsed(collapsed: section.isCollapsed)
             arrowLabel?.isHidden = !section.isCollapsible!
         }

@@ -32,6 +32,7 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     
     
+    
     @IBOutlet weak var dateLabel: UILabel!
     
     
@@ -42,6 +43,8 @@ class HomeViewController: UIViewController {
     ]
     
     var cases = [HomeItem]()
+    var news = [HomeItem]()
+    var trending = [HomeItem]()
     
     var colors:[UIColor] = []
    
@@ -72,10 +75,10 @@ class HomeViewController: UIViewController {
     }
     
     func populateData() {
-        cases.append(HomeItem(name:"Stanbic Vs. Savenda", summary:"Savenda sues Stanbic for libel and damages. What Meaning can be derived from this case. Savenda sues Stanbic for libel and damages."))
-        cases.append(HomeItem(name:"The \nPresidential Powers Act", summary:"Savenda sues Stanbic for libel and damages"))
-        cases.append(HomeItem(name:"Stanbic Vs. Savenda", summary:"Savenda sues Stanbic for libel and damages"))
-        cases.append(HomeItem(name:"Stanbic Vs. Savenda", summary:"Savenda sues Stanbic for libel and damages"))
+        cases.append(HomeItem(name:"KALUSHA BWALYA VS. CHARDORE PROPERTIES LIMITED AND ANOTHER".capitalized, summary:"This matter came up for hearing of two applications filed by the Plaintiff for review and stay of judgment pending the application for third party proceedings."))
+        news.append(HomeItem(name:"STANBIC BANK ZAMBIA LIMITED VS. SAVENDA MANAGEMENT SERVICES".capitalized, summary:"The concept of credit referencing was fairly alien to the Zambian banking and financial sector until the year 2006"))
+        news.append(HomeItem(name:"THE CONSTITUTIONAL COURT ACT".capitalized, summary:"An Act to provide for the printing and publication of the Constitution; to provide for the savings and transitional provisions of existing State organs..."))
+        news.append(HomeItem(name:"THE BANKING AND FINANCIAL SERVICES ACT, 2017".capitalized, summary:"An Act to provide for a licensing system for the conduct of banking or financial business and provision of financial services..."))
     }
     
     func setupNavBar(){
@@ -196,7 +199,7 @@ extension HomeViewController:UITableViewDataSource {
         let cellIndetifier = "scrollCell"
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) as! ScrollTableViewCell
         cell.section = indexPath.section
-        cell.itemsToDisplay = cases
+        cell.itemsToDisplay = (cell.section==0) ? cases : news
         cell.accessoryType = UITableViewCellAccessoryType.none
 
         return cell
@@ -226,7 +229,7 @@ extension HomeViewController:UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 160.0
+        return 180
     }
     
    

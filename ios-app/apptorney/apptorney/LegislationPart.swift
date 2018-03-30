@@ -13,7 +13,7 @@ class LegislationPart: Decodable {
     var title:String?
     var content:String?
     var subParts:[LegislationPart]?
-    var table: String?
-    var file: String?
+    var table: Table?
+    var file: File?
     var flatContentNew:String?
 }

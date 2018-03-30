@@ -10,7 +10,7 @@ import UIKit
 
 extension NSMutableAttributedString {
     
-    func highlightTarget(target: String, color: UIColor) -> NSMutableAttributedString {
+    func highlightTarget(target: String, color: UIColor) -> (NSMutableAttributedString, Int) {
         let regPattern = target
         var matchesFound = 0
         if let regex = try? NSRegularExpression(pattern: regPattern, options: []) {
@@ -19,13 +19,13 @@ extension NSMutableAttributedString {
                 let attributedText = NSMutableAttributedString(string: target)
                 //attributedText.addAttribute(NSAttributedStringKey.backgroundColor, value: UIColor.black, range: NSRange(location: 0, length: attributedText.length)
                 attributedText.addAttribute(NSAttributedStringKey.foregroundColor, value: color, range: NSRange(location: 0, length: attributedText.length))
-                attributedText.addAttribute(NSAttributedStringKey.font, value: UIFont(name: "HelveticaNeue-Light", size: 13.5), range: NSRange(location: 0, length: attributedText.length))
+                attributedText.addAttribute(NSAttributedStringKey.font, value: UIFont(name: "HelveticaNeue-Bold", size: 16.2), range: NSRange(location: 0, length: attributedText.length))
                 self.replaceCharacters(in: match.range, with: attributedText)
             }
             matchesFound = matchesArray.count > 0 ? 1:0
         }
        
-        return self
+        return (self, matchesFound)
     }
     
     func removeSpaces() -> NSMutableAttributedString {
@@ -38,7 +38,7 @@ extension NSMutableAttributedString {
                 //attributedText.addAttribute(NSAttributedStringKey.backgroundColor, value: UIColor.black, range: NSRange(location: 0, length: attributedText.length))
                 //attributedText.addAttribute(NSAttributedStringKey.foregroundColor, value: color, range: NSRange(location: 0, length: attributedText.length))
                 self.replaceCharacters(in: match.range, with: " ")
-                print("match \(match)")
+                
             }
             matchesFound = matchesArray.count > 0 ? 1:0
         }
@@ -52,16 +52,28 @@ extension NSMutableAttributedString {
     }*/
     
     
-    func setHTMLFromString(text: String, target: String, color: UIColor) -> NSMutableAttributedString{
+    func setHTMLFromString(text: String, target: String, color: UIColor) -> (NSMutableAttributedString, Int){
         var attributedText = NSMutableAttributedString(string: text).removeSpaces()
         
-        let modifiedFont = NSString(format:"<style>h1 {font-size:1.0em; font-weight:600}</style><span style=\"font-family: 'HelveticaNeue-Light'; font-size: 10pt \">%@</span>" as NSString, attributedText)
+        let modifiedFont = NSString(format:"<style>h1 {font-size:1.0em; font-weight:600}</style><span style=\"font-family: 'HelveticaNeue-Light'; font-size: 12pt \">%@</span>" as NSString, attributedText)
         
-        let attrStr = try! NSMutableAttributedString(
+        var attrStr = try! NSMutableAttributedString(
             data: modifiedFont.data(using: String.Encoding.unicode.rawValue, allowLossyConversion: true)!,
             options: [NSAttributedString.DocumentReadingOptionKey.documentType:NSAttributedString.DocumentType.html, NSAttributedString.DocumentReadingOptionKey.characterEncoding: String.Encoding.utf8.rawValue],
             documentAttributes: nil)
         
-        return attrStr.highlightTarget(target: target, color:color)
+         let textInArray = [target.capitalized, target.lowercased(), target.uppercased()]
+         var count = 0
+         for text in textInArray {
+            let result = attrStr.highlightTarget(target: text, color: UIColor(hex:"f3a435"))
+            attrStr = result.0
+            if result.1 == 1 {
+                count = count+1
+            }
+         }
+         
+         //let highlighted = count > 0 ? true:false
+ 
+        return (attrStr, count)
     }
 }

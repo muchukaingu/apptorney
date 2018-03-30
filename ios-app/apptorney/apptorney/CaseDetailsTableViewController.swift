@@ -26,15 +26,15 @@ class CaseDetailsTableViewController: UITableViewController {
     var sections = [
         Section(name: "",
                 isCollapsed: false, height:0.0, isCollapsible: false, content:nil, highlighted: false),
-        Section(name: "Summary of Holding",
+        Section(name: "Summary of Holding".uppercased(),
+                isCollapsed: false, height:0.0, isCollapsible: true, content:nil, highlighted: false),
+        Section(name: "Summary of Facts".uppercased(),
                 isCollapsed: true, height:0.0, isCollapsible: true, content:nil, highlighted: false),
-        Section(name: "Summary of Facts",
+        Section(name: "Holding".uppercased(),
                 isCollapsed: true, height:0.0, isCollapsible: true, content:nil, highlighted: false),
-        Section(name: "Holding",
+        Section(name: "Cases Referenced".uppercased(),
                 isCollapsed: true, height:0.0, isCollapsible: true, content:nil, highlighted: false),
-        Section(name: "Cases Referenced",
-                isCollapsed: true, height:0.0, isCollapsible: true, content:nil, highlighted: false),
-        Section(name: "Legislations Referenced",
+        Section(name: "Legislations Referenced".uppercased(),
                 isCollapsed: true, height:0.0, isCollapsible: true, content:nil, highlighted: false)
     ]
     
@@ -42,7 +42,11 @@ class CaseDetailsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         activityIndicator("Loading Case")
+        print(caseInstance.caseNumber)
+        print("\(caseInstance.citation?.year)/ \(caseInstance.citation?.code)/ \(caseInstance.citation?.pageNumber)")
         //self.tableView.isHidden = true
+        tableView.estimatedRowHeight = 80
+        tableView.rowHeight = UITableViewAutomaticDimension
         self.preliminaryCaseData = self.caseInstance
         self.populateCase()
         self.configureUIControls()
@@ -66,7 +70,7 @@ class CaseDetailsTableViewController: UITableViewController {
         let caseId = caseInstance._id
         Case.loadCase(caseId: caseId, completionHandler:{(aCase,error) in
             
-            print("aCase Court \(aCase.court!["name"] ?? "")")
+            print("aCase Court \(aCase.court?.name ?? "")")
             self.caseInstance = aCase
             print(self.caseInstance)
             self.removeIndicator()
@@ -87,24 +91,31 @@ class CaseDetailsTableViewController: UITableViewController {
                 let cellIndetifier = "SummaryCell"
                 let summarycell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) as! CaseDetailsSummaryCell
                 //cell.textLabel?.text = "Name of Case"
-                summarycell.firstLabel?.text = preliminaryCaseData.areaOfLaw?.capitalized
+                summarycell.firstLabel?.text = preliminaryCaseData.areaOfLaw?.name?.capitalized
                 summarycell.secondLabel?.text = caseInstance.caseNumber!
-                let court = caseInstance.court?["name"] ?? ""
+                let court = caseInstance.court?.name ?? ""
                 //let courtDivision = caseInstance.courtDivision?["name"] ?? ""
-                let jurisdiction = caseInstance.jurisdiction?["name"]?.capitalized ?? ""
-                let location = caseInstance.location?["name"] ?? ""
+                let jurisdiction = caseInstance.jurisdiction?.name ?? ""
+                let location = caseInstance.location?.name ?? ""
               
-                summarycell.thirdLabel?.text = caseInstance.name?.capitalized
+                summarycell.thirdLabel?.text = caseInstance.name
                 if summarycell.thirdLabel.text!.count < 28{
                     heightDiscount = 30
                 }
                 
                 summarycell.fourthLabel?.text = court + " | " + jurisdiction + " Jurisdiction | " + location
-                summarycell.fifthLabel?.text = caseInstance.coram ?? ""
-                let border:UIView = UIView(frame: CGRect(x: 20,y: 125 - heightDiscount,width: self.tableView.bounds.width-40, height: 1))
-                border.backgroundColor = UIColor(red: 2.0/255, green: 160.0/255, blue: 243.0/255, alpha: 1.0)
-                summarycell.addSubview(border)
-                print("Number of Lines in Label \(summarycell.thirdLabel.numberOfLines)")
+                
+                var coram = ""
+                if let coramDetails = caseInstance.coram {
+                    for instance in coramDetails {
+                        coram = coram + instance.name! + "\n"
+                    }
+                }
+                summarycell.fifthLabel?.text = coram.capitalized
+//                let border:UIView = UIView(frame: CGRect(x: 20,y: 125 - heightDiscount,width: self.tableView.bounds.width-50, height: 4))
+//                border.backgroundColor = UIColor(red: 0.0/255, green: 0.0/255, blue: 0.0/255, alpha: 1.0)
+//                summarycell.addSubview(border)
+                
                 
             
               
@@ -133,6 +144,20 @@ class CaseDetailsTableViewController: UITableViewController {
                 cell.mainText?.text = caseInstance.judgement
                 print(cell.mainText.frame.size.height)
                 return cell
+            case 4:
+                let cellIndetifier = "Cell"
+                let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath)
+                cell.textLabel?.text = caseInstance.casesReferedTo![index-4 + indexPath.row].name?.capitalized
+                cell.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
+        
+                return cell
+            
+            case 5:
+                let cellIndetifier = "Cell"
+                let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) //as! UITableViewCell
+                cell.textLabel?.text = caseInstance.legislationsReferedTo![index-5 + indexPath.row].legislationName?.capitalized
+                cell.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
+                return cell
             
             default:
                 print("")
@@ -153,8 +178,15 @@ class CaseDetailsTableViewController: UITableViewController {
         if item.isCollapsed {
             return 0
         } else {
+            if section == 4 {
+                return caseInstance.casesReferedTo?.count ?? 0
+            }
+            if section == 5 {
+                return caseInstance.legislationsReferedTo?.count ?? 0
+            }
             return 1
         }
+        
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -164,6 +196,48 @@ class CaseDetailsTableViewController: UITableViewController {
         return sections.count
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.section == 4 {
+            performSegue(withIdentifier: "showCaseReference", sender: self)
+            
+        }
+        else if indexPath.section == 5 {
+            performSegue(withIdentifier: "showLegislationReference", sender: self)
+            
+        }
+        
+    }
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showLegislationReference" {
+            if let indexPath = self.tableView.indexPathForSelectedRow {
+                print("in segue, mofo")
+                let destinationController = segue.destination as!
+                LegislationDetailsTableViewController
+                let legislation = self.caseInstance.legislationsReferedTo![(indexPath as NSIndexPath).row]
+                legislation._id = legislation.id
+                destinationController.legislationInstance = legislation
+                let backItem = UIBarButtonItem()
+                backItem.title = caseInstance.name?.capitalized
+                navigationItem.backBarButtonItem = backItem // This will show in the next view controller being pushed
+            }
+        }
+        
+        if segue.identifier == "showCaseReference" {
+            if let indexPath = self.tableView.indexPathForSelectedRow {
+                print("in segue, mofo")
+                let destinationController = segue.destination as!
+                CaseDetailsTableViewController
+                let caseInstance = self.caseInstance.casesReferedTo![(indexPath as NSIndexPath).row]
+                caseInstance._id = caseInstance.id
+                destinationController.caseInstance = caseInstance
+                let backItem = UIBarButtonItem()
+                backItem.title = self.caseInstance.name?.capitalized
+                navigationItem.backBarButtonItem = backItem // This will show in the next view controller being pushed
+            }
+        }
+    }
    
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -201,21 +275,7 @@ class CaseDetailsTableViewController: UITableViewController {
         }
     }
      */
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.section == 0 {
-             return UITableViewAutomaticDimension + 136 - heightDiscount
-        } else {
-             return UITableViewAutomaticDimension
-        }
-    }
-    
-    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.section == 0 {
-            return UITableViewAutomaticDimension + 136 - heightDiscount
-        } else {
-            return UITableViewAutomaticDimension
-        }
-    }
+ 
     override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         print("Yebo Yes")
     }

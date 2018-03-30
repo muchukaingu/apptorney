@@ -14,10 +14,14 @@ class LegislationDetailsTableViewController: UITableViewController {
         navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
+
+    //@IBOutlet weak var tableView: UITableView!
+    
     var legislationInstance:Legislation!
     var searchText:String = ""
     var preliminaryCaseData:Legislation!
     //@IBOutlet weak var judgementHeight: NSLayoutConstraint!
+    var height:CGFloat = 0
     var heightDiscount:CGFloat = 0
     let messageFrame = UIView()
     var activityIndicator = UIActivityIndicatorView()
@@ -27,10 +31,7 @@ class LegislationDetailsTableViewController: UITableViewController {
     var loaded = false
     @IBOutlet weak var judgement: UITextView!
     
-    var sections = [
-        Section(name: "",
-                isCollapsed: false, height:0.0, isCollapsible: false, content:NSMutableAttributedString(string:""), highlighted:false)
-    ]
+    var sections = [Section(name:"", isCollapsed: false, height:0.0, isCollapsible: false, content:NSMutableAttributedString(string:""), highlighted: false )]
     
     
     override func viewDidLoad() {
@@ -38,6 +39,8 @@ class LegislationDetailsTableViewController: UITableViewController {
         activityIndicator("Loading Legislation")
         self.populateLegislation()
         self.configureUIControls()
+        tableView.estimatedRowHeight = 80
+        tableView.rowHeight = UITableViewAutomaticDimension
     }
     
     func configureUIControls () { //for cutomising controls on the UI
@@ -54,24 +57,33 @@ class LegislationDetailsTableViewController: UITableViewController {
         let legislationId = legislationInstance._id
         Legislation.loadLegislation(legislationId: legislationId, completionHandler:{(legislation,error) in
             self.legislationInstance = legislation
+           
+            let volume = self.legislationInstance.volumeNumber ?? ""
+            let chapter = self.legislationInstance.chapterNumber ?? ""
+            var volumeDetails = ""
+            if volume.count == 0 && chapter.count == 0 {
+                volumeDetails = ""
+            }
+            else {
+                var volumeDetails = "Volume " + volume + ", Chapter " + chapter
+                let amends = self.legislationInstance.yearOfAmendment ?? 0
+                if let assent = self.legislationInstance.dateOfAssent?.prefix(4) {
+                    volumeDetails = volumeDetails + " of \(assent)"
+                }
+                if amends != 0 {
+                    volumeDetails = volumeDetails + " (Amended in \(amends))"
+                }
+            
+            }
+           
             self.removeIndicator()
             for part in self.legislationInstance.legislationParts!{
                 //var attributedString = NSMutableAttributedString(string: part.flatContentNew ?? "")
                 let result = NSMutableAttributedString().setHTMLFromString(text: part.flatContentNew ?? "", target: self.searchText, color:UIColor(hex: "f3a435"))
-                /*let textInArray = [self.searchText.capitalized, self.searchText.lowercased(), self.searchText.uppercased()]
-                var count = 0
-                for text in textInArray {
-                    let result = attributedString.removeSpaces().highlightTarget(target: text, color: UIColor(hex:"f3a435"))
-                    attributedString = result.0
-                    if result.1 == 1 {
-                        count = count+1
-                    }
-                }
- 
-                let highlighted = count > 0 ? true:false
-                */
-                self.sections.append(Section(name:part.title?.uppercased() ?? "", isCollapsed: true, height:0.0, isCollapsible: true, content:result as! NSMutableAttributedString, highlighted: false ))
+                let highlighted = result.1 > 0 ? true:false
+                self.sections.append(Section(name:part.title?.uppercased() ?? "", isCollapsed: true, height:0.0, isCollapsible: true, content:result.0, highlighted: highlighted ))
             }
+            
             
         
        
@@ -113,20 +125,28 @@ class LegislationDetailsTableViewController: UITableViewController {
             }
             summarycell.fifthLabel?.text = legislationInstance.enactment
             summarycell.sixthLabel?.text = legislationInstance.preamble
+            summarycell.sixthLabel.sizeToFit()
             
             //let jurisdiction = legislationInstance.jurisdiction?["name"]?.capitalized ?? ""
             //let location = legislationInstance.location?["name"] ?? ""
             
-            summarycell.thirdLabel?.text = legislationInstance.legislationName?.capitalized
-            if summarycell.thirdLabel.text!.count < 28{
-                heightDiscount = 30
+            summarycell.thirdLabel?.text = legislationInstance.legislationName
+            if summarycell.thirdLabel.calculateMaxLines() == 1{
+                heightDiscount = 55
             }
+          
+            if legislationInstance.preamble == nil{
+                heightDiscount = 60
+            }
+            
+            height = CGFloat(summarycell.thirdLabel.calculateMaxLines() * 0.8 + summarycell.sixthLabel.calculateMaxLines() * 1) * 60
+            print(heightDiscount)
             
             //summarycell.fourthLabel?.text = court + " | " + jurisdiction + " Jurisdiction | " + location
             //summarycell.fifthLabel?.text = legislationInstance.coram ?? ""
-            let border:UIView = UIView(frame: CGRect(x: 20,y: 185 - heightDiscount,width: self.tableView.bounds.width-40, height: 1))
-            border.backgroundColor = UIColor(red: 0.0/255, green: 0.0/255, blue: 0.0/255, alpha: 1.0)
-            summarycell.addSubview(border)
+            //let border:UIView = UIView(frame: CGRect(x: 20,y: 185 - heightDiscount,width: self.tableView.bounds.width-50, height: 4))
+            //border.backgroundColor = UIColor(hex: "000000")//UIColor(red: 0.0/255, green: 0.0/255, blue: 0.0/255, alpha: 1.0)
+            //summarycell.addSubview(border)
             
             
             
@@ -135,7 +155,8 @@ class LegislationDetailsTableViewController: UITableViewController {
             //cell.fifthLabel?.text = preliminaryCaseData.area!.uppercased() + " | " + preliminaryCaseData.caseNumber!
             return summarycell
             //let insets: UIEdgeInsets = cell.mainText.textContainerInset
-
+            
+            
         default:
             let cellIndetifier = "DetailCell"
             let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) as! CaseDetailsTableViewCell
@@ -205,9 +226,11 @@ class LegislationDetailsTableViewController: UITableViewController {
      }
      }
      */
+    
+    /*
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
-            return UITableViewAutomaticDimension + 190 - heightDiscount
+            return UITableViewAutomaticDimension
         } else {
             return UITableViewAutomaticDimension
         }
@@ -215,11 +238,13 @@ class LegislationDetailsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
-            return UITableViewAutomaticDimension + 190 - heightDiscount
+            return 45
         } else {
-            return UITableViewAutomaticDimension
+            return 45
         }
     }
+ 
+ */
     override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
        
     }

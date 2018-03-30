@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Court {
+class Court: Decodable {
     var name: String?
     var _id: String?
 }

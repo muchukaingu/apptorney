@@ -13,6 +13,7 @@ class Legislation: Decodable {
     var preamble:String?
     var highlight: String?
     var _id: String?
+    var id: String?
     var legislationParts: [LegislationPart]?
     var legislationType: String?
     var volumeNumber: String?

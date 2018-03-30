@@ -7,21 +7,23 @@
 //
 
 import UIKit
+import SkyFloatingLabelTextField
 
 class RegisterViewController: UIViewController {
     @objc var moveToPoint: CGFloat = 0.0
     @IBOutlet weak var signUpButton: UIButton!
     @IBOutlet weak var logoImageView: UIImageView!
-    @IBOutlet weak var txtFirstName: UITextField!
-    @IBOutlet weak var txtLastName: UITextField!
-    @IBOutlet weak var txtPhoneNumber: UITextField!
-    @IBOutlet weak var txtEmailAddress: UITextField!
-    @IBOutlet weak var txtPassword: UITextField!
+    @IBOutlet weak var txtFirstName: SkyFloatingLabelTextField!
+    @IBOutlet weak var txtLastName: SkyFloatingLabelTextField!
+    @IBOutlet weak var txtPhoneNumber: SkyFloatingLabelTextField!
+    @IBOutlet weak var txtEmailAddress: SkyFloatingLabelTextField!
+    @IBOutlet weak var txtPassword: SkyFloatingLabelTextField!
     @IBOutlet weak var signInButton: UIButton!
     @IBOutlet weak var smallSignInButton: UIButton!
     @IBOutlet weak var signUpLabel: UILabel!
     @IBOutlet weak var signUpSpinner: UIActivityIndicatorView!
     @IBOutlet weak var signUpError: UILabel!
+    var formValid: Bool = false
     
     
     
@@ -29,6 +31,16 @@ class RegisterViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor=UIColor.white
         self.signUpButton.layer.cornerRadius = self.signUpButton.frame.height/6
+        
+        self.txtEmailAddress.textContentType = .emailAddress
+        self.txtPhoneNumber.textContentType = .telephoneNumber
+        self.txtPassword.textContentType = .URL
+        
+        
+        for case let textField as SkyFloatingLabelTextField in self.view.subviews {
+            textField.delegate = self
+        }
+     
 
         // Do any additional setup after loading the view.
         registerForKeyboardNotifications()
@@ -53,7 +65,7 @@ class RegisterViewController: UIViewController {
             //            self.logoImageView.transform = CGAffineTransform(scaleX: 0.3, y: 0.3)
             //            self.logoImageView.transform = CGAffineTransform(translationX: 0, y: self.moveToPoint)
             self.logoImageView.alpha = 0
-            self.logoImageView.transform = CGAffineTransform.identity.translatedBy(x: 0, y: self.moveToPoint as! CGFloat).scaledBy(x: 0.7, y: 0.7)
+            self.logoImageView.transform = CGAffineTransform.identity.translatedBy(x: 0, y: self.moveToPoint).scaledBy(x: 0.7, y: 0.7)
             
             
         }, completion:nil)
@@ -69,24 +81,13 @@ class RegisterViewController: UIViewController {
             self.signUpButton.alpha = 1.0
             self.signInButton.alpha = 1.0
             self.signUpLabel.alpha = 1.0
-            
-            
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 self.txtFirstName.becomeFirstResponder()
             }
-            
-            
         }, completion:nil)
-        
-        // Do any additional setup after loading the view.
-        //        let defaults: NSUserDefaults = NSUserDefaults.standardUserDefaults()
-        //        let userName = defaults.objectForKey("userName") as! String?
-        //        let password = defaults.objectForKey("password") as! String?
-        //        if userName != "" && password != "" {
-        //            loginAttempt("http://41.77.145.134:8888")
-        //        }
-
     }
+    
+  
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -127,47 +128,117 @@ class RegisterViewController: UIViewController {
         }, completion:nil)
     }
     
-    @IBAction func register() {
-        self.hideSignUpError()
-        self.signUpSpinner.startAnimating()
-        self.signUpButton.setTitle("Signing up...", for: .normal)
-        let defaults: UserDefaults = UserDefaults.standard
-        let user = Appuser()
-        user.firstName = txtFirstName!.text
-        user.lastName = txtLastName!.text
-        user.phoneNumber = txtPhoneNumber!.text
-        user.emailAddress = txtEmailAddress!.text
-        user.password = txtPassword!.text
-        user.register(user: user, completionHandler:{(result,error) in
+    func validateForm()->Bool{
+        formValid = true
+        for case let textField as SkyFloatingLabelTextField in self.view.subviews {
             
-            if error != nil {
-                print(error!)
-                self.showSignUpError(errorText: "Sign up failed. Please try again.")
-                self.signUpSpinner.stopAnimating()
-                self.signUpButton.setTitle("Sign Up", for: .normal)
-                
+            if(textField.textContentType == .emailAddress) {
+                validateEmailTextFieldWithText(email: textField.text)
+            }
+            else if textField.textContentType == .telephoneNumber{
+                validatePhoneTextFieldWithText(number: textField.text)
+            }
+            else if textField.textContentType == .URL{
+                if textField.text!.count < 6{
+                    formValid = false
+                    textField.errorMessage = NSLocalizedString(
+                        "at least 6 characters required",
+                        tableName: "SkyFloatingLabelTextField",
+                        comment: " "
+                    )
+                }
                 
             }
-            else {
-                print("Sign up successful")
-                let userDefaults = UserDefaults.standard
-                userDefaults.set(true, forKey: "registrationComplete")
-                userDefaults.synchronize()
-                self.performSegue(withIdentifier: "Verification", sender: self)
+            
+            
+            if textField.text == "" {
+                textField.errorMessage = NSLocalizedString(
+                    "\(textField.placeholder!) is required",
+                    tableName: "SkyFloatingLabelTextField",
+                    comment: " "
+                )
+                
+                formValid = false
                 
             }
-        })
+            
+        }
+        return formValid
+    }
+    
+    @IBAction func register() {
+        if !validateForm(){
+            
+        } else {
+            self.hideSignUpError()
+            self.signUpSpinner.startAnimating()
+            self.signUpButton.setTitle("Signing up...", for: .normal)
+            let user = Appuser()
+            user.firstName = txtFirstName!.text
+            user.lastName = txtLastName!.text
+            user.phoneNumber = txtPhoneNumber!.text
+            user.emailAddress = txtEmailAddress!.text
+            user.password = txtPassword!.text
+            user.register(user: user, completionHandler:{(result,error) in
+                
+                if error != nil {
+                   
+                    self.showSignUpError(errorText: "Sign up failed. Please try again.")
+                    self.signUpSpinner.stopAnimating()
+                    self.signUpButton.setTitle("Sign Up", for: .normal)
+                    
+                    
+                }
+                else {
+                    print("Sign up successful")
+                    let userDefaults = UserDefaults.standard
+                    userDefaults.set(true, forKey: "registrationComplete")
+                    userDefaults.synchronize()
+                    self.performSegue(withIdentifier: "Verification", sender: self)
+                    
+                }
+            })
+        }
         
     }
+}
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+extension RegisterViewController: UITextFieldDelegate {
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if let text = textField.text {
+            if let floatingLabelTextField = textField as? SkyFloatingLabelTextField {
+                if(floatingLabelTextField.textContentType == .emailAddress) {
+                    validateEmailTextFieldWithText(email: text)
+                }
+                else if floatingLabelTextField.textContentType == .telephoneNumber{
+                    validatePhoneTextFieldWithText(number: text)
+                }
+                else {
+                    validateOtherFields(floatingLabelTextField)
+                }
+            }
+        }
+        return true
     }
-    */
-
+    
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        if let text = textField.text {
+            if let floatingLabelTextField = textField as? SkyFloatingLabelTextField {
+                if(floatingLabelTextField.textContentType == .emailAddress) {
+                    validateEmailTextFieldWithText(email: text)
+                }
+                else if floatingLabelTextField.textContentType == .telephoneNumber{
+                    validatePhoneTextFieldWithText(number: text)
+                }
+            }
+        }
+        return true
+    }
+    
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        print("return pressed")
+        return true
+    }
 }

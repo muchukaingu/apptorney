@@ -86,6 +86,7 @@ module.exports = function(Customer) {
                             console.log('case not found', sourceId)
                             cb(err, null)
                         } else {
+                            console.log(instance.name)
                             var bookmark = {
                                 title: instance.name,
                                 summary: instance.summaryOfFacts,

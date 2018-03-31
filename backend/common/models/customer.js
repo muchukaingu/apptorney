@@ -1,4 +1,5 @@
 module.exports = function(Customer) {
+    const { ObjectId } = require('mongodb') // or ObjectID
     Customer.validatesUniquenessOf('emailAddress', { message: 'Customer with this email address already exists' })
     Customer.validatesUniquenessOf('phoneNumber', { message: 'Customer with this phone number already exists' })
         // var loan = {}
@@ -79,38 +80,42 @@ module.exports = function(Customer) {
             if (customer == null) {
                 cb(err, null)
             } else {
-                Case.findById(sourceId, {
+                Case.findById(ObjectId(sourceId), {
                         /*include: {
                             relation: 'loans'
                         }*/
                     },
                     function(err, instance) {
-                        var bookmark = {
-                            title: instance.name,
-                            summary: instance.summaryOfFacts,
-                            sourceId: instance.id,
-                            type: 'case'
-                        }
-                        if (customer.bookmarks == undefined) { customer.bookmarks = [] }
-                        var found = 0
-                        customer.bookmarks.forEach(function(bookmark) {
-                            if (bookmark.sourceId == sourceId) {
-                                found++
+                        if (instance == null) {
+                            console.log("case not found")
+                        } else {
+                            var bookmark = {
+                                title: instance.name,
+                                summary: instance.summaryOfFacts,
+                                sourceId: instance.id,
+                                type: 'case'
                             }
-                        })
-                        if (found == 0) {
-                            customer.bookmarks.push(bookmark)
-                            customer.save(function(err) {
-                                if (err) {
-                                    cb(err)
-                                } else {
-                                    console.log(instance.name)
-                                    console.log(customer.firstName)
-                                    cb(null, customer)
+                            if (customer.bookmarks == undefined) { customer.bookmarks = [] }
+                            var found = 0
+                            customer.bookmarks.forEach(function(bookmark) {
+                                if (bookmark.sourceId == sourceId) {
+                                    found++
                                 }
                             })
-                        } else {
-                            cb(null, customer)
+                            if (found == 0) {
+                                customer.bookmarks.push(bookmark)
+                                customer.save(function(err) {
+                                    if (err) {
+                                        cb(err)
+                                    } else {
+                                        console.log(instance.name)
+                                        console.log(customer.firstName)
+                                        cb(null, customer)
+                                    }
+                                })
+                            } else {
+                                cb(null, customer)
+                            }
                         }
                     })
             }

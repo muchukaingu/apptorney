@@ -80,7 +80,7 @@ module.exports = function(Customer) {
             if (customer == null) {
                 cb(err, null)
             } else {
-                Case.findById(ObjectId(sourceId),
+                Case.findOne({ where: { id: ObjectId(sourceId) } },
                     function(err, instance) {
                         if (instance == null) {
                             console.log('case not found', sourceId)

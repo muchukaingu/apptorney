@@ -19,6 +19,9 @@ class CaseDetailsTableViewController: UITableViewController {
     var activityIndicator = UIActivityIndicatorView()
     var strLabel = UILabel()
     let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
+    var isBookmark:Bool?
+    
+    @IBOutlet weak var bookmarkButton: UIBarButtonItem!
     
     var loaded = false
     @IBOutlet weak var judgement: UITextView!
@@ -42,14 +45,27 @@ class CaseDetailsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         activityIndicator("Loading Case")
-        print(caseInstance.caseNumber)
-        print("\(caseInstance.citation?.year)/ \(caseInstance.citation?.code)/ \(caseInstance.citation?.pageNumber)")
         //self.tableView.isHidden = true
         tableView.estimatedRowHeight = 80
         tableView.rowHeight = UITableViewAutomaticDimension
         self.preliminaryCaseData = self.caseInstance
         self.populateCase()
         self.configureUIControls()
+    }
+    
+    func checkBookmark(){
+        let userDefaults = UserDefaults.standard
+        if let bookmarks = userDefaults.stringArray(forKey: "bookmarks"){
+           
+            for bookmark in bookmarks {
+                
+                if bookmark == caseInstance.id {
+                    self.isBookmark = true
+                    self.bookmarkButton.image = UIImage()
+                    self.bookmarkButton.setBackgroundImage(UIImage(named: "bookmark-red-1"), for: .normal, barMetrics: UIBarMetrics.default)
+                }
+            }
+        }
     }
     
     func configureUIControls () { //for cutomising controls on the UI
@@ -77,6 +93,7 @@ class CaseDetailsTableViewController: UITableViewController {
             self.loaded = true
             self.tableView.reloadData()
             UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            self.checkBookmark()
         })
         
     }
@@ -309,6 +326,30 @@ class CaseDetailsTableViewController: UITableViewController {
         activityIndicator.removeFromSuperview()
         effectView.removeFromSuperview()
     }
+    
+    @IBAction func bookmark(_ sender: Any) {
+        let bookmark = HomeItem (title: "", summary: "", type: "case", sourceId: caseInstance.id!)
+        HomeItem.addBookmarks(bookmark: bookmark, completionHandler:{(result,error) in
+            let res = result as! Bool
+            if res == true {
+                print("zoona")
+                if self.isBookmark == true {
+                    self.bookmarkButton.image = UIImage()
+                    self.bookmarkButton.setBackgroundImage(UIImage(named: "bookmark"), for: .normal, barMetrics: UIBarMetrics.default)
+                    self.isBookmark = false
+                } else {
+                    self.bookmarkButton.image = UIImage()
+                    self.bookmarkButton.setBackgroundImage(UIImage(named: "bookmark-red-1"), for: .normal, barMetrics: UIBarMetrics.default)
+                    self.isBookmark = true
+                }
+               
+            }
+        })
+    }
+    
+    
+    
+    
 
 }
 

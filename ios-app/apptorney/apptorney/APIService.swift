@@ -89,26 +89,18 @@ class APIService {
         Alamofire.request(APIService.urlBase + endPoint, method: .get, parameters: parameters, headers: headers).validate().responseJSON { response in
             print(response)
             
-            enum reponseError: Error {
-               
-                case error(String)
-            }
-            if let data = response.result.value {
-                let error = JSON(data)["error"]
-                if error.null == nil {
-                    completionHandler(nil, reponseError.error("xxx"))
-                    
-                }
-                else {
-                    let result = data
-                    completionHandler(result, nil)
-                }
-                //self.delegate?.APIServiceDidFinish(ApiService: self, result: JSON)
-            }
-            else {
-                completionHandler(nil, nil)
-            }
             
+            switch response.result {
+            case .success:
+                print("Validation Successful")
+                if let data = response.result.value {
+                    completionHandler(data, nil)
+                }
+            case .failure(let error):
+                print(error)
+                completionHandler(nil, error)
+            
+            }
         }
     }
     
@@ -132,8 +124,9 @@ class APIService {
                         completionHandler(data, nil)
                     }
                 case .failure(let error):
+                    print(response.result.value)
                     completionHandler(nil, error)
-                    print(error)
+                
             }
             
         }

@@ -8,12 +8,68 @@
 
 import Foundation
 
-class HomeItem {
-    var name:String?
+class HomeItem: Decodable {
+    var title:String?
     var summary:String?
+    var type: String?
+    var sourceId: String?
     
-    init (name: String, summary: String) {
-        self.name = name
+    init (title: String, summary: String, type: String, sourceId: String) {
+        self.title = title
         self.summary = summary
+        self.type = type
+        self.sourceId = sourceId
+    }
+    
+    class func getBookmarks(completionHandler:@escaping ([HomeItem], Error?)->Void){
+        print("Bookmarking, mafa")
+        let api = APIService()
+        let userDefaults = UserDefaults.standard
+        if let username = userDefaults.string(forKey: "username"){
+            api.get(endPoint: "/Customers/bookmarks", parameters: ["username":username], completionHandler: { (result, error) in
+                if error != nil {
+                    print(error!)
+                }
+                else {
+                    do {
+                        let json = result!
+                        let decoder = JSONDecoder()
+                        let items = try decoder.decode([HomeItem].self, from: json)
+                        print(items)
+                        completionHandler(items, nil)
+                    } catch let error as NSError {
+                        print("Error: " + error.localizedDescription)
+                    }
+                }
+            })
+        }
+        
+
+    }
+    
+    
+    class func addBookmarks(bookmark: HomeItem, completionHandler:@escaping (Any, Error?)->Void){
+        print("Bookmarking, mafa")
+        let api = APIService()
+        let userDefaults = UserDefaults.standard
+        if let username = userDefaults.string(forKey: "username"){
+            let user = Appuser()
+            user.phoneNumber = username
+            api.post(endPoint: "/Customers/bookmark", parameters: ["username":user.phoneNumber! as String, "sourceId": bookmark.sourceId! as String, "type": bookmark.type! as String], completionHandler: { (result, error) in
+                
+                if error != nil {
+                    
+                     completionHandler(false, error)
+                }
+                else {
+                     print(result)
+                    print(bookmark)
+                    completionHandler(true, nil)
+                }
+            })
+            
+        }
+        
+        
     }
 }

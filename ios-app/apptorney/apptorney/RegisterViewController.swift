@@ -8,6 +8,7 @@
 
 import UIKit
 import SkyFloatingLabelTextField
+import Alamofire
 
 class RegisterViewController: UIViewController {
     @objc var moveToPoint: CGFloat = 0.0
@@ -37,7 +38,14 @@ class RegisterViewController: UIViewController {
         self.txtPassword.textContentType = .URL
         
         
+        
+        
+        
         for case let textField as SkyFloatingLabelTextField in self.view.subviews {
+            if textField.textContentType != .emailAddress {
+                textField.autocapitalizationType = .words
+            }
+            textField.titleFormatter = { $0 }
             textField.delegate = self
         }
      
@@ -166,6 +174,22 @@ class RegisterViewController: UIViewController {
         return formValid
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using [segue destinationViewController].
+        // Pass the selected object to the new view controller.
+        
+        if segue.identifier == "Verification" {
+            
+            let destinationController = segue.destination as!
+            VerifyViewController
+            destinationController.username = self.txtPhoneNumber.text!
+        }
+        
+        
+        
+    }
+    
+    
     @IBAction func register() {
         if !validateForm(){
             
@@ -182,8 +206,46 @@ class RegisterViewController: UIViewController {
             user.register(user: user, completionHandler:{(result,error) in
                 
                 if error != nil {
+                    var errorText: String?
+                    if let error = error as? AFError {
+                        switch error {
+                        case .invalidURL(let url):
+                            print("Invalid URL: \(url) - \(error.localizedDescription)")
+                            errorText = "Sign up failed. Please try again."
+                        case .parameterEncodingFailed(let reason):
+                            print("Parameter encoding failed: \(error.localizedDescription)")
+                            print("Failure Reason: \(reason)")
+                            errorText = "Sign up failed. Please try again."
+                        case .multipartEncodingFailed(let reason):
+                            print("Multipart encoding failed: \(error.localizedDescription)")
+                            print("Failure Reason: \(reason)")
+                            errorText = "Sign up failed. Please try again."
+                        case .responseValidationFailed(let reason):
+                            print("Response validation failed: \(error.localizedDescription)")
+                            print("Failure Reason: \(reason)")
+                            
+                            switch reason {
+                            case .dataFileNil, .dataFileReadFailed:
+                                print("Downloaded file could not be read")
+                            case .missingContentType(let acceptableContentTypes):
+                                print("Content Type Missing: \(acceptableContentTypes)")
+                            case .unacceptableContentType(let acceptableContentTypes, let responseContentType):
+                                print("Response content type: \(responseContentType) was unacceptable: \(acceptableContentTypes)")
+                            case .unacceptableStatusCode(let code):
+                                print("Response status code was unacceptable: \(code)")
+                                errorText = "Sign up failed. An account already exists."
+                            }
+                        case .responseSerializationFailed(let reason):
+                            print("Response serialization failed: \(error.localizedDescription)")
+                            print("Failure Reason: \(reason)")
+                        }
+                        
+                        print("Underlying error: \(String(describing: error.underlyingError))")
+                    } else {
+                        print("Unknown error: \(String(describing: errorText))")
+                    }
                    
-                    self.showSignUpError(errorText: "Sign up failed. Please try again.")
+                    self.showSignUpError(errorText: errorText ?? "")
                     self.signUpSpinner.stopAnimating()
                     self.signUpButton.setTitle("Sign Up", for: .normal)
                     

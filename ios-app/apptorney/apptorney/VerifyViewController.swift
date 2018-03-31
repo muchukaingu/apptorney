@@ -18,6 +18,7 @@ class VerifyViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("In verify")
         self.verifyButton.layer.cornerRadius = self.verifyButton.frame.height/6
 
         // Do any additional setup after loading the view.
@@ -40,7 +41,7 @@ class VerifyViewController: UIViewController {
             if error != nil {
                 let retrievedError = error as! NSError
                 print(retrievedError.domain)
-                self.showVerifyError(errorText: "Verification failed. Please try again.")
+                self.showVerifyError(errorText: "Verification failed. Please try again.", type: "error")
                 self.verifySpinner.stopAnimating()
                 self.verifyButton.setTitle("Verify", for: .normal)
                 
@@ -58,8 +59,32 @@ class VerifyViewController: UIViewController {
         
     }
     
+   
+    @IBAction func resendVerificationCode(_ sender: Any) {
+        let user = Appuser()
+        user.resendVerification(username: self.username, completionHandler:{(result,error) in
+            
+            if error != nil {
+                let retrievedError = error as! NSError
+                print(retrievedError.domain)
+                self.showVerifyError(errorText: "An error occured. Please try again.", type: "error")
+                self.verifySpinner.stopAnimating()
+                self.verifyButton.setTitle("Verify", for: .normal)
+                
+                
+            }
+            else {
+                self.showVerifyError(errorText: "Code successfully sent. Check your SMS inbox.", type: "success")
+                self.verifySpinner.stopAnimating()
+                
+            }
+        })
+    }
     
-    @objc func showVerifyError(errorText: String){
+    @objc func showVerifyError(errorText: String, type: String?){
+        if type == "success" {
+            self.verifyErrorLabel.backgroundColor = UIColor.green
+        }
         UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.5, options: UIViewAnimationOptions.curveEaseIn, animations: {
             self.verifyErrorLabel.text = errorText
             self.verifyErrorLabel.alpha = 1.0

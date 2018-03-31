@@ -47,7 +47,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             if userDefaults.bool(forKey: "loginComplete") {
                 initialViewController = sb.instantiateViewController(withIdentifier: "Home")
-                initialViewController = sb.instantiateViewController(withIdentifier: "Register")
             }
             else if userDefaults.bool(forKey: "registrationComplete") {
                 initialViewController = sb.instantiateViewController(withIdentifier: "Login")

@@ -106,6 +106,37 @@ class Appuser {
     }
     
     
+    func resendVerification(username:String?, completionHandler:@escaping (Any, Error?)->Void){
+        let api = APIService()
+        api.delegate = self
+        api.getAsJSON(endPoint: "/appusers/resendVerification", parameters: ["username": username!], completionHandler: { (result, error) in
+            
+            if error != nil {
+                completionHandler(false, error)
+            }
+            else {
+                struct loginResult {
+                    var created: String
+                    var id: String
+                    var ttl: String
+                    var userId: String
+                }
+                
+                let res = JSON(result)
+                /*if login["userId"] == nil{
+                 print("login failed")
+                 completionHandler(false, NSError(domain:"Login Failed", code:100, userInfo:nil))
+                 }
+                 else{
+                 completionHandler(true, nil)
+                 }*/
+                print(res)
+                completionHandler(true, nil)
+            }
+        })
+    }
+    
+    
 }
 
 extension Appuser: APIServiceDelegate {

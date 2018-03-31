@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Alamofire
 //import CryptoSwift
 
 class LoginViewController: UIViewController, SettingsTableViewControllerDelegate, UITableViewDelegate, ErrorViewControllerDelegate, SWRevealViewControllerDelegate , SWRevealViewControllerDismissDelegate{
@@ -156,16 +157,59 @@ class LoginViewController: UIViewController, SettingsTableViewControllerDelegate
         let user = Appuser()
         user.login(username: txtUserName.text, password: txtPassword.text, completionHandler:{(result,error) in
             
+            //handle error - future functionality - move this code to extension for handling class specific errors
+            
             if error != nil {
-                let retrievedError = error as! NSError
-                print(retrievedError.domain)
-                if retrievedError.domain == "LOGIN_FAILED_PHONE_NOT_VERIFIED"{
-                    self.performSegue(withIdentifier: "Verification", sender: self)
+                var errorText: String?
+                if let error = error as? AFError {
+                    switch error {
+                    case .invalidURL(let url):
+                        print("Invalid URL: \(url) - \(error.localizedDescription)")
+                        errorText = "Sign up failed. Please try again."
+                    case .parameterEncodingFailed(let reason):
+                        print("Parameter encoding failed: \(error.localizedDescription)")
+                        print("Failure Reason: \(reason)")
+                        errorText = "Sign in failed. Please try again."
+                    case .multipartEncodingFailed(let reason):
+                        print("Multipart encoding failed: \(error.localizedDescription)")
+                        print("Failure Reason: \(reason)")
+                        errorText = "Sign in failed. Please try again."
+                    case .responseValidationFailed(let reason):
+                        print("Response validation failed: \(error.localizedDescription)")
+                        print("Failure Reason: \(reason)")
+                        
+                        switch reason {
+                        case .dataFileNil, .dataFileReadFailed:
+                            print("Downloaded file could not be read")
+                        case .missingContentType(let acceptableContentTypes):
+                            print("Content Type Missing: \(acceptableContentTypes)")
+                        case .unacceptableContentType(let acceptableContentTypes, let responseContentType):
+                            print("Response content type: \(responseContentType) was unacceptable: \(acceptableContentTypes)")
+                        case .unacceptableStatusCode(let code):
+                            if code == 405{
+                                print("Before segue")
+                                self.performSegue(withIdentifier: "Verification", sender: self)
+                            }
+                            else {
+                                errorText = "Sign in failed. Please try again."
+                            }
+                        }
+                    case .responseSerializationFailed(let reason):
+                        print("Response serialization failed: \(error.localizedDescription)")
+                        print("Failure Reason: \(reason)")
+                    }
+                    
+                    print("Underlying error: \(String(describing: error))")
+                } else {
+                    print("Unknown error: \(String(describing: errorText))")
                 }
                 
-                self.showLoginError(errorText: "Log in failed. Please try again.")
+                self.showLoginError(errorText: errorText ?? "")
                 self.loginSpinner.stopAnimating()
                 self.loginButton.setTitle("Log in", for: .normal)
+                
+                
+                //end of error handling
                 
                 
             }
@@ -173,6 +217,7 @@ class LoginViewController: UIViewController, SettingsTableViewControllerDelegate
                 print("Log in successful")
                 let userDefaults = UserDefaults.standard
                 userDefaults.set(true, forKey: "loginComplete")
+                userDefaults.set(self.txtUserName.text, forKey: "username")
                 userDefaults.synchronize()
                 self.performSegue(withIdentifier: "Login", sender: self)
                 

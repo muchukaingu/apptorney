@@ -30,6 +30,7 @@ class HomeViewController: UIViewController {
     @objc var previousSelectedStore = ""
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var collectionView: UICollectionView!
+    var selectedId:String?
     
     
     
@@ -42,24 +43,27 @@ class HomeViewController: UIViewController {
         ["name":"New Cases"]
     ]
     
-    var cases = [HomeItem]()
+    var bookmarks = [HomeItem]()
     var news = [HomeItem]()
     var trending = [HomeItem]()
     
     var colors:[UIColor] = []
-   
 
     @objc let defaults = UserDefaults.standard;
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        print("now presenting CEO of apptorney")
         navigationController?.setNavigationBarHidden(true, animated: false)
+        populateData()
+        
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+       
         setupNavBar()
-        colors.append(UIColor(red: 252.0/255, green: 81.0/255, blue: 133.0/255, alpha: 1.0))
+        colors.append(UIColor(hex:"D80027"))
         colors.append(UIColor(red: 54.0/255, green: 79.0/255, blue: 107.0/255, alpha: 1.0))
         colors.append(UIColor(red: 255.0/255, green: 204.0/255, blue: 0.0/255, alpha: 1.0))
         UIApplication.shared.isStatusBarHidden = false
@@ -68,17 +72,36 @@ class HomeViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         configureUIControls()
-        populateData()
+        
+        
         
        
         
     }
     
+    func loadItems(){
+        HomeItem.getBookmarks(completionHandler:{(bookmarks,error) in
+            
+            let userDefaults = UserDefaults.standard
+            var bookmarkIds = [String]()
+            for bookmark in bookmarks {
+                bookmarkIds.append(bookmark.sourceId!)
+            }
+            userDefaults.set(bookmarkIds, forKey: "bookmarks")
+            self.bookmarks = bookmarks
+            if self.bookmarks.count == 0 {
+                print("zero")
+                self.bookmarks.append(HomeItem(title: "No Bookmarks yet", summary: "This is a sample bookmark. As you continue to use apptorney and bookmark content, those bookmarks will appear here.", type: "", sourceId: ""))
+            }
+            self.tableView.reloadData()
+            
+            
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+        })
+    }
+    
     func populateData() {
-        cases.append(HomeItem(name:"KALUSHA BWALYA VS. CHARDORE PROPERTIES LIMITED AND ANOTHER".capitalized, summary:"This matter came up for hearing of two applications filed by the Plaintiff for review and stay of judgment pending the application for third party proceedings."))
-        news.append(HomeItem(name:"STANBIC BANK ZAMBIA LIMITED VS. SAVENDA MANAGEMENT SERVICES".capitalized, summary:"The concept of credit referencing was fairly alien to the Zambian banking and financial sector until the year 2006"))
-        news.append(HomeItem(name:"THE CONSTITUTIONAL COURT ACT".capitalized, summary:"An Act to provide for the printing and publication of the Constitution; to provide for the savings and transitional provisions of existing State organs..."))
-        news.append(HomeItem(name:"THE BANKING AND FINANCIAL SERVICES ACT, 2017".capitalized, summary:"An Act to provide for a licensing system for the conduct of banking or financial business and provision of financial services..."))
+         loadItems()
     }
     
     func setupNavBar(){
@@ -142,6 +165,24 @@ class HomeViewController: UIViewController {
             }, completion:nil)
         self.loadingLabel.center.x = self.loadingLabel.center.x + margin!
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using [segue destinationViewController].
+        // Pass the selected object to the new view controller.
+        
+        if segue.identifier == "showCase" {
+            
+            let destinationController = segue.destination as!
+            CaseDetailsTableViewController
+            let caseInstance = Case()
+            caseInstance._id = self.selectedId!
+            destinationController.caseInstance = caseInstance
+        }
+        
+        
+        
+    }
+    
 
 
    
@@ -199,9 +240,11 @@ extension HomeViewController:UITableViewDataSource {
         let cellIndetifier = "scrollCell"
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) as! ScrollTableViewCell
         cell.section = indexPath.section
-        cell.itemsToDisplay = (cell.section==0) ? cases : news
+        cell.itemsToDisplay = (cell.section==0) ? self.bookmarks : news
+        //cell.itemsToDisplay = self.bookmarks
         cell.accessoryType = UITableViewCellAccessoryType.none
-
+        cell.collectionView.reloadData()
+        cell.delegate = self as! ScrollTableViewCellDelegate
         return cell
     }
     
@@ -213,7 +256,7 @@ extension HomeViewController:UITableViewDataSource {
         let item = self.summaryHeadings[section]
         let headerCell = tableView.dequeueReusableCell(withIdentifier: "headerCell") as! HeaderTableViewCell
         headerCell.title.text? = item["name"]!
-        //headerCell.name.textColor = colors[section]
+        headerCell.title.textColor = colors[section]
         /*if section>0 {
             let border:UIView = UIView(frame: CGRect(x: 20,y: 4,width: ((tableView.bounds.width) - 40), height: 1))
             border.backgroundColor = UIColor(red: 230.0/255, green: 230.0/255, blue: 230.0/255, alpha: 1.0)
@@ -228,11 +271,26 @@ extension HomeViewController:UITableViewDataSource {
         return headerCell
     }
     
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 40
+    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 180
+        if UIScreen.main.traitCollection.horizontalSizeClass == .compact{
+             return 180
+        }
+        return 240
     }
     
    
     
+}
+
+extension HomeViewController: ScrollTableViewCellDelegate {
+    func tapped(selectedId: String?) {
+        print(selectedId)
+        self.selectedId = selectedId!
+        performSegue(withIdentifier: "showCase", sender: self)
+    }
 }
 

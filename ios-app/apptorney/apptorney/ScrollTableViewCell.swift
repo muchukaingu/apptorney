@@ -7,12 +7,15 @@
 //
 
 import UIKit
-
+protocol ScrollTableViewCellDelegate {
+    func tapped(selectedId:String?)
+}
 class ScrollTableViewCell: UITableViewCell {
     var itemsToDisplay = [HomeItem]()
     var section:Int = 0
     var colors:[UIColor] = []
     @IBOutlet weak var collectionView:UICollectionView!
+    var delegate: ScrollTableViewCellDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -28,7 +31,10 @@ class ScrollTableViewCell: UITableViewCell {
 }
 
 extension ScrollTableViewCell: UICollectionViewDataSource {
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print(itemsToDisplay[indexPath.row].title)
+        delegate?.tapped(selectedId:itemsToDisplay[indexPath.row].sourceId)
+    }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         print("Number of Items\(itemsToDisplay.count)")
         return itemsToDisplay.count//itemsToDisplay.count
@@ -37,24 +43,28 @@ extension ScrollTableViewCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 //        colors.append(UIColor(red: 255.0/255, green: 46.0/255, blue: 99.0/255, alpha: 1.0)) //pinkish
 //        colors.append(UIColor(red: 238.0/255, green: 98.0/255, blue: 100.0/255, alpha: 1.0)) //salmon
-        colors.append(UIColor(red: 247.0/255, green: 97.0/255, blue: 97.0/255, alpha: 1.0)) // actual
+        colors.append(UIColor(hex:"ffffff"))
         colors.append(UIColor(red: 54.0/255, green: 79.0/255, blue: 107.0/255, alpha: 1.0))
         colors.append(UIColor(red: 238.0/255, green: 238.0/255, blue: 238.0/255, alpha: 1.0))
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "largeCell", for: indexPath) as! HomeLargeCollectionViewCell
         
-        cell.name.text = itemsToDisplay[indexPath.row].name
+        cell.name.text = itemsToDisplay[indexPath.row].title?.capitalized
         cell.summary.text = itemsToDisplay[indexPath.row].summary
         cell.backgroundColor = colors[section]
         if section == 1 {
             cell.name.font = cell.name.font.withSize(13)
+            cell.bookmarkImage.alpha = 0
         }
         if section == 2 {
             cell.name.textColor = UIColor.darkText
             cell.summary.textColor = UIColor.darkText
+            cell.bookmarkImage.alpha = 0
         }
         return cell
     }
 }
+
+
 
 extension ScrollTableViewCell : UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -87,4 +97,6 @@ extension ScrollTableViewCell : UIScrollViewDelegate, UICollectionViewDelegate
         print(offset)
         targetContentOffset.pointee = offset
     }
+    
+    
 }

@@ -179,145 +179,192 @@ module.exports = function(Appuser) {
         return fn.promise
     }
 
-    Appuser.prototype.verify = function(options, fn) {
-            console.log('verify fn')
-            fn = fn || utils.createPromiseCallback()
+    /**
+     * Resend verification code
+     *
+     * @param {String} username
+     * @callback {Function} fn
+     */
+    Appuser.resendVerification = function(username, fn) {
+        fn = fn || utils.createPromiseCallback()
 
-            var user = this
-            var userModel = this.constructor
-            var registry = userModel.registry
-            assert(typeof options === 'object', 'options required when calling user.verify()')
-            assert(options.type, 'You must supply a verification type (options.type)')
-            assert(options.type === 'email', 'Unsupported verification type')
-            assert(options.to || this.email, 'Must include options.to when calling user.verify() or the user must have an email property')
-            assert(options.from, 'Must include options.from when calling user.verify()')
-
-            options.redirect = options.redirect || '/'
-            options.template = path.resolve(options.template || path.join(__dirname, '..', '..', 'templates', 'verify.ejs'))
-            options.user = this
-            options.protocol = options.protocol || 'http'
-
-            var app = userModel.app
-            options.host = options.host || (app && app.get('host')) || 'localhost'
-            options.port = options.port || (app && app.get('port')) || 3000
-            options.restApiRoot = options.restApiRoot || (app && app.get('restApiRoot')) || '/api'
-
-            var displayPort = (
-                (options.protocol === 'http' && options.port == '80') ||
-                (options.protocol === 'https' && options.port == '443')
-            ) ? '' : ':' + options.port
-
-            options.verifyHref = options.verifyHref ||
-                options.protocol +
-                '://' +
-                options.host +
-                displayPort +
-                options.restApiRoot +
-                userModel.http.path +
-                userModel.sharedClass.find('confirm', true).http.path +
-                '?uid=' +
-                options.user.id +
-                '&redirect=' +
-                options.redirect
-
-            // Email model
-            var Email = options.mailer || this.constructor.email || registry.getModelByType(loopback.Email)
-            var User = registry.getModelByType(loopback.User)
-
-            // Set a default token generation function if one is not provided
-            var tokenGenerator = options.generateVerificationToken || User.generateVerificationToken
-
-            tokenGenerator(user, function(err, token) {
-                if (err) { return fn(err); }
-
-                user.verificationToken = token
-                user.save(function(err) {
-                    if (err) {
-                        fn(err)
-                    } else {
-                        sendEmail(user)
-                    }
-                })
-            })
-
-            tokenGenerator(user, function(err, token) {
-                if (err) { return fn(err); }
-
-                user.verificationTokenForPhone = Math.floor(Math.random() * 1000000 + 1)
-                user.save(function(err) {
-                    if (err) {
-                        fn(err)
-                    } else {
-                        sendSMS(user)
-                    }
-                })
-            })
-
-            // TODO - support more verification types
-            function sendEmail(user) {
-                options.verifyHref += '&token=' + user.verificationToken
-
-                options.text = options.text || 'Please verify your email by opening this link in a web browser:\n\t{href}'
-
-                options.text = options.text.replace('{href}', options.verifyHref)
-
-                options.to = options.to || user.email
-
-                options.fullname = user.firstname + ' ' + user.lastname
-
-                options.subject = options.subject || 'Thanks for Registering'
-
-                options.headers = options.headers || {}
-
-                var template = loopback.template(options.template)
-                options.html = template(options)
-
-                Email.send(options, function(err, email) {
-                    if (err) {
-                        fn(err)
-                    } else {
-                        fn(null, { email: email, token: user.verificationToken, uid: user.id })
-                    }
+        this.findOne({ where: { username: username } }, function(err, user) {
+            console.log(user, err)
+            if (user == null) {
+                var err = new Error('User not found')
+                err.statusCode = 404
+                err.code = 'USER_NOT_FOUND'
+                fn(err)
+            } else if (err) {
+                fn(err)
+            } else {
+                console.log(user)
+                var tokenGenerator = Appuser.generateVerificationToken
+                tokenGenerator(user, function(err, token) {
+                    if (err) { return fn(err); }
+                    user.verificationTokenForPhone = Math.floor(Math.random() * 1000000 + 1)
+                    user.save(function(err) {
+                        if (err) {
+                            fn(err)
+                        } else {
+                            sendSMS(user)
+                            fn()
+                        }
+                    })
                 })
             }
+        })
 
-            function sendSMS(user) {
-                /* 
-                  nexmo.message.sendSms('apptorney', user.username, 'Your verification code: ' + user.verificationTokenForPhone, (err, res) => {
-                 console.log('err', err)
-                  })*/
-
-                client.messages.create({
-                        body: 'Your verification code: ' + user.verificationTokenForPhone,
-                        to: user.username, // Text this number
-                        from: 'Apptorney' // From a valid Twilio number
-                    }).then((message) => console.log(message.sid))
-                    /*console.log('user', user)
-                    var http = require('http')
-                    http.get({
-                            host: 'api.clickatell.com',
-                            path: '/http/sendmsg?user=muchukaingu&password=TeamCircuit123&api_id=3524272&to=' + user.username + '&text=LUPIYA+code:+' + user.verificationTokenForPhone
-                        },
-                        function(response) {
-                            // Continuously update stream with data
-                            var body = ''
-                            response.on('data', function(d) {
-                                body += d
-
-                                // return fn(null, {email: user.username, token: user.verificationTokenForPhone, uid: user.id})
-                            })
-                            response.on('end', function() {
-
-                                // var parsed = JSON.parse(body)
-                                console.log(user.username)
-                                console.log('Data returned', body)
-                            })
-                        })
-                        */
-            }
-            return fn.promise
+        function sendSMS(user) {
+            client.messages.create({
+                body: 'Your verification code: ' + user.verificationTokenForPhone,
+                to: user.username, // Text this number
+                from: 'Apptorney' // From a valid Twilio number
+            }).then((message) => console.log(message.sid))
         }
-        // send verification email after registration
+        return fn.promise
+    }
+
+    Appuser.prototype.verify = function(options, fn) {
+        console.log('verify fn')
+        fn = fn || utils.createPromiseCallback()
+
+        var user = this
+        var userModel = this.constructor
+        var registry = userModel.registry
+        assert(typeof options === 'object', 'options required when calling user.verify()')
+        assert(options.type, 'You must supply a verification type (options.type)')
+        assert(options.type === 'email', 'Unsupported verification type')
+        assert(options.to || this.email, 'Must include options.to when calling user.verify() or the user must have an email property')
+        assert(options.from, 'Must include options.from when calling user.verify()')
+
+        options.redirect = options.redirect || '/'
+        options.template = path.resolve(options.template || path.join(__dirname, '..', '..', 'templates', 'verify.ejs'))
+        options.user = this
+        options.protocol = options.protocol || 'http'
+
+        var app = userModel.app
+        options.host = options.host || (app && app.get('host')) || 'localhost'
+        options.port = options.port || (app && app.get('port')) || 3000
+        options.restApiRoot = options.restApiRoot || (app && app.get('restApiRoot')) || '/api'
+
+        var displayPort = (
+            (options.protocol === 'http' && options.port == '80') ||
+            (options.protocol === 'https' && options.port == '443')
+        ) ? '' : ':' + options.port
+
+        options.verifyHref = options.verifyHref ||
+            options.protocol +
+            '://' +
+            options.host +
+            displayPort +
+            options.restApiRoot +
+            userModel.http.path +
+            userModel.sharedClass.find('confirm', true).http.path +
+            '?uid=' +
+            options.user.id +
+            '&redirect=' +
+            options.redirect
+
+        // Email model
+        var Email = options.mailer || this.constructor.email || registry.getModelByType(loopback.Email)
+        var User = registry.getModelByType(loopback.User)
+
+        // Set a default token generation function if one is not provided
+        var tokenGenerator = options.generateVerificationToken || User.generateVerificationToken
+
+        tokenGenerator(user, function(err, token) {
+            if (err) { return fn(err); }
+
+            user.verificationToken = token
+            user.save(function(err) {
+                if (err) {
+                    fn(err)
+                } else {
+                    sendEmail(user)
+                }
+            })
+        })
+
+        tokenGenerator(user, function(err, token) {
+            if (err) { return fn(err); }
+
+            user.verificationTokenForPhone = Math.floor(Math.random() * 1000000 + 1)
+            user.save(function(err) {
+                if (err) {
+                    fn(err)
+                } else {
+                    sendSMS(user)
+                }
+            })
+        })
+
+        // TODO - support more verification types
+        function sendEmail(user) {
+            options.verifyHref += '&token=' + user.verificationToken
+
+            options.text = options.text || 'Please verify your email by opening this link in a web browser:\n\t{href}'
+
+            options.text = options.text.replace('{href}', options.verifyHref)
+
+            options.to = options.to || user.email
+
+            options.fullname = user.firstname + ' ' + user.lastname
+
+            options.subject = options.subject || 'Thanks for Registering'
+
+            options.headers = options.headers || {}
+
+            var template = loopback.template(options.template)
+            options.html = template(options)
+
+            Email.send(options, function(err, email) {
+                if (err) {
+                    fn(err)
+                } else {
+                    fn(null, { email: email, token: user.verificationToken, uid: user.id })
+                }
+            })
+        }
+
+        function sendSMS(user) {
+            /* 
+              nexmo.message.sendSms('apptorney', user.username, 'Your verification code: ' + user.verificationTokenForPhone, (err, res) => {
+             console.log('err', err)
+              })*/
+
+            client.messages.create({
+                    body: 'Your verification code: ' + user.verificationTokenForPhone,
+                    to: user.username, // Text this number
+                    from: 'Apptorney' // From a valid Twilio number
+                }).then((message) => console.log(message.sid))
+                /*console.log('user', user)
+                var http = require('http')
+                http.get({
+                        host: 'api.clickatell.com',
+                        path: '/http/sendmsg?user=muchukaingu&password=TeamCircuit123&api_id=3524272&to=' + user.username + '&text=LUPIYA+code:+' + user.verificationTokenForPhone
+                    },
+                    function(response) {
+                        // Continuously update stream with data
+                        var body = ''
+                        response.on('data', function(d) {
+                            body += d
+
+                            // return fn(null, {email: user.username, token: user.verificationTokenForPhone, uid: user.id})
+                        })
+                        response.on('end', function() {
+
+                            // var parsed = JSON.parse(body)
+                            console.log(user.username)
+                            console.log('Data returned', body)
+                        })
+                    })
+                    */
+        }
+        return fn.promise
+    }
+
+    // send verification email after registration
     Appuser.afterRemote('create', function(context, user, next) {
         console.log('> user.afterRemote triggered')
 
@@ -438,6 +485,16 @@ module.exports = function(Appuser) {
 
             ],
             http: { verb: 'get', path: '/confirmPhone' }
+        }
+    )
+
+    Appuser.remoteMethod(
+        'resendVerification', {
+            description: 'Resends verification code via SMS',
+            accepts: [
+                { arg: 'username', type: 'string', required: true }
+            ],
+            http: { verb: 'get', path: '/resendVerification' }
         }
     )
 }

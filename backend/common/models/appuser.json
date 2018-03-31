@@ -37,6 +37,12 @@
             "principalType": "ROLE",
             "principalId": "$everyone",
             "permission": "ALLOW",
+            "property": "resendVerification"
+        },
+        {
+            "principalType": "ROLE",
+            "principalId": "$everyone",
+            "permission": "ALLOW",
             "property": "count"
         },
         {

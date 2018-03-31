@@ -113,7 +113,7 @@ module.exports = function(Appuser) {
                             // Fail to log in if email verification is not done yet
                             debug('User phone number has not been verified')
                             err = new Error('login failed as the phone number has not been verified')
-                            err.statusCode = 401
+                            err.statusCode = 405
                             err.code = 'LOGIN_FAILED_PHONE_NOT_VERIFIED'
                             fn(err)
                         } else {

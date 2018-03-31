@@ -34,7 +34,8 @@
         "profilePicture": {
             "type": "file",
             "required": false
-        }
+        },
+        "bookmarks": ["bookmark"]
     },
     "validations": [],
     "relations": {

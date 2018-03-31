@@ -44,6 +44,10 @@
         "dataSource": "apptorney",
         "public": true
     },
+    "bookmark": {
+        "dataSource": "apptorney",
+        "public": true
+    },
     "caseLegislations": {
         "dataSource": "apptorney",
         "public": true

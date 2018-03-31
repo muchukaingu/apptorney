@@ -98,6 +98,16 @@ module.exports = function(Customer) {
                             customer.bookmarks.forEach(function(bookmark) {
                                 if (bookmark.sourceId == sourceId) {
                                     found++
+                                    customer.bookmarks.splice(customer.bookmarks.indexOf(bookmark), 1)
+                                    customer.save(function(err) {
+                                        if (err) {
+                                            cb(err)
+                                        } else {
+                                            console.log(instance.name)
+                                            console.log(customer.firstName)
+                                            cb(null, customer)
+                                        }
+                                    })
                                 }
                             })
                             if (found == 0) {
@@ -111,8 +121,6 @@ module.exports = function(Customer) {
                                         cb(null, customer)
                                     }
                                 })
-                            } else {
-                                cb(null, customer)
                             }
                         }
                     })

@@ -11,7 +11,7 @@ module.exports = function(Customer) {
 
     Customer.remoteMethod(
         'bookmark', {
-            http: { path: '/bookmark', verb: 'get' },
+            http: { path: '/bookmark', verb: 'post' },
             accepts: [
                 { arg: 'sourceId', type: 'string' },
                 { arg: 'username', type: 'string' },

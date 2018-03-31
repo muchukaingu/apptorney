@@ -80,14 +80,11 @@ module.exports = function(Customer) {
             if (customer == null) {
                 cb(err, null)
             } else {
-                Case.findById(ObjectId(sourceId), {
-                        /*include: {
-                            relation: 'loans'
-                        }*/
-                    },
+                Case.findById(ObjectId(sourceId),
                     function(err, instance) {
                         if (instance == null) {
-                            console.log("case not found")
+                            console.log('case not found', sourceId)
+                            cb(err, null)
                         } else {
                             var bookmark = {
                                 title: instance.name,

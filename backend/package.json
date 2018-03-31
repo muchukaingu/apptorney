@@ -23,7 +23,8 @@
     "loopback-datasource-juggler": "^2.39.0",
     "loopback-softdelete-mixin": "0.0.6",
     "nexmo": "^2.1.1",
-    "serve-favicon": "^2.0.1"
+    "serve-favicon": "^2.0.1",
+    "twilio": "^3.14.0"
   },
   "devDependencies": {
     "eslint": "^2.5.3",

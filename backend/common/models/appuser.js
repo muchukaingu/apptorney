@@ -8,10 +8,16 @@ var assert = require('assert')
 var debug = require('debug')
 const Nexmo = require('nexmo')
 
-const nexmo = new Nexmo({
-    apiKey: '3e93649c',
-    apiSecret: '653d2073d5b7e9b1'
-})
+// const nexmo = new Nexmo({
+//     apiKey: '3e93649c',
+//     apiSecret: '653d2073d5b7e9b1'
+// })
+
+var accountSid = 'ACba8ec0e4fa56209de7a4154e1f7d4ca8'; // Your Account SID from www.twilio.com/console
+var authToken = '8efb8cbb2fd3f4f5b76c1ca8eec435f4'; // Your Auth Token from www.twilio.com/console
+
+var twilio = require('twilio')
+var client = new twilio(accountSid, authToken)
 
 module.exports = function(Appuser) {
 
@@ -276,9 +282,16 @@ module.exports = function(Appuser) {
             }
 
             function sendSMS(user) {
-                nexmo.message.sendSms('apptorney', user.username, 'Your verification code: ' + user.verificationTokenForPhone, (err, res) => {
-                        console.log('err', err)
-                    })
+                /* 
+                  nexmo.message.sendSms('apptorney', user.username, 'Your verification code: ' + user.verificationTokenForPhone, (err, res) => {
+                 console.log('err', err)
+                  })*/
+
+                client.messages.create({
+                        body: 'Your verification code: ' + user.verificationTokenForPhone,
+                        to: user.username, // Text this number
+                        from: 'Apptorney' // From a valid Twilio number
+                    }).then((message) => console.log(message.sid))
                     /*console.log('user', user)
                     var http = require('http')
                     http.get({
@@ -315,7 +328,7 @@ module.exports = function(Appuser) {
             to: user.email,
             contact_number: user.contact_number,
             password: context.args.data.password,
-            from: 'apptorney<noreply@apptorney.org>',
+            from: 'Apptorney<noreply@apptorney.org>',
             subject: 'Verify Your Email',
             // text: 'Thank you for registering an account on the '+user.competitionName+' website. Your account will enable you to login and apply for the '+user.competitionName+'. Please now take the time to click on the Verify button below, login and fill out the '+user.competitionName+' Business Model Submission Form. Filling out this business model form will officially enter your business into the competition.',
             signature: 'The Apptorney Team',
@@ -382,7 +395,7 @@ module.exports = function(Appuser) {
                 to: user.email,
                 contact_number: user.username,
                 password: user.pwd,
-                from: 'apptorney<noreply@apptorney.org>',
+                from: 'Apptorney<noreply@apptorney.org>',
                 subject: 'Email Confirmation',
                 // text: 'Thank you for registering an account on the '+user.competitionName+' website. Your account will enable you to login and apply for the '+user.competitionName+'. Please now take the time to click on the Verify button below, login and fill out the '+user.competitionName+' Business Model Submission Form. Filling out this business model form will officially enter your business into the competition.',
                 signature: 'The Apptorney Team',

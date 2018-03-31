@@ -168,7 +168,7 @@ module.exports = function(Appuser) {
                         err.code = 'INVALID_TOKEN'
                         err.user = user
                     } else {
-                        err = new Error('User not found: ' + uid)
+                        err = new Error('User not found')
                         err.statusCode = 404
                         err.code = 'USER_NOT_FOUND'
                     }

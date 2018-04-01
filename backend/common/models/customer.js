@@ -65,40 +65,45 @@ module.exports = function(Customer) {
     Customer.bookmark = function(sourceId, username, type, cb) {
         var app = Customer.app
         var Case = app.models.Case
+        var Case = app.models.Legislation
+            // Case Bookmarks
 
-        /*function callback(err, customer) {
-            Loan.find({ where: { customerId: customer.id, status: { neq: "disbursed" } } }, function(err, loans) {
-                var aCustomer = {}
-                aCustomer = customer
-                aCustomer.currentLoans = loans
-                console.info('Customer', aCustomer)
-                cb(null, aCustomer)
-            })
-        }*/
-
-        this.findOne({ where: { phoneNumber: username } }, function(err, customer) {
-            if (customer == null) {
-                cb(err, null)
-            } else {
-                Case.findOne({ where: { id: ObjectId(sourceId) } },
-                    function(err, instance) {
-                        if (instance == null) {
-                            console.log('case not found', sourceId)
-                            cb(err, null)
-                        } else {
-                            console.log(instance.name)
-                            var bookmark = {
-                                title: instance.name,
-                                summary: instance.summaryOfFacts,
-                                sourceId: instance.id,
-                                type: 'case'
-                            }
-                            if (customer.bookmarks == undefined) { customer.bookmarks = [] }
-                            var found = 0
-                            customer.bookmarks.forEach(function(bookmark) {
-                                if (bookmark.sourceId == sourceId) {
-                                    found++
-                                    customer.bookmarks.splice(customer.bookmarks.indexOf(bookmark), 1)
+        if (type == 'case') {
+            this.findOne({ where: { phoneNumber: username } }, function(err, customer) {
+                if (customer == null) {
+                    cb(err, null)
+                } else {
+                    Case.findOne({ where: { id: ObjectId(sourceId) } },
+                        function(err, instance) {
+                            if (instance == null) {
+                                console.log('case not found', sourceId)
+                                cb(err, null)
+                            } else {
+                                var bookmark = {
+                                    title: instance.name,
+                                    summary: instance.summaryOfFacts,
+                                    sourceId: instance.id,
+                                    type: instance.type
+                                }
+                                if (customer.bookmarks == undefined) { customer.bookmarks = [] }
+                                var found = 0
+                                customer.bookmarks.forEach(function(bookmark) {
+                                    if (bookmark.sourceId == sourceId) {
+                                        found++
+                                        customer.bookmarks.splice(customer.bookmarks.indexOf(bookmark), 1)
+                                        customer.save(function(err) {
+                                            if (err) {
+                                                cb(err)
+                                            } else {
+                                                console.log(instance.name)
+                                                console.log(customer.firstName)
+                                                cb(null, customer)
+                                            }
+                                        })
+                                    }
+                                })
+                                if (found == 0) {
+                                    customer.bookmarks.push(bookmark)
                                     customer.save(function(err) {
                                         if (err) {
                                             cb(err)
@@ -109,23 +114,61 @@ module.exports = function(Customer) {
                                         }
                                     })
                                 }
-                            })
-                            if (found == 0) {
-                                customer.bookmarks.push(bookmark)
-                                customer.save(function(err) {
-                                    if (err) {
-                                        cb(err)
-                                    } else {
-                                        console.log(instance.name)
-                                        console.log(customer.firstName)
-                                        cb(null, customer)
+                            }
+                        })
+                }
+            })
+        } else if (type == 'legislation') {
+            this.findOne({ where: { phoneNumber: username } }, function(err, customer) {
+                if (customer == null) {
+                    cb(err, null)
+                } else {
+                    Legislation.findOne({ where: { id: ObjectId(sourceId) } },
+                        function(err, instance) {
+                            if (instance == null) {
+                                console.log('legislation not found', sourceId)
+                                cb(err, null)
+                            } else {
+                                var bookmark = {
+                                    title: instance.legislationName,
+                                    summary: instance.preamble,
+                                    sourceId: instance.id,
+                                    type: instance.type
+                                }
+                                if (customer.bookmarks == undefined) { customer.bookmarks = [] }
+                                var found = 0
+                                customer.bookmarks.forEach(function(bookmark) {
+                                    if (bookmark.sourceId == sourceId) {
+                                        found++
+                                        customer.bookmarks.splice(customer.bookmarks.indexOf(bookmark), 1)
+                                        customer.save(function(err) {
+                                            if (err) {
+                                                cb(err)
+                                            } else {
+                                                console.log(instance.name)
+                                                console.log(customer.firstName)
+                                                cb(null, customer)
+                                            }
+                                        })
                                     }
                                 })
+                                if (found == 0) {
+                                    customer.bookmarks.push(bookmark)
+                                    customer.save(function(err) {
+                                        if (err) {
+                                            cb(err)
+                                        } else {
+                                            console.log(instance.name)
+                                            console.log(customer.firstName)
+                                            cb(null, customer)
+                                        }
+                                    })
+                                }
                             }
-                        }
-                    })
-            }
-        })
+                        })
+                }
+            })
+        }
     }
 
     /**

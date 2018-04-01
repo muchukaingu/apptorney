@@ -104,6 +104,8 @@ class HomeViewController: UIViewController {
             self.news = news ?? [HomeItem]()
             if self.news.count == 0  {
                 self.news.append(HomeItem(title: "No new items", summary: "Updated content appears here", type: "", sourceId: ""))
+                self.news.append(HomeItem(title: "No new items", summary: "Updated content appears here", type: "", sourceId: ""))
+                self.news.append(HomeItem(title: "No new items", summary: "Updated content appears here", type: "", sourceId: ""))
             }
             self.tableView.reloadData()
             

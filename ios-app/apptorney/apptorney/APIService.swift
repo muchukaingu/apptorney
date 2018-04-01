@@ -27,44 +27,34 @@ class APIService {
             
         ]
         if let parameters: Parameters = parameters as? Parameters {
-            Alamofire.request(APIService.urlBase + endPoint, method: .get, parameters: parameters, headers: headers).responseData { response in
+            Alamofire.request(APIService.urlBase + endPoint, method: .get, parameters: parameters, headers: headers).validate().responseData { response in
                 
-                if let data = response.result.value {
-                    print(data)
-                    let error = JSON(data)["error"]
-                    if error != nil {
-                        completionHandler(nil, NSError(domain:error["code"].string!, code:error["statusCode"].int!, userInfo:nil))
-                        
+                switch response.result {
+                case .success:
+                    print("Validation Successful")
+                    if let data = response.result.value {
+                        completionHandler(data, nil)
                     }
-                    else {
-                        let result = data
-                        completionHandler(result, nil)
-                    }
-                    //self.delegate?.APIServiceDidFinish(ApiService: self, result: JSON)
-                }
-                else {
-                    print ("No data received")
+                case .failure(let error):
+                    print(response.result.value)
+                    completionHandler(nil, error)
+                    
                 }
                 
             }
         } else {
-            Alamofire.request(APIService.urlBase + endPoint, method: .get, headers: headers).responseData { response in
+            Alamofire.request(APIService.urlBase + endPoint, method: .get, headers: headers).validate().responseData { response in
                 
-                if let data = response.result.value {
-                    print(data)
-                    let error = JSON(data)["error"]
-                    if error != nil {
-                        completionHandler(nil, NSError(domain:error["code"].string!, code:error["statusCode"].int!, userInfo:nil))
-                        
+                switch response.result {
+                case .success:
+                    print("Validation Successful")
+                    if let data = response.result.value {
+                        completionHandler(data, nil)
                     }
-                    else {
-                        let result = data
-                        completionHandler(result, nil)
-                    }
-                    //self.delegate?.APIServiceDidFinish(ApiService: self, result: JSON)
-                }
-                else {
-                    print ("No data received")
+                case .failure(let error):
+                    print(response.result.value)
+                    completionHandler(nil, error)
+                    
                 }
                 
             }

@@ -8,7 +8,7 @@
 
 import UIKit
 protocol ScrollTableViewCellDelegate {
-    func tapped(selectedId:String?)
+    func tapped(selectedItem:HomeItem?)
 }
 class ScrollTableViewCell: UITableViewCell {
     var itemsToDisplay = [HomeItem]()
@@ -32,8 +32,8 @@ class ScrollTableViewCell: UITableViewCell {
 
 extension ScrollTableViewCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(itemsToDisplay[indexPath.row].title)
-        delegate?.tapped(selectedId:itemsToDisplay[indexPath.row].sourceId)
+        print(itemsToDisplay[indexPath.row].type)
+        delegate?.tapped(selectedItem:itemsToDisplay[indexPath.row])
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         print("Number of Items\(itemsToDisplay.count)")
@@ -44,8 +44,8 @@ extension ScrollTableViewCell: UICollectionViewDataSource {
 //        colors.append(UIColor(red: 255.0/255, green: 46.0/255, blue: 99.0/255, alpha: 1.0)) //pinkish
 //        colors.append(UIColor(red: 238.0/255, green: 98.0/255, blue: 100.0/255, alpha: 1.0)) //salmon
         colors.append(UIColor(hex:"ffffff"))
-        colors.append(UIColor(red: 54.0/255, green: 79.0/255, blue: 107.0/255, alpha: 1.0))
-        colors.append(UIColor(red: 238.0/255, green: 238.0/255, blue: 238.0/255, alpha: 1.0))
+        colors.append(UIColor(hex:"ffffff"))
+        colors.append(UIColor(hex:"ffffff"))
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "largeCell", for: indexPath) as! HomeLargeCollectionViewCell
         
         cell.name.text = itemsToDisplay[indexPath.row].title?.capitalized
@@ -53,11 +53,12 @@ extension ScrollTableViewCell: UICollectionViewDataSource {
         cell.backgroundColor = colors[section]
         if section == 1 {
             cell.name.font = cell.name.font.withSize(13)
+            cell.accessoryImage.image = UIImage(named: "sunny")
             cell.bookmarkImage.alpha = 0
         }
         if section == 2 {
-            cell.name.textColor = UIColor.darkText
-            cell.summary.textColor = UIColor.darkText
+            cell.name.font = cell.name.font.withSize(13)
+            cell.accessoryImage.image = UIImage(named: "trend")
             cell.bookmarkImage.alpha = 0
         }
         return cell

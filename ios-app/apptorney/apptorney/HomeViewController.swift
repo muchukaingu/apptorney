@@ -40,7 +40,7 @@ class HomeViewController: UIViewController {
     let summaryHeadings = [
         ["name":"My Bookmarks"],
         ["name":"What's New"],
-        ["name":"New Cases"]
+        ["name":"Trending"]
     ]
     
     var bookmarks = [HomeItem]()
@@ -64,8 +64,8 @@ class HomeViewController: UIViewController {
        
         setupNavBar()
         colors.append(UIColor(hex:"D80027"))
-        colors.append(UIColor(red: 54.0/255, green: 79.0/255, blue: 107.0/255, alpha: 1.0))
         colors.append(UIColor(red: 255.0/255, green: 204.0/255, blue: 0.0/255, alpha: 1.0))
+        colors.append(UIColor(red: 54.0/255, green: 79.0/255, blue: 107.0/255, alpha: 1.0))
         UIApplication.shared.isStatusBarHidden = false
         //let defaults: NSUserDefaults = NSUserDefaults.standardUserDefaults()
         //let SessionID = defaults.objectForKey("SessionID") as! String?
@@ -90,14 +90,41 @@ class HomeViewController: UIViewController {
             userDefaults.set(bookmarkIds, forKey: "bookmarks")
             self.bookmarks = bookmarks
             if self.bookmarks.count == 0 {
-                print("zero")
-                self.bookmarks.append(HomeItem(title: "No Bookmarks yet", summary: "This is a sample bookmark. As you continue to use apptorney and bookmark content, those bookmarks will appear here.", type: "", sourceId: ""))
+                self.bookmarks.append(HomeItem(title: "No bookmarks yet", summary: "This is a sample bookmark. As you continue to use apptorney and bookmark content, those bookmarks will appear here.", type: "", sourceId: ""))
             }
             self.tableView.reloadData()
             
             
             UIApplication.shared.isNetworkActivityIndicatorVisible = false
         })
+        
+        
+        HomeItem.getNews(completionHandler:{(news,error) in
+            
+            self.news = news ?? [HomeItem]()
+            if self.news.count == 0  {
+                self.news.append(HomeItem(title: "No new items", summary: "Updated content appears here", type: "", sourceId: ""))
+            }
+            self.tableView.reloadData()
+            
+            
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+        })
+        
+        
+        HomeItem.getTrends(completionHandler:{(trends,error) in
+            self.trending = trends ?? [HomeItem]()
+            if self.trending.count == 0 {
+                print("zero trending")
+                self.trending.append(HomeItem(title: "No trends at the moment", summary: "Trending content appears here", type: "", sourceId: ""))
+            }
+            self.tableView.reloadData()
+            
+            
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+        })
+        
+        
     }
     
     func populateData() {
@@ -179,7 +206,14 @@ class HomeViewController: UIViewController {
             destinationController.caseInstance = caseInstance
         }
         
-        
+        if segue.identifier == "showLegislation" {
+            
+            let destinationController = segue.destination as!
+            LegislationDetailsTableViewController
+            let legislationInstance = Legislation()
+            legislationInstance._id = self.selectedId!
+            destinationController.legislationInstance = legislationInstance
+        }
         
     }
     
@@ -241,6 +275,17 @@ extension HomeViewController:UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) as! ScrollTableViewCell
         cell.section = indexPath.section
         cell.itemsToDisplay = (cell.section==0) ? self.bookmarks : news
+        
+        switch cell.section {
+        case 0:
+            cell.itemsToDisplay = self.bookmarks
+        case 1:
+            cell.itemsToDisplay = self.news
+        case 2:
+            cell.itemsToDisplay = self.trending
+        default:
+             cell.itemsToDisplay = self.bookmarks
+        }
         //cell.itemsToDisplay = self.bookmarks
         cell.accessoryType = UITableViewCellAccessoryType.none
         cell.collectionView.reloadData()
@@ -287,10 +332,15 @@ extension HomeViewController:UITableViewDataSource {
 }
 
 extension HomeViewController: ScrollTableViewCellDelegate {
-    func tapped(selectedId: String?) {
-        print(selectedId)
-        self.selectedId = selectedId!
-        performSegue(withIdentifier: "showCase", sender: self)
+    func tapped(selectedItem: HomeItem?) {
+        print(selectedItem?.type)
+        self.selectedId = selectedItem?.sourceId!
+        if (selectedItem?.type == "case"){
+            performSegue(withIdentifier: "showCase", sender: self)
+        } else if selectedItem?.type == "legislation" {
+            performSegue(withIdentifier: "showLegislation", sender: self)
+        }
+        
     }
 }
 

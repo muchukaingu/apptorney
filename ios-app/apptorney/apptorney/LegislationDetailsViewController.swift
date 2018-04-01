@@ -21,6 +21,7 @@ class LegislationDetailsViewController: UIViewController {
     @IBOutlet weak var legislationNameLabel: UILabel!
     @IBOutlet weak var preambleLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
+   
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -167,6 +168,11 @@ extension LegislationDetailsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
+    
+    
+    
+    
+    
 }
 
 

@@ -49,7 +49,7 @@ class HomeItem: Decodable {
     
     
     class func addBookmarks(bookmark: HomeItem, completionHandler:@escaping (Any, Error?)->Void){
-        print("Bookmarking, mafa")
+        print(bookmark)
         let api = APIService()
         let userDefaults = UserDefaults.standard
         if let username = userDefaults.string(forKey: "username"){
@@ -62,13 +62,63 @@ class HomeItem: Decodable {
                      completionHandler(false, error)
                 }
                 else {
-                     print(result)
                     print(bookmark)
                     completionHandler(true, nil)
                 }
             })
             
         }
+        
+        
+    }
+    
+    class func getNews(completionHandler:@escaping ([HomeItem]?, Error?)->Void){
+        print("Bookmarking, mafa")
+        let api = APIService()
+        
+        api.get(endPoint: "/news", parameters: nil, completionHandler: { (result, error) in
+            if error != nil {
+                 completionHandler(nil, error)
+                print(error!)
+            }
+            else {
+                do {
+                    let json = JSON(result!)["data"]
+                    let decoder = JSONDecoder()
+                    let news = try decoder.decode([HomeItem].self, from: json.rawData())
+                    print(news)
+                    completionHandler(news, nil)
+                } catch let error as NSError {
+                    print("Error: " + error.localizedDescription)
+                }
+            }
+        })
+        
+        
+    }
+    
+    
+    class func getTrends(completionHandler:@escaping ([HomeItem]?, Error?)->Void){
+        print("Bookmarking, mafa")
+        let api = APIService()
+       
+        api.get(endPoint: "/trending", parameters: nil, completionHandler: { (result, error) in
+            if error != nil {
+                completionHandler(nil, error)
+                print(error!)
+            }
+            else {
+                do {
+                    let json = JSON(result!)["data"]
+                    let decoder = JSONDecoder()
+                    let trends = try decoder.decode([HomeItem].self, from: json.rawData())
+                    print(trends)
+                    completionHandler(trends, nil)
+                } catch let error as NSError {
+                    print("Error: " + error.localizedDescription)
+                }
+            }
+        })
         
         
     }

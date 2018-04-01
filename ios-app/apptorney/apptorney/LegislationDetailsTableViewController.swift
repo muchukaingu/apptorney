@@ -27,6 +27,8 @@ class LegislationDetailsTableViewController: UITableViewController {
     var activityIndicator = UIActivityIndicatorView()
     var strLabel = UILabel()
     let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
+    @IBOutlet weak var bookmarkButton: UIBarButtonItem!
+    var isBookmark:Bool?
     
     var loaded = false
     @IBOutlet weak var judgement: UITextView!
@@ -41,6 +43,7 @@ class LegislationDetailsTableViewController: UITableViewController {
         self.configureUIControls()
         tableView.estimatedRowHeight = 80
         tableView.rowHeight = UITableViewAutomaticDimension
+        
     }
     
     func configureUIControls () { //for cutomising controls on the UI
@@ -53,11 +56,27 @@ class LegislationDetailsTableViewController: UITableViewController {
     }
     
     
+    func checkBookmark(){
+        let userDefaults = UserDefaults.standard
+        if let bookmarks = userDefaults.stringArray(forKey: "bookmarks"){
+            
+            for bookmark in bookmarks {
+                
+                if bookmark == legislationInstance.id {
+                    self.isBookmark = true
+                    self.bookmarkButton.image = UIImage()
+                    self.bookmarkButton.setBackgroundImage(UIImage(named: "bookmark-red-1"), for: .normal, barMetrics: UIBarMetrics.default)
+                }
+            }
+        }
+    }
+    
+    
     private func populateLegislation(){
         let legislationId = legislationInstance._id
         Legislation.loadLegislation(legislationId: legislationId, completionHandler:{(legislation,error) in
             self.legislationInstance = legislation
-           
+            self.checkBookmark()
             let volume = self.legislationInstance.volumeNumber ?? ""
             let chapter = self.legislationInstance.chapterNumber ?? ""
             var volumeDetails = ""
@@ -277,6 +296,27 @@ class LegislationDetailsTableViewController: UITableViewController {
         strLabel.removeFromSuperview()
         activityIndicator.removeFromSuperview()
         effectView.removeFromSuperview()
+    }
+    
+    
+    @IBAction func bookmark(_ sender: Any) {
+        let bookmark = HomeItem (title: "", summary: "", type: "legislation", sourceId: legislationInstance.id!)
+        HomeItem.addBookmarks(bookmark: bookmark, completionHandler:{(result,error) in
+            let res = result as! Bool
+            if res == true {
+                print("zoona")
+                if self.isBookmark == true {
+                    self.bookmarkButton.image = UIImage()
+                    self.bookmarkButton.setBackgroundImage(UIImage(named: "bookmark"), for: .normal, barMetrics: UIBarMetrics.default)
+                    self.isBookmark = false
+                } else {
+                    self.bookmarkButton.image = UIImage()
+                    self.bookmarkButton.setBackgroundImage(UIImage(named: "bookmark-red-1"), for: .normal, barMetrics: UIBarMetrics.default)
+                    self.isBookmark = true
+                }
+                
+            }
+        })
     }
     
 }

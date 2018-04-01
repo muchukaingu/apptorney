@@ -12,6 +12,7 @@ class HomeLargeCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var name:UILabel!
     @IBOutlet weak var summary:UILabel!
     @IBOutlet weak var bookmarkImage: UIImageView!
+    @IBOutlet weak var accessoryImage: UIImageView!
     
     
     override func layoutSubviews() {

@@ -497,4 +497,16 @@ module.exports = function(Appuser) {
             http: { verb: 'get', path: '/resendVerification' }
         }
     )
+
+    Appuser.remoteMethod(
+        'performance', {
+            http: { path: '/performance', verb: 'get' },
+            returns: { arg: 'performance', type: '[{}]' }
+        })
+
+    Appuser.performance = function(cb) {
+        Appuser.find({}, function(err, users) {
+            cb(null, users)
+        })
+    }
 }

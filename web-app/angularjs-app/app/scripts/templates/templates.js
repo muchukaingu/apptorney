@@ -999,6 +999,17 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
     "                                <toggle-switch on-label=\"Yes\" off-label=\"No\" model=\"case.completionStatus\" class=\"success\">\n" +
     "                                    <toggle-switch>\n" +
     "                            </div>\n" +
+    "                            <div class=\"col-sm-9\" style=\"padding-top:4px; margin-top:20px; font-size:1.2em\">Is Case New?</div>\n" +
+    "                            <div style=\"padding-top:4px; margin-top:20px; font-size:1.3em; position:relative; left:-10px\" class=\"col-sm-3\">\n" +
+    "                                <toggle-switch on-label=\"Yes\" off-label=\"No\" model=\"case.isNews\" class=\"success\" ng-click=\"addNews()\">\n" +
+    "                                    <toggle-switch>\n" +
+    "                            </div>\n" +
+    "                            <div class=\"col-sm-9\" style=\"padding-top:4px; margin-top:20px; font-size:1.2em\">Is Case Trend?</div>\n" +
+    "                            <div style=\"padding-top:4px; margin-top:20px; font-size:1.3em; position:relative; left:-10px\" class=\"col-sm-3\">\n" +
+    "                                <toggle-switch on-label=\"Yes\" off-label=\"No\" model=\"case.isTrend\" class=\"success\" ng-click=\"addTrend()\">\n" +
+    "                                    <toggle-switch>\n" +
+    "                            </div>\n" +
+    "\n" +
     "                            <div ng-if=\"user.userType==2\" class=\"col-sm-9\" style=\"padding-top:4px; margin-top:5px; font-size:1.2em\">Have You Reviewed Case?</div>\n" +
     "                            <div ng-if=\"user.userType<2\" class=\"col-sm-9\" style=\"padding-top:4px; margin-top:5px; font-size:1.2em\">Primary Review</div>\n" +
     "                            <div style=\"padding-top:4px; margin-top:5px; font-size:1.3em; position:relative; left:-10px\" class=\"col-sm-3\">\n" +
@@ -1743,116 +1754,134 @@ angular.module('theme.templates', []).run(['$templateCache', function ($template
 
 
   $templateCache.put('templates/legislation-modal-view.html',
-    "<div class=\"modal-content\" style=\"margin-top: 8%\" >\n" +
-    "  <div ng-if=\"!returned\" style=\"font-size:1.5em; font-weight:100; padding:50px\"><i class='fa fa-fw fa-sun-o fa-spin'></i> Loading. Please Wait...</div>\n" +
-    "  <div class=\"modal-header\" style=\"margin-bottom:20px\" ng-if=\"returned\">\n" +
-    "      <button type=\"button\" id=\"closeModal\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>\n" +
-    "      <div class=\"row\">\n" +
-    "        <div class=\"col-xs-10\">\n" +
-    "          <h4 style=\"font-weight: 100;\">\n" +
-    "            <span id=\"CustomerHeading\">\n" +
+    "<div class=\"modal-content\" style=\"margin-top: 8%\">\n" +
+    "    <div ng-if=\"!returned\" style=\"font-size:1.5em; font-weight:100; padding:50px\"><i class='fa fa-fw fa-sun-o fa-spin'></i> Loading. Please Wait...</div>\n" +
+    "    <div class=\"modal-header\" style=\"margin-bottom:20px\" ng-if=\"returned\">\n" +
+    "        <button type=\"button\" id=\"closeModal\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"col-xs-10\">\n" +
+    "                <h4 style=\"font-weight: 100;\">\n" +
+    "                    <span id=\"CustomerHeading\">\n" +
     "              {{selectedType}} No. {{legislation.legislationNumber}}: of {{legislation.dateOfAssent | date:'yyyy'}}\n" +
     "              <button ng-click=\"toggleView()\" class=\"btn-primary-alt btn-xs\">Edit</button>\n" +
     "            </span>\n" +
-    "          </h4>\n" +
-    "          <p  id=\"WelcomeMessage\" style=\"margin-left:8px; margin-top:-10px; font-size:1.2em\">\n" +
-    "            <span style=\"font-weight:600\">{{legislation.legislationName}} </span><br />\n" +
-    "            <span style=\"font-weight:600\" class=\"text-warning\" ng-if=\"legislation.parentLegislation !== undefined\">Parent Legislation: {{legislation.parentLegislation.legislationName + ' | Deleted = '}} {{legislation.parentLegislation.deleted?\"Yes\":\"No\"}}</span><br />\n" +
-    "            Enacted by {{legislation.enactment}}<br />\n" +
-    "            Assented on {{legislation.dateOfAssent | date:'MMMM d, yyyy'}}\n" +
-    "          </p>\n" +
+    "                </h4>\n" +
+    "                <p id=\"WelcomeMessage\" style=\"margin-left:8px; margin-top:-10px; font-size:1.2em\">\n" +
+    "                    <span style=\"font-weight:600\">{{legislation.legislationName}} </span><br />\n" +
+    "                    <span style=\"font-weight:600\" class=\"text-warning\" ng-if=\"legislation.parentLegislation !== undefined\">Parent Legislation: {{legislation.parentLegislation.legislationName + ' | Deleted = '}} {{legislation.parentLegislation.deleted?\"Yes\":\"No\"}}</span><br\n" +
+    "                    /> Enacted by {{legislation.enactment}}<br /> Assented on {{legislation.dateOfAssent | date:'MMMM d, yyyy'}}\n" +
+    "                </p>\n" +
+    "            </div>\n" +
+    "            <div class=\"col-sm-2\">\n" +
+    "                <toggle-switch on-label=\"Complete\" off-label=\"Incomplete\" model=\"legislation.completionStatus\" class=\"primary\" knob-label=\"Status\">\n" +
+    "                    <toggle-switch>\n" +
+    "            </div>\n" +
+    "            <div class=\"col-sm-2\">\n" +
+    "                <toggle-switch on-label=\"News\" off-label=\"Not News\" model=\"legislation.isNews\" class=\"primary\" knob-label=\"Status\" ng-click=\"addNews()\">\n" +
+    "                    <toggle-switch>\n" +
+    "            </div>\n" +
+    "            <div class=\"col-sm-2\">\n" +
+    "                <toggle-switch on-label=\"Trend\" off-label=\"Not Trend\" model=\"legislation.isTrend\" class=\"primary\" knob-label=\"Status\" ng-click=\"addTrend()\">\n" +
+    "                    <toggle-switch>\n" +
+    "            </div>\n" +
     "        </div>\n" +
-    "        <div class=\"col-sm-2\"><toggle-switch on-label = \"Complete\" off-label=\"Incomplete\" model=\"legislation.completionStatus\" class=\"primary\" knob-label=\"Status\"><toggle-switch></div>\n" +
-    "      </div>\n" +
-    "  </div>\n" +
-    "  <div class=\"modal-body\" style=\"margin-bottom: none; padding-top: 0px; border-bottom:none;\" ng-if=\"returned\">\n" +
-    "      <div class=\"row\">\n" +
-    "        <div class=\"col-xs-12\" ng-style = \"\" style=\"border-radius:5px; height:auto; padding-top:20px; padding-bottom:60px; width:97%; margin-left:12px;\">\n" +
-    "            <div class=\"row\">\n" +
-    "                  <div class=\"container-fluid\" ng-controller=\"NestedTreeDemoController\">\n" +
-    "                    <panel heading=\"Preamble\">\n" +
-    "                      <panel-controls>\n" +
-    "                            <a href=\"\"><panel-control-collapse class=\"fa fa-chevron-down\"></panel-control-collapse></a>\n" +
-    "                      </panel-controls>\n" +
-    "                      <div class=\"row\">\n" +
-    "                          <div class=\"col-lg-12\">\n" +
-    "                            {{legislation.preamble}}\n" +
-    "                          </div>\n" +
-    "                      </div>\n" +
-    "                    </panel>\n" +
-    "                    <panel heading=\"\">\n" +
-    "                      <panel-controls>\n" +
-    "                            <a href=\"\"><panel-control-collapse class=\"fa fa-chevron-down\"></panel-control-collapse></a>\n" +
-    "                      </panel-controls>\n" +
-    "                      <div class=\"row\">\n" +
-    "                          <div class=\"col-lg-12\" style=\"white-space: pre-wrap;\" ng-bind-html=\"legislation.legislationNumbers\">\n" +
+    "    </div>\n" +
+    "    <div class=\"modal-body\" style=\"margin-bottom: none; padding-top: 0px; border-bottom:none;\" ng-if=\"returned\">\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"col-xs-12\" ng-style=\"\" style=\"border-radius:5px; height:auto; padding-top:20px; padding-bottom:60px; width:97%; margin-left:12px;\">\n" +
+    "                <div class=\"row\">\n" +
+    "                    <div class=\"container-fluid\" ng-controller=\"NestedTreeDemoController\">\n" +
+    "                        <panel heading=\"Preamble\">\n" +
+    "                            <panel-controls>\n" +
+    "                                <a href=\"\">\n" +
+    "                                    <panel-control-collapse class=\"fa fa-chevron-down\"></panel-control-collapse>\n" +
+    "                                </a>\n" +
+    "                            </panel-controls>\n" +
+    "                            <div class=\"row\">\n" +
+    "                                <div class=\"col-lg-12\">\n" +
+    "                                    {{legislation.preamble}}\n" +
+    "                                </div>\n" +
+    "                            </div>\n" +
+    "                        </panel>\n" +
+    "                        <panel heading=\"\">\n" +
+    "                            <panel-controls>\n" +
+    "                                <a href=\"\">\n" +
+    "                                    <panel-control-collapse class=\"fa fa-chevron-down\"></panel-control-collapse>\n" +
+    "                                </a>\n" +
+    "                            </panel-controls>\n" +
+    "                            <div class=\"row\">\n" +
+    "                                <div class=\"col-lg-12\" style=\"white-space: pre-wrap;\" ng-bind-html=\"legislation.legislationNumbers\">\n" +
     "\n" +
-    "                          </div>\n" +
-    "                      </div>\n" +
-    "                    </panel>\n" +
+    "                                </div>\n" +
+    "                            </div>\n" +
+    "                        </panel>\n" +
     "                        <script type=\"text/ng-template\" id=\"items_renderer.html\">\n" +
-    "                          <div ui-tree-handle style=\"padding-bottom:27px\">\n" +
-    "                            <a class=\"btn handletools expand\" data-nodrag ng-click=\"toggle(this)\">\n" +
-    "                              <span class=\"fa fa-fw\" ng-class=\"{'fa-plus-square-o': collapsed, 'fa-minus-square-o': !collapsed}\" ng-show=\"part.subParts.length\"></span>\n" +
-    "                            </a>\n" +
-    "                            <div class=\"pull-left\" style=\"color:gray\">{{part.number + ' ' + part.title}}</div>\n" +
-    "                            <a class=\"pull-right btn handletools delete\" data-nodrag ng-click=\"remove(this)\"><span class=\"fa fa-fw fa-trash-o\"></span></a>\n" +
-    "                            <a class=\"pull-right btn handletools edit\" data-nodrag ng-click=\"editPart(this)\" data-toggle=\"modal\" data-target=\"#addLegislationPart\"><span class=\"fa fa-fw fa-pencil\"></span></a>\n" +
-    "                            <a class=\"pull-right btn handletools add\" data-nodrag ng-click=\"newSubItem(this, $index, $$prevSibling)\"><span class=\"fa fa-fw fa-plus\"></span></a>\n" +
-    "                          </div>\n" +
-    "                          <ol ui-tree-nodes=\"options\" ng-model=\"part.subParts\" ng-class=\"{hidden: collapsed}\">\n" +
-    "                            <li ng-repeat=\"part in part.subParts\" ui-tree-node ng-include=\"'items_renderer.html'\">\n" +
+    "                            <div ui-tree-handle style=\"padding-bottom:27px\">\n" +
+    "                                <a class=\"btn handletools expand\" data-nodrag ng-click=\"toggle(this)\">\n" +
+    "                                    <span class=\"fa fa-fw\" ng-class=\"{'fa-plus-square-o': collapsed, 'fa-minus-square-o': !collapsed}\" ng-show=\"part.subParts.length\"></span>\n" +
+    "                                </a>\n" +
+    "                                <div class=\"pull-left\" style=\"color:gray\">{{part.number + ' ' + part.title}}</div>\n" +
+    "                                <a class=\"pull-right btn handletools delete\" data-nodrag ng-click=\"remove(this)\"><span class=\"fa fa-fw fa-trash-o\"></span></a>\n" +
+    "                                <a class=\"pull-right btn handletools edit\" data-nodrag ng-click=\"editPart(this)\" data-toggle=\"modal\" data-target=\"#addLegislationPart\"><span class=\"fa fa-fw fa-pencil\"></span></a>\n" +
+    "                                <a class=\"pull-right btn handletools add\" data-nodrag ng-click=\"newSubItem(this, $index, $$prevSibling)\"><span class=\"fa fa-fw fa-plus\"></span></a>\n" +
+    "                            </div>\n" +
+    "                            <ol ui-tree-nodes=\"options\" ng-model=\"part.subParts\" ng-class=\"{hidden: collapsed}\">\n" +
+    "                                <li ng-repeat=\"part in part.subParts\" ui-tree-node ng-include=\"'items_renderer.html'\">\n" +
     "\n" +
-    "                            </li>\n" +
-    "                          </ol>\n" +
-    "                          </div ui-tree-handle>\n" +
-    "                        </script>\n" +
+    "                                </li>\n" +
+    "                            </ol>\n" +
+    "                    </div ui-tree-handle>\n" +
+    "                    </script>\n" +
     "\n" +
-    "                        <script type=\"text/ng-template\" id=\"items_view_renderer.html\">\n" +
-    "                            <span style=\"font-weight:600\">{{ part.number }} {{ part.title }}</span> <br>\n" +
-    "                            <span ng-if=\"part.content !== undefined\" style=\"white-space: pre-wrap;\" ng-bind-html=\"part.content\"></span>\n" +
-    "                            <ng-include src=\"'templates/table-viewable.html'\"></ng-include>\n" +
-    "                            <span ng-if=\"part.file.data.type.substring(0,5)=='image'\"><img ng-src=\"{{ baseURL+part.file.data.url }}\" width=\"150px\" /></span><br> <!--change hard coding to server URL -->\n" +
-    "                            <span ng-if=\"part.file.data.type.substring(0,5)!=='image' && part.file !== undefined\"><a target=\"_blank\" ng-href=\"{{ baseURL+part.file.data.url }}\">{{part.title}} File</a></span><br> <!--change hard coding to server URL -->\n" +
-    "                            <ul>\n" +
-    "                              <p ng-repeat=\"part in part.subParts\" ng-include=\"'items_view_renderer.html'\">&emsp;</p>\n" +
-    "                            </ul>\n" +
-    "                        </script>\n" +
+    "                    <script type=\"text/ng-template\" id=\"items_view_renderer.html\">\n" +
+    "                        <span style=\"font-weight:600\">{{ part.number }} {{ part.title }}</span> <br>\n" +
+    "                        <span ng-if=\"part.content !== undefined\" style=\"white-space: pre-wrap;\" ng-bind-html=\"part.content\"></span>\n" +
+    "                        <ng-include src=\"'templates/table-viewable.html'\"></ng-include>\n" +
+    "                        <span ng-if=\"part.file.data.type.substring(0,5)=='image'\"><img ng-src=\"{{ baseURL+part.file.data.url }}\" width=\"150px\" /></span><br>\n" +
+    "                        <!--change hard coding to server URL -->\n" +
+    "                        <span ng-if=\"part.file.data.type.substring(0,5)!=='image' && part.file !== undefined\"><a target=\"_blank\" ng-href=\"{{ baseURL+part.file.data.url }}\">{{part.title}} File</a></span><br>\n" +
+    "                        <!--change hard coding to server URL -->\n" +
+    "                        <ul>\n" +
+    "                            <p ng-repeat=\"part in part.subParts\" ng-include=\"'items_view_renderer.html'\">&emsp;</p>\n" +
+    "                        </ul>\n" +
+    "                    </script>\n" +
     "\n" +
-    "                      <panel heading=\"Legislation Components\">\n" +
+    "                    <panel heading=\"Legislation Components\">\n" +
     "\n" +
     "                        <panel-controls>\n" +
-    "                              <a href=\"\"><panel-control-collapse class=\"fa fa-chevron-down\"></panel-control-collapse></a>\n" +
-    "                              <a href=\"javascript:;\" ng-click=\"addLegislationPart()\"><i class=\"fa fa-plus\"></i></a>\n" +
+    "                            <a href=\"\">\n" +
+    "                                <panel-control-collapse class=\"fa fa-chevron-down\"></panel-control-collapse>\n" +
+    "                            </a>\n" +
+    "                            <a href=\"javascript:;\" ng-click=\"addLegislationPart()\"><i class=\"fa fa-plus\"></i></a>\n" +
     "                        </panel-controls>\n" +
     "\n" +
     "                        <div class=\"row\" ng-show=\"legislation.legislationParts.length > 0\">\n" +
     "                            <div class=\"col-lg-12\">\n" +
-    "                              <p ng-repeat=\"part in legislation.legislationParts\" ng-include=\"'items_view_renderer.html'\">\n" +
-    "                              </p>\n" +
+    "                                <p ng-repeat=\"part in legislation.legislationParts\" ng-include=\"'items_view_renderer.html'\">\n" +
+    "                                </p>\n" +
     "                            </div>\n" +
     "                        </div>\n" +
-    "                      </panel>\n" +
-    "                  </div>\n" +
+    "                    </panel>\n" +
+    "                </div>\n" +
     "            </div>\n" +
     "            <span ng-show=\"legislation.legislationParts.length == 0 && parts_returned\" style=\"font-size:1.5em; font-weight:100; position:relative; left:42%\">Add Legislation Parts</span>\n" +
     "        </div>\n" +
-    "      </div>\n" +
-    "      <div class = \"form-group\">\n" +
+    "    </div>\n" +
+    "    <div class=\"form-group\">\n" +
     "        <div id=\"submitAppMsg\" class=\"pull-left\" style=\"font-size: larger; position: relative; top: 5px\"></div>\n" +
-    "      </div>\n" +
-    "  </div>\n" +
-    "  <div class=\"modal-footer\" style=\"\" ng-if=\"returned\">\n" +
+    "    </div>\n" +
+    "</div>\n" +
+    "<div class=\"modal-footer\" style=\"\" ng-if=\"returned\">\n" +
     "    <div class=\"row\">\n" +
-    "      <div class=\"col-xs-12 col-md-8\"></div>\n" +
-    "    <div class=\"col-xs-12 col-md-2\"><button id=\"submit\" ng-click=\"mergeDuplicates()\" type=\"submit\" class=\"btn btn-primary-alt pull-right\" ng-class=\"{'btn btn-primary-alt btn-block pull-right':(mergeStatus==0), 'btn btn-primary btn-block pull-right':(mergeStatus == 1), 'btn btn-success btn-block pull-right':(mergeStatus == 2)} \"><i ng-if=\"mergeStatus==1\" class='fa fa-fw fa-sun-o fa-spin'></i>{{(mergeStatus==0)?'Mark as Primary':(mergeStatus==1)?'Marking...':'Primary'}}</button></div>\n" +
-    "      <div class=\"col-xs-12 col-md-2\"><button id=\"submit\" ng-click=\"saveLegislation()\" type=\"submit\" class=\"btn btn-primary-alt pull-right\" ng-class=\"{'btn btn-primary-alt btn-block pull-right':(saveStatus==0), 'btn btn-primary btn-block pull-right':(saveStatus == 1), 'btn btn-success btn-block pull-right':(saveStatus == 2)} \"><i ng-if=\"saveStatus==1\" class='fa fa-fw fa-sun-o fa-spin'></i>{{(saveStatus==0)?'Save Legislation':(saveStatus==1)?'Saving...':'Saved'}}</button></div>\n" +
+    "        <div class=\"col-xs-12 col-md-8\"></div>\n" +
+    "        <div class=\"col-xs-12 col-md-2\"><button id=\"submit\" ng-click=\"mergeDuplicates()\" type=\"submit\" class=\"btn btn-primary-alt pull-right\" ng-class=\"{'btn btn-primary-alt btn-block pull-right':(mergeStatus==0), 'btn btn-primary btn-block pull-right':(mergeStatus == 1), 'btn btn-success btn-block pull-right':(mergeStatus == 2)} \"><i ng-if=\"mergeStatus==1\" class='fa fa-fw fa-sun-o fa-spin'></i>{{(mergeStatus==0)?'Mark as Primary':(mergeStatus==1)?'Marking...':'Primary'}}</button></div>\n" +
+    "        <div class=\"col-xs-12 col-md-2\"><button id=\"submit\" ng-click=\"saveLegislation()\" type=\"submit\" class=\"btn btn-primary-alt pull-right\" ng-class=\"{'btn btn-primary-alt btn-block pull-right':(saveStatus==0), 'btn btn-primary btn-block pull-right':(saveStatus == 1), 'btn btn-success btn-block pull-right':(saveStatus == 2)} \"><i ng-if=\"saveStatus==1\" class='fa fa-fw fa-sun-o fa-spin'></i>{{(saveStatus==0)?'Save Legislation':(saveStatus==1)?'Saving...':'Saved'}}</button></div>\n" +
     "\n" +
     "    </div>\n" +
     "\n" +
     "\n" +
-    "  </div>\n" +
-    "</div>\n"
+    "</div>\n" +
+    "</div>"
   );
 
 

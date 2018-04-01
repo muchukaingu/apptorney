@@ -8,7 +8,7 @@ angular.module('apptorney')
             }
         }
     })
-    .controller('CasesController', function($rootScope, $bootbox, $scope, $location, $timeout, Court, Case, Legislation, Work, CaseLegislations, CaseCases, CaseWorks, AreaOfLaw, Jurisdiction, Location, baseURL, filterFilter, $routeParams) {
+    .controller('CasesController', function($rootScope, $bootbox, $scope, $location, $timeout, Court, Case, Legislation, Work, CaseLegislations, CaseCases, CaseWorks, AreaOfLaw, Jurisdiction, Location, baseURL, filterFilter, $routeParams, News, Trending) {
         // console.log("xxx---->")//
 
         $scope.opened = true
@@ -129,6 +129,32 @@ angular.module('apptorney')
                     $scope.cases = filterFilter($scope.cases, $scope.case.id)
                         // $scope.legislation = undefined
 
+                },
+                function(err) {
+                    console.error('Error occured')
+                }
+            )
+        }
+
+
+        $scope.addTrend = function() {
+            Trending.addTrend({ sourceId: $scope.case.id, type: "case" },
+                function(res) {
+                    console.log('added or deleted trend')
+                },
+                function(err) {
+                    console.error('Error occured')
+                }
+            )
+        }
+
+
+        $scope.addNews = function() {
+
+
+            News.addNews({ sourceId: $scope.case.id, type: "case" },
+                function(res) {
+                    console.log('added or deleted news')
                 },
                 function(err) {
                     console.error('Error occured')

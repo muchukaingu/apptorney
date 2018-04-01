@@ -10,7 +10,7 @@ angular.module('apptorney')
             return dtfilter + suffix
         }
     })
-    .controller('LegislationController', function($rootScope, $scope, $filter, Legislation, LegislationType, LegislationPart, PartType, $location, $global, datetime, $routeParams, filterFilter, baseURL, Papa, $q) {
+    .controller('LegislationController', function($rootScope, $scope, $filter, Legislation, LegislationType, LegislationPart, PartType, $location, $global, datetime, $routeParams, filterFilter, baseURL, Papa, $q, News, Trending) {
         $scope.currentPage = 1
         $scope.selectedType = ''
         $scope.selected = false
@@ -46,6 +46,33 @@ angular.module('apptorney')
                 function(errorResponse) {}
             )
         }
+
+        $scope.addTrend = function() {
+            Trending.addTrend({ sourceId: $scope.legislation.id, type: "legislation" },
+                function(res) {
+                    console.log('added or deleted trend')
+                },
+                function(err) {
+                    console.error('Error occured')
+                }
+            )
+        }
+
+
+        $scope.addNews = function() {
+
+
+            News.addNews({ sourceId: $scope.legislation.id, type: "legislation" },
+                function(res) {
+                    console.log('added or deleted news')
+                },
+                function(err) {
+                    console.error('Error occured')
+                }
+            )
+        }
+
+
 
         $scope.loadLegislationPartTypes = function() {
             PartType.find(

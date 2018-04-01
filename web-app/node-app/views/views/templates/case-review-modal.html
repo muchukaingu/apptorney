@@ -22,6 +22,17 @@
                                 <toggle-switch on-label="Yes" off-label="No" model="case.completionStatus" class="success">
                                     <toggle-switch>
                             </div>
+                            <div class="col-sm-9" style="padding-top:4px; margin-top:20px; font-size:1.2em">Is Case New?</div>
+                            <div style="padding-top:4px; margin-top:20px; font-size:1.3em; position:relative; left:-10px" class="col-sm-3">
+                                <toggle-switch on-label="Yes" off-label="No" model="case.isNews" class="success" ng-click="addNews()">
+                                    <toggle-switch>
+                            </div>
+                            <div class="col-sm-9" style="padding-top:4px; margin-top:20px; font-size:1.2em">Is Case Trend?</div>
+                            <div style="padding-top:4px; margin-top:20px; font-size:1.3em; position:relative; left:-10px" class="col-sm-3">
+                                <toggle-switch on-label="Yes" off-label="No" model="case.isTrend" class="success" ng-click="addTrend()">
+                                    <toggle-switch>
+                            </div>
+
                             <div ng-if="user.userType==2" class="col-sm-9" style="padding-top:4px; margin-top:5px; font-size:1.2em">Have You Reviewed Case?</div>
                             <div ng-if="user.userType<2" class="col-sm-9" style="padding-top:4px; margin-top:5px; font-size:1.2em">Primary Review</div>
                             <div style="padding-top:4px; margin-top:5px; font-size:1.3em; position:relative; left:-10px" class="col-sm-3">

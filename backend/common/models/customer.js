@@ -65,7 +65,7 @@ module.exports = function(Customer) {
     Customer.bookmark = function(sourceId, username, type, cb) {
         var app = Customer.app
         var Case = app.models.Case
-        var Case = app.models.Legislation
+        var Legislation = app.models.Legislation
             // Case Bookmarks
 
         if (type == 'case') {

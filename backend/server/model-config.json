@@ -48,6 +48,16 @@
         "dataSource": "apptorney",
         "public": true
     },
+
+    "news": {
+        "dataSource": "apptorney",
+        "public": true
+    },
+
+    "trending": {
+        "dataSource": "apptorney",
+        "public": true
+    },
     "caseLegislations": {
         "dataSource": "apptorney",
         "public": true

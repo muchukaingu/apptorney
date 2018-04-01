@@ -83,7 +83,7 @@ module.exports = function(Customer) {
                                     title: instance.name,
                                     summary: instance.summaryOfFacts,
                                     sourceId: instance.id,
-                                    type: instance.type
+                                    type: 'case'
                                 }
                                 if (customer.bookmarks == undefined) { customer.bookmarks = [] }
                                 var found = 0
@@ -133,7 +133,7 @@ module.exports = function(Customer) {
                                     title: instance.legislationName,
                                     summary: instance.preamble,
                                     sourceId: instance.id,
-                                    type: instance.type
+                                    type: 'legislation'
                                 }
                                 if (customer.bookmarks == undefined) { customer.bookmarks = [] }
                                 var found = 0

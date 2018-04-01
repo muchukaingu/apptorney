@@ -6,7 +6,7 @@ module.exports = function(AreaOfLaw) {
         })
 
     AreaOfLaw.parents = function(cb) {
-        this.findOne({ where: { type: "parent" } }, function(err, areas) {
+        this.find({ where: { parent: true } }, function(err, areas) {
 
             cb(err, areas)
         })

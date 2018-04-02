@@ -21,7 +21,7 @@ module.exports = function(Trending) {
         var Case = app.models.Case
         var Legislation = app.models.Legislation
             // Case Bookmarks
-
+        console.log("The fucking ID is", sourceId)
         Trending.findOne({ where: { sourceId: sourceId } }, function(err, trend) {
             if (trend) {
                 console.log(trend)

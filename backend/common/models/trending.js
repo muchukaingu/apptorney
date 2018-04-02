@@ -22,9 +22,7 @@ module.exports = function(Trending) {
         var Legislation = app.models.Legislation
             // Case Bookmarks
 
-        Trending.find({ where: { sourceId: sourceId } }, function(err, trend) {
-            console.log('The fucking ID is', trend)
-            console.log('The fucking err is', err)
+        Trending.findOne({ where: { sourceId: sourceId } }, function(err, trend) {
             if (trend) {
                 console.log(trend)
                 Trending.destroyById(trend.id, function(err, deleted) {

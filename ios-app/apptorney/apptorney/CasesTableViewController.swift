@@ -94,6 +94,17 @@ class CasesTableViewController: UITableViewController {
         
         
     }
+    
+    
+    var items = [HomeItem]()
+    var selectedTitle = ""
+    var area: String?
+    func loadCasesByArea(area: AreaOfLaw!){
+        self.selectedTitle =  area.name!
+        self.area = area.id!
+        self.performSegue(withIdentifier: "casesByArea", sender: self)
+        
+    }
 
 
     override func didReceiveMemoryWarning() {
@@ -122,6 +133,7 @@ class CasesTableViewController: UITableViewController {
             tableView.separatorStyle = .none
             let area = areas[(indexPath as NSIndexPath).row]
             cell.name.text = area.name
+            //cell.summary?.text = type.description
             return cell
         }
         else {
@@ -165,6 +177,17 @@ class CasesTableViewController: UITableViewController {
                 destinationController.caseInstance = self.cases[(indexPath as NSIndexPath).row]
             }
         }
+        
+        else if segue.identifier == "casesByArea" {
+            self.searchController.searchBar.resignFirstResponder()
+            print("in segue, mofo")
+            let destinationController = segue.destination as!
+            HomeDetailsTableViewController
+            destinationController.type = self.area!
+            destinationController.resourceType = "case"
+            destinationController.viewTitle = self.selectedTitle
+            destinationController.viewTitleColor = UIColor.black
+        }
     }
     
     func activityIndicator(_ title: String) {
@@ -200,6 +223,13 @@ class CasesTableViewController: UITableViewController {
         activityIndicator.removeFromSuperview()
         effectView.removeFromSuperview()
     }
+    
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let area = areas[indexPath.row]
+        print(area.id)
+        loadCasesByArea(area: area)
+    }
 
 }
 
@@ -226,7 +256,8 @@ extension CasesTableViewController: UISearchBarDelegate {
         //print("searching again")
         if self.searchController.searchBar.text == "" {
             self.cases = []
-            self.tableView.reloadData()
+            loadAreasOfLaw()
+            //self.tableView.reloadData()
             tableView.rowHeight = 85
         }
         else {
@@ -248,6 +279,8 @@ extension CasesTableViewController: UISearchBarDelegate {
                     self.cases = cases
                     print(self.cases)
                     if self.cases.count == 0 && self.searchController.searchBar.text != ""{
+                        self.areas=[]
+                        self.tableView.reloadData()
                         self.msgLabel = UILabel(frame:CGRect(x: self.view.frame.midX -  134, y: self.view.frame.midY - 40 , width: 300, height: 46))
                         self.msgLabel.text = "No results for \u{22}\(searchTerm! as String)\u{22}"
                         self.msgLabel.sizeToFit()

@@ -51,9 +51,13 @@ extension ScrollTableViewCell: UICollectionViewDataSource {
         cell.name.text = itemsToDisplay[indexPath.row].title?.capitalized
         cell.summary.text = itemsToDisplay[indexPath.row].summary
         cell.backgroundColor = colors[section]
+        if section == 0 {
+            cell.bookmarkImage.image = UIImage(named: "bookmark-red-1")
+            cell.accessoryImage.alpha = 0
+        }
         if section == 1 {
             cell.name.font = cell.name.font.withSize(13)
-            cell.accessoryImage.image = UIImage(named: "sunny")
+            cell.accessoryImage.image = UIImage(named: "new-3")
             cell.bookmarkImage.alpha = 0
         }
         if section == 2 {

@@ -102,7 +102,7 @@ class HomeItem: Decodable {
         print("Bookmarking, mafa")
         let api = APIService()
        
-        api.get(endPoint: "/trending", parameters: nil, completionHandler: { (result, error) in
+        api.get(endPoint: "/trendings", parameters: nil, completionHandler: { (result, error) in
             if error != nil {
                 completionHandler(nil, error)
                 print(error!)

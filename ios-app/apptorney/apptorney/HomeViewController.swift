@@ -32,6 +32,8 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     var selectedId:String?
     
+    var selectedIndexForSeeAll:Int?
+    
     
     
     @IBOutlet weak var dateLabel: UILabel!
@@ -53,18 +55,21 @@ class HomeViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.tableView.isHidden = true
         print("now presenting CEO of apptorney")
         navigationController?.setNavigationBarHidden(true, animated: false)
         populateData()
         
     }
-
+ 
+    
     override func viewDidLoad() {
         super.viewDidLoad()
        
         setupNavBar()
         colors.append(UIColor(hex:"D80027"))
-        colors.append(UIColor(red: 255.0/255, green: 204.0/255, blue: 0.0/255, alpha: 1.0))
+        colors.append(UIColor(hex:"007AFF"))
+        //colors.append(UIColor(red: 255.0/255, green: 204.0/255, blue: 0.0/255, alpha: 1.0))
         colors.append(UIColor(red: 54.0/255, green: 79.0/255, blue: 107.0/255, alpha: 1.0))
         UIApplication.shared.isStatusBarHidden = false
         //let defaults: NSUserDefaults = NSUserDefaults.standardUserDefaults()
@@ -120,11 +125,14 @@ class HomeViewController: UIViewController {
                 print("zero trending")
                 self.trending.append(HomeItem(title: "No trends at the moment", summary: "Trending content appears here", type: "", sourceId: ""))
             }
+            self.tableView.isHidden = false
             self.tableView.reloadData()
             
             
             UIApplication.shared.isNetworkActivityIndicatorVisible = false
         })
+        
+        
         
         
     }
@@ -217,6 +225,27 @@ class HomeViewController: UIViewController {
             destinationController.legislationInstance = legislationInstance
         }
         
+        
+        if segue.identifier == "homeDetails" {
+            
+            let destinationController = segue.destination as!
+            HomeDetailsTableViewController
+            
+            switch selectedIndexForSeeAll {
+            case 0:
+                destinationController.items = self.bookmarks.reversed()
+            case 1:
+                destinationController.items = self.news.reversed()
+            case 2:
+                destinationController.items = self.trending.reversed()
+            default:
+                destinationController.items = [HomeItem]()
+            }
+            destinationController.viewTitle = summaryHeadings[selectedIndexForSeeAll!]["name"]
+            destinationController.viewTitleColor = self.colors[selectedIndexForSeeAll!]
+            
+        }
+        
     }
     
 
@@ -280,18 +309,19 @@ extension HomeViewController:UITableViewDataSource {
         
         switch cell.section {
         case 0:
-            cell.itemsToDisplay = self.bookmarks
+            cell.itemsToDisplay = self.bookmarks.reversed()
         case 1:
-            cell.itemsToDisplay = self.news
+            cell.itemsToDisplay = self.news.reversed()
         case 2:
-            cell.itemsToDisplay = self.trending
+            cell.itemsToDisplay = self.trending.reversed()
         default:
-             cell.itemsToDisplay = self.bookmarks
+             cell.itemsToDisplay = self.bookmarks.reversed()
         }
+        
         //cell.itemsToDisplay = self.bookmarks
         cell.accessoryType = UITableViewCellAccessoryType.none
         cell.collectionView.reloadData()
-        cell.delegate = self as! ScrollTableViewCellDelegate
+        cell.delegate = self as ScrollTableViewCellDelegate
         return cell
     }
     
@@ -314,6 +344,14 @@ extension HomeViewController:UITableViewDataSource {
             border.backgroundColor = UIColor(red: 100.0/255, green: 100.0/255, blue: 100.0/255, alpha: 1.0)
             headerCell.addSubview(border)
         }*/
+        
+        
+        headerCell.tapObject = {
+                //Do whatever you want to do when the button is tapped here
+                self.selectedIndexForSeeAll = section
+                self.performSegue(withIdentifier: "homeDetails", sender: self)
+        }
+
         headerCell.accessoryType = UITableViewCellAccessoryType.none
         return headerCell
     }
@@ -335,7 +373,6 @@ extension HomeViewController:UITableViewDataSource {
 
 extension HomeViewController: ScrollTableViewCellDelegate {
     func tapped(selectedItem: HomeItem?) {
-        print(selectedItem?.type)
         self.selectedId = selectedItem?.sourceId!
         if (selectedItem?.type == "case"){
             performSegue(withIdentifier: "showCase", sender: self)

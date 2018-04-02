@@ -17,7 +17,7 @@ class LegislationsTableViewController: UITableViewController {
     var searchResultsController = UITableViewController()
     let debouncer = Debouncer(interval:0.5)
     var legislations = [Legislation]()
-    
+    var type: String?
     var legislationTypes = [LegislationType]()
     
     var heightDiscount:CGFloat = 0
@@ -50,10 +50,22 @@ class LegislationsTableViewController: UITableViewController {
     func loadLegislationTypes(){
         LegislationType.search(completionHandler:{(types,error) in
             self.legislationTypes = types
+            self.legislationTypes.sort(by: { $0.name! < $1.name! })
             self.tableView.reloadData()
             UIApplication.shared.isNetworkActivityIndicatorVisible = false
         })
     }
+    var items = [HomeItem]()
+    var selectedTitle = ""
+    
+    func loadLegislationsByType(type: LegislationType!){
+        self.selectedTitle =  type.name!
+        self.type = type.id!
+        self.performSegue(withIdentifier: "legislationsByType", sender: self)
+        
+    }
+    
+    
     
     func setupNavBar(){
         self.searchController = UISearchController(searchResultsController: nil)
@@ -120,7 +132,7 @@ class LegislationsTableViewController: UITableViewController {
             let cellIndetifier = "SummaryCell"
             let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) as! SummaryTableViewCell
             tableView.separatorStyle = .none
-            tableView.estimatedRowHeight = 80
+            tableView.estimatedRowHeight = 180
             tableView.rowHeight = UITableViewAutomaticDimension
             let type = legislationTypes[(indexPath as NSIndexPath).row]
             cell.name.text = type.name
@@ -227,6 +239,17 @@ class LegislationsTableViewController: UITableViewController {
                 destinationController.searchText = self.searchController.searchBar.text!
             }
         }
+        
+        else if segue.identifier == "legislationsByType" {
+            self.searchController.searchBar.resignFirstResponder()
+            print("in segue, mofo")
+            let destinationController = segue.destination as!
+            HomeDetailsTableViewController
+            destinationController.type = self.type!
+             destinationController.resourceType = "legislation"
+            destinationController.viewTitle = self.selectedTitle
+            destinationController.viewTitleColor = UIColor.black
+        }
     }
     
     
@@ -263,6 +286,11 @@ class LegislationsTableViewController: UITableViewController {
         activityIndicator.removeFromSuperview()
         effectView.removeFromSuperview()
     }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let type = legislationTypes[indexPath.row]
+        loadLegislationsByType(type: type)
+    }
 
 }
 
@@ -288,7 +316,8 @@ extension LegislationsTableViewController: UISearchBarDelegate {
         
         if self.searchController.searchBar.text == "" {
             self.legislations = []
-            self.tableView.reloadData()
+            //self.tableView.reloadData()
+            loadLegislationTypes()
             tableView.separatorStyle = .none
             tableView.rowHeight = 85
         }
@@ -306,7 +335,8 @@ extension LegislationsTableViewController: UISearchBarDelegate {
                     self.legislations = legislations
                     if legislations.count == 0 && self.searchController.searchBar.text != "" {
                         self.msgLabel = UILabel(frame:CGRect(x: self.view.frame.midX -  134, y: self.view.frame.midY - 40 , width: 300, height: 46))
-                        
+                        self.legislationTypes = []
+                        self.tableView.reloadData()
                         self.msgLabel.text = "No results for \u{22}\(searchTerm! as String)\u{22}"
                         self.msgLabel.sizeToFit()
                         self.msgLabel.frame = CGRect(x: self.view.frame.midX -  self.msgLabel.frame.width/2, y: self.view.frame.midY - 40 , width: 300, height: 46)

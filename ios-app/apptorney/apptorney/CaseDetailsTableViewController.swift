@@ -125,7 +125,7 @@ class CaseDetailsTableViewController: UITableViewController {
                 var coram = ""
                 if let coramDetails = caseInstance.coram {
                     for instance in coramDetails {
-                        coram = coram + instance.name! + "\n"
+                        coram = coram + (instance.name ?? "") + "\n"
                     }
                 }
                 summarycell.fifthLabel?.text = coram.capitalized

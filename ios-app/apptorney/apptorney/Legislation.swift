@@ -45,6 +45,32 @@ class Legislation: Decodable {
         })
     }
     
+    
+    class func getByType(type: String?, completionHandler:@escaping ([Legislation], Error?)->Void){
+        let api = APIService()
+        api.get(endPoint: "/legislations/getByType", parameters: ["type": type! as String], completionHandler: { (result, error) in
+            if error != nil {
+                print(error!)
+            }
+            else {
+                do {
+                    let json = JSON(result!)["data"]["legislations"]
+                    //print(json)
+                    let decoder = JSONDecoder()
+                    let legislations = try decoder.decode([Legislation].self, from: json.rawData())
+                    print(legislations)
+                    completionHandler(legislations, nil)
+                    
+                } catch let error as NSError {
+                    print("Error: " + error.localizedDescription)
+                }
+                
+            }
+        })
+    }
+    
+    
+    
     class func loadLegislation(legislationId:String?, completionHandler:@escaping (Legislation, Error?)->Void){
         let api = APIService()
         api.get(endPoint: "/legislations/viewLegislation", parameters: ["id":legislationId!], completionHandler: { (result, error) in

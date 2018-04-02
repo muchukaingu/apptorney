@@ -47,17 +47,19 @@ class Location: Decodable {
 class AreaOfLaw: Decodable {
     var name: String?
     var _id: String?
+    var id: String?
     var description: String?
     
-    init(name: String?, _id: String?, description: String?) {
+    init(name: String?, _id: String?, description: String?, id: String?) {
         self.name = name
         self._id = _id
+        self.id = id
         self.description = description
     }
     
     class func search(completionHandler:@escaping ([AreaOfLaw], Error?)->Void){
         let api = APIService()
-        api.get(endPoint: "/areaOfLaws", parameters: nil, completionHandler: { (result, error) in
+        api.get(endPoint: "/areaOfLaws/parents", parameters: nil, completionHandler: { (result, error) in
             if error != nil {
                 print(error!)
             }

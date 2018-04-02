@@ -12,12 +12,14 @@ import Foundation
 class LegislationType: Decodable {
     var name: String?
     var _id: String?
+    var id: String?
     var description: String?
     
-    init(name: String?, _id: String?, description: String?) {
+    init(name: String?, _id: String?, description: String?, id: String?) {
         self.name = name
         self._id = _id
         self.description = description
+        self.id = id
     }
     
     class func search(completionHandler:@escaping ([LegislationType], Error?)->Void){

@@ -59,7 +59,6 @@
 		8D8048E71F580CF900B2832C /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8D8048C51F58086B00B2832C /* OpenSans-Semibold.ttf */; };
 		8D8048E81F580CF900B2832C /* OpenSans-SemiboldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8D8048CA1F58086B00B2832C /* OpenSans-SemiboldItalic.ttf */; };
 		8D8048FC1F5A80DF00B2832C /* SearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D8048FB1F5A80DF00B2832C /* SearchVC.swift */; };
-		8D8049001F5A831600B2832C /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D8048FF1F5A831600B2832C /* SettingsVC.swift */; };
 		8D8692491F681F3C00625FE8 /* ScrollTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D8692481F681F3C00625FE8 /* ScrollTableViewCell.swift */; };
 		8D86924C1F68718400625FE8 /* HomeItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D86924B1F68718400625FE8 /* HomeItem.swift */; };
 		8D86924F1F6C111300625FE8 /* CasesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D86924E1F6C111300625FE8 /* CasesTableViewController.swift */; };
@@ -95,6 +94,8 @@
 		8DD147DF1AA3A43600B2A098 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DD147DE1AA3A43600B2A098 /* CustomTableViewCell.swift */; };
 		8DD147E41AA3A7BF00B2A098 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DD147E21AA3A7BF00B2A098 /* Product.swift */; };
 		8DD147E51AA3A7BF00B2A098 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DD147E31AA3A7BF00B2A098 /* DataManager.swift */; };
+		8DD48ADA2071687600393AC8 /* HomeDetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DD48AD92071687600393AC8 /* HomeDetailsTableViewController.swift */; };
+		8DD48ADC2071B19100393AC8 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DD48ADB2071B19100393AC8 /* SettingsViewController.swift */; };
 		8DDADA3A1E23F815004B578F /* fontawesome-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8DDADA391E23F815004B578F /* fontawesome-webfont.ttf */; };
 		8DE5FA221AC3009E00B23C66 /* StatusTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DE5FA211AC3009E00B23C66 /* StatusTableViewCell.swift */; };
 		8DF86B65206E520600B03121 /* PaperOnboarding.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DF86B64206E520500B03121 /* PaperOnboarding.framework */; };
@@ -196,7 +197,6 @@
 		8D8048D11F5808C400B2832C /* Torus-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Torus-Regular.otf"; sourceTree = "<group>"; };
 		8D8048D21F5808C400B2832C /* Torus-Heavy.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Torus-Heavy.otf"; sourceTree = "<group>"; };
 		8D8048FB1F5A80DF00B2832C /* SearchVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchVC.swift; sourceTree = "<group>"; };
-		8D8048FF1F5A831600B2832C /* SettingsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
 		8D8692481F681F3C00625FE8 /* ScrollTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollTableViewCell.swift; sourceTree = "<group>"; };
 		8D86924B1F68718400625FE8 /* HomeItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeItem.swift; sourceTree = "<group>"; };
 		8D86924E1F6C111300625FE8 /* CasesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CasesTableViewController.swift; sourceTree = "<group>"; };
@@ -236,6 +236,8 @@
 		8DD147DE1AA3A43600B2A098 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		8DD147E21AA3A7BF00B2A098 /* Product.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		8DD147E31AA3A7BF00B2A098 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		8DD48AD92071687600393AC8 /* HomeDetailsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDetailsTableViewController.swift; sourceTree = "<group>"; };
+		8DD48ADB2071B19100393AC8 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		8DDADA391E23F815004B578F /* fontawesome-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fontawesome-webfont.ttf"; sourceTree = "<group>"; };
 		8DE5FA211AC3009E00B23C66 /* StatusTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusTableViewCell.swift; sourceTree = "<group>"; };
 		8DF86B64206E520500B03121 /* PaperOnboarding.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PaperOnboarding.framework; path = PaperOnboarding/Carthage/Build/iOS/PaperOnboarding.framework; sourceTree = "<group>"; };
@@ -434,6 +436,7 @@
 				8D963CFE1F666F0200105EDE /* HomeLargeCollectionViewCell.swift */,
 				8D9F05C11C5635AF0002A085 /* HomeViewController.swift */,
 				8D8692481F681F3C00625FE8 /* ScrollTableViewCell.swift */,
+				8DD48AD92071687600393AC8 /* HomeDetailsTableViewController.swift */,
 			);
 			name = Home;
 			sourceTree = "<group>";
@@ -449,7 +452,7 @@
 		8D8048FE1F5A82EC00B2832C /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				8D8048FF1F5A831600B2832C /* SettingsVC.swift */,
+				8DD48ADB2071B19100393AC8 /* SettingsViewController.swift */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -613,7 +616,7 @@
 				177CC93065CD7C609CB2AE96 /* [CP] Embed Pods Frameworks */,
 				76F548A2F296321B62B71BEF /* [CP] Copy Pods Resources */,
 				8DD147B51AA3A27500B2A098 /* Resources */,
-				8DA32BDE20558C8C0077BAE3 /* ShellScript */,
+				8DA32BDE20558C8C0077BAE3 /* Run Script */,
 				8DF86B67206E520600B03121 /* Embed Frameworks */,
 			);
 			buildRules = (
@@ -807,18 +810,19 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-apptorneyTests/Pods-apptorneyTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		8DA32BDE20558C8C0077BAE3 /* ShellScript */ = {
+		8DA32BDE20558C8C0077BAE3 /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Run Script";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "echo \"Target architectures: $ARCHS\"\n\nAPP_PATH=\"${TARGET_BUILD_DIR}/${WRAPPER_NAME}\"\n\nfind \"$APP_PATH\" -name 'PaperOnboarding.framework' -type d | while read -r FRAMEWORK\ndo\nFRAMEWORK_EXECUTABLE_NAME=$(defaults read \"$FRAMEWORK/Info.plist\" CFBundleExecutable)\nFRAMEWORK_EXECUTABLE_PATH=\"$FRAMEWORK/$FRAMEWORK_EXECUTABLE_NAME\"\necho \"Executable is $FRAMEWORK_EXECUTABLE_PATH\"\necho $(lipo -info \"$FRAMEWORK_EXECUTABLE_PATH\")\n\nFRAMEWORK_TMP_PATH=\"$FRAMEWORK_EXECUTABLE_PATH-tmp\"\n\n# remove simulator's archs if location is not simulator's directory\ncase \"${TARGET_BUILD_DIR}\" in\n*\"iphonesimulator\")\necho \"No need to remove archs\"\n;;\n*)\nif $(lipo \"$FRAMEWORK_EXECUTABLE_PATH\" -verify_arch \"i386\") ; then\nlipo -output \"$FRAMEWORK_TMP_PATH\" -remove \"i386\" \"$FRAMEWORK_EXECUTABLE_PATH\"\necho \"i386 architecture removed\"\nrm \"$FRAMEWORK_EXECUTABLE_PATH\"\nmv \"$FRAMEWORK_TMP_PATH\" \"$FRAMEWORK_EXECUTABLE_PATH\"\nfi\nif $(lipo \"$FRAMEWORK_EXECUTABLE_PATH\" -verify_arch \"x86_64\") ; then\nlipo -output \"$FRAMEWORK_TMP_PATH\" -remove \"x86_64\" \"$FRAMEWORK_EXECUTABLE_PATH\"\necho \"x86_64 architecture removed\"\nrm \"$FRAMEWORK_EXECUTABLE_PATH\"\nmv \"$FRAMEWORK_TMP_PATH\" \"$FRAMEWORK_EXECUTABLE_PATH\"\nfi\n;;\nesac\n\necho \"Completed for executable $FRAMEWORK_EXECUTABLE_PATH\"\necho $(lipo -info \"$FRAMEWORK_EXECUTABLE_PATH\")\n\ndone";
+			shellScript = "echo \"Target architectures: $ARCHS\"\n\nAPP_PATH=\"${TARGET_BUILD_DIR}/${WRAPPER_NAME}\"\n\nfind \"$APP_PATH\" -name '*.framework' -type d | while read -r FRAMEWORK\ndo\nFRAMEWORK_EXECUTABLE_NAME=$(defaults read \"$FRAMEWORK/Info.plist\" CFBundleExecutable)\nFRAMEWORK_EXECUTABLE_PATH=\"$FRAMEWORK/$FRAMEWORK_EXECUTABLE_NAME\"\necho \"Executable is $FRAMEWORK_EXECUTABLE_PATH\"\necho $(lipo -info \"$FRAMEWORK_EXECUTABLE_PATH\")\n\nFRAMEWORK_TMP_PATH=\"$FRAMEWORK_EXECUTABLE_PATH-tmp\"\n\n# remove simulator's archs if location is not simulator's directory\ncase \"${TARGET_BUILD_DIR}\" in\n*\"iphonesimulator\")\necho \"No need to remove archs\"\n;;\n*)\nif $(lipo \"$FRAMEWORK_EXECUTABLE_PATH\" -verify_arch \"i386\") ; then\nlipo -output \"$FRAMEWORK_TMP_PATH\" -remove \"i386\" \"$FRAMEWORK_EXECUTABLE_PATH\"\necho \"i386 architecture removed\"\nrm \"$FRAMEWORK_EXECUTABLE_PATH\"\nmv \"$FRAMEWORK_TMP_PATH\" \"$FRAMEWORK_EXECUTABLE_PATH\"\nfi\nif $(lipo \"$FRAMEWORK_EXECUTABLE_PATH\" -verify_arch \"x86_64\") ; then\nlipo -output \"$FRAMEWORK_TMP_PATH\" -remove \"x86_64\" \"$FRAMEWORK_EXECUTABLE_PATH\"\necho \"x86_64 architecture removed\"\nrm \"$FRAMEWORK_EXECUTABLE_PATH\"\nmv \"$FRAMEWORK_TMP_PATH\" \"$FRAMEWORK_EXECUTABLE_PATH\"\nfi\n;;\nesac\n\necho \"Completed for executable $FRAMEWORK_EXECUTABLE_PATH\"\necho $(lipo -info \"$FRAMEWORK_EXECUTABLE_PATH\")\n\ndone";
 		};
 		B89F692F16052E191C368B99 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -883,7 +887,9 @@
 				8D6C0CE01AACE7A400D01ABF /* LoginViewController.swift in Sources */,
 				8DB842081C4EE8CD0084BE72 /* DepartmentSummaryCell.swift in Sources */,
 				8D6C0CE21AACEA2300D01ABF /* SettingsTableViewController.swift in Sources */,
+				8DD48ADA2071687600393AC8 /* HomeDetailsTableViewController.swift in Sources */,
 				8D8048FC1F5A80DF00B2832C /* SearchVC.swift in Sources */,
+				8DD48ADC2071B19100393AC8 /* SettingsViewController.swift in Sources */,
 				8D92B5C21F9F8E7200D4B6E4 /* ExpandableHeaderView.swift in Sources */,
 				8D6B1DB61C3A5F0700062C07 /* SwiftyJSON.swift in Sources */,
 				8D0E3FEB2057454B00BBEFB8 /* VerifyViewController.swift in Sources */,
@@ -914,7 +920,6 @@
 				8D0E3FE82056C5A200BBEFB8 /* RegisterViewController.swift in Sources */,
 				8D03B8F81AA54D80002A53F1 /* ProductDetailsTableViewCell.swift in Sources */,
 				8D8692591F6C536C00625FE8 /* WorkReference.swift in Sources */,
-				8D8049001F5A831600B2832C /* SettingsVC.swift in Sources */,
 				8D6C0CE41AACFA5600D01ABF /* SimpleButtonTableViewCell.swift in Sources */,
 				8DE5FA221AC3009E00B23C66 /* StatusTableViewCell.swift in Sources */,
 				8DC5BDD11F6D623200F356C1 /* Debouncer.swift in Sources */,

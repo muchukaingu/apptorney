@@ -21,8 +21,10 @@ module.exports = function(Trending) {
         var Case = app.models.Case
         var Legislation = app.models.Legislation
             // Case Bookmarks
-        console.log("The fucking ID is", sourceId)
+
         Trending.findOne({ where: { sourceId: sourceId } }, function(err, trend) {
+            console.log('The fucking ID is', trend)
+            console.log('The fucking err is', err)
             if (trend) {
                 console.log(trend)
                 Trending.destroyById(trend.id, function(err, deleted) {

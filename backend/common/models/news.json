@@ -19,7 +19,10 @@
         },
         "sourceId": {
             "type": "string",
-            "required": true
+            "required": true,
+            "index": {
+                "unique": true
+            }
         }
     },
     "validations": [],

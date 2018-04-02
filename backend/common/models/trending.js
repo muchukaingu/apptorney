@@ -1,6 +1,6 @@
 module.exports = function(Trending) {
     const { ObjectId } = require('mongodb') // or ObjectID
-
+    Trending.validatesUniquenessOf('sourceId', { message: 'Item already exists' })
     Trending.remoteMethod(
         'addTrend', {
             http: { path: '/addTrend', verb: 'post' },

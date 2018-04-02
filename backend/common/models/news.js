@@ -1,6 +1,6 @@
 module.exports = function(News) {
     const { ObjectId } = require('mongodb') // or ObjectID
-
+    News.validatesUniquenessOf('sourceId', { message: 'News Item already exists' })
     News.remoteMethod(
         'addNews', {
             http: { path: '/addNews', verb: 'post' },

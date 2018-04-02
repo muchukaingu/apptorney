@@ -17,7 +17,7 @@ module.exports = function(Legislation) {
     })
 
     Legislation.getByType = function(type, cb) {
-        var whereClause = { and: [{ deleted: { neq: true } }, { legislationType: ObjectId(type) }] }
+        var whereClause = { and: [{ deleted: { neq: true } }, { legislationType: { like: '.*' + type + '.*', options: 'i' } }] }
         this.find({
                 where: whereClause,
                 order: 'legislationName ASC',

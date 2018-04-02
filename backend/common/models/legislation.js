@@ -16,6 +16,25 @@ module.exports = function(Legislation) {
         title: 'xxx'
     })
 
+    Legislation.getByType = function(type, cb) {
+        var whereClause = { and: [{ deleted: { neq: true } }, { legislationType: ObjectId(type) }] }
+        this.find({
+                where: whereClause,
+                order: 'legislationName ASC',
+                fields: {
+                    id: true,
+                    legislationName: true,
+                    dateOfAssent: true,
+                    preamble: true,
+                    amendedLegislations: false
+                }
+
+            },
+            function(err, legislations) {
+                cb(err, legislations)
+            })
+    }
+
     // MODEL FUNCTIONS ##############################################################################################
 
     /**
@@ -520,7 +539,7 @@ module.exports = function(Legislation) {
                         '*': { 'pre_tags': ['<strong>'], 'post_tags': ['</strong>'] }
                     }
                 },
-                _source: ['legislationName', 'legislationNumbers', 'legislationNumber', '_id', 'preamble', 'flattenedParts', 'isStub', 'deleted', 'legislationType', 'volumeNumber', 'chapterNumber', 'dateOfAssent', 'yearOfAmendment', ]
+                _source: ['legislationName', 'legislationNumbers', 'legislationNumber', '_id', 'preamble', 'flattenedParts', 'isStub', 'deleted', 'legislationType', 'volumeNumber', 'chapterNumber', 'dateOfAssent', 'yearOfAmendment']
 
             }
         }
@@ -763,6 +782,13 @@ module.exports = function(Legislation) {
                 { arg: 'legislations', type: 'array' },
                 { arg: 'count', type: 'number' }
             ]
+        })
+
+    Legislation.remoteMethod(
+        'getByType', {
+            http: { path: '/getByType', verb: 'get' },
+            accepts: { arg: 'type', type: 'string' },
+            returns: { arg: 'legislations', type: 'array' }
         })
 
     Legislation.remoteMethod(

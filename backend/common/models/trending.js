@@ -22,7 +22,7 @@ module.exports = function(Trending) {
         var Legislation = app.models.Legislation
             // Case Bookmarks
 
-        Trending.findOne({ where: { sourceId: ObjectId(sourceId) } }, function(err, trend) {
+        Trending.findOne({ where: { sourceId: sourceId } }, function(err, trend) {
             if (trend) {
                 console.log(trend)
                 Trending.destroyById(trend.id, function(err, deleted) {

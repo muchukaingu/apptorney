@@ -22,7 +22,7 @@ module.exports = function(News) {
         var Legislation = app.models.Legislation
             // Case Bookmarks
 
-        News.findOne({ where: { sourceId: ObjectId(sourceId) } }, function(err, newsItem) {
+        News.findOne({ where: { sourceId: sourceId } }, function(err, newsItem) {
             if (newsItem) {
                 console.log(newsItem)
                 News.destroyById(newsItem.id, function(err, deleted) {

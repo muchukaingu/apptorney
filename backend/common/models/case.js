@@ -2,6 +2,13 @@ module.exports = function(Case) {
     const { ObjectId } = require('mongodb') // or ObjectID
 
     Case.remoteMethod(
+        'getByArea', {
+            http: { path: '/getByArea', verb: 'get' },
+            accepts: { arg: 'areaId', type: 'string' },
+            returns: { arg: 'cases', type: 'array' }
+        })
+
+    Case.remoteMethod(
         'generateNames', {
             http: { path: '/generatenames', verb: 'get' },
             returns: { arg: 'names', type: ['string'] }
@@ -102,6 +109,23 @@ module.exports = function(Case) {
             accepts: { arg: 'id', type: 'string' },
             returns: { arg: 'caseInstance', type: 'Object' }
         })
+
+    Case.getByArea = function(areaId, cb) {
+        var whereClause = { and: [{ deleted: { neq: true } }, { areaOfLawId: { like: '.*' + areaId + '.*', options: 'i' } }] }
+        this.find({
+                where: whereClause,
+                order: 'name ASC',
+                fields: {
+                    id: true,
+                    name: true,
+                    summaryOfRuling: true
+                }
+
+            },
+            function(err, cases) {
+                cb(err, cases)
+            })
+    }
 
     /**
      * Searches for cases based on mongo's $text index
@@ -654,30 +678,20 @@ module.exports = function(Case) {
     }
 
     Case.fixAreas = function(cb) {
-
         function callback(err, cases) {
             var count = 0
             cases.forEach(function(aCase) {
-
                 aCase.areaId = aCase.areaOfLawId.toString()
                 Case.upsert(aCase, function(err, data) {
                     console.log(count, data.areaId)
-                    console.log("length", cases.length - 1)
+                    console.log('length', cases.length - 1)
                     count++
                     if (count == cases.length - 1) {
                         console.log(cases.length)
-                        cb(null, "done")
+                        cb(null, 'done')
                     }
-
                 })
-
-
-
-
             })
-
-
-
         }
         Case.find({}, function(err, cases) {
             var fixable = []
@@ -685,7 +699,6 @@ module.exports = function(Case) {
                 if (aCase.areaOfLawId !== undefined) {
                     fixable.push(aCase)
                 }
-
             })
 
             callback(null, fixable)

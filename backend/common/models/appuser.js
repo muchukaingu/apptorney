@@ -217,7 +217,8 @@ module.exports = function(Appuser) {
 
         function sendSMS(user) {
             client.messages.create({
-                body: 'Your verification code: ' + user.verificationTokenForPhone,
+                //body: 'Your verification code: ' + user.verificationTokenForPhone,
+                body: 'Thank you for your registration. Apptorney will be available for download on April 30, 2018.',
                 to: user.username, // Text this number
                 from: 'Apptorney' // From a valid Twilio number
             }).then((message) => console.log(message.sid))

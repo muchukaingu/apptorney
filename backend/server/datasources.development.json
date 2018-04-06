@@ -19,12 +19,12 @@
         "connector": "mail",
         "transports": [{
             "type": "SMTP",
-            "host": "n1plcpnl0109.prod.ams1.secureserver.net",
+            "host": "n3plcpnl0034.prod.ams3.secureserver.net",
             "secure": true,
             "port": 465,
             "auth": {
-                "user": "noreply@lupiya.com",
-                "pass": "TeamLupiya@123"
+                "user": "noreply@apptorney.org",
+                "pass": "u$$pgg123"
             }
         }]
     },

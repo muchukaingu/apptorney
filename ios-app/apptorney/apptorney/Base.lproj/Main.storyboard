@@ -1013,7 +1013,6 @@ Please check your API Settings or Network Connection and try again.</string>
                                     <outlet property="smallSubTitleLeft" destination="OeM-Hl-emX" id="O9U-kO-SPf"/>
                                     <outlet property="smallSubTitleRight" destination="jP3-pq-6PS" id="ZZ5-RI-1QV"/>
                                     <outlet property="subTitleLabel" destination="PBd-jj-fa1" id="NS5-gJ-6zU"/>
-                                    <segue destination="Mzu-0t-SJJ" kind="show" identifier="showLegislationDetails" id="wd9-Aw-7fT"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="SummaryCell" rowHeight="125" id="ohk-dw-2tv" customClass="SummaryTableViewCell" customModule="apptorney" customModuleProvider="target">
@@ -1079,6 +1078,7 @@ Please check your API Settings or Network Connection and try again.</string>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <segue destination="a6a-u1-0Ar" kind="show" identifier="legislationsByType" id="KYg-Co-2Fo"/>
+                        <segue destination="Mzu-0t-SJJ" kind="show" identifier="showLegislationDetails" id="C0Z-dk-Cyh"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YEQ-Jj-smz" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1186,7 +1186,6 @@ Please check your API Settings or Network Connection and try again.</string>
                                     <outlet property="smallSubTitleLeft" destination="JVv-HG-UM0" id="RCp-oA-Bjj"/>
                                     <outlet property="smallSubTitleRight" destination="cnQ-cl-C12" id="g6u-Ym-iec"/>
                                     <outlet property="subTitleLabel" destination="rxq-CP-Ixx" id="KZL-dd-v8m"/>
-                                    <segue destination="N4K-km-wxn" kind="show" identifier="showCaseDetails" id="IF8-vP-JuE"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="SummaryCell" rowHeight="184" id="Z1t-37-6fS" customClass="SummaryTableViewCell" customModule="apptorney" customModuleProvider="target">
@@ -1244,6 +1243,7 @@ Please check your API Settings or Network Connection and try again.</string>
                     <navigationItem key="navigationItem" title="Cases" id="dwC-1e-jwL"/>
                     <connections>
                         <segue destination="a6a-u1-0Ar" kind="show" identifier="casesByArea" id="3jo-F0-U5z"/>
+                        <segue destination="N4K-km-wxn" kind="show" identifier="showCaseDetails" id="DmT-ih-TRP"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0oe-Z6-xCA" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1774,7 +1774,7 @@ Please check your API Settings or Network Connection and try again.</string>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dSm-6I-2eP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1476.8000000000002" y="3288.1773399014778"/>
+            <point key="canvasLocation" x="1490" y="2922"/>
         </scene>
         <!--Verify View Controller-->
         <scene sceneID="T1W-OK-xYY">
@@ -1789,7 +1789,7 @@ Please check your API Settings or Network Connection and try again.</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8JB-6i-WjI">
-                                <rect key="frame" x="35" y="302" width="305" height="50"/>
+                                <rect key="frame" x="35" y="302.5" width="305" height="50"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="lUd-kb-xc4">
@@ -1813,7 +1813,7 @@ Please check your API Settings or Network Connection and try again.</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="Ve0-mB-Fpq">
-                                <rect key="frame" x="305" y="317" width="20" height="20"/>
+                                <rect key="frame" x="305" y="317.5" width="20" height="20"/>
                             </activityIndicatorView>
                             <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login failed. Please try again." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Waf-8u-wTK">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="45"/>
@@ -1826,7 +1826,7 @@ Please check your API Settings or Network Connection and try again.</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Verification Code sent via SMS" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Cj4-lj-TWG" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                <rect key="frame" x="40" y="233" width="295" height="41"/>
+                                <rect key="frame" x="40" y="232.5" width="295" height="42"/>
                                 <color key="tintColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
@@ -1850,7 +1850,7 @@ Please check your API Settings or Network Connection and try again.</string>
                                 </userDefinedRuntimeAttributes>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2AO-LO-jDu">
-                                <rect key="frame" x="78" y="377" width="220" height="36"/>
+                                <rect key="frame" x="78" y="377.5" width="220" height="36"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="Resend Verification Code"/>
                                 <connections>
@@ -2253,8 +2253,8 @@ Please check your API Settings or Network Connection and try again.</string>
     <inferredMetricsTieBreakers>
         <segue reference="Lb5-kq-ZbX"/>
         <segue reference="17I-Bj-xch"/>
-        <segue reference="A93-1w-lRK"/>
-        <segue reference="IF8-vP-JuE"/>
+        <segue reference="zIM-0i-PS2"/>
+        <segue reference="DmT-ih-TRP"/>
         <segue reference="WOf-3c-Dzc"/>
         <segue reference="XuD-4m-twF"/>
         <segue reference="3jo-F0-U5z"/>

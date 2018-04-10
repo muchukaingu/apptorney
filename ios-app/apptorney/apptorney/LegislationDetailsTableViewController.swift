@@ -71,6 +71,31 @@ class LegislationDetailsTableViewController: UITableViewController {
         }
     }
     
+    func flattenArray(nestedArray: [LegislationPart]) -> [LegislationPart] {
+        
+        var myFlattenedArray = [LegislationPart]()
+        
+        for element in nestedArray {
+            if element.subParts != nil {
+                print("adding...")
+                myFlattenedArray.append(element)
+            } else {
+                print("recursion...")
+                let recursionResult = flattenArray(nestedArray: element.subParts!)
+                for num in recursionResult {
+                    myFlattenedArray.append(num)
+                }
+                
+                //            let nestedElements = element as! [Int]
+                //            for num in nestedElements {
+                //                myFlattenedArray.append(num)
+                //            }
+            }
+        }
+        
+        return myFlattenedArray
+    }
+    
     
     private func populateLegislation(){
         let legislationId = legislationInstance._id
@@ -94,10 +119,13 @@ class LegislationDetailsTableViewController: UITableViewController {
                 }
             
             }
-           
+            
             self.removeIndicator()
             for part in self.legislationInstance.legislationParts!{
+                let flattenedContent = self.flattenArray(nestedArray: part.subParts!)
                 //var attributedString = NSMutableAttributedString(string: part.flatContentNew ?? "")
+                print("Title", part.title)
+                dump(flattenedContent)
                 let result = NSMutableAttributedString().setHTMLFromString(text: part.flatContentNew ?? "", target: self.searchText, color:UIColor(hex: "f3a435"))
                 let highlighted = result.1 > 0 ? true:false
                 self.sections.append(Section(name:part.title?.uppercased() ?? "", isCollapsed: true, height:0.0, isCollapsible: true, content:result.0, highlighted: highlighted ))

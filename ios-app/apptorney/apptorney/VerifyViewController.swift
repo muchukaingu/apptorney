@@ -51,6 +51,7 @@ class VerifyViewController: UIViewController {
                 print("Verification successful")
                 let userDefaults = UserDefaults.standard
                 userDefaults.set(true, forKey: "loginComplete")
+                userDefaults.set(self.username, forKey: "username")
                 userDefaults.synchronize()
                 self.performSegue(withIdentifier: "Verified", sender: self)
                 

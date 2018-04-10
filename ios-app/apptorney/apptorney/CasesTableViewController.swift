@@ -226,9 +226,13 @@ class CasesTableViewController: UITableViewController {
     
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let area = areas[indexPath.row]
-        print(area.id)
-        loadCasesByArea(area: area)
+        if self.searchController.searchBar.text == "" {
+            let area = areas[indexPath.row]
+            loadCasesByArea(area: area)
+        } else {
+            performSegue(withIdentifier: "showCaseDetails", sender: self)
+        }
+        
     }
 
 }
@@ -294,7 +298,7 @@ extension CasesTableViewController: UISearchBarDelegate {
                     }
                     else {
                         self.searchController.searchBar.resignFirstResponder()
-                        //self.messageLabel.isHidden = true
+                        
                         self.messageLabel.text = ""
                         self.msgLabel.removeFromSuperview()
                         self.errorImage.removeFromSuperview()

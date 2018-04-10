@@ -288,8 +288,13 @@ class LegislationsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let type = legislationTypes[indexPath.row]
-        loadLegislationsByType(type: type)
+        if self.searchController.searchBar.text == ""  {
+            let type = legislationTypes[indexPath.row]
+            loadLegislationsByType(type: type)
+        } else {
+            performSegue(withIdentifier: "showLegislationDetails", sender: self)
+        }
+       
     }
 
 }

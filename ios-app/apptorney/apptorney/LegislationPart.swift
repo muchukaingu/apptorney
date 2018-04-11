@@ -17,3 +17,20 @@ class LegislationPart: Decodable {
     var file: File?
     var flatContentNew:String?
 }
+
+
+struct FlatLegislationPart {
+    var number:String?
+    var title:String?
+    var content:String?
+    var table: Table?
+    var file: File?
+    
+    init(number:String?, title:String?, content:String?, table:Table?, file:File?) {
+        self.number = number ?? ""
+        self.title = title ?? ""
+        self.content = content ?? ""
+        self.table = table ?? Table()
+        self.file = file ?? File()
+    }
+}

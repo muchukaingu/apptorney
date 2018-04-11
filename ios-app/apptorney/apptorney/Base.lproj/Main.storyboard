@@ -1595,43 +1595,48 @@ Please check your API Settings or Network Connection and try again.</string>
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" red="0.89009666440000001" green="0.89009666440000001" blue="0.89009666440000001" alpha="0.95245612160000004" colorSpace="calibratedRGB"/>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="DetailCell" rowHeight="132" id="lb3-a0-Rob" customClass="CaseDetailsTableViewCell" customModule="apptorney" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="72" width="375" height="132"/>
+                            <tableViewCell clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="DetailCell" rowHeight="166" id="lb3-a0-Rob" customClass="CaseDetailsTableViewCell" customModule="apptorney" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="72" width="375" height="166"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="lb3-a0-Rob" id="O0X-w0-F0U">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="132"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="166"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="ddddd" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bgU-S1-K3N">
-                                            <rect key="frame" x="132" y="50" width="97" height="88"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="txi-FL-19d">
+                                            <rect key="frame" x="22" y="0.0" width="333" height="0.0"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" id="L9N-Rh-kFJ"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                             <nil key="textColor"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                            <textInputTraits key="textInputTraits"/>
-                                        </textField>
-                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yAp-c0-yqE">
-                                            <rect key="frame" x="14" y="0.0" width="341" height="132"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="nTq-2n-S7u">
+                                            <rect key="frame" x="18" y="0.0" width="337" height="157"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <attributedString key="attributedText"/>
+                                            <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                            <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                            <variation key="heightClass=regular-widthClass=regular">
-                                                <attributedString key="attributedText"/>
-                                            </variation>
                                         </textView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="yAp-c0-yqE" firstAttribute="leading" secondItem="O0X-w0-F0U" secondAttribute="leading" constant="14" id="IFK-C7-0d8"/>
-                                        <constraint firstAttribute="trailing" secondItem="yAp-c0-yqE" secondAttribute="trailing" constant="20" id="Wo2-7E-klJ"/>
-                                        <constraint firstAttribute="bottom" secondItem="yAp-c0-yqE" secondAttribute="bottom" id="adJ-vV-R9Y"/>
-                                        <constraint firstItem="yAp-c0-yqE" firstAttribute="top" secondItem="O0X-w0-F0U" secondAttribute="top" id="uxZ-sD-Oef"/>
+                                        <constraint firstAttribute="bottom" secondItem="nTq-2n-S7u" secondAttribute="bottom" constant="9" id="3ay-WP-ibS"/>
+                                        <constraint firstAttribute="trailing" secondItem="nTq-2n-S7u" secondAttribute="trailing" constant="20" id="DWR-iG-8N5"/>
+                                        <constraint firstAttribute="trailing" secondItem="txi-FL-19d" secondAttribute="trailing" constant="20" id="KgF-bm-OIG"/>
+                                        <constraint firstItem="nTq-2n-S7u" firstAttribute="top" secondItem="txi-FL-19d" secondAttribute="bottom" id="NHd-Y1-ffs"/>
+                                        <constraint firstItem="nTq-2n-S7u" firstAttribute="leading" secondItem="txi-FL-19d" secondAttribute="leading" constant="-4" id="SvG-7Q-Y9b"/>
+                                        <constraint firstItem="txi-FL-19d" firstAttribute="top" secondItem="O0X-w0-F0U" secondAttribute="top" id="WOa-Wj-E8o"/>
+                                        <constraint firstItem="txi-FL-19d" firstAttribute="leading" secondItem="O0X-w0-F0U" secondAttribute="leading" constant="22" id="jhp-Ae-TF0"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="mainText" destination="yAp-c0-yqE" id="yWw-z6-7Sj"/>
+                                    <outlet property="mainText" destination="nTq-2n-S7u" id="gM9-za-FWo"/>
+                                    <outlet property="titleLabel" destination="txi-FL-19d" id="xZA-Cc-T2f"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="SummaryCell" rowHeight="164" id="IK8-gb-jCe" customClass="CaseDetailsSummaryCell" customModule="apptorney" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="204" width="375" height="164"/>
+                                <rect key="frame" x="0.0" y="238" width="375" height="164"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="IK8-gb-jCe" id="Ry8-IX-wi4">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="164"/>
@@ -1739,7 +1744,7 @@ Please check your API Settings or Network Connection and try again.</string>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="Cell" textLabel="AIu-Yu-mAb" rowHeight="40" style="IBUITableViewCellStyleDefault" id="0dl-KV-3sA" customClass="CaseDetailsSummaryCell" customModule="apptorney" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="368" width="375" height="40"/>
+                                <rect key="frame" x="0.0" y="402" width="375" height="40"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="0dl-KV-3sA" id="ogO-7L-W71">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="40"/>
@@ -1774,7 +1779,7 @@ Please check your API Settings or Network Connection and try again.</string>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dSm-6I-2eP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1490" y="2922"/>
+            <point key="canvasLocation" x="1488.8" y="2921.2893553223389"/>
         </scene>
         <!--Verify View Controller-->
         <scene sceneID="T1W-OK-xYY">
@@ -2253,11 +2258,11 @@ Please check your API Settings or Network Connection and try again.</string>
     <inferredMetricsTieBreakers>
         <segue reference="Lb5-kq-ZbX"/>
         <segue reference="17I-Bj-xch"/>
-        <segue reference="zIM-0i-PS2"/>
-        <segue reference="DmT-ih-TRP"/>
+        <segue reference="3vE-WK-zZV"/>
+        <segue reference="E4W-Tc-J2J"/>
         <segue reference="WOf-3c-Dzc"/>
         <segue reference="XuD-4m-twF"/>
-        <segue reference="3jo-F0-U5z"/>
+        <segue reference="Kd3-P1-PQg"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
 </document>

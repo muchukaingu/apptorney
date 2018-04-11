@@ -33,7 +33,7 @@ class LegislationDetailsTableViewController: UITableViewController {
     var loaded = false
     @IBOutlet weak var judgement: UITextView!
     
-    var sections = [Section(name:"", isCollapsed: false, height:0.0, isCollapsible: false, content:NSMutableAttributedString(string:""), highlighted: false )]
+    var sections = [Section(name:"", isCollapsed: false, height:0.0, isCollapsible: false, content:[FlatLegislationPart](), highlighted: false )]
     
     
     override func viewDidLoad() {
@@ -45,6 +45,7 @@ class LegislationDetailsTableViewController: UITableViewController {
         tableView.rowHeight = UITableViewAutomaticDimension
         
     }
+    
     
     func configureUIControls () { //for cutomising controls on the UI
         
@@ -71,20 +72,19 @@ class LegislationDetailsTableViewController: UITableViewController {
         }
     }
     
-    func flattenArray(nestedArray: [LegislationPart]) -> [LegislationPart] {
-        
-        var myFlattenedArray = [LegislationPart]()
-        
+    var myFlattenedArray = [FlatLegislationPart]()
+    func flattenArray(nestedArray: [LegislationPart]) -> [FlatLegislationPart] {
         for element in nestedArray {
-            if element.subParts != nil {
+            if element.subParts!.count == 0 {
                 print("adding...")
-                myFlattenedArray.append(element)
+                myFlattenedArray.append(FlatLegislationPart(number: element.number, title: element.title, content: element.content, table: element.table, file: element.file))
             } else {
                 print("recursion...")
+                myFlattenedArray.append(FlatLegislationPart(number: element.number, title: element.title, content: element.content, table: element.table, file: element.file))
                 let recursionResult = flattenArray(nestedArray: element.subParts!)
-                for num in recursionResult {
-                    myFlattenedArray.append(num)
-                }
+                /*for part in element.subParts! {
+                    myFlattenedArray.append(FlatLegislationPart(number: part.number, title: part.title, content: part.content, table: part.table, file: part.file))
+                }*/
                 
                 //            let nestedElements = element as! [Int]
                 //            for num in nestedElements {
@@ -92,7 +92,6 @@ class LegislationDetailsTableViewController: UITableViewController {
                 //            }
             }
         }
-        
         return myFlattenedArray
     }
     
@@ -122,13 +121,14 @@ class LegislationDetailsTableViewController: UITableViewController {
             
             self.removeIndicator()
             for part in self.legislationInstance.legislationParts!{
+                self.myFlattenedArray = [FlatLegislationPart]()
                 let flattenedContent = self.flattenArray(nestedArray: part.subParts!)
                 //var attributedString = NSMutableAttributedString(string: part.flatContentNew ?? "")
                 print("Title", part.title)
-                dump(flattenedContent)
+                //dump(flattenedContent)
                 let result = NSMutableAttributedString().setHTMLFromString(text: part.flatContentNew ?? "", target: self.searchText, color:UIColor(hex: "f3a435"))
                 let highlighted = result.1 > 0 ? true:false
-                self.sections.append(Section(name:part.title?.uppercased() ?? "", isCollapsed: true, height:0.0, isCollapsible: true, content:result.0, highlighted: highlighted ))
+                self.sections.append(Section(name:part.title?.uppercased() ?? "", isCollapsed: true, height:0.0, isCollapsible: true, content:flattenedContent, highlighted: highlighted ))
             }
             
             
@@ -207,7 +207,10 @@ class LegislationDetailsTableViewController: UITableViewController {
         default:
             let cellIndetifier = "DetailCell"
             let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) as! CaseDetailsTableViewCell
-            cell.mainText?.attributedText = sections[index].content
+            //cell.mainText?.attributedText = sections[index].content
+            cell.titleLabel?.text = sections[index].content![indexPath.row].title
+            cell.mainText?.text = sections[index].content![indexPath.row].content
+            print("xxx")
             return cell
         }
   
@@ -224,7 +227,7 @@ class LegislationDetailsTableViewController: UITableViewController {
         if item.isCollapsed {
             return 0
         } else {
-            return 1
+            return item.content!.count
         }
     }
     
@@ -351,17 +354,16 @@ class LegislationDetailsTableViewController: UITableViewController {
 
 extension LegislationDetailsTableViewController: HeaderViewDelegate {
     func toggleSection(header: HeaderView, section: Int) {
-       
+        print("header tapped")
         
         
         let item = sections[section]
-       
         if item.isCollapsible! {
             
             // Toggle collapse
             let collapsed = !item.isCollapsed
             sections[section].isCollapsed = collapsed
-            
+            print(item.isCollapsed)
             header.setCollapsed(collapsed: collapsed)
             
             // Adjust the number of the rows inside the section

@@ -13,10 +13,10 @@ struct Section {
     var isCollapsed: Bool!
     var height:CGFloat?
     var isCollapsible:Bool?
-    var content: NSMutableAttributedString?
+    var content: [FlatLegislationPart]?
     var highlighted: Bool?
     
-    init(name: String, isCollapsed: Bool, height: CGFloat?, isCollapsible:Bool, content:NSMutableAttributedString?, highlighted: Bool?) {
+    init(name: String, isCollapsed: Bool, height: CGFloat?, isCollapsible:Bool, content:[FlatLegislationPart]?, highlighted: Bool?) {
         self.name = name
         self.isCollapsed = isCollapsed
         self.height = height ?? 55.0

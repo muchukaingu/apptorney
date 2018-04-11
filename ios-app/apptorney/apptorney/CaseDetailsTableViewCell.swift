@@ -9,7 +9,7 @@
 import UIKit
 
 class CaseDetailsTableViewCell: UITableViewCell {
-    
+    @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var mainText: UITextView!
     
     override func awakeFromNib() {

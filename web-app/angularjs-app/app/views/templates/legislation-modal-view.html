@@ -83,7 +83,7 @@
                         <ng-include src="'templates/table-viewable.html'"></ng-include>
                         <span ng-if="part.file.data.type.substring(0,5)=='image'"><img ng-src="{{ baseURL+part.file.data.url }}" width="150px" /></span><br>
                         <!--change hard coding to server URL -->
-                        <span ng-if="part.file.data.type.substring(0,5)!=='image' && part.file !== undefined"><a target="_blank" ng-href="{{ baseURL+part.file.data.url }}">{{part.title}} File</a></span><br>
+                        <span ng-if="part.file.data.type.substring(0,5)!=='image' && part.file !== undefined"><a target="_blank" ng-click="downloadFile(part)">{{part.title}} File</a></span><br>
                         <!--change hard coding to server URL -->
                         <ul>
                             <p ng-repeat="part in part.subParts" ng-include="'items_view_renderer.html'">&emsp;</p>

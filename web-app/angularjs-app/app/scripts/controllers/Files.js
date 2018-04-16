@@ -14,7 +14,11 @@ angular.module('apptorney')
         url: 'https://circuitbusiness-apptorney.eu-gb.mybluemix.net/api/files/upload',
         formData: [
             { key: 'value' }
-        ]
+        ],
+        headers: {
+            'X-IBM-Client-ID': '6f423f6d-5514-4c5f-bf5c-0f0ce138d523',
+            'X-IBM-Client-Secret': '273733c1-f6c0-4f1f-ae1d-cd01c92676a2'
+        }
     });
 
     // ADDING FILTERS

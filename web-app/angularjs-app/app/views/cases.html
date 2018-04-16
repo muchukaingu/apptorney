@@ -80,6 +80,15 @@
 		                    <span ng-show="sortType == 'areaOfLaw' && sortReverse" class="fa fa-caret-down"></span>
 	                    </a>
                             </td>
+
+                            <td style="width:10%">
+                                <a ng-click="sortType = 'summariesReview'; sortReverse = !sortReverse">
+                                    Summaries Reviewed
+                                    <span ng-show="sortType == 'summariesReview' && !sortReverse" class="fa fa-caret-up"></span>
+                                    <span ng-show="sortType == 'summariesReview' && sortReverse" class="fa fa-caret-down"></span>
+                                </a>
+
+                            </td>
                             <td style="width:10%">
                                 <a ng-click="sortType = 'courtId'; sortReverse = !sortReverse">
 	                    	Complete
@@ -135,7 +144,12 @@
                             </td>
 
 
+                            <td class="editables">
 
+                                <span class="editable" name="stage" form="rowform" onchange="editItem(this,'itemID')">
+														{{case.summariesReview?"Yes":"No"}}
+                      </span>
+                            </td>
 
 
                             <td class="editables">

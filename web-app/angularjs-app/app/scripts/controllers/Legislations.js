@@ -10,7 +10,7 @@ angular.module('apptorney')
             return dtfilter + suffix
         }
     })
-    .controller('LegislationController', function($rootScope, $scope, $filter, Legislation, LegislationType, LegislationPart, PartType, $location, $global, datetime, $routeParams, filterFilter, baseURL, Papa, $q, News, Trending) {
+    .controller('LegislationController', function($rootScope, $scope, $http, $filter, Legislation, LegislationType, LegislationPart, PartType, $location, $global, datetime, $routeParams, filterFilter, baseURL, Papa, $q, News, Trending) {
         $scope.currentPage = 1
         $scope.selectedType = ''
         $scope.selected = false
@@ -35,6 +35,42 @@ angular.module('apptorney')
         $scope.mergeStatus = 0
         $scope.queries = {}
         $scope.legislationReferences = []
+
+        $scope.downloadFile = function(name) {
+            var part = name;
+            console.log(part)
+            $http({
+                method: 'GET',
+                url: $scope.baseURL + part.file.data.url,
+                params: { name: name },
+                responseType: 'arraybuffer'
+            }).success(function(data, status, headers) {
+                headers = headers();
+
+                var filename = 'file-download';
+                var contentType = headers['content-type'];
+
+                var linkElement = document.createElement('a');
+                try {
+                    var blob = new Blob([data], { type: contentType });
+                    var url = window.URL.createObjectURL(blob);
+
+                    linkElement.setAttribute('href', url);
+                    linkElement.setAttribute("download", filename);
+
+                    var clickEvent = new MouseEvent("click", {
+                        "view": window,
+                        "bubbles": true,
+                        "cancelable": false
+                    });
+                    linkElement.dispatchEvent(clickEvent);
+                } catch (ex) {
+                    console.log(ex);
+                }
+            }).error(function(data) {
+                console.log(data);
+            });
+        };
 
         $scope.loadLegislationTypes = function() {
             LegislationType.find(

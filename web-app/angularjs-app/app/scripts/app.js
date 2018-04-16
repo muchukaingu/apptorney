@@ -63,6 +63,16 @@ angular
         'ngFileUpload',
         'environment'
     ])
+    .factory('myInterceptor', function($q) {
+        return {
+            // intercept the requests on the way out.
+            request: function(config) {
+                config.headers['X-IBM-Client-ID'] = '6f423f6d-5514-4c5f-bf5c-0f0ce138d523';
+                config.headers['X-IBM-Client-Secret'] = '273733c1-f6c0-4f1f-ae1d-cd01c92676a2';
+                return config;
+            }
+        }
+    })
     .controller('MainController', ['$rootScope', '$scope', '$global', '$timeout', 'progressLoader', '$location', 'Appuser', function($rootScope, $scope, $global, $timeout, progressLoader, $location, Appuser) {
         $scope.style_fixedHeader = $global.get('fixedHeader')
         $scope.style_headerBarHidden = $global.get('headerBarHidden')
@@ -146,6 +156,7 @@ angular
     .config(['$provide', '$routeProvider', 'LoopBackResourceProvider', '$httpProvider', 'envServiceProvider', function($provide, $routeProvider, LoopBackResourceProvider, $httpProvider, envServiceProvider) {
         $httpProvider.defaults.headers.common['X-IBM-Client-ID'] = '6f423f6d-5514-4c5f-bf5c-0f0ce138d523'
         $httpProvider.defaults.headers.common['X-IBM-Client-Secret'] = '273733c1-f6c0-4f1f-ae1d-cd01c92676a2'
+        $httpProvider.interceptors.push('myInterceptor');
 
         envServiceProvider.config({
             domains: {

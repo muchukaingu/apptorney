@@ -226,6 +226,78 @@ module.exports = function(Appuser) {
         return fn.promise
     }
 
+    // ---Trigger notifications---->
+
+    /**
+     * Trigger notifications
+     *
+     * @param {String} username
+     * @callback {Function} fn
+     */
+    Appuser.triggerNotifications = function(fn) {
+        fn = fn || utils.createPromiseCallback()
+        var app = Appuser.app;
+        var Email = app.models.Email;
+        var options = {
+            type: 'email',
+            host: 'localhost',
+            port: '3000',
+            to: '',
+            contact_number: '',
+            password: '',
+            from: 'Apptorney<noreply@apptorney.org>',
+            subject: 'Apptorney',
+            signature: 'The Apptorney Team',
+            template: path.resolve(__dirname, '../../server/views/bulk.ejs'),
+            redirect: 'http://localhost/competitions/#/login?verified=true',
+            user: {}
+        }
+
+        this.find({}, function(err, users) {
+            users.forEach(user => {
+                options.to = user.email
+                options.contact_number = user.username
+                options.password = user.pwd
+                options.user = user
+                sendSMS(user)
+                sendEmail(user)
+            })
+
+            fn(users.length)
+        })
+
+        function sendSMS(user) {
+            client.messages.create({
+                // body: 'Your verification code: ' + user.verificationTokenForPhone,
+                body: 'Thank you for your patience. We are still working tirelessly to bring Apptorney to you, although it will not be available today as anticipated. We will notify you as soon as you can start your free trial! Thank you!',
+                to: user.username, // Text this number
+                from: 'Apptorney' // From a valid Twilio number
+            }).then((message) => console.log(message.sid))
+        }
+
+        function sendEmail(user) {
+            options.verifyHref += '&token=' + user.verificationToken
+            options.text = options.text || 'Please verify your email by opening this link in a web browser:\n\t{href}'
+            options.text = options.text.replace('{href}', options.verifyHref)
+            options.to = options.to || user.email
+            options.fullname = user.firstname + ' ' + user.lastname
+            options.subject = options.subject || 'Apptorney'
+            options.headers = options.headers || {}
+            var template = loopback.template(options.template)
+            options.html = template(options)
+            Email.send(options, function(err, email) {
+                if (err) {
+                    console.log(err)
+                } else {
+                    console.log('Email sent to ', email)
+                }
+            })
+        }
+        return fn.promise
+    }
+
+    // ----------------End----->
+
     Appuser.prototype.verify = function(options, fn) {
         console.log('verify fn')
         fn = fn || utils.createPromiseCallback()
@@ -259,7 +331,8 @@ module.exports = function(Appuser) {
             '://' +
             options.host +
             displayPort +
-            options.restApiRoot +
+            options.re
+        stApiRoot +
             userModel.http.path +
             userModel.sharedClass.find('confirm', true).http.path +
             '?uid=' +
@@ -496,6 +569,14 @@ module.exports = function(Appuser) {
                 { arg: 'username', type: 'string', required: true }
             ],
             http: { verb: 'get', path: '/resendVerification' }
+        }
+    )
+
+    Appuser.remoteMethod(
+        'triggerNotifications', {
+            description: 'Manually sends notifications to all cuatomers',
+            returns: { arg: 'users', type: '' },
+            http: { verb: 'get', path: '/notifications' }
         }
     )
 

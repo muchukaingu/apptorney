@@ -234,7 +234,7 @@ module.exports = function(Appuser) {
      * @param {String} username
      * @callback {Function} fn
      */
-    Appuser.triggerNotifications = function(fn) {
+    Appuser.notifications = function(fn) {
         fn = fn || utils.createPromiseCallback()
         var app = Appuser.app;
         var Email = app.models.Email;
@@ -573,7 +573,7 @@ module.exports = function(Appuser) {
     )
 
     Appuser.remoteMethod(
-        'triggerNotifications', {
+        'notifications', {
             description: 'Manually sends notifications to all cuatomers',
             returns: { arg: 'users', type: '' },
             http: { verb: 'get', path: '/notifications' }

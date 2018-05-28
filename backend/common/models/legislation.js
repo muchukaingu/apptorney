@@ -367,7 +367,7 @@ module.exports = function(Legislation) {
                             if (type == null) {
                                 console.log('Offending Legislation ', legislation.legislationName + ' / ' + legislation.id)
                             }
-                            legislation.legislationType = type.name
+                            legislation.legislationType = type.name ? type.name : '';
                             counter++
                             if (counter == legislations.length) {
                                 cb(null, legislations)

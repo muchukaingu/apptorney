@@ -200,19 +200,10 @@ module.exports = function(Customer) {
         })
     }
 
-    /*
-    Customer.beforeRemote('create', function(context, customer, next) {
-        var customer = context.req.body
-        loan = customer.loanDetails
-        context.req.body.loanDetails = undefined
-        next()
-    })
-    */
 
     Customer.afterRemote('create', function(context, customer, next) {
         var app = Customer.app
         var Appuser = app.models.Appuser
-            // var LoanTransaction = app.models.LoanTransaction
         var count = 0
 
         function callback() {
@@ -223,24 +214,11 @@ module.exports = function(Customer) {
         }
 
         Appuser.create({ username: customer.phoneNumber, email: customer.emailAddress, password: customer.password, pwd: customer.password, firstname: customer.firstName, lastname: customer.lastName, customerId: customer.id }, function(err, user) {
-                console.log('user has been saved', user)
-                console.log('err occured', err)
-                    // callback()
-                next()
-            })
-            /*
-            LoanTransaction.create({
-                    amount: loan.loanAmount,
-                    tenure: loan.tenure,
-                    monthlyInterest: loan.interestRate,
-                    monthlyPayment: loan.monthlyPayment,
-                    status: "pending",
-                    customerId: customer.id
-                },
-                function(err, loan) {
-                    console.log(loan)
-                    callback()
-                }
-            )*/
+            console.log('user has been saved', user)
+            console.log('err occured', err)
+                // callback()
+            next()
+        })
+
     })
 }

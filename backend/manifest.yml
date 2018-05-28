@@ -1,6 +1,6 @@
 path: .
-memory: 1024M
-instances: 8
+memory: 512M
+instances: 2
 domain: eu-gb.mybluemix.net
 name: apptorney
 host: apptorney-frontend

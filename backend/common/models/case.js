@@ -267,7 +267,11 @@ module.exports = function(Case) {
 
                     results.push(h._source)
                 }
-            })
+            });
+            keenClient.recordEvent('caseSearches', {
+                term: term
+            });
+
             cb(null, results)
         }, function(err) {
             throw new Error(err)
@@ -407,6 +411,10 @@ module.exports = function(Case) {
                 }
 
                 cases.judges = judges
+                keenClient.recordEvent('caseViews', {
+                    name: cases.name
+                });
+
                 cb(null, cases)
             })
     }

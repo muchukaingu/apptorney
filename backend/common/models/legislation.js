@@ -6,15 +6,12 @@ module.exports = function(Legislation) {
     var KeenTracking = require('keen-tracking')
 
     // This is your actual Project ID and Write Key
-    var client = new KeenTracking({
+    var keenClient = new KeenTracking({
         projectId: '5aaf4c58c9e77c0001692b2b',
         writeKey: 'A730DDA82E082E47030F8A0C43F0E284BD5F445D9969108D5436E1416660AAE5819502658F77A48C2FDED30A4C9113C19BB5265C73F21713E6ED44AADFF35DF5E71EAB2C2A30EE05332027BF733D7615D1F34D4544F1B3A62FFDFA797A912A61'
     })
 
-    // Record an event
-    client.recordEvent('pageviews', {
-        title: 'xxx'
-    })
+
 
     Legislation.getByType = function(type, cb) {
         var whereClause = { and: [{ deleted: { neq: true } }, { legislationType: { like: '.*' + type + '.*', options: 'i' } }] }
@@ -456,6 +453,11 @@ module.exports = function(Legislation) {
                 })
                 legislationTypes.findById(ObjectId(legislation.legislationType), function(err, type) {
                     legislation.legislationType = type.name
+                        //record this view for trends
+                    keenClient.recordEvent('legislationViews', {
+                        name: legislation.legislationName,
+                        type: legislation.legislationType
+                    });
                     cb(null, legislation)
                 })
             })
@@ -519,6 +521,8 @@ module.exports = function(Legislation) {
      * @callback {Function} cb The callback function
      */
     Legislation.mobilesearch = function(term, cb) {
+        // Record an event
+
         var elasticsearch = require('elasticsearch')
         let client = new elasticsearch.Client({
             host: 'https://portal-ssl1774-1.bmix-lon-yp-07bcfc2b-8df0-4892-bfc5-849b558a672f.muchu-bmix-circuitbusiness-com.composedb.com:21319/',
@@ -579,7 +583,11 @@ module.exports = function(Legislation) {
                 h._source.highlight = highlights
                 h._source._id = h._id
                 results.push(h._source)
-            })
+            });
+            //record this search
+            keenClient.recordEvent('legislationSearches', {
+                title: term
+            });
             cb(null, results)
         }, function(err) {
             throw new Error(err)

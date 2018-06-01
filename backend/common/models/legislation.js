@@ -464,7 +464,7 @@ module.exports = function(Legislation) {
                     keenClient.recordEvent('dataViews', {
                         title: legislation.legislationName,
                         summary: legislation.preamble,
-                        type: legislation.legislationType,
+                        type: 'legislation',
                         sourceId: legislation.id
 
                     });

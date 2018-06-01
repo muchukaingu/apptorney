@@ -429,7 +429,7 @@ module.exports = function(Case) {
                 keenClient.recordEvent('dataViews', {
                     title: cases.name,
                     summary: cases.summaryOfRuling,
-                    type: "",
+                    type: "case",
                     sourceId: cases.id
                 });
 

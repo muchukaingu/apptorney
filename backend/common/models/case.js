@@ -423,6 +423,9 @@ module.exports = function(Case) {
                 keenClient.recordEvent('caseViews', {
                     name: cases.name
                 });
+                keenClient.recordEvent('dataViews', {
+                    name: cases.name
+                });
 
                 cb(null, cases)
             })

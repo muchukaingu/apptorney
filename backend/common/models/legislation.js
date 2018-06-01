@@ -458,6 +458,11 @@ module.exports = function(Legislation) {
                         name: legislation.legislationName,
                         type: legislation.legislationType
                     });
+                    keenClient.recordEvent('dataViews', {
+                        name: legislation.legislationName,
+                        type: legislation.legislationType
+                    });
+
                     cb(null, legislation)
                 })
             })

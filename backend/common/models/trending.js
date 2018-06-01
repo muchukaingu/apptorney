@@ -1,5 +1,10 @@
 module.exports = function(Trending) {
     const { ObjectId } = require('mongodb') // or ObjectID
+    var Keen = require('keen-analysis')
+
+    // This is your actual Project ID and Write Key
+
+
     Trending.validatesUniquenessOf('sourceId', { message: 'Item already exists' })
     Trending.remoteMethod(
         'addTrend', {
@@ -10,6 +15,54 @@ module.exports = function(Trending) {
             ],
             returns: { arg: 'trends', type: 'Object' }
         })
+
+
+    Trending.remoteMethod(
+            'viewTrends', {
+                http: {
+                    path: '/viewtrends',
+                    verb: 'get'
+                },
+                returns: {
+                    arg: 'trends',
+                    type: 'Object'
+                }
+            })
+        /**
+         * View Trends
+         * @param {String} id 
+         * @callback {Function} cb The callback function
+         */
+
+
+    Trending.viewTrends = function(cb) {
+        var keenClient = new Keen({
+            projectId: '5aaf4c58c9e77c0001692b2b',
+            readKey: 'FA6A891DE65E8D57C7910BCBFB6E2BA9EC60F02D568A390812E41109267B60EEB16D8B90D74E0D70480CC037E830A274517BE15DFF6403B90E17EA990F37BCD9ABD38710B80305B6DF623983A3D9EAC0F8F93391C048DA87646F832BCC520348'
+
+
+        })
+
+        keenClient
+            .query('saved', 'top-views')
+            .then(res => {
+                // Handle response
+                console.log("xxx")
+                cb(null, res)
+
+            })
+            .catch(err => {
+                // Handle error
+                console.log(err)
+            });
+
+
+    }
+
+
+
+
+
 
     /**
      * Add Bookmarks

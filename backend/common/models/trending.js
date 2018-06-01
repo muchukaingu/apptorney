@@ -48,7 +48,7 @@ module.exports = function(Trending) {
         keenClient
             .query('count', {
                 event_collection: 'dataViews',
-                group_by: 'name',
+                group_by: 'title',
                 timeframe: 'this_7_days',
                 limit: 10,
                 order_by: {

@@ -456,11 +456,13 @@ module.exports = function(Legislation) {
                         //record this view for trends
                     keenClient.recordEvent('legislationViews', {
                         name: legislation.legislationName,
-                        type: legislation.legislationType
+                        type: legislation.legislationType,
+                        summary: legislation.preamble
                     });
                     keenClient.recordEvent('dataViews', {
                         name: legislation.legislationName,
-                        type: legislation.legislationType
+                        type: legislation.legislationType,
+                        summary: legislation.preamble
                     });
 
                     cb(null, legislation)

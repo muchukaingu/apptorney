@@ -44,18 +44,46 @@ module.exports = function(Trending) {
         })
 
         keenClient
-            .query('saved', 'top-views')
+            .query('count', {
+                event_collection: 'dataViews',
+                group_by: 'name',
+                timeframe: 'this_7_days',
+                limit: 10,
+                order_by: {
+                    'property_name': 'result',
+                    'direction': 'DESC'
+                }
+
+
+            })
             .then(res => {
-                // Handle response
+                // Handle results
                 console.log("xxx")
-                cb(null, res)
+                cb(null, res.result)
 
             })
             .catch(err => {
-                // Handle error
+                // Handle errors
                 console.log(err)
+
             });
 
+
+        /* keenClient
+             .query('saved', 'top-views', {
+                 order_by: 'result'
+             })
+             .then(res => {
+                 // Handle response
+                 console.log("xxx")
+                 cb(null, res)
+
+             })
+             .catch(err => {
+                 // Handle error
+                 console.log(err)
+             });
+             */
 
     }
 

@@ -421,13 +421,16 @@ module.exports = function(Case) {
 
                 cases.judges = judges
                 keenClient.recordEvent('caseViews', {
-                    name: cases.name,
-                    summary: cases.summaryOfRuling
-
+                    title: cases.name,
+                    summary: cases.summaryOfRuling,
+                    type: "",
+                    sourceId: cases.id
                 });
                 keenClient.recordEvent('dataViews', {
-                    name: cases.name,
-                    summary: cases.summaryOfRuling
+                    title: cases.name,
+                    summary: cases.summaryOfRuling,
+                    type: "",
+                    sourceId: cases.id
                 });
 
                 cb(null, cases)

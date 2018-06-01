@@ -455,14 +455,18 @@ module.exports = function(Legislation) {
                     legislation.legislationType = type.name
                         //record this view for trends
                     keenClient.recordEvent('legislationViews', {
-                        name: legislation.legislationName,
+                        title: legislation.legislationName,
+                        summary: legislation.preamble,
                         type: legislation.legislationType,
-                        summary: legislation.preamble
+                        sourceId: legislation.id
+
                     });
                     keenClient.recordEvent('dataViews', {
-                        name: legislation.legislationName,
+                        title: legislation.legislationName,
+                        summary: legislation.preamble,
                         type: legislation.legislationType,
-                        summary: legislation.preamble
+                        sourceId: legislation.id
+
                     });
 
                     cb(null, legislation)

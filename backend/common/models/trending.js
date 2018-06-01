@@ -25,7 +25,9 @@ module.exports = function(Trending) {
                 },
                 returns: {
                     arg: 'trends',
-                    type: 'Object'
+                    type: 'Object',
+                    root: true
+
                 }
             })
         /**

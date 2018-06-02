@@ -65,12 +65,12 @@ module.exports = function(News) {
                 function(err, cases) {
 
                     cases.forEach(instance => {
-                        results.push({
-                            title: instance.name,
-                            summary: instance.summaryOfRuling,
-                            sourceId: instance.id,
-                            type: 'case'
-                        })
+                        // results.push({
+                        //     title: instance.name,
+                        //     summary: instance.summaryOfRuling,
+                        //     sourceId: instance.id,
+                        //     type: 'case'
+                        // })
                     });
 
                     callback()
@@ -81,7 +81,7 @@ module.exports = function(News) {
             Legislation.find({
                     where: {
                         dateOfAssent: {
-                            gt: new Date(year + '-01-01T18:30:00.000Z')
+                            gt: new Date(year + '-01-01T00:00:00.000Z')
                         }
 
 
@@ -95,7 +95,7 @@ module.exports = function(News) {
                     }
                 },
                 function(err, cases) {
-
+                    console.log(cases)
                     if (cases) {
                         cases.forEach(instance => {
                             results.push({

@@ -81,7 +81,7 @@ module.exports = function(News) {
             Legislation.find({
                     where: {
                         dateOfAssent: {
-                            gt: new Date(year + '01-01T18:30:00.000Z')
+                            gt: new Date(year + '-01-01T18:30:00.000Z')
                         }
 
 

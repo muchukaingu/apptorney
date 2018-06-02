@@ -81,9 +81,9 @@ module.exports = function(News) {
             Legislation.find({
                     where: {
                         dateOfAssent: {
-                            like: '.*' + year + '.*',
-                            options: 'i'
+                            gt: new Date(year + '01-01T18:30:00.000Z')
                         }
+
 
                     },
                     filter: {
@@ -96,14 +96,17 @@ module.exports = function(News) {
                 },
                 function(err, cases) {
 
-                    cases.forEach(instance => {
-                        results.push({
-                            title: instance.legislationName,
-                            summary: instance.preamble,
-                            sourceId: instance.id,
-                            type: 'legislation'
-                        })
-                    });
+                    if (cases) {
+                        cases.forEach(instance => {
+                            results.push({
+                                title: instance.legislationName,
+                                summary: instance.preamble,
+                                sourceId: instance.id,
+                                type: 'legislation'
+                            })
+                        });
+
+                    }
 
                     callback()
 

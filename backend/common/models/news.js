@@ -53,7 +53,7 @@ module.exports = function(News) {
 
 
             Case.find({
-                    where: { 'citation.year': 2012 },
+                    where: { 'citation.year': year },
                     filter: {
                         fields: {
                             name: true,

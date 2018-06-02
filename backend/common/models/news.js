@@ -39,6 +39,18 @@ module.exports = function(News) {
             var app = News.app
 
             var Case = app.models.Case
+            var Legislation = app.models.Legislation
+            var counter = 0;
+            var results = [];
+
+            function callback() {
+                console.log("callback called", results.length)
+                if (counter == 1) {
+                    cb(null, results)
+                }
+                counter++;
+            }
+
 
             Case.find({
                     where: { 'citation.year': 2012 },
@@ -51,7 +63,7 @@ module.exports = function(News) {
                     }
                 },
                 function(err, cases) {
-                    var results = [];
+
                     cases.forEach(instance => {
                         results.push({
                             title: instance.name,
@@ -61,10 +73,43 @@ module.exports = function(News) {
                         })
                     });
 
-                    cb(null, results)
+                    callback()
 
 
                 })
+
+            Legislation.find({
+                    where: {
+                        dateOfAssent: {
+                            like: '.*' + year + '.*',
+                            options: 'i'
+                        }
+
+                    },
+                    filter: {
+                        fields: {
+                            legislationName: true,
+                            preamble: true,
+                            id: true
+                        }
+                    }
+                },
+                function(err, cases) {
+
+                    cases.forEach(instance => {
+                        results.push({
+                            title: instance.legislationName,
+                            summary: instance.preamble,
+                            sourceId: instance.id,
+                            type: 'legislation'
+                        })
+                    });
+
+                    callback()
+
+
+                })
+
         }
         /**
          * Add Bookmarks

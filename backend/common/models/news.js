@@ -65,12 +65,12 @@ module.exports = function(News) {
                 function(err, cases) {
 
                     cases.forEach(instance => {
-                        // results.push({
-                        //     title: instance.name,
-                        //     summary: instance.summaryOfRuling,
-                        //     sourceId: instance.id,
-                        //     type: 'case'
-                        // })
+                        results.push({
+                            title: instance.name,
+                            summary: instance.summaryOfRuling,
+                            sourceId: instance.id,
+                            type: 'case'
+                        })
                     });
 
                     callback()

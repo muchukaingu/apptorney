@@ -1,5 +1,8 @@
 module.exports = function(News) {
     const { ObjectId } = require('mongodb') // or ObjectID
+    var d = new Date();
+    var year = d.getFullYear();
+
     News.validatesUniquenessOf('sourceId', { message: 'News Item already exists' })
     News.remoteMethod(
         'addNews', {
@@ -11,11 +14,43 @@ module.exports = function(News) {
             returns: { arg: 'news', type: 'Object' }
         })
 
+
+    News.remoteMethod(
+        'viewNews', {
+            http: {
+                path: '/viewNews',
+                verb: 'get'
+            },
+            returns: {
+                arg: 'news',
+                type: 'Object',
+                root: true
+            }
+        })
+
     /**
      * Add Bookmarks
      * @param {String} id 
      * @callback {Function} cb The callback function
      */
+
+
+    News.viewNews = function(cb) {
+            var app = News.app
+
+            var Case = app.models.Case
+
+            Case.find({ where: { 'citation.year': year } }, function(err, cases) {
+                cb(null, cases)
+
+
+            })
+        }
+        /**
+         * Add Bookmarks
+         * @param {String} id 
+         * @callback {Function} cb The callback function
+         */
     News.addNews = function(sourceId, type, cb) {
         var app = News.app
         var Case = app.models.Case

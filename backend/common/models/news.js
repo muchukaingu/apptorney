@@ -40,11 +40,31 @@ module.exports = function(News) {
 
             var Case = app.models.Case
 
-            Case.find({ where: { 'citation.year': year } }, function(err, cases) {
-                cb(null, cases)
+            Case.find({
+                    where: { 'citation.year': 2012 },
+                    filter: {
+                        fields: {
+                            name: true,
+                            summaryOfRuling: true,
+                            id: true
+                        }
+                    }
+                },
+                function(err, cases) {
+                    var results = [];
+                    cases.forEach(instance => {
+                        results.push({
+                            title: instance.name,
+                            summary: instance.summaryOfRuling,
+                            sourceId: instance.id,
+                            type: 'case'
+                        })
+                    });
+
+                    cb(null, results)
 
 
-            })
+                })
         }
         /**
          * Add Bookmarks

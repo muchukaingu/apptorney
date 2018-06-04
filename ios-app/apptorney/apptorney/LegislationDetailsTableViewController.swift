@@ -14,9 +14,12 @@ class LegislationDetailsTableViewController: UITableViewController {
         navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
+    let debouncer = Debouncer(interval:0.5)
+    
 
     //@IBOutlet weak var tableView: UITableView!
-    
+    let searchController = UISearchController(searchResultsController: nil)
+    var searchResultsController = UITableViewController()
     var legislationInstance:Legislation!
     var searchText:String = ""
     var preliminaryCaseData:Legislation!
@@ -29,6 +32,7 @@ class LegislationDetailsTableViewController: UITableViewController {
     let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
     @IBOutlet weak var bookmarkButton: UIBarButtonItem!
     var isBookmark:Bool?
+    var searched = false
     
     var loaded = false
     @IBOutlet weak var judgement: UITextView!
@@ -43,6 +47,7 @@ class LegislationDetailsTableViewController: UITableViewController {
         self.configureUIControls()
         tableView.estimatedRowHeight = 80
         tableView.rowHeight = UITableViewAutomaticDimension
+        self.searchController.searchBar.delegate = self
         
     }
     
@@ -54,8 +59,58 @@ class LegislationDetailsTableViewController: UITableViewController {
         //self.tableView.register(nib, forHeaderFooterViewReuseIdentifier: "ExpandableHeaderView")
         self.tableView.register(HeaderView.nib, forHeaderFooterViewReuseIdentifier: HeaderView.identifier)
         
+        //let bookmarkImage    = UIImage(named: "bookmark")!
+        let searchImage  = UIImage(named: "search-tab-fat")!
+        
+        //let bookmarkButton = UIBarButtonItem(image: bookmarkImage, style: .plain, target: self, action:  #selector(didTapBookmarkButton))
+        let searchButton = UIBarButtonItem(image: searchImage, style: .plain, target: self, action:  #selector(didTapSearchButton))
+        
+        navigationItem.rightBarButtonItems = [bookmarkButton, searchButton]
+        
     }
     
+    @objc func didTapBookmarkButton(sender: AnyObject){
+        let bookmark = HomeItem (title: "", summary: "", type: "legislation", sourceId: legislationInstance.id!)
+        HomeItem.addBookmarks(bookmark: bookmark, completionHandler:{(result,error) in
+            let res = result as! Bool
+            if res == true {
+                print("zoona")
+                if self.isBookmark == true {
+                    self.bookmarkButton.image = UIImage()
+                    self.bookmarkButton.setBackgroundImage(UIImage(named: "bookmark"), for: .normal, barMetrics: UIBarMetrics.default)
+                    self.isBookmark = false
+                } else {
+                    self.bookmarkButton.image = UIImage()
+                    self.bookmarkButton.setBackgroundImage(UIImage(named: "bookmark-red-1"), for: .normal, barMetrics: UIBarMetrics.default)
+                    self.isBookmark = true
+                }
+                
+            }
+        })
+    }
+    
+    @objc func didTapSearchButton(sender: AnyObject){
+        //self.searchController = UISearchController(searchResultsController: nil)
+        if #available(iOS 11.0, *) {
+            //navigationController?.navigationBar.prefersLargeTitles = true
+            navigationItem.searchController = self.searchController
+            navigationItem.hidesSearchBarWhenScrolling = false
+            //self.searchController.searchResultsUpdater = self
+            //self.searchController.dimsBackgroundDuringPresentation = true
+            
+            //search black screen fix
+            self.definesPresentationContext = true
+            //self.searchController.searchResultsUpdater = self
+            self.searchController.dimsBackgroundDuringPresentation = false
+            self.searchController.definesPresentationContext = true
+            self.searchController.searchBar.becomeFirstResponder()
+        } else {
+            // Fallback on earlier versions
+            print("show normal bar")
+        }
+        
+        //Setup SearchBar
+    }
     
     func checkBookmark(){
         let userDefaults = UserDefaults.standard
@@ -74,12 +129,14 @@ class LegislationDetailsTableViewController: UITableViewController {
     
     var myFlattenedArray = [FlatLegislationPart]()
     func flattenArray(nestedArray: [LegislationPart]) -> [FlatLegislationPart] {
+        
         for element in nestedArray {
             if element.subParts!.count == 0 {
                 print("adding...")
                 myFlattenedArray.append(FlatLegislationPart(number: element.number, title: element.title, content: element.content, table: element.table, file: element.file))
             } else {
                 print("recursion...")
+                
                 myFlattenedArray.append(FlatLegislationPart(number: element.number, title: element.title, content: element.content, table: element.table, file: element.file))
                 let recursionResult = flattenArray(nestedArray: element.subParts!)
                 /*for part in element.subParts! {
@@ -120,15 +177,19 @@ class LegislationDetailsTableViewController: UITableViewController {
             }
             
             self.removeIndicator()
-            for part in self.legislationInstance.legislationParts!{
+            let parts = self.legislationInstance.legislationParts?.count == 1 ? self.legislationInstance.legislationParts![0].subParts : self.legislationInstance.legislationParts
+            for part in parts! {
                 self.myFlattenedArray = [FlatLegislationPart]()
+                self.myFlattenedArray.append(FlatLegislationPart(number: nil, title: nil, content: part.content, table: nil, file: nil))
                 let flattenedContent = self.flattenArray(nestedArray: part.subParts!)
                 //var attributedString = NSMutableAttributedString(string: part.flatContentNew ?? "")
                 print("Title", part.title)
                 //dump(flattenedContent)
                 let result = NSMutableAttributedString().setHTMLFromString(text: part.flatContentNew ?? "", target: self.searchText, color:UIColor(hex: "f3a435"))
                 let highlighted = result.1 > 0 ? true:false
-                self.sections.append(Section(name:part.title?.uppercased() ?? "", isCollapsed: true, height:0.0, isCollapsible: true, content:flattenedContent, highlighted: highlighted ))
+                let partNumber = part.number ?? ""
+                let partTitle = part.title?.uppercased() ?? ""
+                self.sections.append(Section(name: partNumber + " " + partTitle, isCollapsed: true, height:0.0, isCollapsible: true, content:flattenedContent, highlighted: highlighted ))
             }
             
             
@@ -174,10 +235,18 @@ class LegislationDetailsTableViewController: UITableViewController {
             summarycell.sixthLabel?.text = legislationInstance.preamble
             summarycell.sixthLabel.sizeToFit()
             
-            //let jurisdiction = legislationInstance.jurisdiction?["name"]?.capitalized ?? ""
-            //let location = legislationInstance.location?["name"] ?? ""
-            
             summarycell.thirdLabel?.text = legislationInstance.legislationName
+            
+            if searched {
+                summarycell.sixthLabel.attributedText = NSMutableAttributedString().setHTMLFromString(text: legislationInstance.preamble ?? "", target: self.searchController.searchBar.text!, color:UIColor(hex: "f3a435")).0
+                summarycell.sixthLabel.sizeToFit()
+                
+                //summarycell.thirdLabel?.attributedText = NSMutableAttributedString().setHTMLFromString(text: legislationInstance.legislationName ?? "", target: self.searchController.searchBar.text!, color:UIColor(hex: "f3a435")).0
+            }
+            
+            
+            
+            
             if summarycell.thirdLabel.calculateMaxLines() == 1{
                 heightDiscount = 55
             }
@@ -189,17 +258,7 @@ class LegislationDetailsTableViewController: UITableViewController {
             height = CGFloat(summarycell.thirdLabel.calculateMaxLines() * 0.8 + summarycell.sixthLabel.calculateMaxLines() * 1) * 60
             print(heightDiscount)
             
-            //summarycell.fourthLabel?.text = court + " | " + jurisdiction + " Jurisdiction | " + location
-            //summarycell.fifthLabel?.text = legislationInstance.coram ?? ""
-            //let border:UIView = UIView(frame: CGRect(x: 20,y: 185 - heightDiscount,width: self.tableView.bounds.width-50, height: 4))
-            //border.backgroundColor = UIColor(hex: "000000")//UIColor(red: 0.0/255, green: 0.0/255, blue: 0.0/255, alpha: 1.0)
-            //summarycell.addSubview(border)
-            
-            
-            
-            
-            //summarycell.fourthLabel?.text = location
-            //cell.fifthLabel?.text = preliminaryCaseData.area!.uppercased() + " | " + preliminaryCaseData.caseNumber!
+          
             return summarycell
             //let insets: UIEdgeInsets = cell.mainText.textContainerInset
             
@@ -208,9 +267,21 @@ class LegislationDetailsTableViewController: UITableViewController {
             let cellIndetifier = "DetailCell"
             let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) as! CaseDetailsTableViewCell
             //cell.mainText?.attributedText = sections[index].content
-            cell.titleLabel?.text = sections[index].content![indexPath.row].title
-            cell.mainText?.text = sections[index].content![indexPath.row].content
-            print("xxx")
+            let title = sections[index].content![indexPath.row].title == "" ? "" :  (sections[index].content![indexPath.row].number ?? "") + " " + (sections[index].content![indexPath.row].title ?? "")
+            let content = sections[index].content![indexPath.row].number == "" ? sections[index].content![indexPath.row].content : (sections[index].content![indexPath.row].number ?? "") + " " + (sections[index].content![indexPath.row].content ?? "")
+            cell.titleLabel?.text = title
+            cell.mainText?.text = content
+            
+            if searched {
+                cell.titleLabel.attributedText = NSMutableAttributedString().setHTMLFromString(text: title, target: self.searchController.searchBar.text!, color:UIColor(hex: "f3a435")).0
+                cell.mainText.attributedText = NSMutableAttributedString().setHTMLFromString(text: content!, target: self.searchController.searchBar.text!, color:UIColor(hex: "f3a435")).0
+            }
+            //hack
+            cell.mainText?.textContainerInset = sections[index].content![indexPath.row].content == "" ? UIEdgeInsets.init(top: -10, left: 0, bottom: 0, right: 0) : UIEdgeInsets.init(top: 6, left: 0, bottom: 8, right: 0)
+//            cell.mainText?.contentInset = indexPath.row > 0 && sections[index].content![indexPath.row-1].content == "" ? UIEdgeInsetsMake(-20,0,0,0) : UIEdgeInsetsMake(0,0,0,0)
+//            self.view.bringSubview(toFront: cell.mainText)
+            cell.titleLabel.sizeToFit()
+            cell.mainText.sizeToFit()
             return cell
         }
   
@@ -386,4 +457,39 @@ extension LegislationDetailsTableViewController: HeaderViewDelegate {
     }
 }
 
+
+extension LegislationDetailsTableViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String){
+       
+        debouncer.callback = {
+            print("searching...")
+            self.searched = self.searchController.searchBar.text == "" ?  false : true
+            for i in 0..<self.sections.count  {
+                
+                self.sections[i].isCollapsed = false
+                self.tableView.beginUpdates()
+                self.tableView?.reloadSections([i], with: .fade)
+                self.tableView.endUpdates()
+                
+            }
+            
+        }
+        debouncer.call()
+       
+       
+        
+       
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        print("cancelled------------->")
+        self.searchController.isActive = false
+        if #available(iOS 11.0, *) {
+            navigationItem.searchController = nil
+        } else {
+            // Fallback on earlier versions
+        }
+    }
+    
+}
 

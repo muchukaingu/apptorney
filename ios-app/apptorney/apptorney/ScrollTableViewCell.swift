@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Windless
 protocol ScrollTableViewCellDelegate {
     func tapped(selectedItem:HomeItem?)
 }
@@ -28,6 +29,9 @@ class ScrollTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+
+  
 }
 
 extension ScrollTableViewCell: UICollectionViewDataSource {
@@ -37,7 +41,9 @@ extension ScrollTableViewCell: UICollectionViewDataSource {
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         print("Number of Items\(itemsToDisplay.count)")
+        
         return itemsToDisplay.count//itemsToDisplay.count
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -65,6 +71,7 @@ extension ScrollTableViewCell: UICollectionViewDataSource {
             cell.accessoryImage.image = UIImage(named: "trend")
             cell.bookmarkImage.alpha = 0
         }
+      
         return cell
     }
 }
@@ -81,7 +88,10 @@ extension ScrollTableViewCell : UICollectionViewDelegateFlowLayout {
         let hardCodedPadding:CGFloat = 10
         let itemWidth = collectionView.bounds.width * multiplier
         let itemHeight = collectionView.bounds.height - (2 * hardCodedPadding)
+        
+     
         return CGSize(width: itemWidth, height: itemHeight)
+        
     }
 }
 

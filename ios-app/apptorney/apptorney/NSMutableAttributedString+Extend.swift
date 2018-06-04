@@ -29,7 +29,8 @@ extension NSMutableAttributedString {
     }
     
     func removeSpaces() -> NSMutableAttributedString {
-        let regPattern = "\\n(?=[a-z])"
+        //let regPattern = "\\n(?=[a-z])"
+        let regPattern = "\\{\\s\\}" //hack to remove ghostly curly braces that appear when users searches
         var matchesFound = 0
         if let regex = try? NSRegularExpression(pattern: regPattern, options: []) {
             let matchesArray = regex.matches(in: self.string, options: [], range: NSRange(location: 0, length: self.length))
@@ -53,7 +54,7 @@ extension NSMutableAttributedString {
     
     
     func setHTMLFromString(text: String, target: String, color: UIColor) -> (NSMutableAttributedString, Int){
-        var attributedText = NSMutableAttributedString(string: text).removeSpaces()
+        let attributedText = NSMutableAttributedString(string: text)
         
         let modifiedFont = NSString(format:"<style>h1 {font-size:1.0em; font-weight:600}</style><span style=\"font-family: 'HelveticaNeue-Light'; font-size: 12pt \">%@</span>" as NSString, attributedText)
         
@@ -61,6 +62,7 @@ extension NSMutableAttributedString {
             data: modifiedFont.data(using: String.Encoding.unicode.rawValue, allowLossyConversion: true)!,
             options: [NSAttributedString.DocumentReadingOptionKey.documentType:NSAttributedString.DocumentType.html, NSAttributedString.DocumentReadingOptionKey.characterEncoding: String.Encoding.utf8.rawValue],
             documentAttributes: nil)
+        
         
          let textInArray = [target.capitalized, target.lowercased(), target.uppercased()]
          var count = 0
@@ -71,9 +73,12 @@ extension NSMutableAttributedString {
                 count = count+1
             }
          }
-         
+        
          //let highlighted = count > 0 ? true:false
- 
+        attrStr = attrStr.removeSpaces() //hack to remove ghostly curly braces that appear when users searches
         return (attrStr, count)
     }
+    
+    
+
 }

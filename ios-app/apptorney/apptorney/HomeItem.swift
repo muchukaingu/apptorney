@@ -35,7 +35,7 @@ class HomeItem: Decodable {
                         let json = result!
                         let decoder = JSONDecoder()
                         let items = try decoder.decode([HomeItem].self, from: json)
-                        print(items)
+                        //print(items)
                         completionHandler(items, nil)
                     } catch let error as NSError {
                         print("Error: " + error.localizedDescription)
@@ -76,17 +76,17 @@ class HomeItem: Decodable {
         print("Bookmarking, mafa")
         let api = APIService()
         
-        api.get(endPoint: "/news", parameters: nil, completionHandler: { (result, error) in
+        api.get(endPoint: "/news/viewNews", parameters: nil, completionHandler: { (result, error) in
             if error != nil {
                  completionHandler(nil, error)
                 print(error!)
             }
             else {
                 do {
-                    let json = JSON(result!)["data"]
+                    let json = result!
                     let decoder = JSONDecoder()
-                    let news = try decoder.decode([HomeItem].self, from: json.rawData())
-                    print(news)
+                    let news = try decoder.decode([HomeItem].self, from: json)
+                    //print(news)
                     completionHandler(news, nil)
                 } catch let error as NSError {
                     print("Error: " + error.localizedDescription)
@@ -102,16 +102,16 @@ class HomeItem: Decodable {
         print("Bookmarking, mafa")
         let api = APIService()
        
-        api.get(endPoint: "/trendings", parameters: nil, completionHandler: { (result, error) in
+        api.get(endPoint: "/trendings/viewTrends", parameters: nil, completionHandler: { (result, error) in
             if error != nil {
                 completionHandler(nil, error)
                 print(error!)
             }
             else {
                 do {
-                    let json = JSON(result!)["data"]
+                    let json = result!
                     let decoder = JSONDecoder()
-                    let trends = try decoder.decode([HomeItem].self, from: json.rawData())
+                    let trends = try decoder.decode([HomeItem].self, from: json)
                     print(trends)
                     completionHandler(trends, nil)
                 } catch let error as NSError {

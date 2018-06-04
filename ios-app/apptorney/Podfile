@@ -9,6 +9,7 @@ target 'apptorney' do
   pod 'Crashlytics'
   pod 'Alamofire'
   pod 'SwiftyJSON'
+  pod 'Windless', '~> 0.1.5'
 
   target 'apptorneyTests' do
     inherit! :search_paths

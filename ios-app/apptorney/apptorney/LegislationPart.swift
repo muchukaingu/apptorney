@@ -34,3 +34,22 @@ struct FlatLegislationPart {
         self.file = file ?? File()
     }
 }
+
+struct AttributedFlatLegislationPart {
+    var number:String?
+    var title:NSMutableAttributedString?
+    var content:NSMutableAttributedString?
+    var table: Table?
+    var file: File?
+    
+    init(number:String?, title:NSMutableAttributedString?, content:NSMutableAttributedString?, table:Table?, file:File?) {
+        self.number = number ?? ""
+        self.title = title ?? NSMutableAttributedString(string: "")
+        self.content = content ?? NSMutableAttributedString(string: "")
+        self.table = table ?? Table()
+        self.file = file ?? File()
+    }
+}
+
+
+

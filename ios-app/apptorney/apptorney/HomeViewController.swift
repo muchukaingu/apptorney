@@ -7,6 +7,8 @@
 
 import UIKit
 import Foundation
+import Windless
+
 
 private var defaultsContext = 0
 
@@ -15,6 +17,7 @@ class HomeViewController: UIViewController {
 
 
     @IBOutlet var scanButton:UIBarButtonItem!
+  
     @objc var spinner : UIActivityIndicatorView = UIActivityIndicatorView(frame: CGRect(x: 0,y: 0, width: 50, height: 50)) as UIActivityIndicatorView
     @objc var bgImage: UIImageView = UIImageView()
     @objc var aView : UIView = UIView(frame: CGRect(x: 0,y: 0, width: 50, height: 50)) as UIView
@@ -33,6 +36,7 @@ class HomeViewController: UIViewController {
     var selectedId:String?
     
     var selectedIndexForSeeAll:Int?
+    var loaded = false
     
     
     
@@ -55,10 +59,37 @@ class HomeViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.tableView.isHidden = true
-        print("now presenting CEO of apptorney")
+        //self.tableView.isHidden = true
+        loaded = false
+        
+        loadPlaceholders()
+        tableView.reloadData()
+        print("viewWillAppear")
         navigationController?.setNavigationBarHidden(true, animated: false)
         populateData()
+        
+    }
+    
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+//        self.tableView.reloadData()
+        print("viewDidAppear")
+        Loader.addLoaderTo(self.tableView)
+        
+        
+    }
+    
+    func loadPlaceholders(){
+        self.bookmarks=[]
+        self.news=[]
+        self.trending=[]
+        self.bookmarks.append(HomeItem(title: "No bookmarks yet", summary: "This is a sample bookmark. As you continue to use apptorney and bookmark content, those bookmarks will appear here.", type: "", sourceId: ""))
+        self.news.append(HomeItem(title: "No new items", summary: "Updated content appears here", type: "", sourceId: ""))
+        self.news.append(HomeItem(title: "No new items", summary: "Updated content appears here", type: "", sourceId: ""))
+        self.news.append(HomeItem(title: "No new items", summary: "Updated content appears here", type: "", sourceId: ""))
+        self.trending.append(HomeItem(title: "No trends at the moment", summary: "Trending content appears here", type: "", sourceId: ""))
+        //Loader.addLoaderTo(self.tableView)
         
     }
  
@@ -80,10 +111,16 @@ class HomeViewController: UIViewController {
         
         
         
+        
+    
+        
+        
+        
        
         
     }
     
+
     func loadItems(){
         HomeItem.getBookmarks(completionHandler:{(bookmarks,error) in
             
@@ -112,6 +149,8 @@ class HomeViewController: UIViewController {
                 self.news.append(HomeItem(title: "No new items", summary: "Updated content appears here", type: "", sourceId: ""))
                 self.news.append(HomeItem(title: "No new items", summary: "Updated content appears here", type: "", sourceId: ""))
             }
+            self.loaded = true
+            Loader.removeLoaderFrom(self.tableView)
             self.tableView.reloadData()
             
             
@@ -131,6 +170,8 @@ class HomeViewController: UIViewController {
             
             UIApplication.shared.isNetworkActivityIndicatorVisible = false
         })
+        
+        
         
         
         
@@ -302,27 +343,41 @@ extension HomeViewController:UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cellIndetifier = "scrollCell"
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) as! ScrollTableViewCell
-        cell.section = indexPath.section
-        cell.itemsToDisplay = (cell.section==0) ? self.bookmarks : news
         
-        switch cell.section {
-        case 0:
-            cell.itemsToDisplay = self.bookmarks.reversed()
-        case 1:
-            cell.itemsToDisplay = self.news.reversed()
-        case 2:
-            cell.itemsToDisplay = self.trending.reversed()
-        default:
-             cell.itemsToDisplay = self.bookmarks.reversed()
+        var cellIdentifier = "scrollCell"
+    
+        if loaded {
+            cellIdentifier = "scrollCell"
+            let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! ScrollTableViewCell
+            cell.section = indexPath.section
+            cell.itemsToDisplay = (cell.section==0) ? self.bookmarks : news
+            
+            switch cell.section {
+            case 0:
+                cell.itemsToDisplay = self.bookmarks.reversed()
+            case 1:
+                cell.itemsToDisplay = self.news.reversed()
+            case 2:
+                cell.itemsToDisplay = self.trending.reversed()
+            default:
+                cell.itemsToDisplay = self.bookmarks.reversed()
+            }
+            
+            //cell.itemsToDisplay = self.bookmarks
+            cell.accessoryType = UITableViewCellAccessoryType.none
+            cell.collectionView.reloadData()
+            cell.delegate = self as ScrollTableViewCellDelegate
+            return cell
+            
+        } else {
+            cellIdentifier = "skeletonCell"
+            let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
+            return cell
         }
         
-        //cell.itemsToDisplay = self.bookmarks
-        cell.accessoryType = UITableViewCellAccessoryType.none
-        cell.collectionView.reloadData()
-        cell.delegate = self as ScrollTableViewCellDelegate
-        return cell
+        return UITableViewCell()
+        
+        
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -353,10 +408,15 @@ extension HomeViewController:UITableViewDataSource {
         }
 
         headerCell.accessoryType = UITableViewCellAccessoryType.none
+        
         return headerCell
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        
+        if !loaded {
+            return 0
+        }
         return 40
     }
     

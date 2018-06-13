@@ -20,9 +20,11 @@ class CaseDetailsTableViewController: UITableViewController {
     var strLabel = UILabel()
     let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
     var isBookmark:Bool?
-    
+    let searchController = UISearchController(searchResultsController: nil)
+    var searchResultsController = UITableViewController()
     @IBOutlet weak var bookmarkButton: UIBarButtonItem!
-    
+    let debouncer = Debouncer(interval:0.5)
+    var searched = false
     var loaded = false
     @IBOutlet weak var judgement: UITextView!
     
@@ -49,6 +51,8 @@ class CaseDetailsTableViewController: UITableViewController {
         tableView.estimatedRowHeight = 80
         tableView.rowHeight = UITableViewAutomaticDimension
         self.preliminaryCaseData = self.caseInstance
+        self.searchController.searchBar.delegate = self
+
         self.populateCase()
         self.configureUIControls()
     }
@@ -74,6 +78,30 @@ class CaseDetailsTableViewController: UITableViewController {
         //let nib = UINib(nibName: "ExpandableHeaderView", bundle: nil)
         //self.tableView.register(nib, forHeaderFooterViewReuseIdentifier: "ExpandableHeaderView")
         self.tableView.register(HeaderView.nib, forHeaderFooterViewReuseIdentifier: HeaderView.identifier)
+        
+        
+        
+        //self.searchController = UISearchController(searchResultsController: nil)
+        if #available(iOS 11.0, *) {
+            //navigationController?.navigationBar.prefersLargeTitles = true
+            navigationItem.searchController = self.searchController
+            navigationItem.hidesSearchBarWhenScrolling = false
+            //self.searchController.searchResultsUpdater = self
+            //self.searchController.dimsBackgroundDuringPresentation = true
+            
+            //search black screen fix
+            self.definesPresentationContext = true
+            //self.searchController.searchResultsUpdater = self
+            self.searchController.dimsBackgroundDuringPresentation = false
+            self.searchController.definesPresentationContext = true
+            self.searchController.searchBar.becomeFirstResponder()
+            self.searchController.searchBar.placeholder = "Search within this case"
+        } else {
+            // Fallback on earlier versions
+            print("show normal bar")
+        }
+        
+        //Setup SearchBar
 
     }
     
@@ -146,25 +174,39 @@ class CaseDetailsTableViewController: UITableViewController {
                 let cellIndetifier = "DetailCell"
                 let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) as! CaseDetailsTableViewCell
                 cell.mainText?.text = caseInstance.summaryOfRuling
-                //let insets: UIEdgeInsets = cell.mainText.textContainerInset
+                if searched {
+                    cell.mainText.attributedText = NSMutableAttributedString().setHTMLFromString(text: caseInstance.summaryOfRuling ?? "", target: self.searchController.searchBar.text!, color:UIColor(hex: "f3a435")).0
+                    cell.mainText.sizeToFit()
+                }
+               
                 return cell
            
             case 2:
                 let cellIndetifier = "DetailCell"
                 let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) as! CaseDetailsTableViewCell
                 cell.mainText?.text = caseInstance.summaryOfFacts
-                print(cell.mainText.frame.size.height)
+                if searched {
+                    cell.mainText.attributedText = NSMutableAttributedString().setHTMLFromString(text: caseInstance.summaryOfFacts ?? "", target: self.searchController.searchBar.text!, color:UIColor(hex: "f3a435")).0
+                    cell.mainText.sizeToFit()
+                }
                 return cell
             case 3:
                 let cellIndetifier = "DetailCell"
                 let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) as! CaseDetailsTableViewCell
                 cell.mainText?.text = caseInstance.judgement
-                print(cell.mainText.frame.size.height)
+                if searched {
+                    cell.mainText.attributedText = NSMutableAttributedString().setHTMLFromString(text: caseInstance.judgement ?? "", target: self.searchController.searchBar.text!, color:UIColor(hex: "f3a435")).0
+                    cell.mainText.sizeToFit()
+                }
                 return cell
             case 4:
                 let cellIndetifier = "Cell"
                 let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath)
                 cell.textLabel?.text = caseInstance.casesReferedTo![index-4 + indexPath.row].name?.capitalized
+                if searched {
+                    cell.textLabel?.attributedText = NSMutableAttributedString().setHTMLFromString(text: cell.textLabel?.text ?? "", target: self.searchController.searchBar.text!, color:UIColor(hex: "f3a435")).0
+                    cell.textLabel?.sizeToFit()
+                }
                 cell.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
         
                 return cell
@@ -173,6 +215,10 @@ class CaseDetailsTableViewController: UITableViewController {
                 let cellIndetifier = "Cell"
                 let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) //as! UITableViewCell
                 cell.textLabel?.text = caseInstance.legislationsReferedTo![index-5 + indexPath.row].legislationName?.capitalized
+                if searched {
+                    cell.textLabel?.attributedText = NSMutableAttributedString().setHTMLFromString(text: cell.textLabel?.text ?? "", target: self.searchController.searchBar.text!, color:UIColor(hex: "f3a435")).0
+                    cell.textLabel?.sizeToFit()
+                }
                 cell.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
                 return cell
             
@@ -385,4 +431,35 @@ extension CaseDetailsTableViewController: HeaderViewDelegate {
 
 
     }
+}
+
+
+
+extension CaseDetailsTableViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String){
+        
+        debouncer.callback = {
+            print("searching...")
+            self.searched = self.searchController.searchBar.text == "" ?  false : true
+            for i in 0..<self.sections.count  {
+                
+                self.sections[i].isCollapsed = false
+                self.tableView.beginUpdates()
+                self.tableView?.reloadSections([i], with: .fade)
+                self.tableView.endUpdates()
+                
+            }
+            
+        }
+        debouncer.call()
+        
+        
+        
+        
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        
+    }
+    
 }

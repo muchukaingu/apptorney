@@ -65,7 +65,30 @@ class LegislationDetailsTableViewController: UITableViewController {
         //let bookmarkButton = UIBarButtonItem(image: bookmarkImage, style: .plain, target: self, action:  #selector(didTapBookmarkButton))
         let searchButton = UIBarButtonItem(image: searchImage, style: .plain, target: self, action:  #selector(didTapSearchButton))
         
-        navigationItem.rightBarButtonItems = [bookmarkButton, searchButton]
+        //navigationItem.rightBarButtonItems = [bookmarkButton, searchButton]
+        
+        
+        //self.searchController = UISearchController(searchResultsController: nil)
+        if #available(iOS 11.0, *) {
+            //navigationController?.navigationBar.prefersLargeTitles = true
+            navigationItem.searchController = self.searchController
+            navigationItem.hidesSearchBarWhenScrolling = false
+            //self.searchController.searchResultsUpdater = self
+            //self.searchController.dimsBackgroundDuringPresentation = true
+            
+            //search black screen fix
+            self.definesPresentationContext = true
+            //self.searchController.searchResultsUpdater = self
+            self.searchController.dimsBackgroundDuringPresentation = false
+            self.searchController.definesPresentationContext = true
+            self.searchController.searchBar.becomeFirstResponder()
+            self.searchController.searchBar.placeholder = "Search within this legislation"
+        } else {
+            // Fallback on earlier versions
+            print("show normal bar")
+        }
+        
+        //Setup SearchBar
         
     }
     
@@ -90,26 +113,7 @@ class LegislationDetailsTableViewController: UITableViewController {
     }
     
     @objc func didTapSearchButton(sender: AnyObject){
-        //self.searchController = UISearchController(searchResultsController: nil)
-        if #available(iOS 11.0, *) {
-            //navigationController?.navigationBar.prefersLargeTitles = true
-            navigationItem.searchController = self.searchController
-            navigationItem.hidesSearchBarWhenScrolling = false
-            //self.searchController.searchResultsUpdater = self
-            //self.searchController.dimsBackgroundDuringPresentation = true
-            
-            //search black screen fix
-            self.definesPresentationContext = true
-            //self.searchController.searchResultsUpdater = self
-            self.searchController.dimsBackgroundDuringPresentation = false
-            self.searchController.definesPresentationContext = true
-            self.searchController.searchBar.becomeFirstResponder()
-        } else {
-            // Fallback on earlier versions
-            print("show normal bar")
-        }
-        
-        //Setup SearchBar
+       
     }
     
     func checkBookmark(){
@@ -183,7 +187,7 @@ class LegislationDetailsTableViewController: UITableViewController {
                 self.myFlattenedArray.append(FlatLegislationPart(number: nil, title: nil, content: part.content, table: nil, file: nil))
                 let flattenedContent = self.flattenArray(nestedArray: part.subParts!)
                 //var attributedString = NSMutableAttributedString(string: part.flatContentNew ?? "")
-                print("Title", part.title)
+                print("Title", part.title ?? "")
                 //dump(flattenedContent)
                 let result = NSMutableAttributedString().setHTMLFromString(text: part.flatContentNew ?? "", target: self.searchText, color:UIColor(hex: "f3a435"))
                 let highlighted = result.1 > 0 ? true:false
@@ -309,8 +313,7 @@ class LegislationDetailsTableViewController: UITableViewController {
     
         return sections.count
     }
-    
-    
+
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         /*
@@ -332,6 +335,9 @@ class LegislationDetailsTableViewController: UITableViewController {
     
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if section == 0 {
+            return 0
+        }
         return 40.0
     }
     /*
@@ -482,13 +488,7 @@ extension LegislationDetailsTableViewController: UISearchBarDelegate {
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        print("cancelled------------->")
-        self.searchController.isActive = false
-        if #available(iOS 11.0, *) {
-            navigationItem.searchController = nil
-        } else {
-            // Fallback on earlier versions
-        }
+       
     }
     
 }

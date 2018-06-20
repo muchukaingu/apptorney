@@ -410,7 +410,8 @@ angular.module('apptorney')
                                 citation: true,
                                 deleted: true,
                                 isStub: true,
-                                notes: true
+                                notes: true,
+                                summariesReview: true
 
                             }
                         }

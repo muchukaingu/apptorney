@@ -1,4 +1,4 @@
-var whitelist = ["https://apptorney.circuitbusiness.com", "https://apptorney-cms.eu-gb.mybluemix.net"];
+var whitelist = ['https://apptorney.circuitbusiness.com', 'https://apptorney-cms.eu-gb.mybluemix.net'];
 module.exports = {
     "initial": {
         "cors": {

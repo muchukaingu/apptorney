@@ -20,7 +20,11 @@ app.start = function() {
     // start the web server
     return app.listen(function() {
         app.emit('started');
-        app.options('*', cors()) // include before other routes
+        var corsOptions = {
+            origin: 'apptorney-cms.eu-gb.mybluemix.net',
+            optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+        }
+        app.options('*', cors(corsOptions)) // include before other routes
         var baseUrl = app.get('url').replace(/\/$/, '');
 
         console.log('Web server listening at: %s', baseUrl);

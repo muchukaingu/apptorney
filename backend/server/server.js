@@ -12,15 +12,6 @@ var app = module.exports = loopback();
 app.use(loopback.static(path.resolve(__dirname, '../client')));
 
 
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "https://apptorney.circuitbusiness.com");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
-
-
-
-
 app.start = function() {
     // start the web server
     return app.listen(function() {

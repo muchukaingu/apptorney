@@ -11,7 +11,7 @@ var cors = require('cors')
 
 //app.use(loopback.compress());
 
-app.options('*', cors()) // include before other routes
+
 
 app.use(loopback.static(path.resolve(__dirname, '../client')));
 
@@ -20,7 +20,9 @@ app.start = function() {
     // start the web server
     return app.listen(function() {
         app.emit('started');
+        app.options('*', cors()) // include before other routes
         var baseUrl = app.get('url').replace(/\/$/, '');
+
         console.log('Web server listening at: %s', baseUrl);
         if (app.get('loopback-component-explorer')) {
             var explorerPath = app.get('loopback-component-explorer').mountPath;

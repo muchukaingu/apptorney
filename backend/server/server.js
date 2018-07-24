@@ -7,7 +7,11 @@ var path = require('path');
 
 var app = module.exports = loopback();
 
+var cors = require('cors')
+
 //app.use(loopback.compress());
+
+app.options('*', cors()) // include before other routes
 
 app.use(loopback.static(path.resolve(__dirname, '../client')));
 

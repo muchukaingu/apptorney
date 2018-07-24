@@ -10,7 +10,7 @@
         },
         "cors": {
             "params": {
-                "origin": ["https://apptorney.circuitbusiness.com"],
+                "origin": ["https://apptorney.circuitbusiness.com", "https://apptorney-cms.eu-gb.mybluemix.net"],
                 "credentials": true,
                 "maxAge": 86400
             }

@@ -1,8 +1,9 @@
 PODS:
-  - Alamofire (4.7.2)
-  - Crashlytics (3.10.2):
-    - Fabric (~> 1.7.7)
-  - Fabric (1.7.7)
+  - Alamofire (4.7.3)
+  - Crashlytics (3.10.5):
+    - Fabric (~> 1.7.9)
+  - Fabric (1.7.9)
+  - paper-onboarding (4.1.0)
   - SkyFloatingLabelTextField (3.5.1)
   - SwiftyJSON (4.1.0)
   - Windless (0.1.5)
@@ -10,18 +11,30 @@ PODS:
 DEPENDENCIES:
   - Alamofire
   - Crashlytics
+  - paper-onboarding
   - SkyFloatingLabelTextField (~> 3.0)
   - SwiftyJSON
   - Windless (~> 0.1.5)
 
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Alamofire
+    - Crashlytics
+    - Fabric
+    - paper-onboarding
+    - SkyFloatingLabelTextField
+    - SwiftyJSON
+    - Windless
+
 SPEC CHECKSUMS:
-  Alamofire: e4fa87002c137ba2d8d634d2c51fabcda0d5c223
-  Crashlytics: 0360624eea1c978a743feddb2fb1ef8b37fb7a0d
-  Fabric: bda89e242bce1b7b8ab264248cf3407774ce0095
+  Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
+  Crashlytics: 7f2e38d302d9da96475b3d64d86fb29e31a542b7
+  Fabric: a2917d3895e4c1569b9c3170de7320ea1b1e6661
+  paper-onboarding: 344780cbb0bfc229cd1862f5b9bba446b23c5185
   SkyFloatingLabelTextField: 4cbeece9c3aae97c6019d8fae511cb5b755874f7
   SwiftyJSON: c29297daf073d2aa016295d5809cdd68045c39b3
   Windless: c6b7d63ac3a0c7e6b241e316650d4605abf71894
 
-PODFILE CHECKSUM: 4c755c7c2323b673595b9c07d2507a0b30ca3ded
+PODFILE CHECKSUM: 6e560778ccb96172164bc9e761ff982db9a770b2
 
-COCOAPODS: 1.4.0
+COCOAPODS: 1.5.3

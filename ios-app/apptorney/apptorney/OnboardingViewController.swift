@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import PaperOnboarding
+import paper_onboarding
 
 class OnboardingViewController: UIViewController, PaperOnboardingDataSource, PaperOnboardingDelegate {
     var currentIndex = 0
@@ -53,6 +53,12 @@ class OnboardingViewController: UIViewController, PaperOnboardingDataSource, Pap
                            pageIcon: UIImage(),
                            color: UIColor.white,
                            titleColor: UIColor.black, descriptionColor: UIColor.black, titleFont: titleFont, descriptionFont: descriptionFont),
+        OnboardingItemInfo(informationImage: UIImage(named: "gift")!,
+                           title: "1 Month Free Trial",
+                           description: "Apptorney auto-renewing subscription allows you to continue accessing the full functionality of the app. Payment will be charged to your elected payment method at the end of the trial period. Auto-renewal may be turned off at any time by going to the settings section of the app. For information, please view our Terms of Service and Privacy Policy.",
+                           pageIcon: UIImage(),
+                           color: UIColor.white,
+                           titleColor: UIColor.black, descriptionColor: UIColor.black, titleFont: titleFont, descriptionFont: descriptionFont),
         
         ]
     override func viewDidLoad() {
@@ -60,6 +66,7 @@ class OnboardingViewController: UIViewController, PaperOnboardingDataSource, Pap
         onboardingView.dataSource = self
         onboardingView.delegate = self
         self.getStartedButton.alpha = 0
+        //self.getStartedButton.setTitle("Ge", for: .normal)
         self.getStartedButton.layer.cornerRadius = self.getStartedButton.frame.height/6
         
         
@@ -67,7 +74,7 @@ class OnboardingViewController: UIViewController, PaperOnboardingDataSource, Pap
     
     
     func onboardingItemsCount() -> Int {
-        return 5
+        return 6
     }
     
    func onboardingItem(at index: Int) -> OnboardingItemInfo {
@@ -90,7 +97,7 @@ class OnboardingViewController: UIViewController, PaperOnboardingDataSource, Pap
     
     
     func onboardingWillTransitonToIndex(_ index: Int) {
-        if index == 3 {
+        if index == 4 {
             
             if self.getStartedButton.alpha == 1 {
                 UIView.animate(withDuration: 0.2, animations: {
@@ -107,7 +114,7 @@ class OnboardingViewController: UIViewController, PaperOnboardingDataSource, Pap
     }
     
     func onboardingDidTransitonToIndex(_ index: Int) {
-        if index == 4 {
+        if index == 5 {
             UIView.animate(withDuration: 0.4, animations: {
                 self.nextButton.alpha = 0
                 self.getStartedButton.alpha = 1
@@ -157,7 +164,7 @@ class OnboardingViewController: UIViewController, PaperOnboardingDataSource, Pap
 
 extension OnboardingViewController {
     private static let titleFont = UIFont(name: "AvenirNext-Bold", size: 24)!
-    private static let descriptionFont = UIFont(name: "AvenirNext-Regular", size: 18)!
+    private static let descriptionFont = UIFont(name: "AvenirNext-Regular", size: 17)!
     
 //    private static let titleFont = UIFont(name: "Nunito-Bold", size: 36.0) ?? UIFont.boldSystemFont(ofSize: 36.0)
 //    private static let descriptionFont = UIFont(name: "OpenSans-Regular", size: 14.0) ?? UIFont.systemFont(ofSize: 14.0)

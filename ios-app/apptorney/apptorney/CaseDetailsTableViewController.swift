@@ -11,14 +11,16 @@ import UIKit
 
 class CaseDetailsTableViewController: UITableViewController {
     
+    lazy private var activityIndicator : SYActivityIndicatorView = {
+        let image = UIImage(named: "spinner.png")
+        return SYActivityIndicatorView(image: image)
+    }()
+    
     var caseInstance:Case!
     var preliminaryCaseData:Case!
     //@IBOutlet weak var judgementHeight: NSLayoutConstraint!
     var heightDiscount:CGFloat = 0
     let messageFrame = UIView()
-    var activityIndicator = UIActivityIndicatorView()
-    var strLabel = UILabel()
-    let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
     var isBookmark:Bool?
     let searchController = UISearchController(searchResultsController: nil)
     var searchResultsController = UITableViewController()
@@ -27,7 +29,7 @@ class CaseDetailsTableViewController: UITableViewController {
     var searched = false
     var loaded = false
     @IBOutlet weak var judgement: UITextView!
-    
+    /*
     var sections = [
         Section(name: "",
                 isCollapsed: false, height:0.0, isCollapsible: false, content:nil, highlighted: false),
@@ -42,11 +44,27 @@ class CaseDetailsTableViewController: UITableViewController {
         Section(name: "Legislations Referenced".uppercased(),
                 isCollapsed: true, height:0.0, isCollapsible: true, content:nil, highlighted: false)
     ]
+    */
+    
+    var sections = [
+        Section(name: "",
+                isCollapsed: false, height:0.0, isCollapsible: false, content:nil, highlighted: false),
+        Section(name: "Holding".uppercased(),
+                isCollapsed: true, height:0.0, isCollapsible: true, content:nil, highlighted: false),
+        Section(name: "Cases Referenced".uppercased(),
+                isCollapsed: true, height:0.0, isCollapsible: true, content:nil, highlighted: false),
+        Section(name: "Legislations Referenced".uppercased(),
+                isCollapsed: true, height:0.0, isCollapsible: true, content:nil, highlighted: false)
+    ]
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        activityIndicator("Loading Case")
+        self.view.addSubview(activityIndicator)
+        activityIndicator.center = self.view.center
+        activityIndicator.center.y = self.view.center.y - 100.0
+        activityIndicator.startAnimating()
+        
         //self.tableView.isHidden = true
         tableView.estimatedRowHeight = 80
         tableView.rowHeight = UITableViewAutomaticDimension
@@ -55,6 +73,23 @@ class CaseDetailsTableViewController: UITableViewController {
 
         self.populateCase()
         self.configureUIControls()
+        toggleLoadingMode()
+    }
+    
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        //        self.tableView.reloadData()
+        print("viewDidAppear")
+        //Loader.addLoaderTo(self.tableView)
+    
+        
+        
+    }
+    
+    func toggleLoadingMode(){
+        self.tabBarController?.tabBar.isHidden = true
+        self.navigationController?.isNavigationBarHidden = true
     }
     
     func checkBookmark(){
@@ -80,6 +115,15 @@ class CaseDetailsTableViewController: UITableViewController {
         self.tableView.register(HeaderView.nib, forHeaderFooterViewReuseIdentifier: HeaderView.identifier)
         
         
+        let feedbackBtn: UIButton = UIButton(type: UIButtonType.custom)
+        feedbackBtn.setImage(UIImage(named: "feedback-2"), for: [])
+        feedbackBtn.addTarget(self, action: #selector(didTapFeedbackButton), for: UIControlEvents.touchUpInside)
+        feedbackBtn.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        let feedbackButton = UIBarButtonItem(customView: feedbackBtn)
+        
+        navigationItem.rightBarButtonItems = [bookmarkButton, feedbackButton]
+        
+        
         
         //self.searchController = UISearchController(searchResultsController: nil)
         if #available(iOS 11.0, *) {
@@ -103,6 +147,30 @@ class CaseDetailsTableViewController: UITableViewController {
         
         //Setup SearchBar
 
+    }
+    
+    
+    @objc func didTapFeedbackButton(sender: AnyObject){
+        //1. Create the alert controller.
+        let alert = UIAlertController(title: "Feedback", message: "Please provide your feedback below.", preferredStyle: .alert)
+        
+        //2. Add the text field. You can configure it however you need.
+        alert.addTextField { (textField) in
+            textField.placeholder = "Type your feedback here"
+            
+        }
+        
+        
+        
+        // 3. Grab the value from the text field, and print it when the user clicks OK.
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+            let textField = alert?.textFields![0] // Force unwrapping because we know it exists.
+            print("Text field: \(textField?.text ?? "")")
+            
+        }))
+        
+        // 4. Present the alert.
+        self.present(alert, animated: true, completion: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -137,7 +205,7 @@ class CaseDetailsTableViewController: UITableViewController {
                 let summarycell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) as! CaseDetailsSummaryCell
                 //cell.textLabel?.text = "Name of Case"
                 summarycell.firstLabel?.text = preliminaryCaseData.areaOfLaw?.name?.capitalized
-                summarycell.secondLabel?.text = caseInstance.caseNumber!
+                summarycell.secondLabel?.text = caseInstance.caseNumber ?? ""
                 let court = caseInstance.court?.name ?? ""
                 //let courtDivision = caseInstance.courtDivision?["name"] ?? ""
                 let jurisdiction = caseInstance.jurisdiction?.name ?? ""
@@ -170,27 +238,8 @@ class CaseDetailsTableViewController: UITableViewController {
                 return summarycell
                 //let insets: UIEdgeInsets = cell.mainText.textContainerInset
             
+            
             case 1:
-                let cellIndetifier = "DetailCell"
-                let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) as! CaseDetailsTableViewCell
-                cell.mainText?.text = caseInstance.summaryOfRuling
-                if searched {
-                    cell.mainText.attributedText = NSMutableAttributedString().setHTMLFromString(text: caseInstance.summaryOfRuling ?? "", target: self.searchController.searchBar.text!, color:UIColor(hex: "f3a435")).0
-                    cell.mainText.sizeToFit()
-                }
-               
-                return cell
-           
-            case 2:
-                let cellIndetifier = "DetailCell"
-                let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) as! CaseDetailsTableViewCell
-                cell.mainText?.text = caseInstance.summaryOfFacts
-                if searched {
-                    cell.mainText.attributedText = NSMutableAttributedString().setHTMLFromString(text: caseInstance.summaryOfFacts ?? "", target: self.searchController.searchBar.text!, color:UIColor(hex: "f3a435")).0
-                    cell.mainText.sizeToFit()
-                }
-                return cell
-            case 3:
                 let cellIndetifier = "DetailCell"
                 let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) as! CaseDetailsTableViewCell
                 cell.mainText?.text = caseInstance.judgement
@@ -199,7 +248,7 @@ class CaseDetailsTableViewController: UITableViewController {
                     cell.mainText.sizeToFit()
                 }
                 return cell
-            case 4:
+            case 2:
                 let cellIndetifier = "Cell"
                 let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath)
                 cell.textLabel?.text = caseInstance.casesReferedTo![index-4 + indexPath.row].name?.capitalized
@@ -211,7 +260,7 @@ class CaseDetailsTableViewController: UITableViewController {
         
                 return cell
             
-            case 5:
+            case 3:
                 let cellIndetifier = "Cell"
                 let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) //as! UITableViewCell
                 cell.textLabel?.text = caseInstance.legislationsReferedTo![index-5 + indexPath.row].legislationName?.capitalized
@@ -343,34 +392,11 @@ class CaseDetailsTableViewController: UITableViewController {
         print("Yebo Yes")
     }
     
-    func activityIndicator(_ title: String) {
-        
-        strLabel.removeFromSuperview()
-        activityIndicator.removeFromSuperview()
-        effectView.removeFromSuperview()
-        
-        strLabel = UILabel(frame: CGRect(x: 50, y: 0, width: 160, height: 46))
-        strLabel.text = title
-        strLabel.font = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.medium)
-        strLabel.textColor = UIColor(white: 0.9, alpha: 0.7)
-        
-        effectView.frame = CGRect(x: view.frame.midX - strLabel.frame.width/2, y: view.frame.midY - 40 - strLabel.frame.height/2 , width: 160, height: 46)
-        effectView.layer.cornerRadius = 15
-        effectView.layer.masksToBounds = true
-        
-        activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .white)
-        activityIndicator.frame = CGRect(x: 0, y: 0, width: 46, height: 46)
-        activityIndicator.startAnimating()
-        
-        effectView.contentView.addSubview(activityIndicator)
-        effectView.contentView.addSubview(strLabel)
-        view.addSubview(effectView)
-    }
+
     
     func removeIndicator(){
-        strLabel.removeFromSuperview()
-        activityIndicator.removeFromSuperview()
-        effectView.removeFromSuperview()
+        self.activityIndicator.stopAnimating()
+        self.tabBarController?.tabBar.isHidden = false
     }
     
     @IBAction func bookmark(_ sender: Any) {

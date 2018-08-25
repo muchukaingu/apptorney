@@ -29,8 +29,8 @@ class Case: Decodable  {
     var location: Location?
     var jurisdiction: Jurisdiction?
     var areaOfLaw: AreaOfLaw?
-    var plaintiffSynonym: Synonym?
-    var defendantSynonym: Synonym?
+    //var plaintiffSynonym: Synonym?
+    //var defendantSynonym: Synonym?
     var workReferedTo:[WorkReference]?
     var legislationsReferedTo: [Legislation]?
     var casesReferedTo: [Case]?

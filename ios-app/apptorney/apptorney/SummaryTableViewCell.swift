@@ -12,6 +12,7 @@ class SummaryTableViewCell: UITableViewCell {
     @IBOutlet weak var name:UILabel!
     @IBOutlet weak var summary:UILabel?
     @IBOutlet weak var containerView: UIView!
+    @IBOutlet weak var icon: UIImageView!
     
     
     override func layoutSubviews() {

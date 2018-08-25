@@ -9,9 +9,17 @@
 import UIKit
 
 class LegislationDetailsTableViewController: UITableViewController {
+    
+    lazy private var activityIndicator : SYActivityIndicatorView = {
+        let image = UIImage(named: "spinner.png")
+        return SYActivityIndicatorView(image: image)
+    }()
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: false)
+        navigationController?.navigationBar.isTranslucent = false
+        self.navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
     }
     
     let debouncer = Debouncer(interval:0.5)
@@ -26,10 +34,9 @@ class LegislationDetailsTableViewController: UITableViewController {
     //@IBOutlet weak var judgementHeight: NSLayoutConstraint!
     var height:CGFloat = 0
     var heightDiscount:CGFloat = 0
-    let messageFrame = UIView()
-    var activityIndicator = UIActivityIndicatorView()
-    var strLabel = UILabel()
-    let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
+   
+    
+   
     @IBOutlet weak var bookmarkButton: UIBarButtonItem!
     var isBookmark:Bool?
     var searched = false
@@ -42,18 +49,34 @@ class LegislationDetailsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        activityIndicator("Loading Legislation")
+        self.view.addSubview(activityIndicator)
+        activityIndicator.center = self.view.center
+        activityIndicator.center.y = self.view.center.y - 100.0
+        activityIndicator.startAnimating()
         self.populateLegislation()
-        self.configureUIControls()
+        //self.configureUIControls()
         tableView.estimatedRowHeight = 80
         tableView.rowHeight = UITableViewAutomaticDimension
         self.searchController.searchBar.delegate = self
         
+        
+        self.view.addSubview(activityIndicator)
+        activityIndicator.center = self.view.center
+        activityIndicator.center.y = self.view.center.y - 100.0
+        activityIndicator.startAnimating()
+        toggleLoadingMode()
+        
+    }
+    
+    func toggleLoadingMode(){
+         self.tabBarController?.tabBar.isHidden = true
+        self.navigationController?.isNavigationBarHidden = true
     }
     
     
     func configureUIControls () { //for cutomising controls on the UI
-        
+         navigationController?.navigationBar.isTranslucent = true
+         self.navigationController?.navigationBar.setValue(false, forKey: "hidesShadow")
         self.tableView.tableFooterView = UIView(frame: CGRect.zero) //remove trailing separators after content
         //let nib = UINib(nibName: "ExpandableHeaderView", bundle: nil)
         //self.tableView.register(nib, forHeaderFooterViewReuseIdentifier: "ExpandableHeaderView")
@@ -65,7 +88,13 @@ class LegislationDetailsTableViewController: UITableViewController {
         //let bookmarkButton = UIBarButtonItem(image: bookmarkImage, style: .plain, target: self, action:  #selector(didTapBookmarkButton))
         let searchButton = UIBarButtonItem(image: searchImage, style: .plain, target: self, action:  #selector(didTapSearchButton))
         
-        //navigationItem.rightBarButtonItems = [bookmarkButton, searchButton]
+        let feedbackBtn: UIButton = UIButton(type: UIButtonType.custom)
+        feedbackBtn.setImage(UIImage(named: "feedback-2"), for: [])
+        feedbackBtn.addTarget(self, action: #selector(didTapFeedbackButton), for: UIControlEvents.touchUpInside)
+        feedbackBtn.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        let feedbackButton = UIBarButtonItem(customView: feedbackBtn)
+        
+        navigationItem.rightBarButtonItems = [bookmarkButton, feedbackButton]
         
         
         //self.searchController = UISearchController(searchResultsController: nil)
@@ -81,7 +110,7 @@ class LegislationDetailsTableViewController: UITableViewController {
             //self.searchController.searchResultsUpdater = self
             self.searchController.dimsBackgroundDuringPresentation = false
             self.searchController.definesPresentationContext = true
-            self.searchController.searchBar.becomeFirstResponder()
+            //self.searchController.searchBar.becomeFirstResponder()
             self.searchController.searchBar.placeholder = "Search within this legislation"
         } else {
             // Fallback on earlier versions
@@ -92,24 +121,27 @@ class LegislationDetailsTableViewController: UITableViewController {
         
     }
     
-    @objc func didTapBookmarkButton(sender: AnyObject){
-        let bookmark = HomeItem (title: "", summary: "", type: "legislation", sourceId: legislationInstance.id!)
-        HomeItem.addBookmarks(bookmark: bookmark, completionHandler:{(result,error) in
-            let res = result as! Bool
-            if res == true {
-                print("zoona")
-                if self.isBookmark == true {
-                    self.bookmarkButton.image = UIImage()
-                    self.bookmarkButton.setBackgroundImage(UIImage(named: "bookmark"), for: .normal, barMetrics: UIBarMetrics.default)
-                    self.isBookmark = false
-                } else {
-                    self.bookmarkButton.image = UIImage()
-                    self.bookmarkButton.setBackgroundImage(UIImage(named: "bookmark-red-1"), for: .normal, barMetrics: UIBarMetrics.default)
-                    self.isBookmark = true
-                }
-                
-            }
-        })
+    @objc func didTapFeedbackButton(sender: AnyObject){
+        //1. Create the alert controller.
+        let alert = UIAlertController(title: "Feedback", message: "Please provide your feedback below.", preferredStyle: .alert)
+        
+        //2. Add the text field. You can configure it however you need.
+        alert.addTextField { (textField) in
+            textField.placeholder = "Type your feedback here"
+        
+        }
+        
+        
+        
+        // 3. Grab the value from the text field, and print it when the user clicks OK.
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+            let textField = alert?.textFields![0] // Force unwrapping because we know it exists.
+            print("Text field: \(textField?.text ?? "")")
+           
+        }))
+        
+        // 4. Present the alert.
+        self.present(alert, animated: true, completion: nil)
     }
     
     @objc func didTapSearchButton(sender: AnyObject){
@@ -124,8 +156,13 @@ class LegislationDetailsTableViewController: UITableViewController {
                 
                 if bookmark == legislationInstance.id {
                     self.isBookmark = true
-                    self.bookmarkButton.image = UIImage()
-                    self.bookmarkButton.setBackgroundImage(UIImage(named: "bookmark-red-1"), for: .normal, barMetrics: UIBarMetrics.default)
+                    self.bookmarkButton.image = (UIImage(named: "bookmark-red"))
+                    self.bookmarkButton.tintColor = UIColor.red
+                    //self.bookmarkButton.setBackgroundImage(UIImage(named: "bookmark-red"), for: .normal, barMetrics: UIBarMetrics.default)
+                } else {
+                    self.isBookmark = false
+                    self.bookmarkButton.image = (UIImage(named: "bookmark-white"))
+                    self.bookmarkButton.tintColor = UIColor.black
                 }
             }
         }
@@ -169,7 +206,7 @@ class LegislationDetailsTableViewController: UITableViewController {
                 volumeDetails = ""
             }
             else {
-                var volumeDetails = "Volume " + volume + ", Chapter " + chapter
+                volumeDetails = "Volume " + volume + ", Chapter " + chapter
                 let amends = self.legislationInstance.yearOfAmendment ?? 0
                 if let assent = self.legislationInstance.dateOfAssent?.prefix(4) {
                     volumeDetails = volumeDetails + " of \(assent)"
@@ -376,53 +413,48 @@ class LegislationDetailsTableViewController: UITableViewController {
        
     }
     
-    func activityIndicator(_ title: String) {
-        
-        strLabel.removeFromSuperview()
-        activityIndicator.removeFromSuperview()
-        effectView.removeFromSuperview()
-        
-        strLabel = UILabel(frame: CGRect(x: 50, y: 0, width: 200, height: 46))
-        strLabel.text = title
-        strLabel.font = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.medium)
-        strLabel.textColor = UIColor(white: 0.9, alpha: 0.7)
-        
-        effectView.frame = CGRect(x: view.frame.midX - strLabel.frame.width/2, y: view.frame.midY - 40 - strLabel.frame.height/2 , width: 200, height: 46)
-        effectView.layer.cornerRadius = 15
-        effectView.layer.masksToBounds = true
-        
-        activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .white)
-        activityIndicator.frame = CGRect(x: 0, y: 0, width: 46, height: 46)
-        activityIndicator.startAnimating()
-        
-        effectView.contentView.addSubview(activityIndicator)
-        effectView.contentView.addSubview(strLabel)
-        view.addSubview(effectView)
-    }
+   
     
     func removeIndicator(){
-        strLabel.removeFromSuperview()
-        activityIndicator.removeFromSuperview()
-        effectView.removeFromSuperview()
+        configureUIControls()
+        activityIndicator.stopAnimating()
+        self.tabBarController?.tabBar.isHidden = false
+    
+        
     }
     
     
     @IBAction func bookmark(_ sender: Any) {
+        if self.isBookmark == true {
+            self.bookmarkButton.image = (UIImage(named: "bookmark-white"))
+            self.bookmarkButton.tintColor = UIColor.black
+            //self.bookmarkButton.setBackgroundImage(UIImage(named: "bookmark-white"), for: .normal, barMetrics: UIBarMetrics.default)
+            self.isBookmark = false
+        } else {
+            self.bookmarkButton.image = (UIImage(named: "bookmark-red"))
+            self.bookmarkButton.tintColor = UIColor.red
+            //self.bookmarkButton.setBackgroundImage(UIImage(named: "bookmark-red"), for: .normal, barMetrics: UIBarMetrics.default)
+            self.isBookmark = true
+        }
         let bookmark = HomeItem (title: "", summary: "", type: "legislation", sourceId: legislationInstance.id!)
         HomeItem.addBookmarks(bookmark: bookmark, completionHandler:{(result,error) in
             let res = result as! Bool
             if res == true {
+               
+                
+            } else {
                 print("zoona")
                 if self.isBookmark == true {
-                    self.bookmarkButton.image = UIImage()
-                    self.bookmarkButton.setBackgroundImage(UIImage(named: "bookmark"), for: .normal, barMetrics: UIBarMetrics.default)
+                    self.bookmarkButton.image = (UIImage(named: "bookmark-white"))
+                    self.bookmarkButton.tintColor = UIColor.black
+                    //self.bookmarkButton.setBackgroundImage(UIImage(named: "bookmark-white"), for: .normal, barMetrics: UIBarMetrics.default)
                     self.isBookmark = false
                 } else {
-                    self.bookmarkButton.image = UIImage()
-                    self.bookmarkButton.setBackgroundImage(UIImage(named: "bookmark-red-1"), for: .normal, barMetrics: UIBarMetrics.default)
+                    self.bookmarkButton.image = (UIImage(named: "bookmark-red"))
+                    self.bookmarkButton.tintColor = UIColor.red
+                    //self.bookmarkButton.setBackgroundImage(UIImage(named: "bookmark-red"), for: .normal, barMetrics: UIBarMetrics.default)
                     self.isBookmark = true
                 }
-                
             }
         })
     }

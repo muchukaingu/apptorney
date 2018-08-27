@@ -108,6 +108,8 @@
 		8DE5FA221AC3009E00B23C66 /* StatusTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DE5FA211AC3009E00B23C66 /* StatusTableViewCell.swift */; };
 		8DF86B69206E9C1C00B03121 /* RegisterViewController+Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF86B68206E9C1C00B03121 /* RegisterViewController+Extenstions.swift */; };
 		8DFB15A51F54136500277AE3 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8DFB15A41F54136500277AE3 /* Default-568h@2x.png */; };
+		8DFE3F69213398E3001DBE7E /* LegislationTypeSegmentationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DFE3F68213398E3001DBE7E /* LegislationTypeSegmentationVC.swift */; };
+		8DFE3F6F2133998A001DBE7E /* Legislation.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8DFE3F6E2133998A001DBE7E /* Legislation.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -246,6 +248,8 @@
 		8DE5FA211AC3009E00B23C66 /* StatusTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusTableViewCell.swift; sourceTree = "<group>"; };
 		8DF86B68206E9C1C00B03121 /* RegisterViewController+Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RegisterViewController+Extenstions.swift"; sourceTree = "<group>"; };
 		8DFB15A41F54136500277AE3 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		8DFE3F68213398E3001DBE7E /* LegislationTypeSegmentationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegislationTypeSegmentationVC.swift; sourceTree = "<group>"; };
+		8DFE3F6E2133998A001DBE7E /* Legislation.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Legislation.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -613,6 +617,8 @@
 			children = (
 				8DC5BDD21F6E477200F356C1 /* LegislationsTableViewController.swift */,
 				8D7F88901FC743970077C489 /* LegislationDetailsTableViewController.swift */,
+				8DFE3F68213398E3001DBE7E /* LegislationTypeSegmentationVC.swift */,
+				8DFE3F6E2133998A001DBE7E /* Legislation.storyboard */,
 			);
 			name = Legislations;
 			sourceTree = "<group>";
@@ -749,6 +755,7 @@
 				8D8048E81F580CF900B2832C /* OpenSans-SemiboldItalic.ttf in Resources */,
 				8D8048DF1F580CF900B2832C /* OpenSans-Bold.ttf in Resources */,
 				8D8048E01F580CF900B2832C /* OpenSans-BoldItalic.ttf in Resources */,
+				8DFE3F6F2133998A001DBE7E /* Legislation.storyboard in Resources */,
 				8D8048D51F580CF000B2832C /* Torus-Light.otf in Resources */,
 				8D8048E51F580CF900B2832C /* OpenSans-LightItalic.ttf in Resources */,
 				8D8048E11F580CF900B2832C /* OpenSans-ExtraBold.ttf in Resources */,
@@ -912,6 +919,7 @@
 				8D86925C1F6C547400625FE8 /* Citation.swift in Sources */,
 				8D1A3C1C1ACC7038003CF9E1 /* Store.swift in Sources */,
 				8D255B832129F6B600489BD2 /* MonthYearPickerView.swift in Sources */,
+				8DFE3F69213398E3001DBE7E /* LegislationTypeSegmentationVC.swift in Sources */,
 				8DB804BC2126EA79007AA697 /* PaymentOptionsVC.swift in Sources */,
 				8D6ABA821C4C623F00D6EDFA /* Department.swift in Sources */,
 				8D3B692C205A5D6600AED3F0 /* NSMutableAttributedString+Extend.swift in Sources */,

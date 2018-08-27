@@ -39,11 +39,17 @@ class CasesTableViewController: UITableViewController {
     }
     
     func loadAreasOfLaw(){
+        /*
         AreaOfLaw.search(completionHandler:{(areas,error) in
             self.areas = areas
             self.tableView.reloadData()
             UIApplication.shared.isNetworkActivityIndicatorVisible = false
         })
+         */
+        self.areas = [
+            AreaOfLaw(name: "Thematic Domains", _id: "volumes", description: "Show cases categorized by their Areas of Law e.g. Employment, Criminal, Torts", id: "domains"),
+            AreaOfLaw(name: "Chronological", _id: "acts", description: "Show cases according to the year in which judgement was passed", id: "schedule")
+        ]
     }
     
     func setupNavBar(){
@@ -131,9 +137,13 @@ class CasesTableViewController: UITableViewController {
             let cellIndetifier = "SummaryCell"
             let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) as! SummaryTableViewCell
             tableView.separatorStyle = .none
+            tableView.estimatedRowHeight = 180
+            tableView.rowHeight = UITableViewAutomaticDimension
+           
             let area = areas[(indexPath as NSIndexPath).row]
             cell.name.text = area.name
-            //cell.summary?.text = type.description
+            cell.summary?.text = area.description
+            cell.icon.image = UIImage(named: area.id!)
             return cell
         }
         else {

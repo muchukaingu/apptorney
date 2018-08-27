@@ -110,6 +110,7 @@
 		8DFB15A51F54136500277AE3 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8DFB15A41F54136500277AE3 /* Default-568h@2x.png */; };
 		8DFE3F69213398E3001DBE7E /* LegislationTypeSegmentationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DFE3F68213398E3001DBE7E /* LegislationTypeSegmentationVC.swift */; };
 		8DFE3F6F2133998A001DBE7E /* Legislation.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8DFE3F6E2133998A001DBE7E /* Legislation.storyboard */; };
+		8DFE3F7221346DD0001DBE7E /* Case.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8DFE3F7121346DD0001DBE7E /* Case.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -250,6 +251,7 @@
 		8DFB15A41F54136500277AE3 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		8DFE3F68213398E3001DBE7E /* LegislationTypeSegmentationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegislationTypeSegmentationVC.swift; sourceTree = "<group>"; };
 		8DFE3F6E2133998A001DBE7E /* Legislation.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Legislation.storyboard; sourceTree = "<group>"; };
+		8DFE3F7121346DD0001DBE7E /* Case.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Case.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -608,6 +610,7 @@
 			children = (
 				8D86924E1F6C111300625FE8 /* CasesTableViewController.swift */,
 				8D1FFEA61F8E438D00398738 /* CaseDetailsTableViewController.swift */,
+				8DFE3F7121346DD0001DBE7E /* Case.storyboard */,
 			);
 			name = Cases;
 			sourceTree = "<group>";
@@ -742,6 +745,7 @@
 				8DC5F3941FA1B4050042C239 /* ExpandableHeaderView.xib in Resources */,
 				8D8048E41F580CF900B2832C /* OpenSans-Light.ttf in Resources */,
 				8DD147C71AA3A27500B2A098 /* LaunchScreen.xib in Resources */,
+				8DFE3F7221346DD0001DBE7E /* Case.storyboard in Resources */,
 				8D8048D41F580CF000B2832C /* Torus-Heavy.otf in Resources */,
 				8D8048D61F580CF000B2832C /* Torus-Regular.otf in Resources */,
 				8DD147C41AA3A27500B2A098 /* Images.xcassets in Resources */,

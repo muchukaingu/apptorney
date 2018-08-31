@@ -187,6 +187,7 @@
                     <navigationItem key="navigationItem" title="Cases" id="Iag-ch-bMv"/>
                     <connections>
                         <segue destination="knz-9d-Dan" kind="show" id="HSr-ct-jKT"/>
+                        <segue destination="y6T-PF-5fz" kind="show" identifier="showCaseSegmentation" id="RYR-vo-mJW"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="v7u-kI-mNH" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -196,7 +197,7 @@
         <!--Case Details Table View Controller-->
         <scene sceneID="tjw-A0-bLr">
             <objects>
-                <tableViewController id="knz-9d-Dan" customClass="CaseDetailsTableViewController" customModule="apptorney" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="Case Details" id="knz-9d-Dan" customClass="CaseDetailsTableViewController" customModule="apptorney" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="TPd-wd-hVg">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -390,7 +391,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="YTq-YG-i5B">
-                        <barButtonItem key="rightBarButtonItem" image="bookmark" id="RB2-7V-FbS">
+                        <barButtonItem key="rightBarButtonItem" image="bookmark-white" id="RB2-7V-FbS">
                             <connections>
                                 <action selector="bookmark:" destination="knz-9d-Dan" id="pJF-Wr-GVN"/>
                             </connections>
@@ -404,9 +405,75 @@
             </objects>
             <point key="canvasLocation" x="622" y="3105"/>
         </scene>
+        <!--Generic Items List-->
+        <scene sceneID="VOD-lP-zzR">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="Generic Items List" id="drF-NB-rD3" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Bo1-P5-dCA" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="350" y="3795"/>
+        </scene>
+        <!--Case Categories SegmentationVC-->
+        <scene sceneID="dw6-oS-9eB">
+            <objects>
+                <tableViewController id="y6T-PF-5fz" customClass="CaseCategoriesSegmentationVC" customModule="apptorney" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="cOV-G6-j6w">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="sectionIndexColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="decade" textLabel="Nju-PJ-tpM" style="IBUITableViewCellStyleDefault" id="jys-m5-Whe">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jys-m5-Whe" id="jc8-Jn-ZUc">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Nju-PJ-tpM">
+                                            <rect key="frame" x="16" y="0.0" width="343" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="years" textLabel="dgC-v8-4cw" style="IBUITableViewCellStyleDefault" id="znm-7b-rbM">
+                                <rect key="frame" x="0.0" y="72" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="znm-7b-rbM" id="MIg-UK-xPR">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="dgC-v8-4cw">
+                                            <rect key="frame" x="16" y="0.0" width="343" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="y6T-PF-5fz" id="dgU-ra-Blc"/>
+                            <outlet property="delegate" destination="y6T-PF-5fz" id="OWT-WE-dbQ"/>
+                        </connections>
+                    </tableView>
+                    <connections>
+                        <segue destination="drF-NB-rD3" kind="show" identifier="showListofCases" id="t5d-fV-VhU"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CfP-UV-cg2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-436" y="3915"/>
+        </scene>
     </scenes>
     <resources>
         <image name="book-2" width="512" height="394"/>
-        <image name="bookmark" width="16" height="16"/>
+        <image name="bookmark-white" width="22" height="25"/>
     </resources>
 </document>

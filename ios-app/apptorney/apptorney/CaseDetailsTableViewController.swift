@@ -49,12 +49,13 @@ class CaseDetailsTableViewController: UITableViewController {
     var sections = [
         Section(name: "",
                 isCollapsed: false, height:0.0, isCollapsible: false, content:nil, highlighted: false),
-        Section(name: "Holding".uppercased(),
-                isCollapsed: true, height:0.0, isCollapsible: true, content:nil, highlighted: false),
         Section(name: "Cases Referenced".uppercased(),
                 isCollapsed: true, height:0.0, isCollapsible: true, content:nil, highlighted: false),
         Section(name: "Legislations Referenced".uppercased(),
-                isCollapsed: true, height:0.0, isCollapsible: true, content:nil, highlighted: false)
+                isCollapsed: true, height:0.0, isCollapsible: true, content:nil, highlighted: false),
+        Section(name: "Holding".uppercased(),
+                isCollapsed: false, height:0.0, isCollapsible: true, content:nil, highlighted: false)
+        
     ]
     
     
@@ -239,7 +240,7 @@ class CaseDetailsTableViewController: UITableViewController {
                 //let insets: UIEdgeInsets = cell.mainText.textContainerInset
             
             
-            case 1:
+            case 3:
                 let cellIndetifier = "DetailCell"
                 let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) as! CaseDetailsTableViewCell
                 cell.mainText?.text = caseInstance.judgement
@@ -248,7 +249,7 @@ class CaseDetailsTableViewController: UITableViewController {
                     cell.mainText.sizeToFit()
                 }
                 return cell
-            case 2:
+            case 1:
                 let cellIndetifier = "Cell"
                 let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath)
                 cell.textLabel?.text = caseInstance.casesReferedTo![index-4 + indexPath.row].name?.capitalized
@@ -260,7 +261,7 @@ class CaseDetailsTableViewController: UITableViewController {
         
                 return cell
             
-            case 3:
+            case 2:
                 let cellIndetifier = "Cell"
                 let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) //as! UITableViewCell
                 cell.textLabel?.text = caseInstance.legislationsReferedTo![index-5 + indexPath.row].legislationName?.capitalized

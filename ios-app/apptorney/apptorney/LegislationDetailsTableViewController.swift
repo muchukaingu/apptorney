@@ -18,8 +18,8 @@ class LegislationDetailsTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: false)
-        navigationController?.navigationBar.isTranslucent = false
-        self.navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
+       
+       
     }
     
     let debouncer = Debouncer(interval:0.5)
@@ -54,7 +54,7 @@ class LegislationDetailsTableViewController: UITableViewController {
         activityIndicator.center.y = self.view.center.y - 100.0
         activityIndicator.startAnimating()
         self.populateLegislation()
-        //self.configureUIControls()
+        self.configureUIControls()
         tableView.estimatedRowHeight = 80
         tableView.rowHeight = UITableViewAutomaticDimension
         self.searchController.searchBar.delegate = self
@@ -75,18 +75,12 @@ class LegislationDetailsTableViewController: UITableViewController {
     
     
     func configureUIControls () { //for cutomising controls on the UI
-         navigationController?.navigationBar.isTranslucent = true
-         self.navigationController?.navigationBar.setValue(false, forKey: "hidesShadow")
+        
         self.tableView.tableFooterView = UIView(frame: CGRect.zero) //remove trailing separators after content
         //let nib = UINib(nibName: "ExpandableHeaderView", bundle: nil)
         //self.tableView.register(nib, forHeaderFooterViewReuseIdentifier: "ExpandableHeaderView")
         self.tableView.register(HeaderView.nib, forHeaderFooterViewReuseIdentifier: HeaderView.identifier)
         
-        //let bookmarkImage    = UIImage(named: "bookmark")!
-        let searchImage  = UIImage(named: "search-tab-fat")!
-        
-        //let bookmarkButton = UIBarButtonItem(image: bookmarkImage, style: .plain, target: self, action:  #selector(didTapBookmarkButton))
-        let searchButton = UIBarButtonItem(image: searchImage, style: .plain, target: self, action:  #selector(didTapSearchButton))
         
         let feedbackBtn: UIButton = UIButton(type: UIButtonType.custom)
         feedbackBtn.setImage(UIImage(named: "feedback-2"), for: [])

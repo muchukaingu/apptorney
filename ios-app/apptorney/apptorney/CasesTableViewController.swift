@@ -16,7 +16,7 @@ class CasesTableViewController: UITableViewController {
     let debouncer = Debouncer(interval:0.5)
     var cases = [Case]()
     var messageLabel:UILabel = UILabel(frame: CGRect(x: 0,y: 0, width: 200, height: 100)) as UILabel
-    
+    var resourceType = ""
     var heightDiscount:CGFloat = 0
     let messageFrame = UIView()
     var activityIndicator = UIActivityIndicatorView()
@@ -47,8 +47,8 @@ class CasesTableViewController: UITableViewController {
         })
          */
         self.areas = [
-            AreaOfLaw(name: "Thematic Domains", _id: "volumes", description: "Show cases categorized by their Areas of Law e.g. Employment, Criminal, Torts", id: "domains"),
-            AreaOfLaw(name: "Chronological", _id: "acts", description: "Show cases according to the year in which judgement was passed", id: "schedule")
+            AreaOfLaw(name: "Thematic Domains", _id: "themes", description: "Show cases categorized by their Areas of Law e.g. Employment, Criminal, Torts", id: "domains"),
+            AreaOfLaw(name: "Chronological", _id: "years", description: "Show cases according to the year in which judgement was passed", id: "schedule")
         ]
     }
     
@@ -188,15 +188,14 @@ class CasesTableViewController: UITableViewController {
             }
         }
         
-        else if segue.identifier == "casesByArea" {
+        else if segue.identifier == "showCaseSegmentation" {
             self.searchController.searchBar.resignFirstResponder()
             print("in segue, mofo")
             let destinationController = segue.destination as!
-            HomeDetailsTableViewController
-            destinationController.type = self.area!
-            destinationController.resourceType = "case"
-            destinationController.viewTitle = self.selectedTitle
-            destinationController.viewTitleColor = UIColor.black
+            CaseCategoriesSegmentationVC
+           
+            destinationController.resourceType = self.resourceType
+           
         }
     }
     
@@ -237,8 +236,8 @@ class CasesTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if self.searchController.searchBar.text == "" {
-            let area = areas[indexPath.row]
-            loadCasesByArea(area: area)
+            self.resourceType = areas[indexPath.row]._id!
+            performSegue(withIdentifier: "showCaseSegmentation", sender: self)
         } else {
             performSegue(withIdentifier: "showCaseDetails", sender: self)
         }

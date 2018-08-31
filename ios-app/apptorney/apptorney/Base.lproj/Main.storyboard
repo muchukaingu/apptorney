@@ -362,6 +362,8 @@
                         <outlet property="userIcon" destination="GAt-KN-dix" id="5p9-Fg-Bnm"/>
                         <segue destination="a6a-u1-0Ar" kind="show" identifier="homeDetails" id="Kd3-P1-PQg"/>
                         <segue destination="VSA-Xy-aMk" kind="modal" identifier="subscriptionRenewal" id="AFU-HD-yAG"/>
+                        <segue destination="2fV-zK-EpP" kind="show" identifier="showCase" id="FDA-KC-gsF"/>
+                        <segue destination="R9f-Aq-hkj" kind="show" identifier="showLegislation" id="tcU-Je-nsP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mBP-7k-FUE" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -371,7 +373,7 @@
         <!--Home Details Table View Controller-->
         <scene sceneID="vFN-KG-ysf">
             <objects>
-                <tableViewController id="a6a-u1-0Ar" customClass="HomeDetailsTableViewController" customModule="apptorney" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="Generic Items List" id="a6a-u1-0Ar" customClass="HomeDetailsTableViewController" customModule="apptorney" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="vcE-gb-hmo">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -456,10 +458,21 @@
                             <outlet property="delegate" destination="a6a-u1-0Ar" id="Lls-xz-P9m"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <segue destination="P1Y-wU-tWt" kind="show" identifier="showCase" id="f94-bD-4xo"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RlX-Lh-hav" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1888" y="4385"/>
+            <point key="canvasLocation" x="2321" y="975"/>
+        </scene>
+        <!--Case Details-->
+        <scene sceneID="S5a-vB-yDB">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Case" referencedIdentifier="Case Details" id="P1Y-wU-tWt" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Mcc-Ob-69K" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2320" y="1406"/>
         </scene>
         <!--Onboarding View Controller-->
         <scene sceneID="yC8-St-de8">
@@ -1994,6 +2007,22 @@ Please check your API Settings or Network Connection and try again.</string>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2yL-sq-2pc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3056.8000000000002" y="77.811094452773617"/>
+        </scene>
+        <!--Case Details-->
+        <scene sceneID="fH1-WV-Y8t">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Case" referencedIdentifier="Case Details" id="2fV-zK-EpP" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4b0-so-pxv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2958" y="530"/>
+        </scene>
+        <!--LegislationDetails-->
+        <scene sceneID="q9Y-Jh-sjX">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Legislation" referencedIdentifier="LegislationDetails" id="R9f-Aq-hkj" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bga-zI-9Hb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2991" y="604"/>
         </scene>
         <!--Card Entry DetailVC-->
         <scene sceneID="qww-oH-spr">

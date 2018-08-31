@@ -69,6 +69,9 @@ class HomeViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.view.addSubview(activityIndicator)
+        activityIndicator.center = self.view.center
+        activityIndicator.startAnimating()
         self.tableView.isHidden = true
         loaded = false
         hideControlsWhileLoading()
@@ -102,9 +105,7 @@ class HomeViewController: UIViewController {
 //        self.tableView.reloadData()
         print("viewDidAppear")
         //Loader.addLoaderTo(self.tableView)
-        self.view.addSubview(activityIndicator)
-        activityIndicator.center = self.view.center
-        activityIndicator.startAnimating()
+       
         
         
     }

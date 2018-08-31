@@ -111,6 +111,7 @@
 		8DFE3F69213398E3001DBE7E /* LegislationTypeSegmentationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DFE3F68213398E3001DBE7E /* LegislationTypeSegmentationVC.swift */; };
 		8DFE3F6F2133998A001DBE7E /* Legislation.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8DFE3F6E2133998A001DBE7E /* Legislation.storyboard */; };
 		8DFE3F7221346DD0001DBE7E /* Case.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8DFE3F7121346DD0001DBE7E /* Case.storyboard */; };
+		8DFE3F76213522D0001DBE7E /* CaseCategoriesSegmentationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DFE3F75213522D0001DBE7E /* CaseCategoriesSegmentationVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -252,6 +253,7 @@
 		8DFE3F68213398E3001DBE7E /* LegislationTypeSegmentationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegislationTypeSegmentationVC.swift; sourceTree = "<group>"; };
 		8DFE3F6E2133998A001DBE7E /* Legislation.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Legislation.storyboard; sourceTree = "<group>"; };
 		8DFE3F7121346DD0001DBE7E /* Case.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Case.storyboard; sourceTree = "<group>"; };
+		8DFE3F75213522D0001DBE7E /* CaseCategoriesSegmentationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseCategoriesSegmentationVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -611,6 +613,7 @@
 				8D86924E1F6C111300625FE8 /* CasesTableViewController.swift */,
 				8D1FFEA61F8E438D00398738 /* CaseDetailsTableViewController.swift */,
 				8DFE3F7121346DD0001DBE7E /* Case.storyboard */,
+				8DFE3F75213522D0001DBE7E /* CaseCategoriesSegmentationVC.swift */,
 			);
 			name = Cases;
 			sourceTree = "<group>";
@@ -912,6 +915,7 @@
 				8DD147E51AA3A7BF00B2A098 /* DataManager.swift in Sources */,
 				8D3843F72068F4F50054109B /* UIlabel+EdgeInsets.swift in Sources */,
 				8D255B7F2129D5C700489BD2 /* CardEntryVC.swift in Sources */,
+				8DFE3F76213522D0001DBE7E /* CaseCategoriesSegmentationVC.swift in Sources */,
 				8D7F888F1FC725740077C489 /* Legislation.swift in Sources */,
 				8DD147BD1AA3A27500B2A098 /* AppDelegate.swift in Sources */,
 				8D03361A1FC2FDCE007F9DC9 /* String+Extensions.swift in Sources */,

@@ -12,6 +12,33 @@ module.exports = function(Legislation) {
     })
 
 
+    Legislation.getByYear = function(year, cb) {
+        var whereClause = {
+            and: [{
+                deleted: {
+                    neq: true
+                }
+            }, {
+                year: year
+            }]
+        }
+        this.find({
+                where: whereClause,
+                order: 'legislationName ASC',
+                fields: {
+                    id: true,
+                    year: true,
+                    legislationName: true,
+                    preamble: true
+                }
+
+            },
+            function(err, cases) {
+                cb(err, cases)
+            })
+    }
+
+
 
     Legislation.getByType = function(type, cb) {
         var whereClause = { and: [{ deleted: { neq: true } }, { legislationType: { like: '.*' + type + '.*', options: 'i' } }] }
@@ -733,6 +760,23 @@ module.exports = function(Legislation) {
                 { arg: 'duplicates', type: 'Object' },
                 { arg: 'uniqueCount', type: 'Object' }
             ]
+        })
+
+
+    Legislation.remoteMethod(
+        'getByYear', {
+            http: {
+                path: '/getByYear',
+                verb: 'get'
+            },
+            accepts: {
+                arg: 'year',
+                type: 'number'
+            },
+            returns: {
+                arg: 'legislations',
+                type: 'array'
+            }
         })
 
     Legislation.remoteMethod(

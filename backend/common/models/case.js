@@ -17,6 +17,23 @@ module.exports = function(Case) {
             returns: { arg: 'cases', type: 'array' }
         })
 
+
+    Case.remoteMethod(
+        'getByYear', {
+            http: {
+                path: '/getByYear',
+                verb: 'get'
+            },
+            accepts: {
+                arg: 'year',
+                type: 'number'
+            },
+            returns: {
+                arg: 'cases',
+                type: 'array'
+            }
+        })
+
     Case.remoteMethod(
         'generateNames', {
             http: { path: '/generatenames', verb: 'get' },
@@ -126,6 +143,33 @@ module.exports = function(Case) {
                 order: 'name ASC',
                 fields: {
                     id: true,
+                    name: true,
+                    summaryOfRuling: true
+                }
+
+            },
+            function(err, cases) {
+                cb(err, cases)
+            })
+    }
+
+
+    Case.getByYear = function(year, cb) {
+        var whereClause = {
+            and: [{
+                deleted: {
+                    neq: true
+                }
+            }, {
+                year: year
+            }]
+        }
+        this.find({
+                where: whereClause,
+                order: 'name ASC',
+                fields: {
+                    id: true,
+                    year: true,
                     name: true,
                     summaryOfRuling: true
                 }

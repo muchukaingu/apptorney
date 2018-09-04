@@ -11,37 +11,108 @@ module.exports = function(Legislation) {
         writeKey: 'A730DDA82E082E47030F8A0C43F0E284BD5F445D9969108D5436E1416660AAE5819502658F77A48C2FDED30A4C9113C19BB5265C73F21713E6ED44AADFF35DF5E71EAB2C2A30EE05332027BF733D7615D1F34D4544F1B3A62FFDFA797A912A61'
     })
 
+    Legislation.getByYear = function(year, type, cb) {
+        var whereClause = {}
+        var legislationCollection = Legislation.getDataSource().connector.collection('legislation')
+        var legislationTypes = [
+            '598978adbe0d4f0197376605',
+            '5a09a9f811a57209f2652418',
+            '577d66caa856154683e6c2c0'
+        ]
+        if (type == 'Acts') {
 
-    Legislation.getByYear = function(year, cb) {
-        var whereClause = {
-            and: [{
-                deleted: {
-                    neq: true
-                }
-            }, {
-                year: year
-            }]
+            legislationCollection.aggregate([{ $match: { $and: [{ 'deleted': { $eq: !true } }, { 'legislationType': { $in: legislationTypes } }, { 'year': year }] } },
+                    {
+                        $project: {
+
+                            legislationName: true,
+                            preamble: true,
+                            legislationType: true,
+                            dateOfAssent: true,
+                            legislationNumber: true,
+                            legislationNumbers: true
+
+                        }
+                    }
+                ],
+
+                function(err, legislations) {
+                    if (err) {
+                        console.log(err)
+                    } else {
+                        console.log(legislations.length)
+                        legislations.map(function(legislation) {
+                            legislation.id = legislation._id
+                            delete legislation['_id']
+                        })
+                        cb(null, legislations)
+                    }
+
+                })
+        } else {
+            legislationCollection.aggregate([{
+                        $match: {
+                            $and: [{
+                                'deleted': {
+                                    $eq: !true
+                                }
+                            }, {
+                                'legislationType': {
+                                    $nin: legislationTypes
+                                }
+                            }, {
+                                'year': year
+                            }]
+                        }
+                    },
+                    {
+                        $project: {
+
+                            legislationName: true,
+                            preamble: true,
+                            legislationType: true,
+                            dateOfAssent: true,
+                            legislationNumber: true,
+                            legislationNumbers: true
+
+                        }
+                    }
+                ],
+
+                function(err, legislations) {
+                    if (err) {
+                        console.log(err)
+                    } else {
+                        console.log(legislations.length)
+                        legislations.map(function(legislation) {
+                            legislation.id = legislation._id
+                            delete legislation['_id']
+                        })
+                        cb(null, legislations)
+                    }
+
+                })
         }
-        this.find({
+
+        /*this.find({
                 where: whereClause,
                 order: 'legislationName ASC',
                 fields: {
                     id: true,
                     year: true,
                     legislationName: true,
-                    preamble: true
+                    preamble: true,
+                    legislationType: true
                 }
 
             },
-            function(err, cases) {
-                cb(err, cases)
-            })
+            function(err, legislations) {
+                cb(err, legislations)
+            })*/
     }
 
-
-
-    Legislation.getByType = function(type, cb) {
-        var whereClause = { and: [{ deleted: { neq: true } }, { legislationType: { like: '.*' + type + '.*', options: 'i' } }] }
+    Legislation.getByVolume = function(volume, cb) {
+        var whereClause = { and: [{ deleted: { neq: true } }, { volumeNumber: volume }] }
         this.find({
                 where: whereClause,
                 order: 'legislationName ASC',
@@ -480,21 +551,21 @@ module.exports = function(Legislation) {
                 })
                 legislationTypes.findById(ObjectId(legislation.legislationType), function(err, type) {
                     legislation.legislationType = type.name
-                        //record this view for trends
+                        // record this view for trends
                     keenClient.recordEvent('legislationViews', {
                         title: legislation.legislationName,
                         summary: legislation.preamble,
                         type: legislation.legislationType,
                         sourceId: legislation.id
 
-                    });
+                    })
                     keenClient.recordEvent('dataViews', {
                         title: legislation.legislationName,
                         summary: legislation.preamble,
                         type: 'legislation',
                         sourceId: legislation.id
 
-                    });
+                    })
 
                     cb(null, legislation)
                 })
@@ -591,41 +662,41 @@ module.exports = function(Legislation) {
         client.search(searchParams).then(function(resp) {
             let results = []
             resp.hits.hits.forEach(function(h) {
-                var highlight = h.highlight
-                var highlights = ''
-                    // console.log(highlight)
-                if (highlight.legislationName !== undefined) {
-                    h._source.legislationName = '<b>' + highlight.legislationName[0] + '</b>'
-                } else {
-                    h._source.legislationName = '<b>' + h._source.legislationName + '</b>'
-                }
+                    var highlight = h.highlight
+                    var highlights = ''
+                        // console.log(highlight)
+                    if (highlight.legislationName !== undefined) {
+                        h._source.legislationName = '<b>' + highlight.legislationName[0] + '</b>'
+                    } else {
+                        h._source.legislationName = '<b>' + h._source.legislationName + '</b>'
+                    }
 
-                if (highlight.preamble !== undefined) {
-                    highlight.preamble.forEach(function(pre) {
-                        highlights = highlights + pre + '...'
-                    })
-                    highlights = '<b>Preamble: </b>' + highlights + '<br>'
-                }
+                    if (highlight.preamble !== undefined) {
+                        highlight.preamble.forEach(function(pre) {
+                            highlights = highlights + pre + '...'
+                        })
+                        highlights = '<b>Preamble: </b>' + highlights + '<br>'
+                    }
 
-                if (highlight.flattenedParts !== undefined) {
-                    highlight.flattenedParts.forEach(function(pre) {
-                        highlights = highlights + pre + '...'
-                    })
-                    highlights = highlights + '<br>'
-                }
+                    if (highlight.flattenedParts !== undefined) {
+                        highlight.flattenedParts.forEach(function(pre) {
+                            highlights = highlights + pre + '...'
+                        })
+                        highlights = highlights + '<br>'
+                    }
 
-                if (highlight.legislationNumbers !== undefined) {
-                    h._source.legislationNumbers = highlight.legislationNumber ? '<b>' + highlight.legislationNumbers + ', ' + highlight.legislationNumber + '</b>' : '<b>' + highlight.legislationNumbers + '</b>'
-                }
+                    if (highlight.legislationNumbers !== undefined) {
+                        h._source.legislationNumbers = highlight.legislationNumber ? '<b>' + highlight.legislationNumbers + ', ' + highlight.legislationNumber + '</b>' : '<b>' + highlight.legislationNumbers + '</b>'
+                    }
 
-                h._source.highlight = highlights
-                h._source._id = h._id
-                results.push(h._source)
-            });
-            //record this search
+                    h._source.highlight = highlights
+                    h._source._id = h._id
+                    results.push(h._source)
+                })
+                // record this search
             keenClient.recordEvent('legislationSearches', {
                 title: term
-            });
+            })
             cb(null, results)
         }, function(err) {
             throw new Error(err)
@@ -762,15 +833,33 @@ module.exports = function(Legislation) {
             ]
         })
 
-
     Legislation.remoteMethod(
         'getByYear', {
             http: {
                 path: '/getByYear',
                 verb: 'get'
             },
-            accepts: {
+            accepts: [{
                 arg: 'year',
+                type: 'number'
+            }, {
+                arg: 'type',
+                type: 'string'
+            }],
+            returns: {
+                arg: 'legislations',
+                type: 'array'
+            }
+        })
+
+    Legislation.remoteMethod(
+        'getByVolume', {
+            http: {
+                path: '/getByVolume',
+                verb: 'get'
+            },
+            accepts: {
+                arg: 'volume',
                 type: 'number'
             },
             returns: {

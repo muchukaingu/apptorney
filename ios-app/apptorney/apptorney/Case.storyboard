@@ -186,7 +186,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Cases" id="Iag-ch-bMv"/>
                     <connections>
-                        <segue destination="knz-9d-Dan" kind="show" id="HSr-ct-jKT"/>
+                        <segue destination="knz-9d-Dan" kind="show" identifier="showCaseDetails" id="HSr-ct-jKT"/>
                         <segue destination="y6T-PF-5fz" kind="show" identifier="showCaseSegmentation" id="RYR-vo-mJW"/>
                     </connections>
                 </tableViewController>

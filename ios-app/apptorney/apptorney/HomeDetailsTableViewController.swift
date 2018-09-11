@@ -21,6 +21,8 @@ class HomeDetailsTableViewController: UITableViewController {
     var selectedId:String?
     var type: String?
     var resourceType: String?
+    var year: Int?
+    var volume: Int?
     
     
     //activity view controls
@@ -59,27 +61,56 @@ class HomeDetailsTableViewController: UITableViewController {
             
             if let resourceType = self.resourceType {
                 switch resourceType {
-                    case "case":
+                    case "caseByArea":
                         print(id)
                         activityIndicator.startAnimating()
                         Case.getByArea(area: id, completionHandler: {(cases, error) in
                             //self.legislationTypes = []
                             var caseInstances = [HomeItem]()
                             for caseInstance in cases {
-                                caseInstances.append(HomeItem(title: caseInstance.name!, summary: caseInstance.summaryOfRuling ?? "", type: self.resourceType!, sourceId: caseInstance.id!))
+                                caseInstances.append(HomeItem(title: caseInstance.name!, summary: caseInstance.summaryOfRuling ?? "", type: "case", sourceId: caseInstance.id!))
                             }
                             self.removeIndicator()
                             self.items = caseInstances
                             self.tableView.reloadData()
                             
                         })
-                    case "legislation":
+                    case "caseByYear":
+                        print(id)
                         activityIndicator.startAnimating()
-                        Legislation.getByType(type: id, completionHandler: {(legislations, error) in
+                        Case.getByYear(year: self.year, completionHandler: {(cases, error) in
+                            //self.legislationTypes = []
+                            var caseInstances = [HomeItem]()
+                            for caseInstance in cases {
+                                caseInstances.append(HomeItem(title: caseInstance.name!, summary: caseInstance.summaryOfRuling ?? "", type: "case", sourceId: caseInstance.id!))
+                            }
+                            self.removeIndicator()
+                            self.items = caseInstances
+                            self.tableView.reloadData()
+                            
+                        })
+                    case "legislationByVolume":
+                         print("getting legislations by volume")
+                        activityIndicator.startAnimating()
+                        Legislation.getByVolume(volume: self.volume, completionHandler: {(legislations, error) in
                             //self.legislationTypes = []
                             var legislationInstances = [HomeItem]()
                             for legislation in legislations {
-                                legislationInstances.append(HomeItem(title: legislation.legislationName!, summary: legislation.preamble ?? "", type: self.resourceType!, sourceId: legislation.id!))
+                                legislationInstances.append(HomeItem(title: legislation.legislationName!, summary: legislation.preamble ?? "", type: "legislation", sourceId: legislation.id!))
+                            }
+                            self.removeIndicator()
+                            self.items = legislationInstances
+                            self.tableView.reloadData()
+                            
+                        })
+                    case "legislationByYear":
+                        print("getting legislations by year")
+                        activityIndicator.startAnimating()
+                        Legislation.getByYear(year: self.year, type: self.type!, completionHandler: {(legislations, error) in
+                            //self.legislationTypes = []
+                            var legislationInstances = [HomeItem]()
+                            for legislation in legislations {
+                                legislationInstances.append(HomeItem(title: legislation.legislationName!, summary: legislation.preamble ?? "", type: "legislation", sourceId: legislation.id!))
                             }
                             self.removeIndicator()
                             self.items = legislationInstances

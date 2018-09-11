@@ -59,10 +59,21 @@
                             <outlet property="delegate" destination="8RF-Ad-o7Z" id="daY-dI-yGp"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <segue destination="sjR-nD-m2B" kind="show" identifier="showListofLegislations" id="5Y7-V4-B62"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="k6g-9i-gwb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-113" y="33"/>
+        </scene>
+        <!--Generic Items List-->
+        <scene sceneID="f6h-VJ-xUe">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="Generic Items List" id="sjR-nD-m2B" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gFc-el-Keb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="608" y="52"/>
         </scene>
         <!--Legislations-->
         <scene sceneID="NMM-8O-iqY">

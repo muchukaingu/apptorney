@@ -127,6 +127,58 @@ class LegislationTypeSegmentationVC: UITableViewController {
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 60
     }
+    
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        performSegue(withIdentifier: "showListofLegislations", sender: self)
+        
+        
+    }
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let destinationController = segue.destination as!
+        HomeDetailsTableViewController
+        
+        if let indexPath = self.tableView.indexPathForSelectedRow {
+            print("in segue, mofo")
+            let destinationController = segue.destination as!
+            HomeDetailsTableViewController
+            if self.resourceType == "acts" ||  self.resourceType == "sis"{
+                destinationController.resourceType = "legislationByYear"
+                
+                
+               
+                let year = yearArray[indexPath.section].years![indexPath.row]
+             
+                
+                var type = ""
+                if resourceType == "acts" {
+                    
+                    type = "Acts"
+                    
+                } else {
+                    type = "SIs"
+                }
+                destinationController.type = type
+                destinationController.year = year
+                destinationController.viewTitle = "\(year) " + type
+                
+            } else if self.resourceType == "volumes" {
+                destinationController.resourceType = "legislationByVolume"
+                destinationController.type = "volumes"
+                 let volume = volumeArray[indexPath.row]
+             
+                
+                
+                destinationController.volume = volume
+                destinationController.viewTitle = "Volume \(volume)"
+                
+            }
+            
+        }
+    }
 
     
     /*

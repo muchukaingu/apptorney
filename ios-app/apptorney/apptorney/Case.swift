@@ -82,6 +82,30 @@ class Case: Decodable  {
     }
     
     
+    class func getByYear(year: Int?, completionHandler:@escaping ([Case], Error?)->Void){
+        let api = APIService()
+        api.get(endPoint: "/cases/getByYear", parameters: ["year": year! as Int], completionHandler: { (result, error) in
+            if error != nil {
+                print(error!)
+            }
+            else {
+                do {
+                    let json = JSON(result!)["data"]["cases"]
+                    //print(json)
+                    let decoder = JSONDecoder()
+                    let cases = try decoder.decode([Case].self, from: json.rawData())
+                    print(cases)
+                    completionHandler(cases, nil)
+                    
+                } catch let error as NSError {
+                    print("Error: " + error.localizedDescription)
+                }
+                
+            }
+        })
+    }
+    
+    
     class func loadCase(caseId:String?, completionHandler:@escaping (Case, Error?)->Void){
         let api = APIService()
         api.get(endPoint: "/cases/viewCase", parameters: ["id":caseId!], completionHandler: { (result, error) in

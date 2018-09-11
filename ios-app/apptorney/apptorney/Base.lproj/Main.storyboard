@@ -460,11 +460,12 @@
                     </tableView>
                     <connections>
                         <segue destination="P1Y-wU-tWt" kind="show" identifier="showCase" id="f94-bD-4xo"/>
+                        <segue destination="ULe-jM-3WF" kind="show" identifier="showLegislation" id="vtM-QT-WqH"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RlX-Lh-hav" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2321" y="975"/>
+            <point key="canvasLocation" x="2321" y="1090"/>
         </scene>
         <!--Case Details-->
         <scene sceneID="S5a-vB-yDB">
@@ -472,7 +473,15 @@
                 <viewControllerPlaceholder storyboardName="Case" referencedIdentifier="Case Details" id="P1Y-wU-tWt" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Mcc-Ob-69K" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2320" y="1406"/>
+            <point key="canvasLocation" x="2083" y="1581"/>
+        </scene>
+        <!--LegislationDetails-->
+        <scene sceneID="UcC-Y9-yul">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Legislation" referencedIdentifier="LegislationDetails" id="ULe-jM-3WF" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="P5m-KH-iN4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2644" y="1563"/>
         </scene>
         <!--Onboarding View Controller-->
         <scene sceneID="yC8-St-de8">

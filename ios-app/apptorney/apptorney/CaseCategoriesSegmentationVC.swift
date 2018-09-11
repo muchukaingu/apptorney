@@ -183,14 +183,27 @@ class CaseCategoriesSegmentationVC: UITableViewController {
             print("in segue, mofo")
             let destinationController = segue.destination as!
             HomeDetailsTableViewController
-            destinationController.resourceType = "case"
-            
-            
-            let initial = areaInitials[indexPath.section]
-            if let areaValues = areaDictionary[initial] {
+            if self.resourceType == "themes" {
+                destinationController.resourceType = "caseByArea"
                 
-                destinationController.type = areaValues[indexPath.row].id
-                destinationController.viewTitle = areaValues[indexPath.row].name
+                
+                let initial = areaInitials[indexPath.section]
+                if let areaValues = areaDictionary[initial] {
+                    
+                    destinationController.type = areaValues[indexPath.row].id
+                    destinationController.viewTitle = areaValues[indexPath.row].name
+                }
+            } else if self.resourceType == "years" {
+                destinationController.resourceType = "caseByYear"
+                
+                
+                let year = yearArray[indexPath.section].years![indexPath.row]
+                print(year)
+        
+                    
+                destinationController.year = year
+                destinationController.viewTitle = "\(year) Cases"
+            
             }
             
         }

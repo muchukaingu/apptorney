@@ -126,6 +126,7 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    
        
         //setupNavBar()
         colors.append(UIColor(hex:"D80027"))

@@ -13,18 +13,28 @@ import Windless
 private var defaultsContext = 0
 
 class HomeViewController: UIViewController {
+    //New minimalist activity indicator
+    lazy private var activityIndicator : SYActivityIndicatorView = {
+        let image = UIImage(named: "spinner.png")
+        return SYActivityIndicatorView(image: image)
+    }()
+    
+    var msgLabel = UILabel()
+    var errorImage = UIImageView()
+    var tryAgainButton = UIButton()
 
 
 
+
+    @IBOutlet weak var apptorneyLabel: UILabel!
     @IBOutlet var scanButton:UIBarButtonItem!
-  
+    @IBOutlet weak var separatorBar: UIView!
+    @IBOutlet weak var userIcon: UIImageView!
+    
     @objc var spinner : UIActivityIndicatorView = UIActivityIndicatorView(frame: CGRect(x: 0,y: 0, width: 50, height: 50)) as UIActivityIndicatorView
     @objc var bgImage: UIImageView = UIImageView()
     @objc var aView : UIView = UIView(frame: CGRect(x: 0,y: 0, width: 50, height: 50)) as UIView
-    @objc var loadingLabel: UILabel = UILabel(frame: CGRect(x: 0,y: 0, width: 215, height: 100)) as UILabel
-    @objc var errorMessage: String = ""
-    @objc var products = [Product]()
-    @objc var departments = [[String:String]]()
+  
     @objc var searchController: UISearchController!
     @objc var searchResults:[Product]=[]
     @objc var keyStrokeCounter: Int = 0
@@ -44,9 +54,9 @@ class HomeViewController: UIViewController {
     
     
     let summaryHeadings = [
-        ["name":"My Bookmarks"],
-        ["name":"What's New"],
-        ["name":"Trending"]
+        ["name":"MY BOOKMARKS"],
+        ["name":"WHAT'S NEW"],
+        ["name":"TRENDING"]
     ]
     
     var bookmarks = [HomeItem]()
@@ -59,9 +69,12 @@ class HomeViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //self.tableView.isHidden = true
+        self.view.addSubview(activityIndicator)
+        activityIndicator.center = self.view.center
+        activityIndicator.startAnimating()
+        self.tableView.isHidden = true
         loaded = false
-        
+        hideControlsWhileLoading()
         loadPlaceholders()
         tableView.reloadData()
         print("viewWillAppear")
@@ -70,12 +83,29 @@ class HomeViewController: UIViewController {
         
     }
     
+    func hideControlsWhileLoading(){
+        dateLabel.isHidden = true
+        separatorBar.isHidden = true
+        userIcon.isHidden = true
+        apptorneyLabel.isHidden = true
+    }
+    
+    func showControlsAfterLoading(){
+        dateLabel.isHidden = false
+        separatorBar.isHidden = false
+        userIcon.isHidden = false
+        apptorneyLabel.isHidden = false
+    }
+    
+    
+    
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 //        self.tableView.reloadData()
         print("viewDidAppear")
-        Loader.addLoaderTo(self.tableView)
+        //Loader.addLoaderTo(self.tableView)
+       
         
         
     }
@@ -85,10 +115,10 @@ class HomeViewController: UIViewController {
         self.news=[]
         self.trending=[]
         self.bookmarks.append(HomeItem(title: "No bookmarks yet", summary: "This is a sample bookmark. As you continue to use apptorney and bookmark content, those bookmarks will appear here.", type: "", sourceId: ""))
-        self.news.append(HomeItem(title: "No new items", summary: "Updated content appears here", type: "", sourceId: ""))
-        self.news.append(HomeItem(title: "No new items", summary: "Updated content appears here", type: "", sourceId: ""))
-        self.news.append(HomeItem(title: "No new items", summary: "Updated content appears here", type: "", sourceId: ""))
-        self.trending.append(HomeItem(title: "No trends at the moment", summary: "Trending content appears here", type: "", sourceId: ""))
+        self.news.append(HomeItem(title: "Loading Content...", summary: "Please wait", type: "", sourceId: ""))
+        self.news.append(HomeItem(title: "Loading Content...", summary: "Please wait", type: "", sourceId: ""))
+        self.news.append(HomeItem(title: "Loading Content...", summary: "Please wait", type: "", sourceId: ""))
+        self.trending.append(HomeItem(title: "Loading Content...", summary: "Please wait", type: "", sourceId: ""))
         //Loader.addLoaderTo(self.tableView)
         
     }
@@ -96,8 +126,9 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    
        
-        setupNavBar()
+        //setupNavBar()
         colors.append(UIColor(hex:"D80027"))
         colors.append(UIColor(hex:"007AFF"))
         //colors.append(UIColor(red: 255.0/255, green: 204.0/255, blue: 0.0/255, alpha: 1.0))
@@ -109,6 +140,8 @@ class HomeViewController: UIViewController {
         tableView.delegate = self
         configureUIControls()
         
+        //checkSubscription()
+        
         
         
         
@@ -120,23 +153,97 @@ class HomeViewController: UIViewController {
         
     }
     
+    func checkSubscription(){
+        let subscriptionValidity = false
+        if subscriptionValidity == false {
+            self.performSegue(withIdentifier: "subscriptionRenewal", sender: self)
+        }
+    }
+    
+    @objc func reloadView(){
+        print("Try Again")
+        self.viewWillAppear(true)
+        self.viewDidAppear(true)
+        clearScreen()
+    }
+    
+    func displayError(title: String, message:String){
+        //1. Create the alert controller.
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        // 2. Grab the value from the text field, and print it when the user clicks OK.
+        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
+            self.showPermanentErrorOnScreen()
+        }))
+        
+        alert.addAction(UIAlertAction(title: NSLocalizedString("Try Again", comment: "Default action"), style: .default, handler: { _ in
+           self.reloadView()
+        }))
+        
+        // 3. Present the alert.
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func showPermanentErrorOnScreen(){
+        self.msgLabel = UILabel(frame:CGRect(x: self.view.frame.midX -  144, y: self.view.frame.midY - 30 , width: 280, height: 200))
+        msgLabel.text = "In order to use Apptorney, please ensure that you have an active Internet connection. When you have verified that you have an active Internet connection, please tap the Try Again button below."
+        //msgLabel.sizeToFit()
+        self.msgLabel.numberOfLines = 7
+        self.msgLabel.lineBreakMode = .byWordWrapping
+        self.msgLabel.textAlignment = .center
+        
+        //msgLabel.frame = CGRect(x: self.view.frame.midX -  msgLabel.frame.width/2, y: self.view.frame.midY - 40 , width: 300, height: 46)
+        self.view.addSubview(msgLabel)
+        msgLabel.font = UIFont.systemFont(ofSize: 17, weight: .thin)
+        
+        self.errorImage = UIImageView(frame:CGRect(x: self.view.frame.midX -  48, y: self.view.frame.midY - 149.4 , width: 100, height: 109.4))
+        errorImage.image = UIImage(named: "case-law")
+        self.view.addSubview(errorImage)
+        
+        
+        self.tryAgainButton = UIButton(frame:CGRect(x: 30.0, y: self.view.frame.maxY - 100 , width: self.view.frame.width - 60, height: 50))
+        self.tryAgainButton.backgroundColor = UIColor.black
+        self.tryAgainButton.setTitle("Try Again", for: .normal)
+        self.tryAgainButton.layer.cornerRadius = self.tryAgainButton.frame.height/5
+        self.tryAgainButton.addTarget(self, action: #selector(reloadView), for: .touchUpInside)
+        self.view.addSubview(tryAgainButton)
+        
+        
+    }
+    
+    func clearScreen() {
+        self.msgLabel.removeFromSuperview()
+        self.errorImage.removeFromSuperview()
+        self.tryAgainButton.removeFromSuperview()
+    }
+    
 
     func loadItems(){
         HomeItem.getBookmarks(completionHandler:{(bookmarks,error) in
-            
+            if bookmarks == nil {
+                print("error occured")
+                self.activityIndicator.stopAnimating()
+                self.displayError(title: "No Connection", message: "An Internet connection problem has occured. Please check your Internet connection and try again.")
+                return
+            }
             let userDefaults = UserDefaults.standard
             var bookmarkIds = [String]()
-            for bookmark in bookmarks {
+            for bookmark in bookmarks! {
                 bookmarkIds.append(bookmark.sourceId!)
             }
             userDefaults.set(bookmarkIds, forKey: "bookmarks")
-            self.bookmarks = bookmarks
+            self.bookmarks = bookmarks!
             if self.bookmarks.count == 0 {
                 self.bookmarks.append(HomeItem(title: "No bookmarks yet", summary: "This is a sample bookmark. As you continue to use apptorney and bookmark content, those bookmarks will appear here.", type: "", sourceId: ""))
             }
+            self.loaded = true
+            self.tableView.isHidden = false
             self.tableView.reloadData()
+            self.activityIndicator.stopAnimating()
+            self.tabBarController?.tabBar.isHidden = false
             
             
+            self.setupNavBar()
             UIApplication.shared.isNetworkActivityIndicatorVisible = false
         })
         
@@ -150,7 +257,9 @@ class HomeViewController: UIViewController {
                 self.news.append(HomeItem(title: "No new items", summary: "Updated content appears here", type: "", sourceId: ""))
             }
             self.loaded = true
-            Loader.removeLoaderFrom(self.tableView)
+            print("News \(self.news.count)")
+            //self.activityIndicator.stopAnimating()
+            //Loader.removeLoaderFrom(self.tableView)
             self.tableView.reloadData()
             
             
@@ -164,7 +273,7 @@ class HomeViewController: UIViewController {
                 print("zero trending")
                 self.trending.append(HomeItem(title: "No trends at the moment", summary: "Trending content appears here", type: "", sourceId: ""))
             }
-            self.tableView.isHidden = false
+            //self.tableView.isHidden = false
             self.tableView.reloadData()
             
             
@@ -190,6 +299,7 @@ class HomeViewController: UIViewController {
 //        label.font = UIFont(name: "Torus-Regular", size: 26.0)
 //        label.textAlignment = .center
 //        label.textColor = UIColor.black
+        showControlsAfterLoading()
         let headerView = UIView(frame: CGRect(x:0, y:0, width:400, height:50))
         let logo = UIImageView(frame: CGRect(x:self.view.bounds.midX-30, y:2, width:35, height:35))
         logo.image=UIImage(named: "login-icon")
@@ -201,7 +311,7 @@ class HomeViewController: UIViewController {
         dayFormatter.dateFormat = "EEEE"
         monthFormatter.dateFormat = "MMMM d"
         //self.navigationItem.title = formatter.string(from: date).uppercased()
-        dateLabel.text = dayFormatter.string(from: date).uppercased() + "\n" + monthFormatter.string(from: date).uppercased()
+        dateLabel.text = monthFormatter.string(from: date).uppercased()
 //        label.text = "apptorney"
         //self.navigationItem.titleView = headerView
         if #available(iOS 11.0, *) {
@@ -233,16 +343,7 @@ class HomeViewController: UIViewController {
         return false
     }
 
-    func resetLoadingLabel(_ margin: CGFloat?) {
-        loadingLabel.text = "Loading..."
-        loadingLabel.isHidden = true
-        spinner.stopAnimating()
-        loadingLabel.textColor = UIColor.gray
-        UIView.animate(withDuration: 0.0, delay: 0.0, usingSpringWithDamping: 1, initialSpringVelocity: 0.5, options: [], animations: {
-            self.loadingLabel.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-            }, completion:nil)
-        self.loadingLabel.center.x = self.loadingLabel.center.x + margin!
-    }
+    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using [segue destinationViewController].
@@ -322,6 +423,7 @@ class HomeViewController: UIViewController {
         // 1. UITableView Customisation
         tableView.separatorStyle=UITableViewCellSeparatorStyle.none //remove separators before search
         tableView.tableFooterView = UIView(frame: CGRect.zero) //remove trailing separators after content
+        tableView.backgroundColor = UIColor.white
         
        
         
@@ -389,6 +491,7 @@ extension HomeViewController:UITableViewDataSource {
         let headerCell = tableView.dequeueReusableCell(withIdentifier: "headerCell") as! HeaderTableViewCell
         headerCell.title.text? = item["name"]!
         headerCell.title.textColor = colors[section]
+        headerCell.backgroundColor = UIColor.white
         /*if section>0 {
             let border:UIView = UIView(frame: CGRect(x: 20,y: 4,width: ((tableView.bounds.width) - 40), height: 1))
             border.backgroundColor = UIColor(red: 230.0/255, green: 230.0/255, blue: 230.0/255, alpha: 1.0)
@@ -417,7 +520,7 @@ extension HomeViewController:UITableViewDataSource {
         if !loaded {
             return 0
         }
-        return 40
+        return 20
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

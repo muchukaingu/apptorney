@@ -10,12 +10,19 @@ import UIKit
 
 class HomeDetailsTableViewController: UITableViewController {
     
+    lazy private var activityIndicator : SYActivityIndicatorView = {
+        let image = UIImage(named: "spinner.png")
+        return SYActivityIndicatorView(image: image)
+    }()
+    
     var items: [HomeItem]?
     var viewTitle: String?
     var viewTitleColor: UIColor?
     var selectedId:String?
     var type: String?
     var resourceType: String?
+    var year: Int?
+    var volume: Int?
     
     
     //activity view controls
@@ -23,7 +30,6 @@ class HomeDetailsTableViewController: UITableViewController {
     var height:CGFloat = 0
     var heightDiscount:CGFloat = 0
     let messageFrame = UIView()
-    var activityIndicator = UIActivityIndicatorView()
     var strLabel = UILabel()
     let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
     
@@ -40,35 +46,71 @@ class HomeDetailsTableViewController: UITableViewController {
         if #available(iOS 11.0, *) {
             navigationController?.navigationBar.prefersLargeTitles = true
             self.title = viewTitle
-             navigationController?.navigationBar.largeTitleTextAttributes  = [NSAttributedStringKey(rawValue: NSAttributedStringKey.foregroundColor.rawValue): viewTitleColor!]
+             navigationController?.navigationBar.largeTitleTextAttributes  = [NSAttributedStringKey(rawValue: NSAttributedStringKey.foregroundColor.rawValue): viewTitleColor ?? UIColor.black]
         } else {
              navigationController?.navigationBar.titleTextAttributes  = [NSAttributedStringKey(rawValue: NSAttributedStringKey.foregroundColor.rawValue): viewTitleColor!]
         }
+        
+        self.view.addSubview(activityIndicator)
+        activityIndicator.center = self.view.center
+        activityIndicator.center.y = self.view.center.y - 100.0
+        activityIndicator.startAnimating()
         configureUIControls()
-    
+        
         if let id = self.type {
+            
             if let resourceType = self.resourceType {
                 switch resourceType {
-                    case "case":
-                        activityIndicator("Loading...")
+                    case "caseByArea":
+                        print(id)
+                        activityIndicator.startAnimating()
                         Case.getByArea(area: id, completionHandler: {(cases, error) in
                             //self.legislationTypes = []
                             var caseInstances = [HomeItem]()
                             for caseInstance in cases {
-                                caseInstances.append(HomeItem(title: caseInstance.name!, summary: caseInstance.summaryOfRuling ?? "", type: self.resourceType!, sourceId: caseInstance.id!))
+                                caseInstances.append(HomeItem(title: caseInstance.name!, summary: caseInstance.summaryOfRuling ?? "", type: "case", sourceId: caseInstance.id!))
                             }
                             self.removeIndicator()
                             self.items = caseInstances
                             self.tableView.reloadData()
                             
                         })
-                    case "legislation":
-                        activityIndicator("Loading...")
-                        Legislation.getByType(type: id, completionHandler: {(legislations, error) in
+                    case "caseByYear":
+                        print(id)
+                        activityIndicator.startAnimating()
+                        Case.getByYear(year: self.year, completionHandler: {(cases, error) in
+                            //self.legislationTypes = []
+                            var caseInstances = [HomeItem]()
+                            for caseInstance in cases {
+                                caseInstances.append(HomeItem(title: caseInstance.name!, summary: caseInstance.summaryOfRuling ?? "", type: "case", sourceId: caseInstance.id!))
+                            }
+                            self.removeIndicator()
+                            self.items = caseInstances
+                            self.tableView.reloadData()
+                            
+                        })
+                    case "legislationByVolume":
+                         print("getting legislations by volume")
+                        activityIndicator.startAnimating()
+                        Legislation.getByVolume(volume: self.volume, completionHandler: {(legislations, error) in
                             //self.legislationTypes = []
                             var legislationInstances = [HomeItem]()
                             for legislation in legislations {
-                                legislationInstances.append(HomeItem(title: legislation.legislationName!, summary: legislation.preamble ?? "", type: self.resourceType!, sourceId: legislation.id!))
+                                legislationInstances.append(HomeItem(title: legislation.legislationName!, summary: legislation.preamble ?? "", type: "legislation", sourceId: legislation.id!))
+                            }
+                            self.removeIndicator()
+                            self.items = legislationInstances
+                            self.tableView.reloadData()
+                            
+                        })
+                    case "legislationByYear":
+                        print("getting legislations by year")
+                        activityIndicator.startAnimating()
+                        Legislation.getByYear(year: self.year, type: self.type!, completionHandler: {(legislations, error) in
+                            //self.legislationTypes = []
+                            var legislationInstances = [HomeItem]()
+                            for legislation in legislations {
+                                legislationInstances.append(HomeItem(title: legislation.legislationName!, summary: legislation.preamble ?? "", type: "legislation", sourceId: legislation.id!))
                             }
                             self.removeIndicator()
                             self.items = legislationInstances
@@ -204,34 +246,9 @@ class HomeDetailsTableViewController: UITableViewController {
         
     }
     
-    func activityIndicator(_ title: String) {
-        
-        strLabel.removeFromSuperview()
-        activityIndicator.removeFromSuperview()
-        effectView.removeFromSuperview()
-        
-        strLabel = UILabel(frame: CGRect(x: 50, y: 0, width: 120, height: 46))
-        strLabel.text = title
-        strLabel.font = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.medium)
-        strLabel.textColor = UIColor(white: 0.9, alpha: 0.7)
-        
-        effectView.frame = CGRect(x: view.frame.midX - 70, y: view.frame.midY - 120 , width: 140, height: 46)
-        effectView.layer.cornerRadius = 10
-        effectView.layer.masksToBounds = true
-        
-        activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .white)
-        activityIndicator.frame = CGRect(x: 0, y: 0, width: 46, height: 46)
-        activityIndicator.startAnimating()
-        
-        effectView.contentView.addSubview(activityIndicator)
-        effectView.contentView.addSubview(strLabel)
-        view.addSubview(effectView)
-    }
     
     func removeIndicator(){
-        strLabel.removeFromSuperview()
-        activityIndicator.removeFromSuperview()
-        effectView.removeFromSuperview()
+        activityIndicator.stopAnimating()
     }
     
     

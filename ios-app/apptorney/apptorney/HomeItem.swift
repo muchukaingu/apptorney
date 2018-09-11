@@ -21,14 +21,15 @@ class HomeItem: Decodable {
         self.sourceId = sourceId
     }
     
-    class func getBookmarks(completionHandler:@escaping ([HomeItem], Error?)->Void){
+    class func getBookmarks(completionHandler:@escaping ([HomeItem]?, Error?)->Void){
         print("Bookmarking, mafa")
         let api = APIService()
         let userDefaults = UserDefaults.standard
         if let username = userDefaults.string(forKey: "username"){
             api.get(endPoint: "/Customers/bookmarks", parameters: ["username":username], completionHandler: { (result, error) in
                 if error != nil {
-                    print(error!)
+                   print("error occured reading bookmarks")
+                   completionHandler(nil, error)
                 }
                 else {
                     do {
@@ -73,13 +74,14 @@ class HomeItem: Decodable {
     }
     
     class func getNews(completionHandler:@escaping ([HomeItem]?, Error?)->Void){
-        print("Bookmarking, mafa")
+       
         let api = APIService()
         
         api.get(endPoint: "/news/viewNews", parameters: nil, completionHandler: { (result, error) in
             if error != nil {
-                 completionHandler(nil, error)
-                print(error!)
+                
+                completionHandler(nil, error)
+                
             }
             else {
                 do {
@@ -105,7 +107,7 @@ class HomeItem: Decodable {
         api.get(endPoint: "/trendings/viewTrends", parameters: nil, completionHandler: { (result, error) in
             if error != nil {
                 completionHandler(nil, error)
-                print(error!)
+                
             }
             else {
                 do {

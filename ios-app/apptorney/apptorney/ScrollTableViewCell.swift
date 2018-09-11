@@ -56,15 +56,30 @@ extension ScrollTableViewCell: UICollectionViewDataSource {
         
         cell.name.text = itemsToDisplay[indexPath.row].title?.capitalized
         cell.summary.text = itemsToDisplay[indexPath.row].summary
-        cell.backgroundColor = colors[section]
+        
         if section == 0 {
             cell.bookmarkImage.image = UIImage(named: "bookmark-red-1")
             cell.accessoryImage.alpha = 0
         }
         if section == 1 {
-            cell.name.font = cell.name.font.withSize(13)
-            cell.accessoryImage.image = UIImage(named: "new-3")
-            cell.bookmarkImage.alpha = 0
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "smallCell", for: indexPath) as! HomeSmallCollectionViewCell
+            cell.name.text = itemsToDisplay[indexPath.row].title?.capitalized
+            cell.type.text = "New " + itemsToDisplay[indexPath.row].type!.capitalized
+            if itemsToDisplay[indexPath.row].type == nil || itemsToDisplay[indexPath.row].type == "" {
+                cell.placeholders.image = UIImage(named: "placeholders")
+                cell.name.text = ""
+                cell.type.text = ""
+                cell.topPlaceholder.image = UIImage(named: "top-placeholder")
+            } else {
+                cell.placeholders.image = UIImage()
+                cell.topPlaceholder.image = UIImage()
+            }
+            
+            cell.name.font = cell.name.font.withSize(14)
+            cell.backgroundColor = colors[section]
+            //cell.accessoryImage.image = UIImage(named: "new-3")
+           
+            return cell
         }
         if section == 2 {
             cell.name.font = cell.name.font.withSize(13)
@@ -82,7 +97,7 @@ extension ScrollTableViewCell : UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         var multiplier:CGFloat = 0.9
         if section == 1 {
-            multiplier = 0.33
+            multiplier = 0.42
         }
         
         let hardCodedPadding:CGFloat = 10

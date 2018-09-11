@@ -27,6 +27,9 @@ class LegislationsTableViewController: UITableViewController {
     var msgLabel = UILabel()
     let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
     var errorImage = UIImageView()
+    
+    
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,24 +51,23 @@ class LegislationsTableViewController: UITableViewController {
     }
     
     func loadLegislationTypes(){
-        LegislationType.search(completionHandler:{(types,error) in
+        /*LegislationType.search(completionHandler:{(types,error) in
             self.legislationTypes = types
             self.legislationTypes.sort(by: { $0.name! < $1.name! })
             self.tableView.reloadData()
             UIApplication.shared.isNetworkActivityIndicatorVisible = false
-        })
+        })*/
+        
+        self.legislationTypes = [
+            LegislationType(name: "Volumes", _id: "volumes", description: "Acts of Parliament - primary pieces of legislation enacted by Parliament before 1996 to govern the Republic of Zambia", id: "law-lib"),
+            LegislationType(name: "Acts of Parliament", _id: "acts", description: "Primary pieces of legislation enacted by Parliament after 1996 to govern the Republic of Zambia", id: "book-2"),
+            LegislationType(name: "Statutory Instruments", _id: "sis", description: "A type of subsidiary legislation issued by empowered persons or institutions to administer Acts of Parliament", id: "law")
+        ]
     }
     var items = [HomeItem]()
     var selectedTitle = ""
     
-    func loadLegislationsByType(type: LegislationType!){
-        self.selectedTitle =  type.name!
-        self.type = type.id!
-        self.performSegue(withIdentifier: "legislationsByType", sender: self)
-        
-    }
-    
-    
+
     
     func setupNavBar(){
         self.searchController = UISearchController(searchResultsController: nil)
@@ -137,6 +139,7 @@ class LegislationsTableViewController: UITableViewController {
             let type = legislationTypes[(indexPath as NSIndexPath).row]
             cell.name.text = type.name
             cell.summary?.text = type.description
+            cell.icon.image = UIImage(named: type.id!)
             return cell
         }
         else {
@@ -244,11 +247,11 @@ class LegislationsTableViewController: UITableViewController {
             self.searchController.searchBar.resignFirstResponder()
             print("in segue, mofo")
             let destinationController = segue.destination as!
-            HomeDetailsTableViewController
-            destinationController.type = self.type!
-             destinationController.resourceType = "legislation"
-            destinationController.viewTitle = self.selectedTitle
-            destinationController.viewTitleColor = UIColor.black
+            LegislationTypeSegmentationVC
+            //destinationController.type = self.type!
+            destinationController.resourceType = self.type
+            //destinationController.viewTitle = self.selectedTitle
+            //destinationController.viewTitleColor = UIColor.black
         }
     }
     
@@ -289,8 +292,8 @@ class LegislationsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if self.searchController.searchBar.text == ""  {
-            let type = legislationTypes[indexPath.row]
-            loadLegislationsByType(type: type)
+            self.type = legislationTypes[indexPath.row]._id
+            self.performSegue(withIdentifier: "legislationsByType", sender: self)
         } else {
             performSegue(withIdentifier: "showLegislationDetails", sender: self)
         }

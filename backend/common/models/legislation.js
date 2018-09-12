@@ -16,8 +16,9 @@ module.exports = function(Legislation) {
         var legislationCollection = Legislation.getDataSource().connector.collection('legislation')
         var legislationTypes = [
             '598978adbe0d4f0197376605',
-            '5a09a9f811a57209f2652418',
-            '577d66caa856154683e6c2c0'
+            '5a095bc811a57209f26523fd',
+            '577d66caa856154683e6c2c0',
+            '5982f641fefae422c4ca8675'
         ]
         if (type == 'Acts') {
 

@@ -1,48 +1,35 @@
 {
-  "name": "Organization",
-  "base": "PersistedModel",
-  "idInjection": true,
-  "options": {
-    "validateUpsert": true
-  },
-  "properties": {
-    "registrationNumber": {
-      "type": "string",
-      "required": true
+    "name": "Organization",
+    "base": "PersistedModel",
+    "idInjection": true,
+    "options": {
+        "validateUpsert": true
     },
-    "organizationName": {
-      "type": "string",
-      "required": true
+    "properties": {
+        "name": {
+            "type": "string",
+            "required": true
+        },
+        "physicalAddress": {
+            "type": "string",
+            "required": true
+        },
+        "contact": {
+            "type": "string",
+            "required": true
+        },
+        "otherInformation": {
+            "type": "string"
+        }
     },
-    "emailAddress": {
-      "type": "string",
-      "required": true
+    "validations": [],
+    "relations": {
+        "employees": {
+            "type": "hasMany",
+            "model": "Customer",
+            "foreignKey": ""
+        }
     },
-    "phoneNumber": {
-      "type": "string",
-      "required": true
-    },
-    "contactPerson": {
-      "type": "string",
-      "required": true
-    },
-    "MOU": {
-      "type": "string",
-      "required": false
-    },
-    "physicalAddress": {
-      "type": "string",
-      "required": true
-    }
-  },
-  "validations": [],
-  "relations": {
-    "employees": {
-      "type": "hasMany",
-      "model": "Customer",
-      "foreignKey": ""
-    }
-  },
-  "acls": [],
-  "methods": {}
+    "acls": [],
+    "methods": {}
 }

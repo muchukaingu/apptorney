@@ -165,5 +165,21 @@
     "dashboard": {
         "dataSource": "storage",
         "public": true
+    },
+    "tier": {
+        "dataSource": "apptorney",
+        "public": true
+    },
+    "subscription": {
+        "dataSource": "apptorney",
+        "public": true
+    },
+    "subscriptionType": {
+        "dataSource": "apptorney",
+        "public": true
+    },
+    "contact": {
+        "dataSource": "apptorney",
+        "public": true
     }
 }

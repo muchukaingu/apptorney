@@ -4,7 +4,7 @@ module.exports = function(Subscription) {
     Subscription.createTrial = function(cb) {
         var activationDate = new Date(Date.now());
         var expiryDate = new Date();
-        expiryDate.setDate(activationDate.getDate() + 30);
+        expiryDate.setDate(activationDate.getDate() + 1);
         Subscription.create({ numberOfSlots: 1, numberOfAssignments: 1, activationDate: activationDate, expiryDate: expiryDate }, (err, subscription) => {
             if (err) {
                 console.log("error occured");

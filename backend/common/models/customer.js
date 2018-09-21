@@ -201,10 +201,11 @@ module.exports = function(Customer) {
     }
 
 
-    Customer.afterRemote('create', function(context, customer, next) {
-        var app = Customer.app
-        var Appuser = app.models.Appuser
-        var count = 0
+    Customer.beforeRemote('create', function(context, customer, next) {
+        var app = Customer.app;
+        var Appuser = app.models.Appuser;
+        var Subscription = app.models.Subscription;
+        var count = 0;
 
         function callback() {
             if (count == 1) {
@@ -212,12 +213,28 @@ module.exports = function(Customer) {
             }
             count++
         }
-
+        var customer = context.req.body;
         Appuser.create({ username: customer.phoneNumber, email: customer.emailAddress, password: customer.password, pwd: customer.password, firstname: customer.firstName, lastname: customer.lastName, customerId: customer.id }, function(err, user) {
-            console.log('user has been saved', user)
-            console.log('err occured', err)
-                // callback()
-            next()
+            if (err) {
+                console.log('err occured', err)
+                next(err, null)
+            } else if (user) {
+                console.log('user has been saved', user)
+                Subscription.createTrial((err, subscription) => {
+                    if (err) {
+                        console.log("Error creating subscription")
+                    } else if (subscription) {
+                        user.currentSubscription = subscription.id;
+                        user.save();
+                        console.log("subscription assigned");
+                        next()
+                    }
+                })
+
+            }
+
+            // callback()
+
         })
 
     })

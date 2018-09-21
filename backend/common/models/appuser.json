@@ -12,7 +12,11 @@
     "mixins": {
         "TimeStamp": true
     },
-    "properties": {},
+    "properties": {
+        "currentSubscription": {
+            "type": "string"
+        }
+    },
     "validations": [],
     "relations": {
         "customer": {

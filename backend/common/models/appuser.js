@@ -331,8 +331,7 @@ module.exports = function(Appuser) {
             '://' +
             options.host +
             displayPort +
-            options.re
-        stApiRoot +
+            options.restApiRoot +
             userModel.http.path +
             userModel.sharedClass.find('confirm', true).http.path +
             '?uid=' +

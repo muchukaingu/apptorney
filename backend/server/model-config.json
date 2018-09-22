@@ -181,5 +181,9 @@
     "contact": {
         "dataSource": "apptorney",
         "public": true
+    },
+    "responseHandler": {
+        "dataSource": "apptorney",
+        "public": false
     }
 }

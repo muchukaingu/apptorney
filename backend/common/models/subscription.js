@@ -37,29 +37,30 @@ module.exports = function(Subscription) {
     Subscription.checkSubscription = function(userName, cb) {
         var app = Subscription.app;
         var Appuser = app.models.Appuser;
+        var ResponseHandler = app.models.ResponseHandler;
         Appuser.findOne({ where: { username: userName } }, (err, user) => {
             if (err) {
-                //TODO proper error handling
-                console.log("user not found");
-                cb(err, null);
+                ResponseHandler.sendCallback(false, 500, err, "Error occured while checking for subscription.", "", cb);
             }
             if (user) {
                 console.log(user)
                 Subscription.findById(user.currentSubscription, (err, subscription) => {
-                    console.log(subscription)
-                        //TODO check expiry
-                    if (date_diff_indays(Date.now(), subscription.expiryDate) <= 0) {
-                        console.log("subscription has expired");
-                        cb(null, false)
-                            //TODO send appropriate response to app;
+                    if (err) {
+                        ResponseHandler.sendCallback(false, 500, err, "Error occured while checking for subscription.", "", null, cb);
+                    } else if (subscription) {
+                        if (date_diff_indays(Date.now(), subscription.expiryDate) <= 0) {
+                            ResponseHandler.sendCallback(false, 401, err, "Subscription has expired.", undefined, "", cb);
+                        } else {
+                            ResponseHandler.sendCallback(true, 200, err, undefined, "Subscription is still valid.", "", cb);
+                        }
                     } else {
-                        console.log("subscription is still valid");
-                        cb(null, true)
-                            //TODO send appropriate response to app;
+                        ResponseHandler.sendCallback(false, 404, err, "Subscription not found", "", null, cb);
                     }
+
                 })
             } else {
-                cb(new Error("user not found"), null)
+
+                ResponseHandler.sendCallback(false, 404, err, "User not found", "", null, cb);
             }
         })
 
@@ -71,5 +72,7 @@ module.exports = function(Subscription) {
         var dt2 = new Date(date2);
         return Math.floor((Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) - Date.UTC(dt1.getFullYear(), dt1.getMonth(), dt1.getDate())) / (1000 * 60 * 60 * 24));
     }
+
+
 
 };

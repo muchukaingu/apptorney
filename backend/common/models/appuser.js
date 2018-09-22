@@ -217,8 +217,8 @@ module.exports = function(Appuser) {
 
         function sendSMS(user) {
             client.messages.create({
-                // body: 'Your verification code: ' + user.verificationTokenForPhone,
-                body: 'Thank you for your registration. Apptorney will be available for download on April 30, 2018. Please check your email for more details.',
+                body: 'Your verification code: ' + user.verificationTokenForPhone,
+                //body: 'Thank you for your registration. Apptorney will be available for download on April 30, 2018. Please check your email for more details.',
                 to: user.username, // Text this number
                 from: 'Apptorney' // From a valid Twilio number
             }).then((message) => console.log(message.sid))
@@ -300,9 +300,15 @@ module.exports = function(Appuser) {
 
     Appuser.prototype.verify = function(options, fn) {
         console.log('verify fn')
+        var Subscription = Appuser.app.models.Subscription;
+        var expiryDate = new Date();
         fn = fn || utils.createPromiseCallback()
 
         var user = this
+        Subscription.findById(user.currentSubscription, (err, subscription) => {
+            expiryDate = subscription.expiryDate;
+            sendEmail(user);
+        })
         var userModel = this.constructor
         var registry = userModel.registry
         assert(typeof options === 'object', 'options required when calling user.verify()')
@@ -345,19 +351,19 @@ module.exports = function(Appuser) {
 
         // Set a default token generation function if one is not provided
         var tokenGenerator = options.generateVerificationToken || User.generateVerificationToken
+            /*
+            tokenGenerator(user, function(err, token) {
+                if (err) { return fn(err); }
 
-        tokenGenerator(user, function(err, token) {
-            if (err) { return fn(err); }
-
-            user.verificationToken = token
-            user.save(function(err) {
-                if (err) {
-                    fn(err)
-                } else {
-                    sendEmail(user)
-                }
-            })
-        })
+                user.verificationToken = token
+                user.save(function(err) {
+                    if (err) {
+                        fn(err)
+                    } else {
+                        sendEmail(user)
+                    }
+                })
+            })*/
 
         tokenGenerator(user, function(err, token) {
             if (err) { return fn(err); }
@@ -407,7 +413,8 @@ module.exports = function(Appuser) {
               })*/
 
             client.messages.create({
-                    body: 'Thank you for your registration. Apptorney will be available for download on April 30, 2018. Please check your email for more details.',
+                    body: 'Your verification code: ' + user.verificationTokenForPhone,
+                    // body: 'Thank you for your registration. Apptorney will be available for download on April 30, 2018. Please check your email for more details.',
                     to: user.username, // Text this number
                     from: 'Apptorney' // From a valid Twilio number
                 }).then((message) => console.log(message.sid))

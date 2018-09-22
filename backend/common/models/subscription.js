@@ -58,6 +58,8 @@ module.exports = function(Subscription) {
                             //TODO send appropriate response to app;
                     }
                 })
+            } else {
+                cb(new Error("user not found"), null)
             }
         })
 

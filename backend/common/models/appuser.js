@@ -7,6 +7,7 @@ var crypto = require('crypto')
 var assert = require('assert')
 var debug = require('debug')
 const Nexmo = require('nexmo')
+    //var dateFormat = require('dateformat');
 
 // const nexmo = new Nexmo({
 //     apiKey: '3e93649c',
@@ -296,19 +297,29 @@ module.exports = function(Appuser) {
         return fn.promise
     }
 
+
+
+    function formatDate(date) {
+        var options = {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        };
+        return date.toLocaleDateString("en-US", options);
+    }
+
     // ----------------End----->
 
     Appuser.prototype.verify = function(options, fn) {
         console.log('verify fn')
         var Subscription = Appuser.app.models.Subscription;
         var expiryDate = new Date();
+
         fn = fn || utils.createPromiseCallback()
 
         var user = this
-        Subscription.findById(user.currentSubscription, (err, subscription) => {
-            expiryDate = subscription.expiryDate;
-            sendEmail(user);
-        })
+
+
         var userModel = this.constructor
         var registry = userModel.registry
         assert(typeof options === 'object', 'options required when calling user.verify()')
@@ -326,6 +337,9 @@ module.exports = function(Appuser) {
         options.host = options.host || (app && app.get('host')) || 'localhost'
         options.port = options.port || (app && app.get('port')) || 3000
         options.restApiRoot = options.restApiRoot || (app && app.get('restApiRoot')) || '/api'
+        var expiryDate = new Date(Date.now());
+        expiryDate.setDate(expiryDate.getDate() + 30);
+        options.expiryDate = formatDate(expiryDate);
 
         var displayPort = (
             (options.protocol === 'http' && options.port == '80') ||
@@ -351,19 +365,19 @@ module.exports = function(Appuser) {
 
         // Set a default token generation function if one is not provided
         var tokenGenerator = options.generateVerificationToken || User.generateVerificationToken
-            /*
-            tokenGenerator(user, function(err, token) {
-                if (err) { return fn(err); }
 
-                user.verificationToken = token
-                user.save(function(err) {
-                    if (err) {
-                        fn(err)
-                    } else {
-                        sendEmail(user)
-                    }
-                })
-            })*/
+        tokenGenerator(user, function(err, token) {
+            if (err) { return fn(err); }
+
+            user.verificationToken = token
+            user.save(function(err) {
+                if (err) {
+                    fn(err)
+                } else {
+                    sendEmail(user)
+                }
+            })
+        })
 
         tokenGenerator(user, function(err, token) {
             if (err) { return fn(err); }

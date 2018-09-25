@@ -185,5 +185,9 @@
     "responseHandler": {
         "dataSource": "apptorney",
         "public": false
+    },
+    "update": {
+        "dataSource": "apptorney",
+        "public": true
     }
 }

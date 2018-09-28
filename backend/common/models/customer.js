@@ -177,28 +177,29 @@ module.exports = function(Customer) {
      * @callback {Function} cb The callback function
      */
     Customer.bookmarks = function(username, cb) {
-        var app = Customer.app
-        var Case = app.models.Case
+            var app = Customer.app
+            var Case = app.models.Case
 
-        /*function callback(err, customer) {
-            Loan.find({ where: { customerId: customer.id, status: { neq: "disbursed" } } }, function(err, loans) {
-                var aCustomer = {}
-                aCustomer = customer
-                aCustomer.currentLoans = loans
-                console.info('Customer', aCustomer)
-                cb(null, aCustomer)
+            /*function callback(err, customer) {
+                Loan.find({ where: { customerId: customer.id, status: { neq: "disbursed" } } }, function(err, loans) {
+                    var aCustomer = {}
+                    aCustomer = customer
+                    aCustomer.currentLoans = loans
+                    console.info('Customer', aCustomer)
+                    cb(null, aCustomer)
+                })
+            }*/
+
+            this.findOne({ where: { phoneNumber: username } }, function(err, customer) {
+                if (customer == null) {
+                    cb(err, null)
+                } else {
+                    if (customer.bookmarks == undefined) { customer.bookmarks = [] }
+                    cb(null, customer.bookmarks)
+                }
             })
-        }*/
-
-        this.findOne({ where: { phoneNumber: username } }, function(err, customer) {
-            if (customer == null) {
-                cb(err, null)
-            } else {
-                if (customer.bookmarks == undefined) { customer.bookmarks = [] }
-                cb(null, customer.bookmarks)
-            }
-        })
-    }
+        }
+        //
 
 
     Customer.beforeRemote('create', function(context, customer, next) {

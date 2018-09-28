@@ -16,6 +16,7 @@ const Nexmo = require('nexmo')
 
 var accountSid = 'ACba8ec0e4fa56209de7a4154e1f7d4ca8'; // Your Account SID from www.twilio.com/console
 var authToken = '8efb8cbb2fd3f4f5b76c1ca8eec435f4'; // Your Auth Token from www.twilio.com/console
+var messagingServiceSid = 'MG587973a6cc592b7694e19295c4897e73';
 
 var twilio = require('twilio')
 var client = new twilio(accountSid, authToken)
@@ -217,12 +218,11 @@ module.exports = function(Appuser) {
         })
 
         function sendSMS(user) {
-            var from = '+17162654415';
             client.messages.create({
                 body: 'Your verification code: ' + user.verificationTokenForPhone,
                 //body: 'Thank you for your registration. Apptorney will be available for download on April 30, 2018. Please check your email for more details.',
                 to: user.username, // Text this number
-                from: from // From a valid Twilio number
+                messagingServiceSid: messagingServiceSid
             }).then((message) => console.log(message.sid))
         }
         return fn.promise
@@ -426,36 +426,15 @@ module.exports = function(Appuser) {
               nexmo.message.sendSms('apptorney', user.username, 'Your verification code: ' + user.verificationTokenForPhone, (err, res) => {
              console.log('err', err)
               })*/
-            var from = '+17162654415'
 
             client.messages.create({
-                    body: 'Your verification code: ' + user.verificationTokenForPhone,
-                    // body: 'Thank you for your registration. Apptorney will be available for download on April 30, 2018. Please check your email for more details.',
-                    to: user.username, // Text this number
-                    from: from // From a valid Twilio number
-                }).then((message) => console.log(message.sid))
-                /*console.log('user', user)
-                var http = require('http')
-                http.get({
-                        host: 'api.clickatell.com',
-                        path: '/http/sendmsg?user=muchukaingu&password=TeamCircuit123&api_id=3524272&to=' + user.username + '&text=LUPIYA+code:+' + user.verificationTokenForPhone
-                    },
-                    function(response) {
-                        // Continuously update stream with data
-                        var body = ''
-                        response.on('data', function(d) {
-                            body += d
+                body: 'Your verification code: ' + user.verificationTokenForPhone,
+                // body: 'Thank you for your registration. Apptorney will be available for download on April 30, 2018. Please check your email for more details.',
+                to: user.username, // Text this number
+                //from: 'Apptorney' // From a valid Twilio number
+                messagingServiceSid: messagingServiceSid
+            }).then((message) => console.log(message.sid))
 
-                            // return fn(null, {email: user.username, token: user.verificationTokenForPhone, uid: user.id})
-                        })
-                        response.on('end', function() {
-
-                            // var parsed = JSON.parse(body)
-                            console.log(user.username)
-                            console.log('Data returned', body)
-                        })
-                    })
-                    */
         }
         return fn.promise
     }

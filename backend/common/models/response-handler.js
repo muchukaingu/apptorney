@@ -2,7 +2,7 @@
 
 module.exports = function(ResponseHandler) {
     ResponseHandler.sendCallback = function(success, statusCode, err, errMessage, successMessage, data, cb) {
-        console.log("sendCallback called" + err)
+
         let message = {};
         message.success = success;
         message.statusCode = statusCode;

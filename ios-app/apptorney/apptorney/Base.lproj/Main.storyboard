@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.13.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.9"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -486,7 +486,7 @@
         <!--Onboarding View Controller-->
         <scene sceneID="yC8-St-de8">
             <objects>
-                <viewController storyboardIdentifier="Onboarding" id="Gu6-4D-Hxd" customClass="OnboardingViewController" customModule="apptorney" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Gu6-4D-Hxd" customClass="OnboardingViewController" customModule="apptorney" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="xbm-Ls-BOx"/>
                         <viewControllerLayoutGuide type="bottom" id="5kQ-UF-N0R"/>
@@ -496,7 +496,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WoG-kc-wgl" customClass="OnboardingView" customModule="apptorney" customModuleProvider="target">
-                                <rect key="frame" x="16" y="20" width="343" height="647"/>
+                                <rect key="frame" x="16" y="64" width="343" height="603"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eBS-fs-g99">
@@ -528,9 +528,58 @@
                                     <action selector="Next:" destination="Gu6-4D-Hxd" eventType="touchUpInside" id="eL1-jn-maY"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qiR-P0-tpg">
+                                <rect key="frame" x="31" y="635" width="313" height="24"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I agree to Apptorney's" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xh0-Ux-VNj">
+                                        <rect key="frame" x="11" y="3" width="126" height="15"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VpW-O6-bdo">
+                                        <rect key="frame" x="139" y="-3" width="75" height="27"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <state key="normal" title="Terms of Use">
+                                            <color key="titleColor" red="0.0" green="0.58980089430000004" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <segue destination="DnL-7m-iZs" kind="show" identifier="showTerms" id="LMD-nw-Jd6"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V0g-c2-our">
+                                        <rect key="frame" x="227" y="-3" width="79" height="27"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <state key="normal" title="Privacy Policy">
+                                            <color key="titleColor" red="0.0" green="0.58980089430000004" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <segue destination="DnL-7m-iZs" kind="show" identifier="showPrivacy" id="edg-9b-bfE"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&amp;" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eLr-E3-zuI">
+                                        <rect key="frame" x="216" y="3" width="9" height="15"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="xh0-Ux-VNj" firstAttribute="top" secondItem="qiR-P0-tpg" secondAttribute="top" constant="3" id="1oE-kf-gXg"/>
+                                    <constraint firstItem="V0g-c2-our" firstAttribute="centerY" secondItem="eLr-E3-zuI" secondAttribute="centerY" id="7Gb-b5-9Vu"/>
+                                    <constraint firstItem="eLr-E3-zuI" firstAttribute="leading" secondItem="VpW-O6-bdo" secondAttribute="trailing" constant="2" id="BCt-Hj-MIu"/>
+                                    <constraint firstItem="V0g-c2-our" firstAttribute="leading" secondItem="eLr-E3-zuI" secondAttribute="trailing" constant="2" id="FJG-dO-4uh"/>
+                                    <constraint firstItem="eLr-E3-zuI" firstAttribute="centerY" secondItem="VpW-O6-bdo" secondAttribute="centerY" id="I2h-Uh-a4f"/>
+                                    <constraint firstItem="VpW-O6-bdo" firstAttribute="centerY" secondItem="xh0-Ux-VNj" secondAttribute="centerY" id="PfV-YH-iYo"/>
+                                    <constraint firstItem="xh0-Ux-VNj" firstAttribute="leading" secondItem="qiR-P0-tpg" secondAttribute="leading" constant="11" id="nct-ZI-Iqe"/>
+                                    <constraint firstItem="VpW-O6-bdo" firstAttribute="leading" secondItem="xh0-Ux-VNj" secondAttribute="trailing" constant="2" id="utM-M5-HzO"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="5kQ-UF-N0R" firstAttribute="top" secondItem="qiR-P0-tpg" secondAttribute="bottom" constant="8" id="BRO-OA-sMT"/>
                             <constraint firstItem="5kQ-UF-N0R" firstAttribute="top" secondItem="eBS-fs-g99" secondAttribute="bottom" constant="40" id="KXn-BI-ygb"/>
                             <constraint firstItem="5kQ-UF-N0R" firstAttribute="top" secondItem="0x6-Xg-6QM" secondAttribute="bottom" constant="50" id="X7v-Cz-5ij"/>
                             <constraint firstItem="WoG-kc-wgl" firstAttribute="top" secondItem="xbm-Ls-BOx" secondAttribute="bottom" id="Yj8-4E-oWQ"/>
@@ -539,22 +588,35 @@
                                 <variation key="heightClass=regular-widthClass=regular" constant="150"/>
                             </constraint>
                             <constraint firstItem="0x6-Xg-6QM" firstAttribute="centerX" secondItem="B6m-O9-sRs" secondAttribute="centerX" constant="5" id="iwY-gV-i9j"/>
+                            <constraint firstItem="qiR-P0-tpg" firstAttribute="top" secondItem="eBS-fs-g99" secondAttribute="bottom" constant="8" id="j1V-EX-Udc"/>
                             <constraint firstAttribute="trailingMargin" secondItem="WoG-kc-wgl" secondAttribute="trailing" id="mPJ-KY-Ghx"/>
                             <constraint firstItem="5kQ-UF-N0R" firstAttribute="top" secondItem="WoG-kc-wgl" secondAttribute="bottom" id="n1z-D8-Tr2"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="qiR-P0-tpg" secondAttribute="trailing" constant="15" id="oUT-jP-Pxd"/>
                             <constraint firstItem="eBS-fs-g99" firstAttribute="leading" secondItem="B6m-O9-sRs" secondAttribute="leading" constant="20" id="qxz-jK-jk5">
                                 <variation key="heightClass=regular-widthClass=regular" constant="150"/>
                             </constraint>
+                            <constraint firstItem="qiR-P0-tpg" firstAttribute="leading" secondItem="B6m-O9-sRs" secondAttribute="leadingMargin" constant="15" id="wXd-bt-XbQ"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="qX0-ND-Z1s"/>
                     <connections>
                         <outlet property="getStartedButton" destination="eBS-fs-g99" id="i7M-3H-BwB"/>
                         <outlet property="nextButton" destination="0x6-Xg-6QM" id="T4K-ws-nqO"/>
                         <outlet property="onboardingView" destination="WoG-kc-wgl" id="y7p-KG-Ufi"/>
+                        <outlet property="termsView" destination="qiR-P0-tpg" id="Z0A-ud-jnB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Kyt-II-aYl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1238" y="-997"/>
+            <point key="canvasLocation" x="-300" y="-997.15142428785612"/>
+        </scene>
+        <!--LegislationDetails-->
+        <scene sceneID="ift-9O-p22">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="Subscription Renewal" storyboardName="SubscriptionRenewal" referencedIdentifier="LegislationDetails" id="DnL-7m-iZs" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pyM-Or-bob" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1368" y="-576"/>
         </scene>
         <!--Log In-->
         <scene sceneID="3lC-vs-Fe7">
@@ -788,7 +850,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uyH-yg-lJa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1254" y="-997"/>
+            <point key="canvasLocation" x="2192.8000000000002" y="-997.15142428785612"/>
         </scene>
         <!--Home-->
         <scene sceneID="H5q-D0-Zwb">
@@ -870,7 +932,7 @@ Please check your API Settings or Network Connection and try again.</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="b4N-na-Snw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2854" y="-709"/>
+            <point key="canvasLocation" x="3792.8000000000002" y="-709.29535232383819"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="vb5-3b-XLv">
@@ -924,7 +986,7 @@ Please check your API Settings or Network Connection and try again.</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ekx-Ki-joZ">
-                                <rect key="frame" x="40" y="308.5" width="295" height="50"/>
+                                <rect key="frame" x="20" y="538" width="335" height="50"/>
                                 <color key="backgroundColor" name="systemRedColor" catalog="System" colorSpace="catalog"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="W5N-aH-PVs">
@@ -940,30 +1002,71 @@ Please check your API Settings or Network Connection and try again.</string>
                                     <segue destination="Xmk-Bb-NcC" kind="showDetail" id="XuD-4m-twF"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7uh-u2-ILl">
-                                <rect key="frame" x="35" y="174" width="305" height="81.5"/>
-                                <string key="text">Signing out will require you to login next time you want to use apptorney. To keep signed in, just close apptorney without signing out.</string>
-                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
-                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FsO-ic-VIz">
+                                <rect key="frame" x="16" y="142" width="343" height="180"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Subscribe Now ($19.99)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z9r-W9-6YD">
+                                        <rect key="frame" x="105" y="20" width="205" height="21.5"/>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="payment-method-4" translatesAutoresizingMaskIntoConstraints="NO" id="vSW-yc-wk0">
+                                        <rect key="frame" x="15" y="20" width="80" height="80"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="80" id="2Iy-Qq-NG6"/>
+                                            <constraint firstAttribute="width" constant="80" id="xFW-ui-Z5f"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Subscribe to Apptorney using App Store Credit. This subbscription auto renews at the end of the subscription period." textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pU0-wA-3X9">
+                                        <rect key="frame" x="105" y="43.5" width="230" height="62.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="stl-dq-Lh2">
+                                        <rect key="frame" x="15" y="131" width="313" height="45"/>
+                                        <color key="backgroundColor" red="0.0" green="0.58980089430000004" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="45" id="SvC-Ne-kYx">
+                                                <variation key="heightClass=regular-widthClass=regular" constant="60"/>
+                                            </constraint>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <state key="normal" title="Subscribe Now">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="subscribe:" destination="TVD-oS-if5" eventType="touchUpInside" id="pft-wy-LRa"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="stl-dq-Lh2" firstAttribute="top" secondItem="pU0-wA-3X9" secondAttribute="bottom" constant="25" id="8bi-RE-qXL"/>
+                                    <constraint firstAttribute="height" constant="180" id="9LR-hv-LPf"/>
+                                    <constraint firstItem="pU0-wA-3X9" firstAttribute="leading" secondItem="z9r-W9-6YD" secondAttribute="leading" id="SP8-vC-enb"/>
+                                    <constraint firstItem="stl-dq-Lh2" firstAttribute="leading" secondItem="FsO-ic-VIz" secondAttribute="leading" constant="15" id="Wpn-eB-Aj5"/>
+                                    <constraint firstItem="vSW-yc-wk0" firstAttribute="top" secondItem="FsO-ic-VIz" secondAttribute="top" constant="20" id="bvx-DC-tEc"/>
+                                    <constraint firstAttribute="trailing" secondItem="stl-dq-Lh2" secondAttribute="trailing" constant="15" id="dNG-Yr-7vP"/>
+                                    <constraint firstItem="pU0-wA-3X9" firstAttribute="top" secondItem="z9r-W9-6YD" secondAttribute="bottom" constant="2" id="r2v-LL-olH"/>
+                                    <constraint firstItem="vSW-yc-wk0" firstAttribute="leading" secondItem="FsO-ic-VIz" secondAttribute="leading" constant="15" id="r7R-gz-btZ"/>
+                                    <constraint firstItem="z9r-W9-6YD" firstAttribute="leading" secondItem="vSW-yc-wk0" secondAttribute="trailing" constant="10" id="w0B-as-5D7"/>
+                                    <constraint firstItem="z9r-W9-6YD" firstAttribute="top" secondItem="FsO-ic-VIz" secondAttribute="top" constant="20" id="xAM-Ya-u1P"/>
+                                    <constraint firstAttribute="trailingMargin" secondItem="pU0-wA-3X9" secondAttribute="trailing" id="zhw-m1-hjd"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="7uh-u2-ILl" firstAttribute="leading" secondItem="oYG-Ic-hkS" secondAttribute="leading" constant="35" id="1sf-bK-aZs">
-                                <variation key="heightClass=regular-widthClass=regular" constant="150"/>
-                            </constraint>
-                            <constraint firstAttribute="trailing" secondItem="ekx-Ki-joZ" secondAttribute="trailing" constant="40" id="ThF-G2-kNK">
+                            <constraint firstItem="FsO-ic-VIz" firstAttribute="leading" secondItem="oYG-Ic-hkS" secondAttribute="leadingMargin" id="6NR-Vd-xIx"/>
+                            <constraint firstAttribute="trailing" secondItem="ekx-Ki-joZ" secondAttribute="trailing" constant="20" id="ThF-G2-kNK">
                                 <variation key="heightClass=regular-widthClass=regular" constant="120"/>
                             </constraint>
-                            <constraint firstItem="7uh-u2-ILl" firstAttribute="top" secondItem="Cda-XG-ljn" secondAttribute="bottom" constant="58" id="gXO-MS-Ozt">
-                                <variation key="heightClass=regular-widthClass=regular" constant="100"/>
-                            </constraint>
-                            <constraint firstItem="ekx-Ki-joZ" firstAttribute="top" secondItem="7uh-u2-ILl" secondAttribute="bottom" constant="53" id="gzU-Nc-4Gf"/>
-                            <constraint firstAttribute="trailing" secondItem="7uh-u2-ILl" secondAttribute="trailing" constant="35" id="pc2-Iw-usp">
-                                <variation key="heightClass=regular-widthClass=regular" constant="150"/>
-                            </constraint>
-                            <constraint firstItem="ekx-Ki-joZ" firstAttribute="leading" secondItem="oYG-Ic-hkS" secondAttribute="leading" constant="40" id="sgp-kJ-o84">
+                            <constraint firstItem="eAd-Fy-EgB" firstAttribute="top" secondItem="ekx-Ki-joZ" secondAttribute="bottom" constant="30" id="cxb-4R-XQA"/>
+                            <constraint firstItem="FsO-ic-VIz" firstAttribute="trailing" secondItem="oYG-Ic-hkS" secondAttribute="trailingMargin" id="eSr-sZ-RD8"/>
+                            <constraint firstItem="FsO-ic-VIz" firstAttribute="top" secondItem="Cda-XG-ljn" secondAttribute="bottom" constant="26" id="lxs-KY-dn9"/>
+                            <constraint firstItem="ekx-Ki-joZ" firstAttribute="leading" secondItem="oYG-Ic-hkS" secondAttribute="leading" constant="20" id="sgp-kJ-o84">
                                 <variation key="heightClass=regular-widthClass=regular" constant="120"/>
                             </constraint>
                         </constraints>
@@ -971,11 +1074,13 @@ Please check your API Settings or Network Connection and try again.</string>
                     <navigationItem key="navigationItem" title="Settings" id="pfi-Uj-d4Y"/>
                     <connections>
                         <outlet property="signOut" destination="ekx-Ki-joZ" id="A9g-Yb-xU0"/>
+                        <outlet property="subscribeBtn" destination="stl-dq-Lh2" id="o84-fK-iGY"/>
+                        <outlet property="subscriptionContainer" destination="FsO-ic-VIz" id="fH9-x8-OIz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wd9-vc-U5Y" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1921" y="2087"/>
+            <point key="canvasLocation" x="1920.8" y="2086.5067466266869"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="l45-BD-Fg3">
@@ -990,7 +1095,7 @@ Please check your API Settings or Network Connection and try again.</string>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PLU-Kz-AIy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2054" y="-997"/>
+            <point key="canvasLocation" x="2992.8000000000002" y="-997.15142428785612"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="vkJ-Xc-gWG">
@@ -1192,7 +1297,7 @@ Please check your API Settings or Network Connection and try again.</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8JB-6i-WjI">
-                                <rect key="frame" x="35" y="291.5" width="305" height="50"/>
+                                <rect key="frame" x="35" y="302.5" width="305" height="50"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="lUd-kb-xc4">
@@ -1216,7 +1321,7 @@ Please check your API Settings or Network Connection and try again.</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="Ve0-mB-Fpq">
-                                <rect key="frame" x="305" y="306.5" width="20" height="20"/>
+                                <rect key="frame" x="305" y="317.5" width="20" height="20"/>
                             </activityIndicatorView>
                             <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login failed. Please try again." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Waf-8u-wTK">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="45"/>
@@ -1229,7 +1334,7 @@ Please check your API Settings or Network Connection and try again.</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Verification Code sent via SMS" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Cj4-lj-TWG" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                <rect key="frame" x="40" y="243.5" width="295" height="20"/>
+                                <rect key="frame" x="40" y="232.5" width="295" height="42"/>
                                 <color key="tintColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
@@ -1253,7 +1358,7 @@ Please check your API Settings or Network Connection and try again.</string>
                                 </userDefinedRuntimeAttributes>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2AO-LO-jDu">
-                                <rect key="frame" x="77.5" y="366.5" width="220" height="36"/>
+                                <rect key="frame" x="77.5" y="377.5" width="220" height="36"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="Resend Verification Code"/>
                                 <connections>
@@ -1303,7 +1408,7 @@ Please check your API Settings or Network Connection and try again.</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cA0-PU-Yqn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="297" y="-997"/>
+            <point key="canvasLocation" x="1236" y="-997.15142428785612"/>
         </scene>
         <!--Register-->
         <scene sceneID="dXx-7s-ksO">
@@ -1327,7 +1432,7 @@ Please check your API Settings or Network Connection and try again.</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Phone number" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="bUL-sU-VWn" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                <rect key="frame" x="40" y="179" width="295" height="50"/>
+                                <rect key="frame" x="40" y="200.5" width="295" height="50"/>
                                 <color key="tintColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="9yO-sw-iSP"/>
@@ -1357,7 +1462,7 @@ Please check your API Settings or Network Connection and try again.</string>
                                 </userDefinedRuntimeAttributes>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email Address" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="09q-cP-VIO" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                <rect key="frame" x="40" y="243" width="295" height="50"/>
+                                <rect key="frame" x="40" y="264.5" width="295" height="50"/>
                                 <color key="tintColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="DtF-uq-SDQ"/>
@@ -1387,7 +1492,7 @@ Please check your API Settings or Network Connection and try again.</string>
                                 </userDefinedRuntimeAttributes>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" textAlignment="natural" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="lRe-B0-wjF" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                <rect key="frame" x="40" y="307" width="295" height="50"/>
+                                <rect key="frame" x="40" y="328.5" width="295" height="50"/>
                                 <color key="tintColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="hWF-Fv-8Hk"/>
@@ -1412,7 +1517,7 @@ Please check your API Settings or Network Connection and try again.</string>
                                 </constraints>
                             </view>
                             <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0NX-AK-lb5">
-                                <rect key="frame" x="35" y="385" width="305" height="50"/>
+                                <rect key="frame" x="35" y="406.5" width="305" height="50"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="5Ic-1n-4Hl">
@@ -1456,7 +1561,7 @@ Please check your API Settings or Network Connection and try again.</string>
                                 </state>
                             </button>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="8AR-ak-MQp">
-                                <rect key="frame" x="295" y="400" width="20" height="20"/>
+                                <rect key="frame" x="295" y="421.5" width="20" height="20"/>
                             </activityIndicatorView>
                             <textField opaque="NO" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="First Name" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="YMZ-mf-9pW" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
                                 <rect key="frame" x="40" y="81" width="295" height="50"/>
@@ -1486,7 +1591,7 @@ Please check your API Settings or Network Connection and try again.</string>
                                 </userDefinedRuntimeAttributes>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Last Name" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Vcs-VW-jvv" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                <rect key="frame" x="40" y="145" width="295" height="20"/>
+                                <rect key="frame" x="40" y="145" width="295" height="41.5"/>
                                 <color key="tintColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
@@ -1510,7 +1615,7 @@ Please check your API Settings or Network Connection and try again.</string>
                                 </userDefinedRuntimeAttributes>
                             </textField>
                             <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IIq-MP-IDi">
-                                <rect key="frame" x="56" y="450" width="263" height="34"/>
+                                <rect key="frame" x="56" y="471.5" width="263" height="34"/>
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="18"/>
                                 <state key="normal" title="Already have an account? Sign In">
                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1637,7 +1742,7 @@ Please check your API Settings or Network Connection and try again.</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pjv-Ap-MMK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-103" y="-983"/>
+            <point key="canvasLocation" x="836" y="-983.65817091454278"/>
         </scene>
         <!--Subscription RenewalVC-->
         <scene sceneID="l7I-az-X23">
@@ -2208,6 +2313,24 @@ Please check your API Settings or Network Connection and try again.</string>
             </objects>
             <point key="canvasLocation" x="7284" y="78"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="kKQ-Vi-xk4">
+            <objects>
+                <navigationController storyboardIdentifier="Onboarding" automaticallyAdjustsScrollViewInsets="NO" id="QQT-ho-uUx" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="yqU-GN-4Ir">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Gu6-4D-Hxd" kind="relationship" relationship="rootViewController" id="MCJ-tA-aqz"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lxm-GV-kOA" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1239.2" y="-997.15142428785612"/>
+        </scene>
     </scenes>
     <resources>
         <image name="bookmark-red-1" width="24" height="28"/>
@@ -2221,6 +2344,7 @@ Please check your API Settings or Network Connection and try again.</string>
         <image name="login-icon" width="400" height="397"/>
         <image name="logo" width="2400" height="2840"/>
         <image name="notification" width="30" height="30"/>
+        <image name="payment-method-4" width="488" height="512"/>
         <image name="right-arrow-2" width="60" height="42"/>
         <image name="settings-tab-fat" width="25" height="25"/>
     </resources>
@@ -2228,7 +2352,8 @@ Please check your API Settings or Network Connection and try again.</string>
         <segue reference="4TM-c7-Id0"/>
         <segue reference="x8Y-27-bkD"/>
         <segue reference="RGg-D7-j3v"/>
-        <segue reference="Bjk-e1-rjo"/>
+        <segue reference="XuD-4m-twF"/>
+        <segue reference="edg-9b-bfE"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
 </document>

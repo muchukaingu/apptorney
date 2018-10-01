@@ -10,9 +10,28 @@ import UIKit
 
 class SettingsViewController: UIViewController {
     @IBOutlet weak var signOut: UIButton!
+    @IBOutlet weak var subscribeBtn: UIButton!
+    
+    @IBOutlet weak var subscriptionContainer: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
         self.signOut.layer.cornerRadius = self.signOut.frame.height/6
+        self.subscribeBtn.layer.cornerRadius = self.subscribeBtn.frame.height/6
+        
+        self.subscriptionContainer.layer.cornerRadius = self.subscriptionContainer.frame.height/15
+        
+        IAPHandler.shared.fetchAvailableProducts()
+        IAPHandler.shared.purchaseStatusBlock = {[weak self] (type) in
+            guard let strongSelf = self else{ return }
+            if type == .purchased {
+                let alertView = UIAlertController(title: "", message: type.message(), preferredStyle: .alert)
+                let action = UIAlertAction(title: "OK", style: .default, handler: { (alert) in
+                    
+                })
+                alertView.addAction(action)
+                strongSelf.present(alertView, animated: true, completion: nil)
+            }
+        }
 
         // Do any additional setup after loading the view.
     }
@@ -22,7 +41,12 @@ class SettingsViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
+   
+    
+    @IBAction func subscribe(_ sender: Any) {
+        IAPHandler.shared.purchaseMyProduct(index: 0)
+    }
+    
     
     @IBAction func signOut(_ sender: Any) {
         navigationController?.setNavigationBarHidden(true, animated: false)

@@ -82,11 +82,13 @@ class APIService {
             
             switch response.result {
             case .success:
-                print("Validation Successful")
+                //print("Validation Successful")
                 if let data = response.result.value {
+                    
                     completionHandler(data, nil)
                 }
             case .failure(let error):
+               
                 print(error)
                 completionHandler(nil, error)
             
@@ -109,13 +111,42 @@ class APIService {
             
             switch response.result {
                 case .success:
-                    print("Validation Successful")
+                    
                     if let data = response.result.value {
                         completionHandler(data, nil)
                     }
                 case .failure(let error):
-                    print(response.result.value)
                     completionHandler(nil, error)
+                
+            }
+            
+        }
+    }
+    
+    func postWithResponseFormat(endPoint:String, parameters:Any, completionHandler:@escaping (Data?, Error?)->Void){
+        let parameters: Parameters = parameters as! Parameters
+        let headers = [
+            "X-IBM-Client-ID": "6f423f6d-5514-4c5f-bf5c-0f0ce138d523", //production
+            "X-IBM-Client-Secret": "273733c1-f6c0-4f1f-ae1d-cd01c92676a2" //production
+            //            "X-IBM-Client-ID": "e7aebcd3-ea44-4b68-89e7-821817a1b5f6", //test
+            //            "X-IBM-Client-Secret": "fb67bc04-b06d-402f-be8b-d4969279b11b" //test
+            
+        ]
+        
+        Alamofire.request(APIService.urlBase + endPoint, method: .post, parameters: parameters, headers:headers).responseData { response in
+            
+            
+            switch response.result {
+            case .success:
+                //print("Validation Successful")
+                if let data = response.result.value {
+                    
+                    completionHandler(data, nil)
+                }
+            case .failure(let error):
+                
+                print(error)
+                completionHandler(nil, error)
                 
             }
             

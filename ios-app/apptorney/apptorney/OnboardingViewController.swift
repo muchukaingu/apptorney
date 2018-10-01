@@ -15,6 +15,7 @@ class OnboardingViewController: UIViewController, PaperOnboardingDataSource, Pap
     @IBOutlet weak var onboardingView: OnboardingView!
     @IBOutlet weak var getStartedButton: UIButton!
     @IBOutlet weak var nextButton: UIButton!
+    @IBOutlet weak var termsView: UIView!
     
     
    
@@ -66,8 +67,11 @@ class OnboardingViewController: UIViewController, PaperOnboardingDataSource, Pap
         onboardingView.dataSource = self
         onboardingView.delegate = self
         self.getStartedButton.alpha = 0
+        self.termsView.alpha = 0
         //self.getStartedButton.setTitle("Ge", for: .normal)
         self.getStartedButton.layer.cornerRadius = self.getStartedButton.frame.height/6
+        navigationController?.navigationBar.isTranslucent = false
+        self.navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
         
         
     }
@@ -118,6 +122,7 @@ class OnboardingViewController: UIViewController, PaperOnboardingDataSource, Pap
             UIView.animate(withDuration: 0.4, animations: {
                 self.nextButton.alpha = 0
                 self.getStartedButton.alpha = 1
+                self.termsView.alpha = 1
             })
         }
     }
@@ -145,6 +150,51 @@ class OnboardingViewController: UIViewController, PaperOnboardingDataSource, Pap
             onboardingView.currentIndex(currentIndex+1, animated: true)
         }
         currentIndex = currentIndex+1
+    }
+    
+    
+    
+    
+    // MARK: - Navigation
+    
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showTerms" {
+            
+            let legislation:Legislation
+            legislation = Legislation()
+            legislation._id = "5badf52b4594190056063cae"
+            print("in segue, mofo")
+            let destinationController = segue.destination as!
+            AgreementDetailsVC
+            destinationController.legislationInstance = legislation
+            destinationController.navigationController?.setNavigationBarHidden(false, animated: false)
+            destinationController.navigationItem.rightBarButtonItems = []
+            //destinationController.searchText = self.searchController.searchBar.text!
+            if #available(iOS 11.0, *) {
+                destinationController.navigationController?.navigationBar.prefersLargeTitles = true
+                destinationController.navigationController?.title = "xxx"
+                
+                
+                
+            } else {
+                // Fallback on earlier versions
+                print("show normal bar")
+            }
+            
+        }
+            
+        else if segue.identifier == "showPrivacy" {
+            
+            let legislation:Legislation
+            legislation = Legislation()
+            legislation._id = "5badec9d1a2fa200672d9abe"
+            print("in segue, mofo")
+            let destinationController = segue.destination as!
+            AgreementDetailsVC
+            destinationController.legislationInstance = legislation
+            //destinationController.searchText = self.searchController.searchBar.text!
+        }
     }
     
     

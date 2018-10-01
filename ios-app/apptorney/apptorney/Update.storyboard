@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="QOs-QT-K1V">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Loading View Controller-->
+        <scene sceneID="pXD-XE-meV">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="v1f-Vt-ZYP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController storyboardIdentifier="Loading" id="QOs-QT-K1V" customClass="LoadingViewController" customModule="apptorney" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="avN-6r-LDf"/>
+                        <viewControllerLayoutGuide type="bottom" id="lAP-sq-q7k"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="alq-51-svs">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="3wu-TT-zP2"/>
+                    </view>
+                    <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="4xH-4p-IUh"/>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="-15130" y="-18"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="qPS-oJ-cs7">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uKX-Z9-NSM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController storyboardIdentifier="ForceUpdate" id="Tjs-3P-SRD" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="n6S-0t-C4a"/>
+                        <viewControllerLayoutGuide type="bottom" id="MV1-j5-Kff"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Gv3-6U-MxJ">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please Update Apptorney" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CaU-3v-zd0">
+                                <rect key="frame" x="20" y="250" width="335" height="29"/>
+                                <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="24"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="lineHeight">
+                                        <real key="value" value="2"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="10" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wFm-1Z-FBV">
+                                <rect key="frame" x="20" y="309" width="335" height="81.5"/>
+                                <string key="text">We have detected a problem with your current version of Apptorney. In order to continue using the app, please update to the latest version in the App Store.</string>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="17"/>
+                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="app-store" translatesAutoresizingMaskIntoConstraints="NO" id="um3-WF-YYq">
+                                <rect key="frame" x="117.5" y="70" width="140" height="150"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="150" id="hgc-HJ-GE6"/>
+                                    <constraint firstAttribute="width" constant="140" id="teI-Fv-Xb3"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="wFm-1Z-FBV" firstAttribute="top" secondItem="CaU-3v-zd0" secondAttribute="bottom" constant="30" id="0w5-qv-bzq"/>
+                            <constraint firstItem="um3-WF-YYq" firstAttribute="top" secondItem="n6S-0t-C4a" secondAttribute="bottom" constant="50" id="9Xs-0l-GwH"/>
+                            <constraint firstItem="wFm-1Z-FBV" firstAttribute="leading" secondItem="Gv3-6U-MxJ" secondAttribute="leading" constant="20" id="MVZ-WQ-R6g"/>
+                            <constraint firstItem="um3-WF-YYq" firstAttribute="centerX" secondItem="Gv3-6U-MxJ" secondAttribute="centerX" id="Wka-Xd-byh"/>
+                            <constraint firstItem="CaU-3v-zd0" firstAttribute="top" secondItem="um3-WF-YYq" secondAttribute="bottom" constant="30" id="ewm-Qd-CM2"/>
+                            <constraint firstAttribute="trailing" secondItem="wFm-1Z-FBV" secondAttribute="trailing" constant="20" id="jgd-bl-ByR"/>
+                            <constraint firstItem="CaU-3v-zd0" firstAttribute="leading" secondItem="Gv3-6U-MxJ" secondAttribute="leading" constant="20" id="vIf-88-zzG"/>
+                            <constraint firstAttribute="trailing" secondItem="CaU-3v-zd0" secondAttribute="trailing" constant="20" id="ww2-OK-Nh8"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="4TD-C9-DAb"/>
+                    </view>
+                    <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="N5F-yI-bQ1"/>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="-14407" y="-18"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="app-store" width="409.60000610351562" height="409.60000610351562"/>
+    </resources>
+</document>

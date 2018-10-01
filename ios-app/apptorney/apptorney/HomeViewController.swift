@@ -68,6 +68,7 @@ class HomeViewController: UIViewController {
     @objc let defaults = UserDefaults.standard;
     
     override func viewWillAppear(_ animated: Bool) {
+        //checkSubscription()
         super.viewWillAppear(animated)
         self.view.addSubview(activityIndicator)
         activityIndicator.center = self.view.center
@@ -80,7 +81,6 @@ class HomeViewController: UIViewController {
         print("viewWillAppear")
         navigationController?.setNavigationBarHidden(true, animated: false)
         populateData()
-        
     }
     
     func hideControlsWhileLoading(){
@@ -126,8 +126,6 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
-       
         //setupNavBar()
         colors.append(UIColor(hex:"D80027"))
         colors.append(UIColor(hex:"007AFF"))
@@ -140,25 +138,22 @@ class HomeViewController: UIViewController {
         tableView.delegate = self
         configureUIControls()
         
-        //checkSubscription()
-        
-        
-        
-        
-    
-        
-        
-        
-       
-        
     }
-    
+    /*
     func checkSubscription(){
-        let subscriptionValidity = false
-        if subscriptionValidity == false {
-            self.performSegue(withIdentifier: "subscriptionRenewal", sender: self)
-        }
+        Subscription.checkSubscription(completionHandler:{(res,error) in
+            print(res)
+            if res == "active" {
+                print("subscription is active")
+            } else if res == "inactive" {
+                self.performSegue(withIdentifier: "subscriptionRenewal", sender: self)
+            } else if res == "register" {
+                //todo add redirection to registration
+                print("please register")
+            }
+        })
     }
+    */
     
     @objc func reloadView(){
         print("Try Again")
@@ -219,6 +214,7 @@ class HomeViewController: UIViewController {
     
 
     func loadItems(){
+        
         HomeItem.getBookmarks(completionHandler:{(bookmarks,error) in
             if bookmarks == nil {
                 print("error occured")
@@ -246,6 +242,8 @@ class HomeViewController: UIViewController {
             self.setupNavBar()
             UIApplication.shared.isNetworkActivityIndicatorVisible = false
         })
+ 
+ 
         
         
         HomeItem.getNews(completionHandler:{(news,error) in
@@ -327,7 +325,7 @@ class HomeViewController: UIViewController {
 
     deinit {
         //Remove observer
-        defaults.removeObserver(self, forKeyPath: "CurrentStore", context: &defaultsContext)
+        //defaults.removeObserver(self, forKeyPath: "CurrentStore", context: &defaultsContext)
     }
 
     override func didReceiveMemoryWarning() {

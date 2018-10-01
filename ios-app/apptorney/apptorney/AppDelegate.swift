@@ -15,50 +15,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        
-        
-        //UINavigationBar.appearance().barTintColor=UIColor.blackColor()
-        //UINavigationBar.appearance().barTintColor=UIColor(patternImage: UIImage(named: "header")!)
-        // UINavigationBar.appearance().tintColor=UIColor.black
-        
-        /*if let barFont = UIFont(name: "Torus-Regular", size: 22.0){
-            UINavigationBar.appearance().titleTextAttributes = [NSAttributedStringKey.foregroundColor:UIColor.black,NSAttributedStringKey.font:barFont]
-            
-            
-        }*/
-        //let img = UIImage()
-        //UINavigationBar.appearance().shadowImage = img
-       // UINavigationBar.appearance().setBackgroundImage(img, for: UIBarMetrics.default)
-        //UINavigationBar.appearance().isTranslucent = false
-        //UINavigationBar.appearance().barTintColor=UIColor.white
-        
-        
-       // UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(UIOffsetMake(0, -60), for:UIBarMetrics.default)
        
-        //UIApplication.shared.statusBarStyle = .lightContent
-        window = UIWindow(frame: UIScreen.main.bounds)
-        
-        let sb = UIStoryboard(name: "Main", bundle: nil)
-        var initialViewController = sb.instantiateViewController(withIdentifier: "Onboarding")
-        
-        let userDefaults = UserDefaults.standard
-        
-        if userDefaults.bool(forKey: "onboardingComplete") {
-            
-            if userDefaults.bool(forKey: "loginComplete") {
-                initialViewController = sb.instantiateViewController(withIdentifier: "Home")
-            }
-            else if userDefaults.bool(forKey: "registrationComplete") {
-                initialViewController = sb.instantiateViewController(withIdentifier: "Login")
-            }
-            else {
-                initialViewController = sb.instantiateViewController(withIdentifier: "Register")
-            }
-        }
+        checkForUpdate()
         
         
-        window?.rootViewController = initialViewController
-        window?.makeKeyAndVisible()
         
         return true
     }
@@ -79,10 +39,83 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        checkForUpdate()
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    }
+    
+    func checkForUpdate(){
+        
+        self.window = UIWindow(frame: UIScreen.main.bounds)
+        let sb = UIStoryboard(name: "Update", bundle: nil)
+        var initialViewController = sb.instantiateViewController(withIdentifier: "Loading")
+        self.window?.rootViewController = initialViewController
+        self.window?.makeKeyAndVisible()
+        
+        
+        Subscription.checkForUpdate(completionHandler:{(res,error) in
+            print(res)
+            if res == true {
+                print("Update now")
+                let sb = UIStoryboard(name: "Update", bundle: nil)
+                initialViewController = sb.instantiateViewController(withIdentifier: "ForceUpdate")
+                
+            } else if res == false {
+                
+                //self.window = UIWindow(frame: UIScreen.main.bounds)
+                let sb = UIStoryboard(name: "Main", bundle: nil)
+                
+                
+                let userDefaults = UserDefaults.standard
+                
+                if userDefaults.bool(forKey: "onboardingComplete") {
+                    
+                    if userDefaults.bool(forKey: "loginComplete") {
+                        //initialViewController = sb.instantiateViewController(withIdentifier: "Home")
+                        self.checkSubscription()
+                        
+                    }
+                    else if userDefaults.bool(forKey: "registrationComplete") {
+                        initialViewController = sb.instantiateViewController(withIdentifier: "Login")
+                    }
+                    else {
+                       
+                        initialViewController = sb.instantiateViewController(withIdentifier: "Register")
+                    }
+                } else {
+                    initialViewController = sb.instantiateViewController(withIdentifier: "Onboarding")
+                }
+                
+            }
+            self.window?.rootViewController = initialViewController
+            self.window?.makeKeyAndVisible()
+        })
+    }
+    
+    func checkSubscription(){
+        print("Subscription is valid")
+        //self.window = UIWindow(frame: UIScreen.main.bounds)
+        let sb = UIStoryboard(name: "SubscriptionRenewal", bundle: nil)
+        var initialViewController = sb.instantiateViewController(withIdentifier: "Subscription Renewal")
+        IAPHandler.shared.receiptValidation(completionHandler: {(validity) in
+            if validity == true {
+                print("Subscription is valid")
+                let sb = UIStoryboard(name: "Main", bundle: nil)
+                initialViewController = sb.instantiateViewController(withIdentifier: "Home")
+            } else {
+                print("Subscription is invalid")
+                let sb = UIStoryboard(name: "SubscriptionRenewal", bundle: nil)
+                initialViewController = sb.instantiateViewController(withIdentifier: "Subscription Renewal")
+                
+            }
+            DispatchQueue.main.async {
+                self.window?.rootViewController = initialViewController
+                self.window?.makeKeyAndVisible()
+            }
+            
+        })
     }
 
 

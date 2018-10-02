@@ -13,9 +13,9 @@ module.exports = function(Feedback) {
             var Email = app.models.Email;
             var Appuser = app.models.Appuser;
 
-            Appuser.findById(feedback.appuserId, (err, user) => {
+            Appuser.find({ where: { username: feedback.username } }, (err, users) => {
 
-
+                var user = users[0];
 
                 var options = {
                     type: 'email',

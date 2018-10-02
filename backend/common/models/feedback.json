@@ -5,7 +5,7 @@
         "validateUpsert": true
     },
     "properties": {
-        "appuserId": {
+        "username": {
             "type": "string",
             "required": true
         },

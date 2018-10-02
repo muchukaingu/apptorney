@@ -189,5 +189,9 @@
     "update": {
         "dataSource": "apptorney",
         "public": true
+    },
+    "feedback": {
+        "dataSource": "apptorney",
+        "public": true
     }
 }

@@ -1,5 +1,6 @@
 {
     "name": "feedback",
+    "plural": "feedback",
     "base": "PersistedModel",
     "options": {
         "validateUpsert": true

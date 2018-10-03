@@ -131,6 +131,11 @@ class LegislationDetailsTableViewController: UITableViewController {
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
             let textField = alert?.textFields![0] // Force unwrapping because we know it exists.
             print("Text field: \(textField?.text ?? "")")
+            Feedback.sendFeedback(feedback: textField?.text ?? "", completionHandler: { (result, error) in
+                print(result)
+                let alert = UIAlertController(title: "Thank you for your feedback", message: "We have sent you an email with more information.", preferredStyle: .alert)
+                self.present(alert, animated: true, completion: nil)
+            })
            
         }))
         

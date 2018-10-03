@@ -167,6 +167,12 @@ class CaseDetailsTableViewController: UITableViewController {
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
             let textField = alert?.textFields![0] // Force unwrapping because we know it exists.
             print("Text field: \(textField?.text ?? "")")
+            Feedback.sendFeedback(feedback: textField?.text ?? "", completionHandler: { (result, error) in
+                print(result)
+                let alert = UIAlertController(title: "Thank you for your feedback", message: "We have sent you an email with more information.", preferredStyle: .alert)
+                self.present(alert, animated: true, completion: nil)
+                
+            })
             
         }))
         
@@ -252,7 +258,7 @@ class CaseDetailsTableViewController: UITableViewController {
             case 1:
                 let cellIndetifier = "Cell"
                 let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath)
-                cell.textLabel?.text = caseInstance.casesReferedTo![index-4 + indexPath.row].name?.capitalized
+                cell.textLabel?.text = caseInstance.casesReferedTo![index + indexPath.row].name?.capitalized
                 if searched {
                     cell.textLabel?.attributedText = NSMutableAttributedString().setHTMLFromString(text: cell.textLabel?.text ?? "", target: self.searchController.searchBar.text!, color:UIColor(hex: "f3a435")).0
                     cell.textLabel?.sizeToFit()
@@ -264,7 +270,7 @@ class CaseDetailsTableViewController: UITableViewController {
             case 2:
                 let cellIndetifier = "Cell"
                 let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) //as! UITableViewCell
-                cell.textLabel?.text = caseInstance.legislationsReferedTo![index-5 + indexPath.row].legislationName?.capitalized
+                cell.textLabel?.text = caseInstance.legislationsReferedTo![indexPath.row].legislationName?.capitalized
                 if searched {
                     cell.textLabel?.attributedText = NSMutableAttributedString().setHTMLFromString(text: cell.textLabel?.text ?? "", target: self.searchController.searchBar.text!, color:UIColor(hex: "f3a435")).0
                     cell.textLabel?.sizeToFit()
@@ -291,10 +297,10 @@ class CaseDetailsTableViewController: UITableViewController {
         if item.isCollapsed {
             return 0
         } else {
-            if section == 4 {
+            if section == 1 {
                 return caseInstance.casesReferedTo?.count ?? 0
             }
-            if section == 5 {
+            if section == 2 {
                 return caseInstance.legislationsReferedTo?.count ?? 0
             }
             return 1
@@ -310,11 +316,11 @@ class CaseDetailsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.section == 4 {
+        if indexPath.section == 1 {
             performSegue(withIdentifier: "showCaseReference", sender: self)
             
         }
-        else if indexPath.section == 5 {
+        else if indexPath.section == 2 {
             performSegue(withIdentifier: "showLegislationReference", sender: self)
             
         }
@@ -342,7 +348,7 @@ class CaseDetailsTableViewController: UITableViewController {
                 print("in segue, mofo")
                 let destinationController = segue.destination as!
                 CaseDetailsTableViewController
-                let caseInstance = self.caseInstance.casesReferedTo![(indexPath as NSIndexPath).row]
+                let caseInstance = self.caseInstance.casesReferedTo![(indexPath as NSIndexPath).row + 1]
                 caseInstance._id = caseInstance.id
                 destinationController.caseInstance = caseInstance
                 let backItem = UIBarButtonItem()

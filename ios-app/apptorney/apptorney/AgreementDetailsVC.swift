@@ -141,25 +141,6 @@ class AgreementDetailsVC: UITableViewController {
         
     }
     
-    func checkBookmark(){
-        let userDefaults = UserDefaults.standard
-        if let bookmarks = userDefaults.stringArray(forKey: "bookmarks"){
-            
-            for bookmark in bookmarks {
-                
-                if bookmark == legislationInstance.id {
-                    self.isBookmark = true
-                    self.bookmarkButton.image = (UIImage(named: "bookmark-red"))
-                    self.bookmarkButton.tintColor = UIColor.red
-                    //self.bookmarkButton.setBackgroundImage(UIImage(named: "bookmark-red"), for: .normal, barMetrics: UIBarMetrics.default)
-                } else {
-                    self.isBookmark = false
-                    self.bookmarkButton.image = (UIImage(named: "bookmark-white"))
-                    self.bookmarkButton.tintColor = UIColor.black
-                }
-            }
-        }
-    }
     
     var myFlattenedArray = [FlatLegislationPart]()
     func flattenArray(nestedArray: [LegislationPart]) -> [FlatLegislationPart] {
@@ -191,7 +172,7 @@ class AgreementDetailsVC: UITableViewController {
         let legislationId = legislationInstance._id
         Legislation.loadLegislation(legislationId: legislationId, completionHandler:{(legislation,error) in
             self.legislationInstance = legislation
-            self.checkBookmark()
+           
             let volume = self.legislationInstance.volumeNumber ?? ""
             let chapter = self.legislationInstance.chapterNumber ?? ""
             var volumeDetails = ""

@@ -55,11 +55,11 @@ class OnboardingViewController: UIViewController, PaperOnboardingDataSource, Pap
                            color: UIColor.white,
                            titleColor: UIColor.black, descriptionColor: UIColor.black, titleFont: titleFont, descriptionFont: descriptionFont),
         OnboardingItemInfo(informationImage: UIImage(named: "gift")!,
-                           title: "1 Month Free Trial",
-                           description: "Apptorney auto-renewing subscription allows you to continue accessing the full functionality of the app. Payment will be charged to your elected payment method at the end of the trial period. Auto-renewal may be turned off at any time by going to the settings section of the app. For information, please view our Terms of Service and Privacy Policy.",
+                           title: "Apptorney Monthly Subscription",
+                           description: "You can now start your 1 month free trial, after which, access to Apptorney will be based on a monthly auto renewing subscription. The subscription allows you to continue accessing the full functionality of Apptorney and the latest Zambian cases and legislations. The total amount of the subscription will be charged to your iTunes Account or other elected payment method. Unless you turn off auto-renewal at least 24 hours before the end of the subscription, the subscription will renew at the regular price of USD $19.99. You can manage the subscription and turn off auto renewal in the Account Settings for your Apple ID at any time. Any unused portion of a free trial will be forfeited when subscribing to a non-trial plan. For more information, please view our Terms of Service and Privacy Policy.",
                            pageIcon: UIImage(),
                            color: UIColor.white,
-                           titleColor: UIColor.black, descriptionColor: UIColor.black, titleFont: titleFont, descriptionFont: descriptionFont),
+                           titleColor: UIColor.black, descriptionColor: UIColor.black, titleFont: UIFont(name: "AvenirNext-Bold", size: 20)!, descriptionFont: UIFont(name: "AvenirNext-Regular", size: 12)!),
         
         ]
     override func viewDidLoad() {
@@ -173,7 +173,7 @@ class OnboardingViewController: UIViewController, PaperOnboardingDataSource, Pap
             //destinationController.searchText = self.searchController.searchBar.text!
             if #available(iOS 11.0, *) {
                 destinationController.navigationController?.navigationBar.prefersLargeTitles = true
-                destinationController.navigationController?.title = "xxx"
+                
                 
                 
                 

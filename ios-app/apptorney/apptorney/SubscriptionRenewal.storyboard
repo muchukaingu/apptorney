@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="FlN-XE-8CQ">
-    <device id="retina4_7" orientation="portrait">
+    <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -19,11 +19,11 @@
                         <viewControllerLayoutGuide type="bottom" id="vYP-06-v4g"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="9LT-qi-3EU">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please Renew your Subscription" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sJc-Pg-cm1">
-                                <rect key="frame" x="20" y="294" width="335" height="57.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Apptorney Monthly Subscription" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sJc-Pg-cm1">
+                                <rect key="frame" x="20" y="259" width="374" height="57.333333333333314"/>
                                 <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="24"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -33,15 +33,15 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="10" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="so3-vW-ybb">
-                                <rect key="frame" x="20" y="381.5" width="335" height="162.5"/>
-                                <string key="text">Apptorney auto-renewing subscription allows you to continue accessing the full functionality of the app. Payment will be charged to your preferred payment method. Auto-renewal may be turned off at any time by going to your account settings in the App Store. For more information, please view our Terms of Use and Privacy Policy.</string>
-                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="17"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="so3-vW-ybb">
+                                <rect key="frame" x="30" y="331.33333333333331" width="354" height="186.33333333333331"/>
+                                <mutableString key="text">Your subscription has expired. Access to Apptorney is based on a monthly auto renewing subscription. The subscription allows you to continue accessing the full functionality of Apptorney and the latest Zambian cases and legislations. The total amount of the subscription will be charged to your iTunes Account or other elected payment method. Unless you turn off auto-renewal at least 24 hours before the end of the subscription, the subscription will renew at the regular price of USD $19.99. You can manage the subscription and turn off auto renewal in the Account Settings for your Apple ID at any time. Any unused portion of a free trial will be forfeited when subscribing to a non-trial plan. For more information, please view our Terms of Service and Privacy Policy.</mutableString>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="12"/>
                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xzt-ym-QmO">
-                                <rect key="frame" x="30" y="572" width="325" height="50"/>
+                                <rect key="frame" x="30" y="641" width="364" height="50"/>
                                 <color key="backgroundColor" name="systemRedColor" catalog="System" colorSpace="catalog"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="Ozh-1D-hyr">
@@ -58,14 +58,14 @@
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lock" translatesAutoresizingMaskIntoConstraints="NO" id="XAg-7X-dC0">
-                                <rect key="frame" x="117.5" y="114" width="140" height="150"/>
+                                <rect key="frame" x="137" y="94" width="140" height="150"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="150" id="H45-2u-GLR"/>
                                     <constraint firstAttribute="width" constant="140" id="KpX-kG-Y01"/>
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BED-D6-PFZ">
-                                <rect key="frame" x="267" y="627" width="77" height="27"/>
+                                <rect key="frame" x="281" y="696" width="77" height="27"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="12"/>
                                 <state key="normal" title="Terms of Use"/>
                                 <connections>
@@ -73,7 +73,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SfK-If-RiD">
-                                <rect key="frame" x="173" y="627" width="81" height="27"/>
+                                <rect key="frame" x="187" y="696" width="81" height="27"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="12"/>
                                 <state key="normal" title="Privacy Policy"/>
                                 <connections>
@@ -81,13 +81,13 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&amp;" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Tz-aY-H48">
-                                <rect key="frame" x="256" y="633" width="9" height="15"/>
+                                <rect key="frame" x="270" y="702" width="9" height="15"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I agree to Apptorney's" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wOA-sI-1j1">
-                                <rect key="frame" x="45" y="633" width="126" height="15"/>
+                                <rect key="frame" x="59" y="702" width="126" height="15"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -95,25 +95,25 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="sJc-Pg-cm1" firstAttribute="top" secondItem="XAg-7X-dC0" secondAttribute="bottom" constant="30" id="1HT-58-Fed"/>
-                            <constraint firstItem="wOA-sI-1j1" firstAttribute="leading" secondItem="Xzt-ym-QmO" secondAttribute="leading" constant="15" id="1Ul-WR-1y4"/>
+                            <constraint firstItem="sJc-Pg-cm1" firstAttribute="top" secondItem="XAg-7X-dC0" secondAttribute="bottom" constant="15" id="1HT-58-Fed"/>
                             <constraint firstItem="SfK-If-RiD" firstAttribute="leading" secondItem="wOA-sI-1j1" secondAttribute="trailing" constant="2" id="2Ae-H3-h7P"/>
                             <constraint firstItem="Xzt-ym-QmO" firstAttribute="leading" secondItem="9LT-qi-3EU" secondAttribute="leading" constant="30" id="Db8-pv-xRa"/>
                             <constraint firstItem="sJc-Pg-cm1" firstAttribute="leading" secondItem="9LT-qi-3EU" secondAttribute="leading" constant="20" id="F3T-RZ-1z9"/>
                             <constraint firstItem="3Tz-aY-H48" firstAttribute="centerY" secondItem="SfK-If-RiD" secondAttribute="centerY" id="KT5-6l-efp"/>
-                            <constraint firstItem="so3-vW-ybb" firstAttribute="leading" secondItem="9LT-qi-3EU" secondAttribute="leading" constant="20" id="NDp-Ru-y5t"/>
-                            <constraint firstAttribute="trailing" secondItem="so3-vW-ybb" secondAttribute="trailing" constant="20" id="Qjz-xI-DYK"/>
+                            <constraint firstItem="so3-vW-ybb" firstAttribute="leading" secondItem="9LT-qi-3EU" secondAttribute="leading" constant="30" id="NDp-Ru-y5t"/>
+                            <constraint firstAttribute="trailing" secondItem="so3-vW-ybb" secondAttribute="trailing" constant="30" id="Qjz-xI-DYK"/>
                             <constraint firstAttribute="trailing" secondItem="sJc-Pg-cm1" secondAttribute="trailing" constant="20" id="Uml-cR-uPc"/>
                             <constraint firstItem="wOA-sI-1j1" firstAttribute="top" secondItem="Xzt-ym-QmO" secondAttribute="bottom" constant="11" id="X7w-Av-JeA"/>
                             <constraint firstItem="BED-D6-PFZ" firstAttribute="leading" secondItem="3Tz-aY-H48" secondAttribute="trailing" constant="2" id="cm4-b1-Xzd"/>
                             <constraint firstItem="vYP-06-v4g" firstAttribute="top" secondItem="Xzt-ym-QmO" secondAttribute="bottom" constant="45" id="dHS-jE-d3W"/>
                             <constraint firstItem="XAg-7X-dC0" firstAttribute="centerX" secondItem="9LT-qi-3EU" secondAttribute="centerX" id="gww-mT-QNs"/>
-                            <constraint firstItem="so3-vW-ybb" firstAttribute="top" secondItem="sJc-Pg-cm1" secondAttribute="bottom" constant="30" id="h4L-OE-aOU"/>
+                            <constraint firstItem="so3-vW-ybb" firstAttribute="top" secondItem="sJc-Pg-cm1" secondAttribute="bottom" constant="15" id="h4L-OE-aOU"/>
                             <constraint firstAttribute="trailing" secondItem="Xzt-ym-QmO" secondAttribute="trailing" constant="20" id="iHN-7E-azQ"/>
                             <constraint firstItem="SfK-If-RiD" firstAttribute="centerY" secondItem="wOA-sI-1j1" secondAttribute="centerY" id="mdw-tJ-iSU"/>
                             <constraint firstItem="BED-D6-PFZ" firstAttribute="centerY" secondItem="3Tz-aY-H48" secondAttribute="centerY" id="qGt-0e-sSM"/>
+                            <constraint firstItem="wOA-sI-1j1" firstAttribute="centerX" secondItem="Xzt-ym-QmO" secondAttribute="centerX" constant="-90" id="u6H-sG-gYn"/>
                             <constraint firstItem="3Tz-aY-H48" firstAttribute="leading" secondItem="SfK-If-RiD" secondAttribute="trailing" constant="2" id="wDh-lS-hhm"/>
-                            <constraint firstItem="XAg-7X-dC0" firstAttribute="top" secondItem="jyD-rk-tYr" secondAttribute="bottom" constant="50" id="wyp-fK-eke"/>
+                            <constraint firstItem="XAg-7X-dC0" firstAttribute="top" secondItem="jyD-rk-tYr" secondAttribute="bottom" constant="30" id="wyp-fK-eke"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="H9s-LJ-ng5"/>
                     </view>
@@ -132,7 +132,7 @@
                 <navigationController storyboardIdentifier="Subscription Renewal" automaticallyAdjustsScrollViewInsets="NO" id="FlN-XE-8CQ" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="jen-Aa-OdA">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -149,21 +149,21 @@
             <objects>
                 <tableViewController storyboardIdentifier="LegislationDetails" id="9Ss-K5-4s8" customClass="AgreementDetailsVC" customModule="apptorney" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="cCi-K8-kKP">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="separatorColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="HeaderCell" textLabel="uOZ-SO-O0q" style="IBUITableViewCellStyleDefault" id="xND-TC-tbq">
-                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="28" width="414" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="xND-TC-tbq" id="TjM-Np-VYS">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="uOZ-SO-O0q">
-                                            <rect key="frame" x="16" y="0.0" width="343" height="44"/>
+                                            <rect key="frame" x="20" y="0.0" width="374" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                             <nil key="textColor"/>
@@ -174,20 +174,20 @@
                                 <color key="backgroundColor" red="0.89009666440000001" green="0.89009666440000001" blue="0.89009666440000001" alpha="0.95245612160000004" colorSpace="calibratedRGB"/>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="DetailCell" rowHeight="230" id="1Qp-RM-Snr" customClass="CaseDetailsTableViewCell" customModule="apptorney" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="72" width="375" height="230"/>
+                                <rect key="frame" x="0.0" y="72" width="414" height="230"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="1Qp-RM-Snr" id="oPx-Yl-pXG">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="230"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="230"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" insetsLayoutMarginsFromSafeArea="NO" text="label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7LD-79-FwU">
-                                            <rect key="frame" x="20" y="0.0" width="335" height="20.5"/>
+                                            <rect key="frame" x="20" y="0.0" width="374" height="20.333333333333332"/>
                                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" contentInsetAdjustmentBehavior="never" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="7CS-3y-Vfk" customClass="UITextViewFixed" customModule="apptorney" customModuleProvider="target">
-                                            <rect key="frame" x="20" y="20.5" width="335" height="209.5"/>
+                                            <rect key="frame" x="20" y="20.333333333333329" width="374" height="209.66666666666669"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                             <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -211,10 +211,10 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="SummaryCell" rowHeight="164" id="fkN-08-4Ga" customClass="CaseDetailsSummaryCell" customModule="apptorney" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="302" width="375" height="164"/>
+                                <rect key="frame" x="0.0" y="302" width="414" height="164"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="fkN-08-4Ga" id="3M9-rg-uld">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="164"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="164"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GQv-ks-cY6">
@@ -227,13 +227,13 @@
                                             </variation>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6VA-wc-lib">
-                                            <rect key="frame" x="345" y="1" width="0.0" height="0.0"/>
+                                            <rect key="frame" x="384" y="1" width="0.0" height="0.0"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Court Details &amp; Location" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gyH-QD-gUS">
-                                            <rect key="frame" x="20" y="44.33333333333303" width="116.5" height="13.333333333333336"/>
+                                            <rect key="frame" x="19.999999999999993" y="44.33333333333303" width="116.33333333333331" height="13.333333333333336"/>
                                             <fontDescription key="fontDescription" type="system" weight="light" pointSize="10"/>
                                             <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
@@ -242,7 +242,7 @@
                                             </variation>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Name of Legislation" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q7A-pw-bRS">
-                                            <rect key="frame" x="20" y="80.66666666666697" width="335" height="31.333333333333329"/>
+                                            <rect key="frame" x="20" y="80.66666666666697" width="374" height="31.333333333333329"/>
                                             <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="26"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -260,7 +260,7 @@
                                             </variation>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Preamble" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LPW-2E-Ibi">
-                                            <rect key="frame" x="20" y="115" width="335" height="16.333333333333343"/>
+                                            <rect key="frame" x="20" y="115" width="374" height="16.333333333333343"/>
                                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
                                             <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
@@ -269,7 +269,7 @@
                                             </variation>
                                         </label>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UZj-iw-Jgw">
-                                            <rect key="frame" x="20" y="149" width="335" height="5"/>
+                                            <rect key="frame" x="20" y="149" width="374" height="5"/>
                                             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="5" id="Ee5-0K-OsJ">
@@ -278,7 +278,7 @@
                                             </constraints>
                                         </view>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cvs-ee-y1c">
-                                            <rect key="frame" x="20" y="62" width="44.5" height="13.333333333333343"/>
+                                            <rect key="frame" x="20.000000000000004" y="62" width="44.333333333333343" height="13.333333333333343"/>
                                             <fontDescription key="fontDescription" name="HelveticaNeue-BoldItalic" family="Helvetica Neue" pointSize="17"/>
                                             <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
@@ -321,14 +321,14 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="Cell" textLabel="hUw-px-V8h" rowHeight="40" style="IBUITableViewCellStyleDefault" id="xvX-pV-2Nn" customClass="CaseDetailsSummaryCell" customModule="apptorney" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="466" width="375" height="40"/>
+                                <rect key="frame" x="0.0" y="466" width="414" height="40"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="xvX-pV-2Nn" id="psq-o3-HpB">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="40"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="40"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hUw-px-V8h">
-                                            <rect key="frame" x="16" y="0.0" width="343" height="40"/>
+                                            <rect key="frame" x="20" y="0.0" width="374" height="40"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <nil key="textColor"/>

@@ -25,7 +25,7 @@ enum IAPHandlerAlertType{
 class IAPHandler: NSObject {
     static let shared = IAPHandler()
     
-    let productId = "Apptorney"
+    let productId = "apptorney_subs"
     
     
     fileprivate var productID = ""

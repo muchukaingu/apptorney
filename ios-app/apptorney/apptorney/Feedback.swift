@@ -9,7 +9,7 @@
 import Foundation
 
 class Feedback {
-    class func sendFeedback(feedback:String?, completionHandler:@escaping (Any, Error?)->Void){
+    class func sendFeedback(feedback:String?, scope: String?, resourceType: String?, completionHandler:@escaping (Any, Error?)->Void){
         print("feedback in")
         let api = APIService()
         
@@ -20,7 +20,7 @@ class Feedback {
                 let build = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as! String // gets current app version on user's device
                 let fullVersion = currentAppVersion + "." + build
                 let platform = "iOS"
-                let params = ["appVersion": fullVersion, "platform": platform, "username":username, "feedback":feedback! ]
+            let params = ["appVersion": fullVersion, "platform": platform, "username":username, "feedback":feedback!, "scope": scope!, resourceType: resourceType! ]
                 api.post(endPoint: "/feedback", parameters: params, completionHandler: { (result, error) in
                     
                     if error != nil {

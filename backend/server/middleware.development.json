@@ -3,21 +3,26 @@
         "loopback#favicon": {}
     },
     "initial": {
-        "compression": {
-            "params": { "threshold": 512 }
+        "compression": {},
+        "loopback-context#per-request": {
+            "enableHttpContext": true
         },
         "cors": {
             "params": {
-                "origin": ["http://apptorney.circuitbusiness.com", "http://localhost:9000"],
+                "origin": [
+                    "https://apptorney.circuitbusiness.com",
+                    "http://localhost:9000"
+
+                ],
                 "credentials": true,
                 "maxAge": 86400
             }
         },
         "helmet#xssFilter": {},
         "helmet#frameguard": {
-            "params": [
-                "deny"
-            ]
+            "params": {
+                "action": "deny"
+            }
         },
         "helmet#hsts": {
             "params": {
@@ -47,11 +52,6 @@
         "loopback#urlNotFound": {}
     },
     "final:after": {
-        "strong-error-handler": {
-            "params": {
-                "debug": false,
-                "log": true
-            }
-        }
+        "strong-error-handler": {}
     }
 }

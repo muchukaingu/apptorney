@@ -11,6 +11,8 @@ target 'apptorney' do
   pod 'SwiftyJSON'
   pod 'Windless', '~> 0.1.5'
   pod 'paper-onboarding'
+  
+  
 
   target 'apptorneyTests' do
     inherit! :search_paths

@@ -98,7 +98,7 @@ class IAPHandler: NSObject {
             guard JSONSerialization.isValidJSONObject(requestDictionary) else {  print("requestDictionary is not valid JSON");  return}
             do {
                 let requestData = try JSONSerialization.data(withJSONObject: requestDictionary)
-                let validationURLString = "https://sandbox.itunes.apple.com/verifyReceipt"  // this works but as noted above it's best to use your own trusted server
+                let validationURLString = "https://buy.itunes.apple.com/verifyReceipt"  // this works but as noted above it's best to use your own trusted server
                 guard let validationURL = URL(string: validationURLString) else { print("the validation url could not be created, unlikely error"); return}
                 let session = URLSession(configuration: URLSessionConfiguration.default)
                 var request = URLRequest(url: validationURL)
@@ -110,9 +110,15 @@ class IAPHandler: NSObject {
                             let appReceiptJSON = try JSONSerialization.jsonObject(with: data)
                             //print("success. here is the json representation of the app receipt: \(appReceiptJSON)")
                             //print(self.expirationDateFromResponse(jsonResponse: appReceiptJSON as! NSDictionary))
-                            print(self.checkExpiry(expiryDate: self.expirationDateFromResponse(jsonResponse: appReceiptJSON as! NSDictionary)!))
-                            let validity = self.checkExpiry(expiryDate: self.expirationDateFromResponse(jsonResponse: appReceiptJSON as! NSDictionary)!)
-                            completionHandler(validity)
+                            //print(self.checkExpiry(expiryDate: self.expirationDateFromResponse(jsonResponse: appReceiptJSON as! NSDictionary)!)) // this is buggy!
+                            if let expiryDate = self.expirationDateFromResponse(jsonResponse: appReceiptJSON as! NSDictionary){
+                                let validity = self.checkExpiry(expiryDate: expiryDate)
+                                completionHandler(validity)
+                            } else {
+                                completionHandler(true)
+                            }
+                           
+                            
                             
                             // if you are using your server this will be a json representation of whatever your server provided
                         } catch let error as NSError {

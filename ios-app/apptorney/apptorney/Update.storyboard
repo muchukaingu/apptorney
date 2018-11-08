@@ -13,7 +13,6 @@
         <!--Loading View Controller-->
         <scene sceneID="pXD-XE-meV">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="v1f-Vt-ZYP" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="Loading" id="QOs-QT-K1V" customClass="LoadingViewController" customModule="apptorney" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="avN-6r-LDf"/>
@@ -27,14 +26,14 @@
                     </view>
                     <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="4xH-4p-IUh"/>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="v1f-Vt-ZYP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-15130" y="-18"/>
         </scene>
-        <!--View Controller-->
+        <!--Update View Controller-->
         <scene sceneID="qPS-oJ-cs7">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="uKX-Z9-NSM" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <viewController storyboardIdentifier="ForceUpdate" id="Tjs-3P-SRD" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ForceUpdate" id="Tjs-3P-SRD" customClass="UpdateViewController" customModule="apptorney" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="n6S-0t-C4a"/>
                         <viewControllerLayoutGuide type="bottom" id="MV1-j5-Kff"/>
@@ -68,14 +67,33 @@
                                     <constraint firstAttribute="width" constant="140" id="teI-Fv-Xb3"/>
                                 </constraints>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pmH-D6-6y5">
+                                <rect key="frame" x="20" y="597" width="335" height="50"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="DWA-g4-6C0">
+                                        <variation key="heightClass=regular-widthClass=regular" constant="60"/>
+                                    </constraint>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                <state key="normal" title="Update Now">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="updateAppWithSender:" destination="Tjs-3P-SRD" eventType="touchUpInside" id="hDD-vf-6RD"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="wFm-1Z-FBV" firstAttribute="top" secondItem="CaU-3v-zd0" secondAttribute="bottom" constant="30" id="0w5-qv-bzq"/>
                             <constraint firstItem="um3-WF-YYq" firstAttribute="top" secondItem="n6S-0t-C4a" secondAttribute="bottom" constant="50" id="9Xs-0l-GwH"/>
+                            <constraint firstItem="4TD-C9-DAb" firstAttribute="trailing" secondItem="pmH-D6-6y5" secondAttribute="trailing" constant="20" id="DqB-FB-DAh"/>
                             <constraint firstItem="wFm-1Z-FBV" firstAttribute="leading" secondItem="Gv3-6U-MxJ" secondAttribute="leading" constant="20" id="MVZ-WQ-R6g"/>
                             <constraint firstItem="um3-WF-YYq" firstAttribute="centerX" secondItem="Gv3-6U-MxJ" secondAttribute="centerX" id="Wka-Xd-byh"/>
+                            <constraint firstItem="MV1-j5-Kff" firstAttribute="top" secondItem="pmH-D6-6y5" secondAttribute="bottom" constant="20" id="bfv-IV-Y58"/>
                             <constraint firstItem="CaU-3v-zd0" firstAttribute="top" secondItem="um3-WF-YYq" secondAttribute="bottom" constant="30" id="ewm-Qd-CM2"/>
+                            <constraint firstItem="pmH-D6-6y5" firstAttribute="leading" secondItem="4TD-C9-DAb" secondAttribute="leading" constant="20" id="gfp-Tk-mil"/>
                             <constraint firstAttribute="trailing" secondItem="wFm-1Z-FBV" secondAttribute="trailing" constant="20" id="jgd-bl-ByR"/>
                             <constraint firstItem="CaU-3v-zd0" firstAttribute="leading" secondItem="Gv3-6U-MxJ" secondAttribute="leading" constant="20" id="vIf-88-zzG"/>
                             <constraint firstAttribute="trailing" secondItem="CaU-3v-zd0" secondAttribute="trailing" constant="20" id="ww2-OK-Nh8"/>
@@ -83,7 +101,11 @@
                         <viewLayoutGuide key="safeArea" id="4TD-C9-DAb"/>
                     </view>
                     <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="N5F-yI-bQ1"/>
+                    <connections>
+                        <outlet property="updateBtn" destination="pmH-D6-6y5" id="Vjx-ul-PmR"/>
+                    </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uKX-Z9-NSM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-14407" y="-18"/>
         </scene>

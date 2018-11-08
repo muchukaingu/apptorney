@@ -261,7 +261,7 @@ class CaseDetailsTableViewController: UITableViewController {
             case 1:
                 let cellIndetifier = "Cell"
                 let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath)
-                cell.textLabel?.text = caseInstance.casesReferedTo![index + indexPath.row].name?.capitalized
+                cell.textLabel?.text = caseInstance.casesReferedTo!.count > 0 ? caseInstance.casesReferedTo![indexPath.row].name?.capitalized : "No Case References"
                 if searched {
                     cell.textLabel?.attributedText = NSMutableAttributedString().setHTMLFromString(text: cell.textLabel?.text ?? "", target: self.searchController.searchBar.text!, color:UIColor(hex: "f3a435")).0
                     cell.textLabel?.sizeToFit()
@@ -301,10 +301,10 @@ class CaseDetailsTableViewController: UITableViewController {
             return 0
         } else {
             if section == 1 {
-                return caseInstance.casesReferedTo?.count ?? 0
+                return caseInstance.casesReferedTo?.count ?? 1
             }
             if section == 2 {
-                return caseInstance.legislationsReferedTo?.count ?? 0
+                return caseInstance.legislationsReferedTo?.count ?? 1
             }
             return 1
         }

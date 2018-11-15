@@ -650,7 +650,8 @@ module.exports = function(Legislation) {
                 query: {
                     multi_match: {
                         query: term,
-                        fields: ['generalTitle', 'legislationNumbers', 'legislationNumber', 'preamble', 'legislationName^9', 'flattenedParts', 'isStub', 'deleted']
+                        fields: ['generalTitle', 'legislationNumbers', 'legislationNumber', 'preamble', 'legislationName^9', 'flattenedParts', 'isStub', 'deleted'],
+                        operator: 'and'
                     }
                 },
                 highlight: {

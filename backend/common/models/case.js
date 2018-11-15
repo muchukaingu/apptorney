@@ -265,14 +265,16 @@ module.exports = function(Case) {
                 }],
 
                 query: {
-                    multi_match: { query: term, fields: ['name', 'judgement', 'summaryOfFacts', 'summaryOfRuling', 'areaOfLaw', 'citation'] }
+                    //multi_match: { query: term, fields: ['name', 'judgement', 'summaryOfFacts', 'summaryOfRuling', 'areaOfLaw', 'citation'] } // CLR potential infringement
+                    multi_match: { query: term, fields: ['name', 'judgement', 'areaOfLaw', 'citation'] }
                 },
                 highlight: {
                     fields: {
                         '*': { 'pre_tags': ['<strong>'], 'post_tags': ['</strong>'] }
                     }
                 },
-                _source: ['name', 'areaOfLaw', 'caseNumber', '_id', 'judgement', 'summaryOfFacts', 'summaryOfRuling', 'citation']
+                //_source: ['name', 'areaOfLaw', 'caseNumber', '_id', 'judgement', 'summaryOfFacts', 'summaryOfRuling', 'citation'] // CLR potential infringement
+                _source: ['name', 'areaOfLaw', 'caseNumber', '_id', 'judgement', 'citation']
 
             }
         }
@@ -317,6 +319,8 @@ module.exports = function(Case) {
                         'name': h._source.areaOfLaw,
                         '_id': ''
                     }
+                    h._source.citation.code = undefined
+                    h._source.citation.pageNumber = undefined
 
                     results.push(h._source)
                 }

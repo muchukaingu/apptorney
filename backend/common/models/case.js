@@ -268,7 +268,8 @@ module.exports = function(Case) {
                     //multi_match: { query: term, fields: ['name', 'judgement', 'summaryOfFacts', 'summaryOfRuling', 'areaOfLaw', 'citation'] } // CLR potential infringement
                     multi_match: {
                         query: term,
-                        fields: ['name^9', 'judgement', 'areaOfLaw', 'citation']
+                        fields: ['name^9', 'judgement', 'areaOfLaw', 'citation'],
+                        operator: 'and'
                     }
                 },
                 highlight: {

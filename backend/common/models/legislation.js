@@ -648,7 +648,10 @@ module.exports = function(Legislation) {
                     }
                 }],
                 query: {
-                    multi_match: { query: term, fields: ['generalTitle', 'legislationNumbers', 'legislationNumber', 'preamble', 'legislationName', 'flattenedParts', 'isStub', 'deleted'] }
+                    multi_match: {
+                        query: term,
+                        fields: ['generalTitle', 'legislationNumbers', 'legislationNumber', 'preamble', 'legislationName^9', 'flattenedParts', 'isStub', 'deleted']
+                    }
                 },
                 highlight: {
                     fields: {

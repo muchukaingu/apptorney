@@ -119,6 +119,9 @@ module.exports = function(Appuser) {
                             err.code = 'LOGIN_FAILED_PHONE_NOT_VERIFIED'
                             fn(err)
                         } else {
+                            var lastLogin = new Date(Date.now())
+                            user.lastLogin = lastLogin;
+                            user.save();
                             if (user.createAccessToken.length === 2) {
                                 user.createAccessToken(credentials.ttl, tokenHandler)
                             } else {
@@ -179,6 +182,122 @@ module.exports = function(Appuser) {
             }
         })
         return fn.promise
+    }
+
+
+
+    /**
+     * Confirm the user's phone number.
+     *
+     * @param {Any} userId
+     * @param {String} token The validation token
+     * @param {String} redirect URL to redirect the user to once confirmed
+     * @callback {Function} callback
+     * @param {Error} err
+     */
+    Appuser.resetPasswordWithOTP = function(username, password, token, fn) {
+        fn = fn || utils.createPromiseCallback()
+        this.findOne({
+            where: {
+                username: username
+            }
+        }, function(err, user) {
+            if (err) {
+                fn(err)
+            } else {
+                if (user && user.passwordResetToken === token) {
+                    user.passwordResetToken = undefined
+                        //
+                    user.password = password;
+                    user.save(function(err) {
+                        if (err) {
+                            fn(err)
+                        } else {
+                            fn(true)
+                        }
+                    })
+                } else {
+
+                    if (user) {
+                        console.log("error occured!")
+                        err = new Error('Invalid token: ' + token + 'expecting ' + user.verificationTokenForPhone)
+                        err.statusCode = 400
+                        err.code = 'INVALID_TOKEN'
+                        err.user = user
+                    } else {
+                        err = new Error('User not found')
+                        err.statusCode = 404
+                        err.code = 'USER_NOT_FOUND'
+                    }
+                    fn(err)
+                }
+            }
+        })
+        return fn.promise
+    }
+
+
+
+    /**
+     * Confirm the user's phone number.
+     *
+     * @param {Any} userId
+     * @param {String} token The validation token
+     * @param {String} redirect URL to redirect the user to once confirmed
+     * @callback {Function} callback
+     * @param {Error} err
+     */
+    Appuser.requestPasswordReset = function(username, fn) {
+        console.log('reset fn')
+
+
+        fn = fn || utils.createPromiseCallback()
+
+        var user = this
+
+        var userModel = this.constructor
+        var registry = userModel.registry
+            // var User = registry.getModelByType(loopback.User)
+
+        // Set a default token generation function if one is not provided
+        var tokenGenerator = Appuser.generateVerificationToken
+        tokenGenerator(user, function(err, token) {
+            if (err) {
+                return fn(err);
+            }
+
+
+            Appuser.findOne({ where: { username: username } }, (err, user) => {
+                user.passwordResetToken = Math.floor(Math.random() * 1000000 + 1)
+                console.log("xxx is for you")
+                user.save(function(err) {
+                    if (err) {
+                        fn(err)
+                    } else {
+                        sendSMS(user)
+                        return fn();
+                    }
+                })
+            })
+
+        })
+
+
+        function sendSMS(user) {
+            /* 
+              nexmo.message.sendSms('apptorney', user.username, 'Your verification code: ' + user.verificationTokenForPhone, (err, res) => {
+             console.log('err', err)
+              })*/
+
+            client.messages.create({
+                body: 'Password reset code: ' + user.passwordResetToken,
+                // body: 'Thank you for your registration. Apptorney will be available for download on April 30, 2018. Please check your email for more details.',
+                to: user.username, // Text this number
+                //from: 'Apptorney' // From a valid Twilio number
+                messagingServiceSid: messagingServiceSid
+            }).then((message) => console.log(message.sid))
+
+        }
     }
 
     /**
@@ -481,8 +600,64 @@ module.exports = function(Appuser) {
         })
     })
 
+    Appuser.resetPassword = function(options, cb) {
+        cb = cb || utils.createPromiseCallback();
+        var UserModel = this;
+        var ttl = UserModel.settings.resetPasswordTokenTTL || DEFAULT_RESET_PW_TTL;
+
+        options = options || {};
+        if (typeof options.email !== 'string') {
+            var err = new Error('Email is required');
+            err.statusCode = 400;
+            err.code = 'EMAIL_REQUIRED';
+            cb(err);
+            return cb.promise;
+        }
+
+        UserModel.findOne({
+            where: {
+                email: options.email
+            }
+        }, function(err, user) {
+            if (err) {
+                return cb(err);
+            }
+            if (!user) {
+                err = new Error('Email not found');
+                err.statusCode = 404;
+                err.code = 'EMAIL_NOT_FOUND';
+                return cb(err);
+            }
+            // create a short lived access token for temp login to change password
+            // TODO(ritch) - eventually this should only allow password change
+            user.accessTokens.create({
+                ttl: ttl
+            }, function(err, accessToken) {
+                if (err) {
+                    return cb(err);
+                }
+                cb();
+                UserModel.emit('resetPasswordRequest', {
+                    email: options.email,
+                    accessToken: accessToken,
+                    user: user
+                });
+            });
+        });
+
+        return cb.promise;
+    };
+
+
+
     // send password reset link when requested
     Appuser.on('resetPasswordRequest', function(info) {
+
+
+
+
+
+        /*
         var options = {
                 type: 'email',
                 to: info.email,
@@ -495,14 +670,17 @@ module.exports = function(Appuser) {
             // var url = 'http://' + config.host + ':' +  '3000/#/reset'
         var url = 'http://' + info.user.location + '/competitions/#/reset'
         options.resetHref = url + '?access_token=' + info.accessToken.id
+        console.log(info.accessToken.id)
         var template = loopback.template(options.template)
         options.html = template(options)
 
         Appuser.app.models.Email.send(options, function(err) {
             if (err) return console.log('> error sending password reset email')
             console.log('> sending password reset email to:', info.email)
-        })
+        })*/
     })
+
+
 
     Appuser.observe('after save', function(context, next) {
         if (context.isNewInstance) {
@@ -560,6 +738,52 @@ module.exports = function(Appuser) {
 
             ],
             http: { verb: 'get', path: '/confirmPhone' }
+        }
+    )
+
+    Appuser.remoteMethod(
+        'resetPasswordWithOTP', {
+            description: 'Reset a password with OTP.',
+            accepts: [{
+                    arg: 'username',
+                    type: 'string',
+                    required: true
+                },
+                {
+                    arg: 'password',
+                    type: 'string',
+                    required: true
+                },
+                {
+                    arg: 'token',
+                    type: 'number',
+                    required: true
+                }
+
+            ],
+            http: {
+                verb: 'get',
+                path: '/resetPasswordWithOTP'
+            }
+        }
+    )
+
+
+
+    Appuser.remoteMethod(
+        'requestPasswordReset', {
+            description: 'Allows a user to reset a password with an OTP',
+            accepts: [{
+                    arg: 'username',
+                    type: 'string',
+                    required: true
+                }
+
+            ],
+            http: {
+                verb: 'get',
+                path: '/requestPasswordReset'
+            }
         }
     )
 

@@ -194,6 +194,9 @@ module.exports = function(Customer) {
                 if (customer == null) {
                     cb(err, null)
                 } else {
+                    var lastAccess = new Date(Date.now())
+                    customer.lastAccess = lastAccess;
+                    customer.save();
                     if (customer.bookmarks == undefined) { customer.bookmarks = [] }
                     cb(null, customer.bookmarks)
                 }

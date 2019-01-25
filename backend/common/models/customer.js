@@ -67,6 +67,7 @@ module.exports = function(Customer) {
         var Case = app.models.Case
         var Legislation = app.models.Legislation
             // Case Bookmarks
+        username = username.replace("+", "")
 
         if (type == 'case') {
             this.findOne({ where: { phoneNumber: username } }, function(err, customer) {
@@ -189,6 +190,8 @@ module.exports = function(Customer) {
                     cb(null, aCustomer)
                 })
             }*/
+
+            username = username.replace("+", "")
 
             this.findOne({ where: { phoneNumber: username } }, function(err, customer) {
                 if (customer == null) {

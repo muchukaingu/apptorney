@@ -218,7 +218,7 @@ module.exports = function(Customer) {
             count++
         }
         var customer = context.req.body;
-        Appuser.create({ username: customer.phoneNumber, email: customer.emailAddress, password: customer.password, pwd: customer.password, firstname: customer.firstName, lastname: customer.lastName, customerId: customer.id }, function(err, user) {
+        Appuser.create({ username: customer.phoneNumber.replace("+", ""), email: customer.emailAddress, password: customer.password, pwd: customer.password, firstname: customer.firstName, lastname: customer.lastName, customerId: customer.id }, function(err, user) {
             if (err) {
                 console.log('err occured', err)
                 next(err, null)

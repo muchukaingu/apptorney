@@ -23,6 +23,47 @@ var client = new twilio(accountSid, authToken)
 
 module.exports = function(Appuser) {
 
+
+    /**
+     * Normalize the credentials
+     * @param {Object} credentials The credential object
+     * @param {Boolean} realmRequired
+     * @param {String} realmDelimiter The realm delimiter, if not set, no realm is needed
+     * @returns {Object} The normalized credential object
+     */
+    Appuser.normalizeCredentials = function(credentials, realmRequired, realmDelimiter) {
+        console.log("Normalizing creds")
+        var query = {};
+        credentials = credentials || {};
+        if (!realmRequired) {
+            if (credentials.email) {
+                query.email = credentials.email;
+            } else if (credentials.username) {
+                query.username = credentials.username.replace("+", ""); // added this to ignore +
+            }
+        } else {
+            if (credentials.realm) {
+                query.realm = credentials.realm;
+            }
+            var parts;
+            if (credentials.email) {
+                parts = splitPrincipal(credentials.email, realmDelimiter);
+                query.email = parts[1];
+                if (parts[0]) {
+                    query.realm = parts[0];
+                }
+            } else if (credentials.username) {
+                parts = splitPrincipal(credentials.username, realmDelimiter);
+                query.username = parts[1].replace("+", "");
+                console.log("Phone Number ", query.username)
+                if (parts[0]) {
+                    query.realm = parts[0];
+                }
+            }
+        }
+        return query;
+    };
+
     /**
      * Login a user by with the given `credentials`.
      *
@@ -84,6 +125,7 @@ module.exports = function(Appuser) {
         }
 
         self.findOne({ where: query }, function(err, user) {
+            console.log(query)
             var defaultError = new Error('login failed')
             defaultError.statusCode = 401
             defaultError.code = 'LOGIN_FAILED'

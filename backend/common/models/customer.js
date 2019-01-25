@@ -211,6 +211,7 @@ module.exports = function(Customer) {
         var Subscription = app.models.Subscription;
         var count = 0;
 
+
         function callback() {
             if (count == 1) {
                 next()
@@ -242,4 +243,15 @@ module.exports = function(Customer) {
         })
 
     })
+
+
+    Customer.observe('before save', function removePlusFromPhoneNumber(ctx, next) {
+        if (ctx.instance) {
+            ctx.instance.phoneNumber = ctx.instance.phoneNumber.replace("+", "")
+        } else {
+            //ctx.data.updated = new Date();
+        }
+        next();
+    });
+
 }

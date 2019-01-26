@@ -1,7 +1,7 @@
 module.exports = function(News) {
     const { ObjectId } = require('mongodb') // or ObjectID
     var d = new Date();
-    var year = d.getFullYear();
+    var year = 2018 //d.getFullYear();
 
     News.validatesUniquenessOf('sourceId', { message: 'News Item already exists' })
     News.remoteMethod(

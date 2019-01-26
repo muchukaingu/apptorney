@@ -4,6 +4,12 @@ PODS:
     - Fabric (~> 1.7.9)
   - Fabric (1.7.9)
   - paper-onboarding (4.1.0)
+  - PhoneNumberKit (2.1.0):
+    - PhoneNumberKit/PhoneNumberKitCore (= 2.1.0)
+    - PhoneNumberKit/UIKit (= 2.1.0)
+  - PhoneNumberKit/PhoneNumberKitCore (2.1.0)
+  - PhoneNumberKit/UIKit (2.1.0):
+    - PhoneNumberKit/PhoneNumberKitCore
   - SkyFloatingLabelTextField (3.5.1)
   - SwiftyJSON (4.1.0)
   - Windless (0.1.5)
@@ -12,6 +18,7 @@ DEPENDENCIES:
   - Alamofire
   - Crashlytics
   - paper-onboarding
+  - PhoneNumberKit (~> 2.1)
   - SkyFloatingLabelTextField (~> 3.0)
   - SwiftyJSON
   - Windless (~> 0.1.5)
@@ -22,6 +29,7 @@ SPEC REPOS:
     - Crashlytics
     - Fabric
     - paper-onboarding
+    - PhoneNumberKit
     - SkyFloatingLabelTextField
     - SwiftyJSON
     - Windless
@@ -31,10 +39,11 @@ SPEC CHECKSUMS:
   Crashlytics: 7f2e38d302d9da96475b3d64d86fb29e31a542b7
   Fabric: a2917d3895e4c1569b9c3170de7320ea1b1e6661
   paper-onboarding: 344780cbb0bfc229cd1862f5b9bba446b23c5185
+  PhoneNumberKit: 62003f40ff75315fd3738286558bc365365ac222
   SkyFloatingLabelTextField: 4cbeece9c3aae97c6019d8fae511cb5b755874f7
   SwiftyJSON: c29297daf073d2aa016295d5809cdd68045c39b3
   Windless: c6b7d63ac3a0c7e6b241e316650d4605abf71894
 
-PODFILE CHECKSUM: 6e560778ccb96172164bc9e761ff982db9a770b2
+PODFILE CHECKSUM: 1f4bfa82f517dd26206007b50fec60037d2126b1
 
 COCOAPODS: 1.5.3

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		138F89B785823A207493C1E9 /* Pods_apptorney.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1330C11C62C0520382BDD84C /* Pods_apptorney.framework */; };
+		7A31DB7D0755116B963985BC /* Pods_apptorneyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0830D4CFF8BB4B2625F2CFBE /* Pods_apptorneyTests.framework */; };
 		8D02A1EA2155A7090068402B /* Subscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D02A1E92155A7090068402B /* Subscription.swift */; };
 		8D02A1EE215617100068402B /* APIResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D02A1ED215617100068402B /* APIResponse.swift */; };
 		8D03361A1FC2FDCE007F9DC9 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0336191FC2FDCD007F9DC9 /* String+Extensions.swift */; };
@@ -152,6 +153,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0830D4CFF8BB4B2625F2CFBE /* Pods_apptorneyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_apptorneyTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A17A82C1F9D053E5468BD43 /* Pods-apptorneyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-apptorneyTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-apptorneyTests/Pods-apptorneyTests.release.xcconfig"; sourceTree = "<group>"; };
 		1330C11C62C0520382BDD84C /* Pods_apptorney.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_apptorney.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		49C0B1D64890DA23565B1D7E /* Pods-apptorney.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-apptorney.release.xcconfig"; path = "Pods/Target Support Files/Pods-apptorney/Pods-apptorney.release.xcconfig"; sourceTree = "<group>"; };
@@ -296,6 +298,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7A31DB7D0755116B963985BC /* Pods_apptorneyTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -541,6 +544,7 @@
 			children = (
 				8D6F7C25215F75E30084C306 /* StoreKit.framework */,
 				1330C11C62C0520382BDD84C /* Pods_apptorney.framework */,
+				0830D4CFF8BB4B2625F2CFBE /* Pods_apptorneyTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -872,6 +876,7 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-apptorney/Pods-apptorney-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/PhoneNumberKit/PhoneNumberKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SkyFloatingLabelTextField/SkyFloatingLabelTextField.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/Windless/Windless.framework",
@@ -880,6 +885,7 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PhoneNumberKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SkyFloatingLabelTextField.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Windless.framework",

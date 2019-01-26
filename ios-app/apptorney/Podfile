@@ -11,7 +11,7 @@ target 'apptorney' do
   pod 'SwiftyJSON'
   pod 'Windless', '~> 0.1.5'
   pod 'paper-onboarding'
-  
+  pod 'PhoneNumberKit', '~> 2.1'
   
 
   target 'apptorneyTests' do

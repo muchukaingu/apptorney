@@ -9,6 +9,7 @@
 import UIKit
 import SkyFloatingLabelTextField
 import Alamofire
+import PhoneNumberKit
 
 class RegisterViewController: UIViewController {
     @objc var moveToPoint: CGFloat = 0.0
@@ -25,6 +26,7 @@ class RegisterViewController: UIViewController {
     @IBOutlet weak var signUpSpinner: UIActivityIndicatorView!
     @IBOutlet weak var signUpError: UILabel!
     var formValid: Bool = false
+    let user = Appuser()
     
     
     
@@ -182,7 +184,7 @@ class RegisterViewController: UIViewController {
             
             let destinationController = segue.destination as!
             VerifyViewController
-            destinationController.username = self.txtPhoneNumber.text!
+            destinationController.username = user.phoneNumber ?? ""
         }
         
         
@@ -191,16 +193,25 @@ class RegisterViewController: UIViewController {
     
     
     @IBAction func register() {
+        let phoneNumberKit = PhoneNumberKit()
         if !validateForm(){
             
         } else {
             self.hideSignUpError()
             self.signUpSpinner.startAnimating()
             self.signUpButton.setTitle("Signing up...", for: .normal)
-            let user = Appuser()
+            
             user.firstName = txtFirstName!.text
             user.lastName = txtLastName!.text
             user.phoneNumber = txtPhoneNumber!.text
+            do {
+               let phoneNumber = try phoneNumberKit.parse(user.phoneNumber ?? "")
+               user.phoneNumber = phoneNumberKit.format(phoneNumber, toType: .e164).replacingOccurrences(of: "+", with: "")
+               print("xxx: " + user.phoneNumber!)
+            }
+            catch {
+                print("Generic parser error")
+            }
             user.emailAddress = txtEmailAddress!.text
             user.password = txtPassword!.text
             user.register(user: user, completionHandler:{(result,error) in
@@ -291,7 +302,13 @@ extension RegisterViewController: UITextFieldDelegate {
                     validateEmailTextFieldWithText(email: text)
                 }
                 else if floatingLabelTextField.textContentType == .telephoneNumber{
-                    validatePhoneTextFieldWithText(number: text)
+                    var phoneNumber = txtPhoneNumber.text
+                    phoneNumber = phoneNumber?.trimmingCharacters(in: .whitespacesAndNewlines)
+                    phoneNumber = phoneNumber?.trimmingCharacters(in: .punctuationCharacters)
+                    phoneNumber = phoneNumber?.deletingPrefix("00")
+                    phoneNumber = phoneNumber?.replacingOccurrences(of: " ", with: "")
+                    txtPhoneNumber.text = phoneNumber
+                    validatePhoneTextFieldWithText(number: phoneNumber)
                 }
             }
         }

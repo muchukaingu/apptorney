@@ -39,7 +39,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-        checkForUpdate()
+        checkForUpdateInBackground()
+        checkForSubscriptionInBackground()
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
@@ -94,13 +95,53 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         })
     }
     
-    func checkSubscription(){
-        print("Subscription is valid")
+    func checkForUpdateInBackground(){
+        Subscription.checkForUpdate(completionHandler:{(res,error) in
+            print(res)
+            if res == true {
+                print("Update now")
+                self.window = UIWindow(frame: UIScreen.main.bounds)
+                let sb = UIStoryboard(name: "Update", bundle: nil)
+                let initialViewController = sb.instantiateViewController(withIdentifier: "ForceUpdate")
+                self.window?.rootViewController = initialViewController
+                self.window?.makeKeyAndVisible()
+                
+            }
+        })
+        
+    }
+    
+    
+    func checkForSubscriptionInBackground(){
+        print("Checking validity of subscription in background...")
         //self.window = UIWindow(frame: UIScreen.main.bounds)
         let sb = UIStoryboard(name: "SubscriptionRenewal", bundle: nil)
         var initialViewController = sb.instantiateViewController(withIdentifier: "Subscription Renewal")
         IAPHandler.shared.receiptValidation(completionHandler: {(validity) in
+           
             if validity == true {
+                print("Subscription is invalid")
+                let sb = UIStoryboard(name: "SubscriptionRenewal", bundle: nil)
+                initialViewController = sb.instantiateViewController(withIdentifier: "Subscription Renewal")
+                DispatchQueue.main.async {
+                    self.window?.rootViewController = initialViewController
+                    self.window?.makeKeyAndVisible()
+                }
+                
+            }
+            
+            
+        })
+        
+    }
+    
+    func checkSubscription(){
+        print("Checking subscription validity...")
+        //self.window = UIWindow(frame: UIScreen.main.bounds)
+        let sb = UIStoryboard(name: "SubscriptionRenewal", bundle: nil)
+        var initialViewController = sb.instantiateViewController(withIdentifier: "Subscription Renewal")
+        IAPHandler.shared.receiptValidation(completionHandler: {(validity) in
+            if validity == false {
                 print("Subscription is valid")
                 let sb = UIStoryboard(name: "Main", bundle: nil)
                 initialViewController = sb.instantiateViewController(withIdentifier: "Home")

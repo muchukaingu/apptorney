@@ -522,6 +522,7 @@ extension LegislationDetailsTableViewController: UISearchBarDelegate {
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        print("Cancel button tapped")
        
     }
     

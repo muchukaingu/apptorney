@@ -317,17 +317,14 @@ extension LegislationsTableViewController: UISearchResultsUpdating {
 
 extension LegislationsTableViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String){
+        
         let session = Alamofire.SessionManager.default.session
         session.getAllTasks { tasks in
             tasks.forEach { $0.cancel(); print("cancel-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx----------->") }
         }
         
         if self.searchController.searchBar.text == "" {
-            self.legislations = []
-            //self.tableView.reloadData()
-            loadLegislationTypes()
-            tableView.separatorStyle = .none
-            tableView.rowHeight = 85
+            cancelSearch()
         }
         else {
             self.msgLabel.removeFromSuperview()
@@ -373,6 +370,29 @@ extension LegislationsTableViewController: UISearchBarDelegate {
             
             debouncer.call()
         }
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+       cancelSearch()
+        
+    }
+    
+    func cancelSearch(){
+        //self.searchController.searchBar.resignFirstResponder()
+        self.msgLabel.removeFromSuperview()
+        self.errorImage.removeFromSuperview()
+        let session = Alamofire.SessionManager.default.session
+        session.getAllTasks { tasks in
+            tasks.forEach { $0.cancel(); print("cancel-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx----------->") }
+        }
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+        print("Cancel button tapped.x")
+        self.legislations = []
+        loadLegislationTypes()
+        self.tableView.reloadData()
+        tableView.separatorStyle = .none
+        tableView.rowHeight = 85
+        
     }
 
 

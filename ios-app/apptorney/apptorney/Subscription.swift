@@ -24,6 +24,7 @@ class Subscription {
                         let data = result!
                         let decoder = JSONDecoder()
                         let response = try decoder.decode(APIResponse.self, from: data)
+                        print(response.statusCode)
                         switch response.statusCode {
                             case 200:
                                 completionHandler(true, nil)

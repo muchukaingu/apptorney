@@ -9,6 +9,8 @@
 import UIKit
 
 class SubscriptionRenewalVC: UIViewController {
+    
+    weak var timer: Timer?
 
    
     @IBOutlet weak var renewButton: UIButton!
@@ -20,6 +22,10 @@ class SubscriptionRenewalVC: UIViewController {
         //UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.isTranslucent = false
         self.navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
+        
+        //Automatically check status of subscription
+        timer?.invalidate()
+        timer = Timer.scheduledTimer(timeInterval: 30.0, target: self, selector: #selector(SubscriptionRenewalVC.checkSubscription), userInfo: nil, repeats: true)
        
         // Do any additional setup after loading the view.
         
@@ -85,6 +91,32 @@ class SubscriptionRenewalVC: UIViewController {
     
     @IBAction func subscribe(_ sender: Any) {
         IAPHandler.shared.purchaseMyProduct(index: 0)
+    }
+    
+    
+    
+    
+ 
+    
+    
+    @objc func checkSubscription(){
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.checkSubscription()
+    }
+    
+    func stopTimer() {
+        timer?.invalidate()
+    }
+    
+    // if appropriate, make sure to stop your timer in `deinit`
+    
+    deinit {
+        stopTimer()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        stopTimer()
     }
 
 }

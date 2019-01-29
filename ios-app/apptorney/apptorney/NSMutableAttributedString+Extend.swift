@@ -18,8 +18,9 @@ extension NSMutableAttributedString {
             for match in matchesArray {
                 let attributedText = NSMutableAttributedString(string: target)
                 //attributedText.addAttribute(NSAttributedStringKey.backgroundColor, value: UIColor.black, range: NSRange(location: 0, length: attributedText.length)
-                attributedText.addAttribute(NSAttributedStringKey.foregroundColor, value: color, range: NSRange(location: 0, length: attributedText.length))
-                attributedText.addAttribute(NSAttributedStringKey.font, value: UIFont(name: "HelveticaNeue-Bold", size: 16.2), range: NSRange(location: 0, length: attributedText.length))
+                attributedText.addAttribute(NSAttributedStringKey.backgroundColor, value: color, range: NSRange(location: 0, length: attributedText.length))
+                attributedText.addAttribute(NSAttributedStringKey.foregroundColor, value: UIColor.white, range: NSRange(location: 0, length: attributedText.length))
+                attributedText.addAttribute(NSAttributedStringKey.font, value: UIFont(name: "HelveticaNeue-Light", size: 16.2), range: NSRange(location: 0, length: attributedText.length))
                 self.replaceCharacters(in: match.range, with: attributedText)
             }
             matchesFound = matchesArray.count > 0 ? 1:0
@@ -67,7 +68,7 @@ extension NSMutableAttributedString {
          let textInArray = [target.capitalized, target.lowercased(), target.uppercased()]
          var count = 0
          for text in textInArray {
-            let result = attrStr.highlightTarget(target: text, color: UIColor(hex:"f3a435"))
+            let result = attrStr.highlightTarget(target: text, color: color)
             attrStr = result.0
             if result.1 == 1 {
                 count = count+1

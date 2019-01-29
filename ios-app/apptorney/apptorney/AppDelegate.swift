@@ -119,7 +119,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         var initialViewController = sb.instantiateViewController(withIdentifier: "Subscription Renewal")
         IAPHandler.shared.receiptValidation(completionHandler: {(validity) in
            
-            if validity == true {
+            if validity == false {
                 print("Subscription is invalid")
                 let sb = UIStoryboard(name: "SubscriptionRenewal", bundle: nil)
                 initialViewController = sb.instantiateViewController(withIdentifier: "Subscription Renewal")
@@ -141,7 +141,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let sb = UIStoryboard(name: "SubscriptionRenewal", bundle: nil)
         var initialViewController = sb.instantiateViewController(withIdentifier: "Subscription Renewal")
         IAPHandler.shared.receiptValidation(completionHandler: {(validity) in
-            if validity == false {
+            if validity == true {
                 print("Subscription is valid")
                 let sb = UIStoryboard(name: "Main", bundle: nil)
                 initialViewController = sb.instantiateViewController(withIdentifier: "Home")

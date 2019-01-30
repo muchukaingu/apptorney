@@ -72,10 +72,10 @@ class HomeViewController: UIViewController {
         super.viewWillAppear(animated)
         self.view.addSubview(activityIndicator)
         activityIndicator.center = self.view.center
-        //activityIndicator.startAnimating()
-        //self.tableView.isHidden = true
-        //loaded = false
-        //hideControlsWhileLoading()
+        activityIndicator.startAnimating()
+        self.tableView.isHidden = true
+        loaded = false
+        hideControlsWhileLoading()
         loadPlaceholders()
         tableView.reloadData()
         print("viewWillAppear")

@@ -268,10 +268,7 @@ extension CasesTableViewController: UISearchBarDelegate {
         }
         //print("searching again")
         if self.searchController.searchBar.text == "" {
-            self.cases = []
-            loadAreasOfLaw()
-            //self.tableView.reloadData()
-            tableView.rowHeight = 85
+            cancelSearch()
         }
         else {
             self.msgLabel.removeFromSuperview()
@@ -322,5 +319,30 @@ extension CasesTableViewController: UISearchBarDelegate {
             debouncer.call()
         }
 
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        cancelSearch()
+        
+    }
+    
+    
+    
+    func cancelSearch(){
+        //self.searchController.searchBar.resignFirstResponder()
+        self.msgLabel.removeFromSuperview()
+        self.errorImage.removeFromSuperview()
+        let session = Alamofire.SessionManager.default.session
+        session.getAllTasks { tasks in
+            tasks.forEach { $0.cancel(); print("cancel-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx----------->") }
+        }
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+        print("Cancel button tapped.x")
+        self.cases = []
+        loadAreasOfLaw()
+        self.tableView.reloadData()
+        tableView.separatorStyle = .none
+        tableView.rowHeight = 85
+        
     }
 }

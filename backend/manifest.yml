@@ -3,13 +3,13 @@ memory: 8G
 instances: 2
 domain: eu-gb.mybluemix.net
 name: apptorney
-host: circuitbusiness-apptorney
+host: apptorney
 disk_quota: 1G
 x-ibm-configuration:
   assembly:
     execute:
       - invoke:
-          target-url: circuitbusiness-apptorney.eu-gb.mybluemix.net
+          target-url: apptorney.eu-gb.mybluemix.net
           verb: keep
   cors:
     enabled: true

@@ -12,6 +12,7 @@ target 'apptorney' do
   pod 'Windless', '~> 0.1.5'
   pod 'paper-onboarding'
   pod 'PhoneNumberKit', '~> 2.1'
+  pod 'MaterialComponents/Snackbar'
   
 
   target 'apptorneyTests' do
@@ -19,4 +20,11 @@ target 'apptorney' do
     # Pods for testing
   end
 
+end
+
+post_install do |installer|
+    installer.pods_project.build_configurations.each do |config|
+        config.build_settings.delete('CODE_SIGNING_ALLOWED')
+        config.build_settings.delete('CODE_SIGNING_REQUIRED')
+    end
 end

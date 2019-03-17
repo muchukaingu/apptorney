@@ -79,10 +79,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         
                     }
                     else if userDefaults.bool(forKey: "registrationComplete") {
+                        let sb = UIStoryboard(name: "Login", bundle: nil)
                         initialViewController = sb.instantiateViewController(withIdentifier: "Login")
                     }
                     else {
-                       
+                        let sb = UIStoryboard(name: "Register", bundle: nil)
                         initialViewController = sb.instantiateViewController(withIdentifier: "Register")
                     }
                 } else {

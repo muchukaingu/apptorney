@@ -10,6 +10,7 @@ import UIKit
 import SkyFloatingLabelTextField
 import Alamofire
 import PhoneNumberKit
+import MaterialComponents.MaterialSnackbar
 
 class RegisterViewController: UIViewController {
     @objc var moveToPoint: CGFloat = 0.0
@@ -17,9 +18,11 @@ class RegisterViewController: UIViewController {
     @IBOutlet weak var logoImageView: UIImageView!
     @IBOutlet weak var txtFirstName: SkyFloatingLabelTextField!
     @IBOutlet weak var txtLastName: SkyFloatingLabelTextField!
+    @IBOutlet weak var txtOrganization: SkyFloatingLabelTextField!
     @IBOutlet weak var txtPhoneNumber: SkyFloatingLabelTextField!
     @IBOutlet weak var txtEmailAddress: SkyFloatingLabelTextField!
     @IBOutlet weak var txtPassword: SkyFloatingLabelTextField!
+    @IBOutlet weak var txtPasswordConfirmation: SkyFloatingLabelTextField!
     @IBOutlet weak var signInButton: UIButton!
     @IBOutlet weak var smallSignInButton: UIButton!
     @IBOutlet weak var signUpLabel: UILabel!
@@ -27,13 +30,15 @@ class RegisterViewController: UIViewController {
     @IBOutlet weak var signUpError: UILabel!
     var formValid: Bool = false
     let user = Appuser()
+    @IBOutlet weak var containerView: UIView!
     
+    @IBOutlet weak var scrollView: UIScrollView!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor=UIColor.white
-        self.signUpButton.layer.cornerRadius = self.signUpButton.frame.height/6
+        //self.signUpButton.layer.cornerRadius = self.signUpButton.frame.height/6
         
         self.txtEmailAddress.textContentType = .emailAddress
         self.txtPhoneNumber.textContentType = .telephoneNumber
@@ -43,18 +48,22 @@ class RegisterViewController: UIViewController {
         
         
         
-        for case let textField as SkyFloatingLabelTextField in self.view.subviews {
+        
+        for case let textField as SkyFloatingLabelTextField in self.containerView.subviews {
             if textField.textContentType != .emailAddress {
                 textField.autocapitalizationType = .words
             }
             textField.titleFormatter = { $0 }
+            //addToolBar(textField: textField)
             textField.delegate = self
         }
+        
+        print(self.view.bounds.height)
      
 
         // Do any additional setup after loading the view.
         registerForKeyboardNotifications()
-        if self.view.bounds.size.height < 568.0 {
+       /* if self.view.bounds.size.height < 568.0 {
             moveToPoint = -155.0
         }
         else if self.view.bounds.size.height >= 568.0 && self.view.bounds.size.height < 667.0{
@@ -69,16 +78,16 @@ class RegisterViewController: UIViewController {
         else if self.view.bounds.size.height > 736.0 {
             moveToPoint =  self.view.bounds.size.height / -3.7
         }
+ 
+ */
+        if self.view.bounds.size.height > 812.0 || self.view.bounds.size.height > 896.0 {
+            moveToPoint =  34.0
+        }
+        else {
+            moveToPoint = 0.0
+        }
         
-        UIView.animate(withDuration: 1.6, delay: 0.4, usingSpringWithDamping: 1, initialSpringVelocity: 0.5, options: [], animations: {
-            
-            //            self.logoImageView.transform = CGAffineTransform(scaleX: 0.3, y: 0.3)
-            //            self.logoImageView.transform = CGAffineTransform(translationX: 0, y: self.moveToPoint)
-            self.logoImageView.alpha = 0
-            self.logoImageView.transform = CGAffineTransform.identity.translatedBy(x: 0, y: self.moveToPoint).scaledBy(x: 0.7, y: 0.7)
-            
-            
-        }, completion:nil)
+     
         
         
         UIView.animate(withDuration: 0.2, delay: 1.4, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.5, options: UIViewAnimationOptions.curveEaseIn, animations: {
@@ -89,8 +98,8 @@ class RegisterViewController: UIViewController {
              self.txtEmailAddress.alpha = 1.0
             self.txtPassword.alpha = 1.0
             self.signUpButton.alpha = 1.0
-            self.signInButton.alpha = 1.0
-            self.signUpLabel.alpha = 1.0
+            //self.signInButton.alpha = 1.0
+            //self.signUpLabel.alpha = 1.0
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 self.txtFirstName.becomeFirstResponder()
             }
@@ -106,13 +115,31 @@ class RegisterViewController: UIViewController {
     
     @objc func registerForKeyboardNotifications() {
         let defaultCenter = NotificationCenter.default
-        defaultCenter.addObserver(self, selector: #selector(RegisterViewController.keyboardWasShown(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        defaultCenter.addObserver(self, selector: #selector(RegisterViewController.keyboardWillBeHidden(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        defaultCenter.addObserver(self, selector: #selector(keyboardWasShown), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        defaultCenter.addObserver(self, selector: #selector(keyboardWillBeHidden), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
-    @objc func keyboardWasShown(_ aNotification: Notification) {
-        self.signInButton.alpha = 0
-        self.smallSignInButton.alpha = 1
+    @objc func keyboardWasShown(aNotification: Notification) {
+        //self.signInButton.alpha = 0
+        //self.smallSignInButton.alpha = 1
+        let userInfo = aNotification.userInfo
+        let keyboardScreenEndFrame = (userInfo?[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+        let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
+        
+        scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height, right: 0)
+        scrollView.scrollIndicatorInsets = scrollView.contentInset
+        
+        
+        UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 1, initialSpringVelocity: 1.5, options: [], animations: {
+            
+            //            self.logoImageView.transform = CGAffineTransform(scaleX: 0.3, y: 0.3)
+            //            self.logoImageView.transform = CGAffineTransform(translationX: 0, y: self.moveToPoint)
+            //self.logoImageView.alpha = 0
+            //self.logoImageView.transform = CGAffineTransform.identity.translatedBy(x: 0, y: self.moveToPoint).scaledBy(x: 0.7, y: 0.7)
+            self.signUpButton.transform = CGAffineTransform(translationX: 0, y: -keyboardViewEndFrame.height + self.moveToPoint)
+            
+            
+        }, completion:nil)
     }
     
     @objc func keyboardWillBeHidden(_ aNotification: Notification) {
@@ -122,17 +149,21 @@ class RegisterViewController: UIViewController {
     }
     
     @objc func showSignUpError(errorText: String){
-        UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.5, options: UIViewAnimationOptions.curveEaseIn, animations: {
-            self.signUpError.text = errorText
-            self.signUpError.alpha = 1.0
-            //self.closeErrorButton.alpha = 1.0
-        }, completion:nil)
+//        UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.5, options: UIViewAnimationOptions.curveEaseIn, animations: {
+//            self.signUpError.text = errorText
+//            self.signUpError.alpha = 1.0
+//            //self.closeErrorButton.alpha = 1.0
+//        }, completion:nil)
+        
+        let message = MDCSnackbarMessage()
+        message.text = errorText
+        MDCSnackbarManager.show(message)
     }
     
     @IBAction func hideSignUpError(){
         UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.5, options: UIViewAnimationOptions.curveEaseIn, animations: {
-            self.signUpError.text = ""
-            self.signUpError.alpha = 0.0
+            //self.signUpError.text = ""
+            //self.signUpError.alpha = 0.0
             //self.closeErrorButton.alpha = 0.0
             
         }, completion:nil)
@@ -140,7 +171,7 @@ class RegisterViewController: UIViewController {
     
     func validateForm()->Bool{
         formValid = true
-        for case let textField as SkyFloatingLabelTextField in self.view.subviews {
+        for case let textField as SkyFloatingLabelTextField in self.containerView.subviews {
             
             if(textField.textContentType == .emailAddress) {
                 validateEmailTextFieldWithText(email: textField.text)
@@ -173,6 +204,27 @@ class RegisterViewController: UIViewController {
             }
             
         }
+        
+        if let password = txtPassword.text{
+            if let confirmation = txtPasswordConfirmation.text {
+                if password != confirmation {
+                    let error = NSLocalizedString(
+                        "Password mismatch",
+                        tableName: "SkyFloatingLabelTextField",
+                        comment: " "
+                    )
+                    txtPassword.errorMessage = error
+                    txtPasswordConfirmation.errorMessage = error
+                    formValid = false
+                }
+                else {
+                    txtPassword.errorMessage = nil
+                    txtPasswordConfirmation.errorMessage = nil
+                }
+            }
+        }
+        
+        
         return formValid
     }
     
@@ -198,7 +250,7 @@ class RegisterViewController: UIViewController {
             
         } else {
             self.hideSignUpError()
-            self.signUpSpinner.startAnimating()
+            //self.signUpSpinner.startAnimating()
             self.signUpButton.setTitle("Signing up...", for: .normal)
             
             user.firstName = txtFirstName!.text
@@ -219,6 +271,7 @@ class RegisterViewController: UIViewController {
                 if error != nil {
                     var errorText: String?
                     if let error = error as? AFError {
+                        print ("Localized Description: \(error.localizedDescription), Error Description \(error.errorDescription) \(error.underlyingError?.localizedDescription)")
                         switch error {
                         case .invalidURL(let url):
                             print("Invalid URL: \(url) - \(error.localizedDescription)")
@@ -243,8 +296,12 @@ class RegisterViewController: UIViewController {
                             case .unacceptableContentType(let acceptableContentTypes, let responseContentType):
                                 print("Response content type: \(responseContentType) was unacceptable: \(acceptableContentTypes)")
                             case .unacceptableStatusCode(let code):
-                                print("Response status code was unacceptable: \(code)")
-                                errorText = "Sign up failed. An account already exists."
+                                if code == 409 {
+                                    errorText = "Sign up failed. An account already exists."
+                                } else {
+                                    errorText = "Sign up failed. Please contact info@apptorney.org"
+                                }
+                                
                             }
                         case .responseSerializationFailed(let reason):
                             print("Response serialization failed: \(error.localizedDescription)")
@@ -257,7 +314,7 @@ class RegisterViewController: UIViewController {
                     }
                    
                     self.showSignUpError(errorText: errorText ?? "")
-                    self.signUpSpinner.stopAnimating()
+                    //self.signUpSpinner.stopAnimating()
                     self.signUpButton.setTitle("Sign Up", for: .normal)
                     
                     
@@ -276,48 +333,3 @@ class RegisterViewController: UIViewController {
     }
 }
 
-extension RegisterViewController: UITextFieldDelegate {
-    
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if let text = textField.text {
-            if let floatingLabelTextField = textField as? SkyFloatingLabelTextField {
-                if(floatingLabelTextField.textContentType == .emailAddress) {
-                    validateEmailTextFieldWithText(email: text)
-                }
-                else if floatingLabelTextField.textContentType == .telephoneNumber{
-                    validatePhoneTextFieldWithText(number: text)
-                }
-                else {
-                    validateOtherFields(floatingLabelTextField)
-                }
-            }
-        }
-        return true
-    }
-    
-    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        if let text = textField.text {
-            if let floatingLabelTextField = textField as? SkyFloatingLabelTextField {
-                if(floatingLabelTextField.textContentType == .emailAddress) {
-                    validateEmailTextFieldWithText(email: text)
-                }
-                else if floatingLabelTextField.textContentType == .telephoneNumber{
-                    var phoneNumber = txtPhoneNumber.text
-                    phoneNumber = phoneNumber?.trimmingCharacters(in: .whitespacesAndNewlines)
-                    phoneNumber = phoneNumber?.trimmingCharacters(in: .punctuationCharacters)
-                    phoneNumber = phoneNumber?.deletingPrefix("00")
-                    phoneNumber = phoneNumber?.replacingOccurrences(of: " ", with: "")
-                    txtPhoneNumber.text = phoneNumber
-                    validatePhoneTextFieldWithText(number: phoneNumber)
-                }
-            }
-        }
-        return true
-    }
-    
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        print("return pressed")
-        return true
-    }
-}

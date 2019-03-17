@@ -43,25 +43,37 @@ class LoginViewController: UIViewController, SettingsTableViewControllerDelegate
         
         super.viewDidLoad()
         UIApplication.shared.isStatusBarHidden = true
-        self.loginButton.layer.cornerRadius = self.loginButton.frame.height/6
+        //self.loginButton.layer.cornerRadius = self.loginButton.frame.height/6
         self.registerForKeyboardNotifications()
         print(self.view.bounds.size.height)
         //check width of iphone
         
-        if self.view.bounds.size.height < 568.0 {
-            moveToPoint = -185.0
+//        if self.view.bounds.size.height < 568.0 {
+//            moveToPoint = -185.0
+//        }
+//        else if self.view.bounds.size.height >= 568.0 && self.view.bounds.size.height < 667.0{
+//            moveToPoint = -200.0
+//        }
+//        else if self.view.bounds.size.height == 667.0 && self.view.bounds.size.height < 736.0{
+//            moveToPoint = -220.0
+//        }
+//        else if self.view.bounds.size.height == 736.0 {
+//            moveToPoint = -230.0
+//        }
+//        else if self.view.bounds.size.height > 736.0 {
+//            moveToPoint =  self.view.bounds.size.height / -3.4
+//        }
+        
+        
+        if self.view.bounds.size.height > 812.0 || self.view.bounds.size.height > 896.0 {
+            moveToPoint =  34.0
         }
-        else if self.view.bounds.size.height >= 568.0 && self.view.bounds.size.height < 667.0{
-            moveToPoint = -200.0
+        else {
+            moveToPoint = 0.0
         }
-        else if self.view.bounds.size.height == 667.0 && self.view.bounds.size.height < 736.0{
-            moveToPoint = -220.0
-        }
-        else if self.view.bounds.size.height == 736.0 {
-            moveToPoint = -230.0
-        }
-        else if self.view.bounds.size.height > 736.0 {
-            moveToPoint =  self.view.bounds.size.height / -3.4
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            self.txtUserName.becomeFirstResponder()
         }
 
         
@@ -71,11 +83,11 @@ class LoginViewController: UIViewController, SettingsTableViewControllerDelegate
         
         self.view.backgroundColor=UIColor.white
         UIView.animate(withDuration: 2.0, delay: 0.4, usingSpringWithDamping: 1, initialSpringVelocity: 0.5, options: [], animations: {
-            self.logo.transform = CGAffineTransform(translationX: 0, y: self.moveToPoint)
+            //self.logo.transform = CGAffineTransform(translationX: 0, y: self.moveToPoint)
             
 //            self.logoImageView.transform = CGAffineTransform(scaleX: 0.3, y: 0.3)
 //            self.logoImageView.transform = CGAffineTransform(translationX: 0, y: self.moveToPoint)
-            self.logoImageView.transform = CGAffineTransform.identity.translatedBy(x: 0, y: self.moveToPoint).scaledBy(x: 0.55, y: 0.55)
+           // self.logoImageView.transform = CGAffineTransform.identity.translatedBy(x: 0, y: self.moveToPoint).scaledBy(x: 0.55, y: 0.55)
         }, completion:nil)
         
         
@@ -83,8 +95,8 @@ class LoginViewController: UIViewController, SettingsTableViewControllerDelegate
             self.loginButton.alpha = 1.0
             self.txtUserName.alpha = 1.0
             self.txtPassword.alpha = 1.0
-            self.signUpButton.alpha = 1.0
-            self.forgotButton.alpha = 1.0
+            //self.signUpButton.alpha = 1.0
+            //self.forgotButton.alpha = 1.0
             }, completion:nil)
 
         // Do any additional setup after loading the view.
@@ -226,6 +238,9 @@ class LoginViewController: UIViewController, SettingsTableViewControllerDelegate
        
     }
     
+    
+   
+    
     @objc func createBlurredSnapshop() -> UIImageView {
         // 1
         let aView : UIImageView = UIImageView()
@@ -302,58 +317,23 @@ class LoginViewController: UIViewController, SettingsTableViewControllerDelegate
     
     @objc func keyboardWasShown(_ aNotification: Notification) {
         
-        if self.view.bounds.size.height <= 480.0 {
-            tableYPoint = -45.0
-            UIView.animate(withDuration: 1.0, delay: 0.0, usingSpringWithDamping: 1, initialSpringVelocity: 0.5, options: [], animations: {
-                //self.loginButton.transform = CGAffineTransform(translationX: 0, y: -85.0)
-                //self.tableView.transform = CGAffineTransform(translationX: 0, y: self.tableYPoint)
-                self.logo.transform = CGAffineTransform(translationX: 0, y: -165.0)
-                }, completion:nil)
-        }
-        else if self.view.bounds.size.height > 480.0 && self.view.bounds.size.height < 568.0 {
-            tableYPoint = -20.0
-            UIView.animate(withDuration: 1.0, delay: 0.0, usingSpringWithDamping: 1, initialSpringVelocity: 0.5, options: [], animations: {
-                //self.loginButton.transform = CGAffineTransform(translationX: 0, y: -55.0)
-                //self.tableView.transform = CGAffineTransform(translationX: 0, y: self.tableYPoint)
-                }, completion:nil)
-        }
-        else if self.view.bounds.size.height == 568.0 {
-            tableYPoint = -15.0
-            UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 1, initialSpringVelocity: 1.0, options: [], animations: {
-//                self.loginButton.transform = CGAffineTransform(translationX: 0, y: -215.0)
-//                self.txtUserName.transform = CGAffineTransform(translationX: 0, y: -45.0)
-//                self.txtPassword.transform = CGAffineTransform(translationX: 0, y: -45.0)
-//                self.lineView.transform = CGAffineTransform(translationX: 0, y: -45.0)
-                //self.tableView.transform = CGAffineTransform(translationX: 0, y: self.tableYPoint)
-                }, completion:nil)
-        }
-
-        else if self.view.bounds.size.height == 667.0 {
-            UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 1, initialSpringVelocity: 1.0, options: [], animations: {
-//                self.loginButton.transform = CGAffineTransform(translationX: 0, y: -215.0)
-//                self.txtUserName.transform = CGAffineTransform(translationX: 0, y: -45.0)
-//                self.txtPassword.transform = CGAffineTransform(translationX: 0, y: -45.0)
-                //self.lineView.transform = CGAffineTransform(translationX: 0, y: -45.0)
-                //self.tableView.transform = CGAffineTransform(translationX: 0, y: self.tableYPoint)
-            }, completion:nil)
-        }
-        else if self.view.bounds.size.height == 736.0 {
-           
-            UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 1, initialSpringVelocity: 1.0, options: [], animations: {
-//                self.loginButton.transform = CGAffineTransform(translationX: 0, y: -226.0)
-//                self.loginSpinner.transform = CGAffineTransform(translationX: 0, y: -226.0)
-//                self.txtUserName.transform = CGAffineTransform(translationX: 0, y: -25.0)
-//                self.txtPassword.transform = CGAffineTransform(translationX: 0, y: -25.0)
-////                self.signUpButton.titleLabel?.text = "Sign up"
-////                self.forgotButton.titleLabel?.text = "Forgot?"
-//                self.signUpButton.setTitle("Sign up",for: .normal)
-//                self.forgotButton.setTitle("Forgot?",for: .normal)
-//                self.signUpButton.transform = CGAffineTransform(translationX: -38, y: -55.0)
-//                self.forgotButton.transform = CGAffineTransform(translationX: 38, y: -99.0)
-               
-                //self.tableView.transform = CGAffineTransform(translationX: 0, y: self.tableYPoint)
-            }, completion:nil)
-        }
+        let userInfo = aNotification.userInfo
+        let keyboardScreenEndFrame = (userInfo?[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+        let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
+        
+        
+        
+        
+        UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 1, initialSpringVelocity: 1.5, options: [], animations: {
+            
+            //            self.logoImageView.transform = CGAffineTransform(scaleX: 0.3, y: 0.3)
+            //            self.logoImageView.transform = CGAffineTransform(translationX: 0, y: self.moveToPoint)
+            //self.logoImageView.alpha = 0
+            //self.logoImageView.transform = CGAffineTransform.identity.translatedBy(x: 0, y: self.moveToPoint).scaledBy(x: 0.7, y: 0.7)
+            self.loginButton.transform = CGAffineTransform(translationX: 0, y: -keyboardViewEndFrame.height + self.moveToPoint)
+            
+            
+        }, completion:nil)
         
 
     }

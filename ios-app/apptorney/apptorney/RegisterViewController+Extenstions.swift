@@ -108,3 +108,78 @@ extension RegisterViewController {
         }
     }
 }
+
+extension RegisterViewController : UITextFieldDelegate {
+    func addToolBar(textField: UITextField){
+        let toolBar = UIToolbar()
+        toolBar.barStyle = UIBarStyle.default
+        toolBar.isTranslucent = true
+        toolBar.tintColor = UIColor.black
+        var signUpButton = UIBarButtonItem(title: "Sign In", style: UIBarButtonItemStyle.done, target: self, action: "donePressed")
+       
+       
+        toolBar.setItems([signUpButton], animated: false)
+        toolBar.isUserInteractionEnabled = true
+        toolBar.sizeToFit()
+        
+        textField.delegate = self
+        textField.inputAccessoryView = toolBar
+    }
+    func donePressed(){
+        view.endEditing(true)
+    }
+    func cancelPressed(){
+        view.endEditing(true) // or do something
+    }
+    
+    
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if let text = textField.text {
+            if let floatingLabelTextField = textField as? SkyFloatingLabelTextField {
+                if(floatingLabelTextField.textContentType == .emailAddress) {
+                    validateEmailTextFieldWithText(email: text)
+                }
+                else if floatingLabelTextField.textContentType == .telephoneNumber{
+                    validatePhoneTextFieldWithText(number: text)
+                }
+                else if floatingLabelTextField.placeholder == "Password" || floatingLabelTextField.placeholder == "Password Confirmation" {
+                    //print("password")
+                }
+                else {
+                    validateOtherFields(floatingLabelTextField)
+                }
+                floatingLabelTextField.errorMessage = nil
+            }
+        }
+        return true
+    }
+    
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        if let text = textField.text {
+            if let floatingLabelTextField = textField as? SkyFloatingLabelTextField {
+                if(floatingLabelTextField.textContentType == .emailAddress) {
+                    validateEmailTextFieldWithText(email: text)
+                }
+                else if floatingLabelTextField.textContentType == .telephoneNumber{
+                    var phoneNumber = txtPhoneNumber.text
+                    phoneNumber = phoneNumber?.trimmingCharacters(in: .whitespacesAndNewlines)
+                    phoneNumber = phoneNumber?.trimmingCharacters(in: .punctuationCharacters)
+                    phoneNumber = phoneNumber?.deletingPrefix("00")
+                    phoneNumber = phoneNumber?.replacingOccurrences(of: " ", with: "")
+                    txtPhoneNumber.text = phoneNumber
+                    validatePhoneTextFieldWithText(number: phoneNumber)
+                }
+                
+            }
+        }
+        
+        return true
+    }
+    
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        print("return pressed")
+        return true
+    }
+}

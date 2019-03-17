@@ -3,6 +3,44 @@ PODS:
   - Crashlytics (3.10.5):
     - Fabric (~> 1.7.9)
   - Fabric (1.7.9)
+  - MaterialComponents/AnimationTiming (59.1.1)
+  - MaterialComponents/Buttons (59.1.1):
+    - MaterialComponents/Ink
+    - MaterialComponents/private/Math
+    - MaterialComponents/private/Shapes
+    - MaterialComponents/ShadowElevations
+    - MaterialComponents/ShadowLayer
+    - MaterialComponents/Typography
+    - MDFInternationalization
+    - MDFTextAccessibility
+  - MaterialComponents/Ink (59.1.1):
+    - MaterialComponents/private/Math
+  - MaterialComponents/OverlayWindow (59.1.1):
+    - MaterialComponents/private/Application
+  - MaterialComponents/private/Application (59.1.1)
+  - MaterialComponents/private/KeyboardWatcher (59.1.1):
+    - MaterialComponents/private/Application
+  - MaterialComponents/private/Math (59.1.1)
+  - MaterialComponents/private/Overlay (59.1.1)
+  - MaterialComponents/private/Shapes (59.1.1):
+    - MaterialComponents/private/Math
+    - MaterialComponents/ShadowLayer
+  - MaterialComponents/ShadowElevations (59.1.1)
+  - MaterialComponents/ShadowLayer (59.1.1):
+    - MaterialComponents/ShadowElevations
+  - MaterialComponents/Snackbar (59.1.1):
+    - MaterialComponents/AnimationTiming
+    - MaterialComponents/Buttons
+    - MaterialComponents/OverlayWindow
+    - MaterialComponents/private/Application
+    - MaterialComponents/private/KeyboardWatcher
+    - MaterialComponents/private/Overlay
+    - MaterialComponents/Typography
+  - MaterialComponents/Typography (59.1.1):
+    - MaterialComponents/private/Application
+    - MaterialComponents/private/Math
+  - MDFInternationalization (1.0.4)
+  - MDFTextAccessibility (1.2.0)
   - paper-onboarding (4.1.0)
   - PhoneNumberKit (2.1.0):
     - PhoneNumberKit/PhoneNumberKitCore (= 2.1.0)
@@ -17,6 +55,7 @@ PODS:
 DEPENDENCIES:
   - Alamofire
   - Crashlytics
+  - MaterialComponents/Snackbar
   - paper-onboarding
   - PhoneNumberKit (~> 2.1)
   - SkyFloatingLabelTextField (~> 3.0)
@@ -28,6 +67,9 @@ SPEC REPOS:
     - Alamofire
     - Crashlytics
     - Fabric
+    - MaterialComponents
+    - MDFInternationalization
+    - MDFTextAccessibility
     - paper-onboarding
     - PhoneNumberKit
     - SkyFloatingLabelTextField
@@ -38,12 +80,15 @@ SPEC CHECKSUMS:
   Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
   Crashlytics: 7f2e38d302d9da96475b3d64d86fb29e31a542b7
   Fabric: a2917d3895e4c1569b9c3170de7320ea1b1e6661
+  MaterialComponents: 9ba063439c19dd92b3489bc2c4e428f2abaced65
+  MDFInternationalization: e355b0cebecf53d60233bd267084e49366c82513
+  MDFTextAccessibility: 94098925e0853551c5a311ce7c1ecefbe297cdb6
   paper-onboarding: 344780cbb0bfc229cd1862f5b9bba446b23c5185
   PhoneNumberKit: 62003f40ff75315fd3738286558bc365365ac222
   SkyFloatingLabelTextField: 4cbeece9c3aae97c6019d8fae511cb5b755874f7
   SwiftyJSON: c29297daf073d2aa016295d5809cdd68045c39b3
   Windless: c6b7d63ac3a0c7e6b241e316650d4605abf71894
 
-PODFILE CHECKSUM: 1f4bfa82f517dd26206007b50fec60037d2126b1
+PODFILE CHECKSUM: 2ee67c7bd159bb451d6f12da249062e8359980a6
 
 COCOAPODS: 1.5.3

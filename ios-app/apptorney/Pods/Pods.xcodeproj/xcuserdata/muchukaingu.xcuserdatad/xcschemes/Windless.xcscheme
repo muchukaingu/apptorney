@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "9DFEA4151F2CED93BD24FF33F449FEF4"
+               BlueprintIdentifier = "B9E05415E18B6F088CDF6098E23E3C13"
                BlueprintName = "Windless"
                ReferencedContainer = "container:Pods.xcodeproj"
                BuildableName = "Windless.framework">

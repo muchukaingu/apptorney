@@ -67,7 +67,7 @@
                                                     </variation>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qJz-xI-nuJ">
-                                                    <rect key="frame" x="347" y="7" width="47" height="30"/>
+                                                    <rect key="frame" x="308" y="7" width="47" height="30"/>
                                                     <state key="normal" title="See All">
                                                         <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </state>
@@ -96,7 +96,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Lni-iv-wxb">
-                                                    <rect key="frame" x="0.0" y="15" width="414" height="160"/>
+                                                    <rect key="frame" x="0.0" y="15" width="375" height="160"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="160" id="tuG-Db-A0f">
@@ -274,26 +274,26 @@
                                                     </constraints>
                                                 </imageView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9EM-MT-IeV">
-                                                    <rect key="frame" x="20" y="135" width="374" height="5"/>
+                                                    <rect key="frame" x="20" y="135" width="335" height="5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="5" id="80G-JH-Qbn"/>
                                                     </constraints>
                                                 </imageView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5eP-Ap-Whh">
-                                                    <rect key="frame" x="20" y="152" width="364" height="5"/>
+                                                    <rect key="frame" x="20" y="152" width="325" height="5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="5" id="gFS-OX-328"/>
                                                     </constraints>
                                                 </imageView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="oST-0b-Wqa">
-                                                    <rect key="frame" x="327" y="39" width="67" height="14"/>
+                                                    <rect key="frame" x="288" y="39" width="67" height="14"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="67" id="eRm-kr-0ak"/>
                                                         <constraint firstAttribute="height" constant="14" id="uxm-CE-vTJ"/>
                                                     </constraints>
                                                 </imageView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1u5-al-lnZ">
-                                                    <rect key="frame" x="20" y="118" width="364" height="5"/>
+                                                    <rect key="frame" x="20" y="118" width="325" height="5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="5" id="9Nm-Pf-CO0"/>
                                                     </constraints>
@@ -517,7 +517,7 @@
                                 </variation>
                                 <connections>
                                     <action selector="gotStarted:" destination="Gu6-4D-Hxd" eventType="touchUpInside" id="zfQ-zw-pJc"/>
-                                    <segue destination="gHg-fl-IAP" kind="presentation" id="4TM-c7-Id0"/>
+                                    <segue destination="0AQ-gg-Uqd" kind="presentation" id="Hgr-gY-A0P"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0x6-Xg-6QM">
@@ -611,7 +611,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Kyt-II-aYl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-300" y="-997.15142428785612"/>
+            <point key="canvasLocation" x="-401" y="-1233"/>
         </scene>
         <!--LegislationDetails-->
         <scene sceneID="ift-9O-p22">
@@ -758,9 +758,6 @@
                                 <state key="normal" title="Sign Up">
                                     <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
-                                <connections>
-                                    <segue destination="gHg-fl-IAP" kind="presentation" identifier="Register" id="Lb5-kq-ZbX"/>
-                                </connections>
                             </button>
                         </subviews>
                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1384,7 +1381,7 @@ Access to Apptorney is based on a monthly auto renewing subscription. The Apptor
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8JB-6i-WjI">
-                                <rect key="frame" x="35" y="337" width="344" height="50"/>
+                                <rect key="frame" x="35" y="336.66666666666669" width="344" height="50"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="lUd-kb-xc4">
@@ -1408,7 +1405,7 @@ Access to Apptorney is based on a monthly auto renewing subscription. The Apptor
                                 <nil key="highlightedColor"/>
                             </label>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="Ve0-mB-Fpq">
-                                <rect key="frame" x="344" y="352" width="20" height="20"/>
+                                <rect key="frame" x="344" y="351.66666666666669" width="20" height="20"/>
                             </activityIndicatorView>
                             <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login failed. Please try again." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Waf-8u-wTK">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="45"/>
@@ -1421,7 +1418,7 @@ Access to Apptorney is based on a monthly auto renewing subscription. The Apptor
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Verification Code sent via SMS" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Cj4-lj-TWG" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                <rect key="frame" x="40" y="267" width="334" height="42"/>
+                                <rect key="frame" x="40" y="267.66666666666669" width="334" height="41"/>
                                 <color key="tintColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
@@ -1445,7 +1442,7 @@ Access to Apptorney is based on a monthly auto renewing subscription. The Apptor
                                 </userDefinedRuntimeAttributes>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2AO-LO-jDu">
-                                <rect key="frame" x="97" y="412" width="220" height="36"/>
+                                <rect key="frame" x="97" y="411.66666666666669" width="220" height="36"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="Resend Verification Code"/>
                                 <connections>
@@ -1498,9 +1495,18 @@ Access to Apptorney is based on a monthly auto renewing subscription. The Apptor
             <point key="canvasLocation" x="1236" y="-997.15142428785612"/>
         </scene>
         <!--Register-->
+        <scene sceneID="91J-Hn-bIR">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Register" id="0AQ-gg-Uqd" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eOr-sK-4OU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="57" y="-1762"/>
+        </scene>
+        <!--Register-->
         <scene sceneID="dXx-7s-ksO">
             <objects>
-                <viewController storyboardIdentifier="Register" id="gHg-fl-IAP" userLabel="Register" customClass="RegisterViewController" customModule="apptorney" customModuleProvider="target" sceneMemberID="viewController">
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Pjv-Ap-MMK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController storyboardIdentifier="Register" id="gHg-fl-IAP" userLabel="Register" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="wbI-He-HrL"/>
                         <viewControllerLayoutGuide type="bottom" id="Ryu-i4-ZVr"/>
@@ -1519,7 +1525,7 @@ Access to Apptorney is based on a monthly auto renewing subscription. The Apptor
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Phone number" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="bUL-sU-VWn" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                <rect key="frame" x="40" y="200.66666666666666" width="334" height="50"/>
+                                <rect key="frame" x="40" y="179" width="334" height="50"/>
                                 <color key="tintColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="9yO-sw-iSP"/>
@@ -1549,7 +1555,7 @@ Access to Apptorney is based on a monthly auto renewing subscription. The Apptor
                                 </userDefinedRuntimeAttributes>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email Address" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="09q-cP-VIO" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                <rect key="frame" x="40" y="264.66666666666669" width="334" height="50"/>
+                                <rect key="frame" x="40" y="243" width="334" height="50"/>
                                 <color key="tintColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="DtF-uq-SDQ"/>
@@ -1579,7 +1585,7 @@ Access to Apptorney is based on a monthly auto renewing subscription. The Apptor
                                 </userDefinedRuntimeAttributes>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" textAlignment="natural" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="lRe-B0-wjF" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                <rect key="frame" x="40" y="328.66666666666669" width="334" height="50"/>
+                                <rect key="frame" x="40" y="307" width="334" height="50"/>
                                 <color key="tintColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="hWF-Fv-8Hk"/>
@@ -1604,7 +1610,7 @@ Access to Apptorney is based on a monthly auto renewing subscription. The Apptor
                                 </constraints>
                             </view>
                             <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0NX-AK-lb5">
-                                <rect key="frame" x="35" y="406.66666666666669" width="344" height="50"/>
+                                <rect key="frame" x="35" y="385" width="344" height="50"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="5Ic-1n-4Hl">
@@ -1617,13 +1623,9 @@ Access to Apptorney is based on a monthly auto renewing subscription. The Apptor
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
-                                <connections>
-                                    <action selector="register" destination="gHg-fl-IAP" eventType="touchUpInside" id="vKg-ok-XM0"/>
-                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login failed. Please try again." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DIX-oq-kYH">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="45"/>
-                                <color key="backgroundColor" red="1" green="0.0" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="45" id="nIf-Xf-bh5"/>
                                 </constraints>
@@ -1648,7 +1650,7 @@ Access to Apptorney is based on a monthly auto renewing subscription. The Apptor
                                 </state>
                             </button>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="8AR-ak-MQp">
-                                <rect key="frame" x="334" y="421.66666666666669" width="20" height="20"/>
+                                <rect key="frame" x="334" y="400" width="20" height="20"/>
                             </activityIndicatorView>
                             <textField opaque="NO" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="First Name" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="YMZ-mf-9pW" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
                                 <rect key="frame" x="40" y="81" width="334" height="50"/>
@@ -1678,7 +1680,7 @@ Access to Apptorney is based on a monthly auto renewing subscription. The Apptor
                                 </userDefinedRuntimeAttributes>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Last Name" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Vcs-VW-jvv" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                <rect key="frame" x="40" y="145" width="334" height="41.666666666666657"/>
+                                <rect key="frame" x="40" y="145" width="334" height="20"/>
                                 <color key="tintColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
@@ -1702,7 +1704,7 @@ Access to Apptorney is based on a monthly auto renewing subscription. The Apptor
                                 </userDefinedRuntimeAttributes>
                             </textField>
                             <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IIq-MP-IDi">
-                                <rect key="frame" x="75.666666666666686" y="471.66666666666669" width="263" height="34"/>
+                                <rect key="frame" x="75.666666666666686" y="450" width="263" height="34"/>
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="18"/>
                                 <state key="normal" title="Already have an account? Sign In">
                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1811,25 +1813,9 @@ Access to Apptorney is based on a monthly auto renewing subscription. The Apptor
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Ype-tT-O6I"/>
-                    <connections>
-                        <outlet property="logoImageView" destination="deS-hj-s62" id="2fH-hn-6m0"/>
-                        <outlet property="signInButton" destination="IIq-MP-IDi" id="Xmf-ka-X7g"/>
-                        <outlet property="signUpButton" destination="0NX-AK-lb5" id="ip6-DE-8PT"/>
-                        <outlet property="signUpError" destination="DIX-oq-kYH" id="aaQ-7R-Ldh"/>
-                        <outlet property="signUpLabel" destination="kqM-Ou-ROL" id="8Aq-zS-Iav"/>
-                        <outlet property="signUpSpinner" destination="8AR-ak-MQp" id="VYu-ew-q6r"/>
-                        <outlet property="smallSignInButton" destination="MTZ-xK-Dm5" id="hnW-Jo-UJj"/>
-                        <outlet property="txtEmailAddress" destination="09q-cP-VIO" id="jU9-Ra-oKx"/>
-                        <outlet property="txtFirstName" destination="YMZ-mf-9pW" id="TtL-Ha-28O"/>
-                        <outlet property="txtLastName" destination="Vcs-VW-jvv" id="gZm-K8-cEq"/>
-                        <outlet property="txtPassword" destination="lRe-B0-wjF" id="p0y-Vh-KmD"/>
-                        <outlet property="txtPhoneNumber" destination="bUL-sU-VWn" id="1fQ-Jk-wdj"/>
-                        <segue destination="ZxS-94-uUU" kind="presentation" identifier="Verification" id="x8Y-27-bkD"/>
-                    </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Pjv-Ap-MMK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="836" y="-983.65817091454278"/>
+            <point key="canvasLocation" x="524" y="-1626"/>
         </scene>
         <!--Subscription RenewalVC-->
         <scene sceneID="l7I-az-X23">
@@ -2114,7 +2100,7 @@ Access to Apptorney is based on a monthly auto renewing subscription. The Apptor
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="5Vn-43-OrZ" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                <rect key="frame" x="40" y="116.66666666666666" width="334" height="42"/>
+                                <rect key="frame" x="40" y="116.66666666666664" width="334" height="41.333333333333329"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <textInputTraits key="textInputTraits" smartDashesType="no"/>
@@ -2132,7 +2118,7 @@ Access to Apptorney is based on a monthly auto renewing subscription. The Apptor
                                 </userDefinedRuntimeAttributes>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="xvc-bT-jvT" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                <rect key="frame" x="40" y="168.66666666666666" width="334" height="41.333333333333343"/>
+                                <rect key="frame" x="40" y="168" width="334" height="41.666666666666657"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <textInputTraits key="textInputTraits" smartDashesType="yes" textContentType="cc-number"/>
@@ -2250,7 +2236,7 @@ Access to Apptorney is based on a monthly auto renewing subscription. The Apptor
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="FvI-GF-5He" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                <rect key="frame" x="40" y="116.66666666666666" width="334" height="42"/>
+                                <rect key="frame" x="40" y="116.66666666666664" width="334" height="41.333333333333329"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <textInputTraits key="textInputTraits" smartDashesType="no"/>
@@ -2268,7 +2254,7 @@ Access to Apptorney is based on a monthly auto renewing subscription. The Apptor
                                 </userDefinedRuntimeAttributes>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Gvb-DG-nZB" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                <rect key="frame" x="40" y="168.66666666666666" width="334" height="41.333333333333343"/>
+                                <rect key="frame" x="40" y="168" width="334" height="41.666666666666657"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <textInputTraits key="textInputTraits" smartDashesType="yes" textContentType="cc-number"/>
@@ -2435,12 +2421,10 @@ Access to Apptorney is based on a monthly auto renewing subscription. The Apptor
         <image name="settings-tab-fat" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="4TM-c7-Id0"/>
-        <segue reference="x8Y-27-bkD"/>
         <segue reference="Jgk-4u-alc"/>
         <segue reference="yZe-iY-iGE"/>
-        <segue reference="WOf-3c-Dzc"/>
-        <segue reference="dyh-xu-gnz"/>
+        <segue reference="RGg-D7-j3v"/>
+        <segue reference="Bjk-e1-rjo"/>
         <segue reference="edg-9b-bfE"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

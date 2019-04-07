@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="A4s-d1-Czi">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="A4s-d1-Czi">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -49,7 +49,7 @@
                                                 <rect key="frame" x="40" y="51.5" width="295" height="41.5"/>
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
-                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" secureTextEntry="YES"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="color" keyPath="titleColor">
                                                         <color key="value" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -103,6 +103,9 @@
                                 <state key="normal" title="Sign In">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="login" destination="A4s-d1-Czi" eventType="touchUpInside" id="I2i-Wb-7s0"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J5Y-Qa-TGd">
                                 <rect key="frame" x="277" y="62" width="58" height="32"/>
@@ -114,9 +117,13 @@
                                     <segue destination="hsw-xn-Oy0" kind="show" id="5OO-e5-kDB"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="SLd-Ib-iKD">
+                                <rect key="frame" x="335" y="965" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="SLd-Ib-iKD" firstAttribute="centerY" secondItem="irD-e1-6LJ" secondAttribute="centerY" id="22N-D3-6my"/>
                             <constraint firstItem="SLs-VW-8db" firstAttribute="top" secondItem="2E2-VA-haG" secondAttribute="top" constant="40" id="5Bg-nq-8Bf"/>
                             <constraint firstItem="h0t-R8-UY3" firstAttribute="bottom" secondItem="2E2-VA-haG" secondAttribute="bottom" id="LkD-46-NTY"/>
                             <constraint firstItem="J5Y-Qa-TGd" firstAttribute="centerY" secondItem="SLs-VW-8db" secondAttribute="centerY" id="MhJ-jc-qfE"/>
@@ -129,14 +136,17 @@
                             <constraint firstItem="h0t-R8-UY3" firstAttribute="trailing" secondItem="2E2-VA-haG" secondAttribute="trailing" id="l0B-TD-g9q"/>
                             <constraint firstItem="2E2-VA-haG" firstAttribute="trailing" secondItem="J5Y-Qa-TGd" secondAttribute="trailing" constant="40" id="lFb-T6-LKo"/>
                             <constraint firstItem="h0t-R8-UY3" firstAttribute="top" secondItem="SLs-VW-8db" secondAttribute="bottom" constant="8" id="mdc-8W-K8S"/>
+                            <constraint firstItem="SLd-Ib-iKD" firstAttribute="trailing" secondItem="h0t-R8-UY3" secondAttribute="trailing" constant="-20" id="nII-Wh-TY8"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="2E2-VA-haG"/>
                     </view>
                     <size key="freeformSize" width="375" height="1000"/>
                     <connections>
                         <outlet property="loginButton" destination="irD-e1-6LJ" id="h4N-Uo-2IB"/>
+                        <outlet property="loginSpinner" destination="SLd-Ib-iKD" id="O5v-kh-FB8"/>
                         <outlet property="txtPassword" destination="Qa9-Wt-8tC" id="fl2-9d-Jfd"/>
                         <outlet property="txtUserName" destination="gvb-lH-hHX" id="hcD-xf-WYb"/>
+                        <segue destination="3CS-68-to4" kind="show" identifier="Login" id="ec2-4I-s1m"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="typ-3f-Xyt" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -150,6 +160,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sQ3-ze-9zg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="803" y="281"/>
+        </scene>
+        <!--Landing-->
+        <scene sceneID="m71-j2-75D">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="Landing" id="3CS-68-to4" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="a90-Hf-T5i" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="586" y="37"/>
         </scene>
         <!--Register-->
         <scene sceneID="CNU-gE-auo">

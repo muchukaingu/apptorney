@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -67,7 +67,7 @@
                                                     </variation>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qJz-xI-nuJ">
-                                                    <rect key="frame" x="308" y="7" width="47" height="30"/>
+                                                    <rect key="frame" x="347" y="7" width="47" height="30"/>
                                                     <state key="normal" title="See All">
                                                         <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </state>
@@ -96,7 +96,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Lni-iv-wxb">
-                                                    <rect key="frame" x="0.0" y="15" width="375" height="160"/>
+                                                    <rect key="frame" x="0.0" y="15" width="414" height="160"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="160" id="tuG-Db-A0f">
@@ -274,26 +274,26 @@
                                                     </constraints>
                                                 </imageView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9EM-MT-IeV">
-                                                    <rect key="frame" x="20" y="135" width="335" height="5"/>
+                                                    <rect key="frame" x="20" y="135" width="374" height="5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="5" id="80G-JH-Qbn"/>
                                                     </constraints>
                                                 </imageView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5eP-Ap-Whh">
-                                                    <rect key="frame" x="20" y="152" width="325" height="5"/>
+                                                    <rect key="frame" x="20" y="152" width="364" height="5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="5" id="gFS-OX-328"/>
                                                     </constraints>
                                                 </imageView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="oST-0b-Wqa">
-                                                    <rect key="frame" x="288" y="39" width="67" height="14"/>
+                                                    <rect key="frame" x="327" y="39" width="67" height="14"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="67" id="eRm-kr-0ak"/>
                                                         <constraint firstAttribute="height" constant="14" id="uxm-CE-vTJ"/>
                                                     </constraints>
                                                 </imageView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1u5-al-lnZ">
-                                                    <rect key="frame" x="20" y="118" width="325" height="5"/>
+                                                    <rect key="frame" x="20" y="118" width="364" height="5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="5" id="9Nm-Pf-CO0"/>
                                                     </constraints>
@@ -1140,7 +1140,7 @@ Please check your API Settings or Network Connection and try again.</string>
         <!--Tab Bar Controller-->
         <scene sceneID="vkJ-Xc-gWG">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="5lX-tX-fA7" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="Landing" automaticallyAdjustsScrollViewInsets="NO" id="5lX-tX-fA7" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="gMz-5O-5tv">
                         <rect key="frame" x="0.0" y="0.0" width="0.0" height="49"/>
@@ -1505,7 +1505,6 @@ Access to Apptorney is based on a monthly auto renewing subscription. The Apptor
         <!--Register-->
         <scene sceneID="dXx-7s-ksO">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Pjv-Ap-MMK" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="Register" id="gHg-fl-IAP" userLabel="Register" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="wbI-He-HrL"/>
@@ -1525,7 +1524,7 @@ Access to Apptorney is based on a monthly auto renewing subscription. The Apptor
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Phone number" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="bUL-sU-VWn" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                <rect key="frame" x="40" y="179" width="334" height="50"/>
+                                <rect key="frame" x="40" y="200.66666666666666" width="334" height="50"/>
                                 <color key="tintColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="9yO-sw-iSP"/>
@@ -1555,7 +1554,7 @@ Access to Apptorney is based on a monthly auto renewing subscription. The Apptor
                                 </userDefinedRuntimeAttributes>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email Address" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="09q-cP-VIO" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                <rect key="frame" x="40" y="243" width="334" height="50"/>
+                                <rect key="frame" x="40" y="264.66666666666669" width="334" height="50"/>
                                 <color key="tintColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="DtF-uq-SDQ"/>
@@ -1585,7 +1584,7 @@ Access to Apptorney is based on a monthly auto renewing subscription. The Apptor
                                 </userDefinedRuntimeAttributes>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" textAlignment="natural" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="lRe-B0-wjF" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                <rect key="frame" x="40" y="307" width="334" height="50"/>
+                                <rect key="frame" x="40" y="328.66666666666669" width="334" height="50"/>
                                 <color key="tintColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="hWF-Fv-8Hk"/>
@@ -1610,7 +1609,7 @@ Access to Apptorney is based on a monthly auto renewing subscription. The Apptor
                                 </constraints>
                             </view>
                             <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0NX-AK-lb5">
-                                <rect key="frame" x="35" y="385" width="344" height="50"/>
+                                <rect key="frame" x="35" y="406.66666666666669" width="344" height="50"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="5Ic-1n-4Hl">
@@ -1650,7 +1649,7 @@ Access to Apptorney is based on a monthly auto renewing subscription. The Apptor
                                 </state>
                             </button>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="8AR-ak-MQp">
-                                <rect key="frame" x="334" y="400" width="20" height="20"/>
+                                <rect key="frame" x="334" y="421.66666666666669" width="20" height="20"/>
                             </activityIndicatorView>
                             <textField opaque="NO" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="First Name" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="YMZ-mf-9pW" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
                                 <rect key="frame" x="40" y="81" width="334" height="50"/>
@@ -1680,7 +1679,7 @@ Access to Apptorney is based on a monthly auto renewing subscription. The Apptor
                                 </userDefinedRuntimeAttributes>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Last Name" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Vcs-VW-jvv" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                <rect key="frame" x="40" y="145" width="334" height="20"/>
+                                <rect key="frame" x="40" y="145" width="334" height="41.666666666666657"/>
                                 <color key="tintColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
@@ -1704,7 +1703,7 @@ Access to Apptorney is based on a monthly auto renewing subscription. The Apptor
                                 </userDefinedRuntimeAttributes>
                             </textField>
                             <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IIq-MP-IDi">
-                                <rect key="frame" x="75.666666666666686" y="450" width="263" height="34"/>
+                                <rect key="frame" x="75.666666666666686" y="471.66666666666669" width="263" height="34"/>
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="18"/>
                                 <state key="normal" title="Already have an account? Sign In">
                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1814,6 +1813,7 @@ Access to Apptorney is based on a monthly auto renewing subscription. The Apptor
                     </view>
                     <navigationItem key="navigationItem" id="Ype-tT-O6I"/>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Pjv-Ap-MMK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="524" y="-1626"/>
         </scene>
@@ -1901,7 +1901,7 @@ Access to Apptorney is based on a monthly auto renewing subscription. The Apptor
             <objects>
                 <tableViewController id="RBV-Zj-Zw0" customClass="PaymentOptionsVC" customModule="apptorney" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="69" sectionHeaderHeight="22" sectionFooterHeight="22" id="owL-28-oOO">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="672"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <prototypes>
@@ -2415,7 +2415,7 @@ Access to Apptorney is based on a monthly auto renewing subscription. The Apptor
         <image name="legislations-books" width="25" height="25"/>
         <image name="lock" width="512" height="569"/>
         <image name="login-icon" width="400" height="397"/>
-        <image name="logo" width="2400" height="2840"/>
+        <image name="logo" width="800" height="946.66668701171875"/>
         <image name="notification" width="30" height="30"/>
         <image name="right-arrow-2" width="60" height="42"/>
         <image name="settings-tab-fat" width="25" height="25"/>

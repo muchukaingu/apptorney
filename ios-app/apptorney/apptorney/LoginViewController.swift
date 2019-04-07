@@ -360,9 +360,9 @@ class LoginViewController: UIViewController, SettingsTableViewControllerDelegate
     
     @IBAction func hideLoginError(){
         UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.5, options: UIViewAnimationOptions.curveEaseIn, animations: {
-            self.loginErrorLabel.text = ""
-            self.loginErrorLabel.alpha = 0.0
-            self.closeErrorButton.alpha = 0.0
+            //self.loginErrorLabel.text = ""
+            //self.loginErrorLabel.alpha = 0.0
+            //self.closeErrorButton.alpha = 0.0
             
         }, completion:nil)
     }

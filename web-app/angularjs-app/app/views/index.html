@@ -289,16 +289,7 @@
         <div class="col-md-6">
             <div class="panel panel-gray">
                 <div class="panel-body no-border">
-                    <div class="row">
-                        <div class="col-md-12 clearfix">
-                            <h4 class="pull-left" style="margin: 6px 0;">User Reports</h4>
-                            <div ng-controller="DateRangePickerDemo" class="pull-right">
-                                <button class="btn btn-default" daterangepicker="drp_options" date-begin="drp_start" date-end="drp_end">
-                                            <i class="fa fa-calendar"></i> <span style="margin-left: 5px">{{drp_start}} - {{drp_end}}</span> <b class="caret"></b>
-                                        </button>
-                            </div>
-                        </div>
-                    </div>
+                    <h4>User Count</h4>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="mb20 mt20" flot-chart style="width: 100%; height:250px" data-flot-data="plotStatsData" data-flot-options="plotStatsOptions"></div>
@@ -306,125 +297,15 @@
                     </div>
                     <div class="panel-footer">
                         <div class="row">
-                            <div class="visitor-sparklines col-xs-12 col-sm-4 col-md-4">
-                                <div class="sparkline-block">
-                                    <span sparklines="{
-                                            lineWidth: 1.5,
-                                            type: 'line',
-                                            width: '90px',
-                                            height: '20px',
-                                            lineColor: '#b3bcc7',
-                                            fillColor: 'rgba(179,188,199,0.1)',
-                                            spotColor: false,
-                                            minSpotColor: false,
-                                            highlightLineColor: 'rgba(0,0,0,0.1)',
-                                            highlightSpotColor: '#b3bcc7',
-                                            spotRadius: 3,
-                                            maxSpotColor: false}" data-data="[251,933,653,759,1022,1702,565,1913,889,674]"></span>
-                                </div>
-                                <h3 style="text-align: center; margin: 0;">7,451</h3>
-                                <p style="text-align: center; margin: 0;">Visits</p>
+                            <div class="visitor-sparklines col-xs-12 col-sm-4 col-md-4 col-xs-offset-4">
+
+                                <h3 style="text-align: center; margin: 0;">{{userPerformance.length | number:0}}</h3>
+                                <p style="text-align: center; margin: 0;">Total Users</p>
                                 <hr class="hidden-md hidden-sm hidden-lg">
                             </div>
-                            <div class="visitor-sparklines col-xs-12 col-sm-4 col-md-4">
-                                <div class="sparkline-block">
-                                    <span sparklines="{
-                                            lineWidth: 1.5,
-                                            type: 'line',
-                                            width: '90px',
-                                            height: '20px',
-                                            lineColor: '#b3bcc7',
-                                            fillColor: 'rgba(179,188,199,0.1)',
-                                            spotColor: false,
-                                            minSpotColor: false,
-                                            highlightLineColor: 'rgba(0,0,0,0.1)',
-                                            highlightSpotColor: '#b3bcc7',
-                                            spotRadius: 3,
-                                            maxSpotColor: false}" data-data="[1225,6533,2953,3469,21282,7354,1655,2567,1234,677]"></span>
-                                </div>
-                                <h3 style="text-align: center; margin: 0;">25,170</h3>
-                                <p style="text-align: center; margin: 0;">Page Views</p>
-                                <hr class="hidden-md hidden-sm hidden-lg">
-                            </div>
-                            <div class="visitor-sparklines col-xs-12 col-sm-4 col-md-4">
-                                <div class="sparkline-block">
-                                    <span sparklines="{
-                                            lineWidth: 1.5,
-                                            type: 'line',
-                                            width: '90px',
-                                            height: '20px',
-                                            lineColor: '#b3bcc7',
-                                            fillColor: 'rgba(179,188,199,0.1)',
-                                            spotColor: false,
-                                            minSpotColor: false,
-                                            highlightLineColor: 'rgba(0,0,0,0.1)',
-                                            highlightSpotColor: '#b3bcc7',
-                                            spotRadius: 3,
-                                            maxSpotColor: false}" data-data="[5,3,7,6,2,4,6,8,6,4]"></span>
-                                </div>
-                                <h3 style="text-align: center; margin: 0;">5.36</h3>
-                                <p style="text-align: center; margin: 0;">Pages/Visit</p>
-                            </div>
-                            <!-- <div class="visitor-sparklines col-xs-6 col-sm-6 col-md-2">
-                                        <div class="sparkline-block">
-                                            <span sparklines="{
-                                            lineWidth: 1.5,
-                                            type: 'line',
-                                            width: '90px',
-                                            height: '20px',
-                                            lineColor: '#b3bcc7',
-                                            fillColor: 'rgba(179,188,199,0.1)',
-                                            spotColor: false,
-                                            minSpotColor: false,
-                                            highlightLineColor: 'rgba(0,0,0,0.1)',
-                                            highlightSpotColor: '#b3bcc7',
-                                            spotRadius: 3,
-                                            maxSpotColor: false}" data-data="[2,4,7,6,5,3,2,3,5,2]"></span>
-                                        </div>
-                                    <h3 style="text-align: center; margin: 0;">00:04:15</h3>
-                                    <p style="text-align: center; margin: 0;">Avg. Visit Time</p>
-                                    <hr class="hidden-md hidden-lg">
-                                </div>
-                                <div class="visitor-sparklines col-xs-6 col-sm-6 col-md-2">
-                                        <div class="sparkline-block">
-                                            <span sparklines="{
-                                            lineWidth: 1.5,
-                                            type: 'line',
-                                            width: '90px',
-                                            height: '20px',
-                                            lineColor: '#b3bcc7',
-                                            fillColor: 'rgba(179,188,199,0.1)',
-                                            spotColor: false,
-                                            minSpotColor: false,
-                                            highlightLineColor: 'rgba(0,0,0,0.1)',
-                                            highlightSpotColor: '#b3bcc7',
-                                            spotRadius: 3,
-                                            maxSpotColor: false}" data-data="[68,83,33,90,20,76,85,65,34,52]"></span>
-                                        </div>
-                                    <h3 style="text-align: center; margin: 0;">71.63%</h3>
-                                    <p style="text-align: center; margin: 0;">New Visits</p>
-                                    <hr class="hidden-md hidden-lg">
-                                </div>
-                                <div class="visitor-sparklines col-xs-6 col-sm-6 col-md-2">
-                                        <div class="sparkline-block">
-                                            <span sparklines="{
-                                            lineWidth: 1.5,
-                                            type: 'line',
-                                            width: '90px',
-                                            height: '20px',
-                                            lineColor: '#b3bcc7',
-                                            fillColor: 'rgba(179,188,199,0.1)',
-                                            spotColor: false,
-                                            minSpotColor: false,
-                                            highlightLineColor: 'rgba(0,0,0,0.1)',
-                                            highlightSpotColor: '#b3bcc7',
-                                            spotRadius: 3,
-                                            maxSpotColor: false}" data-data="[41,33,53,79,62,47,35,23,25,64]"></span>
-                                        </div>
-                                    <h3 style="text-align: center; margin: 0;">60.24%</h3>
-                                    <p style="text-align: center; margin: 0;">Bounce Rate</p>
-                                    <hr class="hidden-md hidden-lg">
-                                </div> -->
+
+
+
                         </div>
                     </div>
 
@@ -437,31 +318,33 @@
                 <div class="panel-body no-border">
 
 
-                    <h4>User Productivity</h4>
-                    <div class="">
-                        <div class="">
-                            <table class="table" id="capturerTbl">
-                                <tr>
-                                    <th class="col-xs-4">User's Name</th>
-                                    <th class="col-xs-4">Legislations Completed</th>
-                                    <th class="col-xs-4">Cases Completed</th>
-                                </tr>
-                                <tr id="rowTmp_capturer" ng-repeat="user in userPerformance">
-                                    <td class="editables">
+                    <h4>User Growth</h4>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="mb20 mt20" flot-chart style="width: 100%; height:250px" data-flot-data="plotGrowthData" data-flot-options="plotStatsOptions"></div>
+                        </div>
+                    </div>
 
-                                        <span class="editable" name="name" form="rowform" onchange="editItem(this,'userID')" required>{{user.firstName + ' ' + user.lastName}}</span>
-                                    </td>
+                    <div class="panel-footer">
+                        <div class="row">
+                            <div class="visitor-sparklines col-xs-12 col-sm-4 col-md-4 col-xs-offset-2">
 
-                                    <td class="editables">
-                                        <span style="margin-left: 20px" class="editable" name="reviews" form="rowform" onchange="editItem(this,'userID')" required>{{user.performance}}/{{user.target?user.target:0}} </span><span class='badge badge-info pull-right'
-                                            style="margin-right:100px">{{user.performance*100/(user.target?user.target:0) | number:0}}%</span>
-                                    </td>
-                                    <td class="editables">
-                                        <span style="margin-left: 20px" class="editable" name="reviews" form="rowform" onchange="editItem(this,'userID')" required>0/0</span>
-                                    </td>
-                                </tr>
+                                <h3 style="text-align: center; margin: 0;">{{summary.totalGrowth | number:0}}</h3>
+                                <p style="text-align: center; margin: 0;">Total Growth</p>
+                                <hr class="hidden-md hidden-sm hidden-lg">
+                            </div>
 
-                            </table>
+                            <div class="visitor-sparklines col-xs-12 col-sm-4 col-md-4">
+
+                                <h3 style="text-align: center; margin: 0;">
+                                    {{summary.totalGrowth/(userPerformance.length - summary.totalGrowth)*100 | number:0}}%
+                                </h3>
+                                <p style="text-align: center; margin: 0;">Growth Percentage</p>
+                                <hr class="hidden-md hidden-sm hidden-lg">
+                            </div>
+
+
+
                         </div>
                     </div>
 

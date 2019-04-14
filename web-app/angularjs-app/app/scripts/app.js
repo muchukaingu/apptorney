@@ -67,8 +67,8 @@ angular
         return {
             // intercept the requests on the way out.
             request: function(config) {
-                config.headers['X-IBM-Client-ID'] = '6f423f6d-5514-4c5f-bf5c-0f0ce138d523';
-                config.headers['X-IBM-Client-Secret'] = '273733c1-f6c0-4f1f-ae1d-cd01c92676a2';
+                config.headers['X-IBM-Client-ID'] = '4449615d-b5b2-4e16-a059-f6bda4486953';
+                config.headers['X-IBM-Client-Secret'] = '81ed3948-6ca5-4936-be0b-5db9aec1107b';
                 return config;
             }
         }
@@ -154,15 +154,15 @@ angular
         })
     }])
     .config(['$provide', '$routeProvider', 'LoopBackResourceProvider', '$httpProvider', 'envServiceProvider', function($provide, $routeProvider, LoopBackResourceProvider, $httpProvider, envServiceProvider) {
-        $httpProvider.defaults.headers.common['X-IBM-Client-ID'] = '6f423f6d-5514-4c5f-bf5c-0f0ce138d523'
-        $httpProvider.defaults.headers.common['X-IBM-Client-Secret'] = '273733c1-f6c0-4f1f-ae1d-cd01c92676a2'
+        $httpProvider.defaults.headers.common['X-IBM-Client-ID'] = '4449615d-b5b2-4e16-a059-f6bda4486953'
+        $httpProvider.defaults.headers.common['X-IBM-Client-Secret'] = '81ed3948-6ca5-4936-be0b-5db9aec1107b'
         $httpProvider.interceptors.push('myInterceptor');
 
         envServiceProvider.config({
             domains: {
                 development: ['localhost'],
-                production: ['apptorney-cms.eu-gb.mybluemix.net'],
-                //production: ['apptorney.circuitbusiness.com'],
+                // production: ['apptorney-cms.eu-gb.mybluemix.net'],
+                production: ['apptorney.circuitbusiness.com'],
                 test: ['apptorney-frontend-test.eu-gb.mybluemix.net'],
                 staging: ['apptorney-frontend-staging.eu-gb.mybluemix.net'],
                 // anotherStage: ['domain1', 'domain2'] 
@@ -177,9 +177,9 @@ angular
                     clientSecret: 'fb67bc04-b06d-402f-be8b-d4969279b11b'
                 },
                 production: {
-                    apiUrl: '//circuitbusiness-apptorney.eu-gb.mybluemix.net/api',
-                    clientID: '6f423f6d-5514-4c5f-bf5c-0f0ce138d523',
-                    clientSecret: '273733c1-f6c0-4f1f-ae1d-cd01c92676a2'
+                    apiUrl: '//apptorney-api.eu-gb.mybluemix.net/api',
+                    clientID: '4449615d-b5b2-4e16-a059-f6bda4486953',
+                    clientSecret: '81ed3948-6ca5-4936-be0b-5db9aec1107b'
                 },
                 staging: {
                     apiUrl: '//apptorney-backend-test.eu-gb.mybluemix.net/api',

@@ -15,7 +15,7 @@ module.exports = function(Dashboard) {
         var callbackCalls = 0
 
         function callback(err, data) {
-            if (callbackCalls == 6) {
+            if (callbackCalls == 7) {
                 cb(err, data)
             }
             callbackCalls++
@@ -66,18 +66,50 @@ module.exports = function(Dashboard) {
             callback(null, summary)
         })
 
-        // Legislation.find({ deleted: { neq: true } }, function(err, legislations) {
-        //     var incomplete = []
-        //     var complete = 0
-        //     legislations.forEach(function(legislation) {
-        //         if (legislation.completionStatus == true) {
-        //             complete += 1
-        //         }
-        //     })
-        //     summary.totalLegislations = legislations.length
-        //     summary.completedLegislations = complete
-        //     summary.incompleteLegislations = summary.totalLegislations - summary.completedLegislations
-        //     callback(null, summary)
-        // })
+
+        var stats = Case.app.models.userStats
+        var statsArr = []
+        var growthArr = []
+        summary.totalGrowth = 0
+        stats.find({},
+                function(err, userStats) {
+                    if (err) {
+                        console.log(err)
+                    } else {
+
+
+                        for (i = 0; i < ((userStats.length > 10) ? (userStats.length - 10) : (userStats.length)); i++) {
+                            statsArr[i] = [new Date(userStats[i].snapshotDate).getTime(), userStats[i].numberOfUsers]
+                            growthArr[i] = [new Date(userStats[i].snapshotDate).getTime(), userStats[i].increase]
+                            summary.totalGrowth += userStats[i].increase
+                        }
+                        summary.userStats = statsArr
+                        summary.userGrowth = growthArr
+                        console.log(statsArr)
+                        callback(null, summary)
+                    }
+
+
+
+                }
+
+
+
+
+
+            )
+            // Legislation.find({ deleted: { neq: true } }, function(err, legislations) {
+            //     var incomplete = []
+            //     var complete = 0
+            //     legislations.forEach(function(legislation) {
+            //         if (legislation.completionStatus == true) {
+            //             complete += 1
+            //         }
+            //     })
+            //     summary.totalLegislations = legislations.length
+            //     summary.completedLegislations = complete
+            //     summary.incompleteLegislations = summary.totalLegislations - summary.completedLegislations
+            //     callback(null, summary)
+            // })
     }
 }

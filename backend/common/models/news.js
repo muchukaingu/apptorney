@@ -53,7 +53,11 @@ module.exports = function(News) {
 
 
             Case.find({
-                    where: { 'citation.year': year },
+                    where: {
+                        and: [{
+                            'citation.year': year
+                        }, { deleted: { neq: true } }]
+                    },
                     filter: {
                         fields: {
                             name: true,

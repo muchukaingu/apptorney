@@ -7,7 +7,7 @@ var crypto = require('crypto')
 var assert = require('assert')
 var debug = require('debug')
 const Nexmo = require('nexmo')
-    //var dateFormat = require('dateformat');
+    // var dateFormat = require('dateformat')
 
 // const nexmo = new Nexmo({
 //     apiKey: '3e93649c',
@@ -16,13 +16,12 @@ const Nexmo = require('nexmo')
 
 var accountSid = 'ACba8ec0e4fa56209de7a4154e1f7d4ca8'; // Your Account SID from www.twilio.com/console
 var authToken = '8efb8cbb2fd3f4f5b76c1ca8eec435f4'; // Your Auth Token from www.twilio.com/console
-var messagingServiceSid = 'MG587973a6cc592b7694e19295c4897e73';
+var messagingServiceSid = 'MG587973a6cc592b7694e19295c4897e73'
 
 var twilio = require('twilio')
 var client = new twilio(accountSid, authToken)
 
 module.exports = function(Appuser) {
-
 
     /**
      * Normalize the credentials
@@ -32,37 +31,37 @@ module.exports = function(Appuser) {
      * @returns {Object} The normalized credential object
      */
     Appuser.normalizeCredentials = function(credentials, realmRequired, realmDelimiter) {
-        console.log("Normalizing creds")
-        var query = {};
-        credentials = credentials || {};
+        console.log('Normalizing creds')
+        var query = {}
+        credentials = credentials || {}
         if (!realmRequired) {
             if (credentials.email) {
-                query.email = credentials.email;
+                query.email = credentials.email
             } else if (credentials.username) {
-                query.username = credentials.username.replace("+", ""); // added this to ignore +
+                query.username = credentials.username.replace('+', ''); // added this to ignore +
             }
         } else {
             if (credentials.realm) {
-                query.realm = credentials.realm;
+                query.realm = credentials.realm
             }
-            var parts;
+            var parts
             if (credentials.email) {
-                parts = splitPrincipal(credentials.email, realmDelimiter);
-                query.email = parts[1];
+                parts = splitPrincipal(credentials.email, realmDelimiter)
+                query.email = parts[1]
                 if (parts[0]) {
-                    query.realm = parts[0];
+                    query.realm = parts[0]
                 }
             } else if (credentials.username) {
-                parts = splitPrincipal(credentials.username, realmDelimiter);
-                query.username = parts[1].replace("+", "");
-                console.log("Phone Number ", query.username)
+                parts = splitPrincipal(credentials.username, realmDelimiter)
+                query.username = parts[1].replace('+', '')
+                console.log('Phone Number ', query.username)
                 if (parts[0]) {
-                    query.realm = parts[0];
+                    query.realm = parts[0]
                 }
             }
         }
-        return query;
-    };
+        return query
+    }
 
     /**
      * Login a user by with the given `credentials`.
@@ -162,8 +161,8 @@ module.exports = function(Appuser) {
                             fn(err)
                         } else {
                             var lastLogin = new Date(Date.now())
-                            user.lastLogin = lastLogin;
-                            user.save();
+                            user.lastLogin = lastLogin
+                            user.save()
                             if (user.createAccessToken.length === 2) {
                                 user.createAccessToken(credentials.ttl, tokenHandler)
                             } else {
@@ -226,8 +225,6 @@ module.exports = function(Appuser) {
         return fn.promise
     }
 
-
-
     /**
      * Confirm the user's phone number.
      *
@@ -247,10 +244,12 @@ module.exports = function(Appuser) {
             if (err) {
                 fn(err)
             } else {
-                if (user && user.passwordResetToken === token) {
+                console.log(user.passwordResetToken, user && token === parseInt(user.passwordResetToken))
+                if (user && parseInt(user.passwordResetToken) === token) {
+                    console.log('yo yo yo!')
                     user.passwordResetToken = undefined
                         //
-                    user.password = password;
+                    user.password = password
                     user.save(function(err) {
                         if (err) {
                             fn(err)
@@ -259,10 +258,9 @@ module.exports = function(Appuser) {
                         }
                     })
                 } else {
-
                     if (user) {
-                        console.log("error occured!")
-                        err = new Error('Invalid token: ' + token + 'expecting ' + user.verificationTokenForPhone)
+                        console.log('error occured!')
+                        err = new Error('Invalid token: ' + token + 'expecting ' + user.passwordResetToken)
                         err.statusCode = 400
                         err.code = 'INVALID_TOKEN'
                         err.user = user
@@ -278,8 +276,6 @@ module.exports = function(Appuser) {
         return fn.promise
     }
 
-
-
     /**
      * Confirm the user's phone number.
      *
@@ -291,7 +287,6 @@ module.exports = function(Appuser) {
      */
     Appuser.requestPasswordReset = function(username, fn) {
         console.log('reset fn')
-
 
         fn = fn || utils.createPromiseCallback()
 
@@ -305,25 +300,22 @@ module.exports = function(Appuser) {
         var tokenGenerator = Appuser.generateVerificationToken
         tokenGenerator(user, function(err, token) {
             if (err) {
-                return fn(err);
+                return fn(err)
             }
-
 
             Appuser.findOne({ where: { username: username } }, (err, user) => {
                 user.passwordResetToken = Math.floor(Math.random() * 1000000 + 1)
-                console.log("xxx is for you")
+                console.log('xxx is for you: ', user.passwordResetToken)
                 user.save(function(err) {
                     if (err) {
                         fn(err)
                     } else {
                         sendSMS(user)
-                        return fn();
+                        return fn()
                     }
                 })
             })
-
         })
-
 
         function sendSMS(user) {
             /* 
@@ -332,13 +324,12 @@ module.exports = function(Appuser) {
               })*/
 
             client.messages.create({
-                body: 'Password reset code: ' + user.passwordResetToken,
+                body: 'Apptorney Password OTP: ' + user.passwordResetToken,
                 // body: 'Thank you for your registration. Apptorney will be available for download on April 30, 2018. Please check your email for more details.',
                 to: user.username, // Text this number
-                //from: 'Apptorney' // From a valid Twilio number
+                // from: 'Apptorney' // From a valid Twilio number
                 messagingServiceSid: messagingServiceSid
             }).then((message) => console.log(message.sid))
-
         }
     }
 
@@ -370,7 +361,7 @@ module.exports = function(Appuser) {
                         if (err) {
                             fn(err)
                         } else {
-                            sendSMS(user)
+                            // sendSMS(user)
                             fn()
                         }
                     })
@@ -380,8 +371,8 @@ module.exports = function(Appuser) {
 
         function sendSMS(user) {
             client.messages.create({
-                body: 'Your verification code: ' + user.verificationTokenForPhone,
-                //body: 'Thank you for your registration. Apptorney will be available for download on April 30, 2018. Please check your email for more details.',
+                body: 'Welcome aboard! Thank you for registering for Apptorney. You can now enjoy completely FREE access to the most advanced Legal platform in Zambia. Enjoy :)',
+                // body: 'Thank you for your registration. Apptorney will be available for download on April 30, 2018. Please check your email for more details.',
                 to: user.username, // Text this number
                 messagingServiceSid: messagingServiceSid
             }).then((message) => console.log(message.sid))
@@ -399,8 +390,8 @@ module.exports = function(Appuser) {
      */
     Appuser.notifications = function(fn) {
         fn = fn || utils.createPromiseCallback()
-        var app = Appuser.app;
-        var Email = app.models.Email;
+        var app = Appuser.app
+        var Email = app.models.Email
         var options = {
             type: 'email',
             host: 'localhost',
@@ -432,7 +423,7 @@ module.exports = function(Appuser) {
         function sendSMS(user) {
             client.messages.create({
                 // body: 'Your verification code: ' + user.verificationTokenForPhone,
-                body: 'Download Apptorney from the Appstore and Playstore today and start your free trial.',
+                body: 'Download Apptorney from the Appstore and Playstore today and enjoy completely FREE access to the most advanced Legal platform in Zambia.',
                 to: user.username, // Text this number
                 from: 'Apptorney' // From a valid Twilio number
             }).then((message) => console.log(message.sid))
@@ -459,28 +450,25 @@ module.exports = function(Appuser) {
         return fn.promise
     }
 
-
-
     function formatDate(date) {
         var options = {
             year: 'numeric',
             month: 'long',
             day: 'numeric'
-        };
-        return date.toLocaleDateString("en-US", options);
+        }
+        return date.toLocaleDateString('en-US', options)
     }
 
     // ----------------End----->
 
     Appuser.prototype.verify = function(options, fn) {
         console.log('verify fn')
-        var Subscription = Appuser.app.models.Subscription;
-        var expiryDate = new Date();
+        var Subscription = Appuser.app.models.Subscription
+        var expiryDate = new Date()
 
         fn = fn || utils.createPromiseCallback()
 
         var user = this
-
 
         var userModel = this.constructor
         var registry = userModel.registry
@@ -499,9 +487,9 @@ module.exports = function(Appuser) {
         options.host = options.host || (app && app.get('host')) || 'localhost'
         options.port = options.port || (app && app.get('port')) || 3000
         options.restApiRoot = options.restApiRoot || (app && app.get('restApiRoot')) || '/api'
-        var expiryDate = new Date(Date.now());
-        expiryDate.setDate(expiryDate.getDate() + 30);
-        options.expiryDate = formatDate(expiryDate);
+        var expiryDate = new Date(Date.now())
+        expiryDate.setDate(expiryDate.getDate() + 30)
+        options.expiryDate = formatDate(expiryDate)
 
         var displayPort = (
             (options.protocol === 'http' && options.port == '80') ||
@@ -549,7 +537,7 @@ module.exports = function(Appuser) {
                 if (err) {
                     fn(err)
                 } else {
-                    sendSMS(user)
+                    //sendSMS(user)
                 }
             })
         })
@@ -589,13 +577,12 @@ module.exports = function(Appuser) {
               })*/
 
             client.messages.create({
-                body: 'Your verification code: ' + user.verificationTokenForPhone,
+                body: 'Welcome aboard! Thank you for registering for Apptorney. You can now enjoy completely FREE access to the most advanced Legal platform in Zambia. Enjoy :)',
                 // body: 'Thank you for your registration. Apptorney will be available for download on April 30, 2018. Please check your email for more details.',
                 to: user.username, // Text this number
-                //from: 'Apptorney' // From a valid Twilio number
+                // from: 'Apptorney' // From a valid Twilio number
                 messagingServiceSid: messagingServiceSid
             }).then((message) => console.log(message.sid))
-
         }
         return fn.promise
     }
@@ -643,17 +630,17 @@ module.exports = function(Appuser) {
     })
 
     Appuser.resetPassword = function(options, cb) {
-        cb = cb || utils.createPromiseCallback();
-        var UserModel = this;
-        var ttl = UserModel.settings.resetPasswordTokenTTL || DEFAULT_RESET_PW_TTL;
+        cb = cb || utils.createPromiseCallback()
+        var UserModel = this
+        var ttl = UserModel.settings.resetPasswordTokenTTL || DEFAULT_RESET_PW_TTL
 
-        options = options || {};
+        options = options || {}
         if (typeof options.email !== 'string') {
-            var err = new Error('Email is required');
-            err.statusCode = 400;
-            err.code = 'EMAIL_REQUIRED';
-            cb(err);
-            return cb.promise;
+            var err = new Error('Email is required')
+            err.statusCode = 400
+            err.code = 'EMAIL_REQUIRED'
+            cb(err)
+            return cb.promise
         }
 
         UserModel.findOne({
@@ -662,13 +649,13 @@ module.exports = function(Appuser) {
             }
         }, function(err, user) {
             if (err) {
-                return cb(err);
+                return cb(err)
             }
             if (!user) {
-                err = new Error('Email not found');
-                err.statusCode = 404;
-                err.code = 'EMAIL_NOT_FOUND';
-                return cb(err);
+                err = new Error('Email not found')
+                err.statusCode = 404
+                err.code = 'EMAIL_NOT_FOUND'
+                return cb(err)
             }
             // create a short lived access token for temp login to change password
             // TODO(ritch) - eventually this should only allow password change
@@ -676,28 +663,22 @@ module.exports = function(Appuser) {
                 ttl: ttl
             }, function(err, accessToken) {
                 if (err) {
-                    return cb(err);
+                    return cb(err)
                 }
-                cb();
+                cb()
                 UserModel.emit('resetPasswordRequest', {
                     email: options.email,
                     accessToken: accessToken,
                     user: user
-                });
-            });
-        });
+                })
+            })
+        })
 
-        return cb.promise;
-    };
-
-
+        return cb.promise
+    }
 
     // send password reset link when requested
     Appuser.on('resetPasswordRequest', function(info) {
-
-
-
-
 
         /*
         var options = {
@@ -722,8 +703,6 @@ module.exports = function(Appuser) {
         })*/
     })
 
-
-
     Appuser.observe('after save', function(context, next) {
         if (context.isNewInstance) {
             context.isNewInstance = false
@@ -736,9 +715,10 @@ module.exports = function(Appuser) {
                 port: '3000',
                 to: user.email,
                 contact_number: user.username,
+                firstName: user.firstname,
                 password: user.pwd,
                 from: 'Apptorney<noreply@apptorney.org>',
-                subject: 'Email Confirmation',
+                subject: 'Thanks for Registering',
                 // text: 'Thank you for registering an account on the '+user.competitionName+' website. Your account will enable you to login and apply for the '+user.competitionName+'. Please now take the time to click on the Verify button below, login and fill out the '+user.competitionName+' Business Model Submission Form. Filling out this business model form will officially enter your business into the competition.',
                 signature: 'The Apptorney Team',
                 template: path.resolve(__dirname, '../../server/views/verify.ejs'),
@@ -809,8 +789,6 @@ module.exports = function(Appuser) {
             }
         }
     )
-
-
 
     Appuser.remoteMethod(
         'requestPasswordReset', {

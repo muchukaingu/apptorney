@@ -193,5 +193,10 @@
     "feedback": {
         "dataSource": "apptorney",
         "public": true
+    },
+    "userStats": {
+        "dataSource": "apptorney",
+        "public": true
     }
+
 }

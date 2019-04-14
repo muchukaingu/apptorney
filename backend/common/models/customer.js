@@ -222,9 +222,15 @@ module.exports = function(Customer) {
             count++
         }
         var customer = context.req.body;
-        Appuser.create({ username: customer.phoneNumber.replace("+", ""), email: customer.emailAddress, password: customer.password, pwd: customer.password, firstname: customer.firstName, lastname: customer.lastName, customerId: customer.id }, function(err, user) {
+        Appuser.create({ username: customer.phoneNumber.replace("+", ""), email: customer.emailAddress, password: customer.password, pwd: customer.password, firstname: customer.firstName, lastname: customer.lastName, customerId: customer.id, phoneVerified: true }, function(err, user) {
             if (err) {
-                console.log('err occured', err)
+
+                //if(err.details.codes)
+                //console.log('err occured', err.details.codes.username[0])
+                if (err.details.codes.username || err.details.codes.email) {
+                    err.message = "User already exists."
+                    err.statusCode = 409
+                }
                 next(err, null)
             } else if (user) {
                 console.log('user has been saved', user)

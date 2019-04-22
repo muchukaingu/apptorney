@@ -78,7 +78,7 @@ module.exports = function(Dashboard) {
                     } else {
 
 
-                        for (i = 0; i < ((userStats.length > 10) ? (userStats.length - 10) : (userStats.length)); i++) {
+                        for (i = ((userStats.length > 10) ? (userStats.length - 10) : 0); i < userStats.length; i++) {
                             statsArr[i] = [new Date(userStats[i].snapshotDate).getTime(), userStats[i].numberOfUsers]
                             growthArr[i] = [new Date(userStats[i].snapshotDate).getTime(), userStats[i].increase]
                             summary.totalGrowth += userStats[i].increase

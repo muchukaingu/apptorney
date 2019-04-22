@@ -40,27 +40,27 @@ module.exports = function(Subscription) {
         var ResponseHandler = app.models.ResponseHandler;
         Appuser.findOne({ where: { username: userName } }, (err, user) => {
             if (err) {
-                ResponseHandler.sendCallback(false, 500, err, "Error occured while checking for subscription.", "", cb);
+                ResponseHandler.sendCallback(true, 500, err, "Error occured while checking for subscription.", "", cb);
             }
             if (user) {
                 console.log(user)
                 Subscription.findById(user.currentSubscription, (err, subscription) => {
                     if (err) {
-                        ResponseHandler.sendCallback(false, 500, err, "Error occured while checking for subscription.", "", null, cb);
+                        ResponseHandler.sendCallback(true, 500, err, "Error occured while checking for subscription.", "", null, cb);
                     } else if (subscription) {
                         if (date_diff_indays(Date.now(), subscription.expiryDate) <= 0) {
-                            ResponseHandler.sendCallback(false, 401, err, "Subscription has expired.", undefined, "", cb);
+                            ResponseHandler.sendCallback(true, 401, err, "Subscription has expired.", undefined, "", cb);
                         } else {
                             ResponseHandler.sendCallback(true, 200, err, undefined, "Subscription is still valid.", "", cb);
                         }
                     } else {
-                        ResponseHandler.sendCallback(false, 404, err, "Subscription not found", "", null, cb);
+                        ResponseHandler.sendCallback(true, 404, err, "Subscription not found", "", null, cb);
                     }
 
                 })
             } else {
 
-                ResponseHandler.sendCallback(false, 404, err, "User not found", "", null, cb);
+                ResponseHandler.sendCallback(true, 404, err, "User not found", "", null, cb);
             }
         })
 

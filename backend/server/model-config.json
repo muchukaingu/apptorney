@@ -170,6 +170,10 @@
         "dataSource": "apptorney",
         "public": true
     },
+    "search": {
+        "dataSource": "apptorney",
+        "public": true
+    },
     "subscription": {
         "dataSource": "apptorney",
         "public": true

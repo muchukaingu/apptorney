@@ -137,6 +137,7 @@ module.exports = function(Case) {
         })
 
     Case.getByArea = function(areaId, cb) {
+        //var whereClause = { and: [{ deleted: { neq: true } }, { areaOfLawId: { like: '.*' + areaId + '.*', options: 'i' } }, { completionStatus: { neq: false } }] }
         var whereClause = { and: [{ deleted: { neq: true } }, { areaOfLawId: { like: '.*' + areaId + '.*', options: 'i' } }] }
         this.find({
                 where: whereClause,
@@ -155,14 +156,32 @@ module.exports = function(Case) {
 
 
     Case.getByYear = function(year, cb) {
+        /*var whereClause = {
+            and: [{
+                    deleted: {
+                        neq: true
+                    }
+                }, {
+                    year: year
+                },
+                {
+                    completionStatus: {
+                        neq: false
+                    }
+                }
+
+            ]
+        }*/
         var whereClause = {
             and: [{
-                deleted: {
-                    neq: true
+                    deleted: {
+                        neq: true
+                    }
+                }, {
+                    year: year
                 }
-            }, {
-                year: year
-            }]
+
+            ]
         }
         this.find({
                 where: whereClause,

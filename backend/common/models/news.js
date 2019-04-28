@@ -56,7 +56,7 @@ module.exports = function(News) {
                     where: {
                         and: [{
                             'citation.year': year
-                        }, { deleted: { neq: true } }]
+                        }, { deleted: { neq: true } }, { completionStatus: { neq: false } }]
                     },
                     filter: {
                         fields: {

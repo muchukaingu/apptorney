@@ -21,8 +21,8 @@ module.exports = function(Search) {
     Search.mobilesearch = function(term, cb) {
         var elasticsearch = require('elasticsearch')
         let client = new elasticsearch.Client({
-            host: 'https://portal-ssl1774-1.bmix-lon-yp-07bcfc2b-8df0-4892-bfc5-849b558a672f.muchu-bmix-circuitbusiness-com.composedb.com:21319/',
-            httpAuth: 'admin:JJWKUQSGLKEPDGXK'
+            host: 'https://portal-ssl840-69.bmix-eu-gb-yp-97013c6e-fa76-4cf9-8294-dd6528359b56.3432409090.composedb.com:17336/',
+            httpAuth: 'admin:SCORWHBESUMVUDLL'
         })
         var searchParams = {
             index: '_all',
@@ -38,7 +38,7 @@ module.exports = function(Search) {
                     //multi_match: { query: term, fields: ['name', 'judgement', 'summaryOfFacts', 'summaryOfRuling', 'areaOfLaw', 'citation'] } // CLR potential infringement
                     multi_match: {
                         query: term,
-                        fields: ['name^9', 'judgement', 'areaOfLaw', 'citation', 'generalTitle', 'legislationNumbers', 'legislationNumber', 'preamble', 'legislationName^9', 'flattenedParts', 'isStub', 'deleted'],
+                        fields: ['name^9', 'judgement', 'areaOfLaw', 'citation', 'generalTitle', 'legislationNumbers', 'legislationNumber', 'preamble', 'legislationName^9', 'flattenedParts'],
                         operator: 'and'
                     }
                 },
@@ -48,7 +48,7 @@ module.exports = function(Search) {
                     }
                 },
                 //_source: ['name', 'areaOfLaw', 'caseNumber', '_id', 'judgement', 'summaryOfFacts', 'summaryOfRuling', 'citation'] // CLR potential infringement
-                _source: ['name', 'areaOfLaw', 'caseNumber', '_id', 'judgement', 'citation', 'legislationName', 'legislationNumbers', 'legislationNumber', '_id', 'preamble', 'flattenedParts', 'isStub', 'deleted', 'legislationType', 'volumeNumber', 'chapterNumber', 'dateOfAssent', 'yearOfAmendment']
+                _source: ['name', 'areaOfLaw', 'caseNumber', '_id', 'judgement', 'citation', 'legislationName', 'legislationNumbers', 'legislationNumber', '_id', 'preamble', 'flattenedParts', 'legislationType', 'volumeNumber', 'chapterNumber', 'dateOfAssent', 'yearOfAmendment']
 
             }
         }

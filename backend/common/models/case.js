@@ -270,8 +270,8 @@ module.exports = function(Case) {
     Case.mobilesearch = function(term, cb) {
         var elasticsearch = require('elasticsearch')
         let client = new elasticsearch.Client({
-            host: 'https://portal-ssl1774-1.bmix-lon-yp-07bcfc2b-8df0-4892-bfc5-849b558a672f.muchu-bmix-circuitbusiness-com.composedb.com:21319/',
-            httpAuth: 'admin:JJWKUQSGLKEPDGXK'
+            host: 'https://portal-ssl840-69.bmix-eu-gb-yp-97013c6e-fa76-4cf9-8294-dd6528359b56.3432409090.composedb.com:17336/',
+            httpAuth: 'admin:SCORWHBESUMVUDLL'
         })
         var searchParams = {
             index: 'case',

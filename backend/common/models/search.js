@@ -21,8 +21,8 @@ module.exports = function(Search) {
     Search.mobilesearch = function(term, cb) {
         var elasticsearch = require('elasticsearch')
         let client = new elasticsearch.Client({
-            host: 'https://portal-ssl840-69.bmix-eu-gb-yp-97013c6e-fa76-4cf9-8294-dd6528359b56.3432409090.composedb.com:17336/',
-            httpAuth: 'admin:SCORWHBESUMVUDLL'
+            host: 'https://admin:IULWBNEBWZIVCEAA@portal-ssl480-77.bmix-eu-gb-yp-57296cdb-df3a-492a-ba69-a46f7443cd8f.3432409090.composedb.com:18688/',
+            httpAuth: 'admin:IULWBNEBWZIVCEAA'
         })
         var searchParams = {
             index: '_all',
@@ -57,10 +57,51 @@ module.exports = function(Search) {
             // console.log(resp.hits)
             let results = []
             resp.hits.hits.forEach(function(h) {
-                if (h._source.judgement == undefined &&
-                    h._source.summaryOfFacts == undefined &&
-                    h._source.summaryOfRuling == undefined
-                ) {
+                console.log(h._index)
+                if (h._index == "case") {
+                    if (h._source.judgement == undefined && h._source.summaryOfFacts == undefined && h._source.summaryOfRuling == undefined) {} else {
+                        var highlight = h.highlight
+                        var highlights = '...'
+                            // console.log(highlight)
+                        if (highlight.name !== undefined) {
+                            h._source.name = '<b>' + highlight.name[0] + '</b>'
+                        } else {
+                            h._source.name = '<b>' + h._source.name + '</b>'
+                        }
+                        if (highlight.summaryOfRuling !== undefined) {
+                            highlight.summaryOfRuling.forEach(function(ruling) {
+                                highlights = highlights + ruling + '...'
+                            })
+                            highlights = '<b>Summary of Ruling: </b>' + highlights + '<br>'
+                        }
+
+                        if (highlight.summaryOfFacts !== undefined) {
+                            highlight.summaryOfFacts.forEach(function(facts) {
+                                highlights = highlights + facts + '...'
+                            })
+                            highlights = (highlight.summaryOfRuling == undefined) ? '<b>Summary of Facts: </b>' + highlights : highlights + '<b>Summary of Facts: </b>' + highlights + '<br>'
+                        }
+
+                        if (highlight.judgement !== undefined) {
+                            highlight.judgement.forEach(function(judgement) {
+                                highlights = highlights + judgement + '...'
+                            })
+                            highlights = (highlight.summaryOfRuling == undefined && highlight.summaryOfFacts == undefined) ? '<b>Judgment: </b>' + highlights : highlights + '<b>Judgment: </b>' + highlights + '<br>'
+                        }
+
+                        h._source.highlight = highlights.length == 3 ? undefined : highlights
+                        h._source._id = h._id
+                        h._source.areaOfLaw = {
+                            'name': h._source.areaOfLaw,
+                            '_id': ''
+                        }
+                        h._source.citation.code = undefined
+                        h._source.citation.pageNumber = undefined
+                        h._source.type = "Case"
+
+                        results.push(h._source)
+                    }
+                } else if (h._index == "legislation") {
                     var highlight = h.highlight
                     var highlights = ''
                         // console.log(highlight)
@@ -91,48 +132,6 @@ module.exports = function(Search) {
                     h._source.highlight = highlights
                     h._source._id = h._id
                     h._source.type = "Legislation"
-                    results.push(h._source)
-                } else {
-                    var highlight = h.highlight
-                    var highlights = '...'
-                        // console.log(highlight)
-                    if (highlight.name !== undefined) {
-                        h._source.name = '<b>' + highlight.name[0] + '</b>'
-                    } else {
-                        h._source.name = '<b>' + h._source.name + '</b>'
-                    }
-                    if (highlight.summaryOfRuling !== undefined) {
-                        highlight.summaryOfRuling.forEach(function(ruling) {
-                            highlights = highlights + ruling + '...'
-                        })
-                        highlights = '<b>Summary of Ruling: </b>' + highlights + '<br>'
-                    }
-
-                    if (highlight.summaryOfFacts !== undefined) {
-                        highlight.summaryOfFacts.forEach(function(facts) {
-                            highlights = highlights + facts + '...'
-                        })
-                        highlights = (highlight.summaryOfRuling == undefined) ? '<b>Summary of Facts: </b>' + highlights : highlights + '<b>Summary of Facts: </b>' + highlights + '<br>'
-                    }
-
-                    if (highlight.judgement !== undefined) {
-                        highlight.judgement.forEach(function(judgement) {
-                            highlights = highlights + judgement + '...'
-                        })
-                        highlights = (highlight.summaryOfRuling == undefined && highlight.summaryOfFacts == undefined) ? '<b>Judgment: </b>' + highlights : highlights + '<b>Judgment: </b>' + highlights + '<br>'
-                    }
-
-                    h._source.highlight = highlights.length == 3 ? undefined : highlights
-                    h._source._id = h._id
-                    h._source.areaOfLaw = {
-                        'name': h._source.areaOfLaw,
-                        '_id': ''
-                    }
-                    h._source.citation.code = undefined
-                    h._source.citation.pageNumber = undefined
-                    h._source.type = "Case"
-
-
                     results.push(h._source)
                 }
             });

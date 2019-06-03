@@ -1,15 +1,15 @@
 path: .
-memory: 1G
+memory: 512M
 instances: 2
 domain: eu-gb.mybluemix.net
-name: 'Apptorney Backend'
-host: apptorney-api
+name: 'Apptorney Backend Test'
+host: apptorney-api-test
 disk_quota: 1G
 x-ibm-configuration:
   assembly:
     execute:
       - invoke:
-          target-url: apptorney-api.eu-gb.mybluemix.net
+          target-url: apptorney-api-test.eu-gb.mybluemix.net
           verb: keep
   cors:
     enabled: true

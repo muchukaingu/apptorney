@@ -18,21 +18,21 @@
             {
                 "relation": "amendedLegislations",
                 "scope": {
-                    "fields": ["id", "legislationName"]
+                    "fields": ["id", "legislationName", "year", "legislationParts"]
 
                 }
             },
             {
                 "relation": "replacedLegislations",
                 "scope": {
-                    "fields": ["id", "legislationName"]
+                    "fields": ["id", "legislationName", "year"]
 
                 }
             },
             {
                 "relation": "repealedLegislations",
                 "scope": {
-                    "fields": ["id", "legislationName"]
+                    "fields": ["id", "legislationName", "year"]
 
                 }
             }

@@ -270,8 +270,8 @@ module.exports = function(Case) {
     Case.mobilesearch = function(term, cb) {
         var elasticsearch = require('elasticsearch')
         let client = new elasticsearch.Client({
-            host: 'https://portal-ssl840-69.bmix-eu-gb-yp-97013c6e-fa76-4cf9-8294-dd6528359b56.3432409090.composedb.com:17336/',
-            httpAuth: 'admin:SCORWHBESUMVUDLL'
+            host: 'https://portal-ssl480-77.bmix-eu-gb-yp-57296cdb-df3a-492a-ba69-a46f7443cd8f.3432409090.composedb.com:18688/',
+            httpAuth: 'admin:IULWBNEBWZIVCEAA'
         })
         var searchParams = {
             index: 'case',
@@ -450,13 +450,13 @@ module.exports = function(Case) {
                     {
                         relation: 'legislationsReferedTo', // include the owner object
                         scope: { // further filter the owner object
-                            fields: ['legislationName', 'deleted'] // only show two fields
+                            fields: ['legislationName', 'deleted', 'isStub'] // only show two fields
                         }
                     },
                     {
                         relation: 'casesReferedTo', // include the owner object
                         scope: { // further filter the owner object
-                            fields: ['name', 'deleted'] // only show two fields
+                            fields: ['name', 'deleted', 'isStub'] // only show two fields
                         }
                     },
                     {
@@ -481,30 +481,34 @@ module.exports = function(Case) {
             },
 
             function(err, cases) {
-                var judges = ''
-                var judgeCount = 0
-                if (cases.coram !== undefined) {
-                    cases.coram.forEach(function(judge) {
-                        judges = (judgeCount == cases.coram.length - 1) ? judges + judge.name : judges + judge.name + ' | '
-                        judgeCount++
-                    })
+                if (cases !== null) {
+                    var judges = ''
+                    var judgeCount = 0
+                    if (cases.coram !== undefined) {
+                        cases.coram.forEach(function(judge) {
+                            judges = (judgeCount == cases.coram.length - 1) ? judges + judge.name : judges + judge.name + ' | '
+                            judgeCount++
+                        })
+                    }
+
+                    cases.judges = judges
+                    keenClient.recordEvent('caseViews', {
+                        title: cases.name,
+                        summary: cases.summaryOfRuling,
+                        type: "",
+                        sourceId: cases.id
+                    });
+                    keenClient.recordEvent('dataViews', {
+                        title: cases.name,
+                        summary: cases.summaryOfRuling,
+                        type: "case",
+                        sourceId: cases.id
+                    });
+
+                    cb(null, cases)
+                } else {
+                    cb(null, {})
                 }
-
-                cases.judges = judges
-                keenClient.recordEvent('caseViews', {
-                    title: cases.name,
-                    summary: cases.summaryOfRuling,
-                    type: "",
-                    sourceId: cases.id
-                });
-                keenClient.recordEvent('dataViews', {
-                    title: cases.name,
-                    summary: cases.summaryOfRuling,
-                    type: "case",
-                    sourceId: cases.id
-                });
-
-                cb(null, cases)
             })
     }
 

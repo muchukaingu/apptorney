@@ -16,21 +16,21 @@
             {
                 "relation": "caseReferences",
                 "scope": {
-                    "fields": ["id", "name"]
+                    "fields": ["id", "name", "isStub"]
 
                 }
             },
             {
                 "relation": "legislationReferences",
                 "scope": {
-                    "fields": ["id", "legislationName"]
+                    "fields": ["id", "legislationName", "isStub"]
 
                 }
             },
             {
                 "relation": "workReferences",
                 "scope": {
-                    "fields": ["id", "name"]
+                    "fields": ["id", "name", "isStub"]
 
                 }
             }

@@ -547,9 +547,9 @@ module.exports = function(Legislation) {
                 var legislationTypes = app.models.legislationType
                 var counter = 0
                 var legislationParts = legislation.legislationParts
-                legislationParts.forEach(function(part) {
-                    var flattenedPartContent = ''
-                })
+                    /*legislationParts.forEach(function(part) {
+                        var flattenedPartContent = ''
+                    })*/
                 legislationTypes.findById(ObjectId(legislation.legislationType), function(err, type) {
                     legislation.legislationType = type.name
                         // record this view for trends
@@ -635,8 +635,8 @@ module.exports = function(Legislation) {
 
         var elasticsearch = require('elasticsearch')
         let client = new elasticsearch.Client({
-            host: 'https://portal-ssl840-69.bmix-eu-gb-yp-97013c6e-fa76-4cf9-8294-dd6528359b56.3432409090.composedb.com:17336/',
-            httpAuth: 'admin:SCORWHBESUMVUDLL'
+            host: 'https://portal-ssl480-77.bmix-eu-gb-yp-57296cdb-df3a-492a-ba69-a46f7443cd8f.3432409090.composedb.com:18688/',
+            httpAuth: 'admin:IULWBNEBWZIVCEAA'
         })
         var searchParams = {
             index: 'legislation',

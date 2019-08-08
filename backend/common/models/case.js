@@ -156,47 +156,85 @@ module.exports = function(Case) {
 
 
     Case.getByYear = function(year, cb) {
-        /*var whereClause = {
-            and: [{
-                    deleted: {
-                        neq: true
+        var caseCollection = Case.getDataSource().connector.collection('case');
+        caseCollection.aggregate([{
+                    $match: {
+                        $or: [{
+                                "citation.year": year,
+                                "deleted": {
+                                    $ne: true
+                                }
+                            },
+                            {
+                                "year": year,
+                                "deleted": {
+                                    $ne: true
+                                }
+                            }
+                        ]
                     }
-                }, {
-                    year: year
                 },
+
                 {
-                    completionStatus: {
-                        neq: false
+                    $project: {
+                        id: true,
+                        year: true,
+                        name: true,
+                        summaryOfRuling: true
+                    }
+                },
+
+                {
+                    $sort: {
+                        name: 1
                     }
                 }
 
-            ]
-        }*/
-        var whereClause = {
-            and: [{
-                    deleted: {
-                        neq: true
-                    }
-                }, {
-                    year: year
-                }
-
-            ]
-        }
-        this.find({
-                where: whereClause,
-                order: 'name ASC',
-                fields: {
-                    id: true,
-                    year: true,
-                    name: true,
-                    summaryOfRuling: true
-                }
-
-            },
+            ],
             function(err, cases) {
-                cb(err, cases)
+
+                if (err) {} else {
+                    var counter = 0
+                    cases.map(function(caseInstance) {
+                        caseInstance.id = caseInstance._id
+                        delete caseInstance['_id']
+                    })
+                    cb(null, cases)
+                }
             })
+
+
+
+
+
+
+
+
+        // var whereClause = {
+        //     and: [{
+        //             deleted: {
+        //                 neq: true
+        //             }
+        //         }, {
+        //             "citation.year": year
+        //         }
+
+        //     ]
+        // }
+        // this.find({
+        //         where: whereClause,
+        //         order: 'name ASC',
+        //         fields: {
+        //             id: true,
+        //             year: true,
+        //             name: true,
+        //             summaryOfRuling: true
+        //         }
+
+        //     },
+        //     function(err, cases) {
+        //         cb(err, cases)
+        //     })
     }
 
     /**
@@ -450,13 +488,13 @@ module.exports = function(Case) {
                     {
                         relation: 'legislationsReferedTo', // include the owner object
                         scope: { // further filter the owner object
-                            fields: ['legislationName', 'deleted', 'isStub'] // only show two fields
+                            fields: ['legislationName', 'deleted'] // only show two fields
                         }
                     },
                     {
                         relation: 'casesReferedTo', // include the owner object
                         scope: { // further filter the owner object
-                            fields: ['name', 'deleted', 'isStub'] // only show two fields
+                            fields: ['name', 'deleted'] // only show two fields
                         }
                     },
                     {
@@ -481,6 +519,9 @@ module.exports = function(Case) {
             },
 
             function(err, cases) {
+                if (err) {
+                    console.log("Error occured: ", err)
+                }
                 if (cases !== null) {
                     var judges = ''
                     var judgeCount = 0

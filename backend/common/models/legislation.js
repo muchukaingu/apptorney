@@ -20,9 +20,29 @@ module.exports = function(Legislation) {
             '577d66caa856154683e6c2c0',
             '5982f641fefae422c4ca8675'
         ]
+        var startDate = new Date(year + "-01-01T00:00:00.000+0000")
+        var endDate = new Date((year + 1) + "-01-01T00:00:00.000+0000")
+        console.log(startDate, endDate)
         if (type == 'Acts') {
 
-            legislationCollection.aggregate([{ $match: { $and: [{ 'deleted': { $eq: !true } }, { 'legislationType': { $in: legislationTypes } }, { 'year': year }] } },
+            legislationCollection.aggregate([{
+                        $match: {
+                            $and: [{
+                                'deleted': {
+                                    $ne: true
+                                }
+                            }, {
+                                'legislationType': {
+                                    $in: legislationTypes
+                                }
+                            }, {
+                                "dateOfAssent": {
+                                    $gt: startDate,
+                                    $lt: endDate
+                                }
+                            }]
+                        }
+                    },
                     {
                         $project: {
 
@@ -41,7 +61,7 @@ module.exports = function(Legislation) {
                     if (err) {
                         console.log(err)
                     } else {
-                        console.log(legislations.length)
+                        // console.log(legislations.length)
                         legislations.map(function(legislation) {
                             legislation.id = legislation._id
                             delete legislation['_id']
@@ -62,7 +82,10 @@ module.exports = function(Legislation) {
                                     $nin: legislationTypes
                                 }
                             }, {
-                                'year': year
+                                "dateOfAssent": {
+                                    $gt: startDate,
+                                    $lt: endDate
+                                }
                             }]
                         }
                     },

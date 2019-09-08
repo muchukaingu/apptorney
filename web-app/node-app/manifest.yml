@@ -1,6 +1,6 @@
 ---
 applications:
- - name: apptorney-frontend
-   host: apptorney-frontend
+ - name: apptorney-cms
+   host: apptorney-cms
    random-route: true
    memory: 256M

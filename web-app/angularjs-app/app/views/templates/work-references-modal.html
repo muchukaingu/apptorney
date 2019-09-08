@@ -1,70 +1,69 @@
 <div id="workReferencesModal" class="modal fade" style="z-index:4000; background-color: rgba(0,0,0,0.5);">
-  <div class="modal-dialog" style="width:40%;padding-left: 2%;padding-right: 2%;">
-    <div class="modal-content" style="margin-top: 8%">
+    <div class="modal-dialog" style="width:40%;padding-left: 2%;padding-right: 2%;">
+        <div class="modal-content" style="margin-top: 8%">
 
 
 
 
 
 
-  <div class="modal-body" style="margin-bottom: none; padding-top: 10px; border-bottom:none; height:600px; overflow-y: auto;">
-    <h2>Select Work Referred To</h2>
-    <div class="input-icon right mb10">
-          <i class="fa fa-search"></i>
-          <input type="text" ng-model="queries.workReferencesQuery" class="form-control" placeholder="Search..." id="Search" ng-keydown = "saveWorkStab($event)">
-    </div>
-        <table id="casesTbl" class="table table-condensed">
-          <tr style="background-color: #E8E9EC" class="tableHeaders">
-            <td style="width:5%">
-              <a ng-click="sortType = 'caseNumber'; sortReverse = !sortReverse">
+            <div class="modal-body" style="margin-bottom: none; padding-top: 10px; border-bottom:none; height:600px; overflow-y: auto;">
+                <h2>Select Work Referred To</h2>
+                <div class="input-icon right mb10">
+                    <i class="fa fa-search"></i>
+                    <input type="text" ng-model="queries.workReferencesQuery" class="form-control" placeholder="Search..." id="Search" ng-keydown="saveWorkStab($event)" ng-model-options="{ debounce: 1000 }">
+                </div>
+                <table id="casesTbl" class="table table-condensed">
+                    <tr style="background-color: #E8E9EC" class="tableHeaders">
+                        <td style="width:5%">
+                            <a ng-click="sortType = 'caseNumber'; sortReverse = !sortReverse">
                 Selected
                 <span ng-show="sortType == 'caseNumber' && !sortReverse" class="fa fa-caret-up"></span>
                 <span ng-show="sortType == 'caseNumber' && sortReverse" class="fa fa-caret-down"></span>
               </a>
-            </td>
+                        </td>
 
-            <td style="width:45%">
-              <a ng-click="sortType = 'name'; sortReverse = !sortReverse">
+                        <td style="width:45%">
+                            <a ng-click="sortType = 'name'; sortReverse = !sortReverse">
                 Name of Work
                 <span ng-show="sortType == 'name' && !sortReverse" class="fa fa-caret-up"></span>
                 <span ng-show="sortType == 'name' && sortReverse" class="fa fa-caret-down"></span>
               </a>
-  </td>
+                        </td>
 
 
 
 
-          </tr>
-          <tr id="rowTmp_Est" ng-repeat="work in workReferences | filter:queries.workReferencesQuery | orderBy:sortType:sortReverse" >
-            <td class="editables">
+                    </tr>
+                    <tr id="rowTmp_Est" ng-repeat="work in workReferences | filter:queries.workReferencesQuery | orderBy:sortType:sortReverse">
+                        <td class="editables">
 
-              <input type="checkbox" ng-change = "addWorkReference(work)" ng-model = "work.selected">
+                            <input type="checkbox" ng-change="addWorkReference(work)" ng-model="work.selected">
 
-             </td>
+                        </td>
 
 
-            <td class="editables">
+                        <td class="editables">
 
-              <span class="editable" name="applicantname" form="rowform" onchange="editItem(this,'itemID')"
-                required>{{work.name}}
+                            <span class="editable" name="applicantname" form="rowform" onchange="editItem(this,'itemID')" required>{{work.name}}
 
               </span>
 
-            </td>
+                        </td>
 
-          </tr>
-        </table>
-
-
-        <div ng-if="workReferences.length == 0 && queries.workReferencesQuery.length < 5 || workReferences.length == 0 && queries.workReferencesQuery == undefined" style="position: relative; left: 30%; margin-left: -50px; height: 50px; margin-top: 40px"><i ng-if="!returned" class='fa fa-fw fa-sun-o fa-spin'></i> Type the first 5 characters in the name of the work to begin.</div>
-        <div ng-if="queries.workReferencesQuery.length > 4 && (workReferences|filter:queries.workReferencesQuery).length == 0 && workReferences.length == 0" style="position: relative; left: 50%; margin-left: -50px; height: 50px; margin-top: 40px"><i class='fa fa-fw fa-sun-o fa-spin'></i>Searching for Works. Please Wait...</div>
-        <div ng-if="queries.workReferencesQuery.length > 4 && (workReferences|filter:queries.workReferencesQuery).length == 0 && workReferences.length > 0" style="position: relative; left: 32%; margin-left: -50px; height: 50px; margin-top: 40px"><i ng-if="!returned" class='fa fa-fw fa-sun-o fa-spin'></i> No matches found. Press Enter to create Stub</div>
+                    </tr>
+                </table>
 
 
+                <div ng-if="workReferences.length == 0 && queries.workReferencesQuery.length < 5 || workReferences.length == 0 && queries.workReferencesQuery == undefined" style="position: relative; left: 30%; margin-left: -50px; height: 50px; margin-top: 40px"><i ng-if="!returned" class='fa fa-fw fa-sun-o fa-spin'></i> Type the first 5 characters in the name of the work to begin.</div>
+                <div ng-if="queries.workReferencesQuery.length > 4 && (workReferences|filter:queries.workReferencesQuery).length == 0 && workReferences.length == 0" style="position: relative; left: 50%; margin-left: -50px; height: 50px; margin-top: 40px"><i class='fa fa-fw fa-sun-o fa-spin'></i>Searching for Works. Please Wait...</div>
+                <div ng-if="queries.workReferencesQuery.length > 4 && (workReferences|filter:queries.workReferencesQuery).length == 0 && workReferences.length > 0" style="position: relative; left: 32%; margin-left: -50px; height: 50px; margin-top: 40px"><i ng-if="!returned" class='fa fa-fw fa-sun-o fa-spin'></i> No matches found. Press Enter to create Stub</div>
 
 
-  </div>
 
-</div>
-</div>
+
+            </div>
+
+        </div>
+    </div>
 </div>

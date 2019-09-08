@@ -252,9 +252,9 @@ module.exports = function(Appuser) {
                     user.password = password
                     user.save(function(err) {
                         if (err) {
-                            fn(err)
+                            fn(err, null)
                         } else {
-                            fn(true)
+                            fn(null, true)
                         }
                     })
                 } else {
@@ -783,6 +783,10 @@ module.exports = function(Appuser) {
                 }
 
             ],
+            returns: {
+                arg: 'result',
+                type: Boolean
+            },
             http: {
                 verb: 'get',
                 path: '/resetPasswordWithOTP'

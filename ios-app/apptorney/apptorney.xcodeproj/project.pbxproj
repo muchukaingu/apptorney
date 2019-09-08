@@ -52,7 +52,6 @@
 		8D6C0CE41AACFA5600D01ABF /* SimpleButtonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6C0CE31AACFA5600D01ABF /* SimpleButtonTableViewCell.swift */; };
 		8D6C1C0220C43E0C004CCF5E /* Loader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6C1BFF20C43E0C004CCF5E /* Loader.swift */; };
 		8D6F7C22215F52770084C306 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D6F7C21215F52770084C306 /* Settings.storyboard */; };
-		8D6F7C26215F75E30084C306 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D6F7C25215F75E30084C306 /* StoreKit.framework */; };
 		8D7F06FB1C45993600B4DCEB /* beep-07.wav in Resources */ = {isa = PBXBuildFile; fileRef = 8D7F06FA1C45993600B4DCEB /* beep-07.wav */; };
 		8D7F888F1FC725740077C489 /* Legislation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7F888E1FC725740077C489 /* Legislation.swift */; };
 		8D7F88911FC743970077C489 /* LegislationDetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7F88901FC743970077C489 /* LegislationDetailsTableViewController.swift */; };
@@ -210,7 +209,6 @@
 		8D6C1BFF20C43E0C004CCF5E /* Loader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Loader.swift; sourceTree = "<group>"; };
 		8D6EBA221E1477C70038B111 /* CryptoSwift.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CryptoSwift.xcodeproj; path = CryptoSwift/CryptoSwift.xcodeproj; sourceTree = SOURCE_ROOT; };
 		8D6F7C21215F52770084C306 /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
-		8D6F7C25215F75E30084C306 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		8D7F06FA1C45993600B4DCEB /* beep-07.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "beep-07.wav"; sourceTree = "<group>"; };
 		8D7F888E1FC725740077C489 /* Legislation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Legislation.swift; sourceTree = "<group>"; };
 		8D7F88901FC743970077C489 /* LegislationDetailsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegislationDetailsTableViewController.swift; sourceTree = "<group>"; };
@@ -302,7 +300,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				138F89B785823A207493C1E9 /* Pods_apptorney.framework in Frameworks */,
-				8D6F7C26215F75E30084C306 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -565,7 +562,6 @@
 		8D8C729A1DE250C400A25261 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				8D6F7C25215F75E30084C306 /* StoreKit.framework */,
 				1330C11C62C0520382BDD84C /* Pods_apptorney.framework */,
 				0830D4CFF8BB4B2625F2CFBE /* Pods_apptorneyTests.framework */,
 			);
@@ -791,7 +787,7 @@
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.InAppPurchase = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};
@@ -807,6 +803,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);

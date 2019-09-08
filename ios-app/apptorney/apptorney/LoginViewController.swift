@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 //import CryptoSwift
+import MaterialComponents.MaterialSnackbar
 
 class LoginViewController: UIViewController, SettingsTableViewControllerDelegate, UITableViewDelegate, ErrorViewControllerDelegate, SWRevealViewControllerDelegate , SWRevealViewControllerDismissDelegate{
     
@@ -351,11 +352,9 @@ class LoginViewController: UIViewController, SettingsTableViewControllerDelegate
     }
     
     @objc func showLoginError(errorText: String){
-        UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.5, options: UIViewAnimationOptions.curveEaseIn, animations: {
-            self.loginErrorLabel.text = errorText
-            self.loginErrorLabel.alpha = 1.0
-            self.closeErrorButton.alpha = 1.0
-        }, completion:nil)
+        let message = MDCSnackbarMessage()
+        message.text = errorText
+        MDCSnackbarManager.show(message)
     }
     
     @IBAction func hideLoginError(){

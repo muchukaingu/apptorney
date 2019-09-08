@@ -11,12 +11,26 @@ import SkyFloatingLabelTextField
 
 class ForgotViewController: UIViewController {
     
+    @objc var moveToPoint: CGFloat = 0.0
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var resetPasswordButton: UIButton!
+    
 
    
     @IBOutlet weak var txtPhoneNumber: SkyFloatingLabelTextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        registerForKeyboardNotifications()
+        
+        if self.view.bounds.size.height > 812.0 || self.view.bounds.size.height > 896.0 {
+            moveToPoint =  34.0
+        }
+        else {
+            moveToPoint = 0.0
+        }
+        
 
         // Do any additional setup after loading the view.
     }
@@ -65,6 +79,45 @@ class ForgotViewController: UIViewController {
             ResetPasswordViewController
             destinationController.username = txtPhoneNumber.text ?? ""
         }
+        
+    }
+    
+    
+    //MARK: - Keyboard Behavior
+    
+    @objc func registerForKeyboardNotifications() {
+        let defaultCenter = NotificationCenter.default
+        defaultCenter.addObserver(self, selector: #selector(keyboardWasShown), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        defaultCenter.addObserver(self, selector: #selector(keyboardWillBeHidden), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+    
+    
+    @objc func keyboardWasShown(aNotification: Notification) {
+        //self.signInButton.alpha = 0
+        //self.smallSignInButton.alpha = 1
+        let userInfo = aNotification.userInfo
+        let keyboardScreenEndFrame = (userInfo?[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+        let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
+        
+        scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height, right: 0)
+        scrollView.scrollIndicatorInsets = scrollView.contentInset
+        
+        
+        UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 1, initialSpringVelocity: 1.5, options: [], animations: {
+            
+            //            self.logoImageView.transform = CGAffineTransform(scaleX: 0.3, y: 0.3)
+            //            self.logoImageView.transform = CGAffineTransform(translationX: 0, y: self.moveToPoint)
+            //self.logoImageView.alpha = 0
+            //self.logoImageView.transform = CGAffineTransform.identity.translatedBy(x: 0, y: self.moveToPoint).scaledBy(x: 0.7, y: 0.7)
+            self.resetPasswordButton.transform = CGAffineTransform(translationX: 0, y: -keyboardViewEndFrame.height + self.moveToPoint)
+            
+            
+        }, completion:nil)
+    }
+    
+    @objc func keyboardWillBeHidden(_ aNotification: Notification) {
+        
+        
         
     }
  

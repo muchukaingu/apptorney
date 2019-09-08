@@ -55,11 +55,11 @@ class OnboardingViewController: UIViewController, PaperOnboardingDataSource, Pap
                            color: UIColor.white,
                            titleColor: UIColor.black, descriptionColor: UIColor.black, titleFont: titleFont, descriptionFont: descriptionFont),
         OnboardingItemInfo(informationImage: UIImage(named: "gift")!,
-                           title: "Apptorney Monthly Subscription",
-                           description: "You can now start your 1 month free trial, after which, access to Apptorney will be based on a monthly auto renewing subscription. The subscription allows you to continue accessing the full functionality of Apptorney and the latest Zambian cases and legislations. The total amount of the subscription will be charged to your iTunes Account or other elected payment method. Unless you turn off auto-renewal at least 24 hours before the end of the subscription, the subscription will renew at the regular price of USD $19.99. You can manage the subscription and turn off auto renewal in the Account Settings for your Apple ID at any time. Any unused portion of a free trial will be forfeited when subscribing to a non-trial plan. For more information, please view our Terms of Service and Privacy Policy.",
+                           title: "Apptorney is FREE",
+                           description: "As part of our commitment to enhancing access to justice and promoting the rule of law in Zambia, access to Apptorney is now FREE.",
                            pageIcon: UIImage(),
                            color: UIColor.white,
-                           titleColor: UIColor.black, descriptionColor: UIColor.black, titleFont: UIFont(name: "AvenirNext-Bold", size: 20)!, descriptionFont: UIFont(name: "AvenirNext-Regular", size: 12)!),
+                           titleColor: UIColor.black, descriptionColor: UIColor.black, titleFont: titleFont, descriptionFont: descriptionFont)
         
         ]
     override func viewDidLoad() {

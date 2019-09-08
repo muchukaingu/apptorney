@@ -323,8 +323,12 @@ class RegisterViewController: UIViewController {
                     print("Sign up successful")
                     let userDefaults = UserDefaults.standard
                     userDefaults.set(true, forKey: "registrationComplete")
+                    userDefaults.set(true, forKey: "loginComplete")
+                    
+                    userDefaults.set(self.txtPhoneNumber.text, forKey: "username")
                     userDefaults.synchronize()
-                    self.performSegue(withIdentifier: "Verification", sender: self)
+                    
+                    self.performSegue(withIdentifier: "Registered", sender: self)
                     
                 }
             })

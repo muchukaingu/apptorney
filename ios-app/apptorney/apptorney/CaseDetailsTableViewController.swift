@@ -221,7 +221,7 @@ class CaseDetailsTableViewController: UITableViewController {
                 let jurisdiction = caseInstance.jurisdiction?.name ?? ""
                 let location = caseInstance.location?.name ?? ""
               
-                summarycell.thirdLabel?.text = caseInstance.name
+                summarycell.thirdLabel?.text = caseInstance.name ?? ""
                 if summarycell.thirdLabel.text!.count < 28{
                     heightDiscount = 30
                 }

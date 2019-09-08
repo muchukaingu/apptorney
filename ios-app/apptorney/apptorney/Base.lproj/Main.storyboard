@@ -509,7 +509,7 @@
                                     </constraint>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
-                                <state key="normal" title="Start Your Free Trial ($19.99 to Renew)">
+                                <state key="normal" title="Get Started">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <variation key="heightClass=regular-widthClass=regular">
@@ -957,23 +957,6 @@ Please check your API Settings or Network Connection and try again.</string>
             <point key="canvasLocation" x="484" y="-125"/>
         </scene>
         <!--Settings-->
-        <scene sceneID="2jB-Ot-ted">
-            <objects>
-                <navigationController id="vNe-o1-jUg" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Settings" image="settings-tab-fat" id="Y0G-9s-oCu"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="9SH-r9-3sA">
-                        <rect key="frame" x="0.0" y="20" width="414" height="96"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="TVD-oS-if5" kind="relationship" relationship="rootViewController" id="hNd-G8-tVI"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="JgD-ia-bTh" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1092" y="2087"/>
-        </scene>
-        <!--Settings-->
         <scene sceneID="KR8-TN-5N2">
             <objects>
                 <viewController id="TVD-oS-if5" customClass="SettingsViewController" customModule="apptorney" customModuleProvider="target" sceneMemberID="viewController">
@@ -986,7 +969,7 @@ Please check your API Settings or Network Connection and try again.</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FsO-ic-VIz">
-                                <rect key="frame" x="20" y="142" width="374" height="413"/>
+                                <rect key="frame" x="20" y="46" width="374" height="413"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Apptorney Monthly Subscription" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z9r-W9-6YD">
                                         <rect key="frame" x="15" y="20.000000000000004" width="344" height="57.333333333333343"/>
@@ -1152,7 +1135,6 @@ Please check your API Settings or Network Connection and try again.</string>
                         <segue destination="j8E-P7-nSb" kind="relationship" relationship="viewControllers" id="pdy-nb-d6B"/>
                         <segue destination="Ruf-lg-ODp" kind="relationship" relationship="viewControllers" id="2xE-5f-F2O"/>
                         <segue destination="TXL-Nb-Gaj" kind="relationship" relationship="viewControllers" id="Fcu-me-fVN"/>
-                        <segue destination="vNe-o1-jUg" kind="relationship" relationship="viewControllers" id="6W3-ec-w1d"/>
                         <segue destination="XS1-8e-Cns" kind="relationship" relationship="viewControllers" id="Jnl-nW-amV"/>
                     </connections>
                 </tabBarController>
@@ -1261,37 +1243,41 @@ Please check your API Settings or Network Connection and try again.</string>
                                     <constraint firstAttribute="width" secondItem="w4S-iA-l0r" secondAttribute="height" multiplier="1:1" id="Qcc-6u-H1r"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PAm-5g-Wfu">
-                                <rect key="frame" x="30" y="225.00000000000003" width="354" height="275.66666666666674"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PAm-5g-Wfu">
+                                <rect key="frame" x="30" y="225" width="354" height="249.66666666666663"/>
                                 <string key="text">Apptorney is the most comprehensive &amp; consolidated legal information platform in Zambia. It provides legal content that is properly linked, categorized and indexed for more efficient and user friendly searches. 
 
 It’s a single source platform for Zambian Case Law, Legislations and subsidiary Legislations. Therefore, getting rid of all your legal headaches of gathering information from fragmented data sources. 
 
-Access to Apptorney is based on a monthly auto renewing subscription. The Apptorney Monthly Subscription allows you to continue accessing the full functionality of Apptorney and the latest Zambian cases and legislations. The total amount of the subscription will be charged to your Itunes Account or other elected payment method. Unless you turn off auto-renewal at least 24 hours before the end of the subscription, the subscription will renew at the regular price of USD $19.99. You can manage the subscription and turn off auto renewal in the Account Settings for your Apple ID at any time. Any unused portion of a free trial will be forfeited when subscribing to a non-trial plan. For more information, please view our Terms of Service and Privacy Policy.</string>
+As part of our commitment to promoting access to justice and the rule of law in Zambia, access to Apptorney is now completely FREE. 
+
+We are proud to bring to Zambians an innovative legal platform and with your support, we will keep innovating to make it one of the most advanced legal systems in the world. 
+
+Please take some time to go through our Terms of Use and Privacy Policy. If you have any queries, please contact us using the details below.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Support and Other Queries" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bhQ-NB-cUa">
-                                <rect key="frame" x="116.66666666666669" y="612.66666666666663" width="181" height="17"/>
+                                <rect key="frame" x="116.33333333333333" y="586.66666666666663" width="181.66666666666669" height="17"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email: support@apptorney.org" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ymn-9Y-sX1">
-                                <rect key="frame" x="109" y="631.66666666666663" width="196" height="17"/>
+                                <rect key="frame" x="109" y="605.66666666666663" width="196" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Call: 260211292310" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iC4-pu-CQq">
-                                <rect key="frame" x="143" y="650.66666666666663" width="128" height="17"/>
+                                <rect key="frame" x="143" y="624.66666666666663" width="128" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="www.apptorney.org" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DuG-Ry-Wht">
-                                <rect key="frame" x="144.66666666666666" y="669.66666666666663" width="124.99999999999997" height="17"/>
+                                <rect key="frame" x="144.33333333333334" y="643.66666666666663" width="125.33333333333334" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -1304,14 +1290,14 @@ Access to Apptorney is based on a monthly auto renewing subscription. The Apptor
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CKx-gb-nKR">
-                                <rect key="frame" x="10" y="520.66666666666663" width="394" height="1"/>
+                                <rect key="frame" x="10" y="494.66666666666669" width="394" height="1"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="Zzn-4s-WCx"/>
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0y1-Gy-XtV">
-                                <rect key="frame" x="153" y="529.66666666666663" width="108" height="34"/>
+                                <rect key="frame" x="153" y="503.66666666666674" width="108" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <state key="normal" title="Terms of Use"/>
                                 <connections>
@@ -1319,7 +1305,7 @@ Access to Apptorney is based on a monthly auto renewing subscription. The Apptor
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HNi-I1-AOa">
-                                <rect key="frame" x="151" y="563.66666666666663" width="112" height="34"/>
+                                <rect key="frame" x="151" y="537.66666666666663" width="112" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <state key="normal" title="Privacy Policy"/>
                                 <connections>
@@ -1358,7 +1344,7 @@ Access to Apptorney is based on a monthly auto renewing subscription. The Apptor
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2v3-eV-aiV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1477.5999999999999" y="937.78110944527748"/>
+            <point key="canvasLocation" x="1476.8115942028987" y="937.50000000000011"/>
         </scene>
         <!--LegislationDetails-->
         <scene sceneID="G4j-6X-cTp">
@@ -1381,7 +1367,7 @@ Access to Apptorney is based on a monthly auto renewing subscription. The Apptor
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8JB-6i-WjI">
-                                <rect key="frame" x="35" y="336.66666666666669" width="344" height="50"/>
+                                <rect key="frame" x="35" y="326" width="344" height="50"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="lUd-kb-xc4">
@@ -1405,7 +1391,7 @@ Access to Apptorney is based on a monthly auto renewing subscription. The Apptor
                                 <nil key="highlightedColor"/>
                             </label>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="Ve0-mB-Fpq">
-                                <rect key="frame" x="344" y="351.66666666666669" width="20" height="20"/>
+                                <rect key="frame" x="344" y="341" width="20" height="20"/>
                             </activityIndicatorView>
                             <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login failed. Please try again." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Waf-8u-wTK">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="45"/>
@@ -1418,7 +1404,7 @@ Access to Apptorney is based on a monthly auto renewing subscription. The Apptor
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Verification Code sent via SMS" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Cj4-lj-TWG" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                <rect key="frame" x="40" y="267.66666666666669" width="334" height="41"/>
+                                <rect key="frame" x="40" y="278" width="334" height="20"/>
                                 <color key="tintColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
@@ -1442,7 +1428,7 @@ Access to Apptorney is based on a monthly auto renewing subscription. The Apptor
                                 </userDefinedRuntimeAttributes>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2AO-LO-jDu">
-                                <rect key="frame" x="97" y="411.66666666666669" width="220" height="36"/>
+                                <rect key="frame" x="97" y="401" width="220" height="36"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="Resend Verification Code"/>
                                 <connections>
@@ -1524,7 +1510,7 @@ Access to Apptorney is based on a monthly auto renewing subscription. The Apptor
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Phone number" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="bUL-sU-VWn" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                <rect key="frame" x="40" y="200.66666666666666" width="334" height="50"/>
+                                <rect key="frame" x="40" y="179" width="334" height="50"/>
                                 <color key="tintColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="9yO-sw-iSP"/>
@@ -1554,7 +1540,7 @@ Access to Apptorney is based on a monthly auto renewing subscription. The Apptor
                                 </userDefinedRuntimeAttributes>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email Address" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="09q-cP-VIO" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                <rect key="frame" x="40" y="264.66666666666669" width="334" height="50"/>
+                                <rect key="frame" x="40" y="243" width="334" height="50"/>
                                 <color key="tintColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="DtF-uq-SDQ"/>
@@ -1584,7 +1570,7 @@ Access to Apptorney is based on a monthly auto renewing subscription. The Apptor
                                 </userDefinedRuntimeAttributes>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" textAlignment="natural" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="lRe-B0-wjF" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                <rect key="frame" x="40" y="328.66666666666669" width="334" height="50"/>
+                                <rect key="frame" x="40" y="307" width="334" height="50"/>
                                 <color key="tintColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="hWF-Fv-8Hk"/>
@@ -1609,7 +1595,7 @@ Access to Apptorney is based on a monthly auto renewing subscription. The Apptor
                                 </constraints>
                             </view>
                             <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0NX-AK-lb5">
-                                <rect key="frame" x="35" y="406.66666666666669" width="344" height="50"/>
+                                <rect key="frame" x="35" y="385" width="344" height="50"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="5Ic-1n-4Hl">
@@ -1649,7 +1635,7 @@ Access to Apptorney is based on a monthly auto renewing subscription. The Apptor
                                 </state>
                             </button>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="8AR-ak-MQp">
-                                <rect key="frame" x="334" y="421.66666666666669" width="20" height="20"/>
+                                <rect key="frame" x="334" y="400" width="20" height="20"/>
                             </activityIndicatorView>
                             <textField opaque="NO" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="First Name" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="YMZ-mf-9pW" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
                                 <rect key="frame" x="40" y="81" width="334" height="50"/>
@@ -1679,7 +1665,7 @@ Access to Apptorney is based on a monthly auto renewing subscription. The Apptor
                                 </userDefinedRuntimeAttributes>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Last Name" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Vcs-VW-jvv" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                <rect key="frame" x="40" y="145" width="334" height="41.666666666666657"/>
+                                <rect key="frame" x="40" y="145" width="334" height="20"/>
                                 <color key="tintColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
@@ -1703,7 +1689,7 @@ Access to Apptorney is based on a monthly auto renewing subscription. The Apptor
                                 </userDefinedRuntimeAttributes>
                             </textField>
                             <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IIq-MP-IDi">
-                                <rect key="frame" x="75.666666666666686" y="471.66666666666669" width="263" height="34"/>
+                                <rect key="frame" x="75.666666666666686" y="450" width="263" height="34"/>
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="18"/>
                                 <state key="normal" title="Already have an account? Sign In">
                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1901,7 +1887,7 @@ Access to Apptorney is based on a monthly auto renewing subscription. The Apptor
             <objects>
                 <tableViewController id="RBV-Zj-Zw0" customClass="PaymentOptionsVC" customModule="apptorney" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="69" sectionHeaderHeight="22" sectionFooterHeight="22" id="owL-28-oOO">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="672"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <prototypes>
@@ -1925,7 +1911,7 @@ Access to Apptorney is based on a monthly auto renewing subscription. The Apptor
                                                     </variation>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Df0-rS-4sn" customClass="EdgeInsetLabel" customModule="apptorney" customModuleProvider="target">
-                                                    <rect key="frame" x="15" y="31" width="39" height="16"/>
+                                                    <rect key="frame" x="15" y="31" width="27" height="16"/>
                                                     <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="16" id="MfB-Ro-9tj">
@@ -1957,7 +1943,7 @@ Access to Apptorney is based on a monthly auto renewing subscription. The Apptor
                                                     </variation>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7wr-5p-NHR">
-                                                    <rect key="frame" x="56.999999999999993" y="32" width="31.666666666666664" height="14"/>
+                                                    <rect key="frame" x="45" y="32" width="31.666666666666671" height="14"/>
                                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="12"/>
                                                     <color key="textColor" red="0.5568627451" green="0.56078431370000004" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -2100,7 +2086,7 @@ Access to Apptorney is based on a monthly auto renewing subscription. The Apptor
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="5Vn-43-OrZ" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                <rect key="frame" x="40" y="116.66666666666664" width="334" height="41.333333333333329"/>
+                                <rect key="frame" x="40" y="116.66666666666666" width="334" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <textInputTraits key="textInputTraits" smartDashesType="no"/>
@@ -2118,7 +2104,7 @@ Access to Apptorney is based on a monthly auto renewing subscription. The Apptor
                                 </userDefinedRuntimeAttributes>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="xvc-bT-jvT" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                <rect key="frame" x="40" y="168" width="334" height="41.666666666666657"/>
+                                <rect key="frame" x="40" y="156.66666666666666" width="334" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <textInputTraits key="textInputTraits" smartDashesType="yes" textContentType="cc-number"/>
@@ -2236,7 +2222,7 @@ Access to Apptorney is based on a monthly auto renewing subscription. The Apptor
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="FvI-GF-5He" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                <rect key="frame" x="40" y="116.66666666666664" width="334" height="41.333333333333329"/>
+                                <rect key="frame" x="40" y="116.66666666666666" width="334" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <textInputTraits key="textInputTraits" smartDashesType="no"/>
@@ -2254,7 +2240,7 @@ Access to Apptorney is based on a monthly auto renewing subscription. The Apptor
                                 </userDefinedRuntimeAttributes>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Gvb-DG-nZB" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                <rect key="frame" x="40" y="168" width="334" height="41.666666666666657"/>
+                                <rect key="frame" x="40" y="156.66666666666666" width="334" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <textInputTraits key="textInputTraits" smartDashesType="yes" textContentType="cc-number"/>
@@ -2418,7 +2404,6 @@ Access to Apptorney is based on a monthly auto renewing subscription. The Apptor
         <image name="logo" width="800" height="946.66668701171875"/>
         <image name="notification" width="30" height="30"/>
         <image name="right-arrow-2" width="60" height="42"/>
-        <image name="settings-tab-fat" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="Jgk-4u-alc"/>

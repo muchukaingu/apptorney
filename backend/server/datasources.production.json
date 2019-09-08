@@ -18,6 +18,21 @@
             "sslCA": "${ca_certificate_base64}"
         }
     },
+    "Email": {
+        "name": "Email",
+        "defaultForType": "mail",
+        "connector": "mail",
+        "transports": [{
+            "type": "SMTP",
+            "host": "n3plcpnl0034.prod.ams3.secureserver.net",
+            "secure": true,
+            "port": 465,
+            "auth": {
+                "user": "noreply@apptorney.org",
+                "pass": "u$$pgg123"
+            }
+        }]
+    },
     "transient": {
         "name": "transient",
         "connector": "transient"

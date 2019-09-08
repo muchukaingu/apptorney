@@ -1,8 +1,158 @@
-// var utils = require('../node_modules/loopback/lib/utils');
-
+// var utils = require('../node_modules/loopback/lib/utils')
 
 module.exports = function(Legislation) {
-    const { ObjectId } = require('mongodb'); // or ObjectID
+    const { ObjectId } = require('mongodb') // or ObjectID
+        // Configure a client instance
+    var KeenTracking = require('keen-tracking')
+
+    // This is your actual Project ID and Write Key
+    var keenClient = new KeenTracking({
+        projectId: '5aaf4c58c9e77c0001692b2b',
+        writeKey: 'A730DDA82E082E47030F8A0C43F0E284BD5F445D9969108D5436E1416660AAE5819502658F77A48C2FDED30A4C9113C19BB5265C73F21713E6ED44AADFF35DF5E71EAB2C2A30EE05332027BF733D7615D1F34D4544F1B3A62FFDFA797A912A61'
+    })
+
+    Legislation.getByYear = function(year, type, cb) {
+        var whereClause = {}
+        var legislationCollection = Legislation.getDataSource().connector.collection('legislation')
+        var legislationTypes = [
+            '598978adbe0d4f0197376605',
+            '5a095bc811a57209f26523fd',
+            '577d66caa856154683e6c2c0',
+            '5982f641fefae422c4ca8675'
+        ]
+        var startDate = new Date(year + "-01-01T00:00:00.000+0000")
+        var endDate = new Date((year + 1) + "-01-01T00:00:00.000+0000")
+        console.log(startDate, endDate)
+        if (type == 'Acts') {
+
+            legislationCollection.aggregate([{
+                        $match: {
+                            $and: [{
+                                'deleted': {
+                                    $ne: true
+                                }
+                            }, {
+                                'legislationType': {
+                                    $in: legislationTypes
+                                }
+                            }, {
+                                "dateOfAssent": {
+                                    $gt: startDate,
+                                    $lt: endDate
+                                }
+                            }]
+                        }
+                    },
+                    {
+                        $project: {
+
+                            legislationName: true,
+                            preamble: true,
+                            legislationType: true,
+                            dateOfAssent: true,
+                            legislationNumber: true,
+                            legislationNumbers: true
+
+                        }
+                    }
+                ],
+
+                function(err, legislations) {
+                    if (err) {
+                        console.log(err)
+                    } else {
+                        // console.log(legislations.length)
+                        legislations.map(function(legislation) {
+                            legislation.id = legislation._id
+                            delete legislation['_id']
+                        })
+                        cb(null, legislations)
+                    }
+
+                })
+        } else {
+            legislationCollection.aggregate([{
+                        $match: {
+                            $and: [{
+                                'deleted': {
+                                    $eq: !true
+                                }
+                            }, {
+                                'legislationType': {
+                                    $nin: legislationTypes
+                                }
+                            }, {
+                                "dateOfAssent": {
+                                    $gt: startDate,
+                                    $lt: endDate
+                                }
+                            }]
+                        }
+                    },
+                    {
+                        $project: {
+
+                            legislationName: true,
+                            preamble: true,
+                            legislationType: true,
+                            dateOfAssent: true,
+                            legislationNumber: true,
+                            legislationNumbers: true
+
+                        }
+                    }
+                ],
+
+                function(err, legislations) {
+                    if (err) {
+                        console.log(err)
+                    } else {
+                        console.log(legislations.length)
+                        legislations.map(function(legislation) {
+                            legislation.id = legislation._id
+                            delete legislation['_id']
+                        })
+                        cb(null, legislations)
+                    }
+
+                })
+        }
+
+        /*this.find({
+                where: whereClause,
+                order: 'legislationName ASC',
+                fields: {
+                    id: true,
+                    year: true,
+                    legislationName: true,
+                    preamble: true,
+                    legislationType: true
+                }
+
+            },
+            function(err, legislations) {
+                cb(err, legislations)
+            })*/
+    }
+
+    Legislation.getByVolume = function(volume, cb) {
+        var whereClause = { and: [{ deleted: { neq: true } }, { volumeNumber: volume }] }
+        this.find({
+                where: whereClause,
+                order: 'legislationName ASC',
+                fields: {
+                    id: true,
+                    legislationName: true,
+                    dateOfAssent: true,
+                    preamble: true,
+                    amendedLegislations: false
+                }
+
+            },
+            function(err, legislations) {
+                cb(err, legislations)
+            })
+    }
 
     // MODEL FUNCTIONS ##############################################################################################
 
@@ -12,32 +162,30 @@ module.exports = function(Legislation) {
      * @callback {Function} cb The callback function
      */
     Legislation.getDuplicates = function(skip, limit, type, cb) {
-        var legislationCollection = Legislation.getDataSource().connector.collection("legislation");
+        var legislationCollection = Legislation.getDataSource().connector.collection('legislation')
         legislationCollection.aggregate([
-                { "$match": { $and: [{ "legislationType": { $eq: type } }, { "deleted": { $eq: false } }] } },
+                { '$match': { $and: [{ 'legislationType': { $eq: type } }, { 'deleted': { $eq: false } }] } },
                 {
-                    "$group": {
-                        "_id": { "legislationName": { $toUpper: "$legislationName" }, "legislationNumber": "$legislationNumber", "year": { $year: "$dateOfAssent" }, "chapterNumber": "$chapterNumber" },
-                        "uniqueIds": { "$addToSet": "$_id" },
-                        "count": { "$sum": 1 }
+                    '$group': {
+                        '_id': { 'legislationName': { $toUpper: '$legislationName' }, 'legislationNumber': '$legislationNumber', 'year': { $year: '$dateOfAssent' }, 'chapterNumber': '$chapterNumber' },
+                        'uniqueIds': { '$addToSet': '$_id' },
+                        'count': { '$sum': 1 }
                     }
                 },
-                { "$match": { "count": { "$gt": 1 } } }
+                { '$match': { 'count': { '$gt': 1 } } }
             ],
             function(err, legislations) {
                 if (err) {
-                    console.log(err);
-
+                    console.log(err)
                 } else {
-                    console.log(legislations.length);
+                    console.log(legislations.length)
                     legislations.map(function(legislation) {
-                        legislation.fields = legislation._id;
-                        delete legislation["_id"];
-
-                    });
+                        legislation.fields = legislation._id
+                        delete legislation['_id']
+                    })
                     cb(null, legislations)
                 }
-            });
+            })
     }
 
     /**
@@ -48,15 +196,13 @@ module.exports = function(Legislation) {
      */
 
     Legislation.namesakes = function(id, type, cb) {
-
-        var IDs = [];
+        var IDs = []
         id.forEach(function(id) {
             var legislationId = {
                 id: id
-            };
-            IDs.push(legislationId);
-        });
-
+            }
+            IDs.push(legislationId)
+        })
 
         Legislation.find({
             where: { or: IDs },
@@ -79,22 +225,21 @@ module.exports = function(Legislation) {
                     generalTitle: false,
                     preamble: false
                 }
-            },
+            }
 
         }, function(err, legislations) {
+            cb(null, legislations)
+        })
 
-            cb(null, legislations);
-        });
-
-        /*var query = {legislationType: {like: '.*'+ type +'.*', options:'i'}};
+        /*var query = {legislationType: {like: '.*'+ type +'.*', options:'i'}}
 
         var callback = function(error, legislation){
-          var year = new Date(legislation.dateOfAssent).getFullYear();
+          var year = new Date(legislation.dateOfAssent).getFullYear()
 
-          var startDate = new Date(year+'-01-01T24:00:00.000Z');
-          var endDate = new Date(year+'-12-31T23:59:00.000Z');
-          var yearQuery = {dateOfAssent: {between: [startDate,endDate]}};
-          console.log(yearQuery);
+          var startDate = new Date(year+'-01-01T24:00:00.000Z')
+          var endDate = new Date(year+'-12-31T23:59:00.000Z')
+          var yearQuery = {dateOfAssent: {between: [startDate,endDate]}}
+          console.log(yearQuery)
           Legislation.find(
             {where:{and:[{deleted:{neq:true}}, {legislationName:legislation.legislationName}, query, yearQuery]},
             filter:{ include: {
@@ -112,20 +257,15 @@ module.exports = function(Legislation) {
             },
 
           },function(err, legislations){
-            cb(null,legislations);
-          });
+            cb(null,legislations)
+          })
         }
         Legislation.findById(id,function(err, legislation){
           callback(null,legislation)
-        });
+        })
         */
 
-
-
-
-
     }
-
 
     /**
      * Create access token for the logged in user. This method can be overridden to
@@ -135,15 +275,15 @@ module.exports = function(Legislation) {
      */
 
     Legislation.mergeDuplicates = function(id, primary, cb) {
-        var app = Legislation.app;
-        var CaseLegislations = app.models.caseLegislations;
-        var IDs = [];
+        var app = Legislation.app
+        var CaseLegislations = app.models.caseLegislations
+        var IDs = []
         id.forEach(function(id) {
             var legislationId = {
                 id: id
-            };
-            IDs.push(legislationId);
-        });
+            }
+            IDs.push(legislationId)
+        })
 
         Legislation.find({
                 where: { or: IDs },
@@ -154,30 +294,29 @@ module.exports = function(Legislation) {
                         generalTitle: false,
                         preamble: false
                     }
-                },
+                }
             },
             function(err, legislations) {
                 console.log()
                 for (var i = 0; i < legislations.length; i++) {
-                    console.log("To merge", legislations.length);
-                    console.log(legislations[i].legislationName);
+                    console.log('To merge', legislations.length)
+                    console.log(legislations[i].legislationName)
                     if (String(legislations[i].id) !== String(primary)) {
-                        console.log(legislations[i].id + " | " + String(primary));
+                        console.log(legislations[i].id + ' | ' + String(primary))
                         CaseLegislations.updateAll({ legislationId: legislations[i].id }, { legislationId: primary }, function(err, info) {
-                            // console.log(info.count);
-                            console.log(info);
-                        });
+                            // console.log(info.count)
+                            console.log(info)
+                        })
                         Legislation.updateAll({ parentLegislation: legislations[i].id }, { parentLegislation: primary }, function(err, info) {
-                            console.log("Updated Parent Legislation", info);
-                        });
+                            console.log('Updated Parent Legislation', info)
+                        })
                         Legislation.updateAll({ id: legislations[i].id }, { deleted: true }, function(err, info) {
-                            console.log("deleted", info);
-                        });
+                            console.log('deleted', info)
+                        })
                     }
                 }
-                cb(null, primary);
-            });
-
+                cb(null, primary)
+            })
     }
 
     /**
@@ -189,9 +328,9 @@ module.exports = function(Legislation) {
 
     Legislation.restoreFromTrash = function(id, cb) {
         Legislation.updateAll({ id: id }, { deleted: false }, function(err, info) {
-            console.log("Restored from trash: ", info);
-            cb(null, info);
-        });
+            console.log('Restored from trash: ', info)
+            cb(null, info)
+        })
     }
 
     /**
@@ -202,32 +341,30 @@ module.exports = function(Legislation) {
      */
     Legislation.repareParagraphs = function(cb) {
         Legislation.find({}, (err, legislations) => {
-            console.log('Length ', legislations.length);
+            console.log('Length ', legislations.length)
             for (let i = 0; i < legislations.length - 1; i++) {
-                let legislation = legislations[i];
-                let parts = legislation.legislationParts ? legislation.legislationParts : [];
-                // console.log('Parts Length', parts.length)
-                let counter = 0;
+                let legislation = legislations[i]
+                let parts = legislation.legislationParts ? legislation.legislationParts : []
+                    // console.log('Parts Length', parts.length)
+                let counter = 0
                 for (let j = 0; j < parts.length - 1; j++) {
-                    let part = parts[j];
+                    let part = parts[j]
                     if (part.content) {
                         for (let s = 0; s < part.content.length - 1; s++) {
                             if (part.content.indexOf('\n') !== -1) {
-                                let newLineIndex = part.content.indexOf('\n');
+                                let newLineIndex = part.content.indexOf('\n')
                                 if (newLineIndex - 1 !== ';' && newLineIndex - 1 !== '.' && newLineIndex - 1 !== ':' && newLineIndex - 1 !== ';' && newLineIndex - 1 !== '-') {
-                                    (counter < 10) ? console.log('To fix', part.content): {};
-                                    //console.log('COUNTER', counter);
-                                    counter++;
-
+                                    (counter < 10) ? console.log('To fix', part.content): {}
+                                        // console.log('COUNTER', counter)
+                                    counter++
                                 }
                             }
                         }
-                    };
+                    }
                 }
             }
-        });
+        })
     }
-
 
     /**
      * Shows completion summary of legislations
@@ -236,20 +373,20 @@ module.exports = function(Legislation) {
      */
     Legislation.summary = function(cb) {
         Legislation.find({}, function(err, legislations) {
-            var summary = {};
-            var incomplete = [];
-            var complete = 0;
+            var summary = {}
+            var incomplete = []
+            var complete = 0
             legislations.forEach(function(legislation) {
                 if (legislation.completionStatus == true) {
-                    complete += 1;
+                    complete += 1
                 }
-            });
-            summary.totalLegislations = legislations.length;
-            summary.completedLegislations = complete;
-            summary.incompleteLegislations = summary.totalLegislations - summary.completedLegislations;
-            cb(null, summary);
-        });
-    };
+            })
+            summary.totalLegislations = legislations.length
+            summary.completedLegislations = complete
+            summary.incompleteLegislations = summary.totalLegislations - summary.completedLegislations
+            cb(null, summary)
+        })
+    }
 
     /**
      * Gets all unique occurences based on Legislation Name
@@ -257,18 +394,14 @@ module.exports = function(Legislation) {
      * @callback {Function} cb The callback function
      */
     Legislation.uniqueCount = function(data, cb) {
-        var legislationCollection = Legislation.getDataSource().connector.collection("legislation");
+        var legislationCollection = Legislation.getDataSource().connector.collection('legislation')
         legislationCollection.distinct('legislationName', function(err, legislations) {
-            if (err) {
-
-            } else {
-                var count = legislations.length;
+            if (err) {} else {
+                var count = legislations.length
                 cb(null, data, count)
             }
-
-        });
+        })
     }
-
 
     /**
      * Gets all unique occurences based on Legislation Name
@@ -276,45 +409,40 @@ module.exports = function(Legislation) {
      * @callback {Function} cb The callback function
      */
     Legislation.search = function(term, type, cb) {
-        var legislationCollection = Legislation.getDataSource().connector.collection("legislation");
+        var legislationCollection = Legislation.getDataSource().connector.collection('legislation')
         legislationCollection.aggregate([
-                { $match: { $and: [{ "legislationType": { $eq: type } }, { "deleted": { $eq: !true } }, { $text: { $search: "\"" + term + "\"" } }] } },
-                //{$match:{$text:{$search:"\""+term+"\""}}},
+                { $match: { $and: [{ 'legislationType': { $eq: type } }, { 'deleted': { $eq: !true } }, { $text: { $search: '"' + term + '"' } }] } },
+                // {$match:{$text:{$search:"\""+term+"\""}}},
                 {
                     $lookup: {
-                        from: "appuser",
-                        localField: "capturedById",
-                        foreignField: "_id",
-                        as: "capturedBy"
+                        from: 'appuser',
+                        localField: 'capturedById',
+                        foreignField: '_id',
+                        as: 'capturedBy'
                     }
                 }
             ],
             function(err, legislations) {
-                if (err) {
-
-                } else {
+                if (err) {} else {
                     legislations.map(function(legislation) {
-                        legislation.id = legislation._id;
-                        delete legislation["_id"];
-
-                    });
+                        legislation.id = legislation._id
+                        delete legislation['_id']
+                    })
                     cb(null, legislations)
                         /*legislations = legislations.toArray(function(err, legislations){
-                          //console.log("Count", legislations);
+                          //console.log("Count", legislations)
                           legislations.map(function(legislation){
-                            legislation.id = legislation._id;
-                            delete legislation["_id"];
+                            legislation.id = legislation._id
+                            delete legislation["_id"]
 
-                          });
+                          })
                           cb(null, legislations)
-                        });
+                        })
                         */
 
                 }
-
-            });
+            })
     }
-
 
     /**
      * Gets all unique occurences based on Legislation Name
@@ -322,12 +450,12 @@ module.exports = function(Legislation) {
      * @callback {Function} cb The callback function
      */
     Legislation.flexisearch = function(term, cb) {
-        var legislationCollection = Legislation.getDataSource().connector.collection("legislation");
+        var legislationCollection = Legislation.getDataSource().connector.collection('legislation')
         legislationCollection.aggregate([
-                { $match: { $and: [{ "deleted": { $eq: !true } }, { $text: { $search: term } }] } },
+                { $match: { $and: [{ 'deleted': { $eq: !true } }, { $text: { $search: term } }] } },
                 {
                     $project: {
-                        score: { $meta: "textScore" },
+                        score: { $meta: 'textScore' },
                         legislationName: true,
                         preamble: true,
                         legislationParts: true,
@@ -338,46 +466,40 @@ module.exports = function(Legislation) {
 
                     }
                 },
-                { $sort: { score: { $meta: "textScore" }, legislationName: -1 } }
+                { $sort: { score: { $meta: 'textScore' }, legislationName: -1 } }
 
             ],
             function(err, legislations) {
-                if (err) {
-
-                } else {
-                    //### TEMPORAL AREA OF LAW FIX --> Due to performance issues this should be addressed by changing areaOfLawId in Case Model to ObjectId type so that $lookup op can work
-                    var app = Legislation.app;
-                    var legislationTypes = app.models.legislationType;
-                    var counter = 0;
-
+                if (err) {} else {
+                    // ### TEMPORAL AREA OF LAW FIX --> Due to performance issues this should be addressed by changing areaOfLawId in Case Model to ObjectId type so that $lookup op can work
+                    var app = Legislation.app
+                    var legislationTypes = app.models.legislationType
+                    var counter = 0
 
                     legislations.map(function(legislation) {
-
-                        legislation.id = legislation._id;
-                        delete legislation["_id"];
+                        legislation.id = legislation._id
+                        delete legislation['_id']
                         legislationTypes.findById(ObjectId(legislation.legislationType), function(err, type) {
                             if (err) {
-                                console.log("Error ", err);
+                                console.log('Error ', err)
                             }
                             if (type == null) {
-                                console.log("Offending Legislation ", legislation.legislationName + " / " + legislation.id);
+                                console.log('Offending Legislation ', legislation.legislationName + ' / ' + legislation.id)
+                            } else {
+                                legislation.legislationType = type.name
                             }
-                            legislation.legislationType = type.name;
-                            counter++;
+
+                            counter++
                             if (counter == legislations.length) {
-                                cb(null, legislations);
+                                cb(null, legislations)
                             }
                         })
+                    })
 
-                    });
-
-                    //### END OF TEMPORAL AREA OF LAW FIX
+                    // ### END OF TEMPORAL AREA OF LAW FIX
 
                 }
-
-            });
-
-
+            })
     }
 
     /**
@@ -386,13 +508,12 @@ module.exports = function(Legislation) {
      * @callback {Function} cb The callback function
      */
     Legislation.viewLegislations = function(term, type, cb) {
-        var whereClause = { and: [{ deleted: { neq: true } }, { legislationType: { like: '.*' + type + '.*', options: 'i' } }] };
+        var whereClause = { and: [{ deleted: { neq: true } }, { legislationType: { like: '.*' + type + '.*', options: 'i' } }] }
 
         function callback(error, data) {
             Legislation.count(whereClause, function(err, count) {
-                cb(null, data, count);
+                cb(null, data, count)
             })
-
         }
 
         Legislation.find({
@@ -407,31 +528,26 @@ module.exports = function(Legislation) {
                     }
                 }
 
-
             },
             function(err, legislations) {
-                //### TEMPORAL AREA OF LAW FIX --> Due to performance issues this should be addressed by changing areaOfLawId in Case Model to ObjectId type so that $lookup op can work
-                var app = Legislation.app;
-                var legislationTypes = app.models.legislationType;
-                var counter = 0;
+                // ### TEMPORAL AREA OF LAW FIX --> Due to performance issues this should be addressed by changing areaOfLawId in Case Model to ObjectId type so that $lookup op can work
+                var app = Legislation.app
+                var legislationTypes = app.models.legislationType
+                var counter = 0
                 legislations.map(function(legislation) {
                     legislationTypes.findById(ObjectId(legislation.legislationType), function(err, type) {
-                        legislation.legislationType = type.name;
-                        counter++;
+                        legislation.legislationType = type.name
+                        counter++
                         if (counter == legislations.length) {
-                            callback(null, legislations);
+                            callback(null, legislations)
                         }
                     })
+                })
 
-                });
+                // ### END OF TEMPORAL AREA OF LAW FIX
 
-                //### END OF TEMPORAL AREA OF LAW FIX
-
-
-
-            });
+            })
     }
-
 
     /**
      * Lists all legislations that have not been soft deleted
@@ -440,32 +556,45 @@ module.exports = function(Legislation) {
      */
     Legislation.viewLegislation = function(id, cb) {
         function recursive(part) {
-            part.flattenedPartContent = "<ul>";
+            part.flattenedPartContent = '<ul>'
             part.subParts.forEach(function(subpart) {
-                part.flattenedPartContent = "<li>";
-                recursive(subpart);
-                part.flattenedPartContent += "</li>"
-
+                part.flattenedPartContent = '<li>'
+                recursive(subpart)
+                part.flattenedPartContent += '</li>'
             })
         }
         Legislation.findById(id,
             function(err, legislation) {
-                //### TEMPORAL AREA OF LAW FIX --> Due to performance issues this should be addressed by changing areaOfLawId in Case Model to ObjectId type so that $lookup op can work
-                var app = Legislation.app;
-                var legislationTypes = app.models.legislationType;
-                var counter = 0;
-                var legislationParts = legislation.legislationParts;
-                legislationParts.forEach(function(part) {
-                    var flattenedPartContent = "";
-
-                });
+                // ### TEMPORAL AREA OF LAW FIX --> Due to performance issues this should be addressed by changing areaOfLawId in Case Model to ObjectId type so that $lookup op can work
+                var app = Legislation.app
+                var legislationTypes = app.models.legislationType
+                var counter = 0
+                var legislationParts = legislation.legislationParts
+                    /*legislationParts.forEach(function(part) {
+                        var flattenedPartContent = ''
+                    })*/
                 legislationTypes.findById(ObjectId(legislation.legislationType), function(err, type) {
-                    legislation.legislationType = type.name;
-                    cb(null, legislation);
-                });
-            });
-    }
+                    legislation.legislationType = type.name
+                        // record this view for trends
+                    keenClient.recordEvent('legislationViews', {
+                        title: legislation.legislationName,
+                        summary: legislation.preamble,
+                        type: legislation.legislationType,
+                        sourceId: legislation.id
 
+                    })
+                    keenClient.recordEvent('dataViews', {
+                        title: legislation.legislationName,
+                        summary: legislation.preamble,
+                        type: 'legislation',
+                        sourceId: legislation.id
+
+                    })
+
+                    cb(null, legislation)
+                })
+            })
+    }
 
     /**
      * Lists all legislations that have been soft deleted
@@ -474,24 +603,50 @@ module.exports = function(Legislation) {
      */
     Legislation.viewTrash = function(cb) {
         /*var callback = function(error, legislations){
-          var deleted = [];
+          var deleted = []
           for (var i = 0; i < legislations.length; i++){
             if(legislations[i].deleted == true){
-              deleted.push(legislations[i]);
+              deleted.push(legislations[i])
             }
             if(i==legislations.length-1){
-              cb(null, deleted);
+              cb(null, deleted)
             }
           }
-
 
         }*/
 
         Legislation.find({ where: { deleted: true } }, function(err, legislations) {
-            cb(null, legislations);
-        });
+            cb(null, legislations)
+        })
     }
 
+    Legislation.fixTypes = function(cb) {
+        function callback(err, legislations) {
+            var count = 0
+            legislations.forEach(function(legislationInstance) {
+                legislationInstance.typeId = legislationInstance.legislationType.toString()
+                Legislation.upsert(legislationInstance, function(err, data) {
+                    console.log(count, data.typeId)
+                    console.log('length', legislations.length - 1)
+                    count++
+                    if (count == legislations.length - 1) {
+                        console.log(legislations.length)
+                        cb(null, 'done')
+                    }
+                })
+            })
+        }
+        Legislation.find({}, function(err, legislations) {
+            var fixable = []
+            legislations.forEach(function(legislationInstance) {
+                if (legislationInstance.legislationType !== undefined) {
+                    fixable.push(legislationInstance)
+                }
+            })
+
+            callback(null, fixable)
+        })
+    }
 
     /**
      * Gets all unique occurences based on Legislation Name
@@ -499,62 +654,195 @@ module.exports = function(Legislation) {
      * @callback {Function} cb The callback function
      */
     Legislation.mobilesearch = function(term, cb) {
-        var legislationCollection = Legislation.getDataSource().connector.collection("legislation");
-        legislationCollection.aggregate([
-                { $match: { $and: [{ "deleted": { $eq: !true } }, { $text: { $search: term } }] } },
-                {
-                    $project: {
-                        score: { $meta: "textScore" },
-                        legislationName: true,
-                        preamble: true,
-                        dateOfAssent: true,
-                        legislationNumber: true,
-                        legislationParts: true
+        // Record an event
 
-
-
+        var elasticsearch = require('elasticsearch')
+        let client = new elasticsearch.Client({
+            host: 'https://portal-ssl480-77.bmix-eu-gb-yp-57296cdb-df3a-492a-ba69-a46f7443cd8f.3432409090.composedb.com:18688/',
+            httpAuth: 'admin:IULWBNEBWZIVCEAA'
+        })
+        var searchParams = {
+            index: 'legislation',
+            size: 100,
+            body: {
+                sort: [{
+                    '_score': {
+                        'order': 'desc'
+                    }
+                }],
+                query: {
+                    multi_match: {
+                        query: term,
+                        fields: ['generalTitle', 'legislationNumbers', 'legislationNumber', 'preamble', 'legislationName^9', 'flattenedParts'],
+                        operator: 'and'
                     }
                 },
-                { $sort: { score: { $meta: "textScore" }, legislationName: -1 } }
+                highlight: {
+                    fields: {
+                        '*': { 'pre_tags': ['<strong>'], 'post_tags': ['</strong>'] }
+                    }
+                },
+                _source: ['legislationName', 'legislationNumbers', 'legislationNumber', '_id', 'preamble', 'flattenedParts', 'legislationType', 'volumeNumber', 'chapterNumber', 'dateOfAssent', 'yearOfAmendment']
 
-            ],
-            function(err, legislations) {
-                if (err) {
+            }
+        }
 
-                } else {
-                    //### TEMPORAL AREA OF LAW FIX --> Due to performance issues this should be addressed by changing areaOfLawId in Case Model to ObjectId type so that $lookup op can work
-                    var app = Legislation.app;
-                    var legislationTypes = app.models.legislationType;
-                    var counter = 0;
-                    cb(null, legislations);
-                    /*
-                    legislations.map(function(legislation){
+        client.search(searchParams).then(function(resp) {
+            let results = []
+            resp.hits.hits.forEach(function(h) {
+                    var highlight = h.highlight
+                    var highlights = ''
+                        // console.log(highlight)
+                    if (highlight.legislationName !== undefined) {
+                        h._source.legislationName = '<b>' + highlight.legislationName[0] + '</b>'
+                    } else {
+                        h._source.legislationName = '<b>' + h._source.legislationName + '</b>'
+                    }
 
-                      legislation.id = legislation._id;
-                      delete legislation["_id"];
-                      legislationTypes.findById(ObjectId(legislation.legislationType), function(err, type){
-                        if(err){
-                          console.log("Error ", err);
-                        }
-                        if (type==null){
-                          console.log("Offending Legislation ", legislation.legislationName + " / " +legislation.id);
-                        }
-                        legislation.legislationType = type.name;
-                        counter++;
-                        if(counter == legislations.length){
-                          cb(null,legislations);
-                        }
-                      })
+                    if (highlight.preamble !== undefined) {
+                        highlight.preamble.forEach(function(pre) {
+                            highlights = highlights + pre + '...'
+                        })
+                        highlights = '<b>Preamble: </b>' + highlights + '<br>'
+                    }
 
-                    });*/
+                    if (highlight.flattenedParts !== undefined) {
+                        highlight.flattenedParts.forEach(function(pre) {
+                            highlights = highlights + pre + '...'
+                        })
+                        highlights = highlights + '<br>'
+                    }
 
-                    //### END OF TEMPORAL AREA OF LAW FIX
+                    if (highlight.legislationNumbers !== undefined) {
+                        h._source.legislationNumbers = highlight.legislationNumber ? '<b>' + highlight.legislationNumbers + ', ' + highlight.legislationNumber + '</b>' : '<b>' + highlight.legislationNumbers + '</b>'
+                    }
 
+                    h._source.highlight = highlights
+                    h._source._id = h._id
+                    results.push(h._source)
+                })
+                // record this search
+            keenClient.recordEvent('legislationSearches', {
+                title: term
+            })
+            cb(null, results)
+        }, function(err) {
+            throw new Error(err)
+        })
+    }
+
+    /**
+     * Experimental - flattens legislation parts
+     *
+     * @callback {Function} cb The callback function
+     */
+    Legislation.viewLegislationWithFlattenedParts = function(id, itr) {
+        var flattenedJSON = ''
+
+        function recursive(instance, parts) {
+            for (var i = 0; i < parts.length; i++) {
+                flattenedJSON = flattenedJSON + ((parts[i].number) ? parts[i].number : '') + parts[i].title + '\n' + ((parts[i].content) ? parts[i].content + '\n' : '')
+                if (parts[i].title == instance.legislationParts[instance.legislationParts.length - 1].title) {
+                    instance.flattenedParts = flattenedJSON
+                    Legislation.upsert(instance, (err, res) => {
+                        console.log('update successful: ' + itr)
+                        return
+                    })
                 }
+                if (parts[i].subParts) {
+                    var subparts = parts[i].subParts
+                    recursive(instance, subparts, flattenedJSON)
+                }
+            }
+        }
+        Legislation.findById(id,
+            function(err, legislation) {
+                var legislationParts = legislation.legislationParts
+                recursive(legislation, legislationParts)
+            })
+    }
 
-            });
+    Legislation.flattenAllParts = function(type, cb) {
+        Legislation.find({ where: { deleted: false, legislationType: type } }, function(err, legislations) {
+            for (var i = 0; i < legislations.length - 1; i++) {
+                var legislation = legislations[i]
+                if (i == legislations.length - 1) {
+                    cb(null, legislations.length)
+                } else {
+                    if (legislation.legislationParts && !legislation.flattenedParts) {
+                        Legislation.viewLegislationWithFlattenedParts(legislation.id, i)
+                    }
+                }
+            }
+        })
+    }
 
+    Legislation.flattenParts = function(legislation) {
+        var flattenedJSON = ''
+        recursive(legislation)
+        console.log(legislation.id + ' ' + legislation.legislationName)
 
+        var callback = function(err, res) {
+            console.log('cb')
+        }
+
+        function recursive(legislation) {
+            for (var i = 0; i < legislation.legislationParts.length; i++) {
+                var content = ''
+
+                if (legislation.legislationParts[i].subParts && legislation.legislationParts[i].subParts.length > 0) {
+                    flattenSubItems(legislation.legislationParts[i], legislation.legislationParts[i].subParts, i)
+                        // console.log("after recursion", content)
+                    legislation.legislationParts[i].flatContentNew = content
+                    content = ''
+                }
+                if (i == legislation.legislationParts.length - 1) {
+                    Legislation.upsert(legislation, (err, res) => {
+                            // console.log('update successful: ')
+                            return
+                        })
+                        // console.log(legislation.legislationParts)
+
+                    // return
+                }
+            }
+
+            function flattenSubItems(part, parts, itr) {
+                // console.log("in recusive func")
+                for (var i = 0; i < parts.length; i++) {
+                    var partNumber = (parts[i].number) ? parts[i].number : ''
+                    var title = (parts[i].title == undefined || parts[i].title == '') ? parts[i].number : '<h1>' + parts[i].number + parts[i].title + '</h1>'
+                    var partContent = (parts[i].title == undefined || parts[i].title == '') ? '<p>' + title + (parts[i].content ? parts[i].content + '</p>' : '</p>') : title + '<p>' + (parts[i].content ? parts[i].content + '</p>' : '</p>')
+                    content = content + partContent
+                    if (parts[i].subParts) {
+                        flattenSubItems(parts[i], parts[i].subParts)
+                    }
+                }
+                // part.flatContent = content
+                // console.log(part.flatContent)
+
+            }
+        }
+    }
+
+    Legislation.flattenAllLegislations = function(type, cb) {
+        Legislation.find({
+            where: {
+                deleted: false,
+                legislationType: type
+            }
+        }, function(err, legislations) {
+            for (var i = 0; i < legislations.length - 1; i++) {
+                var legislation = legislations[i]
+                if (i == legislations.length - 1) {
+                    cb(null, legislations.length)
+                } else {
+                    if (legislation.legislationParts) {
+                        Legislation.flattenParts(legislation)
+                    }
+                }
+            }
+        })
     }
 
     // REMOTE METHODS ##############################################################################################
@@ -571,7 +859,42 @@ module.exports = function(Legislation) {
                 { arg: 'duplicates', type: 'Object' },
                 { arg: 'uniqueCount', type: 'Object' }
             ]
-        });
+        })
+
+    Legislation.remoteMethod(
+        'getByYear', {
+            http: {
+                path: '/getByYear',
+                verb: 'get'
+            },
+            accepts: [{
+                arg: 'year',
+                type: 'number'
+            }, {
+                arg: 'type',
+                type: 'string'
+            }],
+            returns: {
+                arg: 'legislations',
+                type: 'array'
+            }
+        })
+
+    Legislation.remoteMethod(
+        'getByVolume', {
+            http: {
+                path: '/getByVolume',
+                verb: 'get'
+            },
+            accepts: {
+                arg: 'volume',
+                type: 'number'
+            },
+            returns: {
+                arg: 'legislations',
+                type: 'array'
+            }
+        })
 
     Legislation.remoteMethod(
         'namesakes', {
@@ -581,8 +904,7 @@ module.exports = function(Legislation) {
                 { arg: 'type', type: 'string' }
             ],
             returns: { arg: 'namesakes', type: 'Object' }
-        });
-
+        })
 
     Legislation.remoteMethod(
         'mergeDuplicates', {
@@ -592,14 +914,14 @@ module.exports = function(Legislation) {
                 { arg: 'primary', type: 'string' }
             ],
             returns: { arg: 'result', type: 'Object' }
-        });
+        })
 
     Legislation.remoteMethod(
         'restoreFromTrash', {
             http: { path: '/restore', verb: 'get' },
             accepts: { arg: 'id', type: 'string' },
             returns: { arg: 'result', type: 'Object' }
-        });
+        })
 
     Legislation.remoteMethod(
         'search', {
@@ -609,78 +931,119 @@ module.exports = function(Legislation) {
                 { arg: 'type', type: 'string' }
             ],
             returns: { arg: 'legislations', type: 'Object' }
-        });
-
+        })
 
     Legislation.remoteMethod(
         'flexisearch', {
             http: { path: '/flexisearch', verb: 'get' },
             accepts: { arg: 'term', type: 'string' },
             returns: { arg: 'legislations', type: 'Object' }
-        });
+        })
 
     Legislation.remoteMethod(
         'mobilesearch', {
             http: { path: '/mobilesearch', verb: 'get' },
             accepts: { arg: 'term', type: 'string' },
-            returns: { arg: 'legislations', type: 'Object' }
-        });
+            returns: { arg: 'legislations', type: 'Object', root: true }
+        })
 
     Legislation.remoteMethod(
         'summary', {
             http: { path: '/summary', verb: 'get' },
             returns: { arg: 'summary', type: 'Object' }
-        });
+        })
 
     Legislation.remoteMethod(
         'viewLegislations', {
             http: { path: '/viewLegislations', verb: 'get' },
             accepts: [
-                { arg: 'term', type: 'number' }, //term is a placeholder for skip
+                { arg: 'term', type: 'number' }, // term is a placeholder for skip
                 { arg: 'type', type: 'string' }
             ],
             returns: [
                 { arg: 'legislations', type: 'array' },
                 { arg: 'count', type: 'number' }
             ]
-        });
+        })
+
+    Legislation.remoteMethod(
+        'getByType', {
+            http: { path: '/getByType', verb: 'get' },
+            accepts: { arg: 'type', type: 'string' },
+            returns: { arg: 'legislations', type: 'array' }
+        })
 
     Legislation.remoteMethod(
         'viewTrash', {
             http: { path: '/trash', verb: 'get' },
             returns: { arg: 'trash', type: 'Object' }
-        });
-
+        })
 
     Legislation.remoteMethod(
         'repareLegislationType', {
             http: { path: '/repare', verb: 'get' },
             returns: { arg: 'info', type: 'Object' }
-        });
+        })
 
     Legislation.remoteMethod(
         'viewLegislation', {
             http: { path: '/viewLegislation', verb: 'get' },
             accepts: { arg: 'id', type: 'string' },
             returns: { arg: 'legislation', type: 'Object' }
-        });
+        })
 
+    Legislation.remoteMethod(
+        'viewLegislationWithFlattenedParts', {
+            http: { path: '/viewLegislationWithFlattenedParts', verb: 'get' },
+            accepts: { arg: 'id', type: 'string' },
+            returns: { arg: 'legislation', type: 'Object' }
+        })
+
+    Legislation.remoteMethod(
+        'flattenAllParts', {
+            http: { path: '/flattenAllParts', verb: 'get' },
+            accepts: { arg: 'type', type: 'string' },
+            returns: { arg: 'legislation', type: 'number' }
+        })
+
+    Legislation.remoteMethod(
+        'flattenAllLegislations', {
+            http: {
+                path: '/flattenAllLegislations',
+                verb: 'get'
+            },
+            accepts: {
+                arg: 'type',
+                type: 'string'
+            },
+            returns: {
+                arg: 'legislation',
+                type: 'number'
+            }
+        })
+
+    Legislation.remoteMethod(
+        'fixTypes', {
+            http: { path: '/fixTypes', verb: 'get' },
+            returns: { arg: 'result', type: 'string' }
+        }
+    )
 
     // HOOKS ########################################################################################################
 
     Legislation.observe('after save', function updatePerformance(ctx, next) {
-        var app = Legislation.app;
-        var Appuser = app.models.appuser;
+        var app = Legislation.app
+        var Appuser = app.models.appuser
         Appuser.find({}, function(err, users) {
-            var performanceArray = [];
+            var performanceArray = []
             users.forEach(function(user) {
-                user.performance = 0;
+                user.performance = 0
                 Legislation.find({ where: { capturedById: user.id, completionStatus: true } }, function(err, numberoflegislations) {
-                    user.performance = numberoflegislations.length;
-                    Appuser.upsert(user);
-                });
-            });
-        });
-        next();
-    });
-};
+                    user.performance = numberoflegislations.length
+                    Appuser.upsert(user)
+                })
+            })
+        })
+        next()
+    })
+}

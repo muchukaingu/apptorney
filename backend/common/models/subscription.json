@@ -1,0 +1,41 @@
+{
+    "name": "subscription",
+    "plural": "subscriptions",
+    "base": "PersistedModel",
+    "idInjection": true,
+    "options": {
+        "validateUpsert": true
+    },
+    "properties": {
+        "organization": {
+            "type": "string",
+            "required": false
+        },
+        "numberOfSlots": {
+            "type": "number",
+            "required": true,
+            "default": 0
+        },
+        "numberOfAssignments": {
+            "type": "number",
+            "required": true,
+            "default": 0
+        },
+        "activationDate": {
+            "type": "date",
+            "required": true
+        },
+        "expiryDate": {
+            "type": "date",
+            "required": true
+        },
+        "userActivationCode": {
+            "type": "string",
+            "required": false
+        }
+    },
+    "validations": [],
+    "relations": {},
+    "acls": [],
+    "methods": {}
+}

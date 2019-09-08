@@ -18,17 +18,25 @@
             {
                 "relation": "amendedLegislations",
                 "scope": {
-                    "fields": ["id", "legislationName"]
+                    "fields": ["id", "legislationName", "year", "legislationParts"]
 
                 }
             },
             {
                 "relation": "replacedLegislations",
                 "scope": {
-                    "fields": ["id", "legislationName"]
+                    "fields": ["id", "legislationName", "year"]
+
+                }
+            },
+            {
+                "relation": "repealedLegislations",
+                "scope": {
+                    "fields": ["id", "legislationName", "year"]
 
                 }
             }
+
 
 
         ]
@@ -121,6 +129,11 @@
             "type": "referencesMany",
             "model": "legislation",
             "foreignKey": "replacedLegislationIds"
+        },
+        "repealedLegislations": {
+            "type": "referencesMany",
+            "model": "legislation",
+            "foreignKey": "repealedLegislationIds"
         },
         "parentLegislation": {
             "type": "belongsTo",

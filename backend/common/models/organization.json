@@ -1,0 +1,35 @@
+{
+    "name": "Organization",
+    "base": "PersistedModel",
+    "idInjection": true,
+    "options": {
+        "validateUpsert": true
+    },
+    "properties": {
+        "name": {
+            "type": "string",
+            "required": true
+        },
+        "physicalAddress": {
+            "type": "string",
+            "required": true
+        },
+        "contact": {
+            "type": "string",
+            "required": true
+        },
+        "otherInformation": {
+            "type": "string"
+        }
+    },
+    "validations": [],
+    "relations": {
+        "employees": {
+            "type": "hasMany",
+            "model": "Customer",
+            "foreignKey": ""
+        }
+    },
+    "acls": [],
+    "methods": {}
+}

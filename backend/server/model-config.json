@@ -1,148 +1,206 @@
 {
-  "_meta": {
-    "sources": [
-      "loopback/common/models",
-      "loopback/server/models",
-      "../common/models",
-      "./models"
-    ],
-    "mixins": [
-      "loopback/common/mixins",
-      "loopback/server/mixins",
-      "../node_modules/loopback-softdelete-mixin",
-      "../common/mixins",
-      "./mixins"
-    ]
-  },
-  "User": {
-    "dataSource": "apptorney"
-  },
-  "AccessToken": {
-    "dataSource": "apptorney",
-    "public": false
-  },
-  "ACL": {
-    "dataSource": "apptorney",
-    "public": false
-  },
-  "RoleMapping": {
-    "dataSource": "apptorney",
-    "public": false
-  },
-  "Role": {
-    "dataSource": "apptorney",
-    "public": false
-  },
-  "advocate": {
-    "dataSource": "apptorney",
-    "public": true
-  },
-  "areaOfLaw": {
-    "dataSource": "apptorney",
-    "public": true
-  },
-  "caseLegislations": {
-    "dataSource": "apptorney",
-    "public": true
-  },
-  "case": {
-    "dataSource": "apptorney",
-    "public": true
-  },
-  "caseCases": {
-    "dataSource": "apptorney",
-    "public": true
-  },
-  "caseWorks": {
-    "dataSource": "apptorney",
-    "public": true
-  },
-  "citationDescriptions": {
-    "dataSource": "apptorney",
-    "public": true
-  },
-  "citation": {
-    "dataSource": "apptorney",
-    "public": true
-  },
-  "court": {
-    "dataSource": "apptorney",
-    "public": true
-  },
-  "enactment": {
-    "dataSource": "apptorney",
-    "public": true
-  },
-  "file": {
-    "dataSource": "apptorney",
-    "public": true
-  },
-  "lawFirm": {
-    "dataSource": "apptorney",
-    "public": true
-  },
-  "legislationPart": {
-    "dataSource": "apptorney",
-    "public": true
-  },
-  "partType": {
-    "dataSource": "apptorney",
-    "public": true
-  },
-  "legislation": {
-    "dataSource": "apptorney",
-    "public": true
-  },
-  "legislationType": {
-    "dataSource": "apptorney",
-    "public": true
-  },
-  "work": {
-    "dataSource": "apptorney",
-    "public": true
-  },
-  "appearance": {
-    "dataSource": "apptorney",
-    "public": true
-  },
-  "plaintiffSynonyms": {
-    "dataSource": "apptorney",
-    "public": true
-  },
-  "defendantSynonyms": {
-    "dataSource": "apptorney",
-    "public": true
-  },
-  "jurisdiction": {
-    "dataSource": "apptorney",
-    "public": true
-  },
-  "location": {
-    "dataSource": "apptorney",
-    "public": true
-  },
-  "courtDivision": {
-    "dataSource": "apptorney",
-    "public": true
-  },
-  "party": {
-    "dataSource": "apptorney",
-    "public": false
-  },
-  "appuser": {
-    "dataSource": "apptorney",
-    "public": true
-  },
-  "table": {
-    "dataSource": "apptorney",
-    "public": true
-  },
-  "container": {
-    "dataSource": "storage",
-    "public": true
-  },
-  "dashboard": {
-    "dataSource": "storage",
-    "public": true
-  }
+    "_meta": {
+        "sources": [
+            "loopback/common/models",
+            "loopback/server/models",
+            "../common/models",
+            "./models"
+        ],
+        "mixins": [
+            "loopback/common/mixins",
+            "loopback/server/mixins",
+            "../node_modules/loopback-softdelete-mixin",
+            "../common/mixins",
+            "./mixins"
+        ]
+    },
+    "User": {
+        "dataSource": "apptorney"
+    },
+    "Email": {
+        "dataSource": "Email"
+    },
+    "AccessToken": {
+        "dataSource": "apptorney",
+        "public": false
+    },
+    "ACL": {
+        "dataSource": "apptorney",
+        "public": false
+    },
+    "RoleMapping": {
+        "dataSource": "apptorney",
+        "public": false
+    },
+    "Role": {
+        "dataSource": "apptorney",
+        "public": false
+    },
+    "advocate": {
+        "dataSource": "apptorney",
+        "public": true
+    },
+    "areaOfLaw": {
+        "dataSource": "apptorney",
+        "public": true
+    },
+    "bookmark": {
+        "dataSource": "apptorney",
+        "public": true
+    },
+
+    "news": {
+        "dataSource": "apptorney",
+        "public": true
+    },
+
+    "trending": {
+        "dataSource": "apptorney",
+        "public": true
+    },
+    "caseLegislations": {
+        "dataSource": "apptorney",
+        "public": true
+    },
+    "case": {
+        "dataSource": "apptorney",
+        "public": true
+    },
+    "caseCases": {
+        "dataSource": "apptorney",
+        "public": true
+    },
+    "caseWorks": {
+        "dataSource": "apptorney",
+        "public": true
+    },
+    "citationDescriptions": {
+        "dataSource": "apptorney",
+        "public": true
+    },
+    "citation": {
+        "dataSource": "apptorney",
+        "public": true
+    },
+    "Customer": {
+        "dataSource": "apptorney",
+        "public": true
+    },
+    "court": {
+        "dataSource": "apptorney",
+        "public": true
+    },
+    "enactment": {
+        "dataSource": "apptorney",
+        "public": true
+    },
+    "file": {
+        "dataSource": "apptorney",
+        "public": true
+    },
+    "lawFirm": {
+        "dataSource": "apptorney",
+        "public": true
+    },
+    "legislationPart": {
+        "dataSource": "apptorney",
+        "public": true
+    },
+    "partType": {
+        "dataSource": "apptorney",
+        "public": true
+    },
+    "legislation": {
+        "dataSource": "apptorney",
+        "public": true
+    },
+    "legislationType": {
+        "dataSource": "apptorney",
+        "public": true
+    },
+    "work": {
+        "dataSource": "apptorney",
+        "public": true
+    },
+    "appearance": {
+        "dataSource": "apptorney",
+        "public": true
+    },
+    "plaintiffSynonyms": {
+        "dataSource": "apptorney",
+        "public": true
+    },
+    "defendantSynonyms": {
+        "dataSource": "apptorney",
+        "public": true
+    },
+    "jurisdiction": {
+        "dataSource": "apptorney",
+        "public": true
+    },
+    "location": {
+        "dataSource": "apptorney",
+        "public": true
+    },
+    "courtDivision": {
+        "dataSource": "apptorney",
+        "public": true
+    },
+    "party": {
+        "dataSource": "apptorney",
+        "public": false
+    },
+    "appuser": {
+        "dataSource": "apptorney",
+        "public": true
+    },
+    "table": {
+        "dataSource": "apptorney",
+        "public": true
+    },
+    "container": {
+        "dataSource": "storage",
+        "public": true
+    },
+    "dashboard": {
+        "dataSource": "storage",
+        "public": true
+    },
+    "tier": {
+        "dataSource": "apptorney",
+        "public": true
+    },
+    "search": {
+        "dataSource": "apptorney",
+        "public": true
+    },
+    "subscription": {
+        "dataSource": "apptorney",
+        "public": true
+    },
+    "subscriptionType": {
+        "dataSource": "apptorney",
+        "public": true
+    },
+    "contact": {
+        "dataSource": "apptorney",
+        "public": true
+    },
+    "responseHandler": {
+        "dataSource": "apptorney",
+        "public": false
+    },
+    "update": {
+        "dataSource": "apptorney",
+        "public": true
+    },
+    "feedback": {
+        "dataSource": "apptorney",
+        "public": true
+    },
+    "userStats": {
+        "dataSource": "apptorney",
+        "public": true
+    }
+
 }

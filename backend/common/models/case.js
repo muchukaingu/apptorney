@@ -488,19 +488,19 @@ module.exports = function(Case) {
                     {
                         relation: 'legislationsReferedTo', // include the owner object
                         scope: { // further filter the owner object
-                            fields: ['legislationName', 'deleted'] // only show two fields
+                            fields: ['legislationName', 'deleted', 'isStub'] // only show two fields
                         }
                     },
                     {
                         relation: 'casesReferedTo', // include the owner object
                         scope: { // further filter the owner object
-                            fields: ['name', 'deleted'] // only show two fields
+                            fields: ['name', 'deleted', 'isStub'] // only show two fields
                         }
                     },
                     {
                         relation: 'workReferedTo', // include the owner object
                         scope: { // further filter the owner object
-                            fields: ['name', 'deleted'] // only show two fields
+                            fields: ['name', 'deleted', 'isStub'] // only show two fields
                         }
                     },
                     {

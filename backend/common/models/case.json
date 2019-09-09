@@ -310,23 +310,19 @@
             "foreignKey": ""
         },
         "workReferedTo": {
-            "type": "hasMany",
+            "type": "referencesMany",
             "model": "work",
-            "foreignKey": "caseId",
-            "through": "caseWorks"
+            "foreignKey": "workReferedToIds"
         },
         "legislationsReferedTo": {
-            "type": "hasMany",
+            "type": "referencesMany",
             "model": "legislation",
-            "foreignKey": "caseId",
-            "through": "caseLegislations"
+            "foreignKey": "legislationsReferedToIds"
         },
         "casesReferedTo": {
-            "type": "hasMany",
+            "type": "referencesMany",
             "model": "case",
-            "foreignKey": "caseId",
-            "through": "caseCases",
-            "keyThrough": "caseReferedToId"
+            "foreignKey": "casesReferedToIds"
         },
         "caseCases": {
             "type": "hasMany",

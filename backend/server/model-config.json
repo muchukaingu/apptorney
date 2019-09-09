@@ -186,6 +186,10 @@
         "dataSource": "apptorney",
         "public": true
     },
+    "directory": {
+        "dataSource": "apptorney",
+        "public": true
+    },
     "responseHandler": {
         "dataSource": "apptorney",
         "public": false

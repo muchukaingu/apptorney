@@ -28,7 +28,8 @@
         "nexmo": "^2.1.1",
         "serve-favicon": "^2.0.1",
         "strong-error-handler": "^2.3.2",
-        "twilio": "^3.14.0"
+        "twilio": "^3.14.0",
+        "mailgun-js": "^0.22.0"
     },
     "devDependencies": {
         "eslint": "^2.5.3",

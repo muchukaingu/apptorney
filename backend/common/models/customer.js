@@ -1,41 +1,41 @@
-module.exports = function(Customer) {
+module.exports = function (Customer) {
     const { ObjectId } = require('mongodb') // or ObjectID
     Customer.validatesUniquenessOf('emailAddress', { message: 'Customer with this email address already exists' })
     Customer.validatesUniquenessOf('phoneNumber', { message: 'Customer with this phone number already exists' })
-        // var loan = {}
+    // var loan = {}
     Customer.remoteMethod(
         'summary', {
-            http: { path: '/summary', verb: 'get' },
-            accepts: { arg: 'id', type: 'string' },
-            returns: { arg: 'summary', type: 'Object' }
-        })
+        http: { path: '/summary', verb: 'get' },
+        accepts: { arg: 'id', type: 'string' },
+        returns: { arg: 'summary', type: 'Object' }
+    })
 
     Customer.remoteMethod(
         'bookmark', {
-            http: { path: '/bookmark', verb: 'post' },
-            accepts: [
-                { arg: 'sourceId', type: 'string' },
-                { arg: 'username', type: 'string' },
-                { arg: 'type', type: 'string' }
-            ],
-            returns: { arg: 'bookmark', type: 'Object' }
-        })
+        http: { path: '/bookmark', verb: 'post' },
+        accepts: [
+            { arg: 'sourceId', type: 'string' },
+            { arg: 'username', type: 'string' },
+            { arg: 'type', type: 'string' }
+        ],
+        returns: { arg: 'bookmark', type: 'Object' }
+    })
 
     Customer.remoteMethod(
         'bookmarks', {
-            http: { path: '/bookmarks', verb: 'get' },
-            accepts: { arg: 'username', type: 'string' },
-            returns: { arg: 'bookmarks', type: 'Object', root: true }
-        })
+        http: { path: '/bookmarks', verb: 'get' },
+        accepts: { arg: 'username', type: 'string' },
+        returns: { arg: 'bookmarks', type: 'Object', root: true }
+    })
 
     /**
      * Shows completion summary of legislations
      *
      * @callback {Function} cb The callback function
      */
-    Customer.summary = function(id, cb) {
+    Customer.summary = function (id, cb) {
         var app = Customer.app
-            // var Loan = app.models.LoanTransaction
+        // var Loan = app.models.LoanTransaction
 
         /*function callback(err, customer) {
             Loan.find({ where: { customerId: customer.id, status: { neq: "disbursed" } } }, function(err, loans) {
@@ -47,11 +47,11 @@ module.exports = function(Customer) {
             })
         }*/
         Customer.findById(id, {
-                /*include: {
-                    relation: 'loans'
-                }*/
-            },
-            function(err, customer) {
+            /*include: {
+                relation: 'loans'
+            }*/
+        },
+            function (err, customer) {
                 // callback(null, customer)
                 cb(null, customer)
             })
@@ -62,20 +62,20 @@ module.exports = function(Customer) {
      * @param {String} id 
      * @callback {Function} cb The callback function
      */
-    Customer.bookmark = function(sourceId, username, type, cb) {
+    Customer.bookmark = function (sourceId, username, type, cb) {
         var app = Customer.app
         var Case = app.models.Case
         var Legislation = app.models.Legislation
-            // Case Bookmarks
+        // Case Bookmarks
         username = username.replace("+", "")
 
         if (type == 'case') {
-            this.findOne({ where: { phoneNumber: username } }, function(err, customer) {
+            this.findOne({ where: { phoneNumber: username } }, function (err, customer) {
                 if (customer == null) {
                     cb(err, null)
                 } else {
                     Case.findOne({ where: { id: ObjectId(sourceId) } },
-                        function(err, instance) {
+                        function (err, instance) {
                             if (instance == null) {
                                 console.log('case not found', sourceId)
                                 cb(err, null)
@@ -83,16 +83,17 @@ module.exports = function(Customer) {
                                 var bookmark = {
                                     title: instance.name,
                                     summary: instance.summaryOfFacts,
+                                    judgement: instance.judgement,
                                     sourceId: instance.id,
                                     type: 'case'
                                 }
                                 if (customer.bookmarks == undefined) { customer.bookmarks = [] }
                                 var found = 0
-                                customer.bookmarks.forEach(function(bookmark) {
+                                customer.bookmarks.forEach(function (bookmark) {
                                     if (bookmark.sourceId == sourceId) {
                                         found++
                                         customer.bookmarks.splice(customer.bookmarks.indexOf(bookmark), 1)
-                                        customer.save(function(err) {
+                                        customer.save(function (err) {
                                             if (err) {
                                                 cb(err)
                                             } else {
@@ -105,7 +106,7 @@ module.exports = function(Customer) {
                                 })
                                 if (found == 0) {
                                     customer.bookmarks.push(bookmark)
-                                    customer.save(function(err) {
+                                    customer.save(function (err) {
                                         if (err) {
                                             cb(err)
                                         } else {
@@ -120,12 +121,12 @@ module.exports = function(Customer) {
                 }
             })
         } else if (type == 'legislation') {
-            this.findOne({ where: { phoneNumber: username } }, function(err, customer) {
+            this.findOne({ where: { phoneNumber: username } }, function (err, customer) {
                 if (customer == null) {
                     cb(err, null)
                 } else {
                     Legislation.findOne({ where: { id: ObjectId(sourceId) } },
-                        function(err, instance) {
+                        function (err, instance) {
                             if (instance == null) {
                                 console.log('legislation not found', sourceId)
                                 cb(err, null)
@@ -138,11 +139,11 @@ module.exports = function(Customer) {
                                 }
                                 if (customer.bookmarks == undefined) { customer.bookmarks = [] }
                                 var found = 0
-                                customer.bookmarks.forEach(function(bookmark) {
+                                customer.bookmarks.forEach(function (bookmark) {
                                     if (bookmark.sourceId == sourceId) {
                                         found++
                                         customer.bookmarks.splice(customer.bookmarks.indexOf(bookmark), 1)
-                                        customer.save(function(err) {
+                                        customer.save(function (err) {
                                             if (err) {
                                                 cb(err)
                                             } else {
@@ -155,7 +156,7 @@ module.exports = function(Customer) {
                                 })
                                 if (found == 0) {
                                     customer.bookmarks.push(bookmark)
-                                    customer.save(function(err) {
+                                    customer.save(function (err) {
                                         if (err) {
                                             cb(err)
                                         } else {
@@ -177,38 +178,38 @@ module.exports = function(Customer) {
      * @param {String} id 
      * @callback {Function} cb The callback function
      */
-    Customer.bookmarks = function(username, cb) {
-            var app = Customer.app
-            var Case = app.models.Case
+    Customer.bookmarks = function (username, cb) {
+        var app = Customer.app
+        var Case = app.models.Case
 
-            /*function callback(err, customer) {
-                Loan.find({ where: { customerId: customer.id, status: { neq: "disbursed" } } }, function(err, loans) {
-                    var aCustomer = {}
-                    aCustomer = customer
-                    aCustomer.currentLoans = loans
-                    console.info('Customer', aCustomer)
-                    cb(null, aCustomer)
-                })
-            }*/
-
-            username = username.replace("+", "")
-
-            this.findOne({ where: { phoneNumber: username } }, function(err, customer) {
-                if (customer == null) {
-                    cb(err, null)
-                } else {
-                    var lastAccess = new Date(Date.now())
-                    customer.lastAccess = lastAccess;
-                    customer.save();
-                    if (customer.bookmarks == undefined) { customer.bookmarks = [] }
-                    cb(null, customer.bookmarks)
-                }
+        /*function callback(err, customer) {
+            Loan.find({ where: { customerId: customer.id, status: { neq: "disbursed" } } }, function(err, loans) {
+                var aCustomer = {}
+                aCustomer = customer
+                aCustomer.currentLoans = loans
+                console.info('Customer', aCustomer)
+                cb(null, aCustomer)
             })
-        }
-        //
+        }*/
+
+        username = username.replace("+", "")
+
+        this.findOne({ where: { phoneNumber: username } }, function (err, customer) {
+            if (customer == null) {
+                cb(err, null)
+            } else {
+                var lastAccess = new Date(Date.now())
+                customer.lastAccess = lastAccess;
+                customer.save();
+                if (customer.bookmarks == undefined) { customer.bookmarks = [] }
+                cb(null, customer.bookmarks)
+            }
+        })
+    }
+    //
 
 
-    Customer.beforeRemote('create', function(context, customer, next) {
+    Customer.beforeRemote('create', function (context, customer, next) {
         var app = Customer.app;
         var Appuser = app.models.Appuser;
         var Subscription = app.models.Subscription;
@@ -222,7 +223,7 @@ module.exports = function(Customer) {
             count++
         }
         var customer = context.req.body;
-        Appuser.create({ username: customer.phoneNumber.replace("+", ""), email: customer.emailAddress, password: customer.password, pwd: customer.password, firstname: customer.firstName, lastname: customer.lastName, customerId: customer.id, phoneVerified: true }, function(err, user) {
+        Appuser.create({ username: customer.phoneNumber.replace("+", ""), email: customer.emailAddress, password: customer.password, pwd: customer.password, firstname: customer.firstName, lastname: customer.lastName, customerId: customer.id, phoneVerified: true }, function (err, user) {
             if (err) {
 
                 //if(err.details.codes)

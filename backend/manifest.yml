@@ -2,7 +2,7 @@ path: .
 memory: 1G
 instances: 2
 domain: eu-gb.mybluemix.net
-name: 'Apptorney Backend'
+name: "Apptorney Backend"
 host: apptorney-api
 disk_quota: 1G
 x-ibm-configuration:

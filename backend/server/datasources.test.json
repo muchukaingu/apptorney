@@ -22,16 +22,18 @@
         "name": "Email",
         "defaultForType": "mail",
         "connector": "mail",
-        "transports": [{
-            "type": "SMTP",
-            "host": "n1plcpnl0109.prod.ams1.secureserver.net",
-            "secure": true,
-            "port": 465,
-            "auth": {
-                "user": "noreply@lupiya.com",
-                "pass": "TeamLupiya@123"
+        "transports": [
+            {
+                "type": "SMTP",
+                "host": "smtp.mailgun.org",
+                "secure": true,
+                "port": 465,
+                "auth": {
+                    "user": "postmaster@mg.apptorney.org",
+                    "pass": "6b1e8bc7cc0612fbee5a7b214740ca78-77751bfc-50e41d0a"
+                }
             }
-        }]
+        ]
     },
     "transient": {
         "name": "transient",

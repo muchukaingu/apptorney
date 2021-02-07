@@ -7,7 +7,7 @@ var crypto = require('crypto')
 var assert = require('assert')
 var debug = require('debug')
 const Nexmo = require('nexmo')
-    // var dateFormat = require('dateformat')
+// var dateFormat = require('dateformat')
 
 // const nexmo = new Nexmo({
 //     apiKey: '3e93649c',
@@ -21,7 +21,9 @@ var messagingServiceSid = 'MG587973a6cc592b7694e19295c4897e73'
 var twilio = require('twilio')
 var client = new twilio(accountSid, authToken)
 
-module.exports = function(Appuser) {
+var mail = require("./shared/mail");
+
+module.exports = function (Appuser) {
 
     /**
      * Normalize the credentials
@@ -30,7 +32,7 @@ module.exports = function(Appuser) {
      * @param {String} realmDelimiter The realm delimiter, if not set, no realm is needed
      * @returns {Object} The normalized credential object
      */
-    Appuser.normalizeCredentials = function(credentials, realmRequired, realmDelimiter) {
+    Appuser.normalizeCredentials = function (credentials, realmRequired, realmDelimiter) {
         console.log('Normalizing creds')
         var query = {}
         credentials = credentials || {}
@@ -80,7 +82,7 @@ module.exports = function(Appuser) {
      * @param {AccessToken} token Access token if login is successful
      */
 
-    Appuser.login = function(credentials, include, fn) {
+    Appuser.login = function (credentials, include, fn) {
         var self = this
         if (typeof include === 'function') {
             fn = include
@@ -91,7 +93,7 @@ module.exports = function(Appuser) {
 
         include = (include || '')
         if (Array.isArray(include)) {
-            include = include.map(function(val) {
+            include = include.map(function (val) {
                 return val.toLowerCase()
             })
         } else {
@@ -99,7 +101,7 @@ module.exports = function(Appuser) {
         }
 
         var realmDelimiter
-            // Check if realm is required
+        // Check if realm is required
         var realmRequired = !!(self.settings.realmRequired ||
             self.settings.realmDelimiter)
         if (realmRequired) {
@@ -123,7 +125,7 @@ module.exports = function(Appuser) {
             return fn.promise
         }
 
-        self.findOne({ where: query }, function(err, user) {
+        self.findOne({ where: query }, function (err, user) {
             console.log(query)
             var defaultError = new Error('login failed')
             defaultError.statusCode = 401
@@ -147,7 +149,7 @@ module.exports = function(Appuser) {
                 debug('An error is reported from User.findOne: %j', err)
                 fn(defaultError)
             } else if (user) {
-                user.hasPassword(credentials.password, function(err, isMatch) {
+                user.hasPassword(credentials.password, function (err, isMatch) {
                     if (err) {
                         debug('An error is reported from User.hasPassword: %j', err)
                         fn(defaultError)
@@ -191,16 +193,16 @@ module.exports = function(Appuser) {
      * @callback {Function} callback
      * @param {Error} err
      */
-    Appuser.confirmPhone = function(username, token, fn) {
+    Appuser.confirmPhone = function (username, token, fn) {
         fn = fn || utils.createPromiseCallback()
-        this.findOne({ where: { username: username } }, function(err, user) {
+        this.findOne({ where: { username: username } }, function (err, user) {
             if (err) {
                 fn(err)
             } else {
                 if (user && user.verificationTokenForPhone === token) {
                     user.verificationTokenForPhone = undefined
                     user.phoneVerified = true
-                    user.save(function(err) {
+                    user.save(function (err) {
                         if (err) {
                             fn(err)
                         } else {
@@ -234,13 +236,13 @@ module.exports = function(Appuser) {
      * @callback {Function} callback
      * @param {Error} err
      */
-    Appuser.resetPasswordWithOTP = function(username, password, token, fn) {
+    Appuser.resetPasswordWithOTP = function (username, password, token, fn) {
         fn = fn || utils.createPromiseCallback()
         this.findOne({
             where: {
                 username: username
             }
-        }, function(err, user) {
+        }, function (err, user) {
             if (err) {
                 fn(err)
             } else {
@@ -248,9 +250,9 @@ module.exports = function(Appuser) {
                 if (user && parseInt(user.passwordResetToken) === token) {
                     console.log('yo yo yo!')
                     user.passwordResetToken = undefined
-                        //
+                    //
                     user.password = password
-                    user.save(function(err) {
+                    user.save(function (err) {
                         if (err) {
                             fn(err, null)
                         } else {
@@ -285,7 +287,7 @@ module.exports = function(Appuser) {
      * @callback {Function} callback
      * @param {Error} err
      */
-    Appuser.requestPasswordReset = function(username, fn) {
+    Appuser.requestPasswordReset = function (username, fn) {
         console.log('reset fn')
 
         fn = fn || utils.createPromiseCallback()
@@ -294,11 +296,11 @@ module.exports = function(Appuser) {
 
         var userModel = this.constructor
         var registry = userModel.registry
-            // var User = registry.getModelByType(loopback.User)
+        // var User = registry.getModelByType(loopback.User)
 
         // Set a default token generation function if one is not provided
         var tokenGenerator = Appuser.generateVerificationToken
-        tokenGenerator(user, function(err, token) {
+        tokenGenerator(user, function (err, token) {
             if (err) {
                 return fn(err)
             }
@@ -306,16 +308,21 @@ module.exports = function(Appuser) {
             Appuser.findOne({ where: { username: username } }, (err, user) => {
                 user.passwordResetToken = Math.floor(Math.random() * 1000000 + 1)
                 console.log('xxx is for you: ', user.passwordResetToken)
-                user.save(function(err) {
+                user.save(function (err) {
                     if (err) {
                         fn(err)
                     } else {
-                        sendSMS(user)
+                        // sendSMS(user)
+                        sendCustomerNotification(user, { subject: "Password Reset Token", template: "password", values: {} })
                         return fn()
                     }
                 })
             })
         })
+
+
+
+
 
         function sendSMS(user) {
             /* 
@@ -333,16 +340,28 @@ module.exports = function(Appuser) {
         }
     }
 
+
+    function sendCustomerNotification(customer, emailDetails, fn) {
+        emailDetails.values.firstName = customer.firstname;
+        emailDetails.values.otp = customer.passwordResetToken;
+        mail.sendEmail(
+            customer.email,
+            emailDetails.subject,
+            emailDetails.template,
+            emailDetails.values
+        );
+    }
+
     /**
      * Resend verification code
      *
      * @param {String} username
      * @callback {Function} fn
      */
-    Appuser.resendVerification = function(username, fn) {
+    Appuser.resendVerification = function (username, fn) {
         fn = fn || utils.createPromiseCallback()
 
-        this.findOne({ where: { username: username } }, function(err, user) {
+        this.findOne({ where: { username: username } }, function (err, user) {
             console.log(user, err)
             if (user == null) {
                 var err = new Error('User not found')
@@ -354,10 +373,10 @@ module.exports = function(Appuser) {
             } else {
                 console.log(user)
                 var tokenGenerator = Appuser.generateVerificationToken
-                tokenGenerator(user, function(err, token) {
+                tokenGenerator(user, function (err, token) {
                     if (err) { return fn(err); }
                     user.verificationTokenForPhone = Math.floor(Math.random() * 1000000 + 1)
-                    user.save(function(err) {
+                    user.save(function (err) {
                         if (err) {
                             fn(err)
                         } else {
@@ -388,7 +407,7 @@ module.exports = function(Appuser) {
      * @param {String} username
      * @callback {Function} fn
      */
-    Appuser.notifications = function(fn) {
+    Appuser.notifications = function (fn) {
         fn = fn || utils.createPromiseCallback()
         var app = Appuser.app
         var Email = app.models.Email
@@ -407,7 +426,7 @@ module.exports = function(Appuser) {
             user: {}
         }
 
-        this.find({}, function(err, users) {
+        this.find({}, function (err, users) {
             users.forEach(user => {
                 options.to = user.email
                 options.contact_number = user.username
@@ -439,7 +458,7 @@ module.exports = function(Appuser) {
             options.headers = options.headers || {}
             var template = loopback.template(options.template)
             options.html = template(options)
-            Email.send(options, function(err, email) {
+            Email.send(options, function (err, email) {
                 if (err) {
                     console.log(err)
                 } else {
@@ -461,7 +480,7 @@ module.exports = function(Appuser) {
 
     // ----------------End----->
 
-    Appuser.prototype.verify = function(options, fn) {
+    Appuser.prototype.verify = function (options, fn) {
         console.log('verify fn')
         var Subscription = Appuser.app.models.Subscription
         var expiryDate = new Date()
@@ -516,24 +535,25 @@ module.exports = function(Appuser) {
         // Set a default token generation function if one is not provided
         var tokenGenerator = options.generateVerificationToken || User.generateVerificationToken
 
-        tokenGenerator(user, function(err, token) {
+        tokenGenerator(user, function (err, token) {
             if (err) { return fn(err); }
 
             user.verificationToken = token
-            user.save(function(err) {
+            user.save(function (err) {
                 if (err) {
                     fn(err)
                 } else {
-                    sendEmail(user)
+                    sendCustomerNotification(user, { subject: "Welcome Aboard", template: "welcome", values: {} })
+                    fn(null, {})
                 }
             })
         })
 
-        tokenGenerator(user, function(err, token) {
+        tokenGenerator(user, function (err, token) {
             if (err) { return fn(err); }
 
             user.verificationTokenForPhone = Math.floor(Math.random() * 1000000 + 1)
-            user.save(function(err) {
+            user.save(function (err) {
                 if (err) {
                     fn(err)
                 } else {
@@ -561,7 +581,7 @@ module.exports = function(Appuser) {
             var template = loopback.template(options.template)
             options.html = template(options)
 
-            Email.send(options, function(err, email) {
+            Email.send(options, function (err, email) {
                 if (err) {
                     fn(err)
                 } else {
@@ -588,7 +608,7 @@ module.exports = function(Appuser) {
     }
 
     // send verification email after registration
-    Appuser.afterRemote('create', function(context, user, next) {
+    Appuser.afterRemote('create', function (context, user, next) {
         console.log('> user.afterRemote triggered')
 
         var options = {
@@ -608,7 +628,7 @@ module.exports = function(Appuser) {
             user: user
         }
 
-        user.verify(options, function(err, response) {
+        user.verify(options, function (err, response) {
             if (err) {
                 Appuser.deleteById(user.id)
                 return next(err)
@@ -629,7 +649,7 @@ module.exports = function(Appuser) {
         })
     })
 
-    Appuser.resetPassword = function(options, cb) {
+    Appuser.resetPassword = function (options, cb) {
         cb = cb || utils.createPromiseCallback()
         var UserModel = this
         var ttl = UserModel.settings.resetPasswordTokenTTL || DEFAULT_RESET_PW_TTL
@@ -647,7 +667,7 @@ module.exports = function(Appuser) {
             where: {
                 email: options.email
             }
-        }, function(err, user) {
+        }, function (err, user) {
             if (err) {
                 return cb(err)
             }
@@ -661,7 +681,7 @@ module.exports = function(Appuser) {
             // TODO(ritch) - eventually this should only allow password change
             user.accessTokens.create({
                 ttl: ttl
-            }, function(err, accessToken) {
+            }, function (err, accessToken) {
                 if (err) {
                     return cb(err)
                 }
@@ -678,7 +698,7 @@ module.exports = function(Appuser) {
     }
 
     // send password reset link when requested
-    Appuser.on('resetPasswordRequest', function(info) {
+    Appuser.on('resetPasswordRequest', function (info) {
 
         /*
         var options = {
@@ -703,49 +723,14 @@ module.exports = function(Appuser) {
         })*/
     })
 
-    Appuser.observe('after save', function(context, next) {
+    Appuser.observe('after save', function (context, next) {
         if (context.isNewInstance) {
             context.isNewInstance = false
             console.log('> user.afterRemote triggered', 'xxx')
             var user = context.instance
 
-            var options = {
-                type: 'email',
-                host: 'localhost',
-                port: '3000',
-                to: user.email,
-                contact_number: user.username,
-                firstName: user.firstname,
-                password: user.pwd,
-                from: 'Apptorney<noreply@apptorney.org>',
-                subject: 'Thanks for Registering',
-                // text: 'Thank you for registering an account on the '+user.competitionName+' website. Your account will enable you to login and apply for the '+user.competitionName+'. Please now take the time to click on the Verify button below, login and fill out the '+user.competitionName+' Business Model Submission Form. Filling out this business model form will officially enter your business into the competition.',
-                signature: 'The Apptorney Team',
-                template: path.resolve(__dirname, '../../server/views/verify.ejs'),
-                // redirect: 'http://' + config.host + ':' +  '3000/#/login?verified=true',
-                redirect: 'http://' + user.location + '/competitions/#/login?verified=true',
-                user: user
-            }
-
-            user.verify(options, function(err, response) {
-                if (err) {
-                    Appuser.deleteById(user.id)
-                    return next(err)
-                }
-
-                console.log('> Password:', user.password)
-                console.log('> verification email sent:', response)
-
-                /*context.res.status('response', {
-                  title: 'Signed up successfully',
-                  content: 'Please check your email and click on the verification link ' +
-                      'before logging in.',
-                  redirectTo: '/',
-                  redirectToLinkText: 'Log in'
-                });*/
-
-                next()
-            })
+            sendCustomerNotification(user, { subject: "Welcome Aboard", template: "welcome", values: {} })
+            next()
         } else {
             next()
         }
@@ -753,91 +738,94 @@ module.exports = function(Appuser) {
 
     Appuser.remoteMethod(
         'confirmPhone', {
-            description: 'Confirm a user phone number with verification code.',
-            accepts: [
-                { arg: 'username', type: 'string', required: true },
-                { arg: 'token', type: 'number', required: true }
+        description: 'Confirm a user phone number with verification code.',
+        accepts: [
+            { arg: 'username', type: 'string', required: true },
+            { arg: 'token', type: 'number', required: true }
 
-            ],
-            http: { verb: 'get', path: '/confirmPhone' }
-        }
+        ],
+        http: { verb: 'get', path: '/confirmPhone' }
+    }
     )
 
     Appuser.remoteMethod(
         'resetPasswordWithOTP', {
-            description: 'Reset a password with OTP.',
-            accepts: [{
-                    arg: 'username',
-                    type: 'string',
-                    required: true
-                },
-                {
-                    arg: 'password',
-                    type: 'string',
-                    required: true
-                },
-                {
-                    arg: 'token',
-                    type: 'number',
-                    required: true
-                }
-
-            ],
-            returns: {
-                arg: 'result',
-                type: Boolean
-            },
-            http: {
-                verb: 'get',
-                path: '/resetPasswordWithOTP'
-            }
+        description: 'Reset a password with OTP.',
+        accepts: [{
+            arg: 'username',
+            type: 'string',
+            required: true
+        },
+        {
+            arg: 'password',
+            type: 'string',
+            required: true
+        },
+        {
+            arg: 'token',
+            type: 'number',
+            required: true
         }
+
+        ],
+        returns: {
+            arg: 'result',
+            type: Boolean
+        },
+        http: {
+            verb: 'get',
+            path: '/resetPasswordWithOTP'
+        }
+    }
     )
 
     Appuser.remoteMethod(
         'requestPasswordReset', {
-            description: 'Allows a user to reset a password with an OTP',
-            accepts: [{
-                    arg: 'username',
-                    type: 'string',
-                    required: true
-                }
-
-            ],
-            http: {
-                verb: 'get',
-                path: '/requestPasswordReset'
-            }
+        description: 'Allows a user to reset a password with an OTP',
+        accepts: [{
+            arg: 'username',
+            type: 'string',
+            required: true
         }
+
+        ],
+        http: {
+            verb: 'get',
+            path: '/requestPasswordReset'
+        }
+    }
     )
 
     Appuser.remoteMethod(
         'resendVerification', {
-            description: 'Resends verification code via SMS',
-            accepts: [
-                { arg: 'username', type: 'string', required: true }
-            ],
-            http: { verb: 'get', path: '/resendVerification' }
-        }
+        description: 'Resends verification code via SMS',
+        accepts: [
+            { arg: 'username', type: 'string', required: true }
+        ],
+        http: { verb: 'get', path: '/resendVerification' }
+    }
     )
 
     Appuser.remoteMethod(
         'notifications', {
-            description: 'Manually sends notifications to all cuatomers',
-            returns: { arg: 'users', type: '' },
-            http: { verb: 'get', path: '/notifications' }
-        }
+        description: 'Manually sends notifications to all cuatomers',
+        returns: { arg: 'users', type: '' },
+        http: { verb: 'get', path: '/notifications' }
+    }
     )
 
     Appuser.remoteMethod(
         'performance', {
-            http: { path: '/performance', verb: 'get' },
-            returns: { arg: 'performance', type: '[{}]' }
-        })
+        http: { path: '/performance', verb: 'get' },
+        returns: { arg: 'performance', type: '[{}]' }
+    })
 
-    Appuser.performance = function(cb) {
-        Appuser.find({}, function(err, users) {
+    Appuser.performance = function (cb) {
+        Appuser.find({}, function (err, users) {
             cb(null, users)
         })
     }
+
+
+
 }

@@ -53,12 +53,6 @@ class OnboardingViewController: UIViewController, PaperOnboardingDataSource, Pap
                            description: "Make apptorney your own by bookmarking content, setting favorite Thematic Domains, and adding your personal details like a profile picture",
                            pageIcon: UIImage(),
                            color: UIColor.white,
-                           titleColor: UIColor.black, descriptionColor: UIColor.black, titleFont: titleFont, descriptionFont: descriptionFont),
-        OnboardingItemInfo(informationImage: UIImage(named: "gift")!,
-                           title: "Apptorney is FREE",
-                           description: "As part of our commitment to enhancing access to justice and promoting the rule of law in Zambia, access to Apptorney is now FREE.",
-                           pageIcon: UIImage(),
-                           color: UIColor.white,
                            titleColor: UIColor.black, descriptionColor: UIColor.black, titleFont: titleFont, descriptionFont: descriptionFont)
         
         ]
@@ -78,7 +72,7 @@ class OnboardingViewController: UIViewController, PaperOnboardingDataSource, Pap
     
     
     func onboardingItemsCount() -> Int {
-        return 6
+        return 5
     }
     
    func onboardingItem(at index: Int) -> OnboardingItemInfo {
@@ -101,7 +95,7 @@ class OnboardingViewController: UIViewController, PaperOnboardingDataSource, Pap
     
     
     func onboardingWillTransitonToIndex(_ index: Int) {
-        if index == 4 {
+        if index == 3 {
             
             if self.getStartedButton.alpha == 1 {
                 UIView.animate(withDuration: 0.2, animations: {
@@ -118,7 +112,7 @@ class OnboardingViewController: UIViewController, PaperOnboardingDataSource, Pap
     }
     
     func onboardingDidTransitonToIndex(_ index: Int) {
-        if index == 5 {
+        if index == 4 {
             UIView.animate(withDuration: 0.4, animations: {
                 self.nextButton.alpha = 0
                 self.getStartedButton.alpha = 1

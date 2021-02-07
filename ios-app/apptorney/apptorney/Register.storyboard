@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="bcd-qv-PaP">
-    <device id="retina4_0" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="bcd-qv-PaP">
+    <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -19,20 +17,19 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sign Up" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cit-cO-zqx">
-                                <rect key="frame" x="40" y="60" width="113" height="36"/>
+                                <rect key="frame" x="40" y="40" width="113" height="36"/>
                                 <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="30"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c3u-T9-0oa">
-                                <rect key="frame" x="0.0" y="104" width="375" height="896"/>
+                                <rect key="frame" x="0.0" y="84" width="375" height="916"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PBF-1d-71c">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="450"/>
                                         <subviews>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="JBE-bw-aDf" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                                <rect key="frame" x="40" y="0.0" width="295" height="30"/>
-                                                <nil key="textColor"/>
+                                                <rect key="frame" x="40" y="0.0" width="295" height="41.5"/>
                                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" textContentType="given-name"/>
                                                 <userDefinedRuntimeAttributes>
@@ -46,8 +43,7 @@
                                                 </userDefinedRuntimeAttributes>
                                             </textField>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Last Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mkC-zc-a3j" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                                <rect key="frame" x="40" y="40" width="295" height="30"/>
-                                                <nil key="textColor"/>
+                                                <rect key="frame" x="40" y="51.5" width="295" height="41.5"/>
                                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
                                                 <userDefinedRuntimeAttributes>
@@ -60,8 +56,7 @@
                                                 </userDefinedRuntimeAttributes>
                                             </textField>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1dz-wl-J74" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                                <rect key="frame" x="40" y="80" width="295" height="30"/>
-                                                <nil key="textColor"/>
+                                                <rect key="frame" x="40" y="103" width="295" height="42"/>
                                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
                                                 <userDefinedRuntimeAttributes>
@@ -75,8 +70,7 @@
                                                 </userDefinedRuntimeAttributes>
                                             </textField>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email Address" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Uaj-2K-O1u" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                                <rect key="frame" x="40" y="120" width="295" height="30"/>
-                                                <nil key="textColor"/>
+                                                <rect key="frame" x="40" y="155" width="295" height="41.5"/>
                                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" textContentType="email"/>
                                                 <userDefinedRuntimeAttributes>
@@ -95,8 +89,7 @@
                                                 </userDefinedRuntimeAttributes>
                                             </textField>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="TUN-so-grd" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                                <rect key="frame" x="40" y="160" width="295" height="30"/>
-                                                <nil key="textColor"/>
+                                                <rect key="frame" x="40" y="206.5" width="295" height="41.5"/>
                                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="phonePad"/>
                                                 <userDefinedRuntimeAttributes>
@@ -110,8 +103,7 @@
                                                 </userDefinedRuntimeAttributes>
                                             </textField>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cA7-AU-LRh" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                                <rect key="frame" x="40" y="200" width="295" height="30"/>
-                                                <nil key="textColor"/>
+                                                <rect key="frame" x="40" y="258" width="295" height="41.5"/>
                                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" secureTextEntry="YES"/>
                                                 <userDefinedRuntimeAttributes>
@@ -125,8 +117,7 @@
                                                 </userDefinedRuntimeAttributes>
                                             </textField>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UnU-w4-HdM" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                                <rect key="frame" x="40" y="240" width="295" height="30"/>
-                                                <nil key="textColor"/>
+                                                <rect key="frame" x="40" y="309.5" width="295" height="42"/>
                                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" secureTextEntry="YES"/>
                                                 <userDefinedRuntimeAttributes>
@@ -174,7 +165,7 @@
                                     <constraint firstItem="PBF-1d-71c" firstAttribute="top" secondItem="c3u-T9-0oa" secondAttribute="top" id="v1T-8D-UWz"/>
                                 </constraints>
                             </scrollView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ga1-YQ-ke5">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ga1-YQ-ke5">
                                 <rect key="frame" x="0.0" y="950" width="375" height="50"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -190,8 +181,8 @@
                                     <action selector="register" destination="bcd-qv-PaP" eventType="touchUpInside" id="6SZ-OL-cQq"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="38m-nP-btM">
-                                <rect key="frame" x="285" y="62" width="50" height="32"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="38m-nP-btM">
+                                <rect key="frame" x="285" y="42" width="50" height="32"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <state key="normal" title="Sign In">
                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -200,10 +191,11 @@
                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 </variation>
                                 <connections>
-                                    <segue destination="MSO-JT-fl5" kind="show" id="sY7-WR-MQP"/>
+                                    <segue destination="MSO-JT-fl5" kind="presentation" modalPresentationStyle="formSheet" id="sY7-WR-MQP"/>
                                 </connections>
                             </button>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="QeA-Pc-UlC"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="ga1-YQ-ke5" firstAttribute="leading" secondItem="QeA-Pc-UlC" secondAttribute="leading" id="8v0-vv-stQ"/>
@@ -219,7 +211,6 @@
                             <constraint firstItem="38m-nP-btM" firstAttribute="centerY" secondItem="cit-cO-zqx" secondAttribute="centerY" id="sk1-3e-lL2"/>
                             <constraint firstItem="c3u-T9-0oa" firstAttribute="bottom" secondItem="QeA-Pc-UlC" secondAttribute="bottom" id="vFl-mh-P1u"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="QeA-Pc-UlC"/>
                     </view>
                     <size key="freeformSize" width="375" height="1000"/>
                     <connections>
@@ -244,7 +235,9 @@
         <!--Login-->
         <scene sceneID="eoL-yb-NBs">
             <objects>
-                <viewControllerPlaceholder storyboardName="Login" id="MSO-JT-fl5" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardName="Login" id="MSO-JT-fl5" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="To5-Qn-HWh"/>
+                </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EMp-Mo-Wno" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="742" y="259"/>
@@ -258,4 +251,27 @@
             <point key="canvasLocation" x="859" y="516"/>
         </scene>
     </scenes>
+    <designables>
+        <designable name="1dz-wl-J74">
+            <size key="intrinsicContentSize" width="295" height="41.607421875"/>
+        </designable>
+        <designable name="JBE-bw-aDf">
+            <size key="intrinsicContentSize" width="295" height="41.607421875"/>
+        </designable>
+        <designable name="TUN-so-grd">
+            <size key="intrinsicContentSize" width="295" height="41.607421875"/>
+        </designable>
+        <designable name="Uaj-2K-O1u">
+            <size key="intrinsicContentSize" width="295" height="41.607421875"/>
+        </designable>
+        <designable name="UnU-w4-HdM">
+            <size key="intrinsicContentSize" width="295" height="41.607421875"/>
+        </designable>
+        <designable name="cA7-AU-LRh">
+            <size key="intrinsicContentSize" width="295" height="41.607421875"/>
+        </designable>
+        <designable name="mkC-zc-a3j">
+            <size key="intrinsicContentSize" width="295" height="41.607421875"/>
+        </designable>
+    </designables>
 </document>

@@ -366,6 +366,11 @@ class LoginViewController: UIViewController, SettingsTableViewControllerDelegate
         }, completion:nil)
     }
     
+    @IBAction func returnToSignUp(){
+        print("dismissed mf")
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     
 
 

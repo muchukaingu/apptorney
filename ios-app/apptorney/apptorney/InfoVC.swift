@@ -12,8 +12,31 @@ class InfoVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        if #available(iOS 11.0, *) {
+            navigationController?.navigationBar.prefersLargeTitles = true
+            navigationItem.hidesSearchBarWhenScrolling = false
+          
+            
+            //search black screen fix
+            self.definesPresentationContext = true
+            navigationItem.largeTitleDisplayMode = .automatic
+            navigationController?.navigationBar.sizeToFit()
+           
+            
+        } else {
+            // Fallback on earlier versions
+            print("show normal bar")
+        }
 
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        // Show the navigation bar on other view controllers
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+//        self.navigationController?.isNavigationBarHidden = false
     }
     
 
@@ -58,6 +81,18 @@ class InfoVC: UIViewController {
             destinationController.legislationInstance = legislation
             //destinationController.searchText = self.searchController.searchBar.text!
         }
+    }
+    
+    @IBAction func signOut(_ sender: Any) {
+        navigationController?.setNavigationBarHidden(true, animated: false)
+        let userDefaults = UserDefaults.standard
+        userDefaults.set(false, forKey: "loginComplete")
+        userDefaults.set(true, forKey: "loggedOut")
+        userDefaults.set(true, forKey: "registrationComplete")
+        userDefaults.removeObject(forKey: "name")
+        userDefaults.synchronize()
+        self.performSegue(withIdentifier: "logOut", sender: self)
+        
     }
 
  

@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -464,6 +465,16 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RlX-Lh-hav" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2482" y="1085"/>
+        </scene>
+        <!--Login-->
+        <scene sceneID="K6M-Kv-4Hl">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Login" id="R1s-iH-JFb" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="Amj-cJ-ZZd"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="coO-mn-bgP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1559" y="1412"/>
         </scene>
         <!--Case Details-->
         <scene sceneID="S5a-vB-yDB">
@@ -1157,15 +1168,15 @@ Please check your API Settings or Network Connection and try again.</string>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Re3-BM-dAQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="387.20000000000005" y="2087.4384236453202"/>
+            <point key="canvasLocation" x="442" y="2074"/>
         </scene>
         <!--Legislations-->
         <scene sceneID="gKe-GC-U29">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mK9-Um-OVW" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="TXL-Nb-Gaj" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Legislations" image="legislations-books" selectedImage="legislations-books" id="nxF-uR-EvT"/>
                     <toolbarItems/>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="EF5-i0-eIo">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -1175,7 +1186,6 @@ Please check your API Settings or Network Connection and try again.</string>
                         <segue destination="VXI-Rf-qmd" kind="relationship" relationship="rootViewController" id="Yp9-sm-HM7"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="mK9-Um-OVW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-308.80000000000001" y="2087.4384236453202"/>
         </scene>
@@ -1207,9 +1217,8 @@ Please check your API Settings or Network Connection and try again.</string>
                         <color key="badgeColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBarItem>
                     <toolbarItems/>
-                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
-                    <navigationBar key="navigationBar" hidden="YES" alpha="0.0" contentMode="scaleToFill" misplaced="YES" id="gkj-7u-JCx">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                    <navigationBar key="navigationBar" hidden="YES" alpha="0.0" contentMode="scaleToFill" misplaced="YES" largeTitles="YES" id="gkj-7u-JCx">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -1221,10 +1230,10 @@ Please check your API Settings or Network Connection and try again.</string>
             </objects>
             <point key="canvasLocation" x="196" y="938"/>
         </scene>
-        <!--InfoVC-->
+        <!--Info-->
         <scene sceneID="BkW-PX-m5g">
             <objects>
-                <viewController id="zhn-d7-EPB" customClass="InfoVC" customModule="apptorney" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Info" id="zhn-d7-EPB" customClass="InfoVC" customModule="apptorney" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="k9R-HX-ELx"/>
                         <viewControllerLayoutGuide type="bottom" id="mvi-mb-9xY"/>
@@ -1256,25 +1265,25 @@ Please take some time to go through our Terms of Use and Privacy Policy. If you 
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Support and Other Queries" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bhQ-NB-cUa">
-                                <rect key="frame" x="116.33333333333333" y="566.66666666666663" width="181.66666666666669" height="17"/>
+                                <rect key="frame" x="116.33333333333333" y="591.33333333333337" width="181.66666666666669" height="17"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email: support@apptorney.org" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ymn-9Y-sX1">
-                                <rect key="frame" x="109" y="585.66666666666663" width="196" height="17"/>
+                                <rect key="frame" x="109" y="610.33333333333337" width="196" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Call: 260211292310" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iC4-pu-CQq">
-                                <rect key="frame" x="143" y="604.66666666666663" width="128" height="17"/>
+                                <rect key="frame" x="143" y="629.33333333333337" width="128" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="www.apptorney.org" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DuG-Ry-Wht">
-                                <rect key="frame" x="144.33333333333334" y="623.66666666666663" width="125.33333333333334" height="17"/>
+                                <rect key="frame" x="144.33333333333334" y="648.33333333333337" width="125.33333333333334" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -1294,41 +1303,57 @@ Please take some time to go through our Terms of Use and Privacy Policy. If you 
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0y1-Gy-XtV">
-                                <rect key="frame" x="153.66666666666666" y="483.66666666666669" width="106.99999999999997" height="34.000000000000057"/>
+                                <rect key="frame" x="153.66666666666666" y="475.66666666666669" width="106.99999999999997" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <state key="normal" title="Terms of Use"/>
+                                <state key="normal" title="Terms of Use">
+                                    <color key="titleColor" systemColor="linkColor"/>
+                                </state>
                                 <connections>
                                     <segue destination="l2o-Oo-oUe" kind="show" identifier="showTerms" id="xag-Zp-Lqm"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HNi-I1-AOa">
-                                <rect key="frame" x="151.66666666666666" y="517.66666666666663" width="110.99999999999997" height="34"/>
+                                <rect key="frame" x="151.66666666666666" y="509.66666666666674" width="110.99999999999997" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <state key="normal" title="Privacy Policy"/>
+                                <state key="normal" title="Privacy Policy">
+                                    <color key="titleColor" systemColor="linkColor"/>
+                                </state>
                                 <connections>
                                     <segue destination="l2o-Oo-oUe" kind="show" identifier="showPrivacy" id="Jgk-4u-alc"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fiE-ux-jTH">
+                                <rect key="frame" x="177" y="543.66666666666663" width="60" height="30"/>
+                                <state key="normal" title="Sign Out">
+                                    <color key="titleColor" systemColor="systemPinkColor"/>
+                                </state>
+                                <connections>
+                                    <action selector="signOut:" destination="zhn-d7-EPB" eventType="touchUpInside" id="ISe-hE-S1S"/>
+                                    <segue destination="R1s-iH-JFb" kind="presentation" identifier="logOut" modalPresentationStyle="fullScreen" id="Bjk-0K-db1"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="bhQ-NB-cUa" firstAttribute="top" secondItem="fiE-ux-jTH" secondAttribute="bottom" constant="17.666666666666515" id="3zq-ba-yW8"/>
                             <constraint firstItem="CKx-gb-nKR" firstAttribute="top" secondItem="PAm-5g-Wfu" secondAttribute="bottom" constant="20" id="6yu-5Z-VVZ"/>
                             <constraint firstItem="iC4-pu-CQq" firstAttribute="centerX" secondItem="oYV-g1-WSd" secondAttribute="centerX" id="7mZ-uu-5Uq"/>
                             <constraint firstItem="w4S-iA-l0r" firstAttribute="centerX" secondItem="oYV-g1-WSd" secondAttribute="centerX" id="8AR-1Q-szj"/>
                             <constraint firstAttribute="trailing" secondItem="CKx-gb-nKR" secondAttribute="trailing" constant="10" id="Ajm-3d-Byg"/>
                             <constraint firstAttribute="trailingMargin" secondItem="PAm-5g-Wfu" secondAttribute="trailing" constant="10" id="EkC-96-8We"/>
-                            <constraint firstItem="0y1-Gy-XtV" firstAttribute="top" secondItem="CKx-gb-nKR" secondAttribute="bottom" constant="8" id="HRs-Uw-Ajr"/>
+                            <constraint firstItem="0y1-Gy-XtV" firstAttribute="top" secondItem="CKx-gb-nKR" secondAttribute="bottom" id="HRs-Uw-Ajr"/>
                             <constraint firstItem="iC4-pu-CQq" firstAttribute="top" secondItem="Ymn-9Y-sX1" secondAttribute="bottom" constant="2" id="HVc-fp-SYa"/>
                             <constraint firstItem="CKx-gb-nKR" firstAttribute="leading" secondItem="oYV-g1-WSd" secondAttribute="leading" constant="10" id="Lnz-wi-SxY"/>
                             <constraint firstItem="BBu-Tw-yD6" firstAttribute="leading" secondItem="oYV-g1-WSd" secondAttribute="leading" constant="10" id="Mu1-H9-zov"/>
                             <constraint firstItem="0y1-Gy-XtV" firstAttribute="centerX" secondItem="oYV-g1-WSd" secondAttribute="centerX" id="Nh6-O7-dVZ"/>
                             <constraint firstItem="HNi-I1-AOa" firstAttribute="centerX" secondItem="oYV-g1-WSd" secondAttribute="centerX" id="QqZ-V9-buC"/>
                             <constraint firstItem="Ymn-9Y-sX1" firstAttribute="centerX" secondItem="oYV-g1-WSd" secondAttribute="centerX" id="YUk-kU-bBU"/>
+                            <constraint firstItem="fiE-ux-jTH" firstAttribute="centerX" secondItem="HNi-I1-AOa" secondAttribute="centerX" id="apZ-H3-8JG"/>
                             <constraint firstAttribute="trailing" secondItem="BBu-Tw-yD6" secondAttribute="trailing" constant="10" id="b01-qB-Rgt"/>
-                            <constraint firstItem="bhQ-NB-cUa" firstAttribute="top" secondItem="HNi-I1-AOa" secondAttribute="bottom" constant="15" id="cVo-9d-zfL"/>
                             <constraint firstItem="DuG-Ry-Wht" firstAttribute="centerX" secondItem="oYV-g1-WSd" secondAttribute="centerX" id="dlU-7X-sb5"/>
                             <constraint firstItem="PAm-5g-Wfu" firstAttribute="leading" secondItem="oYV-g1-WSd" secondAttribute="leadingMargin" constant="10" id="eu3-1B-93b"/>
                             <constraint firstItem="Ymn-9Y-sX1" firstAttribute="top" secondItem="bhQ-NB-cUa" secondAttribute="bottom" constant="2" id="jsl-9h-TOl"/>
+                            <constraint firstItem="fiE-ux-jTH" firstAttribute="top" secondItem="HNi-I1-AOa" secondAttribute="bottom" id="jtX-Jb-Jtd"/>
                             <constraint firstItem="BBu-Tw-yD6" firstAttribute="top" secondItem="w4S-iA-l0r" secondAttribute="bottom" constant="30" id="lCa-rs-fCV"/>
                             <constraint firstItem="HNi-I1-AOa" firstAttribute="top" secondItem="0y1-Gy-XtV" secondAttribute="bottom" id="mF0-Xq-DzV"/>
                             <constraint firstItem="w4S-iA-l0r" firstAttribute="top" secondItem="k9R-HX-ELx" secondAttribute="bottom" constant="30" id="mX3-3Y-wwy"/>
@@ -1337,7 +1362,8 @@ Please take some time to go through our Terms of Use and Privacy Policy. If you 
                             <constraint firstItem="bhQ-NB-cUa" firstAttribute="centerX" secondItem="oYV-g1-WSd" secondAttribute="centerX" id="zUE-be-2S6"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="WME-c6-hm2"/>
+                    <navigationItem key="navigationItem" id="WME-c6-hm2"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2v3-eV-aiV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -2379,6 +2405,23 @@ Please take some time to go through our Terms of Use and Privacy Policy. If you 
             </objects>
             <point key="canvasLocation" x="-1239.2" y="-997.15142428785612"/>
         </scene>
+        <!--Cases-->
+        <scene sceneID="GKO-lA-HdZ">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="rL5-IW-PLJ" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Cases" image="cases-gavel" selectedImage="cases-gavel" id="WqI-1S-C4G"/>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="3PX-ne-uh8"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="1bW-KH-1GJ">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="v6Q-Cd-0V4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="442" y="2074"/>
+        </scene>
     </scenes>
     <designables>
         <designable name="09q-cP-VIO">
@@ -2424,7 +2467,7 @@ Please take some time to go through our Terms of Use and Privacy Policy. If you 
     <inferredMetricsTieBreakers>
         <segue reference="Jgk-4u-alc"/>
         <segue reference="yZe-iY-iGE"/>
-        <segue reference="RGg-D7-j3v"/>
+        <segue reference="WOf-3c-Dzc"/>
         <segue reference="Bjk-e1-rjo"/>
         <segue reference="edg-9b-bfE"/>
     </inferredMetricsTieBreakers>
@@ -2447,6 +2490,12 @@ Please take some time to go through our Terms of Use and Privacy Policy. If you 
         </systemColor>
         <systemColor name="groupTableViewBackgroundColor">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="linkColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemPinkColor">
+            <color red="1" green="0.17647058823529413" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

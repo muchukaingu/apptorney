@@ -115,7 +115,7 @@ extension RegisterViewController : UITextFieldDelegate {
         toolBar.barStyle = UIBarStyle.default
         toolBar.isTranslucent = true
         toolBar.tintColor = UIColor.black
-        var signUpButton = UIBarButtonItem(title: "Sign In", style: UIBarButtonItemStyle.done, target: self, action: "donePressed")
+        let signUpButton = UIBarButtonItem(title: "Sign In", style: UIBarButtonItemStyle.done, target: self, action: Selector(("donePressed")))
        
        
         toolBar.setItems([signUpButton], animated: false)

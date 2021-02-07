@@ -191,7 +191,7 @@
                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 </variation>
                                 <connections>
-                                    <segue destination="MSO-JT-fl5" kind="presentation" modalPresentationStyle="formSheet" id="sY7-WR-MQP"/>
+                                    <action selector="returnToSignIn" destination="bcd-qv-PaP" eventType="touchUpInside" id="M3d-fb-44x"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -225,7 +225,8 @@
                         <outlet property="txtPassword" destination="cA7-AU-LRh" id="0HV-S2-zTE"/>
                         <outlet property="txtPasswordConfirmation" destination="UnU-w4-HdM" id="zwk-qI-TPc"/>
                         <outlet property="txtPhoneNumber" destination="TUN-so-grd" id="CgI-aG-EG7"/>
-                        <segue destination="7li-0X-Ege" kind="show" identifier="Registered" id="P5M-Iq-zGd"/>
+                        <segue destination="7li-0X-Ege" kind="presentation" identifier="Registered" modalPresentationStyle="fullScreen" id="P5M-Iq-zGd"/>
+                        <segue destination="MSO-JT-fl5" kind="show" identifier="signIn" id="YE6-9M-RCb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="apX-lw-cpc" userLabel="First Responder" sceneMemberID="firstResponder"/>

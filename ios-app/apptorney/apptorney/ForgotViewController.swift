@@ -120,6 +120,10 @@ class ForgotViewController: UIViewController {
         
         
     }
+    
+    @IBAction func returnToSignIn(){
+        self.dismiss(animated: true, completion: nil)
+    }
  
 
 }

@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="1ma-nI-9JC">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="1ma-nI-9JC">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -15,22 +13,21 @@
             <objects>
                 <viewController storyboardIdentifier="Register" useStoryboardIdentifierAsRestorationIdentifier="YES" id="cYN-8d-Qqp" customClass="ResetPasswordViewController" customModule="apptorney" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Lxl-xj-1eZ">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="1000"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="980"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rd1-gY-fbC">
-                                <rect key="frame" x="0.0" y="143" width="375" height="857"/>
+                                <rect key="frame" x="0.0" y="123" width="375" height="857"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vLA-9H-nPa">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="450"/>
                                         <subviews>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="G1E-mT-6Gs" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                                <rect key="frame" x="40" y="0.0" width="295" height="30"/>
-                                                <nil key="textColor"/>
+                                                <rect key="frame" x="40" y="0.0" width="295" height="41.5"/>
                                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" textContentType="given-name"/>
                                                 <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="OTP Sent Via SMS"/>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="OTP Sent Via Email"/>
                                                     <userDefinedRuntimeAttribute type="color" keyPath="titleColor">
                                                         <color key="value" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </userDefinedRuntimeAttribute>
@@ -40,8 +37,7 @@
                                                 </userDefinedRuntimeAttributes>
                                             </textField>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="New Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gGY-PE-7du" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                                <rect key="frame" x="40" y="40" width="295" height="30"/>
-                                                <nil key="textColor"/>
+                                                <rect key="frame" x="40" y="51.5" width="295" height="41.5"/>
                                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" secureTextEntry="YES"/>
                                                 <userDefinedRuntimeAttributes>
@@ -54,8 +50,7 @@
                                                 </userDefinedRuntimeAttributes>
                                             </textField>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="J1Z-kf-LHQ" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                                <rect key="frame" x="40" y="80" width="295" height="30"/>
-                                                <nil key="textColor"/>
+                                                <rect key="frame" x="40" y="103" width="295" height="42"/>
                                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" secureTextEntry="YES"/>
                                                 <userDefinedRuntimeAttributes>
@@ -91,8 +86,8 @@
                                     <constraint firstItem="vLA-9H-nPa" firstAttribute="leading" secondItem="Rd1-gY-fbC" secondAttribute="leading" id="oHk-RC-HR0"/>
                                 </constraints>
                             </scrollView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Qp-t6-2PC">
-                                <rect key="frame" x="0.0" y="950" width="375" height="50"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Qp-t6-2PC">
+                                <rect key="frame" x="0.0" y="930" width="375" height="50"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="M7W-4h-oWz">
@@ -107,8 +102,8 @@
                                     <action selector="resetPassword:" destination="cYN-8d-Qqp" eventType="touchUpInside" id="CQt-aQ-bhk"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Huy-eU-RwY">
-                                <rect key="frame" x="285" y="65" width="50" height="32"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Huy-eU-RwY">
+                                <rect key="frame" x="285" y="45" width="50" height="32"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <state key="normal" title="Sign In">
                                     <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -121,7 +116,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Password Reset" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0bI-yg-6u4">
-                                <rect key="frame" x="40" y="60" width="157" height="75"/>
+                                <rect key="frame" x="40" y="40" width="157" height="75"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="75" id="LfB-5w-dAV"/>
                                     <constraint firstAttribute="width" constant="157" id="USQ-hz-XzX"/>
@@ -131,6 +126,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="FgN-RM-6WS"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="Huy-eU-RwY" firstAttribute="top" secondItem="0bI-yg-6u4" secondAttribute="top" constant="5" id="3M2-wL-slq"/>
@@ -146,7 +142,6 @@
                             <constraint firstItem="FgN-RM-6WS" firstAttribute="bottom" secondItem="9Qp-t6-2PC" secondAttribute="bottom" id="qm6-I2-sTg"/>
                             <constraint firstItem="vLA-9H-nPa" firstAttribute="width" secondItem="Lxl-xj-1eZ" secondAttribute="width" id="rse-5I-fr4"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="FgN-RM-6WS"/>
                     </view>
                     <size key="freeformSize" width="375" height="1000"/>
                     <connections>
@@ -178,14 +173,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hki-ax-yQZ">
-                                <rect key="frame" x="0.0" y="143" width="375" height="857"/>
+                                <rect key="frame" x="0.0" y="123" width="375" height="877"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="osx-JG-xnD">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="450"/>
                                         <subviews>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="zTn-Nd-QWY" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                                <rect key="frame" x="40" y="0.0" width="295" height="30"/>
-                                                <nil key="textColor"/>
+                                                <rect key="frame" x="40" y="0.0" width="295" height="34"/>
                                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" textContentType="given-name"/>
                                                 <userDefinedRuntimeAttributes>
@@ -218,7 +212,7 @@
                                     <constraint firstItem="osx-JG-xnD" firstAttribute="leading" secondItem="hki-ax-yQZ" secondAttribute="leading" id="ob1-iF-jN5"/>
                                 </constraints>
                             </scrollView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EGD-1J-HhW">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EGD-1J-HhW">
                                 <rect key="frame" x="0.0" y="950" width="375" height="50"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -234,8 +228,8 @@
                                     <action selector="requestPasswordReset:" destination="1ma-nI-9JC" eventType="touchUpInside" id="1KU-6e-WgX"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zog-MC-s3T">
-                                <rect key="frame" x="285" y="65" width="50" height="32"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zog-MC-s3T">
+                                <rect key="frame" x="285" y="45" width="50" height="32"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <state key="normal" title="Sign In">
                                     <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -243,9 +237,12 @@
                                 <variation key="heightClass=compact-widthClass=compact">
                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 </variation>
+                                <connections>
+                                    <action selector="returnToSignIn" destination="1ma-nI-9JC" eventType="touchUpInside" id="gnB-t5-Q6t"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Password Reset" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AG9-v6-U2i">
-                                <rect key="frame" x="40" y="60" width="157" height="75"/>
+                                <rect key="frame" x="40" y="40" width="157" height="75"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="157" id="ASm-UD-aN9"/>
                                     <constraint firstAttribute="height" constant="75" id="hWi-kD-ErB"/>
@@ -255,6 +252,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="CLJ-yZ-dEs"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="hki-ax-yQZ" firstAttribute="bottom" secondItem="CLJ-yZ-dEs" secondAttribute="bottom" id="1Sr-xX-gc8"/>
@@ -270,7 +268,6 @@
                             <constraint firstItem="CLJ-yZ-dEs" firstAttribute="trailing" secondItem="EGD-1J-HhW" secondAttribute="trailing" id="v7E-ps-uCE"/>
                             <constraint firstItem="hki-ax-yQZ" firstAttribute="leading" secondItem="CLJ-yZ-dEs" secondAttribute="leading" id="yB4-as-oXs"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="CLJ-yZ-dEs"/>
                     </view>
                     <size key="freeformSize" width="375" height="1000"/>
                     <connections>
@@ -278,12 +275,35 @@
                         <outlet property="scrollView" destination="hki-ax-yQZ" id="PfG-cc-9Nr"/>
                         <outlet property="txtPhoneNumber" destination="zTn-Nd-QWY" id="MFW-cL-yMN"/>
                         <segue destination="cYN-8d-Qqp" kind="show" identifier="reset" id="0CS-Lb-QTj"/>
+                        <segue destination="ABV-9m-qOL" kind="custom" identifier="signIn" id="uhL-bN-CU6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ekM-sN-pLd" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="Z8e-TN-jdp" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-1193" y="-365"/>
+            <point key="canvasLocation" x="-2751" y="-474"/>
+        </scene>
+        <!--Login-->
+        <scene sceneID="NA3-Rm-DLh">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Login" id="ABV-9m-qOL" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iTN-Jk-lwd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1880" y="-850"/>
         </scene>
     </scenes>
+    <designables>
+        <designable name="G1E-mT-6Gs">
+            <size key="intrinsicContentSize" width="295" height="41.607421875"/>
+        </designable>
+        <designable name="J1Z-kf-LHQ">
+            <size key="intrinsicContentSize" width="295" height="41.607421875"/>
+        </designable>
+        <designable name="gGY-PE-7du">
+            <size key="intrinsicContentSize" width="295" height="41.607421875"/>
+        </designable>
+        <designable name="zTn-Nd-QWY">
+            <size key="intrinsicContentSize" width="295" height="41.607421875"/>
+        </designable>
+    </designables>
 </document>

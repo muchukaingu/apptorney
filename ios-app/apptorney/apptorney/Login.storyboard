@@ -29,9 +29,9 @@
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="450"/>
                                         <subviews>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="gvb-lH-hHX" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                                <rect key="frame" x="40" y="0.0" width="295" height="34"/>
+                                                <rect key="frame" x="40" y="0.0" width="295" height="41.5"/>
                                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
-                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" textContentType="given-name"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="numberPad"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="Phone Number"/>
                                                     <userDefinedRuntimeAttribute type="color" keyPath="titleColor">
@@ -43,7 +43,7 @@
                                                 </userDefinedRuntimeAttributes>
                                             </textField>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Qa9-Wt-8tC" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                                <rect key="frame" x="40" y="44" width="295" height="34"/>
+                                                <rect key="frame" x="40" y="51.5" width="295" height="41.5"/>
                                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" secureTextEntry="YES"/>
                                                 <userDefinedRuntimeAttributes>
@@ -56,7 +56,7 @@
                                                 </userDefinedRuntimeAttributes>
                                             </textField>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mOb-22-B15">
-                                                <rect key="frame" x="168" y="103" width="167" height="32"/>
+                                                <rect key="frame" x="168" y="118" width="167" height="32"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <state key="normal" title="Forgot Your Password?">
                                                     <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -143,6 +143,7 @@
                         <outlet property="txtPassword" destination="Qa9-Wt-8tC" id="fl2-9d-Jfd"/>
                         <outlet property="txtUserName" destination="gvb-lH-hHX" id="hcD-xf-WYb"/>
                         <segue destination="3CS-68-to4" kind="presentation" identifier="Login" modalPresentationStyle="fullScreen" id="ec2-4I-s1m"/>
+                        <segue destination="SVd-1j-rkw" kind="show" identifier="signUp" id="Mt7-nl-RQ5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="typ-3f-Xyt" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -156,6 +157,16 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sQ3-ze-9zg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="803" y="281"/>
+        </scene>
+        <!--Register-->
+        <scene sceneID="Td8-PG-bFD">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Register" id="SVd-1j-rkw" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="Gcf-b3-jjh"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cRq-yj-RdK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="929" y="-238"/>
         </scene>
         <!--Home-->
         <scene sceneID="m71-j2-75D">

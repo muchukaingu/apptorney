@@ -73,16 +73,19 @@ class LegislationsTableViewController: UITableViewController {
         self.searchController = UISearchController(searchResultsController: nil)
         if #available(iOS 11.0, *) {
             navigationController?.navigationBar.prefersLargeTitles = true
+            
             navigationItem.searchController = searchController
             navigationItem.hidesSearchBarWhenScrolling = false
             self.searchController.searchResultsUpdater = self
-            self.searchController.dimsBackgroundDuringPresentation = true
+            self.searchController.dimsBackgroundDuringPresentation = false
             
             //search black screen fix
             self.definesPresentationContext = true
             self.searchController.searchResultsUpdater = self
             self.searchController.dimsBackgroundDuringPresentation = false
             self.searchController.definesPresentationContext = true
+            navigationItem.largeTitleDisplayMode = .automatic
+            navigationController?.navigationBar.sizeToFit()
             
         } else {
             // Fallback on earlier versions

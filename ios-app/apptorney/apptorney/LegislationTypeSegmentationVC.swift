@@ -41,11 +41,16 @@ class LegislationTypeSegmentationVC: UITableViewController {
     
     
     func createYearMenu(start: Int){
-        for i in start...2017 {
+        let currentYear = Calendar.current.component(.year, from: Date())
+        
+        for i in start...currentYear {
             if i % 10 == 0 {
                 var years = [Int]()
                 for x in 0..<10 {
-                    years.append(i+x)
+                    if(currentYear>=(i+x)){
+                        years.append(i+x)
+                    }
+                   
                 }
                 yearArray.append(Decade(decade: "\(i)s", years: years)) //["\(i)s"] = years
             }
@@ -77,7 +82,7 @@ class LegislationTypeSegmentationVC: UITableViewController {
         // #warning Incomplete implementation, return the number of rows
         var rowCount = 0
         if resourceType == "acts" || resourceType == "sis" {
-            rowCount = 10
+            rowCount = yearArray[section].years.count
         } else if resourceType == "volumes" {
             rowCount = volumeArray.count
         }

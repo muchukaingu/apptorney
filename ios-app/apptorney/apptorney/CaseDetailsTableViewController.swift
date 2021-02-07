@@ -351,7 +351,7 @@ class CaseDetailsTableViewController: UITableViewController {
                 print("in segue, mofo")
                 let destinationController = segue.destination as!
                 CaseDetailsTableViewController
-                let caseInstance = self.caseInstance.casesReferedTo![(indexPath as NSIndexPath).row + 1]
+                let caseInstance = self.caseInstance.casesReferedTo![(indexPath as NSIndexPath).row]
                 caseInstance._id = caseInstance.id
                 destinationController.caseInstance = caseInstance
                 let backItem = UIBarButtonItem()

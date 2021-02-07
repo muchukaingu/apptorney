@@ -9,7 +9,10 @@
 import UIKit
 import Alamofire
 //import CryptoSwift
+import PhoneNumberKit
 import MaterialComponents.MaterialSnackbar
+import SkyFloatingLabelTextField
+
 
 class LoginViewController: UIViewController, SettingsTableViewControllerDelegate, UITableViewDelegate, ErrorViewControllerDelegate, SWRevealViewControllerDelegate , SWRevealViewControllerDismissDelegate{
     
@@ -27,13 +30,14 @@ class LoginViewController: UIViewController, SettingsTableViewControllerDelegate
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var spinner: UIActivityIndicatorView!
-    @IBOutlet weak var txtUserName:UITextField!
+    @IBOutlet weak var txtUserName:SkyFloatingLabelTextField!
     @IBOutlet weak var txtPassword:UITextField!
     @objc var moveToPoint: CGFloat = 0.0
     @objc var tableYPoint: CGFloat = 0.0
     @objc var stores = [NSString]()
     @objc var numberOfLoginAttempts = 0
     @objc var nextAPI = ""
+    var formValid: Bool = false
     
     
     override var prefersStatusBarHidden: Bool {
@@ -43,9 +47,13 @@ class LoginViewController: UIViewController, SettingsTableViewControllerDelegate
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        
         UIApplication.shared.isStatusBarHidden = true
         //self.loginButton.layer.cornerRadius = self.loginButton.frame.height/6
         self.registerForKeyboardNotifications()
+        self.txtUserName.textContentType = .telephoneNumber
+        txtUserName.autocapitalizationType = .words
+        txtUserName.titleFormatter = { $0 }
         print(self.view.bounds.size.height)
         //check width of iphone
         
@@ -163,12 +171,23 @@ class LoginViewController: UIViewController, SettingsTableViewControllerDelegate
     
     
     @IBAction func login() {
+        let phoneNumberKit = PhoneNumberKit()
         self.hideLoginError()
         self.loginSpinner.startAnimating()
         self.loginButton.setTitle("Logging in...", for: .normal)
-        let defaults: UserDefaults = UserDefaults.standard
+        var username = ""
+        //let defaults: UserDefaults = UserDefaults.standard
+        validatePhoneTextFieldWithText(number: txtUserName.text)
+        do {
+            let phoneNumber = try phoneNumberKit.parse(txtUserName.text ?? "")
+            username = phoneNumberKit.format(phoneNumber, toType: .e164).replacingOccurrences(of: "+", with: "")
+            print("xxx: " + username)
+        }
+        catch {
+            print("Generic parser error")
+        }
         let user = Appuser()
-        user.login(username: txtUserName.text, password: txtPassword.text, completionHandler:{(result,error) in
+        user.login(username: username, password: txtPassword.text, completionHandler:{(result,error) in
             
             //handle error - future functionality - move this code to extension for handling class specific errors
             
@@ -230,7 +249,7 @@ class LoginViewController: UIViewController, SettingsTableViewControllerDelegate
                 print("Log in successful")
                 let userDefaults = UserDefaults.standard
                 userDefaults.set(true, forKey: "loginComplete")
-                userDefaults.set(self.txtUserName.text, forKey: "username")
+                userDefaults.set(username, forKey: "username")
                 userDefaults.synchronize()
                 self.performSegue(withIdentifier: "Login", sender: self)
                 
@@ -367,14 +386,19 @@ class LoginViewController: UIViewController, SettingsTableViewControllerDelegate
     }
     
     @IBAction func returnToSignUp(){
-        print("dismissed mf")
-        self.dismiss(animated: true, completion: nil)
+        let userDefaults = UserDefaults.standard
+       
+        
+        if userDefaults.bool(forKey: "loggedOut") {
+           
+            //self.checkSubscription()
+            self.performSegue(withIdentifier: "signUp", sender: self)
+            
+        } else {
+            print("dismissed mf")
+            self.dismiss(animated: true, completion: nil)
+        }
     }
-    
-    
-
-
-
     
 
 }

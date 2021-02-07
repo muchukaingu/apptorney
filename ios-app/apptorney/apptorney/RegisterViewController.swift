@@ -335,5 +335,23 @@ class RegisterViewController: UIViewController {
         }
         
     }
+    
+    
+    @IBAction func returnToSignIn(){
+        let userDefaults = UserDefaults.standard
+       
+        
+        if userDefaults.bool(forKey: "loggedOut") {
+            
+            print("dismissed mf")
+            self.dismiss(animated: true, completion: nil)
+           
+        } else {
+            
+            self.performSegue(withIdentifier: "signIn", sender: self)
+        }
+    }
+    
+    
 }
 

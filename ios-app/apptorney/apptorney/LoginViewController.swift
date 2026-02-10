@@ -177,7 +177,7 @@ class LoginViewController: UIViewController, SettingsTableViewControllerDelegate
         self.loginButton.setTitle("Logging in...", for: .normal)
         var username = ""
         //let defaults: UserDefaults = UserDefaults.standard
-        validatePhoneTextFieldWithText(number: txtUserName.text)
+        
         do {
             let phoneNumber = try phoneNumberKit.parse(txtUserName.text ?? "")
             username = phoneNumberKit.format(phoneNumber, toType: .e164).replacingOccurrences(of: "+", with: "")
@@ -192,6 +192,17 @@ class LoginViewController: UIViewController, SettingsTableViewControllerDelegate
             //handle error - future functionality - move this code to extension for handling class specific errors
             
             if error != nil {
+                do {
+                    let phoneNumber = try phoneNumberKit.parse(self.txtUserName.text ?? "")
+                    self.txtUserName.text = phoneNumberKit.format(phoneNumber, toType: .e164).replacingOccurrences(of: "+", with: "")
+                    print("xxx: " + username)
+                }
+                catch {
+                    self.validatePhoneTextFieldWithText(number: self.txtUserName.text)
+                }
+                
+                self.validatePhoneTextFieldWithText(number: self.txtUserName.text)
+               
                 var errorText: String?
                 if let error = error as? AFError {
                     switch error {

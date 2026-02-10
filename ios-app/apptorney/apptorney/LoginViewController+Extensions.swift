@@ -15,6 +15,8 @@ extension LoginViewController {
     }
     
     func validatePhoneTextFieldWithText(number: String?) {
+        
+        print("phone number is valid ------------------------------>")
         guard let number = number else {
             txtUserName.errorMessage = nil
             return
@@ -30,6 +32,7 @@ extension LoginViewController {
             )
             formValid = false
         } else {
+            print("phone number is valid")
             txtUserName.errorMessage = nil
         }
     }

@@ -8,6 +8,7 @@
 
 import UIKit
 import SkyFloatingLabelTextField
+import MaterialComponents.MaterialSnackbar
 
 class ResetPasswordViewController: UIViewController {
     
@@ -52,6 +53,8 @@ class ResetPasswordViewController: UIViewController {
 
     @IBAction func resetPassword(_ sender: Any) {
         let user = Appuser()
+   
+        self.resetPasswordButton.setTitle("Please Wait...", for: .normal)
         user.resetPassword(username: self.username, token: txtOTP.text, password: txtNewPassword.text, completionHandler: {(result, error) in
             if error != nil {
                 let retrievedError = error! as NSError
@@ -64,6 +67,10 @@ class ResetPasswordViewController: UIViewController {
             }
             else {
                 print("Request successful")
+                let message = MDCSnackbarMessage()
+                message.text = "Successful. Please sign in."
+            
+                MDCSnackbarManager.show(message)
                 //let userDefaults = UserDefaults.standard
                 //userDefaults.set(true, forKey: "loginComplete")
                 //userDefaults.set(self.username, forKey: "username")

@@ -8,6 +8,7 @@
 
 import UIKit
 import SkyFloatingLabelTextField
+import MaterialComponents.MaterialSnackbar
 
 class ForgotViewController: UIViewController {
     
@@ -40,13 +41,15 @@ class ForgotViewController: UIViewController {
     @IBAction func requestPasswordReset(_ sender: Any) {
         
         //let defaults: UserDefaults = UserDefaults.standard
+        self.resetPasswordButton.setTitle("Requesting...", for: .normal)
         let user = Appuser()
         user.requestPasswordReset(username: txtPhoneNumber.text, completionHandler:{(result,error) in
             
             if error != nil {
                 let retrievedError = error! as NSError
                 print(retrievedError.domain)
-                //self.showVerifyError(errorText: "Password reset request failed. Please try again.", type: "error")
+                self.showRequestError(errorText: "Request Failed. Please check the phone number.")
+                self.resetPasswordButton.setTitle("Request Password Reset", for: .normal)
                 //self.verifySpinner.stopAnimating()
                 //self.verifyButton.setTitle("Verify", for: .normal)
                 
@@ -123,6 +126,12 @@ class ForgotViewController: UIViewController {
     
     @IBAction func returnToSignIn(){
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    @objc func showRequestError(errorText: String){
+        let message = MDCSnackbarMessage()
+        message.text = errorText
+        MDCSnackbarManager.show(message)
     }
  
 

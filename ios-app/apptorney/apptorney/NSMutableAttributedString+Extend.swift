@@ -17,10 +17,10 @@ extension NSMutableAttributedString {
             let matchesArray = regex.matches(in: self.string, options: [], range: NSRange(location: 0, length: self.length))
             for match in matchesArray {
                 let attributedText = NSMutableAttributedString(string: target)
-                //attributedText.addAttribute(NSAttributedStringKey.backgroundColor, value: UIColor.black, range: NSRange(location: 0, length: attributedText.length)
-                attributedText.addAttribute(NSAttributedStringKey.backgroundColor, value: color, range: NSRange(location: 0, length: attributedText.length))
-                attributedText.addAttribute(NSAttributedStringKey.foregroundColor, value: UIColor.white, range: NSRange(location: 0, length: attributedText.length))
-                attributedText.addAttribute(NSAttributedStringKey.font, value: UIFont(name: "HelveticaNeue-Light", size: 16.2), range: NSRange(location: 0, length: attributedText.length))
+                //attributedText.addAttribute(NSAttributedString.Key.backgroundColor, value: UIColor.black, range: NSRange(location: 0, length: attributedText.length)
+                attributedText.addAttribute(NSAttributedString.Key.backgroundColor, value: color, range: NSRange(location: 0, length: attributedText.length))
+                attributedText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.white, range: NSRange(location: 0, length: attributedText.length))
+                attributedText.addAttribute(NSAttributedString.Key.font, value: UIFont(name: "HelveticaNeue-Light", size: 16.2), range: NSRange(location: 0, length: attributedText.length))
                 self.replaceCharacters(in: match.range, with: attributedText)
             }
             matchesFound = matchesArray.count > 0 ? 1:0
@@ -37,8 +37,8 @@ extension NSMutableAttributedString {
             let matchesArray = regex.matches(in: self.string, options: [], range: NSRange(location: 0, length: self.length))
             for match in matchesArray {
                 let attributedText = NSMutableAttributedString(string: regPattern)
-                //attributedText.addAttribute(NSAttributedStringKey.backgroundColor, value: UIColor.black, range: NSRange(location: 0, length: attributedText.length))
-                //attributedText.addAttribute(NSAttributedStringKey.foregroundColor, value: color, range: NSRange(location: 0, length: attributedText.length))
+                //attributedText.addAttribute(NSAttributedString.Key.backgroundColor, value: UIColor.black, range: NSRange(location: 0, length: attributedText.length))
+                //attributedText.addAttribute(NSAttributedString.Key.foregroundColor, value: color, range: NSRange(location: 0, length: attributedText.length))
                 self.replaceCharacters(in: match.range, with: " ")
                 
             }

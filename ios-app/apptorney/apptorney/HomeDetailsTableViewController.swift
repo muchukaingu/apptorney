@@ -46,9 +46,9 @@ class HomeDetailsTableViewController: UITableViewController {
         if #available(iOS 11.0, *) {
             navigationController?.navigationBar.prefersLargeTitles = true
             self.title = viewTitle
-             navigationController?.navigationBar.largeTitleTextAttributes  = [NSAttributedStringKey(rawValue: NSAttributedStringKey.foregroundColor.rawValue): viewTitleColor ?? UIColor.black]
+             navigationController?.navigationBar.largeTitleTextAttributes  = [NSAttributedString.Key(rawValue: NSAttributedString.Key.foregroundColor.rawValue): viewTitleColor ?? UIColor.black]
         } else {
-             navigationController?.navigationBar.titleTextAttributes  = [NSAttributedStringKey(rawValue: NSAttributedStringKey.foregroundColor.rawValue): viewTitleColor!]
+             navigationController?.navigationBar.titleTextAttributes  = [NSAttributedString.Key(rawValue: NSAttributedString.Key.foregroundColor.rawValue): viewTitleColor!]
         }
         
         self.view.addSubview(activityIndicator)
@@ -141,10 +141,10 @@ class HomeDetailsTableViewController: UITableViewController {
     
     func configureUIControls () { //for cutomising controls on the UI
         
-        self.tableView.contentInset = UIEdgeInsetsMake(0,0,0,0);
+        self.tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0);
         
         // 1. UITableView Customisation
-        //self.tableView.separatorStyle=UITableViewCellSeparatorStyle.none //remove separators before search
+        //self.tableView.separatorStyle=UITableViewCell.SeparatorStyle.none //remove separators before search
         self.tableView.tableFooterView = UIView(frame: CGRect.zero) //remove trailing separators after content
         
         
@@ -178,7 +178,7 @@ class HomeDetailsTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) as! SummaryTableViewCell
         tableView.separatorStyle = .none
         tableView.estimatedRowHeight = 80
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
         let item = items![(indexPath as NSIndexPath).row]
         cell.name.text = item.title
         cell.summary?.text = item.summary
@@ -204,7 +204,7 @@ class HomeDetailsTableViewController: UITableViewController {
         
       
         
-        headerCell.accessoryType = UITableViewCellAccessoryType.none
+        headerCell.accessoryType = UITableViewCell.AccessoryType.none
         return headerCell
     }
     

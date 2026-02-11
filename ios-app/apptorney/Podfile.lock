@@ -1,8 +1,5 @@
 PODS:
   - Alamofire (4.7.3)
-  - Crashlytics (3.10.5):
-    - Fabric (~> 1.7.9)
-  - Fabric (1.7.9)
   - MaterialComponents/AnimationTiming (59.1.1)
   - MaterialComponents/Buttons (59.1.1):
     - MaterialComponents/Ink
@@ -54,7 +51,6 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire
-  - Crashlytics
   - MaterialComponents/Snackbar
   - paper-onboarding
   - PhoneNumberKit (~> 2.1)
@@ -63,10 +59,8 @@ DEPENDENCIES:
   - Windless (~> 0.1.5)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  trunk:
     - Alamofire
-    - Crashlytics
-    - Fabric
     - MaterialComponents
     - MDFInternationalization
     - MDFTextAccessibility
@@ -78,8 +72,6 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
-  Crashlytics: 7f2e38d302d9da96475b3d64d86fb29e31a542b7
-  Fabric: a2917d3895e4c1569b9c3170de7320ea1b1e6661
   MaterialComponents: 9ba063439c19dd92b3489bc2c4e428f2abaced65
   MDFInternationalization: e355b0cebecf53d60233bd267084e49366c82513
   MDFTextAccessibility: 94098925e0853551c5a311ce7c1ecefbe297cdb6
@@ -89,6 +81,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: c29297daf073d2aa016295d5809cdd68045c39b3
   Windless: c6b7d63ac3a0c7e6b241e316650d4605abf71894
 
-PODFILE CHECKSUM: 2ee67c7bd159bb451d6f12da249062e8359980a6
+PODFILE CHECKSUM: 62bc7a6c67e4ddc250c705bd16886523c69dd892
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.16.2

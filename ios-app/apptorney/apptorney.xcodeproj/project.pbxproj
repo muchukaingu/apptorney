@@ -38,7 +38,6 @@
 		8D45F976223907BC00289B26 /* LoginViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D45F975223907BC00289B26 /* LoginViewController+Extensions.swift */; };
 		8D45F97A2239097600289B26 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D45F9792239097600289B26 /* Login.storyboard */; };
 		8D45F97D223916BE00289B26 /* Forgot.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D45F97C223916BE00289B26 /* Forgot.storyboard */; };
-		8D4B47E21F5DAC62009DF5ED /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8DD147BB1AA3A27500B2A098 /* Info.plist */; };
 		8D4DAAE7206A8EF9007A1179 /* SummaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D4DAAE6206A8EF9007A1179 /* SummaryTableViewCell.swift */; };
 		8D4DAAEA206ABEEA007A1179 /* LegislationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D4DAAE9206ABEEA007A1179 /* LegislationType.swift */; };
 		8D6514D81C494C2800F5EDE0 /* StoresTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6514D71C494C2800F5EDE0 /* StoresTableViewCell.swift */; };
@@ -859,7 +858,6 @@
 				8D8048D61F580CF000B2832C /* Torus-Regular.otf in Resources */,
 				8D6F7C22215F52770084C306 /* Settings.storyboard in Resources */,
 				8DD147C41AA3A27500B2A098 /* Images.xcassets in Resources */,
-				8D4B47E21F5DAC62009DF5ED /* Info.plist in Resources */,
 				8D8048D71F580CF000B2832C /* Torus-SemiBold.otf in Resources */,
 				8DDADA3A1E23F815004B578F /* fontawesome-webfont.ttf in Resources */,
 				8D8048E61F580CF900B2832C /* OpenSans-Regular.ttf in Resources */,
@@ -900,7 +898,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-apptorney/Pods-apptorney-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-apptorney/Pods-apptorney-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/MDFInternationalization/MDFInternationalization.framework",
 				"${BUILT_PRODUCTS_DIR}/MDFTextAccessibility/MDFTextAccessibility.framework",
@@ -925,7 +923,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-apptorney/Pods-apptorney-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-apptorney/Pods-apptorney-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		2B07A76063D4BB759EC3A02C /* [CP] Check Pods Manifest.lock */ = {
@@ -1156,7 +1154,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1201,7 +1199,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -1226,7 +1224,7 @@
 					"$(PROJECT_DIR)/PaperOnboarding/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = apptorney/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 24.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.circuitbusiness.apptorney;
@@ -1258,7 +1256,7 @@
 					"$(PROJECT_DIR)/PaperOnboarding/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = apptorney/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 24.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.circuitbusiness.apptorney;

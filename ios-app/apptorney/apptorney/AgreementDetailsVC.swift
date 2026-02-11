@@ -56,7 +56,7 @@ class AgreementDetailsVC: UITableViewController {
         self.populateLegislation()
         self.configureUIControls()
         tableView.estimatedRowHeight = 80
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
         self.searchController.searchBar.delegate = self
         
         
@@ -88,9 +88,9 @@ class AgreementDetailsVC: UITableViewController {
         self.tableView.register(HeaderView.nib, forHeaderFooterViewReuseIdentifier: HeaderView.identifier)
         
         
-        let feedbackBtn: UIButton = UIButton(type: UIButtonType.custom)
+        let feedbackBtn: UIButton = UIButton(type: .custom)
         feedbackBtn.setImage(UIImage(named: "feedback-2"), for: [])
-        feedbackBtn.addTarget(self, action: #selector(didTapFeedbackButton), for: UIControlEvents.touchUpInside)
+        feedbackBtn.addTarget(self, action: #selector(didTapFeedbackButton), for: .touchUpInside)
         feedbackBtn.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         let feedbackButton = UIBarButtonItem(customView: feedbackBtn)
         
@@ -293,7 +293,7 @@ class AgreementDetailsVC: UITableViewController {
             }
             //hack
             cell.mainText?.textContainerInset = sections[index].content![indexPath.row].content == "" ? UIEdgeInsets.init(top: -10, left: 0, bottom: 0, right: 0) : UIEdgeInsets.init(top: 6, left: 0, bottom: 8, right: 0)
-            //            cell.mainText?.contentInset = indexPath.row > 0 && sections[index].content![indexPath.row-1].content == "" ? UIEdgeInsetsMake(-20,0,0,0) : UIEdgeInsetsMake(0,0,0,0)
+            //            cell.mainText?.contentInset = indexPath.row > 0 && sections[index].content![indexPath.row-1].content == "" ? UIEdgeInsets(top: -20, left: 0, bottom: 0, right: 0) : UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
             //            self.view.bringSubview(toFront: cell.mainText)
             cell.titleLabel.sizeToFit()
             cell.mainText.sizeToFit()
@@ -368,9 +368,9 @@ class AgreementDetailsVC: UITableViewController {
     /*
      override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
      if indexPath.section == 0 {
-     return UITableViewAutomaticDimension
+     return UITableView.automaticDimension
      } else {
-     return UITableViewAutomaticDimension
+     return UITableView.automaticDimension
      }
      }
      
@@ -498,4 +498,3 @@ extension AgreementDetailsVC: UISearchBarDelegate {
     }
     
 }
-

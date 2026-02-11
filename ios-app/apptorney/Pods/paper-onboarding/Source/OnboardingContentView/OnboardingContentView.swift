@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol OnboardingContentViewDelegate: class {
+protocol OnboardingContentViewDelegate: AnyObject {
 
     func onboardingItemAtIndex(_ index: Int) -> OnboardingItemInfo?
     func onboardingConfigurationItem(_ item: OnboardingContentViewItem, index: Int)
@@ -64,7 +64,7 @@ extension OnboardingContentView {
         view.addSubview(contentView)
 
         // add constraints
-        for attribute in [NSLayoutAttribute.left, NSLayoutAttribute.right, NSLayoutAttribute.top] {
+        for attribute in [NSLayoutConstraint.Attribute.left, NSLayoutConstraint.Attribute.right, NSLayoutConstraint.Attribute.top] {
             (view, contentView) >>>- { $0.attribute = attribute; return }
         }
         (view, contentView) >>>- {

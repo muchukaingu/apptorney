@@ -68,7 +68,7 @@ class CaseDetailsTableViewController: UITableViewController {
         
         //self.tableView.isHidden = true
         tableView.estimatedRowHeight = 80
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
         self.preliminaryCaseData = self.caseInstance
         self.searchController.searchBar.delegate = self
 
@@ -116,9 +116,9 @@ class CaseDetailsTableViewController: UITableViewController {
         self.tableView.register(HeaderView.nib, forHeaderFooterViewReuseIdentifier: HeaderView.identifier)
         
         
-        let feedbackBtn: UIButton = UIButton(type: UIButtonType.custom)
+        let feedbackBtn: UIButton = UIButton(type: .custom)
         feedbackBtn.setImage(UIImage(named: "feedback-2"), for: [])
-        feedbackBtn.addTarget(self, action: #selector(didTapFeedbackButton), for: UIControlEvents.touchUpInside)
+        feedbackBtn.addTarget(self, action: #selector(didTapFeedbackButton), for: .touchUpInside)
         feedbackBtn.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         let feedbackButton = UIBarButtonItem(customView: feedbackBtn)
         
@@ -266,7 +266,7 @@ class CaseDetailsTableViewController: UITableViewController {
                     cell.textLabel?.attributedText = NSMutableAttributedString().setHTMLFromString(text: cell.textLabel?.text ?? "", target: self.searchController.searchBar.text!, color:UIColor(hex: "f3a435")).0
                     cell.textLabel?.sizeToFit()
                 }
-                cell.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
+                cell.accessoryType = .disclosureIndicator
         
                 return cell
             
@@ -278,7 +278,7 @@ class CaseDetailsTableViewController: UITableViewController {
                     cell.textLabel?.attributedText = NSMutableAttributedString().setHTMLFromString(text: cell.textLabel?.text ?? "", target: self.searchController.searchBar.text!, color:UIColor(hex: "f3a435")).0
                     cell.textLabel?.sizeToFit()
                 }
-                cell.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
+                cell.accessoryType = .disclosureIndicator
                 return cell
             
             default:

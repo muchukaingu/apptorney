@@ -19,7 +19,7 @@ class CategoryTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        //buttonEdit.addTarget(self.revealViewController(), action: "revealToggle:", forControlEvents: UIControlEvents.TouchUpInside)
+        //buttonEdit.addTarget(self.revealViewController(), action: "revealToggle:", forControlEvents: UIControl.Event.TouchUpInside)
         
     }
     

@@ -90,7 +90,7 @@ class RegisterViewController: UIViewController {
      
         
         
-        UIView.animate(withDuration: 0.2, delay: 1.4, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.5, options: UIViewAnimationOptions.curveEaseIn, animations: {
+        UIView.animate(withDuration: 0.2, delay: 1.4, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.5, options: UIView.AnimationOptions.curveEaseIn, animations: {
             
             self.txtFirstName.alpha = 1.0
             self.txtLastName.alpha = 1.0
@@ -105,6 +105,11 @@ class RegisterViewController: UIViewController {
             }
         }, completion:nil)
     }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: false)
+    }
     
   
 
@@ -115,15 +120,15 @@ class RegisterViewController: UIViewController {
     
     @objc func registerForKeyboardNotifications() {
         let defaultCenter = NotificationCenter.default
-        defaultCenter.addObserver(self, selector: #selector(keyboardWasShown), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        defaultCenter.addObserver(self, selector: #selector(keyboardWillBeHidden), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        defaultCenter.addObserver(self, selector: #selector(keyboardWasShown), name: UIResponder.keyboardWillShowNotification, object: nil)
+        defaultCenter.addObserver(self, selector: #selector(keyboardWillBeHidden), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     @objc func keyboardWasShown(aNotification: Notification) {
         //self.signInButton.alpha = 0
         //self.smallSignInButton.alpha = 1
         let userInfo = aNotification.userInfo
-        let keyboardScreenEndFrame = (userInfo?[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+        let keyboardScreenEndFrame = (userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
         let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
         
         scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height, right: 0)
@@ -149,7 +154,7 @@ class RegisterViewController: UIViewController {
     }
     
     @objc func showSignUpError(errorText: String){
-//        UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.5, options: UIViewAnimationOptions.curveEaseIn, animations: {
+//        UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.5, options: UIView.AnimationOptions.curveEaseIn, animations: {
 //            self.signUpError.text = errorText
 //            self.signUpError.alpha = 1.0
 //            //self.closeErrorButton.alpha = 1.0
@@ -161,7 +166,7 @@ class RegisterViewController: UIViewController {
     }
     
     @IBAction func hideSignUpError(){
-        UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.5, options: UIViewAnimationOptions.curveEaseIn, animations: {
+        UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.5, options: UIView.AnimationOptions.curveEaseIn, animations: {
             //self.signUpError.text = ""
             //self.signUpError.alpha = 0.0
             //self.closeErrorButton.alpha = 0.0
@@ -354,4 +359,3 @@ class RegisterViewController: UIViewController {
     
     
 }
-

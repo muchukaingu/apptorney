@@ -405,7 +405,7 @@ class HomeViewController: UIViewController {
         let screenshot = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
 
-        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
+        let blurEffect = UIBlurEffect(style: .dark)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         blurEffectView.frame=layer.frame
         bgView.image = screenshot
@@ -416,10 +416,10 @@ class HomeViewController: UIViewController {
     
     func configureUIControls () { //for cutomising controls on the UI
         
-        tableView.contentInset = UIEdgeInsetsMake(0,0,0,0);
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         
         // 1. UITableView Customisation
-        tableView.separatorStyle=UITableViewCellSeparatorStyle.none //remove separators before search
+        tableView.separatorStyle = .none //remove separators before search
         tableView.tableFooterView = UIView(frame: CGRect.zero) //remove trailing separators after content
         tableView.backgroundColor = UIColor.white
         
@@ -464,7 +464,7 @@ extension HomeViewController:UITableViewDataSource {
             }
             
             //cell.itemsToDisplay = self.bookmarks
-            cell.accessoryType = UITableViewCellAccessoryType.none
+            cell.accessoryType = .none
             cell.collectionView.reloadData()
             cell.delegate = self as ScrollTableViewCellDelegate
             return cell
@@ -508,7 +508,7 @@ extension HomeViewController:UITableViewDataSource {
                 self.performSegue(withIdentifier: "homeDetails", sender: self)
         }
 
-        headerCell.accessoryType = UITableViewCellAccessoryType.none
+        headerCell.accessoryType = .none
         
         return headerCell
     }
@@ -543,4 +543,3 @@ extension HomeViewController: ScrollTableViewCellDelegate {
         
     }
 }
-

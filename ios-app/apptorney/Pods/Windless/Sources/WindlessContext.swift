@@ -53,7 +53,7 @@ extension WindlessContext {
         appendMultilineLayersPathIfNeeded(on: path)
         let maskLayer = CAShapeLayer()
         maskLayer.path = path.cgPath
-        maskLayer.fillRule = kCAFillRuleEvenOdd
+        maskLayer.fillRule = .evenOdd
         coverLayer.mask = maskLayer
     }
     

@@ -13,7 +13,8 @@ protocol APIServiceDelegate: class {
 class APIService {
     
     //static let urlBase          = "http://localhost:3009/api" //production
-    static let urlBase          = "http://api.backend.apptorney.org/api" //production
+    //static let urlBase          = "http://api.backend.apptorney.org/api" //production
+    static let urlBase          = "http://apptorney-prod-service-alb-1628366448.eu-west-2.elb.amazonaws.com/api" //production
    // static let urlBase          = "https://apptorney-backend-test.eu-gb.mybluemix.net/api" //test
     static let appUsersURL      = urlBase + "/appusers"
     static let casesURL         = urlBase + "/cases"

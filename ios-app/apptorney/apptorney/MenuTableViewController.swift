@@ -90,7 +90,7 @@ class MenuTableViewController: UITableViewController {
         switch (indexPath as NSIndexPath).section {
         case 0:
             let store = stores[(indexPath as NSIndexPath).row]
-            cell.selectionStyle=UITableViewCellSelectionStyle.none
+            cell.selectionStyle = .none
             cell.fieldLabel1?.text=store as String
             
             if let currStore = defaults.object(forKey: "CurrentStore") as? String {
@@ -107,11 +107,11 @@ class MenuTableViewController: UITableViewController {
 
         case 1:
             
-            cell.selectionStyle=UITableViewCellSelectionStyle.none
+            cell.selectionStyle = .none
             cell.fieldLabel1?.text="Log Out"
             cell.connectionStatus.image=UIImage(named: "logout-2")
             cell.fieldLabel1?.isUserInteractionEnabled = true;
-            let tapGesture:UITapGestureRecognizer = UITapGestureRecognizer(target: self.revealViewController(), action: "done:")
+            let tapGesture: UITapGestureRecognizer = UITapGestureRecognizer(target: self.revealViewController(), action: #selector(SWRevealViewController.revealToggle(_:)))
         
             cell.fieldLabel1.addGestureRecognizer(tapGesture)
 
@@ -130,11 +130,11 @@ class MenuTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
        
         //var currStore: String? = ""
-        var  headerCell:UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "cell") as UITableViewCell!
+        var headerCell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "cell")!
         
         switch section {
         case 0:
-            headerCell = tableView.dequeueReusableCell(withIdentifier: "header") as UITableViewCell!
+            headerCell = tableView.dequeueReusableCell(withIdentifier: "header")!
             headerCell.textLabel?.text="Select a Store"
             /*
             if let currStore = defaults.objectForKey("CurrentStore") as? String {
@@ -160,7 +160,7 @@ class MenuTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let  footerCell = tableView.dequeueReusableCell(withIdentifier: "footer") as UITableViewCell!
+        let footerCell = tableView.dequeueReusableCell(withIdentifier: "footer")!
         //var currStore: String? = ""
         //footerCell.textLabel?.text="Log Out"
         

@@ -53,7 +53,7 @@ class SettingsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! SimpleCell
-        cell.selectionStyle=UITableViewCellSelectionStyle.none
+        cell.selectionStyle=UITableViewCell.SelectionStyle.none
         cell.backgroundColor=UIColor.clear
         switch (indexPath as NSIndexPath).row {
         case 0:

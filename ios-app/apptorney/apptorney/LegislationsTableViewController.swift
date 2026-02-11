@@ -38,9 +38,9 @@ class LegislationsTableViewController: UITableViewController {
         self.tableView.delegate = self
         self.tableView.dataSource = self
         tableView.estimatedRowHeight = 80
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
         loadLegislationTypes()
-        //tableView.rowHeight = UITableViewAutomaticDimension
+        //tableView.rowHeight = UITableView.automaticDimension
         self.searchController.searchBar.delegate = self
 
         // Uncomment the following line to preserve selection between presentations
@@ -102,10 +102,10 @@ class LegislationsTableViewController: UITableViewController {
     
     func configureUIControls () { //for cutomising controls on the UI
         
-        self.tableView.contentInset = UIEdgeInsetsMake(0,0,0,0);
+        self.tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         
         // 1. UITableView Customisation
-        //self.tableView.separatorStyle=UITableViewCellSeparatorStyle.none //remove separators before search
+        //self.tableView.separatorStyle=UITableViewCell.SeparatorStyle.none //remove separators before search
         self.tableView.tableFooterView = UIView(frame: CGRect.zero) //remove trailing separators after content
         
         
@@ -138,7 +138,7 @@ class LegislationsTableViewController: UITableViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) as! SummaryTableViewCell
             tableView.separatorStyle = .none
             tableView.estimatedRowHeight = 180
-            tableView.rowHeight = UITableViewAutomaticDimension
+            tableView.rowHeight = UITableView.automaticDimension
             let type = legislationTypes[(indexPath as NSIndexPath).row]
             cell.name.text = type.name
             cell.summary?.text = type.description
@@ -152,7 +152,7 @@ class LegislationsTableViewController: UITableViewController {
             
              //tableView.separatorStyle = .singleLine
              tableView.estimatedRowHeight = 80
-             tableView.rowHeight = UITableViewAutomaticDimension
+             tableView.rowHeight = UITableView.automaticDimension
             tableView.separatorStyle = .none
             
             // Configure the cell...
@@ -183,7 +183,7 @@ class LegislationsTableViewController: UITableViewController {
             
             
             cell.smallSubTitleLeft.text = legislation.legislationType?.uppercased() ?? ""
-            cell.accessoryType = UITableViewCellAccessoryType.none
+            cell.accessoryType = .none
             return cell
         }
         
@@ -274,7 +274,7 @@ class LegislationsTableViewController: UITableViewController {
         effectView.layer.cornerRadius = 10
         effectView.layer.masksToBounds = true
         
-        activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .white)
+        activityIndicator = UIActivityIndicatorView(style: .white)
         activityIndicator.frame = CGRect(x: 5, y: 0, width: 46, height: 46)
         activityIndicator.startAnimating()
         

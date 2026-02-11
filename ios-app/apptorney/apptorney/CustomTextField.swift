@@ -14,13 +14,13 @@ class CustomTextField : UITextField
         super.init(frame: frame)
         
         let clearButton = UIButton(frame: CGRect(x: 0, y: 0, width: 15, height: 15))
-        clearButton.setImage(UIImage(named: "clear.png")!, for: UIControlState())
+        clearButton.setImage(UIImage(named: "clear.png")!, for: .normal)
         
         self.rightView = clearButton
-        clearButton.addTarget(self, action: #selector(CustomTextField.clearClicked(_:)), for: UIControlEvents.touchUpInside)
+        clearButton.addTarget(self, action: #selector(CustomTextField.clearClicked(_:)), for: .touchUpInside)
         
-        self.clearButtonMode = UITextFieldViewMode.never
-        self.rightViewMode = UITextFieldViewMode.always
+        self.clearButtonMode = .never
+        self.rightViewMode = .always
     }
     
     @objc func clearClicked(_ sender:UIButton)

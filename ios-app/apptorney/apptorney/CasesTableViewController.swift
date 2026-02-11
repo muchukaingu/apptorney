@@ -83,10 +83,10 @@ class CasesTableViewController: UITableViewController {
     
     func configureUIControls () { //for cutomising controls on the UI
         
-        self.tableView.contentInset = UIEdgeInsetsMake(0,0,0,0);
+        self.tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         
         // 1. UITableView Customisation
-        //self.tableView.separatorStyle=UITableViewCellSeparatorStyle.none //remove separators before search
+        //self.tableView.separatorStyle=UITableViewCell.SeparatorStyle.none //remove separators before search
         self.tableView.tableFooterView = UIView(frame: CGRect.zero) //remove trailing separators after content
         let margin:CGFloat = 38.0
         messageLabel.center.x = self.view.center.x + margin
@@ -138,7 +138,7 @@ class CasesTableViewController: UITableViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) as! SummaryTableViewCell
             tableView.separatorStyle = .none
             tableView.estimatedRowHeight = 180
-            tableView.rowHeight = UITableViewAutomaticDimension
+            tableView.rowHeight = UITableView.automaticDimension
            
             let area = areas[(indexPath as NSIndexPath).row]
             cell.name.text = area.name
@@ -151,7 +151,7 @@ class CasesTableViewController: UITableViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) as! CustomTableViewCell
             let caseInstance = cases[(indexPath as NSIndexPath).row]
             tableView.estimatedRowHeight = 80
-            tableView.rowHeight = UITableViewAutomaticDimension
+            tableView.rowHeight = UITableView.automaticDimension
             //tableView.rowHeight = 180
             tableView.separatorStyle = .none
             
@@ -171,7 +171,7 @@ class CasesTableViewController: UITableViewController {
             cell.smallSubTitleRight.layer.masksToBounds = true
             cell.smallSubTitleRight.layer.cornerRadius = 4
             
-            cell.accessoryType = UITableViewCellAccessoryType.none
+            cell.accessoryType = .none
             
             return cell
         }
@@ -214,7 +214,7 @@ class CasesTableViewController: UITableViewController {
         effectView.layer.cornerRadius = 10
         effectView.layer.masksToBounds = true
         
-        activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .white)
+        activityIndicator = UIActivityIndicatorView(style: .white)
         activityIndicator.frame = CGRect(x: 5, y: 0, width: 46, height: 46)
         activityIndicator.startAnimating()
         

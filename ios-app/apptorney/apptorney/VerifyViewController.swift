@@ -86,7 +86,7 @@ class VerifyViewController: UIViewController {
         if type == "success" {
             self.verifyErrorLabel.backgroundColor = UIColor.green
         }
-        UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.5, options: UIViewAnimationOptions.curveEaseIn, animations: {
+        UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.5, options: UIView.AnimationOptions.curveEaseIn, animations: {
             self.verifyErrorLabel.text = errorText
             self.verifyErrorLabel.alpha = 1.0
             //self.closeErrorButton.alpha = 1.0
@@ -94,7 +94,7 @@ class VerifyViewController: UIViewController {
     }
     
     @IBAction func hideVerifyError(){
-        UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.5, options: UIViewAnimationOptions.curveEaseIn, animations: {
+        UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.5, options: UIView.AnimationOptions.curveEaseIn, animations: {
             self.verifyErrorLabel.text = ""
             self.verifyErrorLabel.alpha = 0.0
             //self.closeErrorButton.alpha = 0.0

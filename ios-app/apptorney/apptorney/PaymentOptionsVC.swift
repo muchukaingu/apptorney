@@ -70,7 +70,7 @@ class PaymentOptionsVC: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIndetifier, for: indexPath) as! SummaryTableViewCell
         tableView.separatorStyle = .none
         tableView.estimatedRowHeight = 180
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
         let option = paymentOptions[(indexPath as NSIndexPath).row]
         cell.name.text = option.title
         cell.summary?.text = option.summary

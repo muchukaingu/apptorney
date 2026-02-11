@@ -178,7 +178,7 @@ class SearchVC: UITableViewController, UISearchResultsUpdating, UISearchBarDeleg
                 cell.subTitleLabel.text = String (format:"%.0f",item.quantity)
                 
                 if self.products.count == 1 {
-                    tableView.selectRow(at: indexPath, animated: false, scrollPosition: UITableViewScrollPosition.none)
+                    tableView.selectRow(at: indexPath, animated: false, scrollPosition: UITableView.ScrollPosition.none)
                     self.performSegue(withIdentifier: "showProductDetails", sender: self)
                     //return
                 }
@@ -296,7 +296,7 @@ class SearchVC: UITableViewController, UISearchResultsUpdating, UISearchBarDeleg
                         
                         self.tableView.reloadData()
                         self.spinner.stopAnimating()
-                        self.tableView.separatorStyle=UITableViewCellSeparatorStyle.singleLine
+                        self.tableView.separatorStyle=UITableViewCell.SeparatorStyle.singleLine
                         UIApplication.shared.isNetworkActivityIndicatorVisible = false
                         if self.products.count > 0 {
                             /*var height:CGFloat = 0.0
@@ -399,7 +399,7 @@ class SearchVC: UITableViewController, UISearchResultsUpdating, UISearchBarDeleg
                         
                         self.tableView.reloadData()
                         self.spinner.stopAnimating()
-                        self.tableView.separatorStyle=UITableViewCellSeparatorStyle.singleLine
+                        self.tableView.separatorStyle=UITableViewCell.SeparatorStyle.singleLine
                         UIApplication.shared.isNetworkActivityIndicatorVisible = false
                         if self.products.count > 0 {
                             
@@ -440,7 +440,7 @@ class SearchVC: UITableViewController, UISearchResultsUpdating, UISearchBarDeleg
         
         self.products.removeAll(keepingCapacity: false)
         self.tableView.reloadData()
-        //self.tableView.separatorStyle=UITableViewCellSeparatorStyle.None
+        //self.tableView.separatorStyle=UITableViewCell.SeparatorStyle.None
         if keyStrokeCounter == 0 && loadingLabel.text != "Loading..." {
             resetLoadingLabel(30.0)
         }
@@ -460,7 +460,7 @@ class SearchVC: UITableViewController, UISearchResultsUpdating, UISearchBarDeleg
         self.tableView.reloadData()
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
         resetLoadingLabel(0.0)
-        //        self.tableView.contentInset = UIEdgeInsetsMake(60, 0, 0, 0);
+        //        self.tableView.contentInset = UIEdgeInsets(top: 60, left: 0, bottom: 0, right: 0);
         print("Cancelled...")
         restoreNavBar()
         
@@ -472,7 +472,7 @@ class SearchVC: UITableViewController, UISearchResultsUpdating, UISearchBarDeleg
         keyStrokeCounter = 0
         self.spinner.startAnimating()
         self.loadingLabel.isHidden=false
-        self.tableView.separatorStyle=UITableViewCellSeparatorStyle.none
+        self.tableView.separatorStyle=UITableViewCell.SeparatorStyle.none
         self.products.removeAll(keepingCapacity: false)
         self.tableView.reloadData()
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
@@ -497,11 +497,11 @@ class SearchVC: UITableViewController, UISearchResultsUpdating, UISearchBarDeleg
     
     @objc func configureUIControls () { //for cutomising controls on the UI
         print("configuring...")
-        self.tableView.contentInset = UIEdgeInsetsMake(0,0,0,0);
+        self.tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0);
         // 1. UITableView Customisation
         
         //self.tableView.separatorInset=UIEdgeInsets(top: 0.0, left: 10, bottom: 0.0, right: 20.0)
-        self.tableView.separatorStyle=UITableViewCellSeparatorStyle.none //remove separators before search
+        self.tableView.separatorStyle=UITableViewCell.SeparatorStyle.none //remove separators before search
         self.tableView.tableFooterView = UIView(frame: CGRect.zero) //remove trailing separators after content
         
         // 2. Loading Message Configuration - UIActivityView and UILabel
@@ -510,7 +510,7 @@ class SearchVC: UITableViewController, UISearchResultsUpdating, UISearchBarDeleg
         spinner.center.x = self.view.center.x - margin //move left to accommodate "Loading..." label
         spinner.center.y = self.view.center.y - 90 //move up to center
         spinner.hidesWhenStopped = true //hide before search
-        spinner.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray //type of UIActivityView (small)
+        spinner.style = UIActivityIndicatorView.Style.gray //type of UIActivityView (small)
         view.addSubview(spinner) //Add to View
         //self.spinner.startAnimating()
         
@@ -533,7 +533,7 @@ class SearchVC: UITableViewController, UISearchResultsUpdating, UISearchBarDeleg
          searchController.searchBar.placeholder="Search by barcode or description"
          searchController.searchBar.barTintColor=UIColor.whiteColor()
          searchController.searchBar.tintColor=UIColor.whiteColor()
-         searchController.searchBar.searchBarStyle = UISearchBarStyle.Minimal
+         searchController.searchBar.searchBarStyle = UISearchBar.Style.Minimal
          tableView.tableHeaderView = searchController.searchBar
          tableView.tableHeaderView?.backgroundColor=UIColor(red: 2.0/255, green: 160.0/255, blue: 243.0/255, alpha: 1.0)
          
@@ -549,8 +549,8 @@ class SearchVC: UITableViewController, UISearchResultsUpdating, UISearchBarDeleg
          //navigationItem.titleView = searchController.searchBar //add to NavBar
          let textFieldInsideSearchBar = searchController.searchBar.valueForKey("searchField") as? UITextField //Change text color to white
          
-         searchController.searchBar.setImage(UIImage(named: "search-new"), forSearchBarIcon: UISearchBarIcon.Search, state: UIControlState.Normal);
-         searchController.searchBar.setImage(UIImage(named: "search-cancel"), forSearchBarIcon: UISearchBarIcon.Clear, state: UIControlState.Normal);
+         searchController.searchBar.setImage(UIImage(named: "search-new"), forSearchBarIcon: UISearchBar.Icon.Search, state: UIControl.State.Normal);
+         searchController.searchBar.setImage(UIImage(named: "search-cancel"), forSearchBarIcon: UISearchBar.Icon.Clear, state: UIControl.State.Normal);
          
          if textFieldInsideSearchBar!.respondsToSelector(Selector("attributedPlaceholder")) {
          
@@ -588,40 +588,40 @@ class SearchVC: UITableViewController, UISearchResultsUpdating, UISearchBarDeleg
     
     @objc func addRightNavItemOnView(){
         
-        let buttonEdit: UIButton = UIButton(type: UIButtonType.custom)
+        let buttonEdit: UIButton = UIButton(type: UIButton.ButtonType.custom)
         buttonEdit.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
-        buttonEdit.setImage(UIImage(named:"menu-new-1.png"), for: UIControlState())
-        buttonEdit.addTarget(self.revealViewController(), action: #selector(SWRevealViewController.revealToggle(_:)), for: UIControlEvents.touchUpInside)
+        buttonEdit.setImage(UIImage(named:"menu-new-1.png"), for: UIControl.State())
+        buttonEdit.addTarget(self.revealViewController(), action: #selector(SWRevealViewController.revealToggle(_:)), for: UIControl.Event.touchUpInside)
         let rightBarButtonItemEdit: UIBarButtonItem = UIBarButtonItem(customView: buttonEdit)
         
-        /*let backButton: UIButton = UIButton(type: UIButtonType.custom)
+        /*let backButton: UIButton = UIButton(type: UIButton.ButtonType.custom)
         backButton.frame = CGRect(x: 0, y: 0, width: 23, height: 23)
-        backButton.setImage(UIImage(named:"back3.png"), for: UIControlState())
-        backButton.addTarget(self, action: #selector(ProductSearchVC.goBack), for: UIControlEvents.touchUpInside)
+        backButton.setImage(UIImage(named:"back3.png"), for: UIControl.State())
+        backButton.addTarget(self, action: #selector(ProductSearchVC.goBack), for: UIControl.Event.touchUpInside)
         let backButtonItem: UIBarButtonItem = UIBarButtonItem(customView: backButton)
         */
         
-         let searchButton: UIButton = UIButton(type: UIButtonType.custom)
+         let searchButton: UIButton = UIButton(type: UIButton.ButtonType.custom)
          searchButton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
-         searchButton.setImage(UIImage(named:"search-new"), for: UIControlState())
+         searchButton.setImage(UIImage(named:"search-new"), for: UIControl.State())
         
          let rightSearchBarButtonItem: UIBarButtonItem = UIBarButtonItem(customView: searchButton)
          
-         let scanButton: UIButton = UIButton(type: UIButtonType.custom)
+         let scanButton: UIButton = UIButton(type: UIButton.ButtonType.custom)
          scanButton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
-         scanButton.setImage(UIImage(named:"barcode1"), for: UIControlState())
+         scanButton.setImage(UIImage(named:"barcode1"), for: UIControl.State())
          
          let rightScanBarButtonItem: UIBarButtonItem = UIBarButtonItem(customView: scanButton)
         
-        let spaceFix: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.fixedSpace, target: nil, action: nil)
+        let spaceFix: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.fixedSpace, target: nil, action: nil)
         spaceFix.width = -16
         
         /*
          
-         let buttonDelete: UIButton = UIButton(type: UIButtonType.Custom)
+         let buttonDelete: UIButton = UIButton(type: UIButton.ButtonType.Custom)
          buttonDelete.frame = CGRectMake(0, 0, 40, 40)
-         buttonDelete.setImage(UIImage(named:"back3.png"), forState: UIControlState.Normal)
-         buttonDelete.addTarget(self.revealViewController(), action: "done:", forControlEvents: UIControlEvents.TouchUpInside)
+         buttonDelete.setImage(UIImage(named:"back3.png"), forState: UIControl.State.Normal)
+         buttonDelete.addTarget(self.revealViewController(), action: "done:", forControlEvents: UIControl.Event.TouchUpInside)
          
          
          
@@ -672,7 +672,7 @@ class SearchVC: UITableViewController, UISearchResultsUpdating, UISearchBarDeleg
         let screenshot = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
-        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
+        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         blurEffectView.frame=layer.frame
         bgView.image = screenshot
@@ -702,10 +702,10 @@ class SearchVC: UITableViewController, UISearchResultsUpdating, UISearchBarDeleg
         
         /*
          
-         let buttonDelete: UIButton = UIButton(type: UIButtonType.Custom)
+         let buttonDelete: UIButton = UIButton(type: UIButton.ButtonType.Custom)
          buttonDelete.frame = CGRectMake(0, 0, 40, 40)
-         buttonDelete.setImage(UIImage(named:"back3.png"), forState: UIControlState.Normal)
-         buttonDelete.addTarget(self.revealViewController(), action: "done:", forControlEvents: UIControlEvents.TouchUpInside)
+         buttonDelete.setImage(UIImage(named:"back3.png"), forState: UIControl.State.Normal)
+         buttonDelete.addTarget(self.revealViewController(), action: "done:", forControlEvents: UIControl.Event.TouchUpInside)
          
          
          
@@ -726,7 +726,7 @@ class SearchVC: UITableViewController, UISearchResultsUpdating, UISearchBarDeleg
         searchController.searchBar.placeholder="Search by barcode or description"
         searchController.searchBar.barTintColor=UIColor.white
         searchController.searchBar.tintColor=UIColor.white
-        searchController.searchBar.searchBarStyle = UISearchBarStyle.minimal
+        searchController.searchBar.searchBarStyle = UISearchBar.Style.minimal
         
         //tableView.tableHeaderView = searchController.searchBar
         //tableView.tableHeaderView?.backgroundColor=UIColor(red: 2.0/255, green: 160.0/255, blue: 243.0/255, alpha: 1.0)
@@ -743,12 +743,12 @@ class SearchVC: UITableViewController, UISearchResultsUpdating, UISearchBarDeleg
         navigationItem.titleView = searchController.searchBar //add to NavBar
         let textFieldInsideSearchBar = searchController.searchBar.value(forKey: "searchField") as? UITextField //Change text color to white
         
-        searchController.searchBar.setImage(UIImage(named: "searchicon"), for: UISearchBarIcon.search, state: UIControlState());
-        searchController.searchBar.setImage(UIImage(named: "search-cancel"), for: UISearchBarIcon.clear, state: UIControlState());
+        searchController.searchBar.setImage(UIImage(named: "searchicon"), for: UISearchBar.Icon.search, state: UIControl.State());
+        searchController.searchBar.setImage(UIImage(named: "search-cancel"), for: UISearchBar.Icon.clear, state: UIControl.State());
         
         if textFieldInsideSearchBar!.responds(to: #selector(getter: UITextField.attributedPlaceholder)) {
             
-            let attributeDict = [NSAttributedStringKey.foregroundColor: UIColor(red: 255.0/255, green: 255.0/255, blue: 255.0/255, alpha: 0.9)]
+            let attributeDict = [NSAttributedString.Key.foregroundColor: UIColor(red: 255.0/255, green: 255.0/255, blue: 255.0/255, alpha: 0.9)]
             textFieldInsideSearchBar!.attributedPlaceholder = NSAttributedString(string: "Search", attributes: attributeDict)
         }
         textFieldInsideSearchBar?.textColor = UIColor.white  //Change text color to white
@@ -762,7 +762,7 @@ class SearchVC: UITableViewController, UISearchResultsUpdating, UISearchBarDeleg
         let title:UILabel = UILabel()
         title.frame = CGRect(x: 0, y: 0, width: 40, height: 100)
         let barFont = UIFont(name: "HelveticaNeue", size: 22.0)
-        title.attributedText = NSAttributedString(string: "m-retailer", attributes: [NSAttributedStringKey.foregroundColor: UIColor.white, NSAttributedStringKey.font:barFont!])
+        title.attributedText = NSAttributedString(string: "m-retailer", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font:barFont!])
         navigationItem.titleView = title
         
     }

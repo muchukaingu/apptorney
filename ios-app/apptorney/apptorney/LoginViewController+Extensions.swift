@@ -42,13 +42,13 @@ extension LoginViewController {
 extension LoginViewController : UITextFieldDelegate {
     func addToolBar(textField: UITextField){
         let toolBar = UIToolbar()
-        toolBar.barStyle = UIBarStyle.default
+        toolBar.barStyle = .default
         toolBar.isTranslucent = true
         toolBar.tintColor = UIColor.black
-        let signInButton = UIBarButtonItem(title: "Sign In", style: UIBarButtonItemStyle.done, target: self, action: Selector(("donePressed")))
-        let signUpButton = UIBarButtonItem(title: "Sign Up", style: UIBarButtonItemStyle.plain, target: self, action: Selector(("cancelPressed")))
-        let forgotPasswordButton = UIBarButtonItem(title: "Forgot Your Password?", style: UIBarButtonItemStyle.plain, target: self, action: Selector(("cancelPressed")))
-        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        let signInButton = UIBarButtonItem(title: "Sign In", style: .done, target: self, action: #selector(donePressed))
+        let signUpButton = UIBarButtonItem(title: "Sign Up", style: .plain, target: self, action: #selector(cancelPressed))
+        let forgotPasswordButton = UIBarButtonItem(title: "Forgot Your Password?", style: .plain, target: self, action: #selector(cancelPressed))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         toolBar.setItems([signInButton, signUpButton, spaceButton, forgotPasswordButton], animated: false)
         toolBar.isUserInteractionEnabled = true
         toolBar.sizeToFit()
@@ -56,10 +56,10 @@ extension LoginViewController : UITextFieldDelegate {
         textField.delegate = self
         textField.inputAccessoryView = toolBar
     }
-    func donePressed(){
+    @objc func donePressed(){
         view.endEditing(true)
     }
-    func cancelPressed(){
+    @objc func cancelPressed(){
         view.endEditing(true) // or do something
     }
     
@@ -103,4 +103,3 @@ extension LoginViewController : UITextFieldDelegate {
     
     
 }
-

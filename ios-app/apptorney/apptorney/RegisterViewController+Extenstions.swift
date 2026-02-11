@@ -112,10 +112,10 @@ extension RegisterViewController {
 extension RegisterViewController : UITextFieldDelegate {
     func addToolBar(textField: UITextField){
         let toolBar = UIToolbar()
-        toolBar.barStyle = UIBarStyle.default
+        toolBar.barStyle = .default
         toolBar.isTranslucent = true
         toolBar.tintColor = UIColor.black
-        let signUpButton = UIBarButtonItem(title: "Sign In", style: UIBarButtonItemStyle.done, target: self, action: Selector(("donePressed")))
+        let signUpButton = UIBarButtonItem(title: "Sign In", style: .done, target: self, action: #selector(donePressed))
        
        
         toolBar.setItems([signUpButton], animated: false)
@@ -125,7 +125,7 @@ extension RegisterViewController : UITextFieldDelegate {
         textField.delegate = self
         textField.inputAccessoryView = toolBar
     }
-    func donePressed(){
+    @objc func donePressed(){
         view.endEditing(true)
     }
     func cancelPressed(){

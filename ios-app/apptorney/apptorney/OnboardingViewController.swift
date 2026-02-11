@@ -69,6 +69,11 @@ class OnboardingViewController: UIViewController, PaperOnboardingDataSource, Pap
         
         
     }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: false)
+    }
     
     
     func onboardingItemsCount() -> Int {
@@ -213,6 +218,5 @@ extension OnboardingViewController {
 //    private static let titleFont = UIFont(name: "Nunito-Bold", size: 36.0) ?? UIFont.boldSystemFont(ofSize: 36.0)
 //    private static let descriptionFont = UIFont(name: "OpenSans-Regular", size: 14.0) ?? UIFont.systemFont(ofSize: 14.0)
 }
-
 
 

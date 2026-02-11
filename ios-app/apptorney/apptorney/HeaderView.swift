@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol HeaderViewDelegate: class {
+protocol HeaderViewDelegate: AnyObject {
     func toggleSection(header: HeaderView, section: Int)
 }
 
@@ -22,8 +22,8 @@ class HeaderView: UITableViewHeaderFooterView {
             let attrStr = NSMutableAttributedString(string: section.name)
             
             if section.highlighted! {
-                attrStr.addAttribute(NSAttributedStringKey.underlineStyle , value: NSUnderlineStyle.styleSingle.rawValue, range:NSMakeRange(0, attrStr.length))
-                attrStr.addAttribute(NSAttributedStringKey.underlineColor , value: UIColor(hex: "f3a435"), range:NSMakeRange(0, attrStr.length))
+                attrStr.addAttribute(NSAttributedString.Key.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: NSMakeRange(0, attrStr.length))
+                attrStr.addAttribute(NSAttributedString.Key.underlineColor, value: UIColor(hex: "f3a435"), range: NSMakeRange(0, attrStr.length))
             }
             titleLabel?.attributedText = attrStr
             //titleLabel?.textColor = section.highlighted! ? UIColor(hex: "f3a435"):UIColor.black
@@ -75,7 +75,7 @@ extension UIView {
         animation.toValue = toValue
         animation.duration = duration
         animation.isRemovedOnCompletion = false
-        animation.fillMode = kCAFillModeForwards
+        animation.fillMode = .forwards
         
         self.layer.add(animation, forKey: nil)
     }

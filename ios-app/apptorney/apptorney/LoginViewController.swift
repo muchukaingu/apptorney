@@ -100,7 +100,7 @@ class LoginViewController: UIViewController, SettingsTableViewControllerDelegate
         }, completion:nil)
         
         
-        UIView.animate(withDuration: 0.2, delay: 1.2, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.5, options: UIViewAnimationOptions.curveEaseIn, animations: {
+        UIView.animate(withDuration: 0.2, delay: 1.2, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.5, options: UIView.AnimationOptions.curveEaseIn, animations: {
             self.loginButton.alpha = 1.0
             self.txtUserName.alpha = 1.0
             self.txtPassword.alpha = 1.0
@@ -116,6 +116,11 @@ class LoginViewController: UIViewController, SettingsTableViewControllerDelegate
 //            loginAttempt("http://41.77.145.134:8888")
 //        }
         
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: false)
     }
 
     override func didReceiveMemoryWarning() {
@@ -286,7 +291,7 @@ class LoginViewController: UIViewController, SettingsTableViewControllerDelegate
         
         UIGraphicsEndImageContext()
         
-        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
+        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         blurEffectView.frame=self.view.bounds
         aView.image = screenshot
@@ -342,14 +347,14 @@ class LoginViewController: UIViewController, SettingsTableViewControllerDelegate
     }
     @objc func registerForKeyboardNotifications() {
         let defaultCenter = NotificationCenter.default
-        defaultCenter.addObserver(self, selector: #selector(LoginViewController.keyboardWasShown(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        defaultCenter.addObserver(self, selector: #selector(LoginViewController.keyboardWillBeHidden(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        defaultCenter.addObserver(self, selector: #selector(LoginViewController.keyboardWasShown(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        defaultCenter.addObserver(self, selector: #selector(LoginViewController.keyboardWillBeHidden(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     @objc func keyboardWasShown(_ aNotification: Notification) {
         
         let userInfo = aNotification.userInfo
-        let keyboardScreenEndFrame = (userInfo?[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+        let keyboardScreenEndFrame = (userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
         let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
         
         
@@ -388,7 +393,7 @@ class LoginViewController: UIViewController, SettingsTableViewControllerDelegate
     }
     
     @IBAction func hideLoginError(){
-        UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.5, options: UIViewAnimationOptions.curveEaseIn, animations: {
+        UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.5, options: UIView.AnimationOptions.curveEaseIn, animations: {
             //self.loginErrorLabel.text = ""
             //self.loginErrorLabel.alpha = 0.0
             //self.closeErrorButton.alpha = 0.0

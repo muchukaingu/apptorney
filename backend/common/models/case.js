@@ -1,5 +1,6 @@
 module.exports = function (Case) {
     const { ObjectId } = require('mongodb') // or ObjectID
+    const vectorSearch = require('./shared/vector-search')
 
     var KeenTracking = require('keen-tracking')
 
@@ -134,6 +135,13 @@ module.exports = function (Case) {
         http: { path: '/mobileviewcase', verb: 'get' },
         accepts: { arg: 'id', type: 'string' },
         returns: { arg: 'caseInstance', type: 'Object' }
+    })
+
+    Case.remoteMethod(
+        'vectorSearch', {
+        http: { path: '/vector-search', verb: 'post' },
+        accepts: [{ arg: 'payload', type: 'object', http: { source: 'body' } }],
+        returns: { arg: 'results', type: 'Object', root: true }
     })
 
     Case.getByArea = function (areaId, cb) {
@@ -653,6 +661,57 @@ module.exports = function (Case) {
                     }
                 }
             })
+    }
+
+    Case.vectorSearch = function (payload, cb) {
+        payload = payload || {}
+        vectorSearch.resolveQueryVector(payload, function (err, queryVector) {
+            if (err) {
+                cb(err)
+                return
+            }
+
+            var collection = Case.getDataSource().connector.collection('case')
+            var match = payload.includeDeleted ? {} : { deleted: { $ne: true } }
+
+            vectorSearch.searchCollection({
+                collection: collection,
+                queryVector: queryVector,
+                embeddingField: 'caseEmbedding',
+                limit: payload.limit,
+                maxCandidates: payload.maxCandidates,
+                match: match,
+                projection: {
+                    caseEmbedding: true,
+                    name: true,
+                    caseNumber: true,
+                    summaryOfFacts: true,
+                    summaryOfRuling: true,
+                    citation: true,
+                    year: true
+                },
+                mapResult: function (doc) {
+                    return {
+                        id: String(doc._id),
+                        type: 'case',
+                        name: doc.name,
+                        caseNumber: doc.caseNumber,
+                        summaryOfFacts: doc.summaryOfFacts,
+                        summaryOfRuling: doc.summaryOfRuling,
+                        citation: doc.citation,
+                        year: doc.year
+                    }
+                }
+            }, function (searchErr, result) {
+                if (searchErr) {
+                    cb(searchErr)
+                    return
+                }
+
+                result.queryDimensions = queryVector.length
+                cb(null, result)
+            })
+        })
     }
 
     /**

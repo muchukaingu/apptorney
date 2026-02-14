@@ -2,6 +2,7 @@
 
 module.exports = function (Legislation) {
     const { ObjectId } = require('mongodb') // or ObjectID
+    const vectorSearch = require('./shared/vector-search')
     // Configure a client instance
     var KeenTracking = require('keen-tracking')
 
@@ -845,6 +846,59 @@ module.exports = function (Legislation) {
         })
     }
 
+    Legislation.vectorSearch = function (payload, cb) {
+        payload = payload || {}
+        vectorSearch.resolveQueryVector(payload, function (err, queryVector) {
+            if (err) {
+                cb(err)
+                return
+            }
+
+            var collection = Legislation.getDataSource().connector.collection('legislation')
+            var match = payload.includeDeleted ? {} : { deleted: { $ne: true } }
+
+            vectorSearch.searchCollection({
+                collection: collection,
+                queryVector: queryVector,
+                embeddingField: 'legislationEmbedding',
+                limit: payload.limit,
+                maxCandidates: payload.maxCandidates,
+                match: match,
+                projection: {
+                    legislationEmbedding: true,
+                    legislationName: true,
+                    legislationType: true,
+                    preamble: true,
+                    legislationNumber: true,
+                    legislationNumbers: true,
+                    year: true,
+                    dateOfAssent: true
+                },
+                mapResult: function (doc) {
+                    return {
+                        id: String(doc._id),
+                        type: 'legislation',
+                        legislationName: doc.legislationName,
+                        legislationType: doc.legislationType,
+                        preamble: doc.preamble,
+                        legislationNumber: doc.legislationNumber,
+                        legislationNumbers: doc.legislationNumbers,
+                        year: doc.year,
+                        dateOfAssent: doc.dateOfAssent
+                    }
+                }
+            }, function (searchErr, result) {
+                if (searchErr) {
+                    cb(searchErr)
+                    return
+                }
+
+                result.queryDimensions = queryVector.length
+                cb(null, result)
+            })
+        })
+    }
+
     // REMOTE METHODS ##############################################################################################
 
     Legislation.remoteMethod(
@@ -1028,6 +1082,13 @@ module.exports = function (Legislation) {
         returns: { arg: 'result', type: 'string' }
     }
     )
+
+    Legislation.remoteMethod(
+        'vectorSearch', {
+        http: { path: '/vector-search', verb: 'post' },
+        accepts: [{ arg: 'payload', type: 'object', http: { source: 'body' } }],
+        returns: { arg: 'results', type: 'Object', root: true }
+    })
 
     // HOOKS ########################################################################################################
 

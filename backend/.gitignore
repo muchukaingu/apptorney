@@ -17,3 +17,12 @@
 coverage
 node_modules
 npm-debug.log
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+dist/
+build/
+.venv/

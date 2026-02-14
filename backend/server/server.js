@@ -9,6 +9,12 @@ var app = module.exports = loopback();
 
 var cors = require('cors')
 
+// Register custom mixins before boot loads model definitions.
+app.loopback.modelBuilder.mixins.define(
+    'TimeStamp',
+    require('./mixins/timestamp')
+);
+
 //app.use(loopback.compress());
 /*
 app.use(function(req, res, next) {

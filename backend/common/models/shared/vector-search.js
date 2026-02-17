@@ -1,9 +1,16 @@
-const { execFile } = require('child_process')
-const path = require('path')
+const https = require('https')
+const urlParser = require('url')
 
 const DEFAULT_LIMIT = 20
 const MAX_LIMIT = 100
-const DEFAULT_MAX_CANDIDATES = 5000
+const DEFAULT_MAX_CANDIDATES = 600
+const MAX_MAX_CANDIDATES = 2000
+const DEFAULT_VOYAGE_API_URL = 'https://api.voyageai.com/v1/embeddings'
+const DEFAULT_VOYAGE_MODEL = 'voyage-law-2'
+const DEFAULT_VOYAGE_INPUT_TYPE = 'query'
+const DEFAULT_VOYAGE_TIMEOUT_MS = 60000
+const DEFAULT_PROGRESS_EVERY = 250
+const DEFAULT_MONGO_BATCH_SIZE = 100
 
 function sanitizeLimit(limit) {
   const parsed = parseInt(limit, 10)
@@ -18,7 +25,7 @@ function sanitizeMaxCandidates(value) {
   if (!Number.isFinite(parsed) || parsed <= 0) {
     return DEFAULT_MAX_CANDIDATES
   }
-  return parsed
+  return Math.min(parsed, MAX_MAX_CANDIDATES)
 }
 
 function parseQueryVector(input) {
@@ -40,33 +47,84 @@ function parseQueryVector(input) {
   return vector
 }
 
-function embedQueryText(queryText, cb) {
-  const pythonBin = process.env.EMBEDDING_PYTHON_BIN || 'python3'
-  const modelName = process.env.EMBEDDING_MODEL || 'sentence-transformers/all-MiniLM-L6-v2'
-  const scriptPath = process.env.EMBEDDING_QUERY_SCRIPT ||
-    path.resolve(__dirname, '../../../scripts/embed_text.py')
+function postJson(targetUrl, apiKey, payload, timeoutMs, cb) {
+  const data = JSON.stringify(payload)
+  const parsed = urlParser.parse(targetUrl)
+  const requestOptions = {
+    protocol: parsed.protocol,
+    hostname: parsed.hostname,
+    port: parsed.port,
+    path: parsed.path,
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + apiKey,
+      'Content-Length': Buffer.byteLength(data)
+    },
+    timeout: timeoutMs
+  }
 
-  execFile(
-    pythonBin,
-    [scriptPath, '--text', queryText, '--model-name', modelName],
-    { maxBuffer: 10 * 1024 * 1024 },
-    function (err, stdout, stderr) {
-      if (err) {
-        const message = stderr && stderr.trim()
-          ? stderr.trim()
-          : err.message
-        cb(new Error('Failed to generate query embedding: ' + message))
+  const request = https.request(requestOptions, function (res) {
+    let body = ''
+    res.on('data', function (chunk) { body += chunk })
+    res.on('end', function () {
+      if (res.statusCode < 200 || res.statusCode >= 300) {
+        cb(new Error('Voyage request failed (' + res.statusCode + '): ' + body))
         return
       }
-
       try {
-        const vector = parseQueryVector(stdout.trim())
-        cb(null, vector)
-      } catch (parseErr) {
-        cb(new Error('Query embedding output is invalid JSON array'))
+        cb(null, JSON.parse(body))
+      } catch (err) {
+        cb(new Error('Failed to parse Voyage response JSON'))
       }
+    })
+  })
+
+  request.on('timeout', function () {
+    request.destroy(new Error('Voyage request timed out'))
+  })
+  request.on('error', cb)
+  request.write(data)
+  request.end()
+}
+
+function embedQueryText(queryText, cb) {
+  const apiKey = process.env.VOYAGE_API_KEY
+  if (!apiKey) {
+    cb(new Error('Missing VOYAGE_API_KEY environment variable'))
+    return
+  }
+
+  const modelName = process.env.VOYAGE_QUERY_EMBEDDING_MODEL ||
+    process.env.VOYAGE_EMBEDDING_MODEL ||
+    DEFAULT_VOYAGE_MODEL
+  const inputType = process.env.VOYAGE_QUERY_INPUT_TYPE || DEFAULT_VOYAGE_INPUT_TYPE
+  const apiUrl = process.env.VOYAGE_QUERY_API_URL || process.env.VOYAGE_API_URL || DEFAULT_VOYAGE_API_URL
+  const timeoutMs = parseInt(process.env.VOYAGE_QUERY_TIMEOUT_MS || '', 10) || DEFAULT_VOYAGE_TIMEOUT_MS
+
+  postJson(apiUrl, apiKey, {
+    model: modelName,
+    input: [queryText],
+    input_type: inputType
+  }, timeoutMs, function (err, data) {
+    if (err) {
+      cb(err)
+      return
     }
-  )
+
+    const embeddings = data && data.data
+    if (!Array.isArray(embeddings) || embeddings.length < 1 || !Array.isArray(embeddings[0].embedding)) {
+      cb(new Error('Voyage response missing embedding data'))
+      return
+    }
+
+    try {
+      const vector = parseQueryVector(embeddings[0].embedding)
+      cb(null, vector)
+    } catch (parseErr) {
+      cb(new Error('Voyage embedding output is invalid'))
+    }
+  })
 }
 
 function resolveQueryVector(payload, cb) {
@@ -119,6 +177,36 @@ function cosineSimilarity(a, b) {
   return dot / (Math.sqrt(normA) * Math.sqrt(normB))
 }
 
+function scoreCandidateVector(queryVector, candidateVector) {
+  if (!Array.isArray(candidateVector)) {
+    return null
+  }
+
+  if (candidateVector.length === 0) {
+    return null
+  }
+
+  if (typeof candidateVector[0] === 'number') {
+    return cosineSimilarity(queryVector, candidateVector)
+  }
+
+  if (Array.isArray(candidateVector[0])) {
+    let best = null
+    for (let i = 0; i < candidateVector.length; i += 1) {
+      const score = cosineSimilarity(queryVector, candidateVector[i])
+      if (score === null) {
+        continue
+      }
+      if (best === null || score > best) {
+        best = score
+      }
+    }
+    return best
+  }
+
+  return null
+}
+
 function insertTopK(top, item, k) {
   if (top.length < k) {
     top.push(item)
@@ -144,16 +232,32 @@ function searchCollection(opts, cb) {
   const match = Object.assign({}, opts.match || {}, { [embeddingField]: { $exists: true } })
   const mapResult = opts.mapResult || function (doc) { return doc }
 
-  const cursor = collection.find(match, { projection }).limit(maxCandidates)
+  const logPrefix = opts.logPrefix || 'vector-search'
+  const progressEveryRaw = parseInt(process.env.VECTOR_SEARCH_LOG_EVERY || '', 10)
+  const progressEvery = Number.isFinite(progressEveryRaw) && progressEveryRaw > 0
+    ? progressEveryRaw
+    : DEFAULT_PROGRESS_EVERY
+  const batchSizeRaw = parseInt(process.env.VECTOR_SEARCH_MONGO_BATCH_SIZE || '', 10)
+  const batchSize = Number.isFinite(batchSizeRaw) && batchSizeRaw > 0
+    ? batchSizeRaw
+    : DEFAULT_MONGO_BATCH_SIZE
+
+  const cursor = collection.find(match, { projection }).limit(maxCandidates).batchSize(batchSize)
   const top = []
   let scanned = 0
   let compared = 0
+  const searchStartMs = Date.now()
+
+  console.log('[' + logPrefix + '] start limit=' + limit + ' maxCandidates=' + maxCandidates + ' batchSize=' + batchSize)
 
   cursor.forEach(
     function (doc) {
       scanned += 1
+      if (scanned % progressEvery === 0) {
+        console.log('[' + logPrefix + '] scanned=' + scanned + ' compared=' + compared)
+      }
       const candidateVector = doc[embeddingField]
-      const score = cosineSimilarity(queryVector, candidateVector)
+      const score = scoreCandidateVector(queryVector, candidateVector)
       if (score === null) {
         return
       }
@@ -168,6 +272,7 @@ function searchCollection(opts, cb) {
       }
 
       const results = top.sort((a, b) => b.score - a.score)
+      console.log('[' + logPrefix + '] done scanned=' + scanned + ' compared=' + compared + ' elapsed_ms=' + (Date.now() - searchStartMs))
       cb(null, {
         limit,
         scanned,

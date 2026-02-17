@@ -1,7 +1,8 @@
 const https = require('https')
 const urlParser = require('url')
+const DEFAULT_OPENAI_TIMEOUT_MS = 120000
 
-function postJson(targetUrl, apiKey, payload, cb) {
+function postJson(targetUrl, apiKey, payload, timeoutMs, cb) {
     const data = JSON.stringify(payload)
     const parsed = urlParser.parse(targetUrl)
     const requestOptions = {
@@ -14,7 +15,8 @@ function postJson(targetUrl, apiKey, payload, cb) {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + apiKey,
       'Content-Length': Buffer.byteLength(data)
-    }
+    },
+    timeout: timeoutMs
   }
 
     const request = https.request(requestOptions, function (res) {
@@ -33,6 +35,9 @@ function postJson(targetUrl, apiKey, payload, cb) {
     })
   })
 
+  request.on('timeout', function () {
+    request.destroy(new Error('OpenAI request timed out'))
+  })
   request.on('error', cb)
   request.write(data)
   request.end()
@@ -54,8 +59,9 @@ function createChatCompletion(opts, cb) {
   if (typeof opts.maxTokens === 'number' && opts.maxTokens > 0) {
     payload.max_completion_tokens = opts.maxTokens
   }
+  const timeoutMs = parseInt(process.env.OPENAI_TIMEOUT_MS || '', 10) || DEFAULT_OPENAI_TIMEOUT_MS
 
-  postJson('https://api.openai.com/v1/chat/completions', apiKey, payload, function (err, data) {
+  postJson('https://api.openai.com/v1/chat/completions', apiKey, payload, timeoutMs, function (err, data) {
     if (err) {
       cb(err)
       return

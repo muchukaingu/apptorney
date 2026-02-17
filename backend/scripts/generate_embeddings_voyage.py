@@ -9,6 +9,7 @@ into separate fields:
 
 import argparse
 import os
+import time
 from typing import Any, Dict, Iterable, List, Optional, Tuple
 
 import certifi
@@ -25,6 +26,7 @@ DEFAULT_FIELD_MAP = {
 DEFAULT_MODEL = "voyage-law-2"
 DEFAULT_API_URL = "https://api.voyageai.com/v1/embeddings"
 VOYAGE_MAX_ALLOWED_BATCH_TOKENS = 120000
+RETRYABLE_STATUS_CODES = {429, 500, 502, 503, 504}
 
 
 def stringify_value(value: Any) -> str:
@@ -170,34 +172,66 @@ def embed_batch_voyage(
     input_type: str,
     timeout_seconds: int,
     api_url: str,
+    max_retries: int,
+    retry_base_seconds: float,
+    retry_max_seconds: float,
 ) -> List[List[float]]:
     payload = {
         "model": model,
         "input": texts,
         "input_type": input_type,
     }
-    response = requests.post(
-        api_url,
-        json=payload,
-        headers={
-            "Authorization": f"Bearer {api_key}",
-            "Content-Type": "application/json",
-        },
-        timeout=timeout_seconds,
-    )
-    if response.status_code >= 400:
-        details = response.text.strip()
-        raise RuntimeError(
-            f"Voyage API request failed ({response.status_code}) at {api_url}: {details}"
-        )
-    data = response.json()
-    embedding_items = data.get("data", [])
-    vectors = [item["embedding"] for item in embedding_items]
-    if len(vectors) != len(texts):
-        raise RuntimeError(
-            f"Voyage returned {len(vectors)} embeddings for {len(texts)} inputs"
-        )
-    return vectors
+    max_attempts = max_retries + 1
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json",
+    }
+
+    for attempt in range(1, max_attempts + 1):
+        try:
+            response = requests.post(
+                api_url,
+                json=payload,
+                headers=headers,
+                timeout=timeout_seconds,
+            )
+        except requests.RequestException as error:
+            if attempt >= max_attempts:
+                raise RuntimeError(
+                    f"Voyage API request failed after {max_retries} retries: {error}"
+                ) from error
+            delay = min(retry_max_seconds, retry_base_seconds * (2 ** (attempt - 1)))
+            print(
+                f"Voyage request transport error (attempt {attempt}/{max_attempts}): {error}. "
+                f"Retrying in {delay:.1f}s..."
+            )
+            time.sleep(delay)
+            continue
+
+        if response.status_code >= 400:
+            details = response.text.strip()
+            if response.status_code in RETRYABLE_STATUS_CODES and attempt < max_attempts:
+                delay = min(retry_max_seconds, retry_base_seconds * (2 ** (attempt - 1)))
+                print(
+                    f"Voyage API transient error {response.status_code} (attempt {attempt}/{max_attempts}). "
+                    f"Retrying in {delay:.1f}s..."
+                )
+                time.sleep(delay)
+                continue
+            raise RuntimeError(
+                f"Voyage API request failed ({response.status_code}) at {api_url}: {details}"
+            )
+
+        data = response.json()
+        embedding_items = data.get("data", [])
+        vectors = [item["embedding"] for item in embedding_items]
+        if len(vectors) != len(texts):
+            raise RuntimeError(
+                f"Voyage returned {len(vectors)} embeddings for {len(texts)} inputs"
+            )
+        return vectors
+
+    raise RuntimeError("Voyage API request failed unexpectedly without response.")
 
 
 def is_voyage_batch_token_limit_error(error: Exception) -> bool:
@@ -216,6 +250,9 @@ def embed_items_with_auto_split(
     input_type: str,
     timeout_seconds: int,
     api_url: str,
+    max_retries: int,
+    retry_base_seconds: float,
+    retry_max_seconds: float,
 ) -> List[List[float]]:
     texts = [item[text_key] for item in items]
     try:
@@ -226,6 +263,9 @@ def embed_items_with_auto_split(
             input_type=input_type,
             timeout_seconds=timeout_seconds,
             api_url=api_url,
+            max_retries=max_retries,
+            retry_base_seconds=retry_base_seconds,
+            retry_max_seconds=retry_max_seconds,
         )
     except RuntimeError as error:
         if not is_voyage_batch_token_limit_error(error):
@@ -245,6 +285,9 @@ def embed_items_with_auto_split(
             input_type=input_type,
             timeout_seconds=timeout_seconds,
             api_url=api_url,
+            max_retries=max_retries,
+            retry_base_seconds=retry_base_seconds,
+            retry_max_seconds=retry_max_seconds,
         )
         right = embed_items_with_auto_split(
             items=items[mid:],
@@ -254,8 +297,87 @@ def embed_items_with_auto_split(
             input_type=input_type,
             timeout_seconds=timeout_seconds,
             api_url=api_url,
+            max_retries=max_retries,
+            retry_base_seconds=retry_base_seconds,
+            retry_max_seconds=retry_max_seconds,
         )
         return left + right
+
+
+def process_embedding_batch(
+    *,
+    batch: List[Dict[str, Any]],
+    collection: Any,
+    embedding_field: str,
+    skip_fields: set,
+    api_key: str,
+    model_name: str,
+    voyage_input_type: str,
+    voyage_timeout_seconds: int,
+    voyage_api_url: str,
+    voyage_max_retries: int,
+    voyage_retry_base_seconds: float,
+    voyage_retry_max_seconds: float,
+    max_chars_per_document: int,
+    chunk_max_chars: int,
+    chunk_overlap_chars: int,
+    max_chunks_per_document: int,
+    effective_max_batch_tokens: int,
+    dry_run: bool,
+) -> int:
+    chunk_items: List[Dict[str, Any]] = []
+    truncated_docs_in_batch = 0
+
+    for item in batch:
+        text = build_text_blob(item, skip_fields=skip_fields)
+        if max_chars_per_document > 0:
+            text = text[:max_chars_per_document]
+        chunks, truncated = split_text_into_chunks(
+            text=text,
+            max_chars=chunk_max_chars,
+            overlap_chars=chunk_overlap_chars,
+            max_chunks=max_chunks_per_document,
+        )
+        if truncated:
+            truncated_docs_in_batch += 1
+        for chunk_index, chunk_text in enumerate(chunks):
+            chunk_items.append(
+                {
+                    "_id": item["_id"],
+                    "chunk_index": chunk_index,
+                    "chunk_text": chunk_text,
+                }
+            )
+
+    doc_chunks: Dict[Any, List[List[float]]] = {item["_id"]: [] for item in batch}
+    for sub_items, _ in split_by_token_budget(
+        chunk_items,
+        text_key="chunk_text",
+        max_batch_tokens=effective_max_batch_tokens,
+    ):
+        vectors = embed_items_with_auto_split(
+            items=sub_items,
+            text_key="chunk_text",
+            api_key=api_key,
+            model=model_name,
+            input_type=voyage_input_type,
+            timeout_seconds=voyage_timeout_seconds,
+            api_url=voyage_api_url,
+            max_retries=voyage_max_retries,
+            retry_base_seconds=voyage_retry_base_seconds,
+            retry_max_seconds=voyage_retry_max_seconds,
+        )
+        for item, vector in zip(sub_items, vectors):
+            doc_chunks[item["_id"]].append(vector)
+
+    if not dry_run:
+        for item in batch:
+            collection.update_one(
+                {"_id": item["_id"]},
+                {"$set": {embedding_field: doc_chunks[item["_id"]]}},
+            )
+
+    return truncated_docs_in_batch
 
 
 def main() -> None:
@@ -270,7 +392,7 @@ def main() -> None:
     parser.add_argument(
         "--field-map",
         default=os.getenv("VOYAGE_EMBEDDING_FIELD_MAP"),
-        help='JSON map of collection->embedding field, e.g. {"case":"caseEmbeddingVoyage","legislation":"legislationEmbeddingVoyage"}',
+        help='JSON map of collection->embedding field, e.g. {"case":"caseEmbeddingVoyageChunks","legislation":"legislationEmbeddingVoyageChunks"}',
     )
     parser.add_argument("--batch-size", type=int, default=16, help="Embedding batch size.")
     parser.add_argument(
@@ -320,6 +442,24 @@ def main() -> None:
         "--voyage-api-url",
         default=os.getenv("VOYAGE_API_URL", DEFAULT_API_URL),
         help="Voyage embeddings API URL.",
+    )
+    parser.add_argument(
+        "--voyage-max-retries",
+        type=int,
+        default=int(os.getenv("VOYAGE_MAX_RETRIES", "6")),
+        help="Max retries for transient Voyage API errors (429/5xx and transport errors).",
+    )
+    parser.add_argument(
+        "--voyage-retry-base-seconds",
+        type=float,
+        default=float(os.getenv("VOYAGE_RETRY_BASE_SECONDS", "1.0")),
+        help="Initial retry backoff in seconds.",
+    )
+    parser.add_argument(
+        "--voyage-retry-max-seconds",
+        type=float,
+        default=float(os.getenv("VOYAGE_RETRY_MAX_SECONDS", "20.0")),
+        help="Maximum retry backoff in seconds.",
     )
     parser.add_argument(
         "--max-batch-tokens",
@@ -377,6 +517,14 @@ def main() -> None:
         raise ValueError("--log-every must be greater than 0.")
     if args.max_batch_tokens <= 0:
         raise ValueError("--max-batch-tokens must be greater than 0.")
+    if args.voyage_max_retries < 0:
+        raise ValueError("--voyage-max-retries must be >= 0.")
+    if args.voyage_retry_base_seconds <= 0:
+        raise ValueError("--voyage-retry-base-seconds must be > 0.")
+    if args.voyage_retry_max_seconds <= 0:
+        raise ValueError("--voyage-retry-max-seconds must be > 0.")
+    if args.voyage_retry_max_seconds < args.voyage_retry_base_seconds:
+        raise ValueError("--voyage-retry-max-seconds must be >= --voyage-retry-base-seconds.")
     if args.max_batch_tokens > VOYAGE_MAX_ALLOWED_BATCH_TOKENS:
         print(
             f"Warning: --max-batch-tokens {args.max_batch_tokens} exceeds Voyage limit "
@@ -418,13 +566,9 @@ def main() -> None:
             embedding_field = field_map.get(collection_name, "embeddingVoyage")
             skip_fields = {embedding_field}
 
-            query: Dict[str, Any] = {}
+            base_query: Dict[str, Any] = {}
             if args.skip_existing:
-                query[embedding_field] = {"$exists": False}
-
-            cursor = collection.find(query).batch_size(args.mongo_batch_size)
-            if args.limit > 0:
-                cursor = cursor.limit(args.limit)
+                base_query[embedding_field] = {"$exists": False}
 
             print(f"[{collection_name}] streaming documents into field '{embedding_field}'")
             updated_count = 0
@@ -432,120 +576,85 @@ def main() -> None:
             seen_count = 0
             truncated_docs_count = 0
             batch: List[Dict[str, Any]] = []
+            last_id: Optional[Any] = None
 
-            for doc in cursor:
-                if args.skip_existing and embedding_field in doc:
-                    skipped_existing_count += 1
-                    continue
-                batch.append(doc)
-                seen_count += 1
+            while True:
+                if args.limit > 0 and seen_count >= args.limit:
+                    break
 
-                if len(batch) < args.batch_size:
+                page_query: Dict[str, Any] = dict(base_query)
+                if last_id is not None:
+                    page_query["_id"] = {"$gt": last_id}
+
+                remaining = args.limit - seen_count if args.limit > 0 else args.mongo_batch_size
+                page_size = min(args.mongo_batch_size, remaining) if args.limit > 0 else args.mongo_batch_size
+                docs = list(collection.find(page_query).sort("_id", 1).limit(page_size))
+                if not docs:
+                    break
+
+                for doc in docs:
+                    last_id = doc["_id"]
+                    if args.skip_existing and embedding_field in doc:
+                        skipped_existing_count += 1
+                        continue
+                    batch.append(doc)
+                    seen_count += 1
+
                     if seen_count % args.log_every == 0:
                         print(f"[{collection_name}] fetched {seen_count} docs...")
-                    continue
 
-                chunk_items: List[Dict[str, Any]] = []
-                for item in batch:
-                    text = build_text_blob(item, skip_fields=skip_fields)
-                    if args.max_chars_per_document > 0:
-                        text = text[: args.max_chars_per_document]
-                    chunks, truncated = split_text_into_chunks(
-                        text=text,
-                        max_chars=args.chunk_max_chars,
-                        overlap_chars=args.chunk_overlap_chars,
-                        max_chunks=args.max_chunks_per_document,
-                    )
-                    if truncated:
-                        truncated_docs_count += 1
-                    for chunk_index, chunk_text in enumerate(chunks):
-                        chunk_items.append(
-                            {
-                                "_id": item["_id"],
-                                "chunk_index": chunk_index,
-                                "chunk_text": chunk_text,
-                            }
-                        )
+                    if len(batch) < args.batch_size:
+                        continue
 
-                doc_chunks: Dict[Any, List[List[float]]] = {item["_id"]: [] for item in batch}
-                for sub_items, sub_texts in split_by_token_budget(
-                    chunk_items,
-                    text_key="chunk_text",
-                    max_batch_tokens=effective_max_batch_tokens,
-                ):
-                    vectors = embed_items_with_auto_split(
-                        items=sub_items,
-                        text_key="chunk_text",
+                    truncated_docs_count += process_embedding_batch(
+                        batch=batch,
+                        collection=collection,
+                        embedding_field=embedding_field,
+                        skip_fields=skip_fields,
                         api_key=api_key,
-                        model=args.model_name,
-                        input_type=args.voyage_input_type,
-                        timeout_seconds=args.voyage_timeout_seconds,
-                        api_url=args.voyage_api_url,
+                        model_name=args.model_name,
+                        voyage_input_type=args.voyage_input_type,
+                        voyage_timeout_seconds=args.voyage_timeout_seconds,
+                        voyage_api_url=args.voyage_api_url,
+                        voyage_max_retries=args.voyage_max_retries,
+                        voyage_retry_base_seconds=args.voyage_retry_base_seconds,
+                        voyage_retry_max_seconds=args.voyage_retry_max_seconds,
+                        max_chars_per_document=args.max_chars_per_document,
+                        chunk_max_chars=args.chunk_max_chars,
+                        chunk_overlap_chars=args.chunk_overlap_chars,
+                        max_chunks_per_document=args.max_chunks_per_document,
+                        effective_max_batch_tokens=effective_max_batch_tokens,
+                        dry_run=args.dry_run,
                     )
+                    updated_count += len(batch)
+                    if updated_count % args.log_every == 0:
+                        print(f"[{collection_name}] embedded {updated_count} docs...")
+                    batch = []
 
-                    for item, vector in zip(sub_items, vectors):
-                        doc_chunks[item["_id"]].append(vector)
-
-                if not args.dry_run:
-                    for item in batch:
-                        collection.update_one(
-                            {"_id": item["_id"]},
-                            {"$set": {embedding_field: doc_chunks[item["_id"]]}},
-                        )
+            if batch:
+                truncated_docs_count += process_embedding_batch(
+                    batch=batch,
+                    collection=collection,
+                    embedding_field=embedding_field,
+                    skip_fields=skip_fields,
+                    api_key=api_key,
+                    model_name=args.model_name,
+                    voyage_input_type=args.voyage_input_type,
+                    voyage_timeout_seconds=args.voyage_timeout_seconds,
+                    voyage_api_url=args.voyage_api_url,
+                    voyage_max_retries=args.voyage_max_retries,
+                    voyage_retry_base_seconds=args.voyage_retry_base_seconds,
+                    voyage_retry_max_seconds=args.voyage_retry_max_seconds,
+                    max_chars_per_document=args.max_chars_per_document,
+                    chunk_max_chars=args.chunk_max_chars,
+                    chunk_overlap_chars=args.chunk_overlap_chars,
+                    max_chunks_per_document=args.max_chunks_per_document,
+                    effective_max_batch_tokens=effective_max_batch_tokens,
+                    dry_run=args.dry_run,
+                )
                 updated_count += len(batch)
                 if updated_count % args.log_every == 0:
                     print(f"[{collection_name}] embedded {updated_count} docs...")
-                batch = []
-
-            if batch:
-                chunk_items = []
-                for item in batch:
-                    text = build_text_blob(item, skip_fields=skip_fields)
-                    if args.max_chars_per_document > 0:
-                        text = text[: args.max_chars_per_document]
-                    chunks, truncated = split_text_into_chunks(
-                        text=text,
-                        max_chars=args.chunk_max_chars,
-                        overlap_chars=args.chunk_overlap_chars,
-                        max_chunks=args.max_chunks_per_document,
-                    )
-                    if truncated:
-                        truncated_docs_count += 1
-                    for chunk_index, chunk_text in enumerate(chunks):
-                        chunk_items.append(
-                            {
-                                "_id": item["_id"],
-                                "chunk_index": chunk_index,
-                                "chunk_text": chunk_text,
-                            }
-                        )
-
-                doc_chunks: Dict[Any, List[List[float]]] = {item["_id"]: [] for item in batch}
-                for sub_items, sub_texts in split_by_token_budget(
-                    chunk_items,
-                    text_key="chunk_text",
-                    max_batch_tokens=effective_max_batch_tokens,
-                ):
-                    vectors = embed_items_with_auto_split(
-                        items=sub_items,
-                        text_key="chunk_text",
-                        api_key=api_key,
-                        model=args.model_name,
-                        input_type=args.voyage_input_type,
-                        timeout_seconds=args.voyage_timeout_seconds,
-                        api_url=args.voyage_api_url,
-                    )
-
-                    for item, vector in zip(sub_items, vectors):
-                        doc_chunks[item["_id"]].append(vector)
-
-                if not args.dry_run:
-                    for item in batch:
-                        collection.update_one(
-                            {"_id": item["_id"]},
-                            {"$set": {embedding_field: doc_chunks[item["_id"]]}},
-                        )
-                updated_count += len(batch)
 
             if seen_count == 0:
                 print(f"[{collection_name}] no documents to process")

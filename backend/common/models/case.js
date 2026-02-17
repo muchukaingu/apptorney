@@ -164,51 +164,40 @@ module.exports = function (Case) {
 
 
     Case.getByYear = function (year, cb) {
-        var caseCollection = Case.getDataSource().connector.collection('case');
-        caseCollection.aggregate([{
-            $match: {
-                $or: [{
-                    "citation.year": year,
-                    "deleted": {
-                        $ne: true
-                    }
-                },
-                {
-                    "year": year,
-                    "deleted": {
-                        $ne: true
-                    }
-                }
-                ]
-            }
-        },
-
-        {
-            $project: {
-                id: true,
-                year: true,
-                name: true,
-                summaryOfRuling: true
-            }
-        },
-
-        {
-            $sort: {
-                name: 1
-            }
+        var parsedYear = parseInt(year, 10)
+        if (!Number.isFinite(parsedYear)) {
+            cb(new Error('year must be a valid number'))
+            return
         }
 
-        ],
-            function (err, cases) {
+        var caseCollection = Case.getDataSource().connector.collection('case')
+        var query = {
+            deleted: { $ne: true },
+            $or: [
+                { "citation.year": parsedYear },
+                { "year": parsedYear }
+            ]
+        }
+        var projection = {
+            year: true,
+            name: true,
+            summaryOfRuling: true
+        }
 
-                if (err) { } else {
-                    var counter = 0
-                    cases.map(function (caseInstance) {
-                        caseInstance.id = caseInstance._id
-                        delete caseInstance['_id']
-                    })
-                    cb(null, cases)
+        caseCollection
+            .find(query, { projection: projection })
+            .sort({ name: 1 })
+            .toArray(function (err, cases) {
+                if (err) {
+                    cb(err)
+                    return
                 }
+
+                cases.map(function (caseInstance) {
+                    caseInstance.id = caseInstance._id
+                    delete caseInstance['_id']
+                })
+                cb(null, cases)
             })
 
 
@@ -677,12 +666,12 @@ module.exports = function (Case) {
             vectorSearch.searchCollection({
                 collection: collection,
                 queryVector: queryVector,
-                embeddingField: 'caseEmbedding',
+                embeddingField: 'caseEmbeddingVoyageChunks',
                 limit: payload.limit,
                 maxCandidates: payload.maxCandidates,
                 match: match,
                 projection: {
-                    caseEmbedding: true,
+                    caseEmbeddingVoyageChunks: true,
                     name: true,
                     caseNumber: true,
                     summaryOfFacts: true,

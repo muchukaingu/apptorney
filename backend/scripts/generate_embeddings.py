@@ -108,6 +108,12 @@ def main() -> None:
         default=os.getenv("EMBEDDING_MODEL", "sentence-transformers/all-MiniLM-L6-v2"),
         help="Hugging Face model name.",
     )
+    parser.add_argument(
+        "--chunk-overlap-tokens",
+        type=int,
+        default=int(os.getenv("EMBEDDING_CHUNK_OVERLAP_TOKENS", "64")),
+        help="Token overlap between chunk windows when embedding full document text.",
+    )
     parser.add_argument("--batch-size", type=int, default=32, help="Embedding batch size.")
     parser.add_argument(
         "--mongo-batch-size",
@@ -151,6 +157,8 @@ def main() -> None:
         raise ValueError("--mongo-batch-size must be greater than 0.")
     if args.log_every <= 0:
         raise ValueError("--log-every must be greater than 0.")
+    if args.chunk_overlap_tokens < 0:
+        raise ValueError("--chunk-overlap-tokens must be >= 0.")
 
     collection_names = [name.strip() for name in args.collections.split(",") if name.strip()]
     if not collection_names:
@@ -202,7 +210,11 @@ def main() -> None:
                     continue
 
                 texts = [build_text_blob(item, skip_fields=skip_fields) for item in batch]
-                vectors = model.encode(texts, normalize=True)
+                vectors = model.encode_full_text(
+                    texts,
+                    normalize=True,
+                    overlap_tokens=args.chunk_overlap_tokens,
+                )
 
                 if not args.dry_run:
                     for item, vector in zip(batch, vectors):
@@ -217,7 +229,11 @@ def main() -> None:
 
             if batch:
                 texts = [build_text_blob(item, skip_fields=skip_fields) for item in batch]
-                vectors = model.encode(texts, normalize=True)
+                vectors = model.encode_full_text(
+                    texts,
+                    normalize=True,
+                    overlap_tokens=args.chunk_overlap_tokens,
+                )
 
                 if not args.dry_run:
                     for item, vector in zip(batch, vectors):

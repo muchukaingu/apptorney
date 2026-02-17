@@ -40,6 +40,11 @@ class LegislationDetailsTableViewController: UITableViewController {
     @IBOutlet weak var bookmarkButton: UIBarButtonItem!
     var isBookmark:Bool?
     var searched = false
+    private var searchMatchIndexPaths: [IndexPath] = []
+    private var currentSearchMatchIndex: Int = -1
+    private var searchMatchCounterButton = UIBarButtonItem(title: "0/0", style: .plain, target: nil, action: nil)
+    private var previousSearchMatchButton = UIBarButtonItem()
+    private var nextSearchMatchButton = UIBarButtonItem()
     
     var loaded = false
     @IBOutlet weak var judgement: UITextView!
@@ -57,6 +62,12 @@ class LegislationDetailsTableViewController: UITableViewController {
         self.configureUIControls()
         tableView.estimatedRowHeight = 80
         tableView.rowHeight = UITableView.automaticDimension
+        tableView.sectionFooterHeight = 0.01
+        tableView.estimatedSectionFooterHeight = 0
+        tableView.estimatedSectionHeaderHeight = 0
+        if #available(iOS 15.0, *) {
+            tableView.sectionHeaderTopPadding = 0
+        }
         self.searchController.searchBar.delegate = self
         
         
@@ -87,8 +98,8 @@ class LegislationDetailsTableViewController: UITableViewController {
         feedbackBtn.addTarget(self, action: #selector(didTapFeedbackButton), for: UIControl.Event.touchUpInside)
         feedbackBtn.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         let feedbackButton = UIBarButtonItem(customView: feedbackBtn)
-        
-        navigationItem.rightBarButtonItems = [bookmarkButton, feedbackButton]
+        configureSearchNavigationButtons()
+        navigationItem.rightBarButtonItems = [bookmarkButton, feedbackButton, nextSearchMatchButton, previousSearchMatchButton, searchMatchCounterButton]
         
         
         //self.searchController = UISearchController(searchResultsController: nil)
@@ -113,6 +124,120 @@ class LegislationDetailsTableViewController: UITableViewController {
         
         //Setup SearchBar
         
+    }
+
+    private func configureSearchNavigationButtons() {
+        if #available(iOS 13.0, *) {
+            previousSearchMatchButton = UIBarButtonItem(
+                image: UIImage(systemName: "chevron.up"),
+                style: .plain,
+                target: self,
+                action: #selector(goToPreviousSearchMatch)
+            )
+            nextSearchMatchButton = UIBarButtonItem(
+                image: UIImage(systemName: "chevron.down"),
+                style: .plain,
+                target: self,
+                action: #selector(goToNextSearchMatch)
+            )
+        } else {
+            previousSearchMatchButton = UIBarButtonItem(title: "Prev", style: .plain, target: self, action: #selector(goToPreviousSearchMatch))
+            nextSearchMatchButton = UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(goToNextSearchMatch))
+        }
+        searchMatchCounterButton = UIBarButtonItem(title: "0/0", style: .plain, target: nil, action: nil)
+        searchMatchCounterButton.isEnabled = false
+        updateSearchNavigationButtons()
+    }
+
+    private func updateSearchNavigationButtons() {
+        let hasMatches = !searchMatchIndexPaths.isEmpty
+        previousSearchMatchButton.isEnabled = hasMatches
+        nextSearchMatchButton.isEnabled = hasMatches
+        if hasMatches, currentSearchMatchIndex >= 0, currentSearchMatchIndex < searchMatchIndexPaths.count {
+            searchMatchCounterButton.title = "\(currentSearchMatchIndex + 1)/\(searchMatchIndexPaths.count)"
+        } else {
+            searchMatchCounterButton.title = "0/\(searchMatchIndexPaths.count)"
+        }
+    }
+
+    private func collectSearchMatches(for query: String) -> [IndexPath] {
+        let term = query.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        guard !term.isEmpty else { return [] }
+        var matches: [IndexPath] = []
+
+        let summaryCandidates = [
+            legislationInstance.legislationName ?? "",
+            legislationInstance.preamble ?? "",
+            legislationInstance.enactment ?? ""
+        ]
+        if summaryCandidates.contains(where: { $0.lowercased().contains(term) }) {
+            matches.append(IndexPath(row: 0, section: 0))
+        }
+
+        guard sections.count > 1 else { return matches }
+        for section in 1..<sections.count {
+            guard let contentRows = sections[section].content else { continue }
+            for (row, item) in contentRows.enumerated() {
+                let title = ((item.number ?? "") + " " + (item.title ?? "")).trimmingCharacters(in: .whitespacesAndNewlines)
+                let content = ((item.number ?? "") + " " + (item.content ?? "")).trimmingCharacters(in: .whitespacesAndNewlines)
+                if title.lowercased().contains(term) || content.lowercased().contains(term) {
+                    matches.append(IndexPath(row: row, section: section))
+                }
+            }
+        }
+
+        return matches
+    }
+
+    private func ensureSectionExpanded(_ section: Int) {
+        guard section >= 0, section < sections.count else { return }
+        guard sections[section].isCollapsible == true else { return }
+        if sections[section].isCollapsed {
+            sections[section].isCollapsed = false
+            tableView.reloadSections([section], with: .none)
+            tableView.layoutIfNeeded()
+        }
+    }
+
+    private func jumpToCurrentSearchMatch(animated: Bool) {
+        guard currentSearchMatchIndex >= 0, currentSearchMatchIndex < searchMatchIndexPaths.count else { return }
+        let target = searchMatchIndexPaths[currentSearchMatchIndex]
+        ensureSectionExpanded(target.section)
+        guard tableView.numberOfSections > target.section else { return }
+        guard tableView.numberOfRows(inSection: target.section) > target.row else { return }
+        tableView.scrollToRow(at: target, at: .middle, animated: animated)
+    }
+
+    private func rebuildSearchMatchesAndNavigate(toFirst: Bool) {
+        let query = searchController.searchBar.text ?? ""
+        searchMatchIndexPaths = collectSearchMatches(for: query)
+        if searchMatchIndexPaths.isEmpty {
+            currentSearchMatchIndex = -1
+        } else if toFirst || currentSearchMatchIndex >= searchMatchIndexPaths.count || currentSearchMatchIndex < 0 {
+            currentSearchMatchIndex = 0
+        }
+        updateSearchNavigationButtons()
+        if toFirst {
+            jumpToCurrentSearchMatch(animated: true)
+        }
+    }
+
+    @objc private func goToPreviousSearchMatch() {
+        guard !searchMatchIndexPaths.isEmpty else { return }
+        if currentSearchMatchIndex <= 0 {
+            currentSearchMatchIndex = searchMatchIndexPaths.count - 1
+        } else {
+            currentSearchMatchIndex -= 1
+        }
+        updateSearchNavigationButtons()
+        jumpToCurrentSearchMatch(animated: true)
+    }
+
+    @objc private func goToNextSearchMatch() {
+        guard !searchMatchIndexPaths.isEmpty else { return }
+        currentSearchMatchIndex = (currentSearchMatchIndex + 1) % searchMatchIndexPaths.count
+        updateSearchNavigationButtons()
+        jumpToCurrentSearchMatch(animated: true)
     }
     
     @objc func didTapFeedbackButton(sender: AnyObject){
@@ -377,7 +502,11 @@ class LegislationDetailsTableViewController: UITableViewController {
         if section == 0 {
             return 0
         }
-        return 40.0
+        return 30.0
+    }
+
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 0.01
     }
     /*
      override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -512,6 +641,7 @@ extension LegislationDetailsTableViewController: UISearchBarDelegate {
                 self.tableView.endUpdates()
                 
             }
+            self.rebuildSearchMatchesAndNavigate(toFirst: true)
             
         }
         debouncer.call()
@@ -523,8 +653,11 @@ extension LegislationDetailsTableViewController: UISearchBarDelegate {
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         print("Cancel button tapped")
+        searched = false
+        searchMatchIndexPaths.removeAll()
+        currentSearchMatchIndex = -1
+        updateSearchNavigationButtons()
        
     }
     
 }
-

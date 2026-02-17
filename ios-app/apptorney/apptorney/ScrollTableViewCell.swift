@@ -47,20 +47,8 @@ extension ScrollTableViewCell: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        colors.append(UIColor(red: 255.0/255, green: 46.0/255, blue: 99.0/255, alpha: 1.0)) //pinkish
-//        colors.append(UIColor(red: 238.0/255, green: 98.0/255, blue: 100.0/255, alpha: 1.0)) //salmon
-        colors.append(UIColor(hex:"ffffff"))
-        colors.append(UIColor(hex:"ffffff"))
-        colors.append(UIColor(hex:"ffffff"))
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "largeCell", for: indexPath) as! HomeLargeCollectionViewCell
-        
-        cell.name.text = itemsToDisplay[indexPath.row].title?.capitalized
-        cell.summary.text = itemsToDisplay[indexPath.row].summary
-        
-        if section == 0 {
-            cell.bookmarkImage.image = UIImage(named: "bookmark-red-1")
-            cell.accessoryImage.alpha = 0
-        }
+        let backgroundColor = UIColor(hex:"ffffff")
+
         if section == 1 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "smallCell", for: indexPath) as! HomeSmallCollectionViewCell
             cell.name.text = itemsToDisplay[indexPath.row].title?.capitalized
@@ -76,12 +64,20 @@ extension ScrollTableViewCell: UICollectionViewDataSource {
             }
             
             cell.name.font = cell.name.font.withSize(14)
-            cell.backgroundColor = colors[section]
+            cell.backgroundColor = backgroundColor
             //cell.accessoryImage.image = UIImage(named: "new-3")
            
             return cell
         }
-        if section == 2 {
+
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "largeCell", for: indexPath) as! HomeLargeCollectionViewCell
+        cell.name.text = itemsToDisplay[indexPath.row].title?.capitalized
+        cell.summary.text = itemsToDisplay[indexPath.row].summary
+
+        if section == 0 {
+            cell.bookmarkImage.image = UIImage(named: "bookmark-red-1")
+            cell.accessoryImage.alpha = 0
+        } else if section == 2 {
             cell.name.font = cell.name.font.withSize(13)
             cell.accessoryImage.image = UIImage(named: "trend")
             cell.bookmarkImage.alpha = 0

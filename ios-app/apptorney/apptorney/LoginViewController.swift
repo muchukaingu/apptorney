@@ -49,7 +49,8 @@ class LoginViewController: UIViewController, SettingsTableViewControllerDelegate
         super.viewDidLoad()
         
         UIApplication.shared.isStatusBarHidden = true
-        //self.loginButton.layer.cornerRadius = self.loginButton.frame.height/6
+        self.loginButton.layer.cornerRadius = self.loginButton.frame.height/6
+        self.loginButton.clipsToBounds = true
         self.registerForKeyboardNotifications()
         self.txtUserName.textContentType = .telephoneNumber
         txtUserName.autocapitalizationType = .words
@@ -180,19 +181,50 @@ class LoginViewController: UIViewController, SettingsTableViewControllerDelegate
         self.hideLoginError()
         self.loginSpinner.startAnimating()
         self.loginButton.setTitle("Logging in...", for: .normal)
-        var username = ""
+        let rawUsername = txtUserName.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        let password = txtPassword.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        var username = rawUsername
+
+        guard !rawUsername.isEmpty else {
+            self.showLoginError(errorText: "Phone number or email is required.")
+            self.loginSpinner.stopAnimating()
+            self.loginButton.setTitle("Log in", for: .normal)
+            return
+        }
+
+        guard !password.isEmpty else {
+            self.showLoginError(errorText: "Password is required.")
+            self.loginSpinner.stopAnimating()
+            self.loginButton.setTitle("Log in", for: .normal)
+            return
+        }
+
         //let defaults: UserDefaults = UserDefaults.standard
         
-        do {
-            let phoneNumber = try phoneNumberKit.parse(txtUserName.text ?? "")
-            username = phoneNumberKit.format(phoneNumber, toType: .e164).replacingOccurrences(of: "+", with: "")
-            print("xxx: " + username)
+        if !rawUsername.contains("@") {
+            do {
+                let phoneNumber = try phoneNumberKit.parse(rawUsername)
+                username = phoneNumberKit.format(phoneNumber, toType: .e164).replacingOccurrences(of: "+", with: "")
+                print("xxx: " + username)
+            }
+            catch {
+                // Fallback to a sanitized username when phone parsing fails.
+                username = rawUsername.replacingOccurrences(of: "\\D", with: "", options: .regularExpression)
+                print("Phone parser error, using sanitized username: \(username)")
+            }
+        } else {
+            username = rawUsername.lowercased()
         }
-        catch {
-            print("Generic parser error")
+
+        guard !username.isEmpty else {
+            self.showLoginError(errorText: "Phone number or email is required.")
+            self.loginSpinner.stopAnimating()
+            self.loginButton.setTitle("Log in", for: .normal)
+            return
         }
+
         let user = Appuser()
-        user.login(username: username, password: txtPassword.text, completionHandler:{(result,error) in
+        user.login(username: username, password: password, completionHandler:{(result,error) in
             
             //handle error - future functionality - move this code to extension for handling class specific errors
             
@@ -249,10 +281,15 @@ class LoginViewController: UIViewController, SettingsTableViewControllerDelegate
                     
                     print("Underlying error: \(String(describing: error))")
                 } else {
+                    if let typedError = error as NSError? {
+                        errorText = typedError.localizedDescription
+                    } else {
+                        errorText = "Sign in failed. Please try again."
+                    }
                     print("Unknown error: \(String(describing: errorText))")
                 }
                 
-                self.showLoginError(errorText: errorText ?? "")
+                self.showLoginError(errorText: errorText ?? "Sign in failed. Please try again.")
                 self.loginSpinner.stopAnimating()
                 self.loginButton.setTitle("Log in", for: .normal)
                 

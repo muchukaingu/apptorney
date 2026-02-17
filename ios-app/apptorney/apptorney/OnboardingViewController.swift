@@ -22,8 +22,8 @@ class OnboardingViewController: UIViewController, PaperOnboardingDataSource, Pap
     
     fileprivate let items = [
         OnboardingItemInfo(informationImage: UIImage(named: "login-icon")!,
-                           title: "Welcome Aboard",
-                           description: "Apptorney is an all-inclusive legal research tool that provides Legal Practitioners in Zambia with all the legal reference information they need.",
+                           title: "Apptorney AI",
+                           description: "Apptorney is an all-inclusive legal research tool for legal practitioners in Zambia, now enhanced with AI features that help you find key legal insights faster, analyze materials with confidence, and work more efficiently.",
                            pageIcon: UIImage(),
                            color: UIColor.white,
                            titleColor: UIColor.black, descriptionColor: UIColor.black, titleFont: titleFont, descriptionFont: descriptionFont),
@@ -77,7 +77,7 @@ class OnboardingViewController: UIViewController, PaperOnboardingDataSource, Pap
     
     
     func onboardingItemsCount() -> Int {
-        return 5
+        return items.count
     }
     
    func onboardingItem(at index: Int) -> OnboardingItemInfo {
@@ -100,7 +100,7 @@ class OnboardingViewController: UIViewController, PaperOnboardingDataSource, Pap
     
     
     func onboardingWillTransitonToIndex(_ index: Int) {
-        if index == 3 {
+        if index == items.count - 2 {
             
             if self.getStartedButton.alpha == 1 {
                 UIView.animate(withDuration: 0.2, animations: {
@@ -117,7 +117,7 @@ class OnboardingViewController: UIViewController, PaperOnboardingDataSource, Pap
     }
     
     func onboardingDidTransitonToIndex(_ index: Int) {
-        if index == 4 {
+        if index == items.count - 1 {
             UIView.animate(withDuration: 0.4, animations: {
                 self.nextButton.alpha = 0
                 self.getStartedButton.alpha = 1
@@ -218,5 +218,3 @@ extension OnboardingViewController {
 //    private static let titleFont = UIFont(name: "Nunito-Bold", size: 36.0) ?? UIFont.boldSystemFont(ofSize: 36.0)
 //    private static let descriptionFont = UIFont(name: "OpenSans-Regular", size: 14.0) ?? UIFont.systemFont(ofSize: 14.0)
 }
-
-

@@ -198,8 +198,8 @@
                         <viewLayoutGuide key="safeArea" id="QeA-Pc-UlC"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="ga1-YQ-ke5" firstAttribute="leading" secondItem="QeA-Pc-UlC" secondAttribute="leading" id="8v0-vv-stQ"/>
-                            <constraint firstItem="QeA-Pc-UlC" firstAttribute="trailing" secondItem="ga1-YQ-ke5" secondAttribute="trailing" id="AGe-9c-R4k"/>
+                            <constraint firstItem="ga1-YQ-ke5" firstAttribute="leading" secondItem="QeA-Pc-UlC" secondAttribute="leading" constant="20" id="8v0-vv-stQ"/>
+                            <constraint firstItem="QeA-Pc-UlC" firstAttribute="trailing" secondItem="ga1-YQ-ke5" secondAttribute="trailing" constant="20" id="AGe-9c-R4k"/>
                             <constraint firstItem="cit-cO-zqx" firstAttribute="leading" secondItem="QeA-Pc-UlC" secondAttribute="leading" constant="40" id="Ga1-HN-pqS"/>
                             <constraint firstItem="QeA-Pc-UlC" firstAttribute="bottom" secondItem="ga1-YQ-ke5" secondAttribute="bottom" id="IQQ-IN-afi"/>
                             <constraint firstItem="c3u-T9-0oa" firstAttribute="top" secondItem="cit-cO-zqx" secondAttribute="bottom" constant="8" id="Nlk-9Y-AXk"/>

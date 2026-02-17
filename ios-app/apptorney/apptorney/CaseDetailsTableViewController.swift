@@ -28,6 +28,11 @@ class CaseDetailsTableViewController: UITableViewController {
     let debouncer = Debouncer(interval:0.5)
     var searched = false
     var loaded = false
+    private var searchMatchIndexPaths: [IndexPath] = []
+    private var currentSearchMatchIndex: Int = -1
+    private var searchMatchCounterButton = UIBarButtonItem(title: "0/0", style: .plain, target: nil, action: nil)
+    private var previousSearchMatchButton = UIBarButtonItem()
+    private var nextSearchMatchButton = UIBarButtonItem()
     @IBOutlet weak var judgement: UITextView!
     /*
     var sections = [
@@ -69,6 +74,12 @@ class CaseDetailsTableViewController: UITableViewController {
         //self.tableView.isHidden = true
         tableView.estimatedRowHeight = 80
         tableView.rowHeight = UITableView.automaticDimension
+        tableView.sectionFooterHeight = 0.01
+        tableView.estimatedSectionFooterHeight = 0
+        tableView.estimatedSectionHeaderHeight = 0
+        if #available(iOS 15.0, *) {
+            tableView.sectionHeaderTopPadding = 0
+        }
         self.preliminaryCaseData = self.caseInstance
         self.searchController.searchBar.delegate = self
 
@@ -121,8 +132,8 @@ class CaseDetailsTableViewController: UITableViewController {
         feedbackBtn.addTarget(self, action: #selector(didTapFeedbackButton), for: .touchUpInside)
         feedbackBtn.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         let feedbackButton = UIBarButtonItem(customView: feedbackBtn)
-        
-        navigationItem.rightBarButtonItems = [bookmarkButton, feedbackButton]
+        configureSearchNavigationButtons()
+        navigationItem.rightBarButtonItems = [bookmarkButton, feedbackButton, nextSearchMatchButton, previousSearchMatchButton, searchMatchCounterButton]
         
         
         
@@ -148,6 +159,119 @@ class CaseDetailsTableViewController: UITableViewController {
         
         //Setup SearchBar
 
+    }
+
+    private func configureSearchNavigationButtons() {
+        if #available(iOS 13.0, *) {
+            previousSearchMatchButton = UIBarButtonItem(
+                image: UIImage(systemName: "chevron.up"),
+                style: .plain,
+                target: self,
+                action: #selector(goToPreviousSearchMatch)
+            )
+            nextSearchMatchButton = UIBarButtonItem(
+                image: UIImage(systemName: "chevron.down"),
+                style: .plain,
+                target: self,
+                action: #selector(goToNextSearchMatch)
+            )
+        } else {
+            previousSearchMatchButton = UIBarButtonItem(title: "Prev", style: .plain, target: self, action: #selector(goToPreviousSearchMatch))
+            nextSearchMatchButton = UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(goToNextSearchMatch))
+        }
+        searchMatchCounterButton = UIBarButtonItem(title: "0/0", style: .plain, target: nil, action: nil)
+        searchMatchCounterButton.isEnabled = false
+        updateSearchNavigationButtons()
+    }
+
+    private func updateSearchNavigationButtons() {
+        let hasMatches = !searchMatchIndexPaths.isEmpty
+        previousSearchMatchButton.isEnabled = hasMatches
+        nextSearchMatchButton.isEnabled = hasMatches
+        if hasMatches, currentSearchMatchIndex >= 0, currentSearchMatchIndex < searchMatchIndexPaths.count {
+            searchMatchCounterButton.title = "\(currentSearchMatchIndex + 1)/\(searchMatchIndexPaths.count)"
+        } else {
+            searchMatchCounterButton.title = "0/\(searchMatchIndexPaths.count)"
+        }
+    }
+
+    private func collectSearchMatches(for query: String) -> [IndexPath] {
+        let term = query.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        guard !term.isEmpty else { return [] }
+        var matches: [IndexPath] = []
+
+        if (caseInstance.judgement ?? "").lowercased().contains(term) {
+            matches.append(IndexPath(row: 0, section: 3))
+        }
+
+        if let caseRefs = caseInstance.casesReferedTo {
+            for (row, item) in caseRefs.enumerated() {
+                if (item.name ?? "").lowercased().contains(term) {
+                    matches.append(IndexPath(row: row, section: 1))
+                }
+            }
+        }
+
+        if let legislationRefs = caseInstance.legislationsReferedTo {
+            for (row, item) in legislationRefs.enumerated() {
+                if (item.legislationName ?? "").lowercased().contains(term) {
+                    matches.append(IndexPath(row: row, section: 2))
+                }
+            }
+        }
+
+        return matches
+    }
+
+    private func ensureSectionExpanded(_ section: Int) {
+        guard section >= 0, section < sections.count else { return }
+        guard sections[section].isCollapsible == true else { return }
+        if sections[section].isCollapsed {
+            sections[section].isCollapsed = false
+            tableView.reloadSections([section], with: .none)
+            tableView.layoutIfNeeded()
+        }
+    }
+
+    private func jumpToCurrentSearchMatch(animated: Bool) {
+        guard currentSearchMatchIndex >= 0, currentSearchMatchIndex < searchMatchIndexPaths.count else { return }
+        let target = searchMatchIndexPaths[currentSearchMatchIndex]
+        ensureSectionExpanded(target.section)
+        guard tableView.numberOfSections > target.section else { return }
+        guard tableView.numberOfRows(inSection: target.section) > target.row else { return }
+        tableView.scrollToRow(at: target, at: .middle, animated: animated)
+    }
+
+    private func rebuildSearchMatchesAndNavigate(toFirst: Bool) {
+        let query = searchController.searchBar.text ?? ""
+        searchMatchIndexPaths = collectSearchMatches(for: query)
+        if searchMatchIndexPaths.isEmpty {
+            currentSearchMatchIndex = -1
+        } else if toFirst || currentSearchMatchIndex >= searchMatchIndexPaths.count || currentSearchMatchIndex < 0 {
+            currentSearchMatchIndex = 0
+        }
+        updateSearchNavigationButtons()
+        if toFirst {
+            jumpToCurrentSearchMatch(animated: true)
+        }
+    }
+
+    @objc private func goToPreviousSearchMatch() {
+        guard !searchMatchIndexPaths.isEmpty else { return }
+        if currentSearchMatchIndex <= 0 {
+            currentSearchMatchIndex = searchMatchIndexPaths.count - 1
+        } else {
+            currentSearchMatchIndex -= 1
+        }
+        updateSearchNavigationButtons()
+        jumpToCurrentSearchMatch(animated: true)
+    }
+
+    @objc private func goToNextSearchMatch() {
+        guard !searchMatchIndexPaths.isEmpty else { return }
+        currentSearchMatchIndex = (currentSearchMatchIndex + 1) % searchMatchIndexPaths.count
+        updateSearchNavigationButtons()
+        jumpToCurrentSearchMatch(animated: true)
     }
     
     
@@ -382,7 +506,14 @@ class CaseDetailsTableViewController: UITableViewController {
     
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if section == 0 {
+            return 0
+        }
         return 30.0
+    }
+
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 0.01
     }
     /*
      override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -485,6 +616,7 @@ extension CaseDetailsTableViewController: UISearchBarDelegate {
                 self.tableView.endUpdates()
                 
             }
+            self.rebuildSearchMatchesAndNavigate(toFirst: true)
             
         }
         debouncer.call()
@@ -495,7 +627,10 @@ extension CaseDetailsTableViewController: UISearchBarDelegate {
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        
+        searched = false
+        searchMatchIndexPaths.removeAll()
+        currentSearchMatchIndex = -1
+        updateSearchNavigationButtons()
     }
     
 }

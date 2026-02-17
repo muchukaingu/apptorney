@@ -125,15 +125,15 @@
                             <constraint firstItem="h0t-R8-UY3" firstAttribute="bottom" secondItem="2E2-VA-haG" secondAttribute="bottom" id="LkD-46-NTY"/>
                             <constraint firstItem="J5Y-Qa-TGd" firstAttribute="centerY" secondItem="SLs-VW-8db" secondAttribute="centerY" id="MhJ-jc-qfE"/>
                             <constraint firstItem="2E2-VA-haG" firstAttribute="bottom" secondItem="irD-e1-6LJ" secondAttribute="bottom" id="PbA-cp-HZk"/>
-                            <constraint firstItem="2E2-VA-haG" firstAttribute="trailing" secondItem="irD-e1-6LJ" secondAttribute="trailing" id="cPF-gg-meG"/>
+                            <constraint firstItem="2E2-VA-haG" firstAttribute="trailing" secondItem="irD-e1-6LJ" secondAttribute="trailing" constant="20" id="cPF-gg-meG"/>
                             <constraint firstItem="h0t-R8-UY3" firstAttribute="leading" secondItem="2E2-VA-haG" secondAttribute="leading" id="ciO-Jm-TfX"/>
-                            <constraint firstItem="irD-e1-6LJ" firstAttribute="leading" secondItem="2E2-VA-haG" secondAttribute="leading" id="ep1-xB-eAB"/>
+                            <constraint firstItem="irD-e1-6LJ" firstAttribute="leading" secondItem="2E2-VA-haG" secondAttribute="leading" constant="20" id="ep1-xB-eAB"/>
                             <constraint firstItem="SLs-VW-8db" firstAttribute="leading" secondItem="2E2-VA-haG" secondAttribute="leading" constant="40" id="gHe-vt-Io6"/>
                             <constraint firstItem="Flx-Ic-lha" firstAttribute="width" secondItem="smf-9K-wHP" secondAttribute="width" id="kak-jN-Yhu"/>
                             <constraint firstItem="h0t-R8-UY3" firstAttribute="trailing" secondItem="2E2-VA-haG" secondAttribute="trailing" id="l0B-TD-g9q"/>
                             <constraint firstItem="2E2-VA-haG" firstAttribute="trailing" secondItem="J5Y-Qa-TGd" secondAttribute="trailing" constant="40" id="lFb-T6-LKo"/>
                             <constraint firstItem="h0t-R8-UY3" firstAttribute="top" secondItem="SLs-VW-8db" secondAttribute="bottom" constant="8" id="mdc-8W-K8S"/>
-                            <constraint firstItem="SLd-Ib-iKD" firstAttribute="trailing" secondItem="h0t-R8-UY3" secondAttribute="trailing" constant="-20" id="nII-Wh-TY8"/>
+                            <constraint firstItem="SLd-Ib-iKD" firstAttribute="trailing" secondItem="irD-e1-6LJ" secondAttribute="trailing" constant="-20" id="nII-Wh-TY8"/>
                         </constraints>
                     </view>
                     <size key="freeformSize" width="375" height="1000"/>

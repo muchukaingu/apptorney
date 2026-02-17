@@ -73,10 +73,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 if userDefaults.bool(forKey: "onboardingComplete") {
                     
-                    if userDefaults.bool(forKey: "loginComplete") {
+                    if userDefaults.bool(forKey: "loginComplete") && self.hasValidAuthSession() {
                         initialViewController = sb.instantiateViewController(withIdentifier: "Home")
                         //self.checkSubscription()
                         
+                    } else if userDefaults.bool(forKey: "loginComplete") {
+                        userDefaults.set(false, forKey: "loginComplete")
+                        let sb = UIStoryboard(name: "Login", bundle: nil)
+                        initialViewController = sb.instantiateViewController(withIdentifier: "Login")
                     }
                     else if userDefaults.bool(forKey: "registrationComplete") {
                         let sb = UIStoryboard(name: "Login", bundle: nil)
@@ -158,6 +162,51 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
             
         })
+    }
+
+    private func normalizedToken(_ value: Any?) -> String {
+        guard let value = value else { return "" }
+        if let text = value as? String {
+            return text.trimmingCharacters(in: .whitespacesAndNewlines)
+        }
+        if let number = value as? NSNumber {
+            return number.stringValue.trimmingCharacters(in: .whitespacesAndNewlines)
+        }
+        return "\(value)".trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
+    private func isPlausibleToken(_ token: String) -> Bool {
+        let trimmed = token.trimmingCharacters(in: .whitespacesAndNewlines)
+        if trimmed.count < 12 { return false }
+        if trimmed.contains("{") || trimmed.contains("}") { return false }
+        if trimmed.contains(" ") || trimmed.contains("\n") || trimmed.contains("\t") { return false }
+        if trimmed.lowercased().hasPrefix("optional(") { return false }
+        return true
+    }
+
+    private func hasValidAuthSession() -> Bool {
+        let defaults = UserDefaults.standard
+        let keys = [APIService.authTokenStorageKey, "access_token", "accessToken", "token", "id"]
+        for key in keys {
+            let token = normalizedToken(defaults.object(forKey: key))
+            if isPlausibleToken(token) {
+                return true
+            }
+        }
+
+        if let cookies = HTTPCookieStorage.shared.cookies {
+            if let cookie = cookies.first(where: { $0.name.lowercased() == "access_token" }) {
+                let token = normalizedToken(cookie.value)
+                if isPlausibleToken(token) {
+                    defaults.set(token, forKey: APIService.authTokenStorageKey)
+                    defaults.set(token, forKey: "access_token")
+                    defaults.synchronize()
+                    return true
+                }
+            }
+        }
+
+        return false
     }
 
 

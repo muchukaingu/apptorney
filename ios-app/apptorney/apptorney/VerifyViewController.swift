@@ -20,6 +20,7 @@ class VerifyViewController: UIViewController {
         super.viewDidLoad()
         print("In verify")
         self.verifyButton.layer.cornerRadius = self.verifyButton.frame.height/6
+        self.verifyButton.clipsToBounds = true
 
         // Do any additional setup after loading the view.
     }

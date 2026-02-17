@@ -1461,10 +1461,10 @@ Please take some time to go through our Terms of Use and Privacy Policy. If you 
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="Waf-8u-wTK" secondAttribute="trailing" id="5j8-ug-p36"/>
-                            <constraint firstItem="8JB-6i-WjI" firstAttribute="leading" secondItem="zwl-ea-RIQ" secondAttribute="leading" constant="35" id="CVL-lp-ldQ">
+                            <constraint firstItem="8JB-6i-WjI" firstAttribute="leading" secondItem="zwl-ea-RIQ" secondAttribute="leading" constant="20" id="CVL-lp-ldQ">
                                 <variation key="heightClass=regular-widthClass=regular" constant="150"/>
                             </constraint>
-                            <constraint firstAttribute="trailing" secondItem="8JB-6i-WjI" secondAttribute="trailing" constant="35" id="Ere-lQ-U9G">
+                            <constraint firstAttribute="trailing" secondItem="8JB-6i-WjI" secondAttribute="trailing" constant="20" id="Ere-lQ-U9G">
                                 <variation key="heightClass=regular-widthClass=regular" constant="150"/>
                             </constraint>
                             <constraint firstItem="Ve0-mB-Fpq" firstAttribute="trailing" secondItem="8JB-6i-WjI" secondAttribute="trailing" constant="-15" id="HfR-UN-jSF"/>

@@ -38,7 +38,8 @@ class RegisterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor=UIColor.white
-        //self.signUpButton.layer.cornerRadius = self.signUpButton.frame.height/6
+        self.signUpButton.layer.cornerRadius = self.signUpButton.frame.height/6
+        self.signUpButton.clipsToBounds = true
         
         self.txtEmailAddress.textContentType = .emailAddress
         self.txtPhoneNumber.textContentType = .telephoneNumber

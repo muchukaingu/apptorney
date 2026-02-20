@@ -841,8 +841,6 @@ module.exports = function(Search) {
                 var embedMs = nowMs() - resolveStart
                 var searchStart = nowMs()
                 var dataSource = Search.getDataSource().connector
-                var caseCollection = dataSource.collection('case')
-                var legislationCollection = dataSource.collection('legislation')
                 var includeDeleted = payload.includeDeleted === true
                 var includeCases = payload.includeCases !== false
                 var includeLegislations = payload.includeLegislations !== false
@@ -857,6 +855,7 @@ module.exports = function(Search) {
                     search_ms_total: null
                 }
                 var finished = false
+                var useAtlas = process.env.USE_ATLAS_VECTOR_SEARCH !== 'false'
 
                 function complete(doneErr, result) {
                     if (finished) {
@@ -883,6 +882,7 @@ module.exports = function(Search) {
                         queryDimensions: queryVector.length,
                         stats: stats,
                         timings: timings,
+                        searchPath: useAtlas ? 'atlas' : 'app',
                         results: finalResults
                     })
                 }
@@ -894,89 +894,157 @@ module.exports = function(Search) {
                 if (includeCases) {
                     pending += 1
                     var caseSearchStart = nowMs()
-                    vectorSearch.searchCollection({
-                        collection: caseCollection,
-                        queryVector: queryVector,
-                        logPrefix: 'vector-search-case',
-                        embeddingField: 'caseEmbeddingVoyageChunks',
-                        limit: limit,
-                        maxCandidates: payload.maxCandidates,
-                        match: includeDeleted ? {} : { deleted: { $ne: true } },
-                    projection: {
-                        caseEmbeddingVoyageChunks: true,
-                        name: true,
-                        caseNumber: true,
-                        summaryOfRuling: true,
-                        summaryOfFacts: true,
-                        citation: true,
-                        year: true
-                    },
-                    mapResult: function (doc) {
-                        return {
-                            id: String(doc._id),
-                            type: 'case',
-                            name: doc.name,
-                            caseNumber: doc.caseNumber,
-                            summaryOfRuling: doc.summaryOfRuling,
-                            summaryOfFacts: doc.summaryOfFacts,
-                            citation: doc.citation,
-                            year: doc.year
+
+                    if (useAtlas) {
+                        vectorSearch.searchCollectionAtlas({
+                            chunkCollection: dataSource.db.collection('caseChunks'),
+                            indexName: process.env.ATLAS_CASE_CHUNKS_INDEX || 'caseChunksVectorIndex',
+                            queryVector: queryVector,
+                            logPrefix: 'vector-search-case-atlas',
+                            includeDeleted: includeDeleted,
+                            limit: limit,
+                            mapResult: function (doc) {
+                                return {
+                                    id: String(doc._id),
+                                    type: 'case',
+                                    name: doc.name,
+                                    caseNumber: doc.caseNumber,
+                                    summaryOfRuling: doc.summaryOfRuling,
+                                    summaryOfFacts: doc.summaryOfFacts,
+                                    citation: doc.citation,
+                                    year: doc.year
+                                }
+                            }
+                        }, function (searchErr, result) {
+                            if (searchErr) {
+                                fail(searchErr)
+                                return
+                            }
+                            timings.case_search_ms = nowMs() - caseSearchStart
+                            stats.case = { scanned: result.scanned, compared: result.compared, path: 'atlas' }
+                            finalResults = finalResults.concat(result.results)
+                            doneOne()
+                        })
+                    } else {
+                        var caseCollection = dataSource.collection('case')
+                        vectorSearch.searchCollection({
+                            collection: caseCollection,
+                            queryVector: queryVector,
+                            logPrefix: 'vector-search-case',
+                            embeddingField: 'caseEmbeddingVoyageChunks',
+                            limit: limit,
+                            maxCandidates: payload.maxCandidates,
+                            match: includeDeleted ? {} : { deleted: { $ne: true } },
+                        projection: {
+                            caseEmbeddingVoyageChunks: true,
+                            name: true,
+                            caseNumber: true,
+                            summaryOfRuling: true,
+                            summaryOfFacts: true,
+                            citation: true,
+                            year: true
+                        },
+                        mapResult: function (doc) {
+                            return {
+                                id: String(doc._id),
+                                type: 'case',
+                                name: doc.name,
+                                caseNumber: doc.caseNumber,
+                                summaryOfRuling: doc.summaryOfRuling,
+                                summaryOfFacts: doc.summaryOfFacts,
+                                citation: doc.citation,
+                                year: doc.year
+                            }
                         }
+                    }, function (searchErr, result) {
+                            if (searchErr) {
+                                fail(searchErr)
+                                return
+                            }
+                            timings.case_search_ms = nowMs() - caseSearchStart
+                            stats.case = { scanned: result.scanned, compared: result.compared, path: 'app' }
+                            finalResults = finalResults.concat(result.results)
+                            doneOne()
+                        })
                     }
-                }, function (searchErr, result) {
-                        if (searchErr) {
-                            fail(searchErr)
-                            return
-                        }
-                        timings.case_search_ms = nowMs() - caseSearchStart
-                        stats.case = { scanned: result.scanned, compared: result.compared }
-                        finalResults = finalResults.concat(result.results)
-                        doneOne()
-                    })
                 }
 
                 if (includeLegislations) {
                     pending += 1
                     var legislationSearchStart = nowMs()
-                    vectorSearch.searchCollection({
-                        collection: legislationCollection,
-                        queryVector: queryVector,
-                        logPrefix: 'vector-search-legislation',
-                        embeddingField: 'legislationEmbeddingVoyageChunks',
-                        limit: limit,
-                        maxCandidates: payload.maxCandidates,
-                        match: includeDeleted ? {} : { deleted: { $ne: true } },
-                    projection: {
-                        legislationEmbeddingVoyageChunks: true,
-                        legislationName: true,
-                        legislationNumber: true,
-                        legislationNumbers: true,
-                        preamble: true,
-                        dateOfAssent: true,
-                        year: true
-                    },
-                    mapResult: function (doc) {
-                        return {
-                            id: String(doc._id),
-                            type: 'legislation',
-                            legislationName: doc.legislationName,
-                            legislationNumber: doc.legislationNumber,
-                            legislationNumbers: doc.legislationNumbers,
-                            preamble: doc.preamble,
-                            dateOfAssent: doc.dateOfAssent,
-                            year: doc.year
+
+                    if (useAtlas) {
+                        vectorSearch.searchCollectionAtlas({
+                            chunkCollection: dataSource.db.collection('legislationChunks'),
+                            indexName: process.env.ATLAS_LEGISLATION_CHUNKS_INDEX || 'legislationChunksVectorIndex',
+                            queryVector: queryVector,
+                            logPrefix: 'vector-search-legislation-atlas',
+                            includeDeleted: includeDeleted,
+                            limit: limit,
+                            mapResult: function (doc) {
+                                return {
+                                    id: String(doc._id),
+                                    type: 'legislation',
+                                    legislationName: doc.legislationName || doc.name,
+                                    legislationNumber: doc.legislationNumber,
+                                    legislationNumbers: doc.legislationNumbers,
+                                    preamble: doc.preamble,
+                                    dateOfAssent: doc.dateOfAssent,
+                                    year: doc.year
+                                }
+                            }
+                        }, function (searchErr, result) {
+                            if (searchErr) {
+                                fail(searchErr)
+                                return
+                            }
+                            timings.legislation_search_ms = nowMs() - legislationSearchStart
+                            stats.legislation = { scanned: result.scanned, compared: result.compared, path: 'atlas' }
+                            finalResults = finalResults.concat(result.results)
+                            doneOne()
+                        })
+                    } else {
+                        var legislationCollection = dataSource.collection('legislation')
+                        vectorSearch.searchCollection({
+                            collection: legislationCollection,
+                            queryVector: queryVector,
+                            logPrefix: 'vector-search-legislation',
+                            embeddingField: 'legislationEmbeddingVoyageChunks',
+                            limit: limit,
+                            maxCandidates: payload.maxCandidates,
+                            match: includeDeleted ? {} : { deleted: { $ne: true } },
+                        projection: {
+                            legislationEmbeddingVoyageChunks: true,
+                            legislationName: true,
+                            legislationNumber: true,
+                            legislationNumbers: true,
+                            preamble: true,
+                            dateOfAssent: true,
+                            year: true
+                        },
+                        mapResult: function (doc) {
+                            return {
+                                id: String(doc._id),
+                                type: 'legislation',
+                                legislationName: doc.legislationName,
+                                legislationNumber: doc.legislationNumber,
+                                legislationNumbers: doc.legislationNumbers,
+                                preamble: doc.preamble,
+                                dateOfAssent: doc.dateOfAssent,
+                                year: doc.year
+                            }
                         }
+                    }, function (searchErr, result) {
+                            if (searchErr) {
+                                fail(searchErr)
+                                return
+                            }
+                            timings.legislation_search_ms = nowMs() - legislationSearchStart
+                            stats.legislation = { scanned: result.scanned, compared: result.compared, path: 'app' }
+                            finalResults = finalResults.concat(result.results)
+                            doneOne()
+                        })
                     }
-                }, function (searchErr, result) {
-                        if (searchErr) {
-                            fail(searchErr)
-                            return
-                        }
-                        timings.legislation_search_ms = nowMs() - legislationSearchStart
-                        stats.legislation = { scanned: result.scanned, compared: result.compared }
-                        finalResults = finalResults.concat(result.results)
-                        doneOne()
-                    })
                 }
 
                 if (pending === 0) {

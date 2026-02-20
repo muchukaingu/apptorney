@@ -304,6 +304,76 @@ def embed_items_with_auto_split(
         return left + right
 
 
+CHUNK_COLLECTION_MAP = {
+    "case": "caseChunks",
+    "legislation": "legislationChunks",
+}
+
+CASE_METADATA_FIELDS = ("name", "caseNumber", "summaryOfRuling", "summaryOfFacts", "citation", "year", "deleted")
+LEGISLATION_METADATA_FIELDS = ("legislationName", "legislationNumber", "legislationNumbers", "preamble", "dateOfAssent", "year", "deleted")
+
+
+def write_chunk_documents(
+    db: Any,
+    collection_name: str,
+    batch: List[Dict[str, Any]],
+    doc_chunks: Dict[Any, List[List[float]]],
+    dry_run: bool,
+) -> int:
+    """Write individual chunk documents to the dedicated chunks collection.
+
+    Returns the number of chunk documents upserted.
+    """
+    chunk_coll_name = CHUNK_COLLECTION_MAP.get(collection_name)
+    if not chunk_coll_name:
+        return 0
+
+    chunk_coll = db[chunk_coll_name]
+    is_case = collection_name == "case"
+    metadata_fields = CASE_METADATA_FIELDS if is_case else LEGISLATION_METADATA_FIELDS
+
+    ops = []
+    for item in batch:
+        doc_id = item["_id"]
+        vectors = doc_chunks.get(doc_id, [])
+        if not vectors:
+            continue
+
+        base_meta: Dict[str, Any] = {}
+        for field in metadata_fields:
+            if field in item:
+                base_meta[field] = item[field]
+        # For legislation, store legislationName as 'name' for uniform access
+        if not is_case and "legislationName" in item:
+            base_meta["name"] = item["legislationName"]
+        if "deleted" not in base_meta:
+            base_meta["deleted"] = False
+
+        for chunk_idx, vector in enumerate(vectors):
+            doc = {
+                "parentId": doc_id,
+                "chunkIndex": chunk_idx,
+                "embedding": vector,
+            }
+            doc.update(base_meta)
+            ops.append({
+                "filter": {"parentId": doc_id, "chunkIndex": chunk_idx},
+                "update": {"$set": doc},
+                "upsert": True,
+            })
+
+    if not ops or dry_run:
+        if dry_run and ops:
+            print(f"  [chunks] dry-run: would upsert {len(ops)} chunks to {chunk_coll_name}")
+        return len(ops)
+
+    # pymongo bulkWrite with UpdateOne
+    from pymongo import UpdateOne
+    bulk_ops = [UpdateOne(op["filter"], op["update"], upsert=op["upsert"]) for op in ops]
+    result = chunk_coll.bulk_write(bulk_ops, ordered=False)
+    return result.upserted_count + result.modified_count
+
+
 def process_embedding_batch(
     *,
     batch: List[Dict[str, Any]],
@@ -324,6 +394,9 @@ def process_embedding_batch(
     max_chunks_per_document: int,
     effective_max_batch_tokens: int,
     dry_run: bool,
+    db: Any = None,
+    collection_name: str = "",
+    skip_chunks: bool = False,
 ) -> int:
     chunk_items: List[Dict[str, Any]] = []
     truncated_docs_in_batch = 0
@@ -376,6 +449,19 @@ def process_embedding_batch(
                 {"_id": item["_id"]},
                 {"$set": {embedding_field: doc_chunks[item["_id"]]}},
             )
+
+    # Write individual chunk documents to dedicated chunks collection
+    if db is not None and collection_name and not skip_chunks:
+        try:
+            write_chunk_documents(
+                db=db,
+                collection_name=collection_name,
+                batch=batch,
+                doc_chunks=doc_chunks,
+                dry_run=dry_run,
+            )
+        except Exception as chunk_err:
+            print(f"  [chunks] warning: failed to write chunk documents: {chunk_err}")
 
     return truncated_docs_in_batch
 
@@ -496,6 +582,12 @@ def main() -> None:
         type=int,
         default=int(os.getenv("VOYAGE_MAX_CHUNKS_PER_DOCUMENT", "32")),
         help="Hard cap on number of chunks per document.",
+    )
+    parser.add_argument(
+        "--skip-chunks",
+        action="store_true",
+        default=False,
+        help="Skip writing to dedicated chunk collections (caseChunks/legislationChunks).",
     )
     args = parser.parse_args()
 
@@ -625,6 +717,9 @@ def main() -> None:
                         max_chunks_per_document=args.max_chunks_per_document,
                         effective_max_batch_tokens=effective_max_batch_tokens,
                         dry_run=args.dry_run,
+                        db=db,
+                        collection_name=collection_name,
+                        skip_chunks=args.skip_chunks,
                     )
                     updated_count += len(batch)
                     if updated_count % args.log_every == 0:
@@ -651,6 +746,9 @@ def main() -> None:
                     max_chunks_per_document=args.max_chunks_per_document,
                     effective_max_batch_tokens=effective_max_batch_tokens,
                     dry_run=args.dry_run,
+                    db=db,
+                    collection_name=collection_name,
+                    skip_chunks=args.skip_chunks,
                 )
                 updated_count += len(batch)
                 if updated_count % args.log_every == 0:

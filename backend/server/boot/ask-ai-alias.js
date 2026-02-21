@@ -96,6 +96,23 @@ module.exports = function (app) {
                 }
 
                 var payload = req.body && typeof req.body === 'object' ? Object.assign({}, req.body) : {}
+
+                // Also merge query params into payload (for GET requests and stream=true via query)
+                if (req.query && typeof req.query === 'object') {
+                    Object.keys(req.query).forEach(function (key) {
+                        if (key !== 'access_token' && payload[key] === undefined) {
+                            payload[key] = req.query[key]
+                        }
+                    })
+                }
+
+                // SSE streaming path
+                var wantsStream = payload.stream === true || payload.stream === 'true'
+                if (wantsStream && typeof Search.askAiStream === 'function') {
+                    Search.askAiStream(payload, req, res)
+                    return
+                }
+
                 function encodeIfArray(value) {
                     return Array.isArray(value) ? JSON.stringify(value) : undefined
                 }
@@ -155,5 +172,6 @@ module.exports = function (app) {
 
     aliasPaths.forEach(function (path) {
         app.post(path, handler)
+        app.get(path, handler)
     })
 }

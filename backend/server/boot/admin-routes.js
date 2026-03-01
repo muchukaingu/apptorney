@@ -64,13 +64,15 @@ module.exports = function (app) {
 
         var pending = 0
         var finished = 0
+        var sent = false
 
         function track(fn) {
             pending++
             fn(function (err) {
                 if (err) console.log('Overview stat error:', err.message)
                 finished++
-                if (finished === pending) {
+                if (!sent && finished === pending) {
+                    sent = true
                     res.json(result)
                 }
             })
@@ -262,7 +264,7 @@ module.exports = function (app) {
     app.get(restRoot + '/admin/stats/subscriptions', requireAdmin, function (req, res, next) {
         var Subscription = app.models.subscription || app.models.Subscription
 
-        Subscription.find({}, function (err, subs) {
+        Subscription.find({ fields: { plan: true, billingPeriod: true, status: true, type: true } }, function (err, subs) {
             if (err) return next(err)
 
             var byPlan = {}
@@ -303,40 +305,74 @@ module.exports = function (app) {
             revenueLastMonth: 0
         }
 
-        Payment.find({ order: 'date DESC' }, function (err, payments) {
+        var pending2 = 2
+        var finished2 = 0
+        var sent2 = false
+
+        function done2() {
+            finished2++
+            if (!sent2 && finished2 === pending2) {
+                sent2 = true
+                res.json(result)
+            }
+        }
+
+        // Revenue aggregation — only load amount and date fields for confirmed payments
+        Payment.find({
+            where: { status: 'confirmed' },
+            fields: { amount: true, date: true }
+        }, function (err, confirmed) {
             if (err) return next(err)
 
-            for (var i = 0; i < payments.length; i++) {
-                var p = payments[i]
-                // Status counts
-                result.byStatus[p.status] = (result.byStatus[p.status] || 0) + 1
-
-                // Revenue (confirmed only)
-                if (p.status === 'confirmed') {
-                    result.totalRevenue += p.amount || 0
-                    var pDate = new Date(p.date)
-                    if (pDate >= startOfMonth) {
-                        result.revenueThisMonth += p.amount || 0
-                    } else if (pDate >= startOfLastMonth && pDate < startOfMonth) {
-                        result.revenueLastMonth += p.amount || 0
-                    }
+            for (var i = 0; i < confirmed.length; i++) {
+                var p = confirmed[i]
+                result.totalRevenue += p.amount || 0
+                var pDate = new Date(p.date)
+                if (pDate >= startOfMonth) {
+                    result.revenueThisMonth += p.amount || 0
+                } else if (pDate >= startOfLastMonth && pDate < startOfMonth) {
+                    result.revenueLastMonth += p.amount || 0
                 }
             }
 
-            // Recent 20 payments
-            result.recentPayments = payments.slice(0, 20).map(function (p) {
-                return {
-                    id: p.id,
-                    date: p.date,
-                    amount: p.amount,
-                    method: p.method,
-                    status: p.status,
-                    reference: p.reference,
-                    subscriptionId: p.subscriptionId
-                }
-            })
+            // Status counts from confirmed
+            result.byStatus.confirmed = confirmed.length
+            done2()
+        })
 
-            res.json(result)
+        // Recent 20 payments + non-confirmed status counts
+        Payment.find({
+            where: { status: { neq: 'confirmed' } },
+            fields: { status: true }
+        }, function (err, others) {
+            if (err) return next(err)
+
+            for (var i = 0; i < others.length; i++) {
+                var status = others[i].status
+                result.byStatus[status] = (result.byStatus[status] || 0) + 1
+            }
+
+            // Get recent 20 across all statuses
+            Payment.find({
+                order: 'date DESC',
+                limit: 20,
+                fields: { id: true, date: true, amount: true, method: true, status: true, reference: true, subscriptionId: true }
+            }, function (err2, recent) {
+                if (err2) return next(err2)
+
+                result.recentPayments = recent.map(function (p) {
+                    return {
+                        id: p.id,
+                        date: p.date,
+                        amount: p.amount,
+                        method: p.method,
+                        status: p.status,
+                        reference: p.reference,
+                        subscriptionId: p.subscriptionId
+                    }
+                })
+                done2()
+            })
         })
     })
 
@@ -350,13 +386,15 @@ module.exports = function (app) {
         var result = { cases: {}, legislation: {} }
         var pending = 0
         var finished = 0
+        var sent = false
 
         function track(fn) {
             pending++
             fn(function (err) {
                 if (err) console.log('Content stat error:', err.message)
                 finished++
-                if (finished === pending) {
+                if (!sent && finished === pending) {
+                    sent = true
                     res.json(result)
                 }
             })
@@ -483,7 +521,7 @@ module.exports = function (app) {
             var collection = connector.collection(Legislation.modelName)
 
             collection.aggregate([
-                { $match: { deleted: { $ne: true }, legislationType: { $exists: true, $ne: null, $ne: '' } } },
+                { $match: { deleted: { $ne: true }, legislationType: { $exists: true, $nin: [null, ''] } } },
                 { $group: { _id: '$legislationType', count: { $sum: 1 } } },
                 { $sort: { count: -1 } },
                 { $limit: 10 }

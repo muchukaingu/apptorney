@@ -35,6 +35,7 @@ function captureSnapshot(app, done) {
     var pending = 0
     var finished = 0
     var hasError = false
+    var saving = false
 
     function track(fn) {
         pending++
@@ -44,7 +45,8 @@ function captureSnapshot(app, done) {
                 console.log('Snapshot count error:', err.message)
             }
             finished++
-            if (finished === pending) {
+            if (!saving && finished === pending) {
+                saving = true
                 saveSnapshot()
             }
         })

@@ -1,5 +1,19 @@
 var authMiddleware = require('../../common/models/shared/auth-middleware')
 
+// ╔═══════════════════════════════════════════════════════════════╗
+// ║  TODO: PAYMENT GATEWAY INTEGRATION                           ║
+// ║                                                               ║
+// ║  When integrating a payment gateway (Stripe/PayStack/DPO):    ║
+// ║  1. Add POST /api/payments/initiate — creates checkout        ║
+// ║  2. Add POST /api/payments/webhook — receives payment events  ║
+// ║  3. Auto-activate subscription on successful payment webhook  ║
+// ║  4. Add auto-renewal logic with stored payment methods        ║
+// ║  5. Add invoice generation and receipt emails                 ║
+// ║  6. Replace manual payment confirmation with webhook flow     ║
+// ║  7. Move pricing config to database for admin management      ║
+// ║  8. Add subscription upgrade/downgrade with prorated billing  ║
+// ╚═══════════════════════════════════════════════════════════════╝
+
 module.exports = function (app) {
     var restRoot = app.get('restApiRoot') || '/api'
     var requireAuth = authMiddleware.requireAuth
@@ -76,7 +90,7 @@ module.exports = function (app) {
                 if (memberErr) return next(memberErr)
 
                 if (!membership) {
-                    return sendError(res, 404, 'No active subscription found')
+                    return res.json({ subscription: null, membershipType: null })
                 }
 
                 var memberData = membership.toJSON ? membership.toJSON() : membership

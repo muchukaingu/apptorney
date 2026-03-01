@@ -195,7 +195,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   enterApp(view: ViewName = 'chat'): void {
-    if (!this.hasActiveSubscription) {
+    if (!this.isAdmin && !this.hasActiveSubscription) {
       return;
     }
     this.showLanding = false;
@@ -311,7 +311,12 @@ export class AppComponent implements OnInit, OnDestroy {
 
     await this.loadSubscriptionStatus();
 
-    if (this.hasActiveSubscription) {
+    if (this.isAdmin) {
+      this.showLanding = false;
+      this.view = 'admin';
+      this.sidebarOpen = true;
+      this.loadAdminDashboard();
+    } else if (this.hasActiveSubscription) {
       this.showLanding = false;
       this.fetchChatThreads();
       this.loadHomeData();
@@ -1039,10 +1044,17 @@ export class AppComponent implements OnInit, OnDestroy {
 
     if (this.accessToken) {
       await this.loadSubscriptionStatus();
-      this.showLanding = !this.hasActiveSubscription;
-      if (!this.showLanding) {
+      if (this.isAdmin) {
+        this.showLanding = false;
+        this.view = 'admin';
+        this.sidebarOpen = true;
+        this.loadAdminDashboard();
+      } else if (this.hasActiveSubscription) {
+        this.showLanding = false;
         this.fetchChatThreads();
         this.loadHomeData();
+      } else {
+        this.showLanding = true;
       }
     } else {
       this.showLanding = true;

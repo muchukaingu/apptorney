@@ -6,36 +6,69 @@
     "options": {
         "validateUpsert": true
     },
+    "mixins": {
+        "TimeStamp": true
+    },
     "properties": {
-        "organization": {
+        "type": {
             "type": "string",
-            "required": false
+            "required": true,
+            "description": "individual or organization"
         },
-        "numberOfSlots": {
+        "plan": {
+            "type": "string",
+            "required": true,
+            "description": "b2c_standard or b2b_per_user"
+        },
+        "billingPeriod": {
+            "type": "string",
+            "required": true,
+            "description": "monthly or annual"
+        },
+        "status": {
+            "type": "string",
+            "required": true,
+            "default": "pending",
+            "description": "pending, active, expired, cancelled"
+        },
+        "pricePerUser": {
+            "type": "number",
+            "required": true
+        },
+        "maxUsers": {
             "type": "number",
             "required": true,
-            "default": 0
-        },
-        "numberOfAssignments": {
-            "type": "number",
-            "required": true,
-            "default": 0
+            "default": 1
         },
         "activationDate": {
-            "type": "date",
-            "required": true
+            "type": "date"
         },
         "expiryDate": {
-            "type": "date",
-            "required": true
+            "type": "date"
         },
-        "userActivationCode": {
-            "type": "string",
-            "required": false
+        "autoRenew": {
+            "type": "boolean",
+            "default": false
         }
     },
     "validations": [],
-    "relations": {},
+    "relations": {
+        "owner": {
+            "type": "belongsTo",
+            "model": "appuser",
+            "foreignKey": "ownerId"
+        },
+        "organization": {
+            "type": "belongsTo",
+            "model": "Organization",
+            "foreignKey": "organizationId"
+        },
+        "payments": {
+            "type": "hasMany",
+            "model": "payment",
+            "foreignKey": "subscriptionId"
+        }
+    },
     "acls": [],
     "methods": {}
 }

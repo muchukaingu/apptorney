@@ -122,7 +122,9 @@ function embedQueryText(queryText, cb) {
       const vector = parseQueryVector(embeddings[0].embedding)
       cb(null, vector)
     } catch (parseErr) {
-      cb(new Error('Voyage embedding output is invalid'))
+      console.error('[voyage-embed] parseQueryVector failed:', parseErr.message)
+      console.error('[voyage-embed] embedding type:', typeof embeddings[0].embedding, 'isArray:', Array.isArray(embeddings[0].embedding), 'length:', embeddings[0].embedding && embeddings[0].embedding.length)
+      cb(new Error('Voyage embedding output is invalid: ' + parseErr.message))
     }
   })
 }
@@ -283,9 +285,103 @@ function searchCollection(opts, cb) {
   )
 }
 
+function searchCollectionAtlas(opts, cb) {
+  var limit = sanitizeLimit(opts.limit)
+  var queryVector = opts.queryVector
+  var indexName = opts.indexName
+  var chunkCollection = opts.chunkCollection
+  var includeDeleted = opts.includeDeleted || false
+  var logPrefix = opts.logPrefix || 'vector-search-atlas'
+  var mapResult = opts.mapResult || function (doc) { return doc }
+
+  var numCandidatesRaw = parseInt(process.env.ATLAS_VECTOR_NUM_CANDIDATES || '', 10)
+  var numCandidates = Number.isFinite(numCandidatesRaw) && numCandidatesRaw > 0
+    ? numCandidatesRaw
+    : limit * 15
+
+  // Pre-group limit: request more chunks than final limit since multiple
+  // chunks may belong to the same parent document
+  var preGroupLimit = Math.min(limit * 10, numCandidates)
+
+  var filter = includeDeleted ? {} : { deleted: { $ne: true } }
+
+  var pipeline = [
+    {
+      $vectorSearch: {
+        index: indexName,
+        path: 'embedding',
+        queryVector: queryVector,
+        numCandidates: numCandidates,
+        limit: preGroupLimit,
+        filter: filter
+      }
+    },
+    {
+      $addFields: {
+        _vsScore: { $meta: 'vectorSearchScore' }
+      }
+    },
+    {
+      $sort: { _vsScore: -1 }
+    },
+    {
+      $group: {
+        _id: '$parentId',
+        score: { $max: '$_vsScore' },
+        name: { $first: '$name' },
+        caseNumber: { $first: '$caseNumber' },
+        summaryOfRuling: { $first: '$summaryOfRuling' },
+        summaryOfFacts: { $first: '$summaryOfFacts' },
+        citation: { $first: '$citation' },
+        legislationName: { $first: '$legislationName' },
+        legislationNumber: { $first: '$legislationNumber' },
+        legislationNumbers: { $first: '$legislationNumbers' },
+        preamble: { $first: '$preamble' },
+        dateOfAssent: { $first: '$dateOfAssent' },
+        year: { $first: '$year' }
+      }
+    },
+    {
+      $sort: { score: -1 }
+    },
+    {
+      $limit: limit
+    }
+  ]
+
+  var searchStartMs = Date.now()
+  console.log('[' + logPrefix + '] start index=' + indexName + ' limit=' + limit + ' numCandidates=' + numCandidates)
+
+  chunkCollection.aggregate(pipeline).toArray(function (err, docs) {
+    if (err) {
+      console.error('[' + logPrefix + '] error: ' + err.message)
+      cb(err)
+      return
+    }
+
+    var results = []
+    for (var i = 0; i < docs.length; i += 1) {
+      var doc = docs[i]
+      var mapped = mapResult(doc)
+      mapped.score = doc.score
+      results.push(mapped)
+    }
+
+    var elapsedMs = Date.now() - searchStartMs
+    console.log('[' + logPrefix + '] done results=' + results.length + ' elapsed_ms=' + elapsedMs)
+    cb(null, {
+      limit: limit,
+      scanned: numCandidates,
+      compared: docs.length,
+      results: results
+    })
+  })
+}
+
 module.exports = {
   MAX_LIMIT,
   sanitizeLimit,
   resolveQueryVector,
-  searchCollection
+  searchCollection,
+  searchCollectionAtlas
 }

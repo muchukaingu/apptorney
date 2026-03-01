@@ -19,3 +19,47 @@ module.exports.sendEmail = function (recipient, subject, template, values) {
     //console.log("email", body);
   });
 };
+
+module.exports.sendOtpEmail = function (recipient, otp) {
+  var DOMAIN = "mg.apptorney.org";
+  var mg = mailgun({
+    apiKey: "bb9112c75588d7294dddd31c539df299-77751bfc-f4281491",
+    domain: DOMAIN
+  });
+  var data = {
+    from: "Apptorney <postmaster@mg.apptorney.org>",
+    to: recipient,
+    subject: "Your Apptorney verification code",
+    text: "Your verification code is: " + otp + "\n\nThis code expires in 10 minutes.\n\nIf you didn't request this code, please ignore this email.\n\n- The Apptorney Team"
+  };
+
+  mg.messages().send(data, function (error, body) {
+    if (error) {
+      console.log("OTP email error:", error);
+    }
+  });
+};
+
+module.exports.sendInviteEmail = function (recipient, organizationName, role, inviteLink) {
+  var DOMAIN = "mg.apptorney.org";
+  var mg = mailgun({
+    apiKey: "bb9112c75588d7294dddd31c539df299-77751bfc-f4281491",
+    domain: DOMAIN
+  });
+  var data = {
+    from: "Apptorney <postmaster@mg.apptorney.org>",
+    to: recipient,
+    subject: "You've been invited to join " + organizationName + " on Apptorney",
+    text: "You have been invited to join " + organizationName + " on Apptorney as a " + role + ".\n\n" +
+      "Click the link below to accept the invitation:\n" +
+      inviteLink + "\n\n" +
+      "This invitation expires in 7 days.\n\n" +
+      "- The Apptorney Team"
+  };
+
+  mg.messages().send(data, function (error, body) {
+    if (error) {
+      console.log("Invitation email error:", error);
+    }
+  });
+};

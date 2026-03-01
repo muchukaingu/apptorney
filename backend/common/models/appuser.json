@@ -9,12 +9,26 @@
         "include": "customer"
     },
     "inheritAcls": false,
+    "hidden": ["otpHash", "otpExpiry", "otpAttempts", "otpLastSent"],
     "mixins": {
         "TimeStamp": true
     },
     "properties": {
         "currentSubscription": {
             "type": "string"
+        },
+        "otpHash": {
+            "type": "string"
+        },
+        "otpExpiry": {
+            "type": "date"
+        },
+        "otpAttempts": {
+            "type": "number",
+            "default": 0
+        },
+        "otpLastSent": {
+            "type": "date"
         }
     },
     "validations": [],

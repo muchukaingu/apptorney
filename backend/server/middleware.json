@@ -42,7 +42,20 @@
   },
   "session": {},
   "auth": {},
-  "parse": {},
+  "parse": {
+    "body-parser#json": {
+      "params": {
+        "limit": "50mb",
+        "strict": false
+      }
+    },
+    "body-parser#urlencoded": {
+      "params": {
+        "extended": true,
+        "limit": "50mb"
+      }
+    }
+  },
   "routes": {
     "loopback#rest": {
       "paths": [

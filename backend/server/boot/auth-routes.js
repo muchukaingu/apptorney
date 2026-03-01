@@ -15,6 +15,8 @@ module.exports = function (app) {
         var email = (body.email || '').trim().toLowerCase()
         var firstName = (body.firstName || '').trim()
         var lastName = (body.lastName || '').trim()
+        var phoneNumber = (body.phoneNumber || '').trim()
+        var organization = (body.organization || '').trim()
 
         if (!email) {
             return sendError(res, 400, 'Email is required')
@@ -41,6 +43,10 @@ module.exports = function (app) {
                 password: randomPassword,
                 firstname: firstName,
                 lastname: lastName,
+                firstName: firstName,
+                lastName: lastName,
+                phoneNumber: phoneNumber || undefined,
+                organization: organization || undefined,
                 emailVerified: false,
                 phoneVerified: true  // We no longer require phone verification
             }, function (err, user) {
@@ -56,7 +62,7 @@ module.exports = function (app) {
                     firstName: firstName,
                     lastName: lastName,
                     emailAddress: email,
-                    phoneNumber: email,  // Use email as placeholder since phone is no longer primary
+                    phoneNumber: phoneNumber || email,
                     appuserId: user.id
                 }, function (custErr) {
                     if (custErr) {
@@ -159,14 +165,16 @@ module.exports = function (app) {
                     Customer.findOne({ where: { appuserId: user.id } }, function (custErr, customer) {
                         var firstName = ''
                         var lastName = ''
+                        var phoneNumber = ''
                         if (customer) {
                             firstName = customer.firstName || ''
                             lastName = customer.lastName || ''
-                        } else {
-                            // Fallback to AppUser fields
-                            firstName = user.firstname || ''
-                            lastName = user.lastname || ''
+                            phoneNumber = customer.phoneNumber || ''
                         }
+                        // Fallback to AppUser fields
+                        if (!firstName) firstName = user.firstName || user.firstname || ''
+                        if (!lastName) lastName = user.lastName || user.lastname || ''
+                        if (!phoneNumber) phoneNumber = user.phoneNumber || ''
 
                         var accessToken = jwtHelper.signAccessToken(user.id, email)
                         var refreshToken = jwtHelper.signRefreshToken(user.id)
@@ -178,7 +186,10 @@ module.exports = function (app) {
                                 id: user.id,
                                 firstName: firstName,
                                 lastName: lastName,
-                                email: email
+                                email: email,
+                                phoneNumber: phoneNumber,
+                                organization: user.organization || '',
+                                role: user.role || 'user'
                             }
                         })
                     })

@@ -9,7 +9,7 @@
         "include": "customer"
     },
     "inheritAcls": false,
-    "hidden": ["otpHash", "otpExpiry", "otpAttempts", "otpLastSent"],
+    "hidden": ["otpHash", "otpExpiry", "otpAttempts", "otpLastSent", "role"],
     "mixins": {
         "TimeStamp": true
     },
@@ -29,6 +29,10 @@
         },
         "otpLastSent": {
             "type": "date"
+        },
+        "role": {
+            "type": "string",
+            "default": "user"
         }
     },
     "validations": [],

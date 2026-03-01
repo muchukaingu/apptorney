@@ -1,0 +1,74 @@
+{
+    "name": "DailyStats",
+    "plural": "dailyStats",
+    "base": "PersistedModel",
+    "idInjection": true,
+    "options": {
+        "validateUpsert": true
+    },
+    "properties": {
+        "snapshotDate": {
+            "type": "date",
+            "required": true,
+            "index": true
+        },
+        "totalUsers": {
+            "type": "number",
+            "default": 0
+        },
+        "newUsers": {
+            "type": "number",
+            "default": 0
+        },
+        "activeUsers": {
+            "type": "number",
+            "default": 0
+        },
+        "totalCases": {
+            "type": "number",
+            "default": 0
+        },
+        "totalLegislation": {
+            "type": "number",
+            "default": 0
+        },
+        "activeSubscriptions": {
+            "type": "number",
+            "default": 0
+        },
+        "newSubscriptions": {
+            "type": "number",
+            "default": 0
+        },
+        "churnedSubscriptions": {
+            "type": "number",
+            "default": 0
+        },
+        "totalRevenue": {
+            "type": "number",
+            "default": 0
+        },
+        "dailyRevenue": {
+            "type": "number",
+            "default": 0
+        },
+        "totalOrganizations": {
+            "type": "number",
+            "default": 0
+        },
+        "aiQueries": {
+            "type": "number",
+            "default": 0
+        }
+    },
+    "validations": [],
+    "relations": {},
+    "acls": [
+        {
+            "principalType": "ROLE",
+            "principalId": "$everyone",
+            "permission": "DENY"
+        }
+    ],
+    "methods": {}
+}

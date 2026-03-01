@@ -826,6 +826,19 @@ module.exports = function (Appuser) {
         })
     }
 
+    // Prevent users from modifying their own role via REST
+    Appuser.beforeRemote('prototype.updateAttributes', function (ctx, unused, next) {
+        if (ctx.args && ctx.args.data) {
+            delete ctx.args.data.role
+        }
+        next()
+    })
 
+    Appuser.beforeRemote('upsert', function (ctx, unused, next) {
+        if (ctx.args && ctx.args.data) {
+            delete ctx.args.data.role
+        }
+        next()
+    })
 
 }

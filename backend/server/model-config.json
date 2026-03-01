@@ -206,6 +206,10 @@
         "dataSource": "apptorney",
         "public": true
     },
+    "DailyStats": {
+        "dataSource": "apptorney",
+        "public": false
+    },
     "Organization": {
         "dataSource": "apptorney",
         "public": true

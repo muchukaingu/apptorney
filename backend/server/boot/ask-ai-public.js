@@ -14,6 +14,12 @@ module.exports = function (app) {
             return
         }
 
+        // Count AI query for admin dashboard
+        var DailyStats = app.models.DailyStats
+        if (DailyStats && typeof DailyStats.incrementAiQueries === 'function') {
+            DailyStats.incrementAiQueries()
+        }
+
         var payload = req.body && typeof req.body === 'object' ? Object.assign({}, req.body) : {}
 
         if (req.query && typeof req.query === 'object') {

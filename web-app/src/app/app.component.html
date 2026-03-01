@@ -384,7 +384,7 @@
           <h3>Account</h3>
           <div class="settings-field">
             <span class="settings-field__label">Name</span>
-            <span class="settings-field__value">{{ currentUser?.name || '—' }}</span>
+            <span class="settings-field__value">{{ currentUser?.firstName ? currentUser?.firstName + ' ' + (currentUser?.lastName || '') : '—' }}</span>
           </div>
           <div class="settings-field">
             <span class="settings-field__label">Email</span>

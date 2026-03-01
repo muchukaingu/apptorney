@@ -70,10 +70,10 @@ export class AuthService {
     return { ok: true, userId: data?.userId, message: data?.message };
   }
 
-  async verifyOtp(userId: string, otp: string): Promise<VerifyOtpResult> {
+  async verifyOtp(email: string, otp: string): Promise<VerifyOtpResult> {
     const response = await this.api.request('/auth/verify-otp', {
       method: 'POST',
-      body: { userId, otp },
+      body: { email, otp },
       skipAuthHeader: true
     });
 

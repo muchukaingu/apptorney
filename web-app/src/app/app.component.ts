@@ -292,7 +292,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.authLoading = true;
     this.setStatus('Verifying...');
 
-    const result = await this.authService.verifyOtp(this.authUserId, otp);
+    const result = await this.authService.verifyOtp(this.authEmail, otp);
     this.authLoading = false;
 
     if (!result.ok) {
@@ -303,7 +303,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.accessToken = result.accessToken || '';
     this.refreshToken = result.refreshToken || '';
     this.currentUser = result.user || null;
-    this.username = this.currentUser?.name || this.currentUser?.email || '';
+    this.username = this.currentUser?.firstName ? `${this.currentUser.firstName} ${this.currentUser.lastName || ''}`.trim() : this.currentUser?.email || '';
     this.persistSession();
 
     this.loginModalOpen = false;
@@ -1035,7 +1035,7 @@ export class AppComponent implements OnInit, OnDestroy {
     if (userJson) {
       try { this.currentUser = JSON.parse(userJson); } catch { this.currentUser = null; }
     }
-    this.username = this.currentUser?.name || this.currentUser?.email || '';
+    this.username = this.currentUser?.firstName ? `${this.currentUser.firstName} ${this.currentUser.lastName || ''}`.trim() : this.currentUser?.email || '';
 
     if (this.accessToken) {
       await this.loadSubscriptionStatus();

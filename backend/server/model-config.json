@@ -206,7 +206,15 @@
         "dataSource": "apptorney",
         "public": true
     },
+    "Organization": {
+        "dataSource": "apptorney",
+        "public": true
+    },
     "OrganizationMember": {
+        "dataSource": "apptorney",
+        "public": true
+    },
+    "payment": {
         "dataSource": "apptorney",
         "public": true
     },

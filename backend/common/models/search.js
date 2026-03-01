@@ -1351,7 +1351,9 @@ module.exports = function(Search) {
                     var systemPrompt =
                         'You are a legal research assistant for Apptorney. ' +
                         'Answer the user question directly and naturally, without meta lead-ins. ' +
-                        'Do not start with phrases like "The context provides" or "Based on the provided context". ' +
+                        'Do not start with phrases like "The context provides", "Based on the provided context", ' +
+                        '"According to the materials you have provided", or any similar reference to materials being provided. ' +
+                        'The legal materials come from the Apptorney platform, not from the user — never imply the user supplied them. ' +
                         'Provide a complete, high-quality answer with practical detail and clear reasoning. ' +
                         'Use only the supplied context for factual claims. ' +
                         'If information is missing, say so briefly in plain language. ' +
@@ -1489,6 +1491,284 @@ module.exports = function(Search) {
      * Runs the full retrieval pipeline, then streams the OpenAI response token-by-token.
      * Called directly from the route handler with (payload, req, res).
      */
+    /**
+     * Public (no-auth) version of askAi for website visitors.
+     * - No authentication required
+     * - Response capped at 300 words via system prompt + maxTokens
+     * - No thread persistence or conversation history
+     * - Supports both regular and streaming responses
+     */
+    Search.askAiPublic = function (question, stream, req, res, cb) {
+        var requestStart = nowMs()
+        var askAiRequestId = 'askai-public-' + requestStart + '-' + Math.floor(Math.random() * 100000)
+        console.log('[ask-ai-public] ' + askAiRequestId + ' called with question:', question)
+
+        if (!question || typeof question !== 'string' || question.trim().length === 0) {
+            if (stream && res) {
+                res.status(400).json({ error: 'question is required' })
+            } else {
+                cb(new Error('question is required'))
+            }
+            return
+        }
+
+        var retrievalLimit = 8
+        var defaultMaxCandidates = parsePositiveInt(process.env.ASK_AI_MAX_CANDIDATES_DEFAULT, 600)
+        var resolvedMaxCandidates = Math.min(defaultMaxCandidates, 600)
+        var defaultContextItems = parsePositiveInt(process.env.ASK_AI_CONTEXT_ITEMS_DEFAULT, 8)
+        var resolvedContextItems = Math.min(defaultContextItems, 6)
+        var snippetMaxChars = parsePositiveInt(process.env.ASK_AI_SNIPPET_MAX_CHARS, 1200)
+
+        var retrievalStart = nowMs()
+        var retrievalQueryText = question.trim()
+        console.log('[ask-ai-public] ' + askAiRequestId + ' retrieval:start')
+
+        Search.universalVectorSearch({
+            queryText: retrievalQueryText,
+            limit: retrievalLimit,
+            maxCandidates: resolvedMaxCandidates,
+            includeCases: true,
+            includeLegislations: true,
+            includeDeleted: false
+        }, function (retrievalErr, retrieval) {
+            if (retrievalErr) {
+                if (stream && res) {
+                    res.status(500).json({ error: retrievalErr.message })
+                } else {
+                    cb(retrievalErr)
+                }
+                return
+            }
+            var retrievalMs = nowMs() - retrievalStart
+            console.log('[ask-ai-public] ' + askAiRequestId + ' retrieval:done ms=' + retrievalMs)
+
+            var results = retrieval.results || []
+            var hydrationStart = nowMs()
+
+            hydrateLegislationContext(results, question.trim(), function (hydrationErr, hydratedLegislation) {
+                if (hydrationErr) {
+                    console.log('[ask-ai-public-hydration-error] ' + hydrationErr.message)
+                }
+                var hydrationMs = nowMs() - hydrationStart
+                var hydratedMap = hydrationErr ? {} : (hydratedLegislation || {})
+                console.log('[ask-ai-public] ' + askAiRequestId + ' hydration:done ms=' + hydrationMs)
+
+                var contextLines = []
+                var sources = []
+                var maxContextItems = Math.min(results.length, resolvedContextItems)
+
+                for (var i = 0; i < maxContextItems; i += 1) {
+                    var item = results[i]
+                    var label = 'S' + (i + 1)
+                    var title = item.type === 'case'
+                        ? (item.name || 'Untitled case')
+                        : (item.legislationName || 'Untitled legislation')
+                    var snippetParts = []
+                    var legislationHydration = null
+                    if (item.type === 'legislation') {
+                        legislationHydration = hydratedMap['legislation:' + item.id] || null
+                    }
+                    if (item.summaryOfRuling) {
+                        snippetParts.push('Summary of ruling: ' + item.summaryOfRuling)
+                    }
+                    if (item.summaryOfFacts) {
+                        snippetParts.push('Summary of facts: ' + item.summaryOfFacts)
+                    }
+                    if (item.judgement) {
+                        snippetParts.push('Judgment: ' + item.judgement)
+                    }
+                    if (legislationHydration && legislationHydration.text) {
+                        snippetParts.unshift('Relevant clause: ' + legislationHydration.text)
+                    } else if (item.preamble) {
+                        snippetParts.push('Preamble: ' + item.preamble)
+                    }
+                    if (item.flattenedParts) {
+                        snippetParts.push('Relevant provisions: ' + item.flattenedParts)
+                    }
+                    var snippet = snippetParts.join('\n')
+                    if (snippet.length > snippetMaxChars) {
+                        snippet = snippet.slice(0, snippetMaxChars) + '...'
+                    }
+
+                    contextLines.push('[' + label + '] ' + item.type.toUpperCase() + ' | id=' + item.id + ' | title=' + title)
+                    if (item.caseNumber) {
+                        contextLines.push('[' + label + '] caseNumber: ' + item.caseNumber)
+                    }
+                    if (item.citation) {
+                        contextLines.push('[' + label + '] citation: ' + JSON.stringify(item.citation))
+                    }
+                    if (item.legislationNumber || item.legislationNumbers) {
+                        contextLines.push('[' + label + '] legislation references: ' + (item.legislationNumber || '') + ' ' + (item.legislationNumbers || ''))
+                    }
+                    if (item.dateOfAssent) {
+                        contextLines.push('[' + label + '] dateOfAssent: ' + item.dateOfAssent)
+                    }
+                    if (item.year) {
+                        contextLines.push('[' + label + '] year: ' + item.year)
+                    }
+                    if (legislationHydration && legislationHydration.heading) {
+                        contextLines.push('[' + label + '] clause heading: ' + legislationHydration.heading)
+                    }
+                    if (snippet) {
+                        contextLines.push('[' + label + '] snippet: ' + snippet)
+                    }
+
+                    sources.push({
+                        source: label,
+                        id: item.id,
+                        type: item.type,
+                        title: title,
+                        score: item.score,
+                        clauseHeading: legislationHydration ? legislationHydration.heading : undefined,
+                        clauseScore: legislationHydration ? legislationHydration.score : undefined
+                    })
+                }
+
+                var systemPrompt =
+                    'You are a legal research assistant for Apptorney. ' +
+                    'Answer the user question directly and naturally, without meta lead-ins. ' +
+                    'Do not start with phrases like "The context provides", "Based on the provided context", ' +
+                    '"According to the materials you have provided", or any similar reference to materials being provided. ' +
+                    'The legal materials come from the Apptorney platform, not from the user — never imply the user supplied them. ' +
+                    'Provide a concise answer with practical detail and clear reasoning. ' +
+                    'Use only the supplied context for factual claims. ' +
+                    'If information is missing, say so briefly in plain language. ' +
+                    'Cite sources inline as [S1], [S2]. Do not invent citations. ' +
+                    'IMPORTANT: Your response MUST be 300 words or fewer. Be concise.'
+
+                var userPrompt =
+                    'Question:\n' + question.trim() + '\n\n' +
+                    'Context:\n' + (contextLines.length ? contextLines.join('\n') : 'No context available.')
+
+                // ~400 tokens ≈ 300 words
+                var maxTokens = 400
+
+                var retrievalTimings = retrieval.timings || {}
+
+                if (stream && res) {
+                    // --- SSE streaming path ---
+                    function sendSSE(event, data) {
+                        if (res.finished) return
+                        res.write('event: ' + event + '\ndata: ' + JSON.stringify(data) + '\n\n')
+                    }
+
+                    res.writeHead(200, {
+                        'Content-Type': 'text/event-stream',
+                        'Cache-Control': 'no-cache',
+                        'Connection': 'keep-alive',
+                        'X-Accel-Buffering': 'no'
+                    })
+
+                    sendSSE('metadata', {
+                        question: question.trim(),
+                        sources: sources,
+                        retrieval: {
+                            limit: retrieval.limit,
+                            queryDimensions: retrieval.queryDimensions,
+                            stats: retrieval.stats,
+                            timings: retrieval.timings,
+                            searchPath: retrieval.searchPath,
+                            hydratedLegislations: Object.keys(hydratedMap).length
+                        },
+                        latency: {
+                            embed_ms: retrievalTimings.embed_ms,
+                            search_ms: retrievalTimings.search_ms_total,
+                            retrieval_ms: retrievalMs,
+                            hydration_ms: hydrationMs
+                        }
+                    })
+
+                    var openAiStart = nowMs()
+                    openaiClient.createStreamingChatCompletion({
+                        temperature: 0.1,
+                        maxTokens: maxTokens,
+                        messages: [
+                            { role: 'system', content: systemPrompt },
+                            { role: 'user', content: userPrompt }
+                        ]
+                    }, {
+                        onToken: function (text) {
+                            sendSSE('token', { text: text })
+                        },
+                        onDone: function (aiResponse) {
+                            var openAiMs = nowMs() - openAiStart
+                            var totalMs = nowMs() - requestStart
+                            console.log('[ask-ai-public] ' + askAiRequestId + ' openai:done ms=' + openAiMs + ' total_ms=' + totalMs)
+
+                            sendSSE('done', {
+                                answer: aiResponse.text,
+                                model: aiResponse.model,
+                                usage: aiResponse.usage,
+                                latency: {
+                                    embed_ms: retrievalTimings.embed_ms,
+                                    search_ms: retrievalTimings.search_ms_total,
+                                    retrieval_ms: retrievalMs,
+                                    hydration_ms: hydrationMs,
+                                    openai_ms: openAiMs,
+                                    total_ms: totalMs
+                                }
+                            })
+                            res.end()
+                        },
+                        onError: function (err) {
+                            console.error('[ask-ai-public] ' + askAiRequestId + ' openai:error ' + err.message)
+                            sendSSE('error', { message: err.message })
+                            res.end()
+                        }
+                    })
+
+                    req.on('close', function () {
+                        console.log('[ask-ai-public] ' + askAiRequestId + ' client disconnected')
+                    })
+                } else {
+                    // --- Regular (non-streaming) path ---
+                    var openAiStart = nowMs()
+                    console.log('[ask-ai-public] ' + askAiRequestId + ' openai:start')
+                    openaiClient.createChatCompletion({
+                        temperature: 0.1,
+                        maxTokens: maxTokens,
+                        messages: [
+                            { role: 'system', content: systemPrompt },
+                            { role: 'user', content: userPrompt }
+                        ]
+                    }, function (aiErr, aiResponse) {
+                        if (aiErr) {
+                            cb(aiErr)
+                            return
+                        }
+
+                        var openAiMs = nowMs() - openAiStart
+                        var totalMs = nowMs() - requestStart
+                        console.log('[ask-ai-public] ' + askAiRequestId + ' openai:done ms=' + openAiMs + ' total_ms=' + totalMs)
+
+                        cb(null, {
+                            question: question.trim(),
+                            answer: aiResponse.text,
+                            model: aiResponse.model,
+                            usage: aiResponse.usage,
+                            sources: sources,
+                            retrieval: {
+                                limit: retrieval.limit,
+                                queryDimensions: retrieval.queryDimensions,
+                                stats: retrieval.stats,
+                                timings: retrieval.timings,
+                                hydratedLegislations: Object.keys(hydratedMap).length
+                            },
+                            latency: {
+                                embed_ms: retrievalTimings.embed_ms,
+                                search_ms: retrievalTimings.search_ms_total,
+                                retrieval_ms: retrievalMs,
+                                hydration_ms: hydrationMs,
+                                openai_ms: openAiMs,
+                                total_ms: totalMs
+                            }
+                        })
+                    })
+                }
+            })
+        })
+    }
+
     Search.askAiStream = function (payload, req, res) {
         var requestStart = nowMs()
         var askAiRequestId = 'askai-stream-' + requestStart + '-' + Math.floor(Math.random() * 100000)
@@ -1668,7 +1948,9 @@ module.exports = function(Search) {
                     var systemPrompt =
                         'You are a legal research assistant for Apptorney. ' +
                         'Answer the user question directly and naturally, without meta lead-ins. ' +
-                        'Do not start with phrases like "The context provides" or "Based on the provided context". ' +
+                        'Do not start with phrases like "The context provides", "Based on the provided context", ' +
+                        '"According to the materials you have provided", or any similar reference to materials being provided. ' +
+                        'The legal materials come from the Apptorney platform, not from the user — never imply the user supplied them. ' +
                         'Provide a complete, high-quality answer with practical detail and clear reasoning. ' +
                         'Use only the supplied context for factual claims. ' +
                         'If information is missing, say so briefly in plain language. ' +

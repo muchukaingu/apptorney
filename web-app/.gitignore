@@ -1,0 +1,25 @@
+# dependencies
+/node_modules
+
+# angular build
+/dist
+/.angular
+/out-tsc
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# system
+.DS_Store
+
+# environment
+.env
+.env.*
+
+# screenshots
+*.png
+
+# playwright
+.playwright-mcp/

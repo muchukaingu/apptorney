@@ -133,6 +133,9 @@ module.exports = function (app) {
     })
 
     // ── POST /api/payments/confirm ─────────────────────────────────
+    // TODO: Add system admin role check. Currently any authenticated user can
+    // confirm payments. When a proper admin role system is implemented, restrict
+    // this endpoint to system administrators only.
     app.post(restRoot + '/payments/confirm', requireAuth, function (req, res, next) {
         var body = req.body || {}
         var subscriptionId = body.subscriptionId

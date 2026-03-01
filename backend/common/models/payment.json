@@ -1,33 +1,56 @@
 {
-  "name": "payment",
-  "plural": "payments",
-  "base": "PersistedModel",
-  "idInjection": true,
-  "options": {
-    "validateUpsert": true
-  },
-  "properties": {
-    "date": {
-      "type": "date",
-      "required": true
+    "name": "payment",
+    "plural": "payments",
+    "base": "PersistedModel",
+    "idInjection": true,
+    "options": {
+        "validateUpsert": true
     },
-    "amount": {
-      "type": "number",
-      "required": true
+    "mixins": {
+        "TimeStamp": true
     },
-    "subscription": {
-      "type": "object",
-      "required": true
+    "properties": {
+        "date": {
+            "type": "date",
+            "required": true
+        },
+        "amount": {
+            "type": "number",
+            "required": true
+        },
+        "method": {
+            "type": "string",
+            "required": true,
+            "default": "manual",
+            "description": "manual for now; stripe/paystack later"
+        },
+        "status": {
+            "type": "string",
+            "required": true,
+            "default": "pending",
+            "description": "pending, confirmed, failed"
+        },
+        "reference": {
+            "type": "string",
+            "description": "External payment reference (e.g. bank transfer ref)"
+        },
+        "notes": {
+            "type": "string"
+        }
     },
-    "customer": {
-      "type": "string"
+    "validations": [],
+    "relations": {
+        "subscription": {
+            "type": "belongsTo",
+            "model": "subscription",
+            "foreignKey": "subscriptionId"
+        },
+        "paidBy": {
+            "type": "belongsTo",
+            "model": "appuser",
+            "foreignKey": "paidById"
+        }
     },
-    "organization": {
-      "type": "string"
-    }
-  },
-  "validations": [],
-  "relations": {},
-  "acls": [],
-  "methods": {}
+    "acls": [],
+    "methods": {}
 }

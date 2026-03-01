@@ -205,6 +205,14 @@
     "userStats": {
         "dataSource": "apptorney",
         "public": true
+    },
+    "OrganizationMember": {
+        "dataSource": "apptorney",
+        "public": true
+    },
+    "invitation": {
+        "dataSource": "apptorney",
+        "public": true
     }
 
 }

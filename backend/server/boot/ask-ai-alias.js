@@ -6,19 +6,9 @@ module.exports = function (app) {
         restRoot + '/searches/ask-ai'
     ]
 
-    function extractTokenId(req) {
-        if (req.accessToken && req.accessToken.id) {
-            return String(req.accessToken.id)
-        }
+    var jwtHelper = require('../../common/models/shared/jwt')
 
-        if (req.query && typeof req.query.access_token === 'string' && req.query.access_token.trim()) {
-            return req.query.access_token.trim()
-        }
-
-        if (req.body && typeof req.body.access_token === 'string' && req.body.access_token.trim()) {
-            return req.body.access_token.trim()
-        }
-
+    function extractBearerToken(req) {
         var authHeader = req.headers && (req.headers.authorization || req.headers.Authorization)
         if (typeof authHeader === 'string') {
             var match = authHeader.match(/^Bearer\s+(.+)$/i)
@@ -26,57 +16,24 @@ module.exports = function (app) {
                 return match[1].trim()
             }
         }
-
         return ''
     }
 
     function resolveAccessToken(req, cb) {
-        if (req.accessToken && req.accessToken.userId) {
-            cb(null, req.accessToken)
-            return
-        }
-
-        var tokenId = extractTokenId(req)
-        if (!tokenId) {
+        var token = extractBearerToken(req)
+        if (!token) {
             cb(null, null)
             return
         }
 
-        var AccessToken = app.models.AccessToken
-        if (!AccessToken || typeof AccessToken.findById !== 'function') {
-            cb(new Error('AccessToken model is not available'))
+        var decoded = jwtHelper.verifyAccessToken(token)
+        if (!decoded) {
+            cb(null, null)
             return
         }
 
-        AccessToken.findById(tokenId, function (err, token) {
-            if (err) {
-                cb(err)
-                return
-            }
-            if (!token) {
-                cb(null, null)
-                return
-            }
-
-            if (typeof token.validate === 'function') {
-                token.validate(function (validateErr, isValid) {
-                    if (validateErr) {
-                        cb(validateErr)
-                        return
-                    }
-                    if (!isValid) {
-                        cb(null, null)
-                        return
-                    }
-                    req.accessToken = token
-                    cb(null, token)
-                })
-                return
-            }
-
-            req.accessToken = token
-            cb(null, token)
-        })
+        // Set userId on a token-like object for compatibility with handler
+        cb(null, { userId: decoded.sub, email: decoded.email })
     }
 
     function handler(req, res, next) {

@@ -1,6 +1,12 @@
 var jwt = require('jsonwebtoken')
 
-var SECRET = process.env.JWT_SECRET || 'apptorney-jwt-secret-change-in-production'
+var SECRET = process.env.JWT_SECRET
+if (!SECRET) {
+    if (process.env.NODE_ENV === 'production') {
+        throw new Error('JWT_SECRET environment variable is required in production')
+    }
+    SECRET = 'apptorney-jwt-secret-dev-only'
+}
 var ACCESS_TOKEN_EXPIRY = '15m'
 var REFRESH_TOKEN_EXPIRY = '30d'
 

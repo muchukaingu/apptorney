@@ -227,8 +227,9 @@ module.exports = function (app) {
             }
         }
 
-        // Generate 6-digit OTP
-        var otp = String(Math.floor(100000 + Math.random() * 900000))
+        // Generate 6-digit OTP (cryptographically secure)
+        var crypto = require('crypto')
+        var otp = String(crypto.randomBytes(4).readUInt32BE(0) % 900000 + 100000)
 
         // Hash it
         bcrypt.hash(otp, 10, function (hashErr, hash) {

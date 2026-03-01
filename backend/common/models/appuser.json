@@ -9,6 +9,7 @@
         "include": "customer"
     },
     "inheritAcls": false,
+    "hidden": ["otpHash", "otpExpiry", "otpAttempts", "otpLastSent"],
     "mixins": {
         "TimeStamp": true
     },

@@ -37,7 +37,6 @@
 		8D3D6698205D7F12003D7A4A /* SupportingModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3D6697205D7F12003D7A4A /* SupportingModels.swift */; };
 		8D45F976223907BC00289B26 /* LoginViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D45F975223907BC00289B26 /* LoginViewController+Extensions.swift */; };
 		8D45F97A2239097600289B26 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D45F9792239097600289B26 /* Login.storyboard */; };
-		8D45F97D223916BE00289B26 /* Forgot.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D45F97C223916BE00289B26 /* Forgot.storyboard */; };
 		8D4DAAE7206A8EF9007A1179 /* SummaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D4DAAE6206A8EF9007A1179 /* SummaryTableViewCell.swift */; };
 		8D4DAAEA206ABEEA007A1179 /* LegislationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D4DAAE9206ABEEA007A1179 /* LegislationType.swift */; };
 		8D6514D81C494C2800F5EDE0 /* StoresTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6514D71C494C2800F5EDE0 /* StoresTableViewCell.swift */; };
@@ -82,8 +81,6 @@
 		8D8A8FE6216144B700F78C12 /* SubscriptionRenewal.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D8A8FE5216144B700F78C12 /* SubscriptionRenewal.storyboard */; };
 		8D8A8FEC216145DA00F78C12 /* Agreements.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D8A8FEB216145DA00F78C12 /* Agreements.storyboard */; };
 		8D8A8FEE21624DF500F78C12 /* AgreementDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D8A8FED21624DF500F78C12 /* AgreementDetailsVC.swift */; };
-		8D90A7E1223E982200249267 /* ForgotViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D90A7E0223E982200249267 /* ForgotViewController.swift */; };
-		8D90A7E5223E996700249267 /* ResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D90A7E4223E996700249267 /* ResetPasswordViewController.swift */; };
 		8D92B5C01F9F818E00D4B6E4 /* CaseDetailsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D92B5BF1F9F818E00D4B6E4 /* CaseDetailsTableViewCell.swift */; };
 		8D92B5C21F9F8E7200D4B6E4 /* ExpandableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D92B5C11F9F8E7200D4B6E4 /* ExpandableHeaderView.swift */; };
 		8D92B5C41F9F906700D4B6E4 /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D92B5C31F9F906600D4B6E4 /* Section.swift */; };
@@ -193,7 +190,6 @@
 		8D3D6697205D7F12003D7A4A /* SupportingModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportingModels.swift; sourceTree = "<group>"; };
 		8D45F975223907BC00289B26 /* LoginViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoginViewController+Extensions.swift"; sourceTree = "<group>"; };
 		8D45F9792239097600289B26 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
-		8D45F97C223916BE00289B26 /* Forgot.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Forgot.storyboard; sourceTree = "<group>"; };
 		8D4DAAE6206A8EF9007A1179 /* SummaryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryTableViewCell.swift; sourceTree = "<group>"; };
 		8D4DAAE9206ABEEA007A1179 /* LegislationType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegislationType.swift; sourceTree = "<group>"; };
 		8D6514D71C494C2800F5EDE0 /* StoresTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoresTableViewCell.swift; sourceTree = "<group>"; };
@@ -239,8 +235,6 @@
 		8D8A8FE5216144B700F78C12 /* SubscriptionRenewal.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SubscriptionRenewal.storyboard; sourceTree = "<group>"; };
 		8D8A8FEB216145DA00F78C12 /* Agreements.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Agreements.storyboard; sourceTree = "<group>"; };
 		8D8A8FED21624DF500F78C12 /* AgreementDetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgreementDetailsVC.swift; sourceTree = "<group>"; };
-		8D90A7E0223E982200249267 /* ForgotViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotViewController.swift; sourceTree = "<group>"; };
-		8D90A7E4223E996700249267 /* ResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordViewController.swift; sourceTree = "<group>"; };
 		8D92B5BF1F9F818E00D4B6E4 /* CaseDetailsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseDetailsTableViewCell.swift; sourceTree = "<group>"; };
 		8D92B5C11F9F8E7200D4B6E4 /* ExpandableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandableHeaderView.swift; sourceTree = "<group>"; };
 		8D92B5C31F9F906600D4B6E4 /* Section.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
@@ -390,9 +384,6 @@
 		8D45F97B2239169600289B26 /* Forgot */ = {
 			isa = PBXGroup;
 			children = (
-				8D45F97C223916BE00289B26 /* Forgot.storyboard */,
-				8D90A7E0223E982200249267 /* ForgotViewController.swift */,
-				8D90A7E4223E996700249267 /* ResetPasswordViewController.swift */,
 			);
 			name = Forgot;
 			sourceTree = "<group>";
@@ -850,7 +841,6 @@
 				8DD147C21AA3A27500B2A098 /* Main.storyboard in Resources */,
 				8DC5F3941FA1B4050042C239 /* ExpandableHeaderView.xib in Resources */,
 				8D8048E41F580CF900B2832C /* OpenSans-Light.ttf in Resources */,
-				8D45F97D223916BE00289B26 /* Forgot.storyboard in Resources */,
 				8DD147C71AA3A27500B2A098 /* LaunchScreen.xib in Resources */,
 				8DFE3F7221346DD0001DBE7E /* Case.storyboard in Resources */,
 				8D8048D41F580CF000B2832C /* Torus-Heavy.otf in Resources */,
@@ -1036,14 +1026,12 @@
 				8DD147E51AA3A7BF00B2A098 /* DataManager.swift in Sources */,
 				8D3843F72068F4F50054109B /* UIlabel+EdgeInsets.swift in Sources */,
 				8D02A1EE215617100068402B /* APIResponse.swift in Sources */,
-				8D90A7E1223E982200249267 /* ForgotViewController.swift in Sources */,
 				8D255B7F2129D5C700489BD2 /* CardEntryVC.swift in Sources */,
 				8DFE3F76213522D0001DBE7E /* CaseCategoriesSegmentationVC.swift in Sources */,
 				8D7F888F1FC725740077C489 /* Legislation.swift in Sources */,
 				8DD147BD1AA3A27500B2A098 /* AppDelegate.swift in Sources */,
 				8D03361A1FC2FDCE007F9DC9 /* String+Extensions.swift in Sources */,
 				8D255B85212A163E00489BD2 /* PaymentCompletionVC.swift in Sources */,
-				8D90A7E5223E996700249267 /* ResetPasswordViewController.swift in Sources */,
 				8D6B49541AAB76960066F2CB /* SimpleCell.swift in Sources */,
 				8DBC4F641AA953EB0093F6CA /* HeaderTableViewCell.swift in Sources */,
 				8D45F976223907BC00289B26 /* LoginViewController+Extensions.swift in Sources */,

@@ -1,6 +1,6 @@
 //
 //  LoginViewController.swift
-//  MR
+//  apptorney
 //
 //  Created by Muchu Kaingu on 3/8/15.
 //  Copyright (c) 2015 Muchu Kaingu. All rights reserved.
@@ -8,14 +8,11 @@
 
 import UIKit
 import Alamofire
-//import CryptoSwift
-import PhoneNumberKit
 import MaterialComponents.MaterialSnackbar
 import SkyFloatingLabelTextField
 
 
-class LoginViewController: UIViewController, SettingsTableViewControllerDelegate, UITableViewDelegate, ErrorViewControllerDelegate, SWRevealViewControllerDelegate , SWRevealViewControllerDismissDelegate{
-    
+class LoginViewController: UIViewController, SettingsTableViewControllerDelegate, UITableViewDelegate, ErrorViewControllerDelegate, SWRevealViewControllerDelegate, SWRevealViewControllerDismissDelegate {
 
     @IBOutlet weak var loginSpinner: UIActivityIndicatorView!
     @IBOutlet weak var forgotButton: UIButton!
@@ -30,93 +27,63 @@ class LoginViewController: UIViewController, SettingsTableViewControllerDelegate
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var spinner: UIActivityIndicatorView!
-    @IBOutlet weak var txtUserName:SkyFloatingLabelTextField!
-    @IBOutlet weak var txtPassword:UITextField!
+    @IBOutlet weak var txtUserName: SkyFloatingLabelTextField!
+    @IBOutlet weak var txtPassword: UITextField!
     @objc var moveToPoint: CGFloat = 0.0
     @objc var tableYPoint: CGFloat = 0.0
     @objc var stores = [NSString]()
     @objc var numberOfLoginAttempts = 0
     @objc var nextAPI = ""
     var formValid: Bool = false
-    
-    
+
+
     override var prefersStatusBarHidden: Bool {
         return true
     }
-    
+
     override func viewDidLoad() {
-        
+
         super.viewDidLoad()
-        
+
         UIApplication.shared.isStatusBarHidden = true
-        self.loginButton.layer.cornerRadius = self.loginButton.frame.height/6
+        self.loginButton.layer.cornerRadius = self.loginButton.frame.height / 6
         self.loginButton.clipsToBounds = true
         self.registerForKeyboardNotifications()
-        self.txtUserName.textContentType = .telephoneNumber
-        txtUserName.autocapitalizationType = .words
+
+        // Configure for email-only OTP flow
+        self.txtUserName.placeholder = "Email"
+        self.txtUserName.title = "Email"
+        self.txtUserName.textContentType = .emailAddress
+        self.txtUserName.keyboardType = .emailAddress
+        self.txtUserName.autocapitalizationType = .none
+        self.txtUserName.autocorrectionType = .no
         txtUserName.titleFormatter = { $0 }
-        print(self.view.bounds.size.height)
-        //check width of iphone
-        
-//        if self.view.bounds.size.height < 568.0 {
-//            moveToPoint = -185.0
-//        }
-//        else if self.view.bounds.size.height >= 568.0 && self.view.bounds.size.height < 667.0{
-//            moveToPoint = -200.0
-//        }
-//        else if self.view.bounds.size.height == 667.0 && self.view.bounds.size.height < 736.0{
-//            moveToPoint = -220.0
-//        }
-//        else if self.view.bounds.size.height == 736.0 {
-//            moveToPoint = -230.0
-//        }
-//        else if self.view.bounds.size.height > 736.0 {
-//            moveToPoint =  self.view.bounds.size.height / -3.4
-//        }
-        
-        
+
+        // Hide password field and forgot password (no longer needed for OTP)
+        self.txtPassword?.isHidden = true
+        self.forgotButton?.isHidden = true
+        self.forgotLabel?.isHidden = true
+
+        self.loginButton.setTitle("Send Code", for: .normal)
+
         if self.view.bounds.size.height > 812.0 || self.view.bounds.size.height > 896.0 {
-            moveToPoint =  34.0
-        }
-        else {
+            moveToPoint = 34.0
+        } else {
             moveToPoint = 0.0
         }
-        
+
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             self.txtUserName.becomeFirstResponder()
         }
 
-        
-        
-        //tableView.backgroundColor=UIColor.clear
-        //tableView.separatorInset=UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
-        
-        self.view.backgroundColor=UIColor.white
+        self.view.backgroundColor = UIColor.white
         UIView.animate(withDuration: 2.0, delay: 0.4, usingSpringWithDamping: 1, initialSpringVelocity: 0.5, options: [], animations: {
-            //self.logo.transform = CGAffineTransform(translationX: 0, y: self.moveToPoint)
-            
-//            self.logoImageView.transform = CGAffineTransform(scaleX: 0.3, y: 0.3)
-//            self.logoImageView.transform = CGAffineTransform(translationX: 0, y: self.moveToPoint)
-           // self.logoImageView.transform = CGAffineTransform.identity.translatedBy(x: 0, y: self.moveToPoint).scaledBy(x: 0.55, y: 0.55)
-        }, completion:nil)
-        
-        
+        }, completion: nil)
+
         UIView.animate(withDuration: 0.2, delay: 1.2, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.5, options: UIView.AnimationOptions.curveEaseIn, animations: {
             self.loginButton.alpha = 1.0
             self.txtUserName.alpha = 1.0
-            self.txtPassword.alpha = 1.0
-            //self.signUpButton.alpha = 1.0
-            //self.forgotButton.alpha = 1.0
-            }, completion:nil)
-
-        // Do any additional setup after loading the view.
-//        let defaults: NSUserDefaults = NSUserDefaults.standardUserDefaults()
-//        let userName = defaults.objectForKey("userName") as! String?
-//        let password = defaults.objectForKey("password") as! String?
-//        if userName != "" && password != "" {
-//            loginAttempt("http://41.77.145.134:8888")
-//        }
-        
+        }, completion: nil)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -126,332 +93,120 @@ class LoginViewController: UIViewController, SettingsTableViewControllerDelegate
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
-    
-    func  swRevealViewControllerDidSave(_ controller: SWRevealViewController) {
+
+    func swRevealViewControllerDidSave(_ controller: SWRevealViewController) {
         let defaults: UserDefaults = UserDefaults.standard
         defaults.set(nil, forKey: "Stores")
         self.dismiss(animated: true, completion: nil)
-
     }
-    
-    @objc func   SettingsTableViewControllerDidCancel(_ controller: SettingsTableViewController) {
-        
+
+    @objc func SettingsTableViewControllerDidCancel(_ controller: SettingsTableViewController) {
         self.dismiss(animated: true, completion: nil)
-        
     }
 
-    
-    @objc func  SettingsTableViewControllerDidSave(_ controller: SettingsTableViewController) {
+    @objc func SettingsTableViewControllerDidSave(_ controller: SettingsTableViewController) {
         if ((self.presentedViewController?.isBeingDismissed) != nil) {
-            self.dismiss(animated: true, completion:nil)
+            self.dismiss(animated: true, completion: nil)
         }
-
     }
-    
-    @objc func  ErrorViewControllerDidCancel(_ controller: ErrorViewController) {
-        
+
+    @objc func ErrorViewControllerDidCancel(_ controller: ErrorViewController) {
         self.dismiss(animated: true, completion: nil)
-        
     }
 
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
-        
-        if segue.identifier == "Verification" {
-            
-            let destinationController = segue.destination as!
-            VerifyViewController
-            destinationController.username = self.txtUserName.text!
-        }
-        
-       
-
+    private func navigateToVerify(email: String) {
+        let sb = UIStoryboard(name: "Main", bundle: nil)
+        let verifyVC = sb.instantiateViewController(withIdentifier: "Verify") as! VerifyViewController
+        verifyVC.email = email
+        verifyVC.modalPresentationStyle = .fullScreen
+        self.present(verifyVC, animated: true, completion: nil)
     }
-    
 
-    
+    // MARK: - Login (send OTP)
 
-    
-    
     @IBAction func login() {
-        let phoneNumberKit = PhoneNumberKit()
         self.hideLoginError()
         self.loginSpinner.startAnimating()
-        self.loginButton.setTitle("Logging in...", for: .normal)
-        let rawUsername = txtUserName.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-        let password = txtPassword.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-        var username = rawUsername
+        self.loginButton.setTitle("Sending code...", for: .normal)
 
-        guard !rawUsername.isEmpty else {
-            self.showLoginError(errorText: "Phone number or email is required.")
+        let email = (txtUserName.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+
+        guard !email.isEmpty, email.contains("@") else {
+            self.showLoginError(errorText: "Please enter a valid email address.")
             self.loginSpinner.stopAnimating()
-            self.loginButton.setTitle("Log in", for: .normal)
-            return
-        }
-
-        guard !password.isEmpty else {
-            self.showLoginError(errorText: "Password is required.")
-            self.loginSpinner.stopAnimating()
-            self.loginButton.setTitle("Log in", for: .normal)
-            return
-        }
-
-        //let defaults: UserDefaults = UserDefaults.standard
-        
-        if !rawUsername.contains("@") {
-            do {
-                let phoneNumber = try phoneNumberKit.parse(rawUsername)
-                username = phoneNumberKit.format(phoneNumber, toType: .e164).replacingOccurrences(of: "+", with: "")
-                print("xxx: " + username)
-            }
-            catch {
-                // Fallback to a sanitized username when phone parsing fails.
-                username = rawUsername.replacingOccurrences(of: "\\D", with: "", options: .regularExpression)
-                print("Phone parser error, using sanitized username: \(username)")
-            }
-        } else {
-            username = rawUsername.lowercased()
-        }
-
-        guard !username.isEmpty else {
-            self.showLoginError(errorText: "Phone number or email is required.")
-            self.loginSpinner.stopAnimating()
-            self.loginButton.setTitle("Log in", for: .normal)
+            self.loginButton.setTitle("Send Code", for: .normal)
             return
         }
 
         let user = Appuser()
-        user.login(username: username, password: password, completionHandler:{(result,error) in
-            
-            //handle error - future functionality - move this code to extension for handling class specific errors
-            
-            if error != nil {
-                do {
-                    let phoneNumber = try phoneNumberKit.parse(self.txtUserName.text ?? "")
-                    self.txtUserName.text = phoneNumberKit.format(phoneNumber, toType: .e164).replacingOccurrences(of: "+", with: "")
-                    print("xxx: " + username)
-                }
-                catch {
-                    self.validatePhoneTextFieldWithText(number: self.txtUserName.text)
-                }
-                
-                self.validatePhoneTextFieldWithText(number: self.txtUserName.text)
-               
-                var errorText: String?
-                if let error = error as? AFError {
-                    switch error {
-                    case .invalidURL(let url):
-                        print("Invalid URL: \(url) - \(error.localizedDescription)")
-                        errorText = "Sign up failed. Please try again."
-                    case .parameterEncodingFailed(let reason):
-                        print("Parameter encoding failed: \(error.localizedDescription)")
-                        print("Failure Reason: \(reason)")
-                        errorText = "Sign in failed. Please try again."
-                    case .multipartEncodingFailed(let reason):
-                        print("Multipart encoding failed: \(error.localizedDescription)")
-                        print("Failure Reason: \(reason)")
-                        errorText = "Sign in failed. Please try again."
-                    case .responseValidationFailed(let reason):
-                        print("Response validation failed: \(error.localizedDescription)")
-                        print("Failure Reason: \(reason)")
-                        
-                        switch reason {
-                        case .dataFileNil, .dataFileReadFailed:
-                            print("Downloaded file could not be read")
-                        case .missingContentType(let acceptableContentTypes):
-                            print("Content Type Missing: \(acceptableContentTypes)")
-                        case .unacceptableContentType(let acceptableContentTypes, let responseContentType):
-                            print("Response content type: \(responseContentType) was unacceptable: \(acceptableContentTypes)")
-                        case .unacceptableStatusCode(let code):
-                            if code == 405{
-                                print("Before segue")
-                                self.performSegue(withIdentifier: "Verification", sender: self)
-                            }
-                            else {
-                                errorText = "Sign in failed. Please try again."
-                            }
-                        }
-                    case .responseSerializationFailed(let reason):
-                        print("Response serialization failed: \(error.localizedDescription)")
-                        print("Failure Reason: \(reason)")
+        user.login(email: email) { success, error in
+            if let error = error {
+                var errorText = "Sign in failed. Please try again."
+                if let afError = error as? AFError,
+                   case .responseValidationFailed(let reason) = afError,
+                   case .unacceptableStatusCode(let code) = reason {
+                    if code == 404 {
+                        errorText = "No account found with this email."
+                    } else if code == 429 {
+                        errorText = "Please wait before requesting another code."
                     }
-                    
-                    print("Underlying error: \(String(describing: error))")
-                } else {
-                    if let typedError = error as NSError? {
-                        errorText = typedError.localizedDescription
-                    } else {
-                        errorText = "Sign in failed. Please try again."
-                    }
-                    print("Unknown error: \(String(describing: errorText))")
                 }
-                
-                self.showLoginError(errorText: errorText ?? "Sign in failed. Please try again.")
+                self.showLoginError(errorText: errorText)
                 self.loginSpinner.stopAnimating()
-                self.loginButton.setTitle("Log in", for: .normal)
-                
-                
-                //end of error handling
-                
-                
+                self.loginButton.setTitle("Send Code", for: .normal)
+            } else {
+                self.loginSpinner.stopAnimating()
+                self.loginButton.setTitle("Send Code", for: .normal)
+                self.navigateToVerify(email: email)
             }
-            else {
-                print("Log in successful")
-                let userDefaults = UserDefaults.standard
-                userDefaults.set(true, forKey: "loginComplete")
-                userDefaults.set(username, forKey: "username")
-                userDefaults.synchronize()
-                self.performSegue(withIdentifier: "Login", sender: self)
-                
-            }
-        })
-       
-    }
-    
-    
-   
-    
-    @objc func createBlurredSnapshop() -> UIImageView {
-        // 1
-        let aView : UIImageView = UIImageView()
-        aView.frame = self.view.frame
-        // 2
-        UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, false, 0.0)
-        
-        // 3
-        self.view.drawHierarchy(in: self.view.bounds, afterScreenUpdates: true)
-        // 4
-        let screenshot = UIGraphicsGetImageFromCurrentImageContext()
-        
-        UIGraphicsEndImageContext()
-        
-        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
-        let blurEffectView = UIVisualEffectView(effect: blurEffect)
-        blurEffectView.frame=self.view.bounds
-        aView.image = screenshot
-        self.view.addSubview(aView)
-        aView.addSubview(blurEffectView)
-        return aView
-    }
-    
-
-    @objc func loadStores(){
-
-        let defaults: UserDefaults = UserDefaults.standard
-        defaults.set(nil, forKey: "Stores")
-        stores.removeAll(keepingCapacity: false)
-        let API = defaults.object(forKey: "API") as! String?
-        let sessionID = defaults.object(forKey: "SessionID") as! String?
-        //print(sessionID)
-        print(API! + "/m-retailer/store_json.php?SessionID=" + sessionID!)
-        DataManager.getDataFromURLWithSuccess(API! + "/m-retailer/store_json.php?SessionID=" + sessionID!) { (remoteData, error) -> Void in
-            
-            let json = JSON(data: remoteData!)
-            
-            if let appArray = json.array {
-                //2
-                //self.products = []
-                
-                //3
-                var counter = 0
-                let currentStore = defaults.object(forKey: "CurrentStore")
-                //print(currentStore)
-                for appDict in appArray {
-                    
-                    let StoreName: NSString? = appDict["StoreName"].stringValue as NSString?
-                    if counter == 0 && API != "http://circuit.cloudapp.net:8083" && currentStore == nil{
-                        defaults.set(StoreName!, forKey: "CurrentStore")
-                        defaults.synchronize()
-
-                    }
-                    
-                    self.stores.append(StoreName!)
-                    self.stores.sort(by: { $0.description < $1.description })
-                    counter+=1
-                }
-                
-               DispatchQueue.main.async(execute: {
-                
-                    defaults.set(self.stores, forKey: "Stores")
-                })
-            }
-            
         }
-        
     }
+
+    // MARK: - Keyboard handling
+
     @objc func registerForKeyboardNotifications() {
         let defaultCenter = NotificationCenter.default
         defaultCenter.addObserver(self, selector: #selector(LoginViewController.keyboardWasShown(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         defaultCenter.addObserver(self, selector: #selector(LoginViewController.keyboardWillBeHidden(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
-    
+
     @objc func keyboardWasShown(_ aNotification: Notification) {
-        
         let userInfo = aNotification.userInfo
         let keyboardScreenEndFrame = (userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
         let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
-        
-        
-        
-        
-        UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 1, initialSpringVelocity: 1.5, options: [], animations: {
-            
-            //            self.logoImageView.transform = CGAffineTransform(scaleX: 0.3, y: 0.3)
-            //            self.logoImageView.transform = CGAffineTransform(translationX: 0, y: self.moveToPoint)
-            //self.logoImageView.alpha = 0
-            //self.logoImageView.transform = CGAffineTransform.identity.translatedBy(x: 0, y: self.moveToPoint).scaledBy(x: 0.7, y: 0.7)
-            self.loginButton.transform = CGAffineTransform(translationX: 0, y: -keyboardViewEndFrame.height + self.moveToPoint)
-            
-            
-        }, completion:nil)
-        
 
+        UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 1, initialSpringVelocity: 1.5, options: [], animations: {
+            self.loginButton.transform = CGAffineTransform(translationX: 0, y: -keyboardViewEndFrame.height + self.moveToPoint)
+        }, completion: nil)
     }
-    
+
     @objc func keyboardWillBeHidden(_ aNotification: Notification) {
-        
         if self.view.bounds.size.height == 568.0 {
             UIView.animate(withDuration: 1.0, delay: 0.0, usingSpringWithDamping: 1, initialSpringVelocity: 0.5, options: [], animations: {
-                //self.loginButton.transform = CGAffineTransform(translationX: 0, y: 0.0)
-                //self.tableView.transform = CGAffineTransform(translationX: 0, y: 0.0)
-                }, completion:nil)
+            }, completion: nil)
         }
-
-        
     }
-    
-    @objc func showLoginError(errorText: String){
+
+    // MARK: - Error display
+
+    @objc func showLoginError(errorText: String) {
         let message = MDCSnackbarMessage()
         message.text = errorText
         MDCSnackbarManager.show(message)
     }
-    
-    @IBAction func hideLoginError(){
+
+    @IBAction func hideLoginError() {
         UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.5, options: UIView.AnimationOptions.curveEaseIn, animations: {
-            //self.loginErrorLabel.text = ""
-            //self.loginErrorLabel.alpha = 0.0
-            //self.closeErrorButton.alpha = 0.0
-            
-        }, completion:nil)
+        }, completion: nil)
     }
-    
-    @IBAction func returnToSignUp(){
+
+    @IBAction func returnToSignUp() {
         let userDefaults = UserDefaults.standard
-       
-        
         if userDefaults.bool(forKey: "loggedOut") {
-           
-            //self.checkSubscription()
             self.performSegue(withIdentifier: "signUp", sender: self)
-            
         } else {
-            print("dismissed mf")
             self.dismiss(animated: true, completion: nil)
         }
     }
-    
-
 }

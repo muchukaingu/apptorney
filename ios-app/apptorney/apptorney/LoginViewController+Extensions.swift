@@ -9,97 +9,54 @@ import Foundation
 import SkyFloatingLabelTextField
 
 extension LoginViewController {
-    func validatePhone(_ candidate: String) -> Bool {
-        let numberRegEx = "^\\+?[\\/.()-]*([0-9][\\/.()-]*){11,}$"
-        return NSPredicate(format: "SELF MATCHES %@", numberRegEx).evaluate(with: candidate)
+    func validateEmail(_ candidate: String) -> Bool {
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        return NSPredicate(format: "SELF MATCHES %@", emailRegEx).evaluate(with: candidate)
     }
-    
-    func validatePhoneTextFieldWithText(number: String?) {
-        
-        print("phone number is valid ------------------------------>")
-        guard let number = number else {
+
+    func validateEmailTextField(email: String?) {
+        guard let email = email else {
             txtUserName.errorMessage = nil
             return
         }
-        
-        if number.isEmpty {
+
+        if email.isEmpty {
             txtUserName.errorMessage = nil
-        } else if !validatePhone(number) {
+        } else if !validateEmail(email) {
             txtUserName.errorMessage = NSLocalizedString(
-                "Enter Number with Country Code",
+                "Enter a valid email address",
                 tableName: "SkyFloatingLabelTextField",
                 comment: " "
             )
             formValid = false
         } else {
-            print("phone number is valid")
             txtUserName.errorMessage = nil
         }
     }
-    
 }
 
-extension LoginViewController : UITextFieldDelegate {
-    func addToolBar(textField: UITextField){
-        let toolBar = UIToolbar()
-        toolBar.barStyle = .default
-        toolBar.isTranslucent = true
-        toolBar.tintColor = UIColor.black
-        let signInButton = UIBarButtonItem(title: "Sign In", style: .done, target: self, action: #selector(donePressed))
-        let signUpButton = UIBarButtonItem(title: "Sign Up", style: .plain, target: self, action: #selector(cancelPressed))
-        let forgotPasswordButton = UIBarButtonItem(title: "Forgot Your Password?", style: .plain, target: self, action: #selector(cancelPressed))
-        let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        toolBar.setItems([signInButton, signUpButton, spaceButton, forgotPasswordButton], animated: false)
-        toolBar.isUserInteractionEnabled = true
-        toolBar.sizeToFit()
-        
-        textField.delegate = self
-        textField.inputAccessoryView = toolBar
-    }
-    @objc func donePressed(){
-        view.endEditing(true)
-    }
-    @objc func cancelPressed(){
-        view.endEditing(true) // or do something
-    }
-    
+extension LoginViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if let text = textField.text {
             if let floatingLabelTextField = textField as? SkyFloatingLabelTextField {
-                if floatingLabelTextField.textContentType == .telephoneNumber{
-                    validatePhoneTextFieldWithText(number: text)
-                }
+                validateEmailTextField(email: text)
                 floatingLabelTextField.errorMessage = nil
             }
         }
         return true
     }
-    
+
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        if textField.text != nil {
-            if let floatingLabelTextField = textField as? SkyFloatingLabelTextField {
-               if floatingLabelTextField.textContentType == .telephoneNumber{
-                    var phoneNumber = txtUserName.text
-                    phoneNumber = phoneNumber?.trimmingCharacters(in: .whitespacesAndNewlines)
-                    phoneNumber = phoneNumber?.trimmingCharacters(in: .punctuationCharacters)
-                    phoneNumber = phoneNumber?.deletingPrefix("00")
-                    phoneNumber = phoneNumber?.replacingOccurrences(of: " ", with: "")
-                    txtUserName.text = phoneNumber
-                    validatePhoneTextFieldWithText(number: phoneNumber)
-                }
-                
+        if let text = textField.text {
+            if textField as? SkyFloatingLabelTextField != nil {
+                validateEmailTextField(email: text)
             }
         }
-        
         return true
     }
-    
-    
+
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        print("return pressed")
+        login()
         return true
     }
-    
-    
-    
 }

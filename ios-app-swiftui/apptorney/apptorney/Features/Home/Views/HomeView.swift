@@ -31,10 +31,7 @@ struct HomeView: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 NavigationLink {
-                    Text("Chat")
-                        .font(.title)
-                        .foregroundColor(.secondary)
-                        .navigationTitle("AI Chat")
+                    ChatView()
                 } label: {
                     Image(systemName: "bubble.left.and.bubble.right")
                         .foregroundColor(.appBlue)

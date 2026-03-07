@@ -1,15 +1,5 @@
 import SwiftUI
 
-// MARK: - Placeholder Stubs
-
-struct SettingsView: View {
-    var body: some View {
-        Text("Settings")
-            .font(.title)
-            .foregroundColor(.secondary)
-    }
-}
-
 // MARK: - Main View
 
 struct MainView: View {

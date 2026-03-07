@@ -10,13 +10,13 @@ struct RootView: View {
             case .loading:
                 ProgressView("Loading...")
             case .forceUpdate:
-                Text("Update Required")
+                UpdateRequiredView()
             case .onboarding:
-                Text("Onboarding")
+                OnboardingView()
             case .auth:
-                Text("Auth")
+                AuthFlowView(startOnLogin: UserDefaults.standard.bool(forKey: "registrationComplete"))
             case .main:
-                Text("Main")
+                MainView()
             }
         }
         .task {

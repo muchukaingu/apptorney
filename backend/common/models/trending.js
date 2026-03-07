@@ -1,0 +1,113 @@
+module.exports = function(Trending) {
+  const { ObjectId } = require("mongodb"); // or ObjectID
+  var Keen = require("keen-analysis");
+
+  // This is your actual Project ID and Write Key
+
+  Trending.validatesUniquenessOf("sourceId", {
+    message: "Item already exists"
+  });
+  Trending.remoteMethod("addTrend", {
+    http: { path: "/addTrend", verb: "post" },
+    accepts: [
+      { arg: "sourceId", type: "string" },
+      { arg: "type", type: "string" }
+    ],
+    returns: { arg: "trends", type: "Object" }
+  });
+
+  Trending.remoteMethod("viewTrends", {
+    http: {
+      path: "/viewtrends",
+      verb: "get"
+    },
+    returns: {
+      arg: "trends",
+      type: "Object",
+      root: true
+    }
+  });
+  /**
+   * View Trends
+   * @param {String} id
+   * @callback {Function} cb The callback function
+   */
+
+  Trending.viewTrends = function(cb) {
+    Trending.find({}, (err, trends) => {
+      cb(null, trends);
+    });
+  };
+
+  /**
+   * Add Bookmarks
+   * @param {String} id
+   * @callback {Function} cb The callback function
+   */
+  Trending.addTrend = function(sourceId, type, cb) {
+    var app = Trending.app;
+    var Case = app.models.Case;
+    var Legislation = app.models.Legislation;
+    // Case Bookmarks
+
+    Trending.findOne({ where: { sourceId: sourceId } }, function(err, trend) {
+      if (trend) {
+        console.log(trend);
+        Trending.destroyById(trend.id, function(err, deleted) {
+          console.log(err, deleted);
+          cb(err, deleted);
+        });
+      } else {
+        if (type == "case") {
+          Case.findOne({ where: { id: ObjectId(sourceId) } }, function(
+            err,
+            instance
+          ) {
+            if (instance == null) {
+              console.log("case not found", sourceId);
+              cb(err, null);
+            } else {
+              var trends = {
+                title: instance.name,
+                summary: instance.summaryOfFacts,
+                sourceId: instance.id,
+                type: "case"
+              };
+              Trending.create(trends, function(err, trends) {
+                if (err) {
+                  cb(err);
+                } else {
+                  cb(null, trends);
+                }
+              });
+            }
+          });
+        } else if (type == "legislation") {
+          Legislation.findOne({ where: { id: ObjectId(sourceId) } }, function(
+            err,
+            instance
+          ) {
+            if (instance == null) {
+              console.log("legislation not found", sourceId);
+              cb(err, null);
+            } else {
+              var trends = {
+                title: instance.legislationName,
+                summary: instance.preamble,
+                sourceId: instance.id,
+                type: "legislation"
+              };
+              Trending.create(trends, function(err, trends) {
+                if (err) {
+                  cb(err);
+                } else {
+                  cb(null, trends);
+                }
+              });
+            }
+          });
+        }
+      }
+    });
+  };
+};

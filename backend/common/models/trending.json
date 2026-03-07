@@ -1,0 +1,32 @@
+{
+    "name": "trending",
+    "base": "PersistedModel",
+    "idInjection": true,
+    "options": {
+        "validateUpsert": true
+    },
+    "properties": {
+        "title": {
+            "type": "string",
+            "required": true
+        },
+        "summary": {
+            "type": "string"
+        },
+        "type": {
+            "type": "string",
+            "required": true
+        },
+        "sourceId": {
+            "type": "string",
+            "required": true,
+            "index": {
+                "unique": true
+            }
+        }
+    },
+    "validations": [],
+    "relations": {},
+    "acls": [],
+    "methods": {}
+}

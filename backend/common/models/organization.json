@@ -1,0 +1,50 @@
+{
+    "name": "Organization",
+    "base": "PersistedModel",
+    "idInjection": true,
+    "options": {
+        "validateUpsert": true
+    },
+    "properties": {
+        "name": {
+            "type": "string",
+            "required": true
+        },
+        "physicalAddress": {
+            "type": "string",
+            "required": false
+        },
+        "contact": {
+            "type": "string",
+            "required": false
+        },
+        "otherInformation": {
+            "type": "string"
+        }
+    },
+    "validations": [],
+    "relations": {
+        "employees": {
+            "type": "hasMany",
+            "model": "Customer",
+            "foreignKey": ""
+        },
+        "members": {
+            "type": "hasMany",
+            "model": "OrganizationMember",
+            "foreignKey": "organizationId"
+        },
+        "invitations": {
+            "type": "hasMany",
+            "model": "invitation",
+            "foreignKey": "organizationId"
+        },
+        "subscription": {
+            "type": "hasOne",
+            "model": "subscription",
+            "foreignKey": "organizationId"
+        }
+    },
+    "acls": [],
+    "methods": {}
+}

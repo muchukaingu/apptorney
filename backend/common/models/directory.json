@@ -1,0 +1,52 @@
+{
+    "name": "directory",
+    "plural": "directory",
+    "base": "PersistedModel",
+    "idInjection": true,
+    "options": {
+        "validateUpsert": true
+    },
+    "properties": {
+        "firstName": {
+            "type": "string",
+            "required": true
+        },
+        "lastName": {
+            "type": "string",
+            "required": true
+        },
+        "jobTitle": {
+            "type": "string"
+        },
+        "organization": {
+            "type": "string"
+        },
+        "phoneNumber": {
+            "type": "string",
+            "required": true
+        },
+        "emailAddress": {
+            "type": "string",
+            "required": true
+        },
+        "bio": {
+            "type": "string"
+        },
+        "image": {
+            "type": "string"
+        },
+        "areaOfExpertise": {
+            "type": "string"
+        },
+        "yearsAtBar": {
+            "type": "string"
+        },
+        "location": {
+            "type": "string"
+        }
+    },
+    "validations": [],
+    "relations": {},
+    "acls": [],
+    "methods": {}
+}

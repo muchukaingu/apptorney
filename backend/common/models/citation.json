@@ -1,0 +1,39 @@
+{
+  "name": "citation",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "description": {
+      "type": "string",
+      "required": true
+    },
+    "number": {
+      "type": "string"
+    },
+    "year": {
+      "type": "number",
+      "required": true
+    },
+    "code": {
+      "type": "string",
+      "required": true
+    },
+    "pageNumber": {
+      "type": "number",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "case": {
+      "type": "hasOne",
+      "model": "case",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

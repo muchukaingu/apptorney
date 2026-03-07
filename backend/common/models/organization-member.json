@@ -1,0 +1,55 @@
+{
+    "name": "OrganizationMember",
+    "plural": "organization-members",
+    "base": "PersistedModel",
+    "idInjection": true,
+    "options": {
+        "validateUpsert": true
+    },
+    "mixins": {
+        "TimeStamp": true
+    },
+    "properties": {
+        "role": {
+            "type": "string",
+            "required": true,
+            "default": "member",
+            "description": "admin or member"
+        },
+        "status": {
+            "type": "string",
+            "required": true,
+            "default": "active",
+            "description": "active, suspended, removed"
+        },
+        "joinedAt": {
+            "type": "date",
+            "required": true
+        },
+        "isOwner": {
+            "type": "boolean",
+            "default": false,
+            "description": "True for the subscription creator. Cannot be removed or demoted."
+        }
+    },
+    "validations": [],
+    "relations": {
+        "organization": {
+            "type": "belongsTo",
+            "model": "Organization",
+            "foreignKey": "organizationId"
+        },
+        "user": {
+            "type": "belongsTo",
+            "model": "appuser",
+            "foreignKey": "appuserId"
+        },
+        "subscription": {
+            "type": "belongsTo",
+            "model": "subscription",
+            "foreignKey": "subscriptionId"
+        }
+    },
+    "acls": [],
+    "methods": {}
+}

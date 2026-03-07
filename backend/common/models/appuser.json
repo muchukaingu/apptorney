@@ -1,0 +1,170 @@
+{
+    "name": "appuser",
+    "base": "User",
+    "idInjection": true,
+    "options": {
+        "validateUpsert": true
+    },
+    "scope": {
+        "include": "customer"
+    },
+    "inheritAcls": false,
+    "hidden": ["otpHash", "otpExpiry", "otpAttempts", "otpLastSent", "role"],
+    "mixins": {
+        "TimeStamp": true
+    },
+    "properties": {
+        "currentSubscription": {
+            "type": "string"
+        },
+        "otpHash": {
+            "type": "string"
+        },
+        "otpExpiry": {
+            "type": "date"
+        },
+        "otpAttempts": {
+            "type": "number",
+            "default": 0
+        },
+        "otpLastSent": {
+            "type": "date"
+        },
+        "role": {
+            "type": "string",
+            "default": "user"
+        }
+    },
+    "validations": [],
+    "relations": {
+        "customer": {
+            "type": "hasOne",
+            "model": "Customer",
+            "foreignKey": "appuserId"
+        }
+    },
+    "acls": [{
+            "principalType": "ROLE",
+            "principalId": "$everyone",
+            "permission": "ALLOW",
+            "property": "performance"
+        },
+        {
+            "principalType": "ROLE",
+            "principalId": "$everyone",
+            "permission": "ALLOW",
+            "property": "confirmPhone"
+        },
+        {
+            "principalType": "ROLE",
+            "principalId": "$everyone",
+            "permission": "ALLOW",
+            "property": "notifications"
+        },
+        {
+            "principalType": "ROLE",
+            "principalId": "$everyone",
+            "permission": "ALLOW",
+            "property": "resendVerification"
+        },
+        {
+            "principalType": "ROLE",
+            "principalId": "$everyone",
+            "permission": "ALLOW",
+            "property": "count"
+        },
+        {
+            "principalType": "ROLE",
+            "principalId": "$everyone",
+            "permission": "ALLOW",
+            "property": "update"
+        },
+        {
+            "principalType": "ROLE",
+            "principalId": "$authenticated",
+            "permission": "ALLOW",
+            "property": "upsert"
+        },
+        {
+            "principalType": "ROLE",
+            "permission": "DENY",
+            "principal": "$unauthenticated"
+        },
+        {
+            "principalType": "ROLE",
+            "principalId": "$everyone",
+            "permission": "ALLOW",
+            "property": "create"
+        },
+        {
+            "principalType": "ROLE",
+            "principalId": "$authenticated",
+            "permission": "ALLOW",
+            "property": "deleteById"
+        },
+        {
+            "principalType": "ROLE",
+            "principalId": "$everyone",
+            "permission": "ALLOW",
+            "property": "login"
+        },
+        {
+            "principalType": "ROLE",
+            "principalId": "$everyone",
+            "permission": "ALLOW",
+            "property": "logout"
+        },
+        {
+            "principalType": "ROLE",
+            "principalId": "$owner",
+            "permission": "ALLOW",
+            "property": "findById"
+        },
+        {
+            "principalType": "ROLE",
+            "principalId": "$authenticated",
+            "permission": "ALLOW",
+            "property": "find"
+        },
+        {
+            "principalType": "ROLE",
+            "principalId": "$authenticated",
+            "permission": "ALLOW",
+            "property": "alldata"
+        },
+        {
+            "principalType": "ROLE",
+            "principalId": "$authenticated",
+            "permission": "ALLOW",
+            "property": "updateAttributes"
+        },
+        {
+            "principalType": "ROLE",
+            "principalId": "$everyone",
+            "permission": "ALLOW",
+            "property": "confirm"
+        },
+        {
+            "accessType": "EXECUTE",
+            "principalType": "ROLE",
+            "principalId": "$everyone",
+            "permission": "ALLOW",
+            "property": "resetPassword"
+        },
+        {
+            "accessType": "EXECUTE",
+            "principalType": "ROLE",
+            "principalId": "$everyone",
+            "permission": "ALLOW",
+            "property": "requestPasswordReset"
+        },
+        {
+            "accessType": "EXECUTE",
+            "principalType": "ROLE",
+            "principalId": "$everyone",
+            "permission": "ALLOW",
+            "property": "resetPasswordWithOTP"
+        }
+    ],
+    "methods": {}
+}

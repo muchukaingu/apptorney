@@ -1,0 +1,30 @@
+path: .
+memory: 1G
+instances: 2
+domain: eu-gb.mybluemix.net
+name: "Apptorney Backend"
+host: apptorney-api
+disk_quota: 1G
+x-ibm-configuration:
+  assembly:
+    execute:
+      - invoke:
+          target-url: apptorney-api.eu-gb.mybluemix.net
+          verb: keep
+  cors:
+    enabled: true
+securityDefinitions:
+  client_id:
+    type: apiKey
+    in: header
+    name: X-IBM-Client-ID
+    x-key-type: clientId
+  client_secret:
+    type: apiKey
+    in: header
+    name: X-IBM-Client-Secret
+    x-key-type: clientSecret
+security:
+  - client_id: []
+    client_secret: []
+basePath: /e27c662f-acc8-4683-a01e-611aa25bd947

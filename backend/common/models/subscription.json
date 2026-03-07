@@ -1,0 +1,74 @@
+{
+    "name": "subscription",
+    "plural": "subscriptions",
+    "base": "PersistedModel",
+    "idInjection": true,
+    "options": {
+        "validateUpsert": true
+    },
+    "mixins": {
+        "TimeStamp": true
+    },
+    "properties": {
+        "type": {
+            "type": "string",
+            "required": true,
+            "description": "individual or organization"
+        },
+        "plan": {
+            "type": "string",
+            "required": true,
+            "description": "b2c_standard or b2b_per_user"
+        },
+        "billingPeriod": {
+            "type": "string",
+            "required": true,
+            "description": "monthly or annual"
+        },
+        "status": {
+            "type": "string",
+            "required": true,
+            "default": "pending",
+            "description": "pending, active, expired, cancelled"
+        },
+        "pricePerUser": {
+            "type": "number",
+            "required": true
+        },
+        "maxUsers": {
+            "type": "number",
+            "required": true,
+            "default": 1
+        },
+        "activationDate": {
+            "type": "date"
+        },
+        "expiryDate": {
+            "type": "date"
+        },
+        "autoRenew": {
+            "type": "boolean",
+            "default": false
+        }
+    },
+    "validations": [],
+    "relations": {
+        "owner": {
+            "type": "belongsTo",
+            "model": "appuser",
+            "foreignKey": "ownerId"
+        },
+        "organization": {
+            "type": "belongsTo",
+            "model": "Organization",
+            "foreignKey": "organizationId"
+        },
+        "payments": {
+            "type": "hasMany",
+            "model": "payment",
+            "foreignKey": "subscriptionId"
+        }
+    },
+    "acls": [],
+    "methods": {}
+}

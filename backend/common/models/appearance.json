@@ -1,0 +1,21 @@
+{
+  "name": "appearance",
+  "base": "PersistedModel",
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "advocate": {
+      "type": "string",
+      "required": true
+    },
+    "lawFirm": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

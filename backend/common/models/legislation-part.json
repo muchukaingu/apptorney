@@ -1,0 +1,46 @@
+{
+  "name": "legislationPart",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "content": {
+      "type": "string",
+      "required": true
+    },
+    "partType": {
+      "type": "string",
+      "required": true
+    },
+    "subParts": {
+      "type": [
+        "legislationPart"
+      ],
+      "required": true
+    },
+    "table": {
+      "type": "table",
+      "required": true
+    },
+    "file": {
+      "type": "file",
+      "required": false
+    }
+  },
+  "validations": [],
+  "relations": {
+    "partType": {
+      "type": "belongsTo",
+      "model": "partType",
+      "foreignKey": "partType"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

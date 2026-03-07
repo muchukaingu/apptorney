@@ -1,0 +1,34 @@
+{
+    "name": "feedback",
+    "plural": "feedback",
+    "base": "PersistedModel",
+    "options": {
+        "validateUpsert": true
+    },
+    "properties": {
+        "username": {
+            "type": "string",
+            "required": true
+        },
+        "feedback": {
+            "type": "string",
+            "required": true
+        },
+        "date": {
+            "type": "date",
+            "required": false
+        },
+        "appVersion": {
+            "type": "string",
+            "required": false
+        },
+        "platform": {
+            "type": "string",
+            "required": false
+        }
+    },
+    "validations": [],
+    "relations": {},
+    "acls": [],
+    "methods": {}
+}

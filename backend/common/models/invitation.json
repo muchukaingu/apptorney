@@ -1,0 +1,61 @@
+{
+    "name": "invitation",
+    "plural": "invitations",
+    "base": "PersistedModel",
+    "idInjection": true,
+    "options": {
+        "validateUpsert": true
+    },
+    "mixins": {
+        "TimeStamp": true
+    },
+    "properties": {
+        "email": {
+            "type": "string",
+            "required": true
+        },
+        "token": {
+            "type": "string",
+            "required": true,
+            "index": {
+                "unique": true
+            }
+        },
+        "role": {
+            "type": "string",
+            "required": true,
+            "default": "member",
+            "description": "admin or member"
+        },
+        "status": {
+            "type": "string",
+            "required": true,
+            "default": "pending",
+            "description": "pending, accepted, expired, cancelled"
+        },
+        "expiresAt": {
+            "type": "date",
+            "required": true
+        }
+    },
+    "validations": [],
+    "relations": {
+        "organization": {
+            "type": "belongsTo",
+            "model": "Organization",
+            "foreignKey": "organizationId"
+        },
+        "invitedBy": {
+            "type": "belongsTo",
+            "model": "appuser",
+            "foreignKey": "invitedById"
+        },
+        "subscription": {
+            "type": "belongsTo",
+            "model": "subscription",
+            "foreignKey": "subscriptionId"
+        }
+    },
+    "acls": [],
+    "methods": {}
+}

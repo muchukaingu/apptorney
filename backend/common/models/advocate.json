@@ -1,0 +1,43 @@
+{
+  "name": "advocate",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "initials": {
+      "type": "string",
+      "required": true
+    },
+    "firstName": {
+      "type": "string"
+    },
+    "lastName": {
+      "type": "string",
+      "required": true
+    },
+    "emailAddress": {
+      "type": "string"
+    },
+    "phoneNumber": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "lawFirm": {
+      "type": "belongsTo",
+      "model": "lawFirm",
+      "foreignKey": ""
+    },
+    "appearance": {
+      "type": "hasAndBelongsToMany",
+      "model": "appearance",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

@@ -26,6 +26,13 @@
 		E414608429C80E63166D0CB4 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260A06C2866FE5176CE88409 /* RootView.swift */; };
 		E47ED80127D0E58490BD2020 /* APIResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37963ED121CF0A6D1CBFEFE2 /* APIResponse.swift */; };
 		FADEAE5D6E38E76A9F2E7339 /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDAC26BB66D5532D17B77F6D /* ChatMessage.swift */; };
+		803F6F5C207D454D90725C2E /* FloatingTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C974C2E2F144149B99C27B9 /* FloatingTextField.swift */; };
+		E00BE8296BAB44058A7AC44B /* SnackbarModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6C892BD1D7442A7A132C36B /* SnackbarModifier.swift */; };
+		7249DDEEC10B414AAD5E32FF /* ShimmerModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF385FBE47F44AC89E89E250 /* ShimmerModifier.swift */; };
+		AE1AC93902DB4CE1B0D631A7 /* SideMenuContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 599A13DAE69B4BC691027C8B /* SideMenuContainer.swift */; };
+		6A69B39FE2764BD0B692258D /* Color+App.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDE9325C17854F21BDAF4582 /* Color+App.swift */; };
+		5676758DFE4A4A09A7BDF27B /* String+Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4409496EB36F4601A187339F /* String+Validation.swift */; };
+		1EF696245E4940A2AB9D85F9 /* Date+Formatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B22D78525C749A89EA3C2CF /* Date+Formatting.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,6 +56,13 @@
 		DFAE31A15457481B22A1BA29 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		F9A1D2E13BA40907C5159FF3 /* Legislation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Legislation.swift; sourceTree = "<group>"; };
 		FDAC26BB66D5532D17B77F6D /* ChatMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessage.swift; sourceTree = "<group>"; };
+		7C974C2E2F144149B99C27B9 /* FloatingTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FloatingTextField.swift"; sourceTree = "<group>"; };
+		A6C892BD1D7442A7A132C36B /* SnackbarModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SnackbarModifier.swift"; sourceTree = "<group>"; };
+		FF385FBE47F44AC89E89E250 /* ShimmerModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ShimmerModifier.swift"; sourceTree = "<group>"; };
+		599A13DAE69B4BC691027C8B /* SideMenuContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SideMenuContainer.swift"; sourceTree = "<group>"; };
+		DDE9325C17854F21BDAF4582 /* Color+App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+App.swift"; sourceTree = "<group>"; };
+		4409496EB36F4601A187339F /* String+Validation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Validation.swift"; sourceTree = "<group>"; };
+		1B22D78525C749A89EA3C2CF /* Date+Formatting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Formatting.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -63,6 +77,7 @@
 		114DDE9EB5561F0EA4E1200F /* apptorney */ = {
 			isa = PBXGroup;
 			children = (
+				C0291757185244049BBC8778 /* Shared */,
 				9C7C98FE5CC134FD32A97BFD /* App */,
 				8FB095BA46368EFD8074CD03 /* Core */,
 				C70871E9B01F6D81774B4197 /* Models */,
@@ -226,6 +241,37 @@
 			path = Features;
 			sourceTree = "<group>";
 		};
+
+		C0291757185244049BBC8778 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				7738B4E09B6C43868ED2A1B6 /* Components */,
+				C740046EE1B74887B21751D1 /* Extensions */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		7738B4E09B6C43868ED2A1B6 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				7C974C2E2F144149B99C27B9 /* FloatingTextField.swift */,
+				FF385FBE47F44AC89E89E250 /* ShimmerModifier.swift */,
+				599A13DAE69B4BC691027C8B /* SideMenuContainer.swift */,
+				A6C892BD1D7442A7A132C36B /* SnackbarModifier.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		C740046EE1B74887B21751D1 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				DDE9325C17854F21BDAF4582 /* Color+App.swift */,
+				1B22D78525C749A89EA3C2CF /* Date+Formatting.swift */,
+				4409496EB36F4601A187339F /* String+Validation.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -281,6 +327,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				803F6F5C207D454D90725C2E /* FloatingTextField.swift in Sources */,
+				E00BE8296BAB44058A7AC44B /* SnackbarModifier.swift in Sources */,
+				7249DDEEC10B414AAD5E32FF /* ShimmerModifier.swift in Sources */,
+				AE1AC93902DB4CE1B0D631A7 /* SideMenuContainer.swift in Sources */,
+				6A69B39FE2764BD0B692258D /* Color+App.swift in Sources */,
+				5676758DFE4A4A09A7BDF27B /* String+Validation.swift in Sources */,
+				1EF696245E4940A2AB9D85F9 /* Date+Formatting.swift in Sources */,
 				9C7AE01F501CEFCABA61F323 /* APIClient.swift in Sources */,
 				E47ED80127D0E58490BD2020 /* APIResponse.swift in Sources */,
 				B08498D00D2FBC1EFA0CB3AA /* AppError.swift in Sources */,

@@ -1,0 +1,86 @@
+PODS:
+  - Alamofire (4.7.3)
+  - MaterialComponents/AnimationTiming (59.1.1)
+  - MaterialComponents/Buttons (59.1.1):
+    - MaterialComponents/Ink
+    - MaterialComponents/private/Math
+    - MaterialComponents/private/Shapes
+    - MaterialComponents/ShadowElevations
+    - MaterialComponents/ShadowLayer
+    - MaterialComponents/Typography
+    - MDFInternationalization
+    - MDFTextAccessibility
+  - MaterialComponents/Ink (59.1.1):
+    - MaterialComponents/private/Math
+  - MaterialComponents/OverlayWindow (59.1.1):
+    - MaterialComponents/private/Application
+  - MaterialComponents/private/Application (59.1.1)
+  - MaterialComponents/private/KeyboardWatcher (59.1.1):
+    - MaterialComponents/private/Application
+  - MaterialComponents/private/Math (59.1.1)
+  - MaterialComponents/private/Overlay (59.1.1)
+  - MaterialComponents/private/Shapes (59.1.1):
+    - MaterialComponents/private/Math
+    - MaterialComponents/ShadowLayer
+  - MaterialComponents/ShadowElevations (59.1.1)
+  - MaterialComponents/ShadowLayer (59.1.1):
+    - MaterialComponents/ShadowElevations
+  - MaterialComponents/Snackbar (59.1.1):
+    - MaterialComponents/AnimationTiming
+    - MaterialComponents/Buttons
+    - MaterialComponents/OverlayWindow
+    - MaterialComponents/private/Application
+    - MaterialComponents/private/KeyboardWatcher
+    - MaterialComponents/private/Overlay
+    - MaterialComponents/Typography
+  - MaterialComponents/Typography (59.1.1):
+    - MaterialComponents/private/Application
+    - MaterialComponents/private/Math
+  - MDFInternationalization (1.0.4)
+  - MDFTextAccessibility (1.2.0)
+  - paper-onboarding (4.1.0)
+  - PhoneNumberKit (2.1.0):
+    - PhoneNumberKit/PhoneNumberKitCore (= 2.1.0)
+    - PhoneNumberKit/UIKit (= 2.1.0)
+  - PhoneNumberKit/PhoneNumberKitCore (2.1.0)
+  - PhoneNumberKit/UIKit (2.1.0):
+    - PhoneNumberKit/PhoneNumberKitCore
+  - SkyFloatingLabelTextField (3.5.1)
+  - SwiftyJSON (4.1.0)
+  - Windless (0.1.5)
+
+DEPENDENCIES:
+  - Alamofire
+  - MaterialComponents/Snackbar
+  - paper-onboarding
+  - PhoneNumberKit (~> 2.1)
+  - SkyFloatingLabelTextField (~> 3.0)
+  - SwiftyJSON
+  - Windless (~> 0.1.5)
+
+SPEC REPOS:
+  trunk:
+    - Alamofire
+    - MaterialComponents
+    - MDFInternationalization
+    - MDFTextAccessibility
+    - paper-onboarding
+    - PhoneNumberKit
+    - SkyFloatingLabelTextField
+    - SwiftyJSON
+    - Windless
+
+SPEC CHECKSUMS:
+  Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
+  MaterialComponents: 9ba063439c19dd92b3489bc2c4e428f2abaced65
+  MDFInternationalization: e355b0cebecf53d60233bd267084e49366c82513
+  MDFTextAccessibility: 94098925e0853551c5a311ce7c1ecefbe297cdb6
+  paper-onboarding: 344780cbb0bfc229cd1862f5b9bba446b23c5185
+  PhoneNumberKit: 62003f40ff75315fd3738286558bc365365ac222
+  SkyFloatingLabelTextField: 4cbeece9c3aae97c6019d8fae511cb5b755874f7
+  SwiftyJSON: c29297daf073d2aa016295d5809cdd68045c39b3
+  Windless: c6b7d63ac3a0c7e6b241e316650d4605abf71894
+
+PODFILE CHECKSUM: 62bc7a6c67e4ddc250c705bd16886523c69dd892
+
+COCOAPODS: 1.16.2

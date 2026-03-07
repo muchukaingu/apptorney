@@ -1,0 +1,145 @@
+//
+//  PasswordResetViewController.swift
+//  apptorney
+//
+//  Created by Muchu Kaingu on 3/17/19.
+//  Copyright © 2019 Muchu Kaingu. All rights reserved.
+//
+
+import UIKit
+import SkyFloatingLabelTextField
+import MaterialComponents.MaterialSnackbar
+
+class ForgotViewController: UIViewController {
+    
+    @objc var moveToPoint: CGFloat = 0.0
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var resetPasswordButton: UIButton!
+    
+
+   
+    @IBOutlet weak var txtPhoneNumber: SkyFloatingLabelTextField!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.resetPasswordButton.layer.cornerRadius = self.resetPasswordButton.frame.height/6
+        self.resetPasswordButton.clipsToBounds = true
+        
+        registerForKeyboardNotifications()
+        
+        if self.view.bounds.size.height > 812.0 || self.view.bounds.size.height > 896.0 {
+            moveToPoint =  34.0
+        }
+        else {
+            moveToPoint = 0.0
+        }
+        
+
+        // Do any additional setup after loading the view.
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+    
+    
+    
+    @IBAction func requestPasswordReset(_ sender: Any) {
+        
+        //let defaults: UserDefaults = UserDefaults.standard
+        self.resetPasswordButton.setTitle("Requesting...", for: .normal)
+        let user = Appuser()
+        user.requestPasswordReset(username: txtPhoneNumber.text, completionHandler:{(result,error) in
+            
+            if error != nil {
+                let retrievedError = error! as NSError
+                print(retrievedError.domain)
+                self.showRequestError(errorText: "Request Failed. Please check the phone number.")
+                self.resetPasswordButton.setTitle("Request Password Reset", for: .normal)
+                //self.verifySpinner.stopAnimating()
+                //self.verifyButton.setTitle("Verify", for: .normal)
+                
+                
+            }
+            else {
+                print("Request successful")
+                //let userDefaults = UserDefaults.standard
+                //userDefaults.set(true, forKey: "loginComplete")
+                //userDefaults.set(self.username, forKey: "username")
+                //userDefaults.synchronize()
+                self.performSegue(withIdentifier: "reset", sender: self)
+                
+            }
+        })
+        
+    }
+    
+
+    
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destination.
+        // Pass the selected object to the new view controller.
+        if segue.identifier == "reset" {
+            
+            let destinationController = segue.destination as!
+            ResetPasswordViewController
+            destinationController.username = txtPhoneNumber.text ?? ""
+        }
+        
+    }
+    
+    
+    //MARK: - Keyboard Behavior
+    
+    @objc func registerForKeyboardNotifications() {
+        let defaultCenter = NotificationCenter.default
+        defaultCenter.addObserver(self, selector: #selector(keyboardWasShown), name: UIResponder.keyboardWillShowNotification, object: nil)
+        defaultCenter.addObserver(self, selector: #selector(keyboardWillBeHidden), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    
+    @objc func keyboardWasShown(aNotification: Notification) {
+        //self.signInButton.alpha = 0
+        //self.smallSignInButton.alpha = 1
+        let userInfo = aNotification.userInfo
+        let keyboardScreenEndFrame = (userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+        let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
+        
+        scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height, right: 0)
+        scrollView.scrollIndicatorInsets = scrollView.contentInset
+        
+        
+        UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 1, initialSpringVelocity: 1.5, options: [], animations: {
+            
+            //            self.logoImageView.transform = CGAffineTransform(scaleX: 0.3, y: 0.3)
+            //            self.logoImageView.transform = CGAffineTransform(translationX: 0, y: self.moveToPoint)
+            //self.logoImageView.alpha = 0
+            //self.logoImageView.transform = CGAffineTransform.identity.translatedBy(x: 0, y: self.moveToPoint).scaledBy(x: 0.7, y: 0.7)
+            self.resetPasswordButton.transform = CGAffineTransform(translationX: 0, y: -keyboardViewEndFrame.height + self.moveToPoint)
+            
+            
+        }, completion:nil)
+    }
+    
+    @objc func keyboardWillBeHidden(_ aNotification: Notification) {
+        
+        
+        
+    }
+    
+    @IBAction func returnToSignIn(){
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    @objc func showRequestError(errorText: String){
+        let message = MDCSnackbarMessage()
+        message.text = errorText
+        MDCSnackbarManager.show(message)
+    }
+ 
+
+}

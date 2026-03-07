@@ -1,0 +1,448 @@
+<div class="landing-page">
+  <header class="landing-header">
+    <div class="landing-brand">
+      <span class="landing-brand__name">Apptorney AI</span>
+    </div>
+
+    <div class="landing-header__actions">
+      <ng-container *ngIf="!isLoggedIn">
+        <button class="landing-btn landing-btn--light" (click)="openLoginModal.emit()">Log in</button>
+        <button class="landing-btn" type="button" (click)="openSignupModal.emit()">Sign up for free</button>
+      </ng-container>
+      <ng-container *ngIf="isLoggedIn">
+        <button class="landing-btn" type="button" (click)="openSubscription.emit()">Subscribe</button>
+        <button class="landing-btn landing-btn--light" type="button" (click)="logoutFromLanding.emit()">Log out</button>
+      </ng-container>
+      <div class="help-menu">
+        <button class="landing-help" type="button" aria-label="Help" (click)="toggleHelpMenu($event)">?</button>
+        <div class="help-menu__panel" *ngIf="helpMenuOpen">
+          <button class="help-menu__item" type="button" (click)="openPricing()">Pricing</button>
+          <button class="help-menu__item" type="button" (click)="openTerms()">Terms of Use</button>
+          <button class="help-menu__item" type="button" (click)="openPrivacy()">Privacy Policy</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="landing-main" [class.landing-main--has-chat]="hasPublicChat">
+    <h1 *ngIf="!hasPublicChat">What can I help with?</h1>
+
+    <div class="chat-messages landing-chat-messages" *ngIf="hasPublicChat">
+      <article class="message"
+        [class.message--user]="message.role === 'user'"
+        [class.message--assistant]="message.role === 'assistant'"
+        *ngFor="let message of publicMessages">
+        <div class="message__bubble" (click)="onMessageClick($event)">
+          <p [innerHTML]="formatMessageHtml(message.text)"></p>
+        </div>
+      </article>
+
+      <article class="message message--assistant" *ngIf="publicAwaitingResponse && publicMessages[publicMessages.length - 1]?.text === ''">
+        <div class="message__bubble">
+          <div class="typing" aria-label="Assistant is typing"><span></span><span></span><span></span></div>
+        </div>
+      </article>
+    </div>
+
+    <div class="composer-shell landing-composer-shell" [class.landing-composer-shell--bottom]="hasPublicChat">
+      <form class="composer" (ngSubmit)="submitLandingPrompt.emit()">
+        <textarea
+          id="landingPrompt"
+          rows="1"
+          placeholder="Ask anything"
+          name="landingPrompt"
+          [ngModel]="landingPrompt"
+          (ngModelChange)="landingPromptChange.emit($event)"
+          (keydown.enter)="onEnterKey($event)"
+        ></textarea>
+        <div class="composer-controls">
+          <div class="composer-controls__left">
+            <label class="composer-menu" aria-label="Scope">
+              <select [ngModel]="askScope" (ngModelChange)="onScopeChange($event)" name="landingAskScope">
+                <option value="all">All</option>
+                <option value="legislations">Legislations</option>
+                <option value="cases">Cases</option>
+              </select>
+            </label>
+          </div>
+          <button class="send-btn" type="submit" [disabled]="publicAwaitingResponse || publicIsStreaming" aria-label="Send message" title="Send">↑</button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <div class="login-modal-backdrop" *ngIf="loginModalOpen" (click)="closeLoginModal.emit()">
+    <div class="login-modal" role="dialog" aria-modal="true" aria-label="Login" (click)="$event.stopPropagation()">
+      <button class="login-modal__close" type="button" aria-label="Close login modal" (click)="closeLoginModal.emit()">x</button>
+
+      <!-- Step: Email (login) -->
+      <div class="auth-step" *ngIf="authStep === 'email'">
+        <h3>Log in</h3>
+        <label>
+          Email
+          <input type="email" [ngModel]="authEmail" (ngModelChange)="authEmailChange.emit($event)" name="authEmail" placeholder="you@example.com" />
+        </label>
+        <p class="login-modal__error" *ngIf="statusType === 'error'">{{ statusText }}</p>
+        <div class="login-modal__actions">
+          <button class="landing-btn landing-btn--light" type="button" [disabled]="authLoading" (click)="requestOtp.emit()">
+            {{ authLoading ? 'Sending...' : 'Continue' }}
+          </button>
+        </div>
+        <p class="auth-step__switch">Don't have an account? <button class="text-btn" type="button" (click)="switchToRegister.emit()">Sign up</button></p>
+      </div>
+
+      <!-- Step: Register -->
+      <div class="auth-step" *ngIf="authStep === 'register'">
+        <h3>Create account</h3>
+        <label>
+          First name
+          <input type="text" [ngModel]="authFirstName" (ngModelChange)="authFirstNameChange.emit($event)" name="authFirstName" placeholder="First name" />
+        </label>
+        <label>
+          Last name
+          <input type="text" [ngModel]="authLastName" (ngModelChange)="authLastNameChange.emit($event)" name="authLastName" placeholder="Last name" />
+        </label>
+        <label>
+          Email
+          <input type="email" [ngModel]="authEmail" (ngModelChange)="authEmailChange.emit($event)" name="authEmailReg" placeholder="you@example.com" />
+        </label>
+        <label>
+          Phone number
+          <input type="tel" [ngModel]="authPhone" (ngModelChange)="authPhoneChange.emit($event)" name="authPhone" placeholder="+260 97 1234567" />
+        </label>
+        <label>
+          Organization
+          <input type="text" [ngModel]="authOrganization" (ngModelChange)="authOrganizationChange.emit($event)" name="authOrganization" placeholder="Company or firm (optional)" />
+        </label>
+        <p class="login-modal__error" *ngIf="statusType === 'error'">{{ statusText }}</p>
+        <div class="login-modal__actions">
+          <button class="landing-btn landing-btn--light" type="button" [disabled]="authLoading" (click)="submitRegister.emit()">
+            {{ authLoading ? 'Creating...' : 'Create account' }}
+          </button>
+        </div>
+        <p class="auth-step__switch">Already have an account? <button class="text-btn" type="button" (click)="switchToLogin.emit()">Log in</button></p>
+      </div>
+
+      <!-- Step: OTP verification -->
+      <div class="auth-step" *ngIf="authStep === 'otp'">
+        <h3>Enter verification code</h3>
+        <p class="auth-step__info">We sent a 6-digit code to <strong>{{ authEmail }}</strong></p>
+        <label>
+          Verification code
+          <input type="text" [ngModel]="authOtp" (ngModelChange)="authOtpChange.emit($event)" name="authOtp" placeholder="000000" maxlength="6" inputmode="numeric" autocomplete="one-time-code" />
+        </label>
+        <p class="login-modal__error" *ngIf="statusType === 'error'">{{ statusText }}</p>
+        <div class="login-modal__actions">
+          <button class="landing-btn landing-btn--light" type="button" [disabled]="authLoading" (click)="verifyOtp.emit()">
+            {{ authLoading ? 'Verifying...' : 'Verify' }}
+          </button>
+        </div>
+        <p class="auth-step__switch"><button class="text-btn" type="button" [disabled]="authLoading" (click)="requestOtp.emit()">Resend code</button></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="login-modal-backdrop" *ngIf="showUpgradeModal" (click)="showUpgradeModal = false">
+    <div class="login-modal upgrade-modal" role="dialog" aria-modal="true" aria-label="Upgrade to Pro" (click)="$event.stopPropagation()">
+      <button class="login-modal__close" type="button" aria-label="Close" (click)="showUpgradeModal = false">x</button>
+      <h3>Get more from Apptorney</h3>
+      <p class="upgrade-modal__subtitle">Upgrade to Pro for the full legal research experience</p>
+      <ul class="upgrade-modal__features">
+        <li><span class="pricing-card__check pricing-card__check--dark" aria-hidden="true">&#10003;</span> Detailed Responses</li>
+        <li><span class="pricing-card__check pricing-card__check--dark" aria-hidden="true">&#10003;</span> Navigate to References</li>
+        <li><span class="pricing-card__check pricing-card__check--dark" aria-hidden="true">&#10003;</span> AI generated case summaries</li>
+        <li><span class="pricing-card__check pricing-card__check--dark" aria-hidden="true">&#10003;</span> Higher usage caps</li>
+        <li><span class="pricing-card__check pricing-card__check--dark" aria-hidden="true">&#10003;</span> View Entire Case and Legislation Library</li>
+        <li><span class="pricing-card__check pricing-card__check--dark" aria-hidden="true">&#10003;</span> Full searchable Case and Legislation Text</li>
+        <li><span class="pricing-card__check pricing-card__check--dark" aria-hidden="true">&#10003;</span> Workflows <span class="upgrade-modal__badge">Coming soon</span></li>
+        <li><span class="pricing-card__check pricing-card__check--dark" aria-hidden="true">&#10003;</span> Document Drafting <span class="upgrade-modal__badge">Coming soon</span></li>
+      </ul>
+      <div class="login-modal__actions">
+        <button class="landing-btn landing-btn--light" type="button" (click)="openPricing(); showUpgradeModal = false">View pricing</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="landing-footer">
+    By messaging Apptorney AI, an AI chatbot, you agree to our
+    <button class="footer-link" type="button" (click)="openTerms()">Terms of Use</button> and have read our
+    <button class="footer-link" type="button" (click)="openPrivacy()">Privacy Policy</button>.
+  </footer>
+
+  <div class="pricing-page" *ngIf="showPricing">
+    <div class="pricing-header">
+      <button class="pricing-header__back" type="button" aria-label="Back to home" (click)="closePricing()">
+        <span aria-hidden="true">&larr;</span> Back
+      </button>
+      <h1>Pricing</h1>
+      <p class="pricing-header__subtitle">Choose the plan that fits your legal research needs</p>
+    </div>
+
+    <div class="pricing-cards">
+      <div class="pricing-card">
+        <div class="pricing-card__head">
+          <h2>Free</h2>
+          <p class="pricing-card__tagline">Basic legal research</p>
+          <p class="pricing-card__price"><span class="pricing-card__amount">$0</span> / month</p>
+        </div>
+        <button class="landing-btn pricing-card__cta" type="button">Get started</button>
+        <ul class="pricing-card__features">
+          <li><span class="pricing-card__check" aria-hidden="true">&#10003;</span> Limited AI queries</li>
+          <li><span class="pricing-card__check" aria-hidden="true">&#10003;</span> Basic case search</li>
+          <li><span class="pricing-card__check" aria-hidden="true">&#10003;</span> Limited legislation access</li>
+          <li><span class="pricing-card__check" aria-hidden="true">&#10003;</span> Community support</li>
+        </ul>
+      </div>
+
+      <div class="pricing-card pricing-card--featured">
+        <div class="pricing-card__badge">Most popular</div>
+        <div class="pricing-card__head">
+          <h2>Professional</h2>
+          <p class="pricing-card__tagline">Advanced legal intelligence</p>
+          <p class="pricing-card__price"><span class="pricing-card__amount">$29</span> / month</p>
+        </div>
+        <button class="landing-btn landing-btn--light pricing-card__cta" type="button">Get started</button>
+        <ul class="pricing-card__features">
+          <li><span class="pricing-card__check" aria-hidden="true">&#10003;</span> Unlimited AI queries</li>
+          <li><span class="pricing-card__check" aria-hidden="true">&#10003;</span> Full case law database</li>
+          <li><span class="pricing-card__check" aria-hidden="true">&#10003;</span> Complete legislation access</li>
+          <li><span class="pricing-card__check" aria-hidden="true">&#10003;</span> Chat history &amp; threads</li>
+          <li><span class="pricing-card__check" aria-hidden="true">&#10003;</span> Priority support</li>
+        </ul>
+      </div>
+
+      <div class="pricing-card">
+        <div class="pricing-card__head">
+          <h2>Enterprise</h2>
+          <p class="pricing-card__tagline">For law firms &amp; organisations</p>
+          <p class="pricing-card__price"><span class="pricing-card__amount">Custom</span></p>
+        </div>
+        <button class="landing-btn pricing-card__cta" type="button">Contact sales</button>
+        <ul class="pricing-card__features">
+          <li><span class="pricing-card__check" aria-hidden="true">&#10003;</span> Everything in Professional</li>
+          <li><span class="pricing-card__check" aria-hidden="true">&#10003;</span> Custom integrations</li>
+          <li><span class="pricing-card__check" aria-hidden="true">&#10003;</span> Dedicated support</li>
+          <li><span class="pricing-card__check" aria-hidden="true">&#10003;</span> Team management</li>
+          <li><span class="pricing-card__check" aria-hidden="true">&#10003;</span> SLA guarantee</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="legal-page" *ngIf="showTerms">
+    <div class="legal-header">
+      <button class="pricing-header__back" type="button" aria-label="Back to home" (click)="closeTerms()">
+        <span aria-hidden="true">&larr;</span> Back
+      </button>
+      <h1>Terms of Use</h1>
+      <p class="legal-header__meta">Last updated: 1 March 2026</p>
+    </div>
+
+    <div class="legal-body">
+      <p>These Terms of Use (&ldquo;Terms&rdquo;) govern your access to and use of the Apptorney AI platform, including the website at <strong>apptorney.ai</strong>, mobile applications, and related services (collectively, the &ldquo;Service&rdquo;), operated by <strong>Apptorney Limited</strong>, a company registered under the laws of the Republic of Zambia (&ldquo;we&rdquo;, &ldquo;us&rdquo;, or &ldquo;Apptorney&rdquo;).</p>
+      <p>By accessing or using the Service, you agree to be bound by these Terms. If you do not agree, you must not use the Service.</p>
+
+      <h2>1. Eligibility</h2>
+      <p>You must be at least 18 years old and have the legal capacity to enter into a binding agreement under Zambian law to use this Service. By registering an account, you represent that the information you provide is accurate and complete.</p>
+
+      <h2>2. Account Registration</h2>
+      <p>To access certain features you must create an account by providing your first name, last name, email address, phone number, and optionally your organization. You are responsible for maintaining the confidentiality of your login credentials and for all activity under your account. You must notify us immediately at <strong>support&#64;apptorney.ai</strong> if you suspect unauthorized use of your account.</p>
+
+      <h2>3. Description of Service</h2>
+      <p>Apptorney AI is an artificial intelligence&ndash;powered legal research assistant that provides access to Zambian case law, legislation, and related legal information. The Service includes:</p>
+      <ul>
+        <li>AI-powered question answering about Zambian law</li>
+        <li>Searchable case law and legislation database</li>
+        <li>Chat thread history and bookmarks (for subscribed users)</li>
+        <li>Organization and team management features</li>
+      </ul>
+
+      <h2>4. Important Disclaimer &mdash; Not Legal Advice</h2>
+      <p><strong>The Service is an information and research tool only. It does not provide legal advice, legal opinions, or legal representation.</strong> AI-generated responses may contain inaccuracies, omissions, or outdated information. You must not rely on any output from the Service as a substitute for professional legal counsel. Apptorney does not establish a lawyer-client relationship with any user. Always consult a qualified legal practitioner registered with the Law Association of Zambia before acting on any legal matter.</p>
+
+      <h2>5. AI-Generated Content</h2>
+      <p>Responses generated by the Service are produced by artificial intelligence models. While we strive for accuracy by grounding responses in our database of Zambian case law and legislation, AI outputs may:</p>
+      <ul>
+        <li>Contain errors, hallucinations, or misinterpretations of legal sources</li>
+        <li>Be incomplete or fail to reflect recent legal developments</li>
+        <li>Not account for the specific circumstances of your situation</li>
+      </ul>
+      <p>You acknowledge that you use AI-generated content at your own risk and that Apptorney bears no liability for decisions made in reliance on such content.</p>
+
+      <h2>6. Subscriptions and Payment</h2>
+      <p>Certain features of the Service require a paid subscription. Subscription plans, pricing, and billing cycles are displayed on the Service. By subscribing you agree to pay the applicable fees. All prices are quoted in United States Dollars (USD) unless otherwise stated.</p>
+      <p>Payments may be made via mobile money, bank transfer, or card as available. Subscriptions renew automatically at the end of each billing period unless cancelled before the renewal date. Refunds are handled on a case-by-case basis at our discretion.</p>
+
+      <h2>7. Organization Accounts</h2>
+      <p>If you subscribe on behalf of an organization, you represent that you have the authority to bind that organization to these Terms. The organization account administrator is responsible for managing team members, seats, and invitations. Invitations expire after 7 days.</p>
+
+      <h2>8. Acceptable Use</h2>
+      <p>You agree not to:</p>
+      <ul>
+        <li>Use the Service for any unlawful purpose or in violation of Zambian law</li>
+        <li>Attempt to gain unauthorized access to the Service or its systems</li>
+        <li>Scrape, crawl, or use automated means to extract content from the Service without written permission</li>
+        <li>Interfere with or disrupt the integrity or performance of the Service</li>
+        <li>Share your account credentials with third parties</li>
+        <li>Misrepresent AI-generated content as professional legal advice to others</li>
+        <li>Use the Service to generate content that is fraudulent, misleading, or defamatory</li>
+      </ul>
+
+      <h2>9. Intellectual Property</h2>
+      <p>The Service, including its design, software, branding, and proprietary content, is owned by Apptorney Limited and protected under Zambian intellectual property law, including the Copyright and Performance Rights Act (Cap 406) and the Trade Marks Act (Cap 401). Case law and legislation sourced from public records remain in the public domain. You may not reproduce, distribute, or create derivative works from Apptorney&rsquo;s proprietary content without prior written consent.</p>
+
+      <h2>10. Limitation of Liability</h2>
+      <p>To the fullest extent permitted by Zambian law, Apptorney, its directors, employees, and agents shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising out of or related to your use of the Service. Our total aggregate liability for any claim arising from these Terms shall not exceed the amount you have paid to us in the 12 months preceding the claim.</p>
+
+      <h2>11. Indemnification</h2>
+      <p>You agree to indemnify and hold harmless Apptorney and its officers, directors, employees, and agents from any claims, damages, losses, or expenses (including reasonable legal fees) arising from your use of the Service, your breach of these Terms, or your violation of any applicable law.</p>
+
+      <h2>12. Suspension and Termination</h2>
+      <p>We may suspend or terminate your access to the Service at any time, with or without notice, if we reasonably believe you have violated these Terms or if required by law. Upon termination, your right to use the Service ceases immediately. You may delete your account at any time by contacting <strong>support&#64;apptorney.ai</strong>.</p>
+
+      <h2>13. Modifications to Terms</h2>
+      <p>We reserve the right to update these Terms from time to time. Material changes will be communicated via email or a prominent notice on the Service. Continued use of the Service after changes take effect constitutes your acceptance of the revised Terms.</p>
+
+      <h2>14. Governing Law and Dispute Resolution</h2>
+      <p>These Terms are governed by and construed in accordance with the laws of the Republic of Zambia. Any dispute arising out of or relating to these Terms shall first be resolved through good-faith negotiation. If unresolved within 30 days, the dispute shall be submitted to arbitration in Lusaka, Zambia, in accordance with the Arbitration Act No. 19 of 2000. The courts of Zambia shall have exclusive jurisdiction for any matters not subject to arbitration.</p>
+
+      <h2>15. Contact Us</h2>
+      <p>If you have questions about these Terms, please contact us:</p>
+      <ul>
+        <li>Email: <strong>support&#64;apptorney.ai</strong></li>
+        <li>Website: <strong>apptorney.ai</strong></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="legal-page" *ngIf="showPrivacy">
+    <div class="legal-header">
+      <button class="pricing-header__back" type="button" aria-label="Back to home" (click)="closePrivacy()">
+        <span aria-hidden="true">&larr;</span> Back
+      </button>
+      <h1>Privacy Policy</h1>
+      <p class="legal-header__meta">Last updated: 1 March 2026</p>
+    </div>
+
+    <div class="legal-body">
+      <p>This Privacy Policy explains how <strong>Apptorney Limited</strong> (&ldquo;we&rdquo;, &ldquo;us&rdquo;, or &ldquo;Apptorney&rdquo;), a company registered in the Republic of Zambia, collects, uses, stores, and protects your personal data when you use the Apptorney AI platform, including the website, mobile applications, and related services (the &ldquo;Service&rdquo;).</p>
+      <p>This policy is issued in compliance with the <strong>Data Protection Act No. 3 of 2021</strong> of Zambia and the <strong>Electronic Communications and Transactions Act No. 21 of 2009</strong>.</p>
+
+      <h2>1. Data Controller</h2>
+      <p>The data controller responsible for your personal data is:</p>
+      <p><strong>Apptorney Limited</strong><br/>Lusaka, Zambia<br/>Email: <strong>privacy&#64;apptorney.ai</strong></p>
+
+      <h2>2. Personal Data We Collect</h2>
+      <h3>2.1 Information You Provide</h3>
+      <ul>
+        <li><strong>Account information:</strong> first name, last name, email address, phone number, and organization (if provided) when you register</li>
+        <li><strong>Chat content:</strong> questions you ask and the AI-generated responses, stored as chat threads</li>
+        <li><strong>Subscription and payment information:</strong> plan selection, billing cycle, payment method (mobile money, bank transfer, or card), payment reference, and transaction amount</li>
+        <li><strong>Feedback:</strong> any feedback or comments you submit through the Service</li>
+        <li><strong>Organization data:</strong> organization name, address, and contact information if you use team features</li>
+      </ul>
+
+      <h3>2.2 Information Collected Automatically</h3>
+      <ul>
+        <li><strong>Authentication tokens:</strong> we store access and refresh tokens in your browser&rsquo;s local storage to maintain your session</li>
+        <li><strong>Usage data:</strong> search queries, feature usage patterns, and AI query frequency for analytics and service improvement</li>
+        <li><strong>Device information:</strong> app version, platform (web, iOS, or Android), and browser type</li>
+      </ul>
+
+      <h3>2.3 Information We Do Not Collect</h3>
+      <p>We do not collect location data, camera or microphone data, contact lists, or any biometric data.</p>
+
+      <h2>3. How We Use Your Data</h2>
+      <p>We process your personal data for the following purposes and lawful bases under the Data Protection Act 2021:</p>
+      <table>
+        <thead>
+          <tr><th>Purpose</th><th>Lawful Basis</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Providing and operating the Service</td><td>Performance of contract</td></tr>
+          <tr><td>Authenticating your identity via OTP</td><td>Performance of contract</td></tr>
+          <tr><td>Processing subscriptions and payments</td><td>Performance of contract</td></tr>
+          <tr><td>Generating AI responses to your queries</td><td>Performance of contract</td></tr>
+          <tr><td>Sending transactional emails (OTP codes, payment confirmations, team invitations)</td><td>Performance of contract</td></tr>
+          <tr><td>Improving the Service through aggregated analytics</td><td>Legitimate interest</td></tr>
+          <tr><td>Preventing fraud and ensuring security</td><td>Legitimate interest</td></tr>
+          <tr><td>Complying with Zambian legal obligations</td><td>Legal obligation</td></tr>
+        </tbody>
+      </table>
+
+      <h2>4. AI Processing and Third-Party Data Sharing</h2>
+      <p>When you submit a question to the AI assistant, your query text and relevant conversation history are sent to <strong>OpenAI</strong> (based in the United States) to generate a response. Apptorney provides contextual case law and legislation excerpts alongside your query to improve response accuracy.</p>
+      <p>We share personal data with the following categories of third-party processors:</p>
+      <table>
+        <thead>
+          <tr><th>Processor</th><th>Purpose</th><th>Location</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>OpenAI</td><td>AI response generation</td><td>United States</td></tr>
+          <tr><td>MongoDB Atlas</td><td>Database hosting</td><td>Cloud (encrypted)</td></tr>
+          <tr><td>Resend</td><td>Transactional email delivery</td><td>United States</td></tr>
+          <tr><td>Microsoft Azure</td><td>File storage</td><td>Cloud (encrypted)</td></tr>
+        </tbody>
+      </table>
+      <p>All third-party processors are bound by data processing agreements. Cross-border transfers are conducted in accordance with Section 70 of the Data Protection Act 2021 and are protected by appropriate safeguards including encryption in transit and at rest.</p>
+
+      <h2>5. Data Retention</h2>
+      <ul>
+        <li><strong>Account data:</strong> retained for as long as your account is active, and for up to 12 months after account deletion to comply with legal and regulatory requirements</li>
+        <li><strong>Chat threads:</strong> retained for as long as your account is active. Each thread stores up to 100 messages</li>
+        <li><strong>OTP codes:</strong> automatically expire and are invalidated after 10 minutes</li>
+        <li><strong>Team invitations:</strong> expire after 7 days</li>
+        <li><strong>Payment records:</strong> retained for a minimum of 7 years in accordance with Zambian tax and financial record-keeping requirements</li>
+        <li><strong>Aggregated analytics:</strong> retained indefinitely in anonymized form</li>
+      </ul>
+
+      <h2>6. Data Security</h2>
+      <p>We implement appropriate technical and organizational measures to protect your personal data, including:</p>
+      <ul>
+        <li>Passwords and OTP codes are hashed using bcrypt before storage</li>
+        <li>JWT-based authentication with short-lived access tokens (15 minutes) and longer-lived refresh tokens (30 days)</li>
+        <li>SSL/TLS encryption for all data in transit</li>
+        <li>Encrypted database connections</li>
+        <li>Role-based access controls for administrative functions</li>
+        <li>Rate limiting on authentication attempts (maximum 5 OTP attempts)</li>
+      </ul>
+
+      <h2>7. Your Rights</h2>
+      <p>Under the Data Protection Act 2021, you have the following rights regarding your personal data:</p>
+      <ul>
+        <li><strong>Right of access:</strong> request a copy of the personal data we hold about you</li>
+        <li><strong>Right to rectification:</strong> request correction of inaccurate or incomplete data</li>
+        <li><strong>Right to erasure:</strong> request deletion of your personal data, subject to legal retention requirements</li>
+        <li><strong>Right to restrict processing:</strong> request that we limit the processing of your data in certain circumstances</li>
+        <li><strong>Right to data portability:</strong> request your data in a structured, commonly used format</li>
+        <li><strong>Right to object:</strong> object to processing based on legitimate interest</li>
+        <li><strong>Right to withdraw consent:</strong> where processing is based on consent, you may withdraw it at any time</li>
+      </ul>
+      <p>To exercise any of these rights, contact us at <strong>privacy&#64;apptorney.ai</strong>. We will respond within 30 days as required by law.</p>
+
+      <h2>8. Children&rsquo;s Privacy</h2>
+      <p>The Service is not directed at individuals under the age of 18. We do not knowingly collect personal data from children. If we become aware that a child has provided us with personal data, we will take steps to delete such information promptly.</p>
+
+      <h2>9. Cookies and Local Storage</h2>
+      <p>The Service uses browser local storage (not cookies) to store authentication tokens for session management. No third-party tracking cookies are used on the web application. The mobile applications store authentication tokens and preferences in platform-native secure storage.</p>
+
+      <h2>10. Data Breach Notification</h2>
+      <p>In the event of a personal data breach that is likely to result in a risk to your rights, we will notify the Data Protection Commissioner and affected individuals without undue delay, and no later than 72 hours after becoming aware of the breach, in accordance with the Data Protection Act 2021.</p>
+
+      <h2>11. Changes to This Policy</h2>
+      <p>We may update this Privacy Policy from time to time. Material changes will be communicated via email or a prominent notice on the Service. The &ldquo;Last updated&rdquo; date at the top indicates when the policy was last revised.</p>
+
+      <h2>12. Complaints</h2>
+      <p>If you are dissatisfied with how we handle your personal data, you have the right to lodge a complaint with:</p>
+      <p><strong>The Data Protection Commissioner</strong><br/>Zambia Information and Communications Technology Authority (ZICTA)<br/>Lusaka, Zambia<br/>Website: <strong>www.zicta.zm</strong></p>
+
+      <h2>13. Contact Us</h2>
+      <p>For privacy-related inquiries:</p>
+      <ul>
+        <li>Email: <strong>privacy&#64;apptorney.ai</strong></li>
+        <li>General support: <strong>support&#64;apptorney.ai</strong></li>
+        <li>Website: <strong>apptorney.ai</strong></li>
+      </ul>
+    </div>
+  </div>
+</div>

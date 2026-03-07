@@ -1,0 +1,43 @@
+<section id="chatView" class="view is-visible" [class.chat-view--empty]="isChatEmpty">
+  <div class="chat-empty-state" *ngIf="isChatEmpty">
+    <h1>What can I help with?</h1>
+  </div>
+
+  <div class="chat-messages" *ngIf="!isChatEmpty">
+    <article class="message" [class.message--user]="message.role === 'user'" [class.message--assistant]="message.role === 'assistant'" *ngFor="let message of messages">
+      <div class="message__bubble">
+        <p [innerHTML]="formatMessageHtml(message.text)"></p>
+        <div class="references" *ngIf="message.role === 'assistant' && message.references.length > 0">
+          <h4>References</h4>
+          <button *ngFor="let reference of message.references; index as i" (click)="openReference.emit(reference)">
+            {{ i + 1 }}. {{ titleCase(reference.title || reference.source) }}
+          </button>
+        </div>
+      </div>
+    </article>
+
+    <article class="message message--assistant" *ngIf="awaitingResponse">
+      <div class="message__bubble">
+        <div class="typing" aria-label="Assistant is typing"><span></span><span></span><span></span></div>
+      </div>
+    </article>
+  </div>
+
+  <div class="composer-shell" [class.composer-shell--centered]="isChatEmpty">
+    <form class="composer" (ngSubmit)="sendMessage.emit()">
+      <textarea id="chatInput" rows="1" placeholder="Ask anything" name="chatInput" [ngModel]="chatInput" (ngModelChange)="chatInputChange.emit($event)" (keydown.enter)="onEnterKey($event)"></textarea>
+      <div class="composer-controls">
+        <div class="composer-controls__left">
+          <label class="composer-menu" aria-label="Scope">
+            <select [ngModel]="askScope" (ngModelChange)="onScopeChange($event)" name="chatAskScope">
+              <option value="all">All</option>
+              <option value="legislations">Legislations</option>
+              <option value="cases">Cases</option>
+            </select>
+          </label>
+        </div>
+        <button class="send-btn" type="submit" [disabled]="awaitingResponse || isStreaming" aria-label="Send message" title="Send">↑</button>
+      </div>
+    </form>
+  </div>
+</section>

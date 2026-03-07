@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Apptorney AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,500;9..144,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css?v=20260215-2" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="sidebar__header">
+          <p class="brand-kicker">Knowledge Workspace</p>
+          <h1>Apptorney AI</h1>
+          <p class="brand-subtitle">Zambian case law and legislation assistant</p>
+        </div>
+
+        <button id="newChatBtn" class="sidebar__new-chat">+ New chat</button>
+
+        <nav class="sidebar__nav" aria-label="Primary">
+          <button class="nav-btn is-active" data-view="chat">Assistant</button>
+          <button class="nav-btn" data-view="home">Home Feed</button>
+          <button class="nav-btn" data-view="cases">Cases</button>
+          <button class="nav-btn" data-view="legislations">Legislations</button>
+          <button class="nav-btn" data-view="settings">Settings</button>
+        </nav>
+
+        <section class="sidebar__threads" aria-label="Conversations">
+          <div class="sidebar__section-title">
+            <h2>Conversations</h2>
+            <button id="refreshThreadsBtn" class="icon-btn" title="Refresh threads">↻</button>
+          </div>
+          <ul id="threadList" class="thread-list"></ul>
+        </section>
+      </aside>
+
+      <main class="main-panel">
+        <header class="main-header">
+          <div>
+            <p id="viewKicker" class="main-header__kicker">Workspace</p>
+            <h2 id="viewTitle">Assistant</h2>
+          </div>
+          <button id="toggleSidebarBtn" class="icon-btn mobile-only" title="Toggle sidebar">☰</button>
+        </header>
+
+        <section id="chatView" class="view is-visible" aria-label="Assistant Chat">
+          <div id="chatMessages" class="chat-messages"></div>
+          <div id="chatComposerShell" class="composer-shell">
+            <div class="prompt-chips" role="list">
+              <button class="chip" data-prompt="Summarize the key legal issue in this case">Study</button>
+              <button class="chip" data-prompt="Compare this legislation with existing case law">Compare</button>
+              <button class="chip" data-prompt="Generate practical legal research questions on this topic">Research</button>
+            </div>
+            <form id="chatForm" class="composer">
+              <textarea
+                id="chatInput"
+                rows="1"
+                placeholder="Ask anything"
+                aria-label="Ask anything"
+              ></textarea>
+              <button id="sendBtn" type="submit" class="send-btn">Send</button>
+            </form>
+          </div>
+        </section>
+
+        <section id="homeView" class="view" aria-label="Home Feed">
+          <div class="cards-grid">
+            <article class="resource-card">
+              <div class="resource-card__header">
+                <h3>Bookmarks</h3>
+                <button id="reloadBookmarksBtn" class="text-btn">Reload</button>
+              </div>
+              <div id="bookmarksList" class="stack-list"></div>
+            </article>
+
+            <article class="resource-card">
+              <div class="resource-card__header">
+                <h3>What&apos;s New</h3>
+                <button id="reloadNewsBtn" class="text-btn">Reload</button>
+              </div>
+              <div id="newsList" class="stack-list"></div>
+            </article>
+
+            <article class="resource-card">
+              <div class="resource-card__header">
+                <h3>Trending</h3>
+                <button id="reloadTrendsBtn" class="text-btn">Reload</button>
+              </div>
+              <div id="trendsList" class="stack-list"></div>
+            </article>
+          </div>
+        </section>
+
+        <section id="casesView" class="view" aria-label="Cases">
+          <div class="resource-search">
+            <input id="caseSearchInput" type="search" placeholder="Search cases" />
+            <p class="resource-search__hint">Uses `/cases/mobilesearch` from the iOS app flow.</p>
+          </div>
+          <div id="caseResults" class="result-list"></div>
+        </section>
+
+        <section id="legislationsView" class="view" aria-label="Legislations">
+          <div class="resource-search">
+            <input id="legislationSearchInput" type="search" placeholder="Search legislations" />
+            <p class="resource-search__hint">Uses `/legislations/mobilesearch` from the iOS app flow.</p>
+          </div>
+          <div id="legislationResults" class="result-list"></div>
+        </section>
+
+        <section id="settingsView" class="view" aria-label="Settings">
+          <div class="settings-grid">
+            <article class="resource-card">
+              <h3>Session</h3>
+              <label>
+                Username
+                <input id="usernameInput" type="text" placeholder="e.g. 0977XXXXXX" />
+              </label>
+              <label>
+                Access Token
+                <textarea id="tokenInput" rows="3" placeholder="Paste token for chat threads and ask-ai"></textarea>
+              </label>
+              <button id="saveSessionBtn" class="primary-btn">Save Session</button>
+            </article>
+
+            <article class="resource-card">
+              <h3>Login</h3>
+              <label>
+                Username / Email
+                <input id="loginUsernameInput" type="text" />
+              </label>
+              <label>
+                Password
+                <input id="loginPasswordInput" type="password" />
+              </label>
+              <button id="loginBtn" class="primary-btn">Login via `/appusers/login`</button>
+            </article>
+
+            <article class="resource-card">
+              <h3>Status</h3>
+              <p id="statusText" class="status-text">Ready.</p>
+              <p class="status-footnote">
+                API proxy:
+                <code>/api</code> -> <code>http://apptorney-prod-service-alb-1628366448.eu-west-2.elb.amazonaws.com/api</code>
+              </p>
+            </article>
+          </div>
+        </section>
+      </main>
+
+      <aside id="detailDrawer" class="detail-drawer" aria-label="Resource Details">
+        <div class="detail-drawer__header">
+          <div>
+            <p id="detailType" class="detail-drawer__type">Resource</p>
+            <h3 id="detailTitle">Select a resource</h3>
+          </div>
+          <button id="closeDetailBtn" class="icon-btn">✕</button>
+        </div>
+        <p id="detailMeta" class="detail-meta"></p>
+        <div id="detailBody" class="detail-body"></div>
+
+        <div class="detail-actions">
+          <button id="bookmarkBtn" class="primary-btn">Add Bookmark</button>
+          <textarea id="feedbackInput" rows="3" placeholder="Share feedback on this resource"></textarea>
+          <button id="feedbackBtn" class="text-btn">Send Feedback</button>
+        </div>
+      </aside>
+    </div>
+
+    <script src="./app.js?v=20260215-7" type="module"></script>
+  </body>
+</html>

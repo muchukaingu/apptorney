@@ -1,0 +1,410 @@
+<app-landing-page
+  *ngIf="showLanding"
+  [loginModalOpen]="loginModalOpen"
+  [landingPrompt]="landingPrompt"
+  [askScope]="askScope"
+  [statusText]="statusText"
+  [statusType]="statusType"
+  [publicMessages]="publicMessages"
+  [publicAwaitingResponse]="publicAwaitingResponse"
+  [publicIsStreaming]="publicAwaitingResponse"
+  [isLoggedIn]="!!accessToken"
+  [userName]="username"
+  [authStep]="authStep"
+  [authEmail]="authEmail"
+  [authFirstName]="authFirstName"
+  [authLastName]="authLastName"
+  [authPhone]="authPhone"
+  [authOrganization]="authOrganization"
+  [authOtp]="authOtp"
+  [authLoading]="authLoading"
+  (openLoginModal)="openLoginModal()"
+  (openSignupModal)="openSignupModal()"
+  (closeLoginModal)="closeLoginModal()"
+  (submitLandingPrompt)="submitLandingPrompt()"
+  (landingPromptChange)="landingPrompt = $event"
+  (askScopeChange)="askScope = $event"
+  (authEmailChange)="authEmail = $event"
+  (authFirstNameChange)="authFirstName = $event"
+  (authLastNameChange)="authLastName = $event"
+  (authPhoneChange)="authPhone = $event"
+  (authOrganizationChange)="authOrganization = $event"
+  (authOtpChange)="authOtp = $event"
+  (requestOtp)="requestLoginOtp()"
+  (submitRegister)="submitRegister()"
+  (verifyOtp)="verifyOtp()"
+  (switchToRegister)="switchToRegister()"
+  (switchToLogin)="switchToLogin()"
+  (logoutFromLanding)="logout()"
+  (openSubscription)="openSubscriptionFromLanding()"
+></app-landing-page>
+
+<div class="app-shell" [class.sidebar-open]="sidebarOpen" *ngIf="!showLanding">
+  <app-sidebar
+    [view]="view"
+    [threads]="threads"
+    [currentThreadId]="currentThreadId"
+    [isAdmin]="isAdmin"
+    (startNewChat)="startNewChat()"
+    (setView)="setView($event)"
+    (refreshThreads)="refreshThreads()"
+    (loadThread)="loadThread($event)"
+  ></app-sidebar>
+
+  <main class="main-panel">
+    <header class="main-header">
+      <div>
+        <p class="main-header__kicker" *ngIf="view !== 'chat'">
+          {{ view === 'settings' ? 'Config' : view === 'home' ? 'Workspace' : view === 'admin' ? 'Dashboard' : view === 'subscription' ? 'Account' : 'Library' }}
+        </p>
+        <h2>
+          {{
+            view === 'chat'
+              ? 'Assistant'
+              : view === 'home'
+                ? 'Home Feed'
+                : view === 'cases'
+                  ? 'Cases'
+                  : view === 'legislations'
+                    ? 'Legislations'
+                    : view === 'subscription'
+                      ? 'Subscription'
+                      : view === 'admin'
+                        ? 'Admin'
+                        : 'Settings'
+          }}
+        </h2>
+      </div>
+      <div class="header-actions">
+        <button class="icon-btn mobile-only" title="Toggle sidebar" (click)="sidebarOpen = !sidebarOpen">☰</button>
+
+        <div class="user-menu">
+          <button
+            class="user-menu__trigger"
+            title="Account menu"
+            aria-label="Account menu"
+            [attr.aria-expanded]="userMenuOpen"
+            aria-haspopup="menu"
+            (click)="toggleUserMenu($event)"
+          >
+            <span class="user-menu__avatar">{{ userInitial }}</span>
+          </button>
+
+          <div class="user-menu__panel" *ngIf="userMenuOpen" role="menu" (click)="$event.stopPropagation()">
+            <p class="user-menu__name">{{ username || 'Guest' }}</p>
+            <button class="user-menu__item" role="menuitem" (click)="logout()">Logout</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <app-chat-view
+      *ngIf="view === 'chat'"
+      [isChatEmpty]="isChatEmpty"
+      [messages]="messages"
+      [awaitingResponse]="awaitingResponse"
+      [isStreaming]="isStreaming"
+      [chatInput]="chatInput"
+      [askScope]="askScope"
+      (chatInputChange)="chatInput = $event"
+      (askScopeChange)="askScope = $event"
+      (sendMessage)="sendMessage()"
+      (openReference)="openReference($event)"
+    ></app-chat-view>
+
+    <section class="view is-visible" *ngIf="view === 'home'">
+      <div class="cards-grid">
+        <article class="resource-card">
+          <div class="resource-card__header">
+            <h3>Bookmarks</h3>
+            <button class="text-btn" (click)="loadBookmarks()">Reload</button>
+          </div>
+          <div class="stack-list" *ngIf="bookmarks.length > 0; else noBookmarks">
+            <article class="list-item" *ngFor="let item of bookmarks">
+              <h4>{{ cleanHtmlToText(item.title) || 'Untitled' }}</h4>
+              <p>{{ cleanHtmlToText(item.summary) }}</p>
+            </article>
+          </div>
+          <ng-template #noBookmarks>
+            <article class="list-item"><h4>No bookmarks yet</h4></article>
+          </ng-template>
+        </article>
+
+        <article class="resource-card">
+          <div class="resource-card__header">
+            <h3>What&apos;s New</h3>
+            <button class="text-btn" (click)="loadNews()">Reload</button>
+          </div>
+          <div class="stack-list" *ngIf="news.length > 0; else noNews">
+            <article class="list-item" *ngFor="let item of news">
+              <h4>{{ cleanHtmlToText(item.title) || 'Untitled' }}</h4>
+              <p>{{ cleanHtmlToText(item.summary) }}</p>
+            </article>
+          </div>
+          <ng-template #noNews>
+            <article class="list-item"><h4>No news yet</h4></article>
+          </ng-template>
+        </article>
+
+        <article class="resource-card">
+          <div class="resource-card__header">
+            <h3>Trending</h3>
+            <button class="text-btn" (click)="loadTrends()">Reload</button>
+          </div>
+          <div class="stack-list" *ngIf="trends.length > 0; else noTrends">
+            <article class="list-item" *ngFor="let item of trends">
+              <h4>{{ cleanHtmlToText(item.title) || 'Untitled' }}</h4>
+              <p>{{ cleanHtmlToText(item.summary) }}</p>
+            </article>
+          </div>
+          <ng-template #noTrends>
+            <article class="list-item"><h4>No trends yet</h4></article>
+          </ng-template>
+        </article>
+      </div>
+    </section>
+
+    <section class="view is-visible" *ngIf="view === 'cases'">
+      <div class="resource-search">
+        <input type="search" placeholder="Search cases" [(ngModel)]="caseSearchTerm" (ngModelChange)="onCaseTermChange()" name="caseSearchTerm" />
+        <p class="resource-search__hint">Uses `/cases/mobilesearch` from the iOS app flow.</p>
+      </div>
+      <div class="result-list">
+        <article class="list-item" *ngIf="caseSearchTerm.trim().length < 2">
+          <h4>Case discovery</h4>
+          <p>Start typing to search cases by name, citation, or keyword.</p>
+        </article>
+
+        <article class="result-item" *ngFor="let item of caseResults" (click)="openCaseDetail(item._id || item.id)">
+          <h4>{{ cleanHtmlToText(item.name) || 'Untitled case' }}</h4>
+          <p>{{ cleanHtmlToText(item.highlight || item.summaryOfRuling) || 'Open to view case details.' }}</p>
+          <p>{{ caseResultMeta(item) }}</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="view is-visible" *ngIf="view === 'legislations'">
+      <div class="resource-search">
+        <input
+          type="search"
+          placeholder="Search legislations"
+          [(ngModel)]="legislationSearchTerm"
+          (ngModelChange)="onLegislationTermChange()"
+          name="legislationSearchTerm"
+        />
+        <p class="resource-search__hint">Uses `/legislations/mobilesearch` from the iOS app flow.</p>
+      </div>
+      <div class="result-list">
+        <article class="list-item" *ngIf="legislationSearchTerm.trim().length < 2">
+          <h4>Legislation discovery</h4>
+          <p>Start typing to search acts, volumes, and statutory instruments.</p>
+        </article>
+
+        <article class="result-item" *ngFor="let item of legislationResults" (click)="openLegislationDetail(item._id || item.id)">
+          <h4>{{ cleanHtmlToText(item.legislationName) || 'Untitled legislation' }}</h4>
+          <p>{{ cleanHtmlToText(item.highlight || item.preamble) || 'Open to view legislation details.' }}</p>
+          <p>{{ legislationResultMeta(item) }}</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="view is-visible" *ngIf="view === 'subscription'">
+      <div class="subscription-page">
+        <!-- No active subscription: show pricing -->
+        <div *ngIf="!subscriptionStatus?.isActive">
+          <div class="billing-toggle">
+            <button [class.is-active]="selectedBillingCycle === 'monthly'" (click)="selectedBillingCycle = 'monthly'">Monthly</button>
+            <button [class.is-active]="selectedBillingCycle === 'yearly'" (click)="selectedBillingCycle = 'yearly'">Yearly (save ~17%)</button>
+          </div>
+
+          <div class="pricing-cards" *ngIf="pricingPlans.length > 0">
+            <div class="pricing-card" *ngFor="let plan of pricingPlans" [class.pricing-card--featured]="plan.type === 'individual'">
+              <div class="pricing-card__head">
+                <h2>{{ plan.name }}</h2>
+                <p class="pricing-card__tagline">{{ plan.type === 'individual' ? 'For individual professionals' : 'For law firms & teams' }}</p>
+                <p class="pricing-card__price">
+                  <span class="pricing-card__amount">${{ selectedBillingCycle === 'monthly' ? plan.monthlyPrice : plan.yearlyPrice }}</span>
+                  / {{ selectedBillingCycle === 'monthly' ? 'month' : 'year' }}
+                  <span *ngIf="plan.type === 'organization'"> per user</span>
+                </p>
+              </div>
+              <button class="landing-btn pricing-card__cta" [class.landing-btn--light]="plan.type === 'individual'" type="button" [disabled]="subscriptionLoading" (click)="subscribeToPlan(plan.id)">
+                {{ subscriptionLoading ? 'Processing...' : 'Subscribe' }}
+              </button>
+              <ul class="pricing-card__features" *ngIf="plan.features?.length">
+                <li *ngFor="let feature of plan.features">
+                  <span class="pricing-card__check" aria-hidden="true">&#10003;</span> {{ feature }}
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div *ngIf="pricingPlans.length === 0" class="subscription-empty">
+            <p>Loading pricing plans...</p>
+          </div>
+        </div>
+
+        <!-- Active subscription: show status -->
+        <div *ngIf="subscriptionStatus?.isActive">
+          <div class="cards-grid">
+            <article class="resource-card">
+              <h3>Your Subscription</h3>
+              <div class="settings-field">
+                <span class="settings-field__label">Plan</span>
+                <span class="settings-field__value">{{ subscriptionStatus!.subscription?.planName || '—' }}</span>
+              </div>
+              <div class="settings-field">
+                <span class="settings-field__label">Status</span>
+                <span class="settings-field__value">Active</span>
+              </div>
+              <div class="settings-field">
+                <span class="settings-field__label">Billing</span>
+                <span class="settings-field__value">{{ subscriptionStatus!.subscription?.billingCycle || '—' }}</span>
+              </div>
+              <div class="settings-field">
+                <span class="settings-field__label">Days remaining</span>
+                <span class="settings-field__value">{{ subscriptionStatus!.daysRemaining }}</span>
+              </div>
+            </article>
+
+            <article class="resource-card">
+              <h3>Confirm Payment</h3>
+              <label>
+                Amount ($)
+                <input type="number" [(ngModel)]="paymentAmount" name="paymentAmount" placeholder="50.00" />
+              </label>
+              <label>
+                Payment method
+                <select [(ngModel)]="paymentMethod" name="paymentMethod">
+                  <option value="">Select method</option>
+                  <option value="mobile_money">Mobile Money</option>
+                  <option value="bank_transfer">Bank Transfer</option>
+                  <option value="card">Card</option>
+                </select>
+              </label>
+              <label>
+                Reference
+                <input type="text" [(ngModel)]="paymentReference" name="paymentReference" placeholder="Transaction reference" />
+              </label>
+              <button class="primary-btn" [disabled]="subscriptionLoading" (click)="confirmPayment()">
+                {{ subscriptionLoading ? 'Submitting...' : 'Confirm Payment' }}
+              </button>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="view is-visible" *ngIf="view === 'admin'">
+      <div class="admin-dashboard" *ngIf="isAdmin">
+        <div class="cards-grid admin-kpi-grid">
+          <article class="resource-card admin-kpi">
+            <h4>Total Users</h4>
+            <p class="admin-kpi__value">{{ adminOverview?.totalUsers ?? '—' }}</p>
+          </article>
+          <article class="resource-card admin-kpi">
+            <h4>Active Subscriptions</h4>
+            <p class="admin-kpi__value">{{ adminOverview?.activeSubscriptions ?? '—' }}</p>
+          </article>
+          <article class="resource-card admin-kpi">
+            <h4>Monthly Revenue</h4>
+            <p class="admin-kpi__value">${{ adminOverview?.monthlyRevenue ?? '—' }}</p>
+          </article>
+          <article class="resource-card admin-kpi">
+            <h4>Total Queries</h4>
+            <p class="admin-kpi__value">{{ adminOverview?.totalQueries ?? '—' }}</p>
+          </article>
+        </div>
+
+        <div class="cards-grid">
+          <article class="resource-card">
+            <h3>Subscription Breakdown</h3>
+            <div class="stack-list" *ngIf="adminSubscriptions.length > 0; else noAdminSubs">
+              <article class="list-item" *ngFor="let item of adminSubscriptions">
+                <h4>{{ item.plan }} ({{ item.status }})</h4>
+                <p>{{ item.count }} subscription(s)</p>
+              </article>
+            </div>
+            <ng-template #noAdminSubs>
+              <article class="list-item"><h4>No subscription data</h4></article>
+            </ng-template>
+          </article>
+
+          <article class="resource-card">
+            <h3>Content</h3>
+            <div class="settings-field">
+              <span class="settings-field__label">Cases</span>
+              <span class="settings-field__value">{{ adminContent?.totalCases ?? '—' }}</span>
+            </div>
+            <div class="settings-field">
+              <span class="settings-field__label">Legislations</span>
+              <span class="settings-field__value">{{ adminContent?.totalLegislations ?? '—' }}</span>
+            </div>
+            <div class="stack-list" *ngIf="adminContent?.recentlyAdded?.length">
+              <h4 style="margin-top: 12px;">Recently Added</h4>
+              <article class="list-item" *ngFor="let item of adminContent!.recentlyAdded">
+                <h4>{{ item.title }}</h4>
+                <p>{{ item.type }} — {{ item.addedAt }}</p>
+              </article>
+            </div>
+          </article>
+        </div>
+
+        <div class="cards-grid" style="grid-template-columns: 1fr;">
+          <article class="resource-card">
+            <div class="resource-card__header">
+              <h3>Recent Payments</h3>
+              <div>
+                <button class="text-btn" [disabled]="adminPaymentsPage <= 1" (click)="loadAdminPayments(adminPaymentsPage - 1)">Prev</button>
+                <span style="margin: 0 8px; font-size: 13px;">Page {{ adminPaymentsPage }}</span>
+                <button class="text-btn" (click)="loadAdminPayments(adminPaymentsPage + 1)">Next</button>
+              </div>
+            </div>
+            <div class="stack-list" *ngIf="adminPayments.length > 0; else noAdminPayments">
+              <article class="list-item" *ngFor="let payment of adminPayments">
+                <h4>${{ payment.amount }} — {{ payment.method }}</h4>
+                <p>Ref: {{ payment.reference }} | Status: {{ payment.status }} | {{ payment.createdAt }}</p>
+              </article>
+            </div>
+            <ng-template #noAdminPayments>
+              <article class="list-item"><h4>No payments yet</h4></article>
+            </ng-template>
+          </article>
+        </div>
+      </div>
+
+      <div *ngIf="!isAdmin" style="padding: 40px; text-align: center;">
+        <p>You do not have permission to view this page.</p>
+      </div>
+    </section>
+
+    <section class="view is-visible" *ngIf="view === 'settings'">
+      <div class="settings-grid">
+        <article class="resource-card">
+          <h3>Account</h3>
+          <div class="settings-field">
+            <span class="settings-field__label">Name</span>
+            <span class="settings-field__value">{{ currentUser?.firstName ? currentUser?.firstName + ' ' + (currentUser?.lastName || '') : '—' }}</span>
+          </div>
+          <div class="settings-field">
+            <span class="settings-field__label">Email</span>
+            <span class="settings-field__value">{{ currentUser?.email || '—' }}</span>
+          </div>
+          <div class="settings-field">
+            <span class="settings-field__label">Role</span>
+            <span class="settings-field__value">{{ currentUser?.role || 'user' }}</span>
+          </div>
+        </article>
+
+        <article class="resource-card">
+          <h3>Status</h3>
+          <p class="status-text" [class.status-text--error]="statusType === 'error'">{{ statusText }}</p>
+          <p class="status-footnote">
+            API proxy: <code>/api</code> ->
+            <code>http://apptorney-prod-service-alb-1628366448.eu-west-2.elb.amazonaws.com/api</code>
+          </p>
+        </article>
+      </div>
+    </section>
+  </main>
+</div>

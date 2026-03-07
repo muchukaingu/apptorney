@@ -1,6 +1,8 @@
 import Foundation
 
-struct LegalCase: Codable, Identifiable {
+struct LegalCase: Codable, Identifiable, Hashable {
+    static func == (lhs: LegalCase, rhs: LegalCase) -> Bool { lhs.id == rhs.id }
+    func hash(into hasher: inout Hasher) { hasher.combine(id) }
     var id: String { _id ?? "" }
     var _id: String?
     var referenceNumber: String?

@@ -2,38 +2,6 @@ import SwiftUI
 
 // MARK: - Placeholder Stubs
 
-struct HomeView: View {
-    var body: some View {
-        Text("Home")
-            .font(.title)
-            .foregroundColor(.secondary)
-    }
-}
-
-struct CasesListView: View {
-    var body: some View {
-        Text("Cases")
-            .font(.title)
-            .foregroundColor(.secondary)
-    }
-}
-
-struct LegislationsListView: View {
-    var body: some View {
-        Text("Legislations")
-            .font(.title)
-            .foregroundColor(.secondary)
-    }
-}
-
-struct GlobalSearchView: View {
-    var body: some View {
-        Text("Search")
-            .font(.title)
-            .foregroundColor(.secondary)
-    }
-}
-
 struct SettingsView: View {
     var body: some View {
         Text("Settings")

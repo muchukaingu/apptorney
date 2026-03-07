@@ -1,6 +1,8 @@
 import Foundation
 
-struct Legislation: Codable, Identifiable {
+struct Legislation: Codable, Identifiable, Hashable {
+    static func == (lhs: Legislation, rhs: Legislation) -> Bool { lhs.id == rhs.id }
+    func hash(into hasher: inout Hasher) { hasher.combine(id) }
     var id: String { _id ?? "" }
     var _id: String?
     var legislationNumber: String?

@@ -21,3 +21,8 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.apptorney.swiftui
         INFOPLIST_KEY_UILaunchScreen_Generation: YES
         INFOPLIST_KEY_CFBundleDisplayName: Apptorney
+    info:
+      path: apptorney/Info.plist
+      properties:
+        NSAppTransportSecurity:
+          NSAllowsArbitraryLoads: true

@@ -13,7 +13,29 @@ class AuthManager: ObservableObject {
     private static let roleKey = "role"
 
     init() {
-        isAuthenticated = AuthManager.hasValidSession()
+        let valid = AuthManager.hasValidSession()
+        isAuthenticated = valid
+        if valid {
+            currentUser = AuthManager.restoreUser()
+        }
+    }
+
+    private static func restoreUser() -> User? {
+        let email = KeychainService.load(key: emailKey)
+        let userId = KeychainService.load(key: userIdKey)
+        let userName = KeychainService.load(key: userNameKey)
+        let role = KeychainService.load(key: roleKey)
+
+        guard email != nil || userId != nil else { return nil }
+
+        let nameParts = userName?.components(separatedBy: " ")
+        return User(
+            _id: userId,
+            email: email,
+            firstName: nameParts?.first,
+            lastName: nameParts?.dropFirst().joined(separator: " "),
+            role: role
+        )
     }
 
     // MARK: - Session Check

@@ -6,21 +6,29 @@ struct ChatSidebarView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            // Header
+            // Header with menu + new chat
             HStack {
-                Text("Chat History")
-                    .font(.headline)
+                Button(action: {
+                    withAnimation { showSidebar = false }
+                }) {
+                    Image(systemName: "line.3.horizontal")
+                        .font(.system(size: 24))
+                        .foregroundColor(.primary)
+                }
+
                 Spacer()
+
                 Button(action: {
                     viewModel.startNewThread()
                     withAnimation { showSidebar = false }
                 }) {
-                    Image(systemName: "plus.circle")
-                        .font(.title3)
-                        .foregroundColor(.appBlue)
+                    Image(systemName: "square.and.pencil")
+                        .font(.system(size: 20))
+                        .foregroundColor(.primary)
                 }
             }
-            .padding()
+            .padding(.horizontal, 18)
+            .padding(.vertical, 14)
 
             Divider()
 
@@ -29,8 +37,8 @@ struct ChatSidebarView: View {
                 VStack {
                     Spacer()
                     Text("No conversations yet")
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
+                        .font(.system(size: 15))
+                        .foregroundColor(Color(white: 0.42))
                     Spacer()
                 }
                 .frame(maxWidth: .infinity)
@@ -43,32 +51,24 @@ struct ChatSidebarView: View {
                                 viewModel.messages = []
                                 withAnimation { showSidebar = false }
                             }) {
-                                VStack(alignment: .leading, spacing: 4) {
-                                    Text(thread.title ?? "Untitled")
-                                        .font(.subheadline.weight(.medium))
-                                        .foregroundColor(.primary)
-                                        .lineLimit(1)
-
-                                    if let question = thread.lastQuestion {
-                                        Text(question)
-                                            .font(.caption)
-                                            .foregroundColor(.secondary)
-                                            .lineLimit(2)
-                                    }
-                                }
-                                .padding(.horizontal)
-                                .padding(.vertical, 10)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .background(
-                                    viewModel.currentThreadId == thread.id
-                                        ? Color.appBlue.opacity(0.1)
-                                        : Color.clear
-                                )
+                                Text(thread.title ?? thread.lastQuestion ?? "Untitled")
+                                    .font(.system(size: 15))
+                                    .foregroundColor(.primary)
+                                    .lineLimit(1)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .padding(.vertical, 8)
+                                    .padding(.horizontal, 18)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .fill(viewModel.currentThreadId == thread.id
+                                                  ? Color.black.opacity(0.08)
+                                                  : Color.clear)
+                                            .padding(.horizontal, 8)
+                                    )
                             }
-
-                            Divider().padding(.leading)
                         }
                     }
+                    .padding(.top, 8)
                 }
             }
         }

@@ -6,48 +6,53 @@ struct RegisterView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            HStack {
-                Text("Sign Up")
-                    .font(.largeTitle.bold())
-                Spacer()
-                Button("Sign In") {
-                    path.append(AuthScreen.login)
+            // Header
+            VStack(spacing: 24) {
+                HStack {
+                    Text("Sign Up")
+                        .font(.system(size: 28, weight: .bold))
+                    Spacer()
+                    Button("Sign In") {
+                        path.append(AuthScreen.login)
+                    }
+                    .font(.system(size: 16, weight: .medium))
+                    .foregroundColor(.black)
                 }
-                .foregroundColor(.appBlue)
             }
             .padding(.horizontal, 24)
-            .padding(.top, 24)
+            .padding(.top, 36)
 
-            ScrollView {
-                VStack(spacing: 16) {
-                    FloatingTextField(
+            // Form fields
+            ScrollView(showsIndicators: false) {
+                VStack(spacing: 18) {
+                    ModernTextField(
                         title: "First Name",
                         text: $viewModel.firstName,
                         errorMessage: viewModel.firstNameError,
                         textContentType: .givenName
                     )
 
-                    FloatingTextField(
+                    ModernTextField(
                         title: "Last Name",
                         text: $viewModel.lastName,
                         errorMessage: viewModel.lastNameError,
                         textContentType: .familyName
                     )
 
-                    FloatingTextField(
+                    ModernTextField(
                         title: "Organization (optional)",
                         text: $viewModel.organization,
                         textContentType: .organizationName
                     )
 
-                    FloatingTextField(
+                    ModernTextField(
                         title: "Phone Number (optional)",
                         text: $viewModel.phoneNumber,
                         keyboardType: .phonePad,
                         textContentType: .telephoneNumber
                     )
 
-                    FloatingTextField(
+                    ModernTextField(
                         title: "Email",
                         text: $viewModel.email,
                         errorMessage: viewModel.emailError,
@@ -57,9 +62,11 @@ struct RegisterView: View {
                     )
                 }
                 .padding(.horizontal, 24)
-                .padding(.top, 24)
+                .padding(.top, 32)
+                .padding(.bottom, 24)
             }
 
+            // Sign Up button
             Button(action: {
                 Task {
                     let success = await viewModel.register()
@@ -76,17 +83,18 @@ struct RegisterView: View {
                         Text("Sign Up")
                     }
                 }
-                .font(.headline)
+                .font(.system(size: 17, weight: .semibold))
                 .foregroundColor(.white)
                 .frame(maxWidth: .infinity)
-                .padding()
-                .background(Color.appBlue)
+                .padding(.vertical, 16)
+                .background(Color.black)
                 .cornerRadius(12)
             }
             .disabled(viewModel.isLoading)
             .padding(.horizontal, 24)
-            .padding(.bottom, 32)
+            .padding(.bottom, 40)
         }
+        .background(Color.white)
         .navigationBarBackButtonHidden(true)
         .snackbar(message: $viewModel.snackbar)
     }

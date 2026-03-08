@@ -3,12 +3,18 @@ import SwiftUI
 // MARK: - Main View
 
 struct MainView: View {
+    @EnvironmentObject var authManager: AuthManager
     @State private var isMenuOpen = false
     @State private var selectedDestination: MenuDestination = .home
+    @StateObject private var chatViewModel = ChatViewModel()
 
     var body: some View {
         SideMenuContainer(isOpen: $isMenuOpen) {
-            SideMenuView(selectedDestination: $selectedDestination, isMenuOpen: $isMenuOpen)
+            SideMenuView(
+                selectedDestination: $selectedDestination,
+                isMenuOpen: $isMenuOpen,
+                chatViewModel: chatViewModel
+            )
         } content: {
             NavigationStack {
                 contentView
@@ -19,6 +25,16 @@ struct MainView: View {
                             }) {
                                 Image(systemName: "line.3.horizontal")
                                     .foregroundColor(.primary)
+                            }
+                        }
+                        if selectedDestination == .home {
+                            ToolbarItem(placement: .navigationBarTrailing) {
+                                Button(action: {
+                                    chatViewModel.startNewThread(firstName: authManager.currentUser?.firstName)
+                                }) {
+                                    Image(systemName: "square.and.pencil")
+                                        .foregroundColor(.primary)
+                                }
                             }
                         }
                     }
@@ -32,13 +48,13 @@ struct MainView: View {
     private var contentView: some View {
         switch selectedDestination {
         case .home:
-            HomeView()
+            ChatView(viewModel: chatViewModel)
         case .cases:
             CasesListView()
         case .legislations:
             LegislationsListView()
-        case .search:
-            GlobalSearchView()
+        case .bookmarks:
+            BookmarksView()
         case .settings:
             SettingsView()
         }

@@ -1,6 +1,8 @@
 package org.apptorney.android.ui
 
 import android.content.Intent
+import androidx.compose.ui.res.painterResource
+import org.apptorney.android.R
 import android.net.Uri
 import android.text.Spanned
 import androidx.compose.animation.AnimatedVisibility
@@ -765,9 +767,9 @@ private fun MainShell(
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
                         when (tab) {
-                            MainTab.Home -> Icon(Icons.Default.Chat, contentDescription = null, modifier = Modifier.size(20.dp), tint = tint)
-                            MainTab.Cases -> Icon(Icons.Default.Gavel, contentDescription = null, modifier = Modifier.size(20.dp), tint = tint)
-                            MainTab.Legislations -> Icon(Icons.Default.LibraryBooks, contentDescription = null, modifier = Modifier.size(20.dp), tint = tint)
+                            MainTab.Home -> Icon(painter = painterResource(id = R.drawable.ic_home), contentDescription = null, modifier = Modifier.size(20.dp), tint = tint)
+                            MainTab.Cases -> Icon(painter = painterResource(id = R.drawable.ic_cases), contentDescription = null, modifier = Modifier.size(20.dp), tint = tint)
+                            MainTab.Legislations -> Icon(painter = painterResource(id = R.drawable.ic_legislations), contentDescription = null, modifier = Modifier.size(20.dp), tint = tint)
                             MainTab.Info -> Icon(Icons.Default.Info, contentDescription = null, modifier = Modifier.size(20.dp), tint = tint)
                         }
                         Text(tab.label, style = MaterialTheme.typography.labelSmall, color = tint)

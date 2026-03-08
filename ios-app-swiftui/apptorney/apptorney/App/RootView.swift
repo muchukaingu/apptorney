@@ -14,7 +14,7 @@ struct RootView: View {
             case .onboarding:
                 OnboardingView()
             case .auth:
-                AuthFlowView(startOnLogin: UserDefaults.standard.bool(forKey: "registrationComplete"))
+                AuthFlowView(startOnLogin: true)
             case .main:
                 MainView()
             }

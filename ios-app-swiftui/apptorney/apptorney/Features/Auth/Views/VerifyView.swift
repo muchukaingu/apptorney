@@ -11,39 +11,42 @@ struct VerifyView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            VStack(alignment: .leading, spacing: 12) {
+            // Header
+            VStack(alignment: .leading, spacing: 16) {
                 Text("Verify your Email")
-                    .font(.largeTitle.bold())
+                    .font(.system(size: 28, weight: .bold))
 
-                Text("We sent a verification code to \(viewModel.email). Enter the code below to continue.")
-                    .font(.body)
-                    .foregroundColor(.secondary)
+                Text("We sent a verification code to **\(viewModel.email)**. Enter the code below to continue.")
+                    .font(.system(size: 15))
+                    .foregroundColor(Color(white: 0.42))
+                    .lineSpacing(3)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.horizontal, 24)
-            .padding(.top, 24)
+            .padding(.top, 56)
 
-            VStack(spacing: 16) {
-                TextField("Verification Code", text: $viewModel.otp)
-                    .keyboardType(.numberPad)
-                    .textContentType(.oneTimeCode)
-                    .font(.title2.monospacedDigit())
-                    .multilineTextAlignment(.center)
-                    .padding()
-                    .background(Color(.secondarySystemBackground))
-                    .cornerRadius(12)
+            // OTP input
+            VStack(spacing: 20) {
+                ModernTextField(
+                    title: "Verification Code",
+                    text: $viewModel.otp,
+                    keyboardType: .numberPad,
+                    textContentType: .oneTimeCode
+                )
 
                 Button("Resend Code") {
                     Task { await viewModel.resendCode() }
                 }
-                .foregroundColor(.appBlue)
+                .font(.system(size: 15, weight: .medium))
+                .foregroundColor(.black)
                 .disabled(viewModel.isLoading)
             }
             .padding(.horizontal, 24)
-            .padding(.top, 32)
+            .padding(.top, 36)
 
             Spacer()
 
+            // Verify button
             Button(action: {
                 Task {
                     await viewModel.verify(authManager: authManager, appState: appState)
@@ -57,17 +60,18 @@ struct VerifyView: View {
                         Text("Verify")
                     }
                 }
-                .font(.headline)
+                .font(.system(size: 17, weight: .semibold))
                 .foregroundColor(.white)
                 .frame(maxWidth: .infinity)
-                .padding()
-                .background(Color.appBlue)
+                .padding(.vertical, 16)
+                .background(Color.black)
                 .cornerRadius(12)
             }
             .disabled(viewModel.isLoading)
             .padding(.horizontal, 24)
-            .padding(.bottom, 32)
+            .padding(.bottom, 40)
         }
+        .background(Color.white)
         .snackbar(message: $viewModel.snackbar)
     }
 }

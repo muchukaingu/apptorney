@@ -119,8 +119,11 @@ class LoginViewController: UIViewController, SettingsTableViewControllerDelegate
         let sb = UIStoryboard(name: "Main", bundle: nil)
         let verifyVC = sb.instantiateViewController(withIdentifier: "Verify") as! VerifyViewController
         verifyVC.email = email
-        verifyVC.modalPresentationStyle = .fullScreen
-        self.present(verifyVC, animated: true, completion: nil)
+
+        guard let window = UIApplication.shared.delegate?.window ?? nil else { return }
+        UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve, animations: {
+            window.rootViewController = verifyVC
+        }, completion: nil)
     }
 
     // MARK: - Login (send OTP)
@@ -202,11 +205,10 @@ class LoginViewController: UIViewController, SettingsTableViewControllerDelegate
     }
 
     @IBAction func returnToSignUp() {
-        let userDefaults = UserDefaults.standard
-        if userDefaults.bool(forKey: "loggedOut") {
-            self.performSegue(withIdentifier: "signUp", sender: self)
-        } else {
+        if self.presentingViewController != nil {
             self.dismiss(animated: true, completion: nil)
+        } else {
+            self.performSegue(withIdentifier: "signUp", sender: self)
         }
     }
 }

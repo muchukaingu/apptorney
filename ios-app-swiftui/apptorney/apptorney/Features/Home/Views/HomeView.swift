@@ -29,14 +29,6 @@ struct HomeView: View {
             .padding(.vertical)
         }
         .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                NavigationLink {
-                    ChatView()
-                } label: {
-                    Image(systemName: "bubble.left.and.bubble.right")
-                        .foregroundColor(.appBlue)
-                }
-            }
         }
         .snackbar(message: $viewModel.snackbar)
         .task {

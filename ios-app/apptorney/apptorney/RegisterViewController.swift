@@ -145,8 +145,11 @@ class RegisterViewController: UIViewController {
         let sb = UIStoryboard(name: "Main", bundle: nil)
         let verifyVC = sb.instantiateViewController(withIdentifier: "Verify") as! VerifyViewController
         verifyVC.email = email
-        verifyVC.modalPresentationStyle = .fullScreen
-        self.present(verifyVC, animated: true, completion: nil)
+
+        guard let window = UIApplication.shared.delegate?.window ?? nil else { return }
+        UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve, animations: {
+            window.rootViewController = verifyVC
+        }, completion: nil)
     }
 
     // MARK: - Register (sends OTP to email)

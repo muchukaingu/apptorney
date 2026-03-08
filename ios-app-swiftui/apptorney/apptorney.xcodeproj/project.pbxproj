@@ -32,6 +32,7 @@
 		7258B82F9AEB05B952FE1FFD /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949C5F7DA925874EA6696172 /* SettingsView.swift */; };
 		7458959320A4CEB80D405FC4 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 522EF06CD79A3318683277ED /* ChatView.swift */; };
 		76879E9601A863B2E2101256 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFAE31A15457481B22A1BA29 /* User.swift */; };
+		773382E305CE4879FCDB83D0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 87000C9E28133946F9D2CEC3 /* Images.xcassets */; };
 		7AD8A11AC6C92F557C7A9A1A /* LegislationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC007789554C91BE951A46A8 /* LegislationDetailView.swift */; };
 		8C8A3C63A8034DAF1053F485 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD006D8E23BEFC7629F51A08 /* RegisterView.swift */; };
 		918B786568B2CEFA1B1B12B3 /* SideMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D2BAA5EB1322019DFC059C4 /* SideMenuView.swift */; };
@@ -45,6 +46,7 @@
 		B0220327EAF14A4976A1D93D /* ChatSidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC1D8BDF3E79FC398E6C994 /* ChatSidebarView.swift */; };
 		B03304328F0380DAD1E3E948 /* AuthFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95AEC3B18D714C1F8B4D2369 /* AuthFlowView.swift */; };
 		B08498D00D2FBC1EFA0CB3AA /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58FE189AAACAB846C496B777 /* AppError.swift */; };
+		B6870C711103A59F9225BC9C /* BookmarksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F6016C1423FE2CB0632D3 /* BookmarksView.swift */; };
 		B6CFFFC2D45135EE9B292DA3 /* UpdateRequiredView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77FB499BF75A0F264C996D25 /* UpdateRequiredView.swift */; };
 		B7C26184A6EB6830719EAA86 /* LegislationFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5265BC1CC8F1301623B790F /* LegislationFilterView.swift */; };
 		BE39DAD737FBF8B97618B9DB /* VerifyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F62F830337B0083C706F90 /* VerifyViewModel.swift */; };
@@ -89,6 +91,7 @@
 		6EDE86BEB79EE9C660B2A92A /* HomeItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeItem.swift; sourceTree = "<group>"; };
 		7045FBB66386958D5B1AA3CE /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		708C9D386E29C519D7FC2F0C /* LegislationPart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegislationPart.swift; sourceTree = "<group>"; };
+		767BC10C67BEFAC884929C21 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		77FB499BF75A0F264C996D25 /* UpdateRequiredView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateRequiredView.swift; sourceTree = "<group>"; };
 		7C28D26496DA5DC1FFEC9703 /* ApptorneyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApptorneyApp.swift; sourceTree = "<group>"; };
 		7C5F77E1BE145A34CEBD8F64 /* ChatMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageView.swift; sourceTree = "<group>"; };
@@ -98,11 +101,13 @@
 		82F62F830337B0083C706F90 /* VerifyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyViewModel.swift; sourceTree = "<group>"; };
 		8365AC95C946B99215A9C416 /* FloatingTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingTextField.swift; sourceTree = "<group>"; };
 		840422CB68ED879D369C3BB6 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		87000C9E28133946F9D2CEC3 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		90A86F58FC8D958A0484EC8B /* EmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
 		949C5F7DA925874EA6696172 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		95AEC3B18D714C1F8B4D2369 /* AuthFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthFlowView.swift; sourceTree = "<group>"; };
 		9DF1198EE1F2EBDF304A9D92 /* ChatThread.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatThread.swift; sourceTree = "<group>"; };
 		A3040247A866133EDB640D9F /* LegislationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegislationsViewModel.swift; sourceTree = "<group>"; };
+		A57F6016C1423FE2CB0632D3 /* BookmarksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksView.swift; sourceTree = "<group>"; };
 		B1A61CD8A3D7EFFA18EF8EC1 /* CasesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CasesViewModel.swift; sourceTree = "<group>"; };
 		C0F93C93D6451217F374147C /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		C1715A2237A7022D2E2243A3 /* apptorney.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = apptorney.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -130,6 +135,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
+		06C2A13BDD9A9AB9A870F2CB /* Bookmarks */ = {
+			isa = PBXGroup;
+			children = (
+				B0F2898086B0E7177275E88D /* Views */,
+			);
+			path = Bookmarks;
+			sourceTree = "<group>";
+		};
 		0A6DB99E1DAF15A0855A0752 /* Update */ = {
 			isa = PBXGroup;
 			children = (
@@ -149,6 +162,8 @@
 		114DDE9EB5561F0EA4E1200F /* apptorney */ = {
 			isa = PBXGroup;
 			children = (
+				87000C9E28133946F9D2CEC3 /* Images.xcassets */,
+				767BC10C67BEFAC884929C21 /* Info.plist */,
 				9C7C98FE5CC134FD32A97BFD /* App */,
 				8FB095BA46368EFD8074CD03 /* Core */,
 				6C75F171E73CED2E00572E35 /* Features */,
@@ -248,6 +263,7 @@
 			isa = PBXGroup;
 			children = (
 				C5176F85F0FA781C626FACDC /* Auth */,
+				06C2A13BDD9A9AB9A870F2CB /* Bookmarks */,
 				734B0B6EE133F10E762B7754 /* Cases */,
 				E5A1217A31BAFC1055D38574 /* Chat */,
 				A190C2298AEE8C02F2AEFAA2 /* Home */,
@@ -396,6 +412,14 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
+		B0F2898086B0E7177275E88D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A57F6016C1423FE2CB0632D3 /* BookmarksView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		C5176F85F0FA781C626FACDC /* Auth */ = {
 			isa = PBXGroup;
 			children = (
@@ -515,6 +539,7 @@
 			buildConfigurationList = 7F60BD5913172634A9F238FA /* Build configuration list for PBXNativeTarget "apptorney" */;
 			buildPhases = (
 				57E4B0EA8BB8D2AB55057435 /* Sources */,
+				04B0723D3CE7BF8EAA2AC18B /* Resources */,
 			);
 			buildRules = (
 			);
@@ -557,6 +582,17 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		04B0723D3CE7BF8EAA2AC18B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				773382E305CE4879FCDB83D0 /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		57E4B0EA8BB8D2AB55057435 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -569,6 +605,7 @@
 				1A32DF85C8821EBA21862CDC /* ApptorneyApp.swift in Sources */,
 				B03304328F0380DAD1E3E948 /* AuthFlowView.swift in Sources */,
 				3CAB58D36A8F139B4ED5418E /* AuthManager.swift in Sources */,
+				B6870C711103A59F9225BC9C /* BookmarksView.swift in Sources */,
 				0EA9D9422703EBF93B68AEB1 /* Case.swift in Sources */,
 				62191FCC3ECE3A854EBE877E /* CaseDetailView.swift in Sources */,
 				A70556AB35DFE819378D2A46 /* CaseFilterView.swift in Sources */,
@@ -631,6 +668,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = apptorney/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Apptorney;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -775,6 +813,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = apptorney/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Apptorney;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				LD_RUNPATH_SEARCH_PATHS = (

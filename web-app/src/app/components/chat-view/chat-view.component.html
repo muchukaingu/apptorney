@@ -5,7 +5,7 @@
 
   <div class="chat-messages" *ngIf="!isChatEmpty">
     <article class="message" [class.message--user]="message.role === 'user'" [class.message--assistant]="message.role === 'assistant'" *ngFor="let message of messages">
-      <div class="message__bubble">
+      <div class="message__bubble" (click)="onBubbleClick($event, message)">
         <p [innerHTML]="formatMessageHtml(message.text)"></p>
         <div class="references" *ngIf="message.role === 'assistant' && message.references.length > 0">
           <h4>References</h4>

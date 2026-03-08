@@ -240,10 +240,14 @@ module.exports = function(Search) {
             if (!content) {
                 continue
             }
-            normalized.push({
+            var entry = {
                 role: role,
                 content: content
-            })
+            }
+            if (role === 'assistant' && Array.isArray(item.sources) && item.sources.length > 0) {
+                entry.sources = item.sources
+            }
+            normalized.push(entry)
         }
         if (normalized.length > MAX_THREAD_MESSAGES) {
             normalized = normalized.slice(normalized.length - MAX_THREAD_MESSAGES)
@@ -1398,7 +1402,7 @@ module.exports = function(Search) {
 
                         var finalHistory = historyMessages
                             .concat([{ role: 'user', content: question.trim() }])
-                            .concat([{ role: 'assistant', content: aiResponse.text }])
+                            .concat([{ role: 'assistant', content: aiResponse.text, sources: sources }])
                         if (finalHistory.length > MAX_THREAD_MESSAGES) {
                             finalHistory = finalHistory.slice(finalHistory.length - MAX_THREAD_MESSAGES)
                         }

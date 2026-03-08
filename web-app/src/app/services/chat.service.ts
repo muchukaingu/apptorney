@@ -284,7 +284,15 @@ export class ChatService {
         if (!text) {
           return null;
         }
-        return { role, text, references: [] } as ChatMessage;
+        const references = Array.isArray(item.sources)
+          ? item.sources.map((s: any) => ({
+              source: String(s.source ?? ''),
+              id: String(s.id ?? ''),
+              type: String(s.type ?? ''),
+              title: String(s.title ?? '')
+            }))
+          : [];
+        return { role, text, references } as ChatMessage;
       })
       .filter((item: ChatMessage | null): item is ChatMessage => item !== null);
   }

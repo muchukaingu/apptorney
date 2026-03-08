@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { ChatMessage, ChatReference } from '../../models/app.models';
 import { AskScope } from '../../models/ui.models';
@@ -12,6 +13,8 @@ import { formatMarkdown } from '../../utils/format-markdown';
   templateUrl: './chat-view.component.html'
 })
 export class ChatViewComponent {
+  constructor(private sanitizer: DomSanitizer) {}
+
   @Input() isChatEmpty = false;
   @Input() messages: ChatMessage[] = [];
   @Input() awaitingResponse = false;
@@ -38,8 +41,18 @@ export class ChatViewComponent {
     }
   }
 
-  formatMessageHtml(text: string): string {
-    return formatMarkdown(text, 'chat');
+  formatMessageHtml(text: string): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(formatMarkdown(text, 'chat'));
+  }
+
+  onBubbleClick(event: MouseEvent, message: ChatMessage): void {
+    const target = event.target as HTMLElement;
+    if (target.classList.contains('ref-chip--chat')) {
+      const refIndex = parseInt(target.getAttribute('data-ref') || '', 10);
+      if (!isNaN(refIndex) && message.references?.[refIndex - 1]) {
+        this.openReference.emit(message.references[refIndex - 1]);
+      }
+    }
   }
 
   titleCase(value: unknown): string {

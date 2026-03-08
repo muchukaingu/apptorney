@@ -23,7 +23,10 @@ export function formatMarkdown(
       '<span class="ref-chip ref-chip--landing">$1</span>'
     );
   } else {
-    html = html.replace(/\[S(\d+)\]/gi, '<sup>[S$1]</sup>');
+    html = html.replace(
+      /\[S(\d+)\]/gi,
+      '<span class="ref-chip ref-chip--chat" data-ref="$1">$1</span>'
+    );
   }
 
   return html;

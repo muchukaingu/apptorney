@@ -4,6 +4,6 @@
 }
 
 .status-text--error {
-  color: #111111;
+  color: var(--ink);
   font-weight: 600;
 }

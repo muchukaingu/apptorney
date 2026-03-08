@@ -66,6 +66,15 @@ module.exports = function (app) {
         var finished = 0
         var sent = false
 
+        // Safety timeout: send partial results after 55s
+        var safetyTimer = setTimeout(function () {
+            if (!sent) {
+                sent = true
+                console.log('Overview: safety timeout reached, sending partial results (' + finished + '/' + pending + ' done)')
+                res.json(result)
+            }
+        }, 55000)
+
         function track(fn) {
             pending++
             fn(function (err) {
@@ -73,6 +82,7 @@ module.exports = function (app) {
                 finished++
                 if (!sent && finished === pending) {
                     sent = true
+                    clearTimeout(safetyTimer)
                     res.json(result)
                 }
             })
@@ -388,6 +398,14 @@ module.exports = function (app) {
         var finished = 0
         var sent = false
 
+        var safetyTimer = setTimeout(function () {
+            if (!sent) {
+                sent = true
+                console.log('Content: safety timeout reached, sending partial results (' + finished + '/' + pending + ' done)')
+                res.json(result)
+            }
+        }, 55000)
+
         function track(fn) {
             pending++
             fn(function (err) {
@@ -395,6 +413,7 @@ module.exports = function (app) {
                 finished++
                 if (!sent && finished === pending) {
                     sent = true
+                    clearTimeout(safetyTimer)
                     res.json(result)
                 }
             })

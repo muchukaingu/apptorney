@@ -1,0 +1,2 @@
+FROM 507609143843.dkr.ecr.eu-west-2.amazonaws.com/apptorney-backend:latest
+COPY server/boot/admin-routes.js /usr/src/app/server/boot/admin-routes.js

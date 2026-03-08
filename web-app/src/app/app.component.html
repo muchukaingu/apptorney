@@ -49,6 +49,7 @@
     (setView)="setView($event)"
     (refreshThreads)="refreshThreads()"
     (loadThread)="loadThread($event)"
+    (toggleSidebar)="sidebarOpen = !sidebarOpen"
   ></app-sidebar>
 
   <main class="main-panel">
@@ -76,7 +77,13 @@
         </h2>
       </div>
       <div class="header-actions">
-        <button class="icon-btn mobile-only" title="Toggle sidebar" (click)="sidebarOpen = !sidebarOpen">☰</button>
+        <button class="icon-btn sidebar-expand-btn" [class.is-hidden]="sidebarOpen" title="Expand sidebar" (click)="sidebarOpen = !sidebarOpen">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="14" height="14" rx="2"/>
+            <line x1="7" y1="2" x2="7" y2="16"/>
+            <polyline points="9 7 11 9 9 11"/>
+          </svg>
+        </button>
 
         <div class="user-menu">
           <button
@@ -210,7 +217,7 @@
 
     <section class="view is-visible" *ngIf="view === 'subscription'">
       <div class="subscription-page">
-        <!-- No active subscription: show pricing -->
+        <!-- No subscription: show pricing -->
         <div *ngIf="!subscriptionStatus?.isActive">
           <div class="billing-toggle">
             <button [class.is-active]="selectedBillingCycle === 'monthly'" (click)="selectedBillingCycle = 'monthly'">Monthly</button>
@@ -244,7 +251,7 @@
           </div>
         </div>
 
-        <!-- Active subscription: show status -->
+        <!-- Has subscription (active or pending): show status -->
         <div *ngIf="subscriptionStatus?.isActive">
           <div class="cards-grid">
             <article class="resource-card">
@@ -255,40 +262,46 @@
               </div>
               <div class="settings-field">
                 <span class="settings-field__label">Status</span>
-                <span class="settings-field__value">Active</span>
+                <span class="settings-field__value" [ngClass]="{'status--pending': subscriptionStatus!.subscription?.status === 'pending', 'status--active': subscriptionStatus!.subscription?.status === 'active'}">
+                  {{ subscriptionStatus!.subscription?.status === 'pending' ? 'Pending Payment' : 'Active' }}
+                </span>
               </div>
               <div class="settings-field">
                 <span class="settings-field__label">Billing</span>
                 <span class="settings-field__value">{{ subscriptionStatus!.subscription?.billingCycle || '—' }}</span>
               </div>
-              <div class="settings-field">
+              <div class="settings-field" *ngIf="subscriptionStatus!.subscription?.status === 'active'">
                 <span class="settings-field__label">Days remaining</span>
                 <span class="settings-field__value">{{ subscriptionStatus!.daysRemaining }}</span>
               </div>
             </article>
 
-            <article class="resource-card">
-              <h3>Confirm Payment</h3>
-              <label>
-                Amount ($)
-                <input type="number" [(ngModel)]="paymentAmount" name="paymentAmount" placeholder="50.00" />
-              </label>
-              <label>
-                Payment method
-                <select [(ngModel)]="paymentMethod" name="paymentMethod">
-                  <option value="">Select method</option>
-                  <option value="mobile_money">Mobile Money</option>
-                  <option value="bank_transfer">Bank Transfer</option>
-                  <option value="card">Card</option>
-                </select>
-              </label>
-              <label>
-                Reference
-                <input type="text" [(ngModel)]="paymentReference" name="paymentReference" placeholder="Transaction reference" />
-              </label>
-              <button class="primary-btn" [disabled]="subscriptionLoading" (click)="confirmPayment()">
-                {{ subscriptionLoading ? 'Submitting...' : 'Confirm Payment' }}
-              </button>
+            <!-- Pending: show payment instructions -->
+            <article class="resource-card" *ngIf="subscriptionStatus!.subscription?.status === 'pending'">
+              <h3>Payment Required</h3>
+              <p class="payment-hint">
+                Your subscription is pending payment confirmation. Please make your payment using one of the methods below, then contact your administrator to confirm.
+              </p>
+              <div class="payment-methods">
+                <div class="payment-method">
+                  <strong>Mobile Money</strong>
+                  <p>Send payment to the number provided in your welcome email.</p>
+                </div>
+                <div class="payment-method">
+                  <strong>Bank Transfer</strong>
+                  <p>Transfer to the account details provided in your welcome email.</p>
+                </div>
+              </div>
+            </article>
+
+            <!-- Active: show subscription details -->
+            <article class="resource-card" *ngIf="subscriptionStatus!.subscription?.status === 'active'">
+              <h3>Subscription Active</h3>
+              <p class="payment-hint">Your subscription is active and in good standing.</p>
+              <div class="settings-field" *ngIf="subscriptionStatus!.subscription?.endDate">
+                <span class="settings-field__label">Renews</span>
+                <span class="settings-field__value">{{ subscriptionStatus!.subscription!.endDate | date:'mediumDate' }}</span>
+              </div>
             </article>
           </div>
         </div>
@@ -297,80 +310,118 @@
 
     <section class="view is-visible" *ngIf="view === 'admin'">
       <div class="admin-dashboard" *ngIf="isAdmin">
-        <div class="cards-grid admin-kpi-grid">
-          <article class="resource-card admin-kpi">
-            <h4>Total Users</h4>
-            <p class="admin-kpi__value">{{ adminOverview?.totalUsers ?? '—' }}</p>
-          </article>
-          <article class="resource-card admin-kpi">
-            <h4>Active Subscriptions</h4>
-            <p class="admin-kpi__value">{{ adminOverview?.activeSubscriptions ?? '—' }}</p>
-          </article>
-          <article class="resource-card admin-kpi">
-            <h4>Monthly Revenue</h4>
-            <p class="admin-kpi__value">${{ adminOverview?.monthlyRevenue ?? '—' }}</p>
-          </article>
-          <article class="resource-card admin-kpi">
-            <h4>Total Queries</h4>
-            <p class="admin-kpi__value">{{ adminOverview?.totalQueries ?? '—' }}</p>
-          </article>
+        <!-- Loading skeleton -->
+        <div *ngIf="adminLoading && !adminOverview" class="admin-loading">
+          <div class="cards-grid admin-kpi-grid">
+            <article class="resource-card admin-kpi" *ngFor="let i of [1,2,3,4]">
+              <div class="skeleton skeleton--label"></div>
+              <div class="skeleton skeleton--value"></div>
+            </article>
+          </div>
+          <div class="cards-grid">
+            <article class="resource-card">
+              <div class="skeleton skeleton--heading"></div>
+              <div class="skeleton skeleton--line"></div>
+              <div class="skeleton skeleton--line" style="width: 60%"></div>
+            </article>
+            <article class="resource-card">
+              <div class="skeleton skeleton--heading"></div>
+              <div class="skeleton skeleton--line"></div>
+              <div class="skeleton skeleton--line" style="width: 75%"></div>
+            </article>
+          </div>
+          <p class="admin-loading__hint">Loading dashboard data&hellip;</p>
         </div>
 
-        <div class="cards-grid">
-          <article class="resource-card">
-            <h3>Subscription Breakdown</h3>
-            <div class="stack-list" *ngIf="adminSubscriptions.length > 0; else noAdminSubs">
-              <article class="list-item" *ngFor="let item of adminSubscriptions">
-                <h4>{{ item.plan }} ({{ item.status }})</h4>
-                <p>{{ item.count }} subscription(s)</p>
-              </article>
-            </div>
-            <ng-template #noAdminSubs>
-              <article class="list-item"><h4>No subscription data</h4></article>
-            </ng-template>
-          </article>
+        <!-- Loaded content -->
+        <ng-container *ngIf="adminOverview">
+          <div class="cards-grid admin-kpi-grid">
+            <article class="resource-card admin-kpi">
+              <h4>Total Users</h4>
+              <p class="admin-kpi__value">{{ adminOverview.totalUsers }}</p>
+            </article>
+            <article class="resource-card admin-kpi">
+              <h4>Active Subscriptions</h4>
+              <p class="admin-kpi__value">{{ adminOverview.activeSubscriptions }}</p>
+            </article>
+            <article class="resource-card admin-kpi">
+              <h4>Monthly Revenue</h4>
+              <p class="admin-kpi__value">${{ adminOverview.monthlyRevenue }}</p>
+            </article>
+            <article class="resource-card admin-kpi">
+              <h4>Total Queries</h4>
+              <p class="admin-kpi__value">{{ adminOverview.totalQueries }}</p>
+            </article>
+          </div>
 
-          <article class="resource-card">
-            <h3>Content</h3>
-            <div class="settings-field">
-              <span class="settings-field__label">Cases</span>
-              <span class="settings-field__value">{{ adminContent?.totalCases ?? '—' }}</span>
-            </div>
-            <div class="settings-field">
-              <span class="settings-field__label">Legislations</span>
-              <span class="settings-field__value">{{ adminContent?.totalLegislations ?? '—' }}</span>
-            </div>
-            <div class="stack-list" *ngIf="adminContent?.recentlyAdded?.length">
-              <h4 style="margin-top: 12px;">Recently Added</h4>
-              <article class="list-item" *ngFor="let item of adminContent!.recentlyAdded">
-                <h4>{{ item.title }}</h4>
-                <p>{{ item.type }} — {{ item.addedAt }}</p>
-              </article>
-            </div>
-          </article>
-        </div>
-
-        <div class="cards-grid" style="grid-template-columns: 1fr;">
-          <article class="resource-card">
-            <div class="resource-card__header">
-              <h3>Recent Payments</h3>
-              <div>
-                <button class="text-btn" [disabled]="adminPaymentsPage <= 1" (click)="loadAdminPayments(adminPaymentsPage - 1)">Prev</button>
-                <span style="margin: 0 8px; font-size: 13px;">Page {{ adminPaymentsPage }}</span>
-                <button class="text-btn" (click)="loadAdminPayments(adminPaymentsPage + 1)">Next</button>
+          <div class="cards-grid">
+            <article class="resource-card">
+              <h3>Subscription Breakdown</h3>
+              <div class="stack-list" *ngIf="adminSubscriptions.length > 0; else noAdminSubs">
+                <article class="list-item" *ngFor="let item of adminSubscriptions">
+                  <h4>{{ item.plan }} ({{ item.status }})</h4>
+                  <p>{{ item.count }} subscription(s)</p>
+                </article>
               </div>
-            </div>
-            <div class="stack-list" *ngIf="adminPayments.length > 0; else noAdminPayments">
-              <article class="list-item" *ngFor="let payment of adminPayments">
-                <h4>${{ payment.amount }} — {{ payment.method }}</h4>
-                <p>Ref: {{ payment.reference }} | Status: {{ payment.status }} | {{ payment.createdAt }}</p>
-              </article>
-            </div>
-            <ng-template #noAdminPayments>
-              <article class="list-item"><h4>No payments yet</h4></article>
-            </ng-template>
-          </article>
-        </div>
+              <ng-template #noAdminSubs>
+                <article class="list-item"><h4>No subscription data</h4></article>
+              </ng-template>
+            </article>
+
+            <article class="resource-card">
+              <h3>Content</h3>
+              <div *ngIf="adminContent; else contentLoading">
+                <div class="settings-field">
+                  <span class="settings-field__label">Cases</span>
+                  <span class="settings-field__value">{{ adminContent.totalCases | number }}</span>
+                </div>
+                <div class="settings-field">
+                  <span class="settings-field__label">Legislations</span>
+                  <span class="settings-field__value">{{ adminContent.totalLegislations | number }}</span>
+                </div>
+              </div>
+              <ng-template #contentLoading>
+                <div class="settings-field">
+                  <span class="settings-field__label">Cases</span>
+                  <span class="settings-field__value"><span class="skeleton skeleton--inline"></span></span>
+                </div>
+                <div class="settings-field">
+                  <span class="settings-field__label">Legislations</span>
+                  <span class="settings-field__value"><span class="skeleton skeleton--inline"></span></span>
+                </div>
+              </ng-template>
+              <div class="stack-list" *ngIf="adminContent?.recentlyAdded?.length">
+                <h4 style="margin-top: 12px;">Recently Added</h4>
+                <article class="list-item" *ngFor="let item of adminContent!.recentlyAdded">
+                  <h4>{{ item.title }}</h4>
+                  <p>{{ item.type }} — {{ item.addedAt }}</p>
+                </article>
+              </div>
+            </article>
+          </div>
+
+          <div class="cards-grid" style="grid-template-columns: 1fr;">
+            <article class="resource-card">
+              <div class="resource-card__header">
+                <h3>Recent Payments</h3>
+                <div>
+                  <button class="text-btn" [disabled]="adminPaymentsPage <= 1" (click)="loadAdminPayments(adminPaymentsPage - 1)">Prev</button>
+                  <span style="margin: 0 8px; font-size: 13px;">Page {{ adminPaymentsPage }}</span>
+                  <button class="text-btn" (click)="loadAdminPayments(adminPaymentsPage + 1)">Next</button>
+                </div>
+              </div>
+              <div class="stack-list" *ngIf="adminPayments.length > 0; else noAdminPayments">
+                <article class="list-item" *ngFor="let payment of adminPayments">
+                  <h4>${{ payment.amount }} — {{ payment.method }}</h4>
+                  <p>Ref: {{ payment.reference }} | Status: {{ payment.status }} | {{ payment.createdAt }}</p>
+                </article>
+              </div>
+              <ng-template #noAdminPayments>
+                <article class="list-item"><h4>No payments yet</h4></article>
+              </ng-template>
+            </article>
+          </div>
+        </ng-container>
       </div>
 
       <div *ngIf="!isAdmin" style="padding: 40px; text-align: center;">

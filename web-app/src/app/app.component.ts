@@ -29,7 +29,7 @@ export class AppComponent implements OnInit, OnDestroy {
   } as const;
 
   view: ViewName = 'chat';
-  sidebarOpen = false;
+  sidebarOpen = true;
   userMenuOpen = false;
   showLanding = false;
   loginModalOpen = false;
@@ -316,6 +316,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.view = 'admin';
       this.sidebarOpen = true;
       this.loadAdminDashboard();
+      this.fetchChatThreads();
     } else if (this.hasActiveSubscription) {
       this.showLanding = false;
       this.fetchChatThreads();
@@ -484,6 +485,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private async askAI(
     prompt: string
   ): Promise<{ ok: boolean; answer?: string; references?: ChatReference[]; message?: string; debugMessage?: string; userMessage?: string }> {
+    this.syncAccessToken();
     const result = await this.chatService.askAI({
       prompt,
       scope: this.askScope,
@@ -550,6 +552,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   async fetchChatThreads(): Promise<void> {
+    this.syncAccessToken();
     this.threads = await this.chatService.fetchChatThreads(this.accessToken);
   }
 
@@ -561,6 +564,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.stopStreaming();
     this.awaitingResponse = false;
 
+    this.syncAccessToken();
     const response = await this.chatService.loadThread(threadId, this.accessToken);
     if (!response.ok) {
       this.setStatus('Failed to load selected thread.', 'error');
@@ -878,16 +882,20 @@ export class AppComponent implements OnInit, OnDestroy {
 
   async loadPricingPlans(): Promise<void> {
     const result = await this.subscriptionService.getPricing();
-    if (result.ok) {
-      this.pricingPlans = result.plans;
-    }
+    this.ngZone.run(() => {
+      if (result.ok) {
+        this.pricingPlans = result.plans;
+      }
+    });
   }
 
   async loadSubscriptionStatus(): Promise<void> {
     const result = await this.subscriptionService.getSubscriptionStatus();
-    if (result.ok && result.status) {
-      this.subscriptionStatus = result.status;
-    }
+    this.ngZone.run(() => {
+      if (result.ok && result.status) {
+        this.subscriptionStatus = result.status;
+      }
+    });
   }
 
   async subscribeToPlan(planId: string, organizationName?: string): Promise<void> {
@@ -895,14 +903,16 @@ export class AppComponent implements OnInit, OnDestroy {
     this.setStatus('Subscribing...');
 
     const result = await this.subscriptionService.subscribe(planId, this.selectedBillingCycle, organizationName);
-    this.subscriptionLoading = false;
+    this.ngZone.run(() => {
+      this.subscriptionLoading = false;
 
-    if (!result.ok) {
-      this.setStatus(result.message || 'Subscription failed.', 'error');
-      return;
-    }
+      if (!result.ok) {
+        this.setStatus(result.message || 'Subscription failed.', 'error');
+        return;
+      }
 
-    this.setStatus('Subscribed successfully.');
+      this.setStatus('Subscribed! Please confirm payment to activate.');
+    });
     await this.loadSubscriptionStatus();
   }
 
@@ -920,17 +930,19 @@ export class AppComponent implements OnInit, OnDestroy {
     const result = await this.subscriptionService.confirmPayment(
       this.subscriptionStatus.subscription.id, amount, method, reference
     );
-    this.subscriptionLoading = false;
+    this.ngZone.run(() => {
+      this.subscriptionLoading = false;
 
-    if (!result.ok) {
-      this.setStatus(result.message || 'Payment confirmation failed.', 'error');
-      return;
-    }
+      if (!result.ok) {
+        this.setStatus(result.message || 'Payment confirmation failed.', 'error');
+        return;
+      }
 
-    this.paymentAmount = '';
-    this.paymentMethod = '';
-    this.paymentReference = '';
-    this.setStatus(result.message || 'Payment confirmed.');
+      this.paymentAmount = '';
+      this.paymentMethod = '';
+      this.paymentReference = '';
+      this.setStatus(result.message || 'Payment confirmed.');
+    });
     await this.loadSubscriptionStatus();
   }
 
@@ -945,28 +957,34 @@ export class AppComponent implements OnInit, OnDestroy {
       this.loadAdminPayments(),
       this.loadAdminContent()
     ]);
-    this.adminLoading = false;
+    this.ngZone.run(() => { this.adminLoading = false; });
   }
 
   async loadAdminOverview(): Promise<void> {
     const result = await this.adminService.getOverview();
-    if (result.ok && result.data) {
-      this.adminOverview = result.data;
-    }
+    this.ngZone.run(() => {
+      if (result.ok && result.data) {
+        this.adminOverview = result.data;
+      }
+    });
   }
 
   async loadAdminGrowth(period?: number): Promise<void> {
     const result = await this.adminService.getGrowth(period);
-    if (result.ok && result.data) {
-      this.adminGrowth = result.data;
-    }
+    this.ngZone.run(() => {
+      if (result.ok && result.data) {
+        this.adminGrowth = result.data;
+      }
+    });
   }
 
   async loadAdminSubscriptions(): Promise<void> {
     const result = await this.adminService.getSubscriptions();
-    if (result.ok && result.data) {
-      this.adminSubscriptions = result.data;
-    }
+    this.ngZone.run(() => {
+      if (result.ok && result.data) {
+        this.adminSubscriptions = result.data;
+      }
+    });
   }
 
   async loadAdminPayments(page?: number): Promise<void> {
@@ -974,17 +992,21 @@ export class AppComponent implements OnInit, OnDestroy {
       this.adminPaymentsPage = page;
     }
     const result = await this.adminService.getPayments(this.adminPaymentsPage);
-    if (result.ok) {
-      this.adminPayments = result.data || [];
-      this.adminPaymentsTotal = result.total || 0;
-    }
+    this.ngZone.run(() => {
+      if (result.ok) {
+        this.adminPayments = result.data || [];
+        this.adminPaymentsTotal = result.total || 0;
+      }
+    });
   }
 
   async loadAdminContent(): Promise<void> {
     const result = await this.adminService.getContent();
-    if (result.ok && result.data) {
-      this.adminContent = result.data;
-    }
+    this.ngZone.run(() => {
+      if (result.ok && result.data) {
+        this.adminContent = result.data;
+      }
+    });
   }
 
   openReference(reference: ChatReference): void {
@@ -1049,6 +1071,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.view = 'admin';
         this.sidebarOpen = true;
         this.loadAdminDashboard();
+        this.fetchChatThreads();
       } else if (this.hasActiveSubscription) {
         this.showLanding = false;
         this.fetchChatThreads();
@@ -1059,6 +1082,11 @@ export class AppComponent implements OnInit, OnDestroy {
     } else {
       this.showLanding = true;
     }
+  }
+
+  /** Keep this.accessToken in sync with localStorage (ApiService may have refreshed it) */
+  private syncAccessToken(): void {
+    this.accessToken = this.toCleanString(localStorage.getItem(this.storageKeys.accessToken));
   }
 
   private persistSession(): void {

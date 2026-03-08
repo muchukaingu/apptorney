@@ -19,6 +19,7 @@ export class AppSidebarComponent {
   @Output() setView = new EventEmitter<ViewName>();
   @Output() refreshThreads = new EventEmitter<void>();
   @Output() loadThread = new EventEmitter<string>();
+  @Output() toggleSidebar = new EventEmitter<void>();
 
   normalizeThreadTitle(thread: ChatThreadSummary): string {
     const title = this.toCleanString(thread.title);

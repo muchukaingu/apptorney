@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ChatThreadSummary } from '../../models/app.models';
+import { AdminSection } from '../../models/admin-ref-data.models';
 import { ViewName } from '../../models/ui.models';
 
 @Component({
@@ -11,6 +12,7 @@ import { ViewName } from '../../models/ui.models';
 })
 export class AppSidebarComponent {
   @Input() view: ViewName = 'chat';
+  @Input() adminSection: AdminSection = 'dashboard';
   @Input() threads: ChatThreadSummary[] = [];
   @Input() currentThreadId: string | null = null;
   @Input() isAdmin = false;
@@ -19,8 +21,11 @@ export class AppSidebarComponent {
   @Input() userName = '';
   @Input() userEmail = '';
 
+  refDataOpen = false;
+
   @Output() startNewChat = new EventEmitter<void>();
   @Output() setView = new EventEmitter<ViewName>();
+  @Output() setAdminSection = new EventEmitter<AdminSection>();
   @Output() refreshThreads = new EventEmitter<void>();
   @Output() loadThread = new EventEmitter<string>();
   @Output() toggleSidebar = new EventEmitter<void>();

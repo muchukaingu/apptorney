@@ -11,9 +11,7 @@
   --materials-accent: #29443f;
   --materials-accent-soft: #eef2f0;
   --materials-warm: #9d775d;
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 28px 28px 40px;
+  padding: 28px 20px 40px;
   display: grid;
   gap: 20px;
 }
@@ -99,8 +97,8 @@
 .materials-admin__filter-actions button:not(.is-secondary),
 .materials-panel__actions button,
 .materials-form__section-header button:not(.is-secondary) {
-  border-color: var(--materials-accent);
-  background: var(--materials-accent);
+  border-color: var(--materials-ink);
+  background: var(--materials-ink);
   color: #ffffff;
 }
 
@@ -133,6 +131,10 @@
   display: grid;
   grid-template-columns: minmax(0, 1.15fr) minmax(360px, 0.85fr);
   gap: 16px;
+}
+
+.materials-admin__shell--list-only {
+  grid-template-columns: 1fr;
 }
 
 .materials-admin__list,

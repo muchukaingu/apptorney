@@ -12,9 +12,7 @@
   --dashboard-accent-soft: #eef2f0;
   --dashboard-warm: #9d775d;
   --dashboard-neutral: #8b8a84;
-  max-width: 1240px;
-  margin: 0 auto;
-  padding: 28px 28px 40px;
+  padding: 28px 20px 40px;
   display: grid;
   gap: 24px;
   color: var(--dashboard-ink);

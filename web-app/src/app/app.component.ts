@@ -5,6 +5,7 @@ import { UiComponentsModule } from './components/ui-components.module';
 import { ChatMessage, ChatReference, ChatThreadSummary, DetailSection, HomeItem } from './models/app.models';
 import { AuthStep, User } from './models/auth.models';
 import { BillingCycle, PricingPlan, SubscriptionStatus } from './models/subscription.models';
+import { AdminSection, ADMIN_REF_DATA_CONFIGS, RefDataConfig } from './models/admin-ref-data.models';
 import { AskScope, StatusType, ViewName } from './models/ui.models';
 import { ApiService } from './services/api.service';
 import { AuthService } from './services/auth.service';
@@ -27,6 +28,8 @@ export class AppComponent implements OnInit, OnDestroy {
   } as const;
 
   view: ViewName = 'chat';
+  adminSection: AdminSection = 'dashboard';
+  readonly refDataConfigs = ADMIN_REF_DATA_CONFIGS;
   sidebarOpen = true;
   userMenuOpen = false;
   showLanding = false;
@@ -171,8 +174,30 @@ export class AppComponent implements OnInit, OnDestroy {
     } else if (view === 'admin') {
       if (!this.isAdmin) {
         this.view = 'chat';
+      } else {
+        this.adminSection = 'dashboard';
       }
     }
+  }
+
+  setAdminSection(section: AdminSection): void {
+    if (!this.isAdmin) {
+      return;
+    }
+    this.view = 'admin';
+    this.adminSection = section;
+    this.userMenuOpen = false;
+  }
+
+  get adminSectionLabel(): string {
+    if (this.adminSection === 'dashboard') return 'Dashboard';
+    const config = this.refDataConfigs[this.adminSection as keyof typeof this.refDataConfigs];
+    return config ? config.labelPlural : 'Admin';
+  }
+
+  get activeRefDataConfig(): RefDataConfig | null {
+    if (this.adminSection === 'dashboard') return null;
+    return this.refDataConfigs[this.adminSection as keyof typeof this.refDataConfigs] ?? null;
   }
 
   toggleUserMenu(event: MouseEvent): void {

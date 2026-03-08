@@ -847,6 +847,66 @@ app-sidebar {
   margin: 6px 8px;
 }
 
+.nav-divider--label {
+  height: auto;
+  background: none;
+  display: flex;
+  align-items: center;
+  padding: 6px 16px 2px;
+}
+
+.nav-divider--label .sidebar__label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.4;
+}
+
+.nav-btn__chevron {
+  width: 14px;
+  height: 14px;
+  margin-left: auto;
+  opacity: 0.4;
+  flex-shrink: 0;
+  transition: transform 150ms ease;
+}
+
+.nav-btn__chevron--open {
+  transform: rotate(180deg);
+}
+
+.nav-submenu {
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-btn--sub {
+  padding-left: 40px;
+  font-size: 13px;
+  min-height: 32px;
+}
+
+.nav-btn--sub .sidebar__label {
+  font-size: 13px;
+}
+
+.sidebar--collapsed .nav-btn--sub {
+  display: none;
+}
+
+.sidebar--collapsed .nav-submenu {
+  display: none;
+}
+
+.sidebar--collapsed .nav-btn__chevron {
+  display: none;
+}
+
+.sidebar--collapsed .nav-divider--label {
+  display: none;
+}
+
 .nav-btn {
   display: flex;
   align-items: center;
@@ -1314,7 +1374,7 @@ app-chat-view > #chatView {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 22px 28px 10px;
+  padding: 22px 20px 10px;
   border-bottom: 1px solid var(--line);
   background: var(--header-gradient);
 }

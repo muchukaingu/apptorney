@@ -1,11 +1,5 @@
 <section class="materials-admin">
   <div class="materials-admin__header">
-    <div>
-      <p class="materials-admin__eyebrow">{{ resourceType === 'case' ? 'Cases' : 'Legislation' }}</p>
-      <h3>{{ title }}</h3>
-      <p class="materials-admin__subtitle">{{ subtitle }}</p>
-    </div>
-
     <div class="materials-admin__header-actions">
       <button class="materials-admin__action materials-admin__action--primary" type="button" (click)="openCreate()">
         New {{ resourceType }}
@@ -24,7 +18,7 @@
     {{ error }}
   </div>
 
-  <div class="materials-admin__shell">
+  <div class="materials-admin__shell" [class.materials-admin__shell--list-only]="panelMode === 'empty'">
     <section class="materials-admin__list">
       <div class="materials-admin__filters">
         <label class="materials-admin__search" *ngIf="resourceType === 'case'">
@@ -210,7 +204,7 @@
       </div>
     </section>
 
-    <aside class="materials-panel">
+    <aside class="materials-panel" *ngIf="panelMode !== 'empty'">
       <div class="materials-panel__header">
         <div>
           <p class="materials-panel__eyebrow">
@@ -224,7 +218,7 @@
                     : 'Editor'
             }}
           </p>
-          <h4>{{ panelMode === 'empty' ? 'Select a record' : selectedTitle }}</h4>
+          <h4>{{ selectedTitle }}</h4>
         </div>
 
         <div class="materials-panel__actions" *ngIf="panelMode === 'view'">
@@ -234,10 +228,6 @@
 
       <div *ngIf="detailLoading" class="materials-panel__loading">
         Loading details...
-      </div>
-
-      <div *ngIf="panelMode === 'empty' && !detailLoading" class="materials-panel__empty">
-        <p>Pick a {{ resourceType }} record from the list to inspect it here, or create a new one.</p>
       </div>
 
       <div *ngIf="validationErrors.length > 0" class="materials-panel__validation">

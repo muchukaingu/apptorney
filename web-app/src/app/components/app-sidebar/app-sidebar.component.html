@@ -27,7 +27,7 @@
   </button>
 
   <nav class="sidebar__nav" aria-label="Primary">
-    <button *ngIf="isAdmin" class="nav-btn" [class.is-active]="view === 'admin'" title="Dashboard" aria-label="Dashboard" (click)="setView.emit('admin')">
+    <button *ngIf="isAdmin" class="nav-btn" [class.is-active]="view === 'admin' && adminSection === 'dashboard'" title="Dashboard" aria-label="Dashboard" (click)="setView.emit('admin')">
       <svg class="nav-btn__icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
         <path d="M3 10.5 10 4l7 6.5"/>
         <path d="M5 9.5V17h10V9.5"/>
@@ -35,7 +35,6 @@
       </svg>
       <span class="sidebar__label">Dashboard</span>
     </button>
-    <div *ngIf="isAdmin" class="nav-divider"></div>
     <button class="nav-btn" [class.is-active]="view === 'chat'" title="Assistant" aria-label="Assistant" (click)="setView.emit('chat')">
       <svg class="nav-btn__icon" viewBox="0 0 124.8 124.8" fill="currentColor" fill-rule="evenodd">
         <!-- head: outer cls-1 + inner cls-2 combined -->
@@ -60,6 +59,45 @@
       </svg>
       <span class="sidebar__label">Legislations</span>
     </button>
+    <div *ngIf="isAdmin" class="nav-divider"></div>
+    <button *ngIf="isAdmin" class="nav-btn" [class.is-active]="view === 'admin' && adminSection !== 'dashboard'" title="Reference Data" aria-label="Reference Data" (click)="refDataOpen = !refDataOpen">
+      <svg class="nav-btn__icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="6" height="6" rx="1"/>
+        <rect x="11" y="3" width="6" height="6" rx="1"/>
+        <rect x="3" y="11" width="6" height="6" rx="1"/>
+        <rect x="11" y="11" width="6" height="6" rx="1"/>
+      </svg>
+      <span class="sidebar__label">Reference Data</span>
+      <svg class="nav-btn__chevron" [class.nav-btn__chevron--open]="refDataOpen" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+        <polyline points="5 6 8 9 11 6"/>
+      </svg>
+    </button>
+    <div *ngIf="isAdmin && refDataOpen" class="nav-submenu">
+      <button class="nav-btn nav-btn--sub" [class.is-active]="view === 'admin' && adminSection === 'courts'" title="Courts" aria-label="Courts" (click)="setAdminSection.emit('courts')">
+        <span class="sidebar__label">Courts</span>
+      </button>
+      <button class="nav-btn nav-btn--sub" [class.is-active]="view === 'admin' && adminSection === 'jurisdictions'" title="Jurisdictions" aria-label="Jurisdictions" (click)="setAdminSection.emit('jurisdictions')">
+        <span class="sidebar__label">Jurisdictions</span>
+      </button>
+      <button class="nav-btn nav-btn--sub" [class.is-active]="view === 'admin' && adminSection === 'locations'" title="Locations" aria-label="Locations" (click)="setAdminSection.emit('locations')">
+        <span class="sidebar__label">Locations</span>
+      </button>
+      <button class="nav-btn nav-btn--sub" [class.is-active]="view === 'admin' && adminSection === 'areasOfLaw'" title="Areas of Law" aria-label="Areas of Law" (click)="setAdminSection.emit('areasOfLaw')">
+        <span class="sidebar__label">Areas of Law</span>
+      </button>
+      <button class="nav-btn nav-btn--sub" [class.is-active]="view === 'admin' && adminSection === 'legislationTypes'" title="Legislation Types" aria-label="Legislation Types" (click)="setAdminSection.emit('legislationTypes')">
+        <span class="sidebar__label">Legislation Types</span>
+      </button>
+      <button class="nav-btn nav-btn--sub" [class.is-active]="view === 'admin' && adminSection === 'partTypes'" title="Legislation Part Types" aria-label="Legislation Part Types" (click)="setAdminSection.emit('partTypes')">
+        <span class="sidebar__label">Legislation Part Types</span>
+      </button>
+      <button class="nav-btn nav-btn--sub" [class.is-active]="view === 'admin' && adminSection === 'plaintiffSynonyms'" title="Plaintiff Synonyms" aria-label="Plaintiff Synonyms" (click)="setAdminSection.emit('plaintiffSynonyms')">
+        <span class="sidebar__label">Plaintiff Synonyms</span>
+      </button>
+      <button class="nav-btn nav-btn--sub" [class.is-active]="view === 'admin' && adminSection === 'defendantSynonyms'" title="Defendant Synonyms" aria-label="Defendant Synonyms" (click)="setAdminSection.emit('defendantSynonyms')">
+        <span class="sidebar__label">Defendant Synonyms</span>
+      </button>
+    </div>
 
   </nav>
 

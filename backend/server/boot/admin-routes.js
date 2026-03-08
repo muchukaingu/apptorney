@@ -1544,4 +1544,248 @@ module.exports = function (app) {
             })
         })
     })
+
+    // ──────────────────────────────────────────────────────────────────
+    // Reference Data CRUD (courts, jurisdictions, locations, etc.)
+    // ──────────────────────────────────────────────────────────────────
+
+    function normalizeRefItem(doc, fieldName) {
+        var item = {
+            id: normalizeId(doc.id || doc._id),
+            deleted: !!doc.deleted,
+            createdAt: normalizeDate(doc.createdAt),
+            updatedAt: normalizeDate(doc.updatedAt)
+        }
+        item[fieldName] = toTrimmedString(doc[fieldName])
+        return item
+    }
+
+    function registerRefDataRoutes(pathSegment, modelName, fieldName) {
+        var basePath = restRoot + '/admin/reference/' + pathSegment
+        var Model = app.models[modelName]
+
+        if (!Model) {
+            console.warn('admin-routes: model "' + modelName + '" not found, skipping reference routes for /' + pathSegment)
+            return
+        }
+
+        // LIST — GET /admin/reference/:entity
+        app.get(basePath, requireAdmin, function (req, res, next) {
+            var page = parsePositiveInt(req.query.page, 1, 5000)
+            var limit = parsePositiveInt(req.query.limit, 20, 100)
+            var search = toTrimmedString(req.query.search)
+            var showDeleted = req.query.showDeleted === 'true'
+
+            var where = showDeleted ? {} : { deleted: { neq: true } }
+            if (search) {
+                where[fieldName] = { like: search, options: 'i' }
+            }
+
+            Model.count(where, function (err, total) {
+                if (err) return next(err)
+                Model.find({
+                    where: where,
+                    order: fieldName + ' ASC',
+                    skip: (page - 1) * limit,
+                    limit: limit
+                }, function (findErr, items) {
+                    if (findErr) return next(findErr)
+                    res.json({
+                        items: (items || []).map(function (doc) { return normalizeRefItem(doc, fieldName) }),
+                        total: total,
+                        page: page,
+                        limit: limit,
+                        pages: Math.ceil(total / limit) || 1
+                    })
+                })
+            })
+        })
+
+        // GET ONE — GET /admin/reference/:entity/:id
+        app.get(basePath + '/:id', requireAdmin, function (req, res, next) {
+            var id = toTrimmedString(req.params.id)
+            if (!id) return sendError(res, 400, 'ID is required.')
+
+            Model.findById(id, function (err, doc) {
+                if (err) return next(err)
+                if (!doc) return sendError(res, 404, 'Record not found.')
+                res.json({ item: normalizeRefItem(doc, fieldName) })
+            })
+        })
+
+        // CREATE — POST /admin/reference/:entity
+        app.post(basePath, requireAdmin, function (req, res, next) {
+            var value = toTrimmedString(req.body[fieldName])
+            if (!value) {
+                return sendError(res, 422, fieldName + ' is required.')
+            }
+
+            var record = { deleted: false }
+            record[fieldName] = value
+
+            Model.create(record, function (err, created) {
+                if (err) return next(err)
+                res.status(201).json({
+                    item: normalizeRefItem(created, fieldName),
+                    message: 'Created successfully.'
+                })
+            })
+        })
+
+        // UPDATE — PUT /admin/reference/:entity/:id
+        app.put(basePath + '/:id', requireAdmin, function (req, res, next) {
+            var id = toTrimmedString(req.params.id)
+            if (!id) return sendError(res, 400, 'ID is required.')
+
+            Model.findById(id, function (err, doc) {
+                if (err) return next(err)
+                if (!doc) return sendError(res, 404, 'Record not found.')
+
+                var updates = {}
+                if (hasOwn(req.body, fieldName)) {
+                    var value = toTrimmedString(req.body[fieldName])
+                    if (!value) return sendError(res, 422, fieldName + ' is required.')
+                    updates[fieldName] = value
+                }
+                if (hasOwn(req.body, 'deleted')) {
+                    updates.deleted = !!req.body.deleted
+                }
+
+                if (Object.keys(updates).length === 0) {
+                    return res.json({ item: normalizeRefItem(doc, fieldName), message: 'No changes.' })
+                }
+
+                doc.updateAttributes(updates, function (updateErr, updated) {
+                    if (updateErr) return next(updateErr)
+                    res.json({
+                        item: normalizeRefItem(updated || doc, fieldName),
+                        message: 'Updated successfully.'
+                    })
+                })
+            })
+        })
+
+        // SOFT DELETE — DELETE /admin/reference/:entity/:id
+        app.delete(basePath + '/:id', requireAdmin, function (req, res, next) {
+            var id = toTrimmedString(req.params.id)
+            if (!id) return sendError(res, 400, 'ID is required.')
+
+            Model.findById(id, function (err, doc) {
+                if (err) return next(err)
+                if (!doc) return sendError(res, 404, 'Record not found.')
+
+                doc.updateAttributes({ deleted: true }, function (updateErr) {
+                    if (updateErr) return next(updateErr)
+                    res.json({ message: 'Archived successfully.' })
+                })
+            })
+        })
+
+        // RESTORE — PATCH /admin/reference/:entity/:id/restore
+        app.patch(basePath + '/:id/restore', requireAdmin, function (req, res, next) {
+            var id = toTrimmedString(req.params.id)
+            if (!id) return sendError(res, 400, 'ID is required.')
+
+            Model.findById(id, function (err, doc) {
+                if (err) return next(err)
+                if (!doc) return sendError(res, 404, 'Record not found.')
+
+                doc.updateAttributes({ deleted: false }, function (updateErr, updated) {
+                    if (updateErr) return next(updateErr)
+                    res.json({
+                        item: normalizeRefItem(updated || doc, fieldName),
+                        message: 'Restored successfully.'
+                    })
+                })
+            })
+        })
+    }
+
+    // Register routes for all 8 reference data entities
+    registerRefDataRoutes('courts', 'court', 'name')
+    registerRefDataRoutes('jurisdictions', 'jurisdiction', 'name')
+    registerRefDataRoutes('locations', 'location', 'name')
+    registerRefDataRoutes('areas-of-law', 'areaOfLaw', 'name')
+    registerRefDataRoutes('legislation-types', 'legislationType', 'name')
+    registerRefDataRoutes('part-types', 'partType', 'name')
+    registerRefDataRoutes('plaintiff-synonyms', 'plaintiffSynonyms', 'synonym')
+    registerRefDataRoutes('defendant-synonyms', 'defendantSynonyms', 'synonym')
+
+    // ──────────────────────────────────────────────────────────────────
+    // Court Divisions sub-routes
+    // ──────────────────────────────────────────────────────────────────
+
+    var divBasePath = restRoot + '/admin/reference/courts'
+
+    // LIST divisions for a court
+    app.get(divBasePath + '/:courtId/divisions', requireAdmin, function (req, res, next) {
+        var courtId = toTrimmedString(req.params.courtId)
+        if (!courtId) return sendError(res, 400, 'Court ID is required.')
+
+        var CourtDivision = app.models.courtDivision
+        if (!CourtDivision) return sendError(res, 503, 'Court division model not available.')
+
+        CourtDivision.find({
+            where: { court: courtId, deleted: { neq: true } },
+            order: 'name ASC'
+        }, function (err, items) {
+            if (err) return next(err)
+            res.json({
+                items: (items || []).map(function (doc) {
+                    return {
+                        id: normalizeId(doc.id || doc._id),
+                        name: toTrimmedString(doc.name),
+                        courtId: toTrimmedString(doc.court)
+                    }
+                })
+            })
+        })
+    })
+
+    // CREATE division for a court
+    app.post(divBasePath + '/:courtId/divisions', requireAdmin, function (req, res, next) {
+        var courtId = toTrimmedString(req.params.courtId)
+        if (!courtId) return sendError(res, 400, 'Court ID is required.')
+
+        var name = toTrimmedString(req.body.name)
+        if (!name) return sendError(res, 422, 'Division name is required.')
+
+        var CourtDivision = app.models.courtDivision
+        if (!CourtDivision) return sendError(res, 503, 'Court division model not available.')
+
+        CourtDivision.create({ name: name, court: courtId, deleted: false }, function (err, created) {
+            if (err) return next(err)
+            res.status(201).json({
+                item: {
+                    id: normalizeId(created.id || created._id),
+                    name: toTrimmedString(created.name),
+                    courtId: toTrimmedString(created.court)
+                },
+                message: 'Division created.'
+            })
+        })
+    })
+
+    // SOFT DELETE division
+    app.delete(divBasePath + '/:courtId/divisions/:divId', requireAdmin, function (req, res, next) {
+        var courtId = toTrimmedString(req.params.courtId)
+        var divId = toTrimmedString(req.params.divId)
+        if (!divId) return sendError(res, 400, 'Division ID is required.')
+
+        var CourtDivision = app.models.courtDivision
+        if (!CourtDivision) return sendError(res, 503, 'Court division model not available.')
+
+        CourtDivision.findById(divId, function (err, doc) {
+            if (err) return next(err)
+            if (!doc) return sendError(res, 404, 'Division not found.')
+            if (toTrimmedString(doc.court) !== courtId) {
+                return sendError(res, 404, 'Division not found.')
+            }
+
+            doc.updateAttributes({ deleted: true }, function (updateErr) {
+                if (updateErr) return next(updateErr)
+                res.json({ message: 'Division archived.' })
+            })
+        })
+    })
 }

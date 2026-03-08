@@ -4,13 +4,11 @@ import { FormsModule } from '@angular/forms';
 import { UiComponentsModule } from './components/ui-components.module';
 import { ChatMessage, ChatReference, ChatThreadSummary, DetailSection, HomeItem } from './models/app.models';
 import { AuthStep, User } from './models/auth.models';
-import { AdminContent, AdminOverview, AdminPayment, AdminSubscriptionBreakdown, GrowthDataPoint } from './models/admin.models';
 import { BillingCycle, PricingPlan, SubscriptionStatus } from './models/subscription.models';
 import { AskScope, StatusType, ViewName } from './models/ui.models';
 import { ApiService } from './services/api.service';
 import { AuthService } from './services/auth.service';
 import { ChatService } from './services/chat.service';
-import { AdminService } from './services/admin.service';
 import { LibraryService } from './services/library.service';
 import { SubscriptionService } from './services/subscription.service';
 
@@ -85,16 +83,6 @@ export class AppComponent implements OnInit, OnDestroy {
   paymentMethod = '';
   paymentReference = '';
 
-  // Admin
-  adminOverview: AdminOverview | null = null;
-  adminGrowth: GrowthDataPoint[] = [];
-  adminSubscriptions: AdminSubscriptionBreakdown[] = [];
-  adminPayments: AdminPayment[] = [];
-  adminPaymentsPage = 1;
-  adminPaymentsTotal = 0;
-  adminContent: AdminContent | null = null;
-  adminLoading = false;
-
   statusText = 'Ready.';
   statusType: StatusType = 'info';
 
@@ -103,6 +91,7 @@ export class AppComponent implements OnInit, OnDestroy {
   activeDetailMeta = 'Open a case or legislation from search results or references.';
   activeDetailSections: DetailSection[] = [];
   activeDetail: { type: 'case' | 'legislation'; id: string; data: any } | null = null;
+  detailCollapsed = false;
   feedbackInput = '';
 
   publicMessages: ChatMessage[] = [];
@@ -113,7 +102,6 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(
     private readonly ngZone: NgZone,
     private readonly apiService: ApiService,
-    private readonly adminService: AdminService,
     private readonly authService: AuthService,
     private readonly chatService: ChatService,
     private readonly libraryService: LibraryService,
@@ -183,9 +171,7 @@ export class AppComponent implements OnInit, OnDestroy {
     } else if (view === 'admin') {
       if (!this.isAdmin) {
         this.view = 'chat';
-        return;
       }
-      this.loadAdminDashboard();
     }
   }
 
@@ -315,7 +301,6 @@ export class AppComponent implements OnInit, OnDestroy {
       this.showLanding = false;
       this.view = 'admin';
       this.sidebarOpen = true;
-      this.loadAdminDashboard();
       this.fetchChatThreads();
     } else if (this.hasActiveSubscription) {
       this.showLanding = false;
@@ -641,21 +626,24 @@ export class AppComponent implements OnInit, OnDestroy {
     this.setStatus('Loading case details...');
 
     const response = await this.libraryService.getCaseDetail(caseId);
-    if (!response.ok || !response.data) {
-      this.setStatus('Could not load case details.', 'error');
-      return;
-    }
+    this.ngZone.run(() => {
+      if (!response.ok || !response.data) {
+        this.setStatus('Could not load case details.', 'error');
+        return;
+      }
 
-    const data = response.data;
+      const data = response.data;
 
-    this.activeDetail = {
-      type: 'case',
-      id: this.toCleanString((data as any)?.id || (data as any)?._id || caseId),
-      data
-    };
+      this.activeDetail = {
+        type: 'case',
+        id: this.toCleanString((data as any)?.id || (data as any)?._id || caseId),
+        data
+      };
+      this.detailCollapsed = false;
 
-    this.renderCaseDetail(data);
-    this.setStatus('Case details loaded.');
+      this.renderCaseDetail(data);
+      this.setStatus('Case details loaded.');
+    });
   }
 
   async openLegislationDetail(legislationId: string): Promise<void> {
@@ -666,21 +654,24 @@ export class AppComponent implements OnInit, OnDestroy {
     this.setStatus('Loading legislation details...');
 
     const response = await this.libraryService.getLegislationDetail(legislationId);
-    if (!response.ok || !response.data) {
-      this.setStatus('Could not load legislation details.', 'error');
-      return;
-    }
+    this.ngZone.run(() => {
+      if (!response.ok || !response.data) {
+        this.setStatus('Could not load legislation details.', 'error');
+        return;
+      }
 
-    const data = response.data;
+      const data = response.data;
 
-    this.activeDetail = {
-      type: 'legislation',
-      id: this.toCleanString((data as any)?.id || (data as any)?._id || legislationId),
-      data
-    };
+      this.activeDetail = {
+        type: 'legislation',
+        id: this.toCleanString((data as any)?.id || (data as any)?._id || legislationId),
+        data
+      };
+      this.detailCollapsed = false;
 
-    this.renderLegislationDetail(data);
-    this.setStatus('Legislation details loaded.');
+      this.renderLegislationDetail(data);
+      this.setStatus('Legislation details loaded.');
+    });
   }
 
   closeDetail(): void {
@@ -946,69 +937,6 @@ export class AppComponent implements OnInit, OnDestroy {
     await this.loadSubscriptionStatus();
   }
 
-  // Admin methods
-
-  async loadAdminDashboard(): Promise<void> {
-    this.adminLoading = true;
-    await Promise.all([
-      this.loadAdminOverview(),
-      this.loadAdminGrowth(),
-      this.loadAdminSubscriptions(),
-      this.loadAdminPayments(),
-      this.loadAdminContent()
-    ]);
-    this.ngZone.run(() => { this.adminLoading = false; });
-  }
-
-  async loadAdminOverview(): Promise<void> {
-    const result = await this.adminService.getOverview();
-    this.ngZone.run(() => {
-      if (result.ok && result.data) {
-        this.adminOverview = result.data;
-      }
-    });
-  }
-
-  async loadAdminGrowth(period?: number): Promise<void> {
-    const result = await this.adminService.getGrowth(period);
-    this.ngZone.run(() => {
-      if (result.ok && result.data) {
-        this.adminGrowth = result.data;
-      }
-    });
-  }
-
-  async loadAdminSubscriptions(): Promise<void> {
-    const result = await this.adminService.getSubscriptions();
-    this.ngZone.run(() => {
-      if (result.ok && result.data) {
-        this.adminSubscriptions = result.data;
-      }
-    });
-  }
-
-  async loadAdminPayments(page?: number): Promise<void> {
-    if (page !== undefined) {
-      this.adminPaymentsPage = page;
-    }
-    const result = await this.adminService.getPayments(this.adminPaymentsPage);
-    this.ngZone.run(() => {
-      if (result.ok) {
-        this.adminPayments = result.data || [];
-        this.adminPaymentsTotal = result.total || 0;
-      }
-    });
-  }
-
-  async loadAdminContent(): Promise<void> {
-    const result = await this.adminService.getContent();
-    this.ngZone.run(() => {
-      if (result.ok && result.data) {
-        this.adminContent = result.data;
-      }
-    });
-  }
-
   openReference(reference: ChatReference): void {
     if (reference.type === 'case') {
       this.openCaseDetail(reference.id);
@@ -1070,7 +998,6 @@ export class AppComponent implements OnInit, OnDestroy {
         this.showLanding = false;
         this.view = 'admin';
         this.sidebarOpen = true;
-        this.loadAdminDashboard();
         this.fetchChatThreads();
       } else if (this.hasActiveSubscription) {
         this.showLanding = false;

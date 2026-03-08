@@ -1,0 +1,527 @@
+<section class="materials-admin">
+  <div class="materials-admin__header">
+    <div>
+      <p class="materials-admin__eyebrow">{{ resourceType === 'case' ? 'Cases' : 'Legislation' }}</p>
+      <h3>{{ title }}</h3>
+      <p class="materials-admin__subtitle">{{ subtitle }}</p>
+    </div>
+
+    <div class="materials-admin__header-actions">
+      <button class="materials-admin__action materials-admin__action--primary" type="button" (click)="openCreate()">
+        New {{ resourceType }}
+      </button>
+      <button class="materials-admin__action" type="button" (click)="refreshCurrentPage()">
+        Refresh
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="message" class="materials-admin__banner materials-admin__banner--success">
+    {{ message }}
+  </div>
+
+  <div *ngIf="error" class="materials-admin__banner materials-admin__banner--error">
+    {{ error }}
+  </div>
+
+  <div class="materials-admin__shell">
+    <section class="materials-admin__list">
+      <div class="materials-admin__filters">
+        <label class="materials-admin__search" *ngIf="resourceType === 'case'">
+          <span>Search</span>
+          <input type="search" [placeholder]="searchPlaceholder" [(ngModel)]="caseFilters.search" (keyup.enter)="applyFilters()" />
+        </label>
+
+        <label class="materials-admin__search" *ngIf="resourceType === 'legislation'">
+          <span>Search</span>
+          <input type="search" [placeholder]="searchPlaceholder" [(ngModel)]="legislationFilters.search" (keyup.enter)="applyFilters()" />
+        </label>
+
+        <ng-container *ngIf="resourceType === 'case' && meta">
+          <label>
+            <span>Court</span>
+            <select [(ngModel)]="caseFilters.courtId">
+              <option value="">All courts</option>
+              <option *ngFor="let option of meta.cases.courts" [value]="option.id">{{ option.name }}</option>
+            </select>
+          </label>
+
+          <label>
+            <span>Area of law</span>
+            <select [(ngModel)]="caseFilters.areaOfLawId">
+              <option value="">All areas</option>
+              <option *ngFor="let option of meta.cases.areasOfLaw" [value]="option.id">{{ option.name }}</option>
+            </select>
+          </label>
+
+          <label>
+            <span>Year</span>
+            <input type="number" placeholder="2024" [(ngModel)]="caseFilters.year" />
+          </label>
+
+          <label>
+            <span>Completion</span>
+            <select [(ngModel)]="caseFilters.completionStatus">
+              <option value="all">All</option>
+              <option value="true">Complete</option>
+              <option value="false">Incomplete</option>
+            </select>
+          </label>
+
+          <label>
+            <span>Verified</span>
+            <select [(ngModel)]="caseFilters.primaryReview">
+              <option value="all">All</option>
+              <option value="true">Verified</option>
+              <option value="false">Not verified</option>
+            </select>
+          </label>
+
+          <label>
+            <span>Stub</span>
+            <select [(ngModel)]="caseFilters.isStub">
+              <option value="all">All</option>
+              <option value="true">Stub only</option>
+              <option value="false">Non-stub</option>
+            </select>
+          </label>
+        </ng-container>
+
+        <ng-container *ngIf="resourceType === 'legislation' && meta">
+          <label>
+            <span>Type</span>
+            <select [(ngModel)]="legislationFilters.legislationTypeId">
+              <option value="">All types</option>
+              <option *ngFor="let option of meta.legislations.types" [value]="option.id">{{ option.name }}</option>
+            </select>
+          </label>
+
+          <label>
+            <span>Assent year</span>
+            <input type="number" placeholder="2020" [(ngModel)]="legislationFilters.assentYear" />
+          </label>
+
+          <label>
+            <span>Amendment</span>
+            <select [(ngModel)]="legislationFilters.hasAmendment">
+              <option value="all">All</option>
+              <option value="true">Amended only</option>
+              <option value="false">No amendment</option>
+            </select>
+          </label>
+
+          <label>
+            <span>Visibility</span>
+            <select [(ngModel)]="legislationFilters.deletedState">
+              <option value="active">Active</option>
+              <option value="deleted">Deleted</option>
+              <option value="all">All</option>
+            </select>
+          </label>
+        </ng-container>
+
+        <div class="materials-admin__filter-actions">
+          <button type="button" (click)="applyFilters()">Apply</button>
+          <button type="button" class="is-secondary" (click)="clearFilters()">Clear</button>
+        </div>
+      </div>
+
+      <div class="materials-admin__results-meta">
+        <strong>{{ listSummary }}</strong>
+        <span>Page {{ currentPage }} of {{ totalPages }}</span>
+      </div>
+
+      <div *ngIf="loading" class="materials-admin__loading">
+        <article class="materials-admin__loading-row" *ngFor="let _ of [1, 2, 3, 4, 5]"></article>
+      </div>
+
+      <div *ngIf="!loading && !hasItems" class="materials-admin__empty">
+        <h4>No {{ resourceType }} materials matched these filters</h4>
+        <p>Try a broader search, reset your filters, or create a new record.</p>
+      </div>
+
+      <div *ngIf="!loading && resourceType === 'case' && cases.length > 0" class="materials-admin__rows">
+        <button
+          class="materials-admin__row"
+          type="button"
+          *ngFor="let item of cases; trackBy: trackById"
+          [class.is-selected]="item.id === selectedCase?.id"
+          (click)="selectCase(item.id)"
+        >
+          <div class="materials-admin__row-main">
+            <div class="materials-admin__row-title-group">
+              <h4>{{ item.name || item.caseNumber || 'Untitled case' }}</h4>
+              <span>{{ item.citationLabel || 'No citation yet' }}</span>
+            </div>
+
+            <div class="materials-admin__row-chips">
+              <span *ngIf="item.courtName" class="materials-admin__chip">{{ item.courtName }}</span>
+              <span *ngIf="item.areaOfLawName" class="materials-admin__chip">{{ item.areaOfLawName }}</span>
+            </div>
+          </div>
+
+          <div class="materials-admin__row-side">
+            <span class="materials-admin__badge" [class.is-quiet]="!item.completionStatus">
+              {{ item.completionStatus ? 'Complete' : 'Incomplete' }}
+            </span>
+            <span class="materials-admin__badge materials-admin__badge--ghost" *ngIf="item.primaryReview">Verified</span>
+            <span class="materials-admin__badge materials-admin__badge--ghost" *ngIf="item.isStub">Stub</span>
+          </div>
+        </button>
+      </div>
+
+      <div *ngIf="!loading && resourceType === 'legislation' && legislations.length > 0" class="materials-admin__rows">
+        <button
+          class="materials-admin__row"
+          type="button"
+          *ngFor="let item of legislations; trackBy: trackById"
+          [class.is-selected]="item.id === selectedLegislation?.id"
+          (click)="selectLegislation(item.id)"
+        >
+          <div class="materials-admin__row-main">
+            <div class="materials-admin__row-title-group">
+              <h4>{{ item.legislationName || 'Untitled legislation' }}</h4>
+              <span>
+                {{ item.legislationTypeName || 'Unclassified' }}
+                <ng-container *ngIf="item.dateOfAssent"> • {{ item.dateOfAssent | date:'mediumDate' }}</ng-container>
+              </span>
+            </div>
+
+            <div class="materials-admin__row-chips">
+              <span *ngIf="item.legislationNumber" class="materials-admin__chip">{{ item.legislationNumber }}</span>
+              <span *ngIf="item.volumeNumber" class="materials-admin__chip">Volume {{ item.volumeNumber }}</span>
+              <span *ngIf="item.chapterNumber" class="materials-admin__chip">Chapter {{ item.chapterNumber }}</span>
+            </div>
+          </div>
+
+          <div class="materials-admin__row-side">
+            <span class="materials-admin__badge" [class.is-quiet]="!item.yearOfAmendment">
+              {{ item.yearOfAmendment ? ('Amended ' + item.yearOfAmendment) : 'Original' }}
+            </span>
+            <span class="materials-admin__badge materials-admin__badge--ghost" *ngIf="item.deleted">Deleted</span>
+          </div>
+        </button>
+      </div>
+
+      <div class="materials-admin__pagination" *ngIf="totalPages > 1">
+        <button type="button" [disabled]="currentPage <= 1" (click)="goToPage(currentPage - 1)">Prev</button>
+        <span>{{ currentPage }} / {{ totalPages }}</span>
+        <button type="button" [disabled]="currentPage >= totalPages" (click)="goToPage(currentPage + 1)">Next</button>
+      </div>
+    </section>
+
+    <aside class="materials-panel">
+      <div class="materials-panel__header">
+        <div>
+          <p class="materials-panel__eyebrow">
+            {{
+              panelMode === 'create'
+                ? ('New ' + resourceType)
+                : panelMode === 'edit'
+                  ? ('Edit ' + resourceType)
+                  : panelMode === 'view'
+                    ? 'Details'
+                    : 'Editor'
+            }}
+          </p>
+          <h4>{{ panelMode === 'empty' ? 'Select a record' : selectedTitle }}</h4>
+        </div>
+
+        <div class="materials-panel__actions" *ngIf="panelMode === 'view'">
+          <button type="button" (click)="beginEdit()">Edit</button>
+        </div>
+      </div>
+
+      <div *ngIf="detailLoading" class="materials-panel__loading">
+        Loading details...
+      </div>
+
+      <div *ngIf="panelMode === 'empty' && !detailLoading" class="materials-panel__empty">
+        <p>Pick a {{ resourceType }} record from the list to inspect it here, or create a new one.</p>
+      </div>
+
+      <div *ngIf="validationErrors.length > 0" class="materials-panel__validation">
+        <p>Resolve these issues before saving:</p>
+        <ul>
+          <li *ngFor="let issue of validationErrors">{{ issue }}</li>
+        </ul>
+      </div>
+
+      <div *ngIf="panelMode === 'view' && resourceType === 'case' && selectedCase" class="materials-panel__content">
+        <div class="materials-panel__meta-grid">
+          <article>
+            <span>Case number</span>
+            <strong>{{ selectedCase.caseNumber || 'N/A' }}</strong>
+          </article>
+          <article>
+            <span>Appeal number</span>
+            <strong>{{ selectedCase.appealNumber || 'N/A' }}</strong>
+          </article>
+          <article>
+            <span>Court</span>
+            <strong>{{ selectedCase.courtName || 'N/A' }}</strong>
+          </article>
+          <article>
+            <span>Area of law</span>
+            <strong>{{ selectedCase.areaOfLawName || 'N/A' }}</strong>
+          </article>
+        </div>
+
+        <section class="materials-panel__section">
+          <h5>Citation</h5>
+          <p>
+            {{ selectedCase.citation.description || 'No citation description' }}
+            <ng-container *ngIf="selectedCase.citation.year"> • {{ selectedCase.citation.year }}</ng-container>
+            <ng-container *ngIf="selectedCase.citation.code"> • {{ selectedCase.citation.code }}</ng-container>
+            <ng-container *ngIf="selectedCase.citation.pageNumber"> • Pg {{ selectedCase.citation.pageNumber }}</ng-container>
+          </p>
+        </section>
+
+        <section class="materials-panel__section">
+          <h5>Parties</h5>
+          <div class="materials-panel__party-columns">
+            <article>
+              <span>Plaintiffs</span>
+              <p>{{ partyNames(selectedCase.plaintiffs) || 'None recorded' }}</p>
+            </article>
+            <article>
+              <span>Defendants</span>
+              <p>{{ partyNames(selectedCase.defendants) || 'None recorded' }}</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="materials-panel__section">
+          <h5>Case text</h5>
+          <article>
+            <span>Summary of facts</span>
+            <p>{{ selectedCase.summaryOfFacts || 'No summary of facts yet.' }}</p>
+          </article>
+          <article>
+            <span>Summary of ruling</span>
+            <p>{{ selectedCase.summaryOfRuling || 'No summary of ruling yet.' }}</p>
+          </article>
+          <article>
+            <span>Judgement</span>
+            <p>{{ selectedCase.judgement || 'No judgement text yet.' }}</p>
+          </article>
+          <article>
+            <span>Notes</span>
+            <p>{{ selectedCase.notes || 'No notes.' }}</p>
+          </article>
+        </section>
+      </div>
+
+      <div *ngIf="panelMode === 'view' && resourceType === 'legislation' && selectedLegislation" class="materials-panel__content">
+        <div class="materials-panel__meta-grid">
+          <article>
+            <span>Type</span>
+            <strong>{{ selectedLegislation.legislationTypeName || 'N/A' }}</strong>
+          </article>
+          <article>
+            <span>Number</span>
+            <strong>{{ selectedLegislation.legislationNumber || 'N/A' }}</strong>
+          </article>
+          <article>
+            <span>Volume</span>
+            <strong>{{ selectedLegislation.volumeNumber || 'N/A' }}</strong>
+          </article>
+          <article>
+            <span>Assent date</span>
+            <strong>{{ selectedLegislation.dateOfAssent ? (selectedLegislation.dateOfAssent | date:'mediumDate') : 'N/A' }}</strong>
+          </article>
+        </div>
+
+        <section class="materials-panel__section">
+          <h5>Reference text</h5>
+          <article>
+            <span>General title</span>
+            <p>{{ selectedLegislation.generalTitle || 'No general title.' }}</p>
+          </article>
+          <article>
+            <span>Preamble</span>
+            <p>{{ selectedLegislation.preamble || 'No preamble.' }}</p>
+          </article>
+          <article>
+            <span>Enactment</span>
+            <p>{{ selectedLegislation.enactment || 'No enactment text.' }}</p>
+          </article>
+        </section>
+      </div>
+
+      <div *ngIf="(panelMode === 'edit' || panelMode === 'create') && resourceType === 'case'" class="materials-form">
+        <div class="materials-form__grid materials-form__grid--two">
+          <label>
+            <span>Case name</span>
+            <input type="text" [(ngModel)]="caseForm.name" />
+          </label>
+          <label>
+            <span>Case number</span>
+            <input type="text" [(ngModel)]="caseForm.caseNumber" />
+          </label>
+          <label>
+            <span>Appeal number</span>
+            <input type="text" [(ngModel)]="caseForm.appealNumber" />
+          </label>
+          <label>
+            <span>Court</span>
+            <select [(ngModel)]="caseForm.courtId">
+              <option value="">Select court</option>
+              <option *ngFor="let option of meta?.cases?.courts || []" [value]="option.id">{{ option.name }}</option>
+            </select>
+          </label>
+          <label>
+            <span>Area of law</span>
+            <select [(ngModel)]="caseForm.areaOfLawId">
+              <option value="">Select area</option>
+              <option *ngFor="let option of meta?.cases?.areasOfLaw || []" [value]="option.id">{{ option.name }}</option>
+            </select>
+          </label>
+        </div>
+
+        <section class="materials-form__section">
+          <div class="materials-form__section-header">
+            <h5>Citation</h5>
+          </div>
+          <div class="materials-form__grid materials-form__grid--two">
+            <label>
+              <span>Description</span>
+              <input type="text" [(ngModel)]="caseForm.citation.description" />
+            </label>
+            <label>
+              <span>Number</span>
+              <input type="text" [(ngModel)]="caseForm.citation.number" />
+            </label>
+            <label>
+              <span>Year</span>
+              <input type="number" [(ngModel)]="caseForm.citation.year" />
+            </label>
+            <label>
+              <span>Code</span>
+              <input type="text" [(ngModel)]="caseForm.citation.code" />
+            </label>
+            <label>
+              <span>Page number</span>
+              <input type="number" [(ngModel)]="caseForm.citation.pageNumber" />
+            </label>
+          </div>
+        </section>
+
+        <section class="materials-form__section">
+          <div class="materials-form__section-header">
+            <h5>Plaintiffs</h5>
+            <button type="button" (click)="addParty('plaintiffs')">Add</button>
+          </div>
+          <div class="materials-form__repeatable" *ngFor="let item of caseForm.plaintiffs; let index = index">
+            <input type="text" placeholder="Party name" [(ngModel)]="item.name" />
+            <button type="button" class="is-secondary" (click)="removeParty('plaintiffs', index)">Remove</button>
+          </div>
+        </section>
+
+        <section class="materials-form__section">
+          <div class="materials-form__section-header">
+            <h5>Defendants</h5>
+            <button type="button" (click)="addParty('defendants')">Add</button>
+          </div>
+          <div class="materials-form__repeatable" *ngFor="let item of caseForm.defendants; let index = index">
+            <input type="text" placeholder="Party name" [(ngModel)]="item.name" />
+            <button type="button" class="is-secondary" (click)="removeParty('defendants', index)">Remove</button>
+          </div>
+        </section>
+
+        <div class="materials-form__grid">
+          <label>
+            <span>Summary of facts</span>
+            <textarea rows="4" [(ngModel)]="caseForm.summaryOfFacts"></textarea>
+          </label>
+          <label>
+            <span>Summary of ruling</span>
+            <textarea rows="4" [(ngModel)]="caseForm.summaryOfRuling"></textarea>
+          </label>
+          <label>
+            <span>Judgement</span>
+            <textarea rows="5" [(ngModel)]="caseForm.judgement"></textarea>
+          </label>
+          <label>
+            <span>Notes</span>
+            <textarea rows="3" [(ngModel)]="caseForm.notes"></textarea>
+          </label>
+        </div>
+
+        <div class="materials-form__toggles">
+          <label><input type="checkbox" [(ngModel)]="caseForm.completionStatus" /> Completion status</label>
+          <label><input type="checkbox" [(ngModel)]="caseForm.primaryReview" /> Verified</label>
+          <label><input type="checkbox" [(ngModel)]="caseForm.secondayReview" /> Secondary review</label>
+          <label><input type="checkbox" [(ngModel)]="caseForm.isStub" /> Stub</label>
+          <label><input type="checkbox" [(ngModel)]="caseForm.reported" /> Reported</label>
+        </div>
+      </div>
+
+      <div *ngIf="(panelMode === 'edit' || panelMode === 'create') && resourceType === 'legislation'" class="materials-form">
+        <div class="materials-form__grid materials-form__grid--two">
+          <label>
+            <span>Legislation name</span>
+            <input type="text" [(ngModel)]="legislationForm.legislationName" />
+          </label>
+          <label>
+            <span>General title</span>
+            <input type="text" [(ngModel)]="legislationForm.generalTitle" />
+          </label>
+          <label>
+            <span>Primary number</span>
+            <input type="text" [(ngModel)]="legislationForm.legislationNumber" />
+          </label>
+          <label>
+            <span>Additional numbers</span>
+            <input type="text" [(ngModel)]="legislationForm.legislationNumbers" />
+          </label>
+          <label>
+            <span>Chapter number</span>
+            <input type="text" [(ngModel)]="legislationForm.chapterNumber" />
+          </label>
+          <label>
+            <span>Volume number</span>
+            <input type="text" [(ngModel)]="legislationForm.volumeNumber" />
+          </label>
+          <label>
+            <span>Type</span>
+            <select [(ngModel)]="legislationForm.legislationTypeId">
+              <option value="">Select type</option>
+              <option *ngFor="let option of meta?.legislations?.types || []" [value]="option.id">{{ option.name }}</option>
+            </select>
+          </label>
+          <label>
+            <span>Date of assent</span>
+            <input type="date" [(ngModel)]="legislationForm.dateOfAssent" />
+          </label>
+          <label>
+            <span>Year of amendment</span>
+            <input type="number" [(ngModel)]="legislationForm.yearOfAmendment" />
+          </label>
+        </div>
+
+        <div class="materials-form__grid">
+          <label>
+            <span>Preamble</span>
+            <textarea rows="5" [(ngModel)]="legislationForm.preamble"></textarea>
+          </label>
+          <label>
+            <span>Enactment</span>
+            <textarea rows="5" [(ngModel)]="legislationForm.enactment"></textarea>
+          </label>
+        </div>
+
+        <div class="materials-form__toggles">
+          <label><input type="checkbox" [(ngModel)]="legislationForm.deleted" /> Mark as deleted</label>
+        </div>
+      </div>
+
+      <div class="materials-panel__footer" *ngIf="panelMode === 'edit' || panelMode === 'create'">
+        <button type="button" class="materials-admin__action materials-admin__action--primary" [disabled]="saving" (click)="save()">
+          {{ saving ? 'Saving...' : 'Save changes' }}
+        </button>
+        <button type="button" class="materials-admin__action" [disabled]="saving" (click)="cancelEditing()">Cancel</button>
+      </div>
+    </aside>
+  </div>
+</section>

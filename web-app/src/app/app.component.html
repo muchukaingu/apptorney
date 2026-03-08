@@ -39,17 +39,23 @@
   (openSubscription)="openSubscriptionFromLanding()"
 ></app-landing-page>
 
-<div class="app-shell" [class.sidebar-open]="sidebarOpen" *ngIf="!showLanding">
+<div class="app-shell" [class.sidebar-open]="sidebarOpen" [class.detail-open]="activeDetail && !detailCollapsed" [class.detail-collapsed]="activeDetail && detailCollapsed" *ngIf="!showLanding">
   <app-sidebar
     [view]="view"
     [threads]="threads"
     [currentThreadId]="currentThreadId"
     [isAdmin]="isAdmin"
+    [isExpanded]="sidebarOpen"
+    [userMenuOpen]="userMenuOpen"
+    [userName]="username"
+    [userEmail]="currentUser?.email || ''"
     (startNewChat)="startNewChat()"
     (setView)="setView($event)"
     (refreshThreads)="refreshThreads()"
     (loadThread)="loadThread($event)"
     (toggleSidebar)="sidebarOpen = !sidebarOpen"
+    (toggleUserMenu)="toggleUserMenu($event)"
+    (logout)="logout()"
   ></app-sidebar>
 
   <main class="main-panel">
@@ -71,37 +77,19 @@
                     : view === 'subscription'
                       ? 'Subscription'
                       : view === 'admin'
-                        ? 'Admin'
+                        ? 'Dashboard'
                         : 'Settings'
           }}
         </h2>
       </div>
       <div class="header-actions">
-        <button class="icon-btn sidebar-expand-btn" [class.is-hidden]="sidebarOpen" title="Expand sidebar" (click)="sidebarOpen = !sidebarOpen">
+        <button class="icon-btn sidebar-expand-btn mobile-only" [class.is-hidden]="sidebarOpen" title="Expand sidebar" aria-label="Expand sidebar" (click)="sidebarOpen = !sidebarOpen">
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="2" y="2" width="14" height="14" rx="2"/>
-            <line x1="7" y1="2" x2="7" y2="16"/>
-            <polyline points="9 7 11 9 9 11"/>
+            <line x1="6" y1="3" x2="6" y2="15"/>
+            <polyline points="11.5 5.5 8 9 11.5 12.5"/>
           </svg>
         </button>
 
-        <div class="user-menu">
-          <button
-            class="user-menu__trigger"
-            title="Account menu"
-            aria-label="Account menu"
-            [attr.aria-expanded]="userMenuOpen"
-            aria-haspopup="menu"
-            (click)="toggleUserMenu($event)"
-          >
-            <span class="user-menu__avatar">{{ userInitial }}</span>
-          </button>
-
-          <div class="user-menu__panel" *ngIf="userMenuOpen" role="menu" (click)="$event.stopPropagation()">
-            <p class="user-menu__name">{{ username || 'Guest' }}</p>
-            <button class="user-menu__item" role="menuitem" (click)="logout()">Logout</button>
-          </div>
-        </div>
       </div>
     </header>
 
@@ -172,6 +160,8 @@
     </section>
 
     <section class="view is-visible" *ngIf="view === 'cases'">
+      <app-admin-materials *ngIf="isAdmin; else publicCasesView" resourceType="case"></app-admin-materials>
+      <ng-template #publicCasesView>
       <div class="resource-search">
         <input type="search" placeholder="Search cases" [(ngModel)]="caseSearchTerm" (ngModelChange)="onCaseTermChange()" name="caseSearchTerm" />
         <p class="resource-search__hint">Uses `/cases/mobilesearch` from the iOS app flow.</p>
@@ -188,9 +178,12 @@
           <p>{{ caseResultMeta(item) }}</p>
         </article>
       </div>
+      </ng-template>
     </section>
 
     <section class="view is-visible" *ngIf="view === 'legislations'">
+      <app-admin-materials *ngIf="isAdmin; else publicLegislationView" resourceType="legislation"></app-admin-materials>
+      <ng-template #publicLegislationView>
       <div class="resource-search">
         <input
           type="search"
@@ -213,6 +206,7 @@
           <p>{{ legislationResultMeta(item) }}</p>
         </article>
       </div>
+      </ng-template>
     </section>
 
     <section class="view is-visible" *ngIf="view === 'subscription'">
@@ -309,120 +303,7 @@
     </section>
 
     <section class="view is-visible" *ngIf="view === 'admin'">
-      <div class="admin-dashboard" *ngIf="isAdmin">
-        <!-- Loading skeleton -->
-        <div *ngIf="adminLoading && !adminOverview" class="admin-loading">
-          <div class="cards-grid admin-kpi-grid">
-            <article class="resource-card admin-kpi" *ngFor="let i of [1,2,3,4]">
-              <div class="skeleton skeleton--label"></div>
-              <div class="skeleton skeleton--value"></div>
-            </article>
-          </div>
-          <div class="cards-grid">
-            <article class="resource-card">
-              <div class="skeleton skeleton--heading"></div>
-              <div class="skeleton skeleton--line"></div>
-              <div class="skeleton skeleton--line" style="width: 60%"></div>
-            </article>
-            <article class="resource-card">
-              <div class="skeleton skeleton--heading"></div>
-              <div class="skeleton skeleton--line"></div>
-              <div class="skeleton skeleton--line" style="width: 75%"></div>
-            </article>
-          </div>
-          <p class="admin-loading__hint">Loading dashboard data&hellip;</p>
-        </div>
-
-        <!-- Loaded content -->
-        <ng-container *ngIf="adminOverview">
-          <div class="cards-grid admin-kpi-grid">
-            <article class="resource-card admin-kpi">
-              <h4>Total Users</h4>
-              <p class="admin-kpi__value">{{ adminOverview.totalUsers }}</p>
-            </article>
-            <article class="resource-card admin-kpi">
-              <h4>Active Subscriptions</h4>
-              <p class="admin-kpi__value">{{ adminOverview.activeSubscriptions }}</p>
-            </article>
-            <article class="resource-card admin-kpi">
-              <h4>Monthly Revenue</h4>
-              <p class="admin-kpi__value">${{ adminOverview.monthlyRevenue }}</p>
-            </article>
-            <article class="resource-card admin-kpi">
-              <h4>Total Queries</h4>
-              <p class="admin-kpi__value">{{ adminOverview.totalQueries }}</p>
-            </article>
-          </div>
-
-          <div class="cards-grid">
-            <article class="resource-card">
-              <h3>Subscription Breakdown</h3>
-              <div class="stack-list" *ngIf="adminSubscriptions.length > 0; else noAdminSubs">
-                <article class="list-item" *ngFor="let item of adminSubscriptions">
-                  <h4>{{ item.plan }} ({{ item.status }})</h4>
-                  <p>{{ item.count }} subscription(s)</p>
-                </article>
-              </div>
-              <ng-template #noAdminSubs>
-                <article class="list-item"><h4>No subscription data</h4></article>
-              </ng-template>
-            </article>
-
-            <article class="resource-card">
-              <h3>Content</h3>
-              <div *ngIf="adminContent; else contentLoading">
-                <div class="settings-field">
-                  <span class="settings-field__label">Cases</span>
-                  <span class="settings-field__value">{{ adminContent.totalCases | number }}</span>
-                </div>
-                <div class="settings-field">
-                  <span class="settings-field__label">Legislations</span>
-                  <span class="settings-field__value">{{ adminContent.totalLegislations | number }}</span>
-                </div>
-              </div>
-              <ng-template #contentLoading>
-                <div class="settings-field">
-                  <span class="settings-field__label">Cases</span>
-                  <span class="settings-field__value"><span class="skeleton skeleton--inline"></span></span>
-                </div>
-                <div class="settings-field">
-                  <span class="settings-field__label">Legislations</span>
-                  <span class="settings-field__value"><span class="skeleton skeleton--inline"></span></span>
-                </div>
-              </ng-template>
-              <div class="stack-list" *ngIf="adminContent?.recentlyAdded?.length">
-                <h4 style="margin-top: 12px;">Recently Added</h4>
-                <article class="list-item" *ngFor="let item of adminContent!.recentlyAdded">
-                  <h4>{{ item.title }}</h4>
-                  <p>{{ item.type }} — {{ item.addedAt }}</p>
-                </article>
-              </div>
-            </article>
-          </div>
-
-          <div class="cards-grid" style="grid-template-columns: 1fr;">
-            <article class="resource-card">
-              <div class="resource-card__header">
-                <h3>Recent Payments</h3>
-                <div>
-                  <button class="text-btn" [disabled]="adminPaymentsPage <= 1" (click)="loadAdminPayments(adminPaymentsPage - 1)">Prev</button>
-                  <span style="margin: 0 8px; font-size: 13px;">Page {{ adminPaymentsPage }}</span>
-                  <button class="text-btn" (click)="loadAdminPayments(adminPaymentsPage + 1)">Next</button>
-                </div>
-              </div>
-              <div class="stack-list" *ngIf="adminPayments.length > 0; else noAdminPayments">
-                <article class="list-item" *ngFor="let payment of adminPayments">
-                  <h4>${{ payment.amount }} — {{ payment.method }}</h4>
-                  <p>Ref: {{ payment.reference }} | Status: {{ payment.status }} | {{ payment.createdAt }}</p>
-                </article>
-              </div>
-              <ng-template #noAdminPayments>
-                <article class="list-item"><h4>No payments yet</h4></article>
-              </ng-template>
-            </article>
-          </div>
-        </ng-container>
-      </div>
+      <app-admin-dashboard *ngIf="isAdmin"></app-admin-dashboard>
 
       <div *ngIf="!isAdmin" style="padding: 40px; text-align: center;">
         <p>You do not have permission to view this page.</p>
@@ -458,4 +339,31 @@
       </div>
     </section>
   </main>
+
+  <!-- Detail right sidebar -->
+  <aside class="detail-sidebar" *ngIf="activeDetail">
+    <header class="detail-sidebar__header">
+      <button class="detail-sidebar__toggle" (click)="detailCollapsed = !detailCollapsed" [attr.aria-label]="detailCollapsed ? 'Expand detail' : 'Collapse detail'">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <polyline *ngIf="!detailCollapsed" points="9 18 15 12 9 6"/>
+          <polyline *ngIf="detailCollapsed" points="15 18 9 12 15 6"/>
+        </svg>
+      </button>
+      <div class="detail-sidebar__title-block" *ngIf="!detailCollapsed">
+        <span class="detail-sidebar__type">{{ activeDetailType }}</span>
+        <h2 class="detail-sidebar__title">{{ activeDetailTitle }}</h2>
+        <p class="detail-sidebar__meta" *ngIf="activeDetailMeta">{{ activeDetailMeta }}</p>
+      </div>
+      <button class="detail-sidebar__close" *ngIf="!detailCollapsed" (click)="closeDetail()" aria-label="Close detail">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </header>
+    <div class="detail-sidebar__body" *ngIf="!detailCollapsed">
+      <section *ngFor="let section of activeDetailSections" class="detail-section">
+        <h3>{{ section.title }}</h3>
+        <p>{{ section.content }}</p>
+      </section>
+      <p *ngIf="activeDetailSections.length === 0" class="detail-sidebar__empty">No content available for this resource.</p>
+    </div>
+  </aside>
 </div>

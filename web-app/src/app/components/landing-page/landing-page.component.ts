@@ -62,6 +62,7 @@ export class LandingPageComponent {
   showTerms = false;
   showPrivacy = false;
   showUpgradeModal = false;
+  otpDigits: string[] = ['', '', '', '', '', ''];
 
   @HostListener('document:click')
   onDocumentClick(): void {
@@ -144,5 +145,46 @@ export class LandingPageComponent {
     if (target.classList.contains('ref-chip--landing')) {
       this.showUpgradeModal = true;
     }
+  }
+
+  onOtpDigitInput(event: Event, index: number): void {
+    const input = event.target as HTMLInputElement;
+    const value = input.value.replace(/\D/g, '');
+    this.otpDigits[index] = value.charAt(0) || '';
+    input.value = this.otpDigits[index];
+    this.emitOtpValue();
+    if (value && index < 5) {
+      const next = input.parentElement?.querySelectorAll<HTMLInputElement>('.otp-box')[index + 1];
+      next?.focus();
+    }
+  }
+
+  onOtpKeydown(event: KeyboardEvent, index: number): void {
+    if (event.key === 'Backspace' && !this.otpDigits[index] && index > 0) {
+      const prev = (event.target as HTMLInputElement).parentElement?.querySelectorAll<HTMLInputElement>('.otp-box')[index - 1];
+      if (prev) {
+        this.otpDigits[index - 1] = '';
+        prev.value = '';
+        prev.focus();
+        this.emitOtpValue();
+      }
+    }
+  }
+
+  onOtpPaste(event: ClipboardEvent): void {
+    event.preventDefault();
+    const text = (event.clipboardData?.getData('text') || '').replace(/\D/g, '').slice(0, 6);
+    const boxes = (event.target as HTMLInputElement).parentElement?.querySelectorAll<HTMLInputElement>('.otp-box');
+    for (let i = 0; i < 6; i++) {
+      this.otpDigits[i] = text.charAt(i) || '';
+      if (boxes?.[i]) boxes[i].value = this.otpDigits[i];
+    }
+    this.emitOtpValue();
+    const focusIdx = Math.min(text.length, 5);
+    boxes?.[focusIdx]?.focus();
+  }
+
+  private emitOtpValue(): void {
+    this.authOtpChange.emit(this.otpDigits.join(''));
   }
 }

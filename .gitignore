@@ -11,6 +11,7 @@ Thumbs.db
 # Environment
 .env
 .env.local
+docker-compose.dev.yml
 
 # Logs
 *.log

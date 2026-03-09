@@ -838,7 +838,7 @@ app-sidebar {
   display: flex;
   flex-direction: column;
   gap: 2px;
-  padding: 16px 12px 8px;
+  padding: 4px 12px 8px;
 }
 
 .nav-divider {

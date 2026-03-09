@@ -21,8 +21,13 @@ export class AdminDashboardComponent implements OnInit {
     maximumFractionDigits: 0
   });
 
-  loading = true;
   error = '';
+
+  overviewLoaded = false;
+  growthLoaded = false;
+  subscriptionsLoaded = false;
+  paymentsLoaded = false;
+  contentLoaded = false;
 
   overview: AdminOverview | null = null;
   growth: GrowthDataPoint[] = [];
@@ -35,7 +40,7 @@ export class AdminDashboardComponent implements OnInit {
   constructor(private readonly adminService: AdminService) {}
 
   async ngOnInit(): Promise<void> {
-    await this.loadDashboard();
+    this.loadDashboard();
   }
 
   get heroMetrics(): Array<{ label: string; value: string; note: string }> {
@@ -123,29 +128,73 @@ export class AdminDashboardComponent implements OnInit {
     return this.content?.legislation.byType.slice(0, 5) ?? [];
   }
 
-  async loadDashboard(): Promise<void> {
-    this.loading = true;
+  loadDashboard(): void {
     this.error = '';
+    this.overviewLoaded = false;
+    this.growthLoaded = false;
+    this.subscriptionsLoaded = false;
+    this.paymentsLoaded = false;
+    this.contentLoaded = false;
 
-    const [overview, growth, subscriptions, payments, content] = await Promise.all([
-      this.adminService.getOverview(),
-      this.adminService.getGrowth(),
-      this.adminService.getSubscriptions(),
-      this.adminService.getPayments(this.paymentsPage),
-      this.adminService.getContent()
-    ]);
+    this.overview = null;
+    this.growth = [];
+    this.subscriptions = [];
+    this.payments = [];
+    this.content = null;
 
-    if (!overview.ok || !growth.ok || !subscriptions.ok || !payments.ok || !content.ok) {
-      this.error = 'Dashboard data could not be loaded right now.';
+    this.loadOverview();
+    this.loadGrowth();
+    this.loadSubscriptions();
+    this.loadPaymentsSection(this.paymentsPage);
+    this.loadContent();
+  }
+
+  private async loadOverview(): Promise<void> {
+    const result = await this.adminService.getOverview();
+    this.overview = result.data ?? null;
+    this.overviewLoaded = true;
+    if (!result.ok) {
+      this.error = this.error || 'Some dashboard data could not be loaded.';
     }
+  }
 
-    this.overview = overview.data ?? null;
-    this.growth = growth.data ?? [];
-    this.subscriptions = subscriptions.data ?? [];
-    this.payments = payments.data ?? [];
-    this.paymentPages = payments.pages ?? 1;
-    this.content = content.data ?? null;
-    this.loading = false;
+  private async loadGrowth(): Promise<void> {
+    const result = await this.adminService.getGrowth();
+    this.growth = result.data ?? [];
+    this.growthLoaded = true;
+    if (!result.ok) {
+      this.error = this.error || 'Some dashboard data could not be loaded.';
+    }
+  }
+
+  private async loadSubscriptions(): Promise<void> {
+    const result = await this.adminService.getSubscriptions();
+    this.subscriptions = result.data ?? [];
+    this.subscriptionsLoaded = true;
+    if (!result.ok) {
+      this.error = this.error || 'Some dashboard data could not be loaded.';
+    }
+  }
+
+  private async loadPaymentsSection(page: number): Promise<void> {
+    const safePage = Math.max(1, page);
+    const result = await this.adminService.getPayments(safePage);
+    this.payments = result.data ?? [];
+    this.paymentsPage = safePage;
+    this.paymentPages = result.pages ?? 1;
+    this.paymentsLoaded = true;
+    if (!result.ok) {
+      this.error = this.error || 'Some dashboard data could not be loaded.';
+    }
+  }
+
+  private async loadContent(): Promise<void> {
+    const result = await this.adminService.getContent();
+    this.content = result.data ?? null;
+    this.contentLoaded = true;
+    if (!result.ok) {
+      this.error = this.error || 'Some dashboard data could not be loaded.';
+    }
   }
 
   async loadPayments(page: number): Promise<void> {

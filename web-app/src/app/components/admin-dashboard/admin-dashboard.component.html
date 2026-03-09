@@ -1,11 +1,5 @@
 <section class="ops-dashboard">
   <div class="admin-dashboard__topbar">
-    <div>
-      <p class="admin-dashboard__eyebrow">Overview</p>
-      <h3>Dashboard</h3>
-      <p class="admin-dashboard__subtitle">Key activity across subscriptions, content, and usage.</p>
-    </div>
-
     <button class="admin-dashboard__refresh" type="button" (click)="loadDashboard()">
       Refresh
     </button>
@@ -15,30 +9,27 @@
     {{ error }}
   </div>
 
-  <div *ngIf="loading && !overview" class="admin-dashboard__loading">
-    <div class="admin-dashboard__loading-card" *ngFor="let _ of [1, 2, 3, 4]"></div>
-  </div>
+  <!-- Hero: overview + growth sparkline -->
+  <section class="dashboard-hero" *ngIf="overviewLoaded && overview; else heroSkeleton">
+    <div class="dashboard-hero__copy">
+      <p class="dashboard-hero__kicker">At a glance</p>
+      <h4>{{ formatCompact(overview.totalUsers) }} users across {{ formatWhole(overview.totalOrganizations) }} organizations</h4>
+      <p class="dashboard-hero__body">
+        {{ formatCurrency(overview.monthlyRevenue) }} confirmed this month, {{ formatCompact(overview.totalQueries) }} AI queries today,
+        and {{ formatWhole(overview.activeSubscriptions) }} active subscriptions currently live.
+      </p>
 
-  <ng-container *ngIf="overview">
-    <section class="dashboard-hero">
-      <div class="dashboard-hero__copy">
-        <p class="dashboard-hero__kicker">At a glance</p>
-        <h4>{{ formatCompact(overview.totalUsers) }} users across {{ formatWhole(overview.totalOrganizations) }} organizations</h4>
-        <p class="dashboard-hero__body">
-          {{ formatCurrency(overview.monthlyRevenue) }} confirmed this month, {{ formatCompact(overview.totalQueries) }} AI queries today,
-          and {{ formatWhole(overview.activeSubscriptions) }} active subscriptions currently live.
-        </p>
-
-        <div class="dashboard-hero__metrics">
-          <article class="dashboard-hero__metric" *ngFor="let metric of heroMetrics">
-            <span>{{ metric.label }}</span>
-            <strong>{{ metric.value }}</strong>
-            <small>{{ metric.note }}</small>
-          </article>
-        </div>
+      <div class="dashboard-hero__metrics">
+        <article class="dashboard-hero__metric" *ngFor="let metric of heroMetrics">
+          <span>{{ metric.label }}</span>
+          <strong>{{ metric.value }}</strong>
+          <small>{{ metric.note }}</small>
+        </article>
       </div>
+    </div>
 
-      <div class="dashboard-hero__visual">
+    <div class="dashboard-hero__visual">
+      <ng-container *ngIf="growthLoaded && growth.length > 0; else chartSkeleton">
         <div class="dashboard-hero__legend">
           <span><i class="is-queries"></i> Queries</span>
           <span><i class="is-users"></i> New users</span>
@@ -62,201 +53,306 @@
           <span>{{ firstGrowthDate | date:'MMM d' }}</span>
           <span *ngIf="latestGrowthPoint">Latest: {{ latestGrowthPoint.date | date:'MMM d' }}</span>
         </div>
+      </ng-container>
+      <ng-template #chartSkeleton>
+        <div class="skeleton-chart">
+          <div class="skeleton-line skeleton-line--short"></div>
+          <div class="skeleton-chart__area"></div>
+          <div class="skeleton-line skeleton-line--xs"></div>
+        </div>
+      </ng-template>
+    </div>
+  </section>
+  <ng-template #heroSkeleton>
+    <section class="dashboard-hero dashboard-hero--skeleton">
+      <div class="dashboard-hero__copy">
+        <div class="skeleton-line skeleton-line--xs"></div>
+        <div class="skeleton-line skeleton-line--wide"></div>
+        <div class="skeleton-line skeleton-line--medium"></div>
+        <div class="dashboard-hero__metrics">
+          <div class="skeleton-metric" *ngFor="let _ of [1, 2, 3]"></div>
+        </div>
+      </div>
+      <div class="dashboard-hero__visual">
+        <div class="skeleton-chart">
+          <div class="skeleton-line skeleton-line--short"></div>
+          <div class="skeleton-chart__area"></div>
+          <div class="skeleton-line skeleton-line--xs"></div>
+        </div>
       </div>
     </section>
+  </ng-template>
 
+  <!-- KPI cards -->
+  <section class="dashboard-kpis" *ngIf="overviewLoaded && overview; else kpiSkeleton">
+    <article class="dashboard-kpi dashboard-kpi--{{ card.tone }}" *ngFor="let card of kpiCards">
+      <span>{{ card.label }}</span>
+      <strong>{{ card.value }}</strong>
+      <small>{{ card.note }}</small>
+    </article>
+  </section>
+  <ng-template #kpiSkeleton>
     <section class="dashboard-kpis">
-      <article class="dashboard-kpi dashboard-kpi--{{ card.tone }}" *ngFor="let card of kpiCards">
-        <span>{{ card.label }}</span>
-        <strong>{{ card.value }}</strong>
-        <small>{{ card.note }}</small>
+      <article class="dashboard-kpi dashboard-kpi--skeleton" *ngFor="let _ of [1, 2, 3, 4]">
+        <div class="skeleton-line skeleton-line--xs"></div>
+        <div class="skeleton-line skeleton-line--short"></div>
+        <div class="skeleton-line skeleton-line--medium"></div>
       </article>
     </section>
+  </ng-template>
 
-    <section class="dashboard-grid">
-      <article class="dashboard-card dashboard-card--wide">
-        <div class="dashboard-card__header">
-          <div>
-            <p class="dashboard-card__kicker">Usage</p>
-            <h4>Last 30 days</h4>
-          </div>
-          <span class="dashboard-card__value" *ngIf="latestGrowthPoint">
-            {{ formatCompact(latestGrowthPoint.queries) }} queries on latest snapshot
-          </span>
-        </div>
-
-        <div class="dashboard-growth-list" *ngIf="growth.length > 0; else noGrowth">
-          <article class="dashboard-growth-list__item" *ngFor="let point of growth.slice(-6)">
-            <span>{{ point.date | date:'MMM d' }}</span>
-            <strong>{{ formatCompact(point.queries) }}</strong>
-            <small>{{ formatWhole(point.newUsers) }} new users</small>
-          </article>
-        </div>
-        <ng-template #noGrowth>
-          <p class="dashboard-card__empty">Growth snapshots will appear here once daily stats are available.</p>
-        </ng-template>
-      </article>
-
-      <article class="dashboard-card">
-        <div class="dashboard-card__header">
-          <div>
-            <p class="dashboard-card__kicker">Subscriptions</p>
-            <h4>Plan mix</h4>
-          </div>
-        </div>
-
-        <div class="dashboard-chip-grid" *ngIf="planBreakdown.length > 0; else noPlans">
-          <article class="dashboard-chip" *ngFor="let item of planBreakdown">
-            <span>{{ item.label }}</span>
-            <strong>{{ formatWhole(item.count) }}</strong>
-          </article>
-        </div>
-        <ng-template #noPlans>
-          <p class="dashboard-card__empty">Plan breakdown is not available yet.</p>
-        </ng-template>
-
-        <div class="dashboard-chip-grid dashboard-chip-grid--subtle" *ngIf="statusBreakdown.length > 0">
-          <article class="dashboard-chip" *ngFor="let item of statusBreakdown">
-            <span>{{ item.label }}</span>
-            <strong>{{ formatWhole(item.count) }}</strong>
-          </article>
-        </div>
-      </article>
-
-      <article class="dashboard-card">
-        <div class="dashboard-card__header">
-          <div>
-            <p class="dashboard-card__kicker">Content</p>
-            <h4>Case coverage</h4>
-          </div>
-        </div>
-
-        <div class="dashboard-stats-grid" *ngIf="content">
-          <article>
-            <span>Complete</span>
-            <strong>{{ formatWhole(content.cases.complete) }}</strong>
-          </article>
-          <article>
-            <span>Incomplete</span>
-            <strong>{{ formatWhole(content.cases.incomplete) }}</strong>
-          </article>
-          <article>
-            <span>Verified</span>
-            <strong>{{ formatWhole(content.cases.verified) }}</strong>
-          </article>
-          <article>
-            <span>Stubs</span>
-            <strong>{{ formatWhole(content.cases.stubs) }}</strong>
-          </article>
-        </div>
-      </article>
-
-      <article class="dashboard-card">
-        <div class="dashboard-card__header">
-          <div>
-            <p class="dashboard-card__kicker">Courts</p>
-            <h4>Case volume by court</h4>
-          </div>
-        </div>
-
-        <div class="dashboard-bars" *ngIf="courtBreakdown.length > 0; else noCourts">
-          <article class="dashboard-bar" *ngFor="let item of courtBreakdown">
-            <div class="dashboard-bar__head">
-              <span>{{ item.name }}</span>
-              <strong>{{ formatWhole(item.count) }}</strong>
-            </div>
-            <div class="dashboard-bar__track">
-              <div class="dashboard-bar__fill" [style.width]="barWidth(item.count, maxCount(courtBreakdown))"></div>
-            </div>
-          </article>
-        </div>
-        <ng-template #noCourts>
-          <p class="dashboard-card__empty">Court distribution data is not available yet.</p>
-        </ng-template>
-      </article>
-
-      <article class="dashboard-card">
-        <div class="dashboard-card__header">
-          <div>
-            <p class="dashboard-card__kicker">Legislation</p>
-            <h4>Material types</h4>
-          </div>
-        </div>
-
-        <div class="dashboard-bars dashboard-bars--accent" *ngIf="legislationTypeBreakdown.length > 0; else noTypes">
-          <article class="dashboard-bar" *ngFor="let item of legislationTypeBreakdown">
-            <div class="dashboard-bar__head">
-              <span>{{ item.name }}</span>
-              <strong>{{ formatWhole(item.count) }}</strong>
-            </div>
-            <div class="dashboard-bar__track">
-              <div class="dashboard-bar__fill" [style.width]="barWidth(item.count, maxCount(legislationTypeBreakdown))"></div>
-            </div>
-          </article>
-        </div>
-        <ng-template #noTypes>
-          <p class="dashboard-card__empty">Legislation-type distribution will appear here once loaded.</p>
-        </ng-template>
-      </article>
-
-      <article class="dashboard-card">
-        <div class="dashboard-card__header">
-          <div>
-            <p class="dashboard-card__kicker">Recent</p>
-            <h4>Latest materials</h4>
-          </div>
-        </div>
-
-        <div class="dashboard-activity" *ngIf="content?.recentlyAdded?.length; else noRecent">
-          <article class="dashboard-activity__item" *ngFor="let item of content!.recentlyAdded">
-            <span class="dashboard-activity__type">{{ item.type }}</span>
-            <strong>{{ item.title }}</strong>
-            <small>{{ item.addedAt | date:'mediumDate' }}</small>
-          </article>
-        </div>
-        <ng-template #noRecent>
-          <p class="dashboard-card__empty">Newly added items will be surfaced here.</p>
-        </ng-template>
-      </article>
-    </section>
-
-    <section class="dashboard-card dashboard-card--payments">
+  <!-- Dashboard grid cards -->
+  <section class="dashboard-grid">
+    <!-- Usage (growth) -->
+    <article class="dashboard-card dashboard-card--wide" *ngIf="growthLoaded; else growthCardSkeleton">
       <div class="dashboard-card__header">
         <div>
-          <p class="dashboard-card__kicker">Payments</p>
-          <h4>Recent payments</h4>
+          <p class="dashboard-card__kicker">Usage</p>
+          <h4>Last 30 days</h4>
         </div>
+        <span class="dashboard-card__value" *ngIf="latestGrowthPoint">
+          {{ formatCompact(latestGrowthPoint.queries) }} queries on latest snapshot
+        </span>
+      </div>
 
-        <div class="dashboard-card__actions">
-          <button type="button" [disabled]="paymentsPage <= 1" (click)="loadPayments(paymentsPage - 1)">Prev</button>
-          <span>Page {{ paymentsPage }} of {{ paymentPages }}</span>
-          <button type="button" [disabled]="paymentsPage >= paymentPages" (click)="loadPayments(paymentsPage + 1)">Next</button>
+      <div class="dashboard-growth-list" *ngIf="growth.length > 0; else noGrowth">
+        <article class="dashboard-growth-list__item" *ngFor="let point of growth.slice(-6)">
+          <span>{{ point.date | date:'MMM d' }}</span>
+          <strong>{{ formatCompact(point.queries) }}</strong>
+          <small>{{ formatWhole(point.newUsers) }} new users</small>
+        </article>
+      </div>
+      <ng-template #noGrowth>
+        <p class="dashboard-card__empty">Growth snapshots will appear here once daily stats are available.</p>
+      </ng-template>
+    </article>
+    <ng-template #growthCardSkeleton>
+      <article class="dashboard-card dashboard-card--wide dashboard-card--skeleton">
+        <div class="skeleton-line skeleton-line--xs"></div>
+        <div class="skeleton-line skeleton-line--short"></div>
+        <div class="skeleton-grid skeleton-grid--3">
+          <div class="skeleton-chip" *ngFor="let _ of [1, 2, 3, 4, 5, 6]"></div>
+        </div>
+      </article>
+    </ng-template>
+
+    <!-- Subscriptions -->
+    <article class="dashboard-card" *ngIf="subscriptionsLoaded; else subCardSkeleton">
+      <div class="dashboard-card__header">
+        <div>
+          <p class="dashboard-card__kicker">Subscriptions</p>
+          <h4>Plan mix</h4>
         </div>
       </div>
 
-      <div class="dashboard-payments" *ngIf="payments.length > 0; else noPayments">
-        <article class="dashboard-payment" *ngFor="let payment of payments">
-          <div>
-            <strong>{{ formatCurrency(payment.amount) }}</strong>
-            <span>{{ payment.method }}</span>
+      <div class="dashboard-chip-grid" *ngIf="planBreakdown.length > 0; else noPlans">
+        <article class="dashboard-chip" *ngFor="let item of planBreakdown">
+          <span>{{ item.label }}</span>
+          <strong>{{ formatWhole(item.count) }}</strong>
+        </article>
+      </div>
+      <ng-template #noPlans>
+        <p class="dashboard-card__empty">Plan breakdown is not available yet.</p>
+      </ng-template>
+
+      <div class="dashboard-chip-grid dashboard-chip-grid--subtle" *ngIf="statusBreakdown.length > 0">
+        <article class="dashboard-chip" *ngFor="let item of statusBreakdown">
+          <span>{{ item.label }}</span>
+          <strong>{{ formatWhole(item.count) }}</strong>
+        </article>
+      </div>
+    </article>
+    <ng-template #subCardSkeleton>
+      <article class="dashboard-card dashboard-card--skeleton">
+        <div class="skeleton-line skeleton-line--xs"></div>
+        <div class="skeleton-line skeleton-line--short"></div>
+        <div class="skeleton-grid skeleton-grid--2">
+          <div class="skeleton-chip" *ngFor="let _ of [1, 2]"></div>
+        </div>
+      </article>
+    </ng-template>
+
+    <!-- Content -->
+    <article class="dashboard-card" *ngIf="contentLoaded; else contentCardSkeleton">
+      <div class="dashboard-card__header">
+        <div>
+          <p class="dashboard-card__kicker">Content</p>
+          <h4>Case coverage</h4>
+        </div>
+      </div>
+
+      <div class="dashboard-stats-grid" *ngIf="content">
+        <article>
+          <span>Complete</span>
+          <strong>{{ formatWhole(content.cases.complete) }}</strong>
+        </article>
+        <article>
+          <span>Incomplete</span>
+          <strong>{{ formatWhole(content.cases.incomplete) }}</strong>
+        </article>
+        <article>
+          <span>Verified</span>
+          <strong>{{ formatWhole(content.cases.verified) }}</strong>
+        </article>
+        <article>
+          <span>Stubs</span>
+          <strong>{{ formatWhole(content.cases.stubs) }}</strong>
+        </article>
+      </div>
+    </article>
+    <ng-template #contentCardSkeleton>
+      <article class="dashboard-card dashboard-card--skeleton">
+        <div class="skeleton-line skeleton-line--xs"></div>
+        <div class="skeleton-line skeleton-line--short"></div>
+        <div class="skeleton-grid skeleton-grid--2">
+          <div class="skeleton-chip" *ngFor="let _ of [1, 2, 3, 4]"></div>
+        </div>
+      </article>
+    </ng-template>
+
+    <!-- Courts -->
+    <article class="dashboard-card" *ngIf="contentLoaded; else courtsCardSkeleton">
+      <div class="dashboard-card__header">
+        <div>
+          <p class="dashboard-card__kicker">Courts</p>
+          <h4>Case volume by court</h4>
+        </div>
+      </div>
+
+      <div class="dashboard-bars" *ngIf="courtBreakdown.length > 0; else noCourts">
+        <article class="dashboard-bar" *ngFor="let item of courtBreakdown">
+          <div class="dashboard-bar__head">
+            <span>{{ item.name }}</span>
+            <strong>{{ formatWhole(item.count) }}</strong>
           </div>
-          <div>
-            <small>Reference</small>
-            <span>{{ payment.reference || 'N/A' }}</span>
-          </div>
-          <div>
-            <small>Status</small>
-            <span class="dashboard-payment__status">{{ payment.status }}</span>
-          </div>
-          <div>
-            <small>Received</small>
-            <span>{{ payment.createdAt | date:'mediumDate' }}</span>
+          <div class="dashboard-bar__track">
+            <div class="dashboard-bar__fill" [style.width]="barWidth(item.count, maxCount(courtBreakdown))"></div>
           </div>
         </article>
       </div>
-      <ng-template #noPayments>
-        <p class="dashboard-card__empty">No payments have been recorded yet.</p>
+      <ng-template #noCourts>
+        <p class="dashboard-card__empty">Court distribution data is not available yet.</p>
       </ng-template>
+    </article>
+    <ng-template #courtsCardSkeleton>
+      <article class="dashboard-card dashboard-card--skeleton">
+        <div class="skeleton-line skeleton-line--xs"></div>
+        <div class="skeleton-line skeleton-line--short"></div>
+        <div class="skeleton-bars">
+          <div class="skeleton-bar" *ngFor="let _ of [1, 2, 3, 4]"></div>
+        </div>
+      </article>
+    </ng-template>
+
+    <!-- Legislation -->
+    <article class="dashboard-card" *ngIf="contentLoaded; else legCardSkeleton">
+      <div class="dashboard-card__header">
+        <div>
+          <p class="dashboard-card__kicker">Legislation</p>
+          <h4>Material types</h4>
+        </div>
+      </div>
+
+      <div class="dashboard-bars dashboard-bars--accent" *ngIf="legislationTypeBreakdown.length > 0; else noTypes">
+        <article class="dashboard-bar" *ngFor="let item of legislationTypeBreakdown">
+          <div class="dashboard-bar__head">
+            <span>{{ item.name }}</span>
+            <strong>{{ formatWhole(item.count) }}</strong>
+          </div>
+          <div class="dashboard-bar__track">
+            <div class="dashboard-bar__fill" [style.width]="barWidth(item.count, maxCount(legislationTypeBreakdown))"></div>
+          </div>
+        </article>
+      </div>
+      <ng-template #noTypes>
+        <p class="dashboard-card__empty">Legislation-type distribution will appear here once loaded.</p>
+      </ng-template>
+    </article>
+    <ng-template #legCardSkeleton>
+      <article class="dashboard-card dashboard-card--skeleton">
+        <div class="skeleton-line skeleton-line--xs"></div>
+        <div class="skeleton-line skeleton-line--short"></div>
+        <div class="skeleton-bars">
+          <div class="skeleton-bar" *ngFor="let _ of [1, 2, 3]"></div>
+        </div>
+      </article>
+    </ng-template>
+
+    <!-- Recent -->
+    <article class="dashboard-card" *ngIf="contentLoaded; else recentCardSkeleton">
+      <div class="dashboard-card__header">
+        <div>
+          <p class="dashboard-card__kicker">Recent</p>
+          <h4>Latest materials</h4>
+        </div>
+      </div>
+
+      <div class="dashboard-activity" *ngIf="content?.recentlyAdded?.length; else noRecent">
+        <article class="dashboard-activity__item" *ngFor="let item of content!.recentlyAdded">
+          <span class="dashboard-activity__type">{{ item.type }}</span>
+          <strong>{{ item.title }}</strong>
+          <small>{{ item.addedAt | date:'mediumDate' }}</small>
+        </article>
+      </div>
+      <ng-template #noRecent>
+        <p class="dashboard-card__empty">Newly added items will be surfaced here.</p>
+      </ng-template>
+    </article>
+    <ng-template #recentCardSkeleton>
+      <article class="dashboard-card dashboard-card--skeleton">
+        <div class="skeleton-line skeleton-line--xs"></div>
+        <div class="skeleton-line skeleton-line--short"></div>
+        <div class="skeleton-activity">
+          <div class="skeleton-activity__item" *ngFor="let _ of [1, 2, 3, 4]"></div>
+        </div>
+      </article>
+    </ng-template>
+  </section>
+
+  <!-- Payments -->
+  <section class="dashboard-card dashboard-card--payments" *ngIf="paymentsLoaded; else paymentsSkeleton">
+    <div class="dashboard-card__header">
+      <div>
+        <p class="dashboard-card__kicker">Payments</p>
+        <h4>Recent payments</h4>
+      </div>
+
+      <div class="dashboard-card__actions">
+        <button type="button" [disabled]="paymentsPage <= 1" (click)="loadPayments(paymentsPage - 1)">Prev</button>
+        <span>Page {{ paymentsPage }} of {{ paymentPages }}</span>
+        <button type="button" [disabled]="paymentsPage >= paymentPages" (click)="loadPayments(paymentsPage + 1)">Next</button>
+      </div>
+    </div>
+
+    <div class="dashboard-payments" *ngIf="payments.length > 0; else noPayments">
+      <article class="dashboard-payment" *ngFor="let payment of payments">
+        <div>
+          <strong>{{ formatCurrency(payment.amount) }}</strong>
+          <span>{{ payment.method }}</span>
+        </div>
+        <div>
+          <small>Reference</small>
+          <span>{{ payment.reference || 'N/A' }}</span>
+        </div>
+        <div>
+          <small>Status</small>
+          <span class="dashboard-payment__status">{{ payment.status }}</span>
+        </div>
+        <div>
+          <small>Received</small>
+          <span>{{ payment.createdAt | date:'mediumDate' }}</span>
+        </div>
+      </article>
+    </div>
+    <ng-template #noPayments>
+      <p class="dashboard-card__empty">No payments have been recorded yet.</p>
+    </ng-template>
+  </section>
+  <ng-template #paymentsSkeleton>
+    <section class="dashboard-card dashboard-card--payments dashboard-card--skeleton">
+      <div class="skeleton-line skeleton-line--xs"></div>
+      <div class="skeleton-line skeleton-line--short"></div>
+      <div class="skeleton-payment" *ngFor="let _ of [1, 2]"></div>
     </section>
-  </ng-container>
+  </ng-template>
 </section>

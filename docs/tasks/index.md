@@ -3,6 +3,7 @@
 ## Open Task Files
 
 - [2026-03-08 Auth Screen Redesign](./2026-03-08-auth-screen-redesign.md)
+- [2026-03-08 Port Legacy Admin Features](./2026-03-08-port-admin-features.md)
 
 ## Usage
 

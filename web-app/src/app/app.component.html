@@ -42,6 +42,7 @@
 <div class="app-shell" [class.sidebar-open]="sidebarOpen" [class.detail-open]="activeDetail && !detailCollapsed" [class.detail-collapsed]="activeDetail && detailCollapsed" *ngIf="!showLanding">
   <app-sidebar
     [view]="view"
+    [adminSection]="adminSection"
     [threads]="threads"
     [currentThreadId]="currentThreadId"
     [isAdmin]="isAdmin"
@@ -51,6 +52,7 @@
     [userEmail]="currentUser?.email || ''"
     (startNewChat)="startNewChat()"
     (setView)="setView($event)"
+    (setAdminSection)="setAdminSection($event)"
     (refreshThreads)="refreshThreads()"
     (loadThread)="loadThread($event)"
     (toggleSidebar)="sidebarOpen = !sidebarOpen"
@@ -62,12 +64,12 @@
     <header class="main-header">
       <div>
         <p class="main-header__kicker" *ngIf="view !== 'chat'">
-          {{ view === 'settings' ? 'Config' : view === 'home' ? 'Workspace' : view === 'admin' ? 'Dashboard' : view === 'subscription' ? 'Account' : 'Library' }}
+          {{ view === 'settings' ? 'Config' : view === 'home' ? 'Workspace' : view === 'admin' ? (adminSection === 'dashboard' ? 'Dashboard' : 'Reference Data') : view === 'subscription' ? 'Account' : 'Library' }}
         </p>
         <h2>
           {{
             view === 'chat'
-              ? 'Assistant'
+              ? 'Apptorney AI'
               : view === 'home'
                 ? 'Home Feed'
                 : view === 'cases'
@@ -77,7 +79,7 @@
                     : view === 'subscription'
                       ? 'Subscription'
                       : view === 'admin'
-                        ? 'Dashboard'
+                        ? adminSectionLabel
                         : 'Settings'
           }}
         </h2>
@@ -159,7 +161,7 @@
       </div>
     </section>
 
-    <section class="view is-visible" *ngIf="view === 'cases'">
+    <section class="view is-visible view--split-scroll" *ngIf="view === 'cases'">
       <app-admin-materials *ngIf="isAdmin; else publicCasesView" resourceType="case"></app-admin-materials>
       <ng-template #publicCasesView>
       <div class="resource-search">
@@ -181,7 +183,7 @@
       </ng-template>
     </section>
 
-    <section class="view is-visible" *ngIf="view === 'legislations'">
+    <section class="view is-visible view--split-scroll" *ngIf="view === 'legislations'">
       <app-admin-materials *ngIf="isAdmin; else publicLegislationView" resourceType="legislation"></app-admin-materials>
       <ng-template #publicLegislationView>
       <div class="resource-search">
@@ -303,7 +305,10 @@
     </section>
 
     <section class="view is-visible" *ngIf="view === 'admin'">
-      <app-admin-dashboard *ngIf="isAdmin"></app-admin-dashboard>
+      <ng-container *ngIf="isAdmin">
+        <app-admin-dashboard *ngIf="adminSection === 'dashboard'"></app-admin-dashboard>
+        <app-admin-ref-data *ngIf="activeRefDataConfig" [config]="activeRefDataConfig"></app-admin-ref-data>
+      </ng-container>
 
       <div *ngIf="!isAdmin" style="padding: 40px; text-align: center;">
         <p>You do not have permission to view this page.</p>

@@ -151,9 +151,7 @@ export class AdminMaterialsComponent implements OnInit {
       this.totalPages = result.data.pages;
       this.loading = false;
 
-      if (!this.selectedCase && this.cases.length > 0 && this.panelMode !== 'create' && this.panelMode !== 'edit') {
-        await this.selectCase(this.cases[0].id);
-      } else if (this.cases.length === 0 && this.panelMode !== 'create' && this.panelMode !== 'edit') {
+      if (this.cases.length === 0 && this.panelMode !== 'create' && this.panelMode !== 'edit') {
         this.selectedCase = null;
         this.panelMode = 'empty';
       }
@@ -172,9 +170,7 @@ export class AdminMaterialsComponent implements OnInit {
     this.totalPages = result.data.pages;
     this.loading = false;
 
-    if (!this.selectedLegislation && this.legislations.length > 0 && this.panelMode !== 'create' && this.panelMode !== 'edit') {
-      await this.selectLegislation(this.legislations[0].id);
-    } else if (this.legislations.length === 0 && this.panelMode !== 'create' && this.panelMode !== 'edit') {
+    if (this.legislations.length === 0 && this.panelMode !== 'create' && this.panelMode !== 'edit') {
       this.selectedLegislation = null;
       this.panelMode = 'empty';
     }

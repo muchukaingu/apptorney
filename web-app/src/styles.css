@@ -838,13 +838,73 @@ app-sidebar {
   display: flex;
   flex-direction: column;
   gap: 2px;
-  padding: 16px 12px 8px;
+  padding: 4px 12px 8px;
 }
 
 .nav-divider {
   height: 1px;
   background: var(--active-overlay);
   margin: 6px 8px;
+}
+
+.nav-divider--label {
+  height: auto;
+  background: none;
+  display: flex;
+  align-items: center;
+  padding: 6px 16px 2px;
+}
+
+.nav-divider--label .sidebar__label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.4;
+}
+
+.nav-btn__chevron {
+  width: 14px;
+  height: 14px;
+  margin-left: auto;
+  opacity: 0.4;
+  flex-shrink: 0;
+  transition: transform 150ms ease;
+}
+
+.nav-btn__chevron--open {
+  transform: rotate(180deg);
+}
+
+.nav-submenu {
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-btn--sub {
+  padding-left: 40px;
+  font-size: 13px;
+  min-height: 32px;
+}
+
+.nav-btn--sub .sidebar__label {
+  font-size: 13px;
+}
+
+.sidebar--collapsed .nav-btn--sub {
+  display: none;
+}
+
+.sidebar--collapsed .nav-submenu {
+  display: none;
+}
+
+.sidebar--collapsed .nav-btn__chevron {
+  display: none;
+}
+
+.sidebar--collapsed .nav-divider--label {
+  display: none;
 }
 
 .nav-btn {
@@ -1314,7 +1374,7 @@ app-chat-view > #chatView {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 22px 28px 10px;
+  padding: 22px 20px 10px;
   border-bottom: 1px solid var(--line);
   background: var(--header-gradient);
 }
@@ -1415,6 +1475,31 @@ app-chat-view > #chatView {
 
 .view.is-visible {
   display: block;
+}
+
+.view.view--split-scroll {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.view--split-scroll .resource-search {
+  flex-shrink: 0;
+}
+
+.view--split-scroll .result-list {
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-color) transparent;
+}
+
+.view--split-scroll app-admin-materials {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-color) transparent;
 }
 
 #chatView {

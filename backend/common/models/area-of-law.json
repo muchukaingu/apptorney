@@ -18,6 +18,10 @@
         "name": {
             "type": "string",
             "required": true
+        },
+        "deleted": {
+            "type": "boolean",
+            "default": false
         }
     },
     "validations": [],

@@ -639,7 +639,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
   async fetchChatThreads(): Promise<void> {
     this.syncAccessToken();
-    this.threads = await this.chatService.fetchChatThreads(this.accessToken);
+    const threads = await this.chatService.fetchChatThreads(this.accessToken);
+    this.ngZone.run(() => {
+      this.threads = threads;
+    });
   }
 
   async loadThread(threadId: string): Promise<void> {
@@ -1125,72 +1128,120 @@ export class AppComponent implements OnInit, OnDestroy {
   scrollToLegislationPart(id: string): void {
     this.activeOutlineId = id;
     const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      el.classList.add('leg-parts--highlight');
-      setTimeout(() => el.classList.remove('leg-parts--highlight'), 1500);
-    }
+    if (!el) return;
+
+    const isSearchHit = id.startsWith('search-hit-');
+    el.scrollIntoView({ behavior: 'smooth', block: isSearchHit ? 'center' : 'start' });
+
+    const highlightClass = isSearchHit ? 'search-highlight--active' : 'leg-parts--highlight';
+    el.classList.add(highlightClass);
+    setTimeout(() => el.classList.remove(highlightClass), 1800);
   }
 
   onDetailInnerSearch(): void {
     const term = this.detailInnerSearch.trim().toLowerCase();
-    document.querySelectorAll('.leg-parts--search-hit, .detail-section--search-hit').forEach(el =>
-      el.classList.remove('leg-parts--search-hit', 'detail-section--search-hit')
-    );
+
+    // Clear previous highlights by unwrapping all <mark> elements
+    this.clearSearchHighlights();
 
     if (!term) {
       this.detailInnerResults = [];
       return;
     }
 
-    const results: { id: string; label: string }[] = [];
-
-    if (this.activeDetailType === 'Legislation') {
-      // Search through legislation parts tree
-      const allParts = document.querySelectorAll('.leg-parts li[id^="leg-part-"]');
-      allParts.forEach(el => {
-        const ownText = Array.from(el.childNodes)
-          .filter(n => n.nodeType === Node.TEXT_NODE || (n as Element).tagName !== 'UL')
-          .map(n => n.textContent ?? '')
-          .join('')
-          .toLowerCase();
-
-        if (ownText.includes(term)) {
-          el.classList.add('leg-parts--search-hit');
-          const strong = el.querySelector(':scope > strong');
-          const span = el.querySelector(':scope > .leg-parts__content');
-          let label = strong?.textContent?.trim() || '';
-          if (!label && span) {
-            label = span.textContent?.trim().slice(0, 80) || '';
-            if ((span.textContent?.trim().length ?? 0) > 80) label += '...';
-          }
-          if (!label) {
-            const directText = Array.from(el.childNodes)
-              .filter(n => n.nodeType === Node.TEXT_NODE)
-              .map(n => n.textContent?.trim())
-              .filter(Boolean)
-              .join(' ')
-              .slice(0, 80);
-            label = directText || el.id;
-          }
-          results.push({ id: el.id, label });
-        }
-      });
-    } else {
-      // Search through detail sections (cases and other types)
-      const allSections = document.querySelectorAll('.detail-section[id^="detail-section-"]');
-      allSections.forEach(el => {
-        const text = (el as HTMLElement).innerText?.toLowerCase() ?? '';
-        if (text.includes(term)) {
-          el.classList.add('detail-section--search-hit');
-          const h3 = el.querySelector('h3');
-          const label = h3?.textContent?.trim() || 'Section';
-          results.push({ id: el.id, label });
-        }
-      });
+    // Collect all text nodes from the content area
+    const contentEl = document.querySelector('.detail-sidebar__content');
+    if (!contentEl) {
+      this.detailInnerResults = [];
+      return;
     }
 
-    this.detailInnerResults = results;
+    const textNodes: Text[] = [];
+    const walker = document.createTreeWalker(contentEl, NodeFilter.SHOW_TEXT, null);
+    while (walker.nextNode()) {
+      textNodes.push(walker.currentNode as Text);
+    }
+
+    // For each text node, find all match indices, then split right-to-left
+    // so earlier indices remain valid. Assign temp IDs, then renumber in DOM order.
+
+    for (const textNode of textNodes) {
+      const nodeText = textNode.nodeValue ?? '';
+      const nodeLower = nodeText.toLowerCase();
+
+      // Find all match indices in this text node
+      const indices: number[] = [];
+      let pos = 0;
+      while (true) {
+        const idx = nodeLower.indexOf(term, pos);
+        if (idx === -1) break;
+        indices.push(idx);
+        pos = idx + term.length;
+      }
+      if (indices.length === 0) continue;
+
+      // Process matches right-to-left to keep earlier indices valid
+      const parent = textNode.parentNode!;
+      const remaining = textNode;
+
+      for (let i = indices.length - 1; i >= 0; i--) {
+        const idx = indices[i];
+
+        // Split off the text after the match
+        remaining.splitText(idx + term.length);
+        // Split off the match itself
+        const matchNode = remaining.splitText(idx);
+
+        const mark = document.createElement('mark');
+        mark.className = 'search-highlight';
+        mark.dataset['nodeText'] = nodeText;
+        mark.dataset['matchIdx'] = String(idx);
+        mark.textContent = matchNode.nodeValue;
+        parent.replaceChild(mark, matchNode);
+      }
+    }
+
+    // Assign sequential IDs and build results in DOM order
+    const allMarks = Array.from(contentEl.querySelectorAll('mark.search-highlight')) as HTMLElement[];
+    const allHits: { id: string; label: string }[] = [];
+
+    allMarks.forEach((mark, i) => {
+      const markId = `search-hit-${i}`;
+      mark.id = markId;
+      const heading = this.findSectionHeading(mark);
+      const nodeText = mark.dataset['nodeText'] ?? '';
+      const matchIdx = parseInt(mark.dataset['matchIdx'] ?? '0', 10);
+      const label = this.buildSnippetLabel(heading, nodeText, term, matchIdx);
+      allHits.push({ id: markId, label });
+    });
+
+    this.detailInnerResults = allHits;
+  }
+
+  private clearSearchHighlights(): void {
+    const marks = document.querySelectorAll('mark.search-highlight');
+    marks.forEach(mark => {
+      const parent = mark.parentNode;
+      if (!parent) return;
+      const text = document.createTextNode(mark.textContent ?? '');
+      parent.replaceChild(text, mark);
+      parent.normalize(); // merge adjacent text nodes
+    });
+  }
+
+  private findSectionHeading(el: HTMLElement): string {
+    // Walk up to find the nearest section heading
+    const section = el.closest('.detail-section');
+    if (section) {
+      const h3 = section.querySelector('h3');
+      return h3?.textContent?.trim() || '';
+    }
+    const legPart = el.closest('li[id^="leg-part-"]');
+    if (legPart) {
+      const strong = legPart.querySelector(':scope > strong');
+      return strong?.textContent?.trim() || '';
+    }
+    return '';
   }
 
   private escapeHtml(text: string): string {
@@ -1198,6 +1249,24 @@ export class AppComponent implements OnInit, OnDestroy {
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;');
+  }
+
+  private buildSnippetLabel(heading: string, fullText: string, term: string, matchIdx?: number): string {
+    const idx = matchIdx ?? fullText.toLowerCase().indexOf(term);
+    if (idx === -1) return heading || 'Match';
+
+    // Extract a snippet around the match
+    const snippetRadius = 40;
+    const start = Math.max(0, idx - snippetRadius);
+    const end = Math.min(fullText.length, idx + term.length + snippetRadius);
+    let snippet = fullText.slice(start, end).replace(/\s+/g, ' ').trim();
+    if (start > 0) snippet = '...' + snippet;
+    if (end < fullText.length) snippet += '...';
+
+    if (heading) {
+      return `${heading} — ${snippet}`;
+    }
+    return snippet;
   }
 
   async addBookmarkFromActiveDetail(): Promise<void> {

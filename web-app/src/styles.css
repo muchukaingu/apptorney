@@ -1584,6 +1584,9 @@ app-chat-view > #chatView {
   color: var(--btn-text);
   background: var(--user-bubble);
   border-color: var(--accent);
+  border-radius: 32px;
+  padding-left: 24px;
+  padding-right: 24px;
 }
 
 .message__bubble p {
@@ -3267,18 +3270,26 @@ app-chat-view > #chatView {
   border-bottom: 1px solid var(--line-soft);
 }
 
-/* Highlight for scroll target */
+/* Highlight for scroll target (TOC outline clicks) */
 .leg-parts--highlight {
   background: rgba(17, 17, 17, 0.06);
   border-radius: 4px;
   transition: background 0.3s;
 }
 
-/* Highlight for search matches */
-.leg-parts--search-hit,
-.detail-section--search-hit {
-  background: rgba(17, 17, 17, 0.05);
-  border-radius: 4px;
+/* Inline highlight for search matches in content */
+mark.search-highlight {
+  background: rgba(255, 210, 50, 0.4);
+  color: inherit;
+  border-radius: 2px;
+  padding: 1px 0;
+}
+
+/* Brighter pulse when a search result is clicked */
+mark.search-highlight.search-highlight--active {
+  background: rgba(255, 160, 0, 0.6);
+  outline: 2px solid rgba(255, 160, 0, 0.5);
+  outline-offset: 1px;
 }
 
 .detail-section {

@@ -28,4 +28,6 @@ export interface HomeItem {
 export interface DetailSection {
   title: string;
   content: string;
+  isHtml?: boolean;
+  trustedHtml?: any;
 }

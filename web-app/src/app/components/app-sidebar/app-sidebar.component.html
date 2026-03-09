@@ -101,7 +101,7 @@
 
   </nav>
 
-  <section *ngIf="isExpanded && !isAdmin" class="sidebar__threads" aria-label="Conversations">
+  <section *ngIf="isExpanded" class="sidebar__threads" aria-label="Conversations">
     <div class="sidebar__section-header">
       <h2>History</h2>
       <button class="sidebar__refresh-btn" title="Refresh threads" (click)="refreshThreads.emit()">

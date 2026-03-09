@@ -39,7 +39,7 @@
   (openSubscription)="openSubscriptionFromLanding()"
 ></app-landing-page>
 
-<div class="app-shell" [class.sidebar-open]="sidebarOpen" [class.detail-open]="activeDetail && !detailCollapsed" [class.detail-collapsed]="activeDetail && detailCollapsed" *ngIf="!showLanding">
+<div class="app-shell" [class.sidebar-open]="sidebarOpen" [class.detail-open]="activeDetail && !detailCollapsed && !detailMaximized" [class.detail-collapsed]="activeDetail && detailCollapsed" [class.detail-maximized]="activeDetail && detailMaximized" *ngIf="!showLanding">
   <app-sidebar
     [view]="view"
     [adminSection]="adminSection"
@@ -164,21 +164,124 @@
     <section class="view is-visible view--split-scroll" *ngIf="view === 'cases'">
       <app-admin-materials *ngIf="isAdmin; else publicCasesView" resourceType="case"></app-admin-materials>
       <ng-template #publicCasesView>
-      <div class="resource-search">
-        <input type="search" placeholder="Search cases" [(ngModel)]="caseSearchTerm" (ngModelChange)="onCaseTermChange()" name="caseSearchTerm" />
-        <p class="resource-search__hint">Uses `/cases/mobilesearch` from the iOS app flow.</p>
+      <div class="case-search-bar">
+        <div class="case-search-bar__row">
+          <input
+            type="search"
+            class="case-search-bar__input"
+            placeholder="Search by name, citation, or keyword..."
+            [(ngModel)]="caseSearchTerm"
+            (ngModelChange)="onCaseTermChange()"
+            (keydown.enter)="onCaseFilterChange()"
+            name="caseSearchTerm"
+          />
+          <button class="case-search-bar__btn" (click)="onCaseFilterChange()" [disabled]="caseLoading">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            Search
+          </button>
+          <button
+            class="case-search-bar__clear"
+            *ngIf="caseSearchTerm || caseFilterCourt || caseFilterArea || caseFilterYear"
+            (click)="clearCaseFilters()"
+          ><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Clear all</button>
+        </div>
+        <div class="case-search-bar__filters">
+          <ng-container *ngIf="caseFiltersLoaded; else filterSkeletons">
+
+          <!-- Year dropdown -->
+          <div class="filter-dropdown" [class.is-open]="openFilterDropdown === 'year'" (click)="$event.stopPropagation()">
+            <button class="filter-dropdown__trigger" (click)="toggleFilterDropdown('year')">
+              <span>{{ caseFilterYear || 'All years' }}</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="filter-dropdown__menu" *ngIf="openFilterDropdown === 'year'">
+              <button class="filter-dropdown__item" [class.is-selected]="!caseFilterYear" (click)="selectCaseFilter('year', '')">All years</button>
+              <button class="filter-dropdown__item" *ngFor="let y of caseFilterYears" [class.is-selected]="caseFilterYear === '' + y" (click)="selectCaseFilter('year', '' + y)">{{ y }}</button>
+            </div>
+          </div>
+
+          <!-- Area of law dropdown -->
+          <div class="filter-dropdown" [class.is-open]="openFilterDropdown === 'area'" (click)="$event.stopPropagation()">
+            <button class="filter-dropdown__trigger" (click)="toggleFilterDropdown('area')">
+              <span>{{ caseFilterAreaLabel || 'All areas of law' }}</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="filter-dropdown__menu" *ngIf="openFilterDropdown === 'area'">
+              <input class="filter-dropdown__search" placeholder="Search areas..." [(ngModel)]="filterDropdownSearch" name="filterAreaSearch" />
+              <button class="filter-dropdown__item" [class.is-selected]="!caseFilterArea" (click)="selectCaseFilter('area', '')">All areas of law</button>
+              <button class="filter-dropdown__item" *ngFor="let a of filteredAreas" [class.is-selected]="caseFilterArea === a.id" (click)="selectCaseFilter('area', a.id)">{{ a.name }}</button>
+            </div>
+          </div>
+
+          <!-- Court dropdown -->
+          <div class="filter-dropdown" [class.is-open]="openFilterDropdown === 'court'" (click)="$event.stopPropagation()">
+            <button class="filter-dropdown__trigger" (click)="toggleFilterDropdown('court')">
+              <span>{{ caseFilterCourtLabel || 'All courts' }}</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="filter-dropdown__menu" *ngIf="openFilterDropdown === 'court'">
+              <button class="filter-dropdown__item" [class.is-selected]="!caseFilterCourt" (click)="selectCaseFilter('court', '')">All courts</button>
+              <button class="filter-dropdown__item" *ngFor="let c of caseFilterCourts" [class.is-selected]="caseFilterCourt === c.id" (click)="selectCaseFilter('court', c.id)">{{ c.name }}</button>
+            </div>
+          </div>
+
+          </ng-container>
+          <ng-template #filterSkeletons>
+            <div class="filter-skeleton"></div>
+            <div class="filter-skeleton"></div>
+            <div class="filter-skeleton"></div>
+          </ng-template>
+        </div>
       </div>
       <div class="result-list">
-        <article class="list-item" *ngIf="caseSearchTerm.trim().length < 2">
-          <h4>Case discovery</h4>
-          <p>Start typing to search cases by name, citation, or keyword.</p>
+        <!-- Empty state: no search yet -->
+        <div class="case-empty-state" *ngIf="!caseSearched && !caseLoading">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.3">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          <h4>Search Zambian case law</h4>
+          <p>Enter a search term or select filters above to browse cases.</p>
+        </div>
+
+        <!-- Loading -->
+        <div class="case-empty-state" *ngIf="caseLoading">
+          <div class="case-spinner"></div>
+          <p>Searching cases...</p>
+        </div>
+
+        <!-- No results -->
+        <div class="case-empty-state" *ngIf="caseSearched && !caseLoading && caseResults.length === 0">
+          <h4>No cases found</h4>
+          <p>Try adjusting your search term or filters.</p>
+        </div>
+
+        <!-- Results header -->
+        <div class="case-results-header" *ngIf="caseSearched && !caseLoading && caseResults.length > 0">
+          <span>{{ caseTotalResults }} case{{ caseTotalResults === 1 ? '' : 's' }} found</span>
+          <span *ngIf="caseTotalPages > 1">Page {{ caseCurrentPage }} of {{ caseTotalPages }}</span>
+        </div>
+
+        <!-- Result items -->
+        <article
+          class="result-item"
+          *ngFor="let item of caseResults"
+          (click)="openCaseDetail(item.id || item._id)"
+          [class.is-active]="activeDetail?.id === (item.id || item._id)"
+        >
+          <h4>{{ cleanHtmlToText(item.name) || 'Untitled case' }}</h4>
+          <div class="result-item__meta">
+            <span *ngIf="item.courtName">{{ item.courtName }}</span>
+            <span *ngIf="item.areaOfLawName">{{ item.areaOfLawName }}</span>
+            <span *ngIf="item.citationLabel">{{ item.citationLabel }}</span>
+          </div>
         </article>
 
-        <article class="result-item" *ngFor="let item of caseResults" (click)="openCaseDetail(item._id || item.id)">
-          <h4>{{ cleanHtmlToText(item.name) || 'Untitled case' }}</h4>
-          <p>{{ cleanHtmlToText(item.highlight || item.summaryOfRuling) || 'Open to view case details.' }}</p>
-          <p>{{ caseResultMeta(item) }}</p>
-        </article>
+        <!-- Pagination -->
+        <div class="case-pagination" *ngIf="caseTotalPages > 1 && !caseLoading">
+          <button (click)="onCasePageChange(caseCurrentPage - 1)" [disabled]="caseCurrentPage <= 1">&lsaquo; Prev</button>
+          <span>{{ caseCurrentPage }} / {{ caseTotalPages }}</span>
+          <button (click)="onCasePageChange(caseCurrentPage + 1)" [disabled]="caseCurrentPage >= caseTotalPages">Next &rsaquo;</button>
+        </div>
       </div>
       </ng-template>
     </section>
@@ -186,27 +289,110 @@
     <section class="view is-visible view--split-scroll" *ngIf="view === 'legislations'">
       <app-admin-materials *ngIf="isAdmin; else publicLegislationView" resourceType="legislation"></app-admin-materials>
       <ng-template #publicLegislationView>
-      <div class="resource-search">
-        <input
-          type="search"
-          placeholder="Search legislations"
-          [(ngModel)]="legislationSearchTerm"
-          (ngModelChange)="onLegislationTermChange()"
-          name="legislationSearchTerm"
-        />
-        <p class="resource-search__hint">Uses `/legislations/mobilesearch` from the iOS app flow.</p>
+      <div class="case-search-bar">
+        <div class="case-search-bar__row">
+          <input
+            type="search"
+            class="case-search-bar__input"
+            placeholder="Search by name, number, or keyword..."
+            [(ngModel)]="legislationSearchTerm"
+            (ngModelChange)="onLegislationTermChange()"
+            (keydown.enter)="onLegislationFilterChange()"
+            name="legislationSearchTerm"
+          />
+          <button class="case-search-bar__btn" (click)="onLegislationFilterChange()" [disabled]="legislationLoading">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            Search
+          </button>
+          <button
+            class="case-search-bar__clear"
+            *ngIf="legislationSearchTerm || legislationFilterType || legislationFilterYear"
+            (click)="clearLegislationFilters()"
+          ><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Clear all</button>
+        </div>
+        <div class="case-search-bar__filters">
+          <ng-container *ngIf="legislationFiltersLoaded; else legFilterSkeletons">
+
+          <!-- Year dropdown -->
+          <div class="filter-dropdown" [class.is-open]="openFilterDropdown === 'legYear'" (click)="$event.stopPropagation()">
+            <button class="filter-dropdown__trigger" (click)="toggleFilterDropdown('legYear')">
+              <span>{{ legislationFilterYear || 'All years' }}</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="filter-dropdown__menu" *ngIf="openFilterDropdown === 'legYear'">
+              <button class="filter-dropdown__item" [class.is-selected]="!legislationFilterYear" (click)="selectLegislationFilter('legYear', '')">All years</button>
+              <button class="filter-dropdown__item" *ngFor="let y of legislationFilterYears" [class.is-selected]="legislationFilterYear === '' + y" (click)="selectLegislationFilter('legYear', '' + y)">{{ y }}</button>
+            </div>
+          </div>
+
+          <!-- Legislation type dropdown -->
+          <div class="filter-dropdown" [class.is-open]="openFilterDropdown === 'legType'" (click)="$event.stopPropagation()">
+            <button class="filter-dropdown__trigger" (click)="toggleFilterDropdown('legType')">
+              <span>{{ legislationFilterTypeLabel || 'All types' }}</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="filter-dropdown__menu" *ngIf="openFilterDropdown === 'legType'">
+              <button class="filter-dropdown__item" [class.is-selected]="!legislationFilterType" (click)="selectLegislationFilter('legType', '')">All types</button>
+              <button class="filter-dropdown__item" *ngFor="let t of legislationFilterTypes" [class.is-selected]="legislationFilterType === t.id" (click)="selectLegislationFilter('legType', t.id)">{{ t.name }}</button>
+            </div>
+          </div>
+
+          </ng-container>
+          <ng-template #legFilterSkeletons>
+            <div class="filter-skeleton"></div>
+            <div class="filter-skeleton"></div>
+          </ng-template>
+        </div>
       </div>
       <div class="result-list">
-        <article class="list-item" *ngIf="legislationSearchTerm.trim().length < 2">
-          <h4>Legislation discovery</h4>
-          <p>Start typing to search acts, volumes, and statutory instruments.</p>
+        <!-- Empty state: no search yet -->
+        <div class="case-empty-state" *ngIf="!legislationSearched && !legislationLoading">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.3">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          <h4>Search Zambian legislation</h4>
+          <p>Enter a search term or select filters above to browse legislation.</p>
+        </div>
+
+        <!-- Loading -->
+        <div class="case-empty-state" *ngIf="legislationLoading">
+          <div class="case-spinner"></div>
+          <p>Searching legislations...</p>
+        </div>
+
+        <!-- No results -->
+        <div class="case-empty-state" *ngIf="legislationSearched && !legislationLoading && legislationResults.length === 0">
+          <h4>No legislations found</h4>
+          <p>Try adjusting your search term or filters.</p>
+        </div>
+
+        <!-- Results header -->
+        <div class="case-results-header" *ngIf="legislationSearched && !legislationLoading && legislationResults.length > 0">
+          <span>{{ legislationTotalResults }} legislation{{ legislationTotalResults === 1 ? '' : 's' }} found</span>
+          <span *ngIf="legislationTotalPages > 1">Page {{ legislationCurrentPage }} of {{ legislationTotalPages }}</span>
+        </div>
+
+        <!-- Result items -->
+        <article
+          class="result-item"
+          *ngFor="let item of legislationResults"
+          (click)="openLegislationDetail(item.id || item._id)"
+          [class.is-active]="activeDetail?.id === (item.id || item._id)"
+        >
+          <h4>{{ cleanHtmlToText(item.legislationName) || 'Untitled legislation' }}</h4>
+          <div class="result-item__meta">
+            <span *ngIf="item.legislationTypeName">{{ item.legislationTypeName }}</span>
+            <span *ngIf="item.dateOfAssent">{{ item.dateOfAssent | date:'yyyy' }}</span>
+            <span *ngIf="item.yearOfAmendment">Amended {{ item.yearOfAmendment }}</span>
+          </div>
         </article>
 
-        <article class="result-item" *ngFor="let item of legislationResults" (click)="openLegislationDetail(item._id || item.id)">
-          <h4>{{ cleanHtmlToText(item.legislationName) || 'Untitled legislation' }}</h4>
-          <p>{{ cleanHtmlToText(item.highlight || item.preamble) || 'Open to view legislation details.' }}</p>
-          <p>{{ legislationResultMeta(item) }}</p>
-        </article>
+        <!-- Pagination -->
+        <div class="case-pagination" *ngIf="legislationTotalPages > 1 && !legislationLoading">
+          <button (click)="onLegislationPageChange(legislationCurrentPage - 1)" [disabled]="legislationCurrentPage <= 1">&lsaquo; Prev</button>
+          <span>{{ legislationCurrentPage }} / {{ legislationTotalPages }}</span>
+          <button (click)="onLegislationPageChange(legislationCurrentPage + 1)" [disabled]="legislationCurrentPage >= legislationTotalPages">Next &rsaquo;</button>
+        </div>
       </div>
       </ng-template>
     </section>
@@ -359,16 +545,60 @@
         <h2 class="detail-sidebar__title">{{ activeDetailTitle }}</h2>
         <p class="detail-sidebar__meta" *ngIf="activeDetailMeta">{{ activeDetailMeta }}</p>
       </div>
+      <button class="detail-sidebar__close" *ngIf="!detailCollapsed" (click)="detailMaximized = !detailMaximized" [attr.aria-label]="detailMaximized ? 'Restore split view' : 'Maximize detail'">
+        <svg *ngIf="!detailMaximized" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/>
+        </svg>
+        <svg *ngIf="detailMaximized" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/><line x1="14" y1="10" x2="21" y2="3"/><line x1="3" y1="21" x2="10" y2="14"/>
+        </svg>
+      </button>
       <button class="detail-sidebar__close" *ngIf="!detailCollapsed" (click)="closeDetail()" aria-label="Close detail">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
     </header>
-    <div class="detail-sidebar__body" *ngIf="!detailCollapsed">
-      <section *ngFor="let section of activeDetailSections" class="detail-section">
-        <h3>{{ section.title }}</h3>
-        <p>{{ section.content }}</p>
-      </section>
-      <p *ngIf="activeDetailSections.length === 0" class="detail-sidebar__empty">No content available for this resource.</p>
+    <div class="detail-sidebar__body" *ngIf="!detailCollapsed" [class.detail-sidebar__body--with-nav]="detailMaximized && detailOutline.length > 0">
+      <div class="detail-sidebar__content">
+        <section *ngFor="let section of activeDetailSections; let i = index" class="detail-section" [id]="'detail-section-' + i">
+          <h3>{{ section.title }}</h3>
+          <div *ngIf="section.isHtml" [innerHTML]="section.trustedHtml || section.content"></div>
+          <p *ngIf="!section.isHtml">{{ section.content }}</p>
+        </section>
+        <p *ngIf="activeDetailSections.length === 0" class="detail-sidebar__empty">No content available for this resource.</p>
+      </div>
+
+      <nav class="leg-nav" *ngIf="detailMaximized && detailOutline.length > 0">
+        <div class="leg-nav__search">
+          <input
+            type="text"
+            class="leg-nav__search-input"
+            [placeholder]="activeDetailType === 'Legislation' ? 'Search legislation content...' : 'Search case content...'"
+            [(ngModel)]="detailInnerSearch"
+            (input)="onDetailInnerSearch()"
+          />
+        </div>
+
+        <div class="leg-nav__results" *ngIf="detailInnerResults.length > 0">
+          <p class="leg-nav__results-count">{{ detailInnerResults.length }} match{{ detailInnerResults.length === 1 ? '' : 'es' }}</p>
+          <button
+            class="leg-nav__item leg-nav__item--result"
+            *ngFor="let r of detailInnerResults"
+            (click)="scrollToLegislationPart(r.id)"
+            [class.is-active]="activeOutlineId === r.id"
+          >{{ r.label }}</button>
+        </div>
+
+        <p class="leg-nav__heading" *ngIf="detailInnerResults.length === 0">Contents</p>
+        <div class="leg-nav__list" *ngIf="detailInnerResults.length === 0">
+          <button
+            class="leg-nav__item"
+            *ngFor="let item of detailOutline"
+            [class.is-active]="activeOutlineId === item.id"
+            [style.padding-left.px]="12 + item.depth * 12"
+            (click)="scrollToLegislationPart(item.id)"
+          >{{ item.label }}</button>
+        </div>
+      </nav>
     </div>
   </aside>
 </div>

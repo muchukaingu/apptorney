@@ -1788,4 +1788,252 @@ module.exports = function (app) {
             })
         })
     })
+
+    // ── Public Case Search & Filters ────────────────
+
+    app.get(restRoot + '/cases/filters', function (req, res, next) {
+        var Court = app.models.court || app.models.Court
+        var AreaOfLaw = app.models.areaOfLaw || app.models.AreaOfLaw
+        var Case = app.models.case || app.models.Case
+
+        var response = { courts: [], areasOfLaw: [], years: [] }
+        var pending = 3
+        var sent = false
+
+        function done(err) {
+            if (sent) return
+            if (err) { sent = true; return next(err) }
+            pending--
+            if (pending === 0) { sent = true; res.json(response) }
+        }
+
+        Court.find({ order: 'name ASC', fields: { id: true, name: true } }, function (err, courts) {
+            if (err) return done(err)
+            response.courts = (courts || []).map(function (c) {
+                return { id: normalizeId(c.id), name: toTrimmedString(c.name) }
+            })
+            done(null)
+        })
+
+        AreaOfLaw.find({ order: 'name ASC', fields: { id: true, name: true } }, function (err, areas) {
+            if (err) return done(err)
+            response.areasOfLaw = (areas || []).map(function (a) {
+                return { id: normalizeId(a.id), name: toTrimmedString(a.name) }
+            })
+            done(null)
+        })
+
+        var caseCollection = getCollection(Case)
+        caseCollection.distinct('citation.year', { deleted: { $ne: true } }, function (err, years) {
+            if (err) return done(err)
+            response.years = (years || [])
+                .filter(function (y) { return typeof y === 'number' && isFinite(y) && y > 1900 })
+                .sort(function (a, b) { return b - a })
+            done(null)
+        })
+    })
+
+    app.get(restRoot + '/cases/search', function (req, res, next) {
+        if (req.query.courtId && !toObjectId(req.query.courtId)) {
+            return sendError(res, 400, 'Court filter is invalid.')
+        }
+        if (req.query.areaOfLawId && !toObjectId(req.query.areaOfLawId)) {
+            return sendError(res, 400, 'Area of law filter is invalid.')
+        }
+
+        var Case = app.models.case || app.models.Case
+        var page = parsePositiveInt(req.query.page, 1, 500)
+        var limit = parsePositiveInt(req.query.limit, 25, 50)
+        var skip = (page - 1) * limit
+
+        var query = Object.assign({}, req.query, {
+            search: req.query.term || req.query.search || '',
+            isStub: 'false'
+        })
+        var match = buildCaseMatch(query)
+
+        var collection = getCollection(Case)
+        var items = []
+        var total = 0
+        var pending = 2
+        var sent = false
+
+        function done(err) {
+            if (sent) return
+            if (err) { sent = true; return next(err) }
+            pending--
+            if (pending === 0) {
+                sent = true
+                res.json({
+                    items: items,
+                    total: total,
+                    page: page,
+                    limit: limit,
+                    pages: total > 0 ? Math.ceil(total / limit) : 1
+                })
+            }
+        }
+
+        collection.countDocuments(match, function (err, count) {
+            if (err) return done(err)
+            total = count || 0
+            done(null)
+        })
+
+        collection.aggregate([
+            { $match: match },
+            { $sort: { name: 1, _id: -1 } },
+            { $skip: skip },
+            { $limit: limit },
+            { $lookup: { from: 'court', localField: 'courtId', foreignField: '_id', as: 'courtInfo' } },
+            { $lookup: { from: 'areaOfLaw', localField: 'areaOfLawId', foreignField: '_id', as: 'areaInfo' } },
+            { $addFields: {
+                courtInfo: { $arrayElemAt: ['$courtInfo', 0] },
+                areaInfo: { $arrayElemAt: ['$areaInfo', 0] }
+            } }
+        ]).toArray(function (err, docs) {
+            if (err) return done(err)
+            items = (docs || []).map(normalizeCaseListItem)
+            done(null)
+        })
+    })
+
+    // ── Public Legislation Search & Filters ────────────────
+
+    app.get(restRoot + '/legislations/filters', function (req, res, next) {
+        var LegislationType = app.models.legislationType || app.models.LegislationType
+        var Legislation = app.models.legislation || app.models.Legislation
+
+        var response = { legislationTypes: [], assentYears: [] }
+        var pending = 2
+        var sent = false
+
+        function done(err) {
+            if (sent) return
+            if (err) { sent = true; return next(err) }
+            pending--
+            if (pending === 0) { sent = true; res.json(response) }
+        }
+
+        LegislationType.find({ order: 'name ASC', fields: { id: true, name: true } }, function (err, types) {
+            if (err) return done(err)
+            response.legislationTypes = (types || []).map(function (t) {
+                return { id: normalizeId(t.id), name: toTrimmedString(t.name) }
+            })
+            done(null)
+        })
+
+        var legislationCollection = getCollection(Legislation)
+        legislationCollection.aggregate([
+            { $match: { deleted: { $ne: true }, dateOfAssent: { $exists: true, $ne: null } } },
+            { $project: { year: { $year: '$dateOfAssent' } } },
+            { $group: { _id: '$year' } },
+            { $sort: { _id: -1 } }
+        ]).toArray(function (err, docs) {
+            if (err) return done(err)
+            response.assentYears = (docs || [])
+                .map(function (d) { return d._id })
+                .filter(function (y) { return typeof y === 'number' && isFinite(y) && y > 1900 })
+            done(null)
+        })
+    })
+
+    app.get(restRoot + '/legislations/search', function (req, res, next) {
+        if (req.query.legislationTypeId && !toObjectId(req.query.legislationTypeId)) {
+            return sendError(res, 400, 'Legislation type filter is invalid.')
+        }
+
+        var Legislation = app.models.legislation || app.models.Legislation
+        var page = parsePositiveInt(req.query.page, 1, 500)
+        var limit = parsePositiveInt(req.query.limit, 25, 50)
+        var skip = (page - 1) * limit
+
+        var query = Object.assign({}, req.query, {
+            search: req.query.term || req.query.search || ''
+        })
+        var match = buildLegislationMatch(query)
+
+        var collection = getCollection(Legislation)
+        var items = []
+        var total = 0
+        var pending = 2
+        var sent = false
+
+        function done(err) {
+            if (sent) return
+            if (err) { sent = true; return next(err) }
+            pending--
+            if (pending === 0) {
+                sent = true
+                res.json({
+                    items: items,
+                    total: total,
+                    page: page,
+                    limit: limit,
+                    pages: total > 0 ? Math.ceil(total / limit) : 1
+                })
+            }
+        }
+
+        collection.countDocuments(match, function (err, count) {
+            if (err) return done(err)
+            total = count || 0
+            done(null)
+        })
+
+        collection.aggregate([
+            { $match: match },
+            { $sort: { legislationName: 1, _id: -1 } },
+            { $skip: skip },
+            { $limit: limit },
+            { $lookup: { from: 'legislationType', localField: 'legislationType', foreignField: '_id', as: 'legislationTypeInfo' } },
+            { $addFields: {
+                legislationTypeInfo: { $arrayElemAt: ['$legislationTypeInfo', 0] }
+            } }
+        ]).toArray(function (err, docs) {
+            if (err) return done(err)
+            items = (docs || []).map(normalizeLegislationListItem)
+            done(null)
+        })
+    })
+
+    // ── Public Legislation Detail View ────────────────
+
+    app.get(restRoot + '/legislations/view', function (req, res, next) {
+        var id = toObjectId(req.query.id)
+        if (!id) {
+            return sendError(res, 400, 'A valid legislation ID is required.')
+        }
+
+        var Legislation = app.models.legislation || app.models.Legislation
+        var collection = getCollection(Legislation)
+
+        collection.aggregate([
+            { $match: { _id: id } },
+            { $lookup: { from: 'legislationType', localField: 'legislationType', foreignField: '_id', as: 'legislationTypeInfo' } },
+            { $addFields: {
+                legislationTypeInfo: { $arrayElemAt: ['$legislationTypeInfo', 0] }
+            } }
+        ]).toArray(function (err, docs) {
+            if (err) return next(err)
+            if (!docs || docs.length === 0) {
+                return sendError(res, 404, 'Legislation not found.')
+            }
+            var doc = docs[0]
+            res.json({
+                id: normalizeId(doc._id),
+                legislationName: toTrimmedString(doc.legislationName),
+                generalTitle: toTrimmedString(doc.generalTitle),
+                preamble: toTrimmedString(doc.preamble),
+                enactment: toTrimmedString(doc.enactment),
+                chapterNumber: toTrimmedString(doc.chapterNumber),
+                volumeNumber: toTrimmedString(doc.volumeNumber),
+                legislationNumber: toTrimmedString(doc.legislationNumber),
+                legislationType: toTrimmedString(doc.legislationTypeInfo && doc.legislationTypeInfo.name),
+                dateOfAssent: doc.dateOfAssent || null,
+                yearOfAmendment: parseOptionalNumber(doc.yearOfAmendment),
+                legislationParts: Array.isArray(doc.legislationParts) ? doc.legislationParts : []
+            })
+        })
+    })
 }

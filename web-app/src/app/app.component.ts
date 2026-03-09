@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, NgZone, OnDestroy, OnInit, SecurityContext } from '@angular/core';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { UiComponentsModule } from './components/ui-components.module';
 import { ChatMessage, ChatReference, ChatThreadSummary, DetailSection, HomeItem } from './models/app.models';
@@ -70,7 +71,31 @@ export class AppComponent implements OnInit, OnDestroy {
   private legislationDebounceTimer: ReturnType<typeof setTimeout> | null = null;
 
   caseResults: any[] = [];
+  caseFilterCourts: { id: string; name: string }[] = [];
+  caseFilterAreas: { id: string; name: string }[] = [];
+  caseFilterYears: number[] = [];
+  caseFilterCourt = '';
+  caseFilterArea = '';
+  caseFilterYear = '';
+  caseCurrentPage = 1;
+  caseTotalPages = 1;
+  caseTotalResults = 0;
+  caseSearched = false;
+  caseLoading = false;
+  caseFiltersLoaded = false;
+  openFilterDropdown = '';
+  filterDropdownSearch = '';
   legislationResults: any[] = [];
+  legislationFilterTypes: { id: string; name: string }[] = [];
+  legislationFilterYears: number[] = [];
+  legislationFilterType = '';
+  legislationFilterYear = '';
+  legislationCurrentPage = 1;
+  legislationTotalPages = 1;
+  legislationTotalResults = 0;
+  legislationSearched = false;
+  legislationLoading = false;
+  legislationFiltersLoaded = false;
 
   bookmarks: HomeItem[] = [];
   news: HomeItem[] = [];
@@ -113,6 +138,11 @@ export class AppComponent implements OnInit, OnDestroy {
   activeDetailSections: DetailSection[] = [];
   activeDetail: { type: 'case' | 'legislation'; id: string; data: any } | null = null;
   detailCollapsed = false;
+  detailMaximized = false;
+  detailOutline: { id: string; label: string; depth: number }[] = [];
+  detailInnerSearch = '';
+  detailInnerResults: { id: string; label: string }[] = [];
+  activeOutlineId = '';
   feedbackInput = '';
 
   publicMessages: ChatMessage[] = [];
@@ -126,7 +156,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private readonly authService: AuthService,
     private readonly chatService: ChatService,
     private readonly libraryService: LibraryService,
-    private readonly subscriptionService: SubscriptionService
+    private readonly subscriptionService: SubscriptionService,
+    private readonly sanitizer: DomSanitizer
   ) {
     this.apiService.onSessionExpired = () => this.ngZone.run(() => this.logout());
   }
@@ -178,6 +209,10 @@ export class AppComponent implements OnInit, OnDestroy {
     if (this.userMenuOpen) {
       this.userMenuOpen = false;
     }
+    if (this.openFilterDropdown) {
+      this.openFilterDropdown = '';
+      this.filterDropdownSearch = '';
+    }
   }
 
   @HostListener('document:keydown.escape')
@@ -190,8 +225,18 @@ export class AppComponent implements OnInit, OnDestroy {
     this.view = view;
     this.userMenuOpen = false;
     this.loginModalOpen = false;
+    if (this.detailMaximized) {
+      this.detailMaximized = false;
+    }
+    if (view !== 'cases' && view !== 'legislations') {
+      this.closeDetail();
+    }
     if (view === 'home') {
       this.loadHomeData();
+    } else if (view === 'cases') {
+      this.loadCaseFilters();
+    } else if (view === 'legislations') {
+      this.loadLegislationFilters();
     } else if (view === 'subscription') {
       this.loadSubscriptionStatus();
       this.loadPricingPlans();
@@ -594,7 +639,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
   async fetchChatThreads(): Promise<void> {
     this.syncAccessToken();
-    this.threads = await this.chatService.fetchChatThreads(this.accessToken);
+    const threads = await this.chatService.fetchChatThreads(this.accessToken);
+    this.ngZone.run(() => {
+      this.threads = threads;
+    });
   }
 
   async loadThread(threadId: string): Promise<void> {
@@ -621,28 +669,131 @@ export class AppComponent implements OnInit, OnDestroy {
       clearTimeout(this.caseDebounceTimer);
     }
 
-    if (this.toCleanString(this.caseSearchTerm).length < 2) {
-      this.caseResults = [];
-      return;
-    }
-
     this.caseDebounceTimer = setTimeout(() => {
-      this.searchCases(this.caseSearchTerm);
-    }, 350);
+      this.caseCurrentPage = 1;
+      this.caseResults = [];
+      this.caseTotalResults = 0;
+      this.caseTotalPages = 1;
+      this.runCaseSearch();
+    }, 400);
   }
 
-  private async searchCases(term: string): Promise<void> {
-    this.setStatus('Searching cases...');
+  onCaseFilterChange(): void {
+    this.caseCurrentPage = 1;
+    this.caseResults = [];
+    this.caseTotalResults = 0;
+    this.caseTotalPages = 1;
+    this.runCaseSearch();
+  }
 
-    const response = await this.libraryService.searchCases(term);
-    if (!response.ok) {
+  onCasePageChange(page: number): void {
+    if (page < 1 || page > this.caseTotalPages) return;
+    this.caseCurrentPage = page;
+    this.runCaseSearch();
+  }
+
+  clearCaseFilters(): void {
+    this.caseSearchTerm = '';
+    this.caseFilterCourt = '';
+    this.caseFilterArea = '';
+    this.caseFilterYear = '';
+    this.caseCurrentPage = 1;
+    this.caseResults = [];
+    this.caseSearched = false;
+    this.caseTotalResults = 0;
+  }
+
+  get caseFilterAreaLabel(): string {
+    if (!this.caseFilterArea) return '';
+    const match = this.caseFilterAreas.find(a => a.id === this.caseFilterArea);
+    return match?.name || '';
+  }
+
+  get caseFilterCourtLabel(): string {
+    if (!this.caseFilterCourt) return '';
+    const match = this.caseFilterCourts.find(c => c.id === this.caseFilterCourt);
+    return match?.name || '';
+  }
+
+  get filteredAreas(): { id: string; name: string }[] {
+    const term = this.filterDropdownSearch.trim().toLowerCase();
+    if (!term) return this.caseFilterAreas;
+    return this.caseFilterAreas.filter(a => a.name.toLowerCase().includes(term));
+  }
+
+  toggleFilterDropdown(name: string): void {
+    if (this.openFilterDropdown === name) {
+      this.openFilterDropdown = '';
+      this.filterDropdownSearch = '';
+    } else {
+      this.openFilterDropdown = name;
+      this.filterDropdownSearch = '';
+    }
+  }
+
+  selectCaseFilter(type: string, value: string): void {
+    if (type === 'year') this.caseFilterYear = value;
+    else if (type === 'area') this.caseFilterArea = value;
+    else if (type === 'court') this.caseFilterCourt = value;
+    this.openFilterDropdown = '';
+    this.filterDropdownSearch = '';
+    this.onCaseFilterChange();
+  }
+
+  private hasCaseSearchCriteria(): boolean {
+    return !!(
+      this.toCleanString(this.caseSearchTerm).length >= 2 ||
+      this.caseFilterCourt ||
+      this.caseFilterArea ||
+      this.caseFilterYear
+    );
+  }
+
+  private async runCaseSearch(): Promise<void> {
+    if (!this.hasCaseSearchCriteria()) {
       this.caseResults = [];
-      this.setStatus('Case search failed.', 'error');
+      this.caseSearched = false;
       return;
     }
 
-    this.caseResults = response.items;
-    this.setStatus(`Found ${this.caseResults.length} case result(s).`);
+    this.caseLoading = true;
+    this.setStatus('Searching cases...');
+
+    const response = await this.libraryService.searchCasesFiltered({
+      term: this.toCleanString(this.caseSearchTerm) || undefined,
+      courtId: this.caseFilterCourt || undefined,
+      areaOfLawId: this.caseFilterArea || undefined,
+      year: this.caseFilterYear || undefined,
+      page: this.caseCurrentPage,
+      limit: 25
+    });
+
+    this.ngZone.run(() => {
+      this.caseLoading = false;
+      this.caseSearched = true;
+
+      if (!response.ok) {
+        this.caseResults = [];
+        this.setStatus('Case search failed.', 'error');
+        return;
+      }
+
+      this.caseResults = response.items;
+      this.caseTotalPages = response.pages;
+      this.caseTotalResults = response.total;
+      this.setStatus(`Found ${response.total} case(s).`);
+    });
+  }
+
+  async loadCaseFilters(): Promise<void> {
+    if (this.caseFiltersLoaded) return;
+    const filters = await this.libraryService.getCaseFilters();
+    this.ngZone.run(() => {
+      this.caseFilterCourts = filters.courts;
+      this.caseFilterAreas = filters.areasOfLaw;
+      this.caseFilterYears = filters.years;
+      this.caseFiltersLoaded = true;
+    });
   }
 
   onLegislationTermChange(): void {
@@ -650,28 +801,104 @@ export class AppComponent implements OnInit, OnDestroy {
       clearTimeout(this.legislationDebounceTimer);
     }
 
-    if (this.toCleanString(this.legislationSearchTerm).length < 2) {
-      this.legislationResults = [];
-      return;
-    }
-
     this.legislationDebounceTimer = setTimeout(() => {
-      this.searchLegislations(this.legislationSearchTerm);
-    }, 350);
+      this.legislationCurrentPage = 1;
+      this.legislationResults = [];
+      this.legislationTotalResults = 0;
+      this.legislationTotalPages = 1;
+      this.runLegislationSearch();
+    }, 400);
   }
 
-  private async searchLegislations(term: string): Promise<void> {
-    this.setStatus('Searching legislations...');
+  onLegislationFilterChange(): void {
+    this.legislationCurrentPage = 1;
+    this.legislationResults = [];
+    this.legislationTotalResults = 0;
+    this.legislationTotalPages = 1;
+    this.runLegislationSearch();
+  }
 
-    const response = await this.libraryService.searchLegislations(term);
-    if (!response.ok) {
+  onLegislationPageChange(page: number): void {
+    if (page < 1 || page > this.legislationTotalPages) return;
+    this.legislationCurrentPage = page;
+    this.runLegislationSearch();
+  }
+
+  clearLegislationFilters(): void {
+    this.legislationSearchTerm = '';
+    this.legislationFilterType = '';
+    this.legislationFilterYear = '';
+    this.legislationCurrentPage = 1;
+    this.legislationResults = [];
+    this.legislationSearched = false;
+    this.legislationTotalResults = 0;
+  }
+
+  get legislationFilterTypeLabel(): string {
+    if (!this.legislationFilterType) return '';
+    const match = this.legislationFilterTypes.find(t => t.id === this.legislationFilterType);
+    return match?.name || '';
+  }
+
+  selectLegislationFilter(type: string, value: string): void {
+    if (type === 'legType') this.legislationFilterType = value;
+    else if (type === 'legYear') this.legislationFilterYear = value;
+    this.openFilterDropdown = '';
+    this.filterDropdownSearch = '';
+    this.onLegislationFilterChange();
+  }
+
+  private hasLegislationSearchCriteria(): boolean {
+    return !!(
+      this.toCleanString(this.legislationSearchTerm).length >= 2 ||
+      this.legislationFilterType ||
+      this.legislationFilterYear
+    );
+  }
+
+  private async runLegislationSearch(): Promise<void> {
+    if (!this.hasLegislationSearchCriteria()) {
       this.legislationResults = [];
-      this.setStatus('Legislation search failed.', 'error');
+      this.legislationSearched = false;
       return;
     }
 
-    this.legislationResults = response.items;
-    this.setStatus(`Found ${this.legislationResults.length} legislation result(s).`);
+    this.legislationLoading = true;
+    this.setStatus('Searching legislations...');
+
+    const response = await this.libraryService.searchLegislationsFiltered({
+      term: this.toCleanString(this.legislationSearchTerm) || undefined,
+      legislationTypeId: this.legislationFilterType || undefined,
+      assentYear: this.legislationFilterYear || undefined,
+      page: this.legislationCurrentPage,
+      limit: 25
+    });
+
+    this.ngZone.run(() => {
+      this.legislationLoading = false;
+      this.legislationSearched = true;
+
+      if (!response.ok) {
+        this.legislationResults = [];
+        this.setStatus('Legislation search failed.', 'error');
+        return;
+      }
+
+      this.legislationResults = response.items;
+      this.legislationTotalPages = response.pages;
+      this.legislationTotalResults = response.total;
+      this.setStatus(`Found ${response.total} legislation(s).`);
+    });
+  }
+
+  async loadLegislationFilters(): Promise<void> {
+    if (this.legislationFiltersLoaded) return;
+    const filters = await this.libraryService.getLegislationFilters();
+    this.ngZone.run(() => {
+      this.legislationFilterTypes = filters.legislationTypes;
+      this.legislationFilterYears = filters.assentYears;
+      this.legislationFiltersLoaded = true;
+    });
   }
 
   async openCaseDetail(caseId: string): Promise<void> {
@@ -732,6 +959,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   closeDetail(): void {
     this.activeDetail = null;
+    this.detailMaximized = false;
     this.activeDetailType = 'Resource';
     this.activeDetailTitle = 'Select a resource';
     this.activeDetailMeta = 'Open a case or legislation from search results or references.';
@@ -788,6 +1016,18 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     this.activeDetailSections = sections;
+    this.buildSectionOutline(sections);
+  }
+
+  private buildSectionOutline(sections: DetailSection[]): void {
+    this.detailOutline = sections.map((s, i) => ({
+      id: `detail-section-${i}`,
+      label: s.title,
+      depth: 0
+    }));
+    this.detailInnerSearch = '';
+    this.detailInnerResults = [];
+    this.activeOutlineId = '';
   }
 
   private renderLegislationDetail(legislationData: any): void {
@@ -820,31 +1060,213 @@ export class AppComponent implements OnInit, OnDestroy {
       sections.push({ title: 'Enactment', content: enactment });
     }
 
-    const parts = this.flattenLegislationTitles(Array.isArray(legislationData?.legislationParts) ? legislationData.legislationParts : []);
-    if (parts.length) {
-      sections.push({ title: 'Parts', content: parts.join(' | ') });
+    const partsArray = Array.isArray(legislationData?.legislationParts) ? legislationData.legislationParts : [];
+    if (partsArray.length) {
+      const html = this.renderLegislationParts(partsArray);
+      sections.push({
+        title: 'Legislation Components',
+        content: html,
+        isHtml: true,
+        trustedHtml: this.sanitizer.bypassSecurityTrustHtml(html)
+      });
     }
 
     this.activeDetailSections = sections;
+
+    // Build outline: section-level entries + legislation parts outline
+    const sectionOutline = sections
+      .filter(s => !s.isHtml)
+      .map((s, i) => ({ id: `detail-section-${i}`, label: s.title, depth: 0 }));
+    // legislationPartsOutline was set inside renderLegislationParts
+    this.detailOutline = [...sectionOutline, ...this.detailOutline];
+    this.detailInnerSearch = '';
+    this.detailInnerResults = [];
+    this.activeOutlineId = '';
   }
 
-  private flattenLegislationTitles(parts: any[]): string[] {
-    const output: string[] = [];
+  private renderLegislationParts(parts: any[]): string {
+    const outline: { id: string; label: string; depth: number }[] = [];
+    let counter = 0;
 
-    const walk = (nodes: any[]): void => {
-      nodes.forEach((node) => {
-        const label = [this.toCleanString(node?.number), this.cleanHtmlToText(node?.title)].filter(Boolean).join(' ');
+    const renderNodes = (nodes: any[], depth: number): string => {
+      let html = '<ul class="leg-parts">';
+      for (const node of nodes) {
+        const number = this.toCleanString(node?.number);
+        const title = this.cleanHtmlToText(node?.title);
+        const content = this.cleanHtmlToText(node?.content);
+        const label = [number, title].filter(Boolean).join(' ');
+        const id = `leg-part-${counter++}`;
+
+        if (label && depth < 2) {
+          outline.push({ id, label, depth });
+        }
+
+        html += `<li id="${id}">`;
         if (label) {
-          output.push(label);
+          html += `<strong>${this.escapeHtml(label)}</strong>`;
+        }
+        if (content) {
+          html += `<span class="leg-parts__content">${this.escapeHtml(content)}</span>`;
         }
         if (Array.isArray(node?.subParts) && node.subParts.length) {
-          walk(node.subParts);
+          html += renderNodes(node.subParts, depth + 1);
         }
-      });
+        html += '</li>';
+      }
+      html += '</ul>';
+      return html;
     };
 
-    walk(parts);
-    return output;
+    const result = renderNodes(parts, 0);
+    this.detailOutline = outline;
+    this.detailInnerSearch = '';
+    this.detailInnerResults = [];
+    this.activeOutlineId = '';
+    return result;
+  }
+
+  scrollToLegislationPart(id: string): void {
+    this.activeOutlineId = id;
+    const el = document.getElementById(id);
+    if (!el) return;
+
+    const isSearchHit = id.startsWith('search-hit-');
+    el.scrollIntoView({ behavior: 'smooth', block: isSearchHit ? 'center' : 'start' });
+
+    const highlightClass = isSearchHit ? 'search-highlight--active' : 'leg-parts--highlight';
+    el.classList.add(highlightClass);
+    setTimeout(() => el.classList.remove(highlightClass), 1800);
+  }
+
+  onDetailInnerSearch(): void {
+    const term = this.detailInnerSearch.trim().toLowerCase();
+
+    // Clear previous highlights by unwrapping all <mark> elements
+    this.clearSearchHighlights();
+
+    if (!term) {
+      this.detailInnerResults = [];
+      return;
+    }
+
+    // Collect all text nodes from the content area
+    const contentEl = document.querySelector('.detail-sidebar__content');
+    if (!contentEl) {
+      this.detailInnerResults = [];
+      return;
+    }
+
+    const textNodes: Text[] = [];
+    const walker = document.createTreeWalker(contentEl, NodeFilter.SHOW_TEXT, null);
+    while (walker.nextNode()) {
+      textNodes.push(walker.currentNode as Text);
+    }
+
+    // For each text node, find all match indices, then split right-to-left
+    // so earlier indices remain valid. Assign temp IDs, then renumber in DOM order.
+
+    for (const textNode of textNodes) {
+      const nodeText = textNode.nodeValue ?? '';
+      const nodeLower = nodeText.toLowerCase();
+
+      // Find all match indices in this text node
+      const indices: number[] = [];
+      let pos = 0;
+      while (true) {
+        const idx = nodeLower.indexOf(term, pos);
+        if (idx === -1) break;
+        indices.push(idx);
+        pos = idx + term.length;
+      }
+      if (indices.length === 0) continue;
+
+      // Process matches right-to-left to keep earlier indices valid
+      const parent = textNode.parentNode!;
+      const remaining = textNode;
+
+      for (let i = indices.length - 1; i >= 0; i--) {
+        const idx = indices[i];
+
+        // Split off the text after the match
+        remaining.splitText(idx + term.length);
+        // Split off the match itself
+        const matchNode = remaining.splitText(idx);
+
+        const mark = document.createElement('mark');
+        mark.className = 'search-highlight';
+        mark.dataset['nodeText'] = nodeText;
+        mark.dataset['matchIdx'] = String(idx);
+        mark.textContent = matchNode.nodeValue;
+        parent.replaceChild(mark, matchNode);
+      }
+    }
+
+    // Assign sequential IDs and build results in DOM order
+    const allMarks = Array.from(contentEl.querySelectorAll('mark.search-highlight')) as HTMLElement[];
+    const allHits: { id: string; label: string }[] = [];
+
+    allMarks.forEach((mark, i) => {
+      const markId = `search-hit-${i}`;
+      mark.id = markId;
+      const heading = this.findSectionHeading(mark);
+      const nodeText = mark.dataset['nodeText'] ?? '';
+      const matchIdx = parseInt(mark.dataset['matchIdx'] ?? '0', 10);
+      const label = this.buildSnippetLabel(heading, nodeText, term, matchIdx);
+      allHits.push({ id: markId, label });
+    });
+
+    this.detailInnerResults = allHits;
+  }
+
+  private clearSearchHighlights(): void {
+    const marks = document.querySelectorAll('mark.search-highlight');
+    marks.forEach(mark => {
+      const parent = mark.parentNode;
+      if (!parent) return;
+      const text = document.createTextNode(mark.textContent ?? '');
+      parent.replaceChild(text, mark);
+      parent.normalize(); // merge adjacent text nodes
+    });
+  }
+
+  private findSectionHeading(el: HTMLElement): string {
+    // Walk up to find the nearest section heading
+    const section = el.closest('.detail-section');
+    if (section) {
+      const h3 = section.querySelector('h3');
+      return h3?.textContent?.trim() || '';
+    }
+    const legPart = el.closest('li[id^="leg-part-"]');
+    if (legPart) {
+      const strong = legPart.querySelector(':scope > strong');
+      return strong?.textContent?.trim() || '';
+    }
+    return '';
+  }
+
+  private escapeHtml(text: string): string {
+    return text
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+  }
+
+  private buildSnippetLabel(heading: string, fullText: string, term: string, matchIdx?: number): string {
+    const idx = matchIdx ?? fullText.toLowerCase().indexOf(term);
+    if (idx === -1) return heading || 'Match';
+
+    // Extract a snippet around the match
+    const snippetRadius = 40;
+    const start = Math.max(0, idx - snippetRadius);
+    const end = Math.min(fullText.length, idx + term.length + snippetRadius);
+    let snippet = fullText.slice(start, end).replace(/\s+/g, ' ').trim();
+    if (start > 0) snippet = '...' + snippet;
+    if (end < fullText.length) snippet += '...';
+
+    if (heading) {
+      return `${heading} — ${snippet}`;
+    }
+    return snippet;
   }
 
   async addBookmarkFromActiveDetail(): Promise<void> {
@@ -1143,6 +1565,10 @@ export class AppComponent implements OnInit, OnDestroy {
       this.view = targetView;
       if (targetView === 'home') {
         this.loadHomeData();
+      } else if (targetView === 'cases') {
+        this.loadCaseFilters();
+      } else if (targetView === 'legislations') {
+        this.loadLegislationFilters();
       } else if (targetView === 'subscription') {
         this.loadSubscriptionStatus();
         this.loadPricingPlans();

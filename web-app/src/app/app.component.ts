@@ -27,6 +27,24 @@ export class AppComponent implements OnInit, OnDestroy {
     user: 'apptorney.user'
   } as const;
 
+  private static readonly ADMIN_SECTION_TO_SLUG: Record<AdminSection, string> = {
+    dashboard: 'dashboard',
+    courts: 'courts',
+    jurisdictions: 'jurisdictions',
+    locations: 'locations',
+    areasOfLaw: 'areas-of-law',
+    legislationTypes: 'legislation-types',
+    partTypes: 'part-types',
+    plaintiffSynonyms: 'plaintiff-synonyms',
+    defendantSynonyms: 'defendant-synonyms'
+  };
+
+  private static readonly SLUG_TO_ADMIN_SECTION: Record<string, AdminSection> = Object.entries(
+    AppComponent.ADMIN_SECTION_TO_SLUG
+  ).reduce((acc, [key, value]) => ({ ...acc, [value]: key as AdminSection }), {} as Record<string, AdminSection>);
+
+  private static readonly VALID_VIEWS: readonly ViewName[] = ['chat', 'home', 'cases', 'legislations', 'settings', 'subscription', 'admin'];
+
   view: ViewName = 'chat';
   adminSection: AdminSection = 'dashboard';
   readonly refDataConfigs = ADMIN_REF_DATA_CONFIGS;
@@ -132,6 +150,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   async ngOnInit(): Promise<void> {
     await this.hydrateSession();
+    window.addEventListener('hashchange', this.onHashChange);
     console.info('Apptorney Angular build 20260215-1', {
       apiBase: '/api',
       proxyTarget: 'http://apptorney-prod-service-alb-1628366448.eu-west-2.elb.amazonaws.com/api'
@@ -139,6 +158,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    window.removeEventListener('hashchange', this.onHashChange);
     this.stopStreaming();
     this.publicStreamAbort?.();
     if (this.caseDebounceTimer) {
@@ -148,6 +168,10 @@ export class AppComponent implements OnInit, OnDestroy {
       clearTimeout(this.legislationDebounceTimer);
     }
   }
+
+  private onHashChange = (): void => {
+    this.ngZone.run(() => this.restoreStateFromUrl());
+  };
 
   @HostListener('document:click')
   onDocumentClick(): void {
@@ -178,6 +202,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.adminSection = 'dashboard';
       }
     }
+    this.syncUrlFromState();
   }
 
   setAdminSection(section: AdminSection): void {
@@ -187,6 +212,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.view = 'admin';
     this.adminSection = section;
     this.userMenuOpen = false;
+    this.syncUrlFromState();
   }
 
   get adminSectionLabel(): string {
@@ -212,6 +238,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.showLanding = false;
     this.loginModalOpen = false;
     this.view = view;
+    this.syncUrlFromState();
   }
 
   openLoginModal(): void {
@@ -326,9 +353,11 @@ export class AppComponent implements OnInit, OnDestroy {
       this.showLanding = false;
       this.view = 'admin';
       this.sidebarOpen = true;
+      this.syncUrlFromState();
       this.fetchChatThreads();
     } else if (this.hasActiveSubscription) {
       this.showLanding = false;
+      this.syncUrlFromState();
       this.fetchChatThreads();
       this.loadHomeData();
     } else {
@@ -446,6 +475,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.showLanding = true;
     this.view = 'chat';
+    history.replaceState(null, '', window.location.pathname);
     this.setStatus('Logged out.');
   }
 
@@ -459,6 +489,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.awaitingResponse = false;
     this.chatInput = '';
     this.messages = [];
+    this.setView('chat');
   }
 
   usePrompt(prompt: string): void {
@@ -1018,16 +1049,34 @@ export class AppComponent implements OnInit, OnDestroy {
     this.username = this.currentUser?.firstName ? `${this.currentUser.firstName} ${this.currentUser.lastName || ''}`.trim() : this.currentUser?.email || '';
 
     if (this.accessToken) {
-      await this.loadSubscriptionStatus();
+      // Optimistic UI: set view from cached role before the async subscription check
+      // so the user sees the correct view immediately (avoids flash of chat view
+      // while the 401 → token-refresh → retry chain completes).
       if (this.isAdmin) {
         this.showLanding = false;
         this.view = 'admin';
+        this.adminSection = 'dashboard';
         this.sidebarOpen = true;
+        this.restoreStateFromUrl();
+        this.syncUrlFromState();
+        this.fetchChatThreads();
+      } else {
+        this.showLanding = false;
+      }
+
+      await this.loadSubscriptionStatus();
+
+      if (this.isAdmin) {
+        // Admin view already set above; just ensure state is consistent
         this.fetchChatThreads();
       } else if (this.hasActiveSubscription) {
         this.showLanding = false;
+        this.restoreStateFromUrl();
+        this.syncUrlFromState();
         this.fetchChatThreads();
-        this.loadHomeData();
+        if (this.view === 'home') {
+          this.loadHomeData();
+        }
       } else {
         this.showLanding = true;
       }
@@ -1046,6 +1095,58 @@ export class AppComponent implements OnInit, OnDestroy {
     localStorage.setItem(this.storageKeys.refreshToken, this.refreshToken);
     if (this.currentUser) {
       localStorage.setItem(this.storageKeys.user, JSON.stringify(this.currentUser));
+    }
+  }
+
+  private syncUrlFromState(): void {
+    if (this.showLanding) {
+      return;
+    }
+
+    let hash: string;
+    if (this.view === 'admin') {
+      const slug = AppComponent.ADMIN_SECTION_TO_SLUG[this.adminSection] || 'dashboard';
+      hash = slug === 'dashboard' ? '#/admin' : `#/admin/${slug}`;
+    } else {
+      hash = `#/${this.view}`;
+    }
+
+    if (window.location.hash !== hash) {
+      history.replaceState(null, '', hash);
+    }
+  }
+
+  private restoreStateFromUrl(): void {
+    const hash = window.location.hash.replace(/^#\/?/, '');
+    if (!hash) {
+      return;
+    }
+
+    const segments = hash.split('/').filter(Boolean);
+    const root = segments[0] as string;
+
+    if (root === 'admin' && this.isAdmin) {
+      const slug = segments[1] || 'dashboard';
+      const section = AppComponent.SLUG_TO_ADMIN_SECTION[slug];
+      if (section) {
+        this.view = 'admin';
+        this.adminSection = section;
+      }
+      return;
+    }
+
+    if ((AppComponent.VALID_VIEWS as readonly string[]).includes(root)) {
+      const targetView = root as ViewName;
+      if (targetView === 'admin' && !this.isAdmin) {
+        return;
+      }
+      this.view = targetView;
+      if (targetView === 'home') {
+        this.loadHomeData();
+      } else if (targetView === 'subscription') {
+        this.loadSubscriptionStatus();
+        this.loadPricingPlans();
+      }
     }
   }
 

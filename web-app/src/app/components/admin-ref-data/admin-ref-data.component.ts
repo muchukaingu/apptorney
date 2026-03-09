@@ -25,8 +25,8 @@ export class AdminRefDataComponent implements OnInit, OnChanges {
   error = '';
   message = '';
 
-  modalOpen = false;
-  modalMode: 'create' | 'edit' = 'create';
+  panelOpen = false;
+  panelMode: 'create' | 'edit' = 'create';
   formValue = '';
   formDeleted = false;
   editingItem: RefDataItem | null = null;
@@ -104,8 +104,8 @@ export class AdminRefDataComponent implements OnInit, OnChanges {
     this.formValue = '';
     this.formDeleted = false;
     this.editingItem = null;
-    this.modalMode = 'create';
-    this.modalOpen = true;
+    this.panelMode = 'create';
+    this.panelOpen = true;
     this.error = '';
     this.message = '';
     this.divisions = [];
@@ -116,8 +116,8 @@ export class AdminRefDataComponent implements OnInit, OnChanges {
     this.formValue = (item as any)[this.config.fieldName] ?? '';
     this.formDeleted = item.deleted;
     this.editingItem = item;
-    this.modalMode = 'edit';
-    this.modalOpen = true;
+    this.panelMode = 'edit';
+    this.panelOpen = true;
     this.error = '';
     this.message = '';
 
@@ -126,8 +126,8 @@ export class AdminRefDataComponent implements OnInit, OnChanges {
     }
   }
 
-  closeModal(): void {
-    this.modalOpen = false;
+  closePanel(): void {
+    this.panelOpen = false;
     this.editingItem = null;
     this.divisions = [];
     this.newDivisionName = '';
@@ -145,7 +145,7 @@ export class AdminRefDataComponent implements OnInit, OnChanges {
     this.message = '';
 
     try {
-      const result = this.modalMode === 'create'
+      const result = this.panelMode === 'create'
         ? await this.refDataService.create(this.config.apiPath, this.config.fieldName, value)
         : this.editingItem
           ? await this.refDataService.update(this.config.apiPath, this.editingItem.id, this.config.fieldName, value, this.formDeleted)
@@ -157,7 +157,7 @@ export class AdminRefDataComponent implements OnInit, OnChanges {
       }
 
       this.message = result.message || 'Saved.';
-      this.closeModal();
+      this.closePanel();
       await this.loadList();
     } finally {
       this.saving = false;
@@ -243,7 +243,7 @@ export class AdminRefDataComponent implements OnInit, OnChanges {
     this.showDeleted = false;
     this.error = '';
     this.message = '';
-    this.modalOpen = false;
+    this.panelOpen = false;
     this.editingItem = null;
     this.divisions = [];
     this.loadSeq = 0;

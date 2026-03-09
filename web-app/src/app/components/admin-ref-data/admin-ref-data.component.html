@@ -14,132 +14,141 @@
     {{ message }}
   </div>
 
-  <div *ngIf="error && !modalOpen" class="ref-data__banner ref-data__banner--error">
+  <div *ngIf="error && !panelOpen" class="ref-data__banner ref-data__banner--error">
     {{ error }}
   </div>
 
-  <div class="ref-data__toolbar">
-    <label class="ref-data__search">
-      <input
-        type="search"
-        [placeholder]="'Search ' + config.labelPlural.toLowerCase() + '...'"
-        [(ngModel)]="search"
-        (keyup.enter)="resetAndLoad()"
-      />
-    </label>
+  <div class="ref-data__shell" [class.ref-data__shell--list-only]="!panelOpen">
+    <!-- List side -->
+    <div class="ref-data__list">
+      <div class="ref-data__toolbar">
+        <label class="ref-data__search">
+          <input
+            type="search"
+            [placeholder]="'Search ' + config.labelPlural.toLowerCase() + '...'"
+            [(ngModel)]="search"
+            (keyup.enter)="resetAndLoad()"
+          />
+        </label>
 
-    <label class="ref-data__toggle">
-      <input type="checkbox" [(ngModel)]="showDeleted" (ngModelChange)="resetAndLoad()" />
-      <span>Show archived</span>
-    </label>
+        <label class="ref-data__toggle">
+          <input type="checkbox" [(ngModel)]="showDeleted" (ngModelChange)="resetAndLoad()" />
+          <span>Show archived</span>
+        </label>
 
-    <button class="ref-data__action" type="button" (click)="resetAndLoad()">Search</button>
-  </div>
+        <button class="ref-data__action" type="button" (click)="resetAndLoad()">Search</button>
+      </div>
 
-  <div class="ref-data__results-meta">
-    <strong>{{ totalItems }} {{ totalItems === 1 ? config.label.toLowerCase() : config.labelPlural.toLowerCase() }} found</strong>
-    <span>Page {{ page }} of {{ totalPages }}</span>
-  </div>
+      <div class="ref-data__results-meta">
+        <strong>{{ totalItems }} {{ totalItems === 1 ? config.label.toLowerCase() : config.labelPlural.toLowerCase() }} found</strong>
+        <span>Page {{ page }} of {{ totalPages }}</span>
+      </div>
 
-  <div *ngIf="loading" class="ref-data__loading">
-    <div class="ref-data__loading-row" *ngFor="let _ of [1, 2, 3, 4, 5]"></div>
-  </div>
+      <div *ngIf="loading" class="ref-data__loading">
+        <div class="ref-data__loading-row" *ngFor="let _ of [1, 2, 3, 4, 5]"></div>
+      </div>
 
-  <div *ngIf="!loading && items.length === 0" class="ref-data__empty">
-    <h4>No {{ config.labelPlural.toLowerCase() }} found</h4>
-    <p>Try a different search, toggle archived records, or create a new one.</p>
-  </div>
+      <div *ngIf="!loading && items.length === 0" class="ref-data__empty">
+        <h4>No {{ config.labelPlural.toLowerCase() }} found</h4>
+        <p>Try a different search, toggle archived records, or create a new one.</p>
+      </div>
 
-  <table *ngIf="!loading && items.length > 0" class="ref-data__table">
-    <thead>
-      <tr>
-        <th>{{ fieldLabel }}</th>
-        <th>Status</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of items; trackBy: trackById" [class.is-archived]="item.deleted">
-        <td class="ref-data__cell-name">{{ displayValue(item) }}</td>
-        <td>
-          <span class="ref-data__badge" [class.ref-data__badge--archived]="item.deleted">
-            {{ item.deleted ? 'Archived' : 'Active' }}
-          </span>
-        </td>
-        <td class="ref-data__cell-actions">
-          <button type="button" class="ref-data__row-action" (click)="openEdit(item)">Edit</button>
-          <button *ngIf="!item.deleted" type="button" class="ref-data__row-action ref-data__row-action--danger" (click)="archiveItem(item)">Archive</button>
-          <button *ngIf="item.deleted" type="button" class="ref-data__row-action" (click)="restoreItem(item)">Restore</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+      <div class="ref-data__rows" *ngIf="!loading && items.length > 0">
+        <button
+          *ngFor="let item of items; trackBy: trackById"
+          type="button"
+          class="ref-data__row"
+          [class.is-archived]="item.deleted"
+          [class.is-selected]="editingItem?.id === item.id"
+          (click)="openEdit(item)"
+        >
+          <div class="ref-data__row-main">
+            <h4>{{ displayValue(item) }}</h4>
+          </div>
+          <div class="ref-data__row-side">
+            <span class="ref-data__badge" [class.ref-data__badge--archived]="item.deleted">
+              {{ item.deleted ? 'Archived' : 'Active' }}
+            </span>
+          </div>
+        </button>
+      </div>
 
-  <div class="ref-data__pagination" *ngIf="totalPages > 1">
-    <button type="button" [disabled]="page <= 1" (click)="goToPage(page - 1)">Prev</button>
-    <span>{{ page }} / {{ totalPages }}</span>
-    <button type="button" [disabled]="page >= totalPages" (click)="goToPage(page + 1)">Next</button>
-  </div>
-</section>
-
-<!-- Modal overlay -->
-<div class="ref-data-modal" *ngIf="modalOpen" (click)="closeModal()">
-  <div class="ref-data-modal__card" (click)="$event.stopPropagation()">
-    <header class="ref-data-modal__header">
-      <h4>{{ modalMode === 'create' ? ('New ' + config.label.toLowerCase()) : ('Edit ' + config.label.toLowerCase()) }}</h4>
-      <button type="button" class="ref-data-modal__close" (click)="closeModal()" aria-label="Close">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-        </svg>
-      </button>
-    </header>
-
-    <div *ngIf="error && modalOpen" class="ref-data__banner ref-data__banner--error ref-data__banner--modal">
-      {{ error }}
-    </div>
-
-    <div class="ref-data-modal__body">
-      <label class="ref-data-modal__field">
-        <span>{{ fieldLabel }}</span>
-        <input type="text" [(ngModel)]="formValue" [placeholder]="'Enter ' + fieldLabel.toLowerCase()" (keyup.enter)="save()" />
-      </label>
-
-      <label *ngIf="modalMode === 'edit'" class="ref-data-modal__toggle">
-        <input type="checkbox" [(ngModel)]="formDeleted" />
-        <span>Archived</span>
-      </label>
-
-      <!-- Court Divisions sub-section -->
-      <div *ngIf="config.hasDivisions && modalMode === 'edit'" class="ref-data-modal__divisions">
-        <h5>Court Divisions</h5>
-
-        <div *ngIf="divisionLoading" class="ref-data-modal__divisions-loading">Loading divisions...</div>
-
-        <div *ngIf="!divisionLoading && divisions.length === 0" class="ref-data-modal__divisions-empty">
-          No divisions yet.
-        </div>
-
-        <ul *ngIf="!divisionLoading && divisions.length > 0" class="ref-data-modal__division-list">
-          <li *ngFor="let div of divisions; trackBy: trackById">
-            <span>{{ div.name }}</span>
-            <button type="button" class="ref-data__row-action ref-data__row-action--danger" (click)="removeDivision(div.id)">Remove</button>
-          </li>
-        </ul>
-
-        <div class="ref-data-modal__division-add">
-          <input type="text" placeholder="New division name" [(ngModel)]="newDivisionName" (keyup.enter)="addDivision()" />
-          <button type="button" class="ref-data__action" [disabled]="divisionSaving || !newDivisionName.trim()" (click)="addDivision()">
-            {{ divisionSaving ? 'Adding...' : 'Add' }}
-          </button>
-        </div>
+      <div class="ref-data__pagination" *ngIf="totalPages > 1">
+        <button type="button" [disabled]="page <= 1" (click)="goToPage(page - 1)">Prev</button>
+        <span>{{ page }} / {{ totalPages }}</span>
+        <button type="button" [disabled]="page >= totalPages" (click)="goToPage(page + 1)">Next</button>
       </div>
     </div>
 
-    <footer class="ref-data-modal__footer">
-      <button type="button" class="ref-data__action ref-data__action--primary" [disabled]="saving" (click)="save()">
-        {{ saving ? 'Saving...' : 'Save' }}
-      </button>
-      <button type="button" class="ref-data__action" [disabled]="saving" (click)="closeModal()">Cancel</button>
-    </footer>
+    <!-- Detail panel -->
+    <div class="ref-data-panel" *ngIf="panelOpen">
+      <header class="ref-data-panel__header">
+        <div>
+          <p class="ref-data-panel__eyebrow">{{ panelMode === 'create' ? 'New' : 'Edit' }}</p>
+          <h4>{{ panelMode === 'create' ? ('New ' + config.label.toLowerCase()) : displayValue(editingItem!) }}</h4>
+        </div>
+        <button type="button" class="ref-data-panel__close" (click)="closePanel()" aria-label="Close">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </header>
+
+      <div *ngIf="error && panelOpen" class="ref-data__banner ref-data__banner--error ref-data__banner--panel">
+        {{ error }}
+      </div>
+
+      <div class="ref-data-panel__content">
+        <label class="ref-data-panel__field">
+          <span>{{ fieldLabel }}</span>
+          <input type="text" [(ngModel)]="formValue" [placeholder]="'Enter ' + fieldLabel.toLowerCase()" (keyup.enter)="save()" />
+        </label>
+
+        <label *ngIf="panelMode === 'edit'" class="ref-data-panel__toggle-field">
+          <input type="checkbox" [(ngModel)]="formDeleted" />
+          <span>Archived</span>
+        </label>
+
+        <!-- Court Divisions sub-section -->
+        <div *ngIf="config.hasDivisions && panelMode === 'edit'" class="ref-data-panel__divisions">
+          <h5>Court Divisions</h5>
+
+          <div *ngIf="divisionLoading" class="ref-data-panel__divisions-loading">Loading divisions...</div>
+
+          <div *ngIf="!divisionLoading && divisions.length === 0" class="ref-data-panel__divisions-empty">
+            No divisions yet.
+          </div>
+
+          <ul *ngIf="!divisionLoading && divisions.length > 0" class="ref-data-panel__division-list">
+            <li *ngFor="let div of divisions; trackBy: trackById">
+              <span>{{ div.name }}</span>
+              <button type="button" class="ref-data__row-action ref-data__row-action--danger" (click)="removeDivision(div.id)">Remove</button>
+            </li>
+          </ul>
+
+          <div class="ref-data-panel__division-add">
+            <input type="text" placeholder="New division name" [(ngModel)]="newDivisionName" (keyup.enter)="addDivision()" />
+            <button type="button" class="ref-data__action" [disabled]="divisionSaving || !newDivisionName.trim()" (click)="addDivision()">
+              {{ divisionSaving ? 'Adding...' : 'Add' }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <footer class="ref-data-panel__footer">
+        <button type="button" class="ref-data__action ref-data__action--primary" [disabled]="saving" (click)="save()">
+          {{ saving ? 'Saving...' : 'Save' }}
+        </button>
+        <div class="ref-data-panel__footer-secondary">
+          <button *ngIf="panelMode === 'edit' && !editingItem?.deleted" type="button" class="ref-data__action ref-data__action--danger" (click)="archiveItem(editingItem!)">
+            Archive
+          </button>
+          <button *ngIf="panelMode === 'edit' && editingItem?.deleted" type="button" class="ref-data__action" (click)="restoreItem(editingItem!)">
+            Restore
+          </button>
+          <button type="button" class="ref-data__action" [disabled]="saving" (click)="closePanel()">Cancel</button>
+        </div>
+      </footer>
+    </div>
   </div>
-</div>
+</section>

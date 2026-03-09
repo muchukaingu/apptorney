@@ -1477,6 +1477,31 @@ app-chat-view > #chatView {
   display: block;
 }
 
+.view.view--split-scroll {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.view--split-scroll .resource-search {
+  flex-shrink: 0;
+}
+
+.view--split-scroll .result-list {
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-color) transparent;
+}
+
+.view--split-scroll app-admin-materials {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-color) transparent;
+}
+
 #chatView {
   position: relative;
   padding: 8px 24px 50px;

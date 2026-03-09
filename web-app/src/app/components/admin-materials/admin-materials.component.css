@@ -1,5 +1,8 @@
 :host {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  height: 100%;
 }
 
 .materials-admin {
@@ -12,8 +15,11 @@
   --materials-accent-soft: #eef2f0;
   --materials-warm: #9d775d;
   padding: 28px 20px 40px;
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 20px;
+  flex: 1;
+  min-height: 0;
 }
 
 .materials-admin__header,
@@ -131,6 +137,8 @@
   display: grid;
   grid-template-columns: minmax(0, 1.15fr) minmax(360px, 0.85fr);
   gap: 16px;
+  flex: 1;
+  min-height: 0;
 }
 
 .materials-admin__shell--list-only {
@@ -142,6 +150,9 @@
   border: 1px solid var(--materials-line);
   border-radius: 24px;
   background: var(--materials-paper);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-color, rgba(0,0,0,0.12)) transparent;
 }
 
 .materials-admin__list,
@@ -349,9 +360,7 @@
 }
 
 .materials-panel {
-  align-self: start;
-  position: sticky;
-  top: 20px;
+  align-self: stretch;
 }
 
 .materials-panel__actions,
@@ -519,10 +528,6 @@
 @media (max-width: 1180px) {
   .materials-admin__shell {
     grid-template-columns: 1fr;
-  }
-
-  .materials-panel {
-    position: static;
   }
 }
 

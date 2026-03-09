@@ -161,7 +161,7 @@
       </div>
     </section>
 
-    <section class="view is-visible" *ngIf="view === 'cases'">
+    <section class="view is-visible view--split-scroll" *ngIf="view === 'cases'">
       <app-admin-materials *ngIf="isAdmin; else publicCasesView" resourceType="case"></app-admin-materials>
       <ng-template #publicCasesView>
       <div class="resource-search">
@@ -183,7 +183,7 @@
       </ng-template>
     </section>
 
-    <section class="view is-visible" *ngIf="view === 'legislations'">
+    <section class="view is-visible view--split-scroll" *ngIf="view === 'legislations'">
       <app-admin-materials *ngIf="isAdmin; else publicLegislationView" resourceType="legislation"></app-admin-materials>
       <ng-template #publicLegislationView>
       <div class="resource-search">
